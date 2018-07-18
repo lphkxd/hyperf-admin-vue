@@ -10,7 +10,7 @@
             <div class="bullshit">
                 <div class="bullshit__oops">OOPS!</div>
                 <div class="bullshit__info">版权所有
-                    <a class='link-type' href='https://wallstreetcn.com' target='_blank'>华尔街见闻</a>
+                    <a class='link-type' href='//www.careyshop.cn' target='_blank'>CareyShop 商城框架系统</a>
                 </div>
                 <div class="bullshit__headline">{{ message }}</div>
                 <div class="bullshit__info">请检查您输入的网址是否正确，请点击以下按钮返回主页或者发送错误报告</div>
@@ -34,7 +34,7 @@
       },
       computed: {
         message() {
-          return '网管说这个页面你不能进......'
+          return '您要查找的页面不存在或权限不足......'
         }
       }
     }
@@ -49,7 +49,7 @@
 }
 .wscn-http404 {
   position: relative;
-  width: 1200px;
+  width: 900px;
   padding: 0 50px;
   overflow: hidden;
   .pic-404 {
