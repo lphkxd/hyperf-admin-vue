@@ -1,24 +1,28 @@
 <template>
   <div class="login-container">
     <el-form class="login-form" autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left">
-      <h3 class="title">vue-element-admin</h3>
+
+      <div class="title-container">
+        <h3 class="title">{{$t('login.title')}}</h3>
+        <lang-select class="set-language"></lang-select>
+      </div>
+
       <el-form-item prop="username">
         <span class="svg-container svg-container_login">
           <svg-icon icon-class="user" />
         </span>
-        <el-input name="username" type="text" v-model="loginForm.username" autoComplete="on" placeholder="username" />
+        <el-input name="username" type="text" v-model="loginForm.username" autoComplete="on" :placeholder="$t('login.username')" />
       </el-form-item>
       <el-form-item prop="password">
         <span class="svg-container">
           <svg-icon icon-class="password"></svg-icon>
         </span>
-        <el-input name="password" :type="pwdType" @keyup.enter.native="handleLogin" v-model="loginForm.password" autoComplete="on"
-                  placeholder="password"></el-input>
+        <el-input name="password" :type="pwdType" @keyup.enter.native="handleLogin" v-model="loginForm.password" autoComplete="on" :placeholder="$t('login.password')" />
         <span class="show-pwd" @click="showPwd"><svg-icon icon-class="eye" /></span>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" style="width:100%;" :loading="loading" @click.native.prevent="handleLogin">
-          Sign in
+          {{$t('login.logIn')}}
         </el-button>
       </el-form-item>
     </el-form>
@@ -27,20 +31,22 @@
 
 <script>
   import { isvalidUsername } from '@/utils/validate'
+  import LangSelect from '@/components/LangSelect'
 
   export default {
+    components: { LangSelect },
     name: 'login',
     data() {
       const validateUsername = (rule, value, callback) => {
         if (!isvalidUsername(value)) {
-          callback(new Error('请输入正确的用户名'))
+          callback(new Error(this.$t('login.userError')))
         } else {
           callback()
         }
       }
       const validatePass = (rule, value, callback) => {
-        if (value.length < 5) {
-          callback(new Error('密码不能小于5位'))
+        if (value.length < 6) {
+          callback(new Error(this.$t('login.passError')))
         } else {
           callback()
         }
@@ -117,13 +123,13 @@
       color: #454545;
     }
   }
-
 </style>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
   $bg:#2d3a4b;
   $dark_gray:#889aa4;
   $light_gray:#eee;
+
   .login-container {
     position: fixed;
     height: 100%;
@@ -157,13 +163,22 @@
         font-size: 20px;
       }
     }
-    .title {
-      font-size: 26px;
-      font-weight: 400;
-      color: $light_gray;
-      margin: 0px auto 40px auto;
-      text-align: center;
-      font-weight: bold;
+    .title-container {
+      position: relative;
+      .title {
+        font-size: 26px;
+        font-weight: 400;
+        color: $light_gray;
+        margin: 0px auto 40px auto;
+        text-align: center;
+        font-weight: bold;
+      }
+      .set-language {
+        color: #fff;
+        position: absolute;
+        top: 5px;
+        right: 0px;
+      }
     }
     .show-pwd {
       position: absolute;
@@ -173,6 +188,11 @@
       color: $dark_gray;
       cursor: pointer;
       user-select: none;
+    }
+    .thirdparty-button {
+      position: absolute;
+      right: 35px;
+      bottom: 28px;
     }
   }
 </style>
