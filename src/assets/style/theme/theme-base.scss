@@ -208,6 +208,7 @@
       .cs-theme-container-main {
         // 主体部分分为多页面控制器 和主体
         .cs-theme-container-main-header {
+          overflow: hidden;
           // 多页面控制器
           .cs-multiple-page-control-group {
             display: flex;
