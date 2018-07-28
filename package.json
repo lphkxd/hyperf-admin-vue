@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "better-scroll": "^1.12.5",
     "element-ui": "^2.4.5",
     "lowdb": "^1.0.0",
     "screenfull": "^3.3.2",
