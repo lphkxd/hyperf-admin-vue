@@ -8,7 +8,7 @@ const frameIn = [
   {
     path: '/',
     redirect: { name: 'index' },
-    component: () => import('@/components/LayoutMain'),
+    component: () => import('@/components/core/layout-main'),
     children: [
       {
         path: 'index',
@@ -23,7 +23,7 @@ const frameIn = [
     name: 'setting',
     meta,
     redirect: { name: 'setting-index' },
-    component: () => import('@/components/LayoutMain'),
+    component: () => import('@/components/core/layout-main'),
     children: (pre => [
       {
         path: 'index',
@@ -31,16 +31,7 @@ const frameIn = [
         component: () => import('@/views/setting/index'),
         meta: {
           ...meta,
-          title: '设置首页'
-        }
-      },
-      {
-        path: 'releases',
-        name: `${pre}releases`,
-        component: () => import('@/views/setting/releases'),
-        meta: {
-          ...meta,
-          title: '版本'
+          title: '设置'
         }
       }
     ])('setting-')
@@ -67,7 +58,7 @@ const errorPage = [
   {
     path: '*',
     name: '404',
-    component: () => import('@/views/404')
+    component: () => import('@/views/error/404')
   }
 ]
 
@@ -80,4 +71,3 @@ export default [
   ...frameOut,
   ...errorPage
 ]
-

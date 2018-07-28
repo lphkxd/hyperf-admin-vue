@@ -168,7 +168,7 @@ export default {
      * @description 是否有更新的时候显示弹窗
      * @class updateNotify
      * @param {state} state vuex state
-     * @param {boolean} update updateNotify value
+     * @param {boolean} updateNotify value
      */
     updateNotifySet(state, updateNotify) {
       state.updateNotify = updateNotify
@@ -178,7 +178,7 @@ export default {
      * @description 是否有更新的时候显示弹窗 <- 从数据库更新这个设置
      * @class updateNotify
      * @param {state} state vuex state
-     * @param {boolean} update updateNotify value
+     * @param {boolean} updateNotify value
      */
     updateNotifyLoad(state, updateNotify) {
       this.commit('db2Vuex', {
@@ -330,7 +330,6 @@ export default {
     /**
      * @class isFullScreen
      * @description 切换全屏
-     * @param {state} state vuex state
      */
     fullScreenToggle() {
       if (screenfull.isFullscreen) {
@@ -345,6 +344,7 @@ export default {
      * @class isFullScreen
      * @description 设置 store 里的全屏状态
      * @param {state} state vuex state
+     * @param {boolean} isFullScreen new value
      */
     fullScreenSet(state, isFullScreen) {
       state.isFullScreen = isFullScreen

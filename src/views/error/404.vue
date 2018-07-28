@@ -8,7 +8,7 @@
 </template>
 
 <style lang="scss" scoped>
-  @import '~@/assets/style/public.scss';
+  @import '../../assets/style/public';
   .page-404 {
     background-color: #555555;
     height: 100%;

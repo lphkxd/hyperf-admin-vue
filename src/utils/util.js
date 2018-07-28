@@ -55,11 +55,7 @@ util.openNewPage = function(vm, name, argu, query) {
  * @param {array} targetArr array
  */
 util.isOneOf = function(ele, targetArr) {
-  if (targetArr.indexOf(ele) >= 0) {
-    return true
-  } else {
-    return false
-  }
+  return targetArr.indexOf(ele) >= 0
 }
 
 export default util
