@@ -1,7 +1,7 @@
 import screenfull from 'screenfull'
-import util from '@/utils/util.js'
-import db from '@/utils/db.js'
-import themeList from '@/assets/style/theme/list.js'
+import util from '@/utils/util'
+import db from '@/utils/db'
+import themeList from '@/assets/style/theme/list'
 
 // 获取项目信息
 import packJson from '../../../package.json'

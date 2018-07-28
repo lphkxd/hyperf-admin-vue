@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Cookies from 'vue-cookies'
 
-import util from '@/utils/util.js'
+import util from '@/utils/util'
 
 // 路由数据
 import routes from './routes'

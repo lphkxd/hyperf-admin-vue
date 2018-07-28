@@ -30,9 +30,11 @@
 <script>
   // 插件
   import BScroll from 'better-scroll'
+
   // 组件
-  import csContainerFull from './components/cs-container-full.vue'
-  import csContainerFullBs from './components/cs-container-full-bs.vue'
+  import csContainerFull from './components/cs-container-full'
+  import csContainerFullBs from './components/cs-container-full-bs'
+
   export default {
     name: 'cs-container',
     props: {
