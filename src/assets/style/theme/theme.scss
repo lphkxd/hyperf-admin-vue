@@ -195,7 +195,7 @@
       // 主体部分分为多页面控制器 和主体
       .cs-theme-container-main-header {
         // 多页面控制器
-        .cs-multiple-page-control {
+        .cs-page-close-control {
           .el-tabs__header.is-top {
             border-bottom-color: $theme-multiple-page-control-border-color;
           }
@@ -235,7 +235,7 @@
           }
         }
         // 多页控制器的关闭控制
-        .cs-multiple-page-control-btn {
+        .cs-page-close-control-btn {
           .el-dropdown {
             .el-button-group {
               .el-button {

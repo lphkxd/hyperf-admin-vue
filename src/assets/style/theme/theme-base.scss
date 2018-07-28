@@ -210,17 +210,17 @@
         .cs-theme-container-main-header {
           overflow: hidden;
           // 多页面控制器
-          .cs-multiple-page-control-group {
+          .cs-page-close-control-group {
             display: flex;
             margin-right: 20px;
-            .cs-multiple-page-control-content {
+            .cs-page-close-control-content {
               flex-grow: 1;
               position: relative;
-              .cs-multiple-page-control-content-inner {
+              .cs-page-close-control-content-inner {
                 position: absolute;
                 left: 0px;
                 right: 0px;
-                .cs-multiple-page-control {
+                .cs-page-close-control {
                   .el-tabs__header.is-top {
                     margin: 0px;
                   }
@@ -230,7 +230,7 @@
                 }
               }
             }
-            .cs-multiple-page-control-btn {
+            .cs-page-close-control-btn {
               position: relative;
               bottom: -1px;
               .el-dropdown {
