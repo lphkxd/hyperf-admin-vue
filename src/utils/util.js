@@ -1,6 +1,6 @@
 import Cookies from 'vue-cookies'
 
-const util = {}
+let util = {}
 
 /**
  * @description 得到现在的用户
