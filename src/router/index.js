@@ -9,7 +9,7 @@ import routes from './routes'
 
 Vue.use(Router)
 
-const router = new Router({
+let router = new Router({
   // mode: 'history', // 后端支持可开
   routes
 })
