@@ -35,6 +35,7 @@
       scrollInit() {
         this.BS = new BScroll(this.$refs.wrapper, {
           mouseWheel: true,
+          preventDefault: false,
           scrollbar: {
             fade: true,
             interactive: false
