@@ -8,7 +8,7 @@ const frameIn = [
   {
     path: '/',
     redirect: { name: 'index' },
-    component: () => import('@/components/core/layout-main'),
+    component: () => import('@/components/cs-layout-main'),
     children: [
       {
         path: 'index',
@@ -23,7 +23,7 @@ const frameIn = [
     name: 'setting',
     meta,
     redirect: { name: 'setting-index' },
-    component: () => import('@/components/core/layout-main'),
+    component: () => import('@/components/cs-layout-main'),
     children: (pre => [
       {
         path: 'index',
