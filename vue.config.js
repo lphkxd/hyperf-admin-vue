@@ -1,7 +1,7 @@
 const path = require('path')
 
 // 拼接路径
-function resolve (dir) {
+function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
@@ -13,6 +13,13 @@ module.exports = {
   lintOnSave: true,
   devServer: {
     publicPath: baseUrl // 和 baseUrl 保持一致
+  },
+  resolve: {
+    extensions: ['.js', '.vue', '.json'],
+    alias: {
+      'vue$': 'vue/dist/vue.esm.js',
+      '@': resolve('src')
+    }
   },
   // webpack 设置
   // 默认设置: https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-service/lib/config/base.js
@@ -27,7 +34,7 @@ module.exports = {
       .use('svg-sprite-loader')
       .loader('svg-sprite-loader')
       .options({
-        symbolId: 'd2-[name]'
+        symbolId: 'cs-[name]'
       })
       .end()
     // image exclude
