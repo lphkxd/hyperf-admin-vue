@@ -48,7 +48,7 @@ util.cookies.remove = function(name = 'default') {
  * @param {String} titleText 标题
  */
 util.title = function(titleText) {
-  window.document.title = `${process.env.VUE_APP_TITLE}${titleText ? ` | ${titleText}` : ''}`
+  window.document.title = `${titleText ? `${titleText} - ` : ''}${process.env.VUE_APP_TITLE}`
 }
 
 /**
