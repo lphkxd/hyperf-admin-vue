@@ -60,7 +60,7 @@ const errorPage = [
   {
     path: '*',
     name: '404',
-    component: () => import('@/views/error/404')
+    component: () => import('@/views/error')
   }
 ]
 
