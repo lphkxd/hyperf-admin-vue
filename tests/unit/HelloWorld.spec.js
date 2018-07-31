@@ -1,6 +1,6 @@
-// 暂时没有单元测试代码 此文件为自动生成
+import { expect } from 'chai'
 import { shallowMount } from '@vue/test-utils'
-import HelloWorld from '@/components/HelloWorld.vue'
+import HelloWorld from './HelloWorld.vue'
 
 describe('HelloWorld.vue', () => {
   it('renders props.msg when passed', () => {
@@ -8,6 +8,6 @@ describe('HelloWorld.vue', () => {
     const wrapper = shallowMount(HelloWorld, {
       propsData: { msg }
     })
-    expect(wrapper.text()).toMatch(msg)
+    expect(wrapper.text()).to.include(msg)
   })
 })
