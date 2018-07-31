@@ -1,6 +1,6 @@
 <template>
-  <div class="cs-page-close-control-group">
-    <div class="cs-page-close-control-content">
+  <div class="cs-page-close-control-group" flex>
+    <div class="cs-page-close-control-content" flex-box="1">
       <div class="cs-page-close-control-content-inner">
         <el-tabs
           class="cs-page-close-control"
@@ -18,7 +18,7 @@
         </el-tabs>
       </div>
     </div>
-    <div class="cs-page-close-control-btn">
+    <div class="cs-page-close-control-btn" flex-box="0">
       <el-dropdown
         split-button
         @click="handleControlBtnClick"
