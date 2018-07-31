@@ -14,13 +14,6 @@ module.exports = {
   devServer: {
     publicPath: baseUrl // 和 baseUrl 保持一致
   },
-  // resolve: {
-  //   extensions: ['.js', '.vue', '.json'],
-  //   alias: {
-  //     'vue$': 'vue/dist/vue.esm.js',
-  //     '@': resolve('src')
-  //   }
-  // },
   // webpack 设置
   // 默认设置: https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-service/lib/config/base.js
   chainWebpack: config => {

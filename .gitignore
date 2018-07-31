@@ -8,6 +8,7 @@ yarn-debug.log*
 yarn-error.log*
 package-lock.json
 yarn.lock
+webpack.conf.js
 
 # Editor directories and files
 .idea
