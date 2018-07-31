@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import App from './App'
 
+// flex.css
+import 'flex.css'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 

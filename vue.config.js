@@ -41,9 +41,9 @@ module.exports = {
     config.resolve.alias
       .set('@', resolve('src'))
     // babel-polyfill 加入 entry
-    const entry = config.entry('app')
-    entry
-      // .add('babel-polyfill')
-      .end()
+    // const entry = config.entry('app')
+    // entry
+    //   .add('babel-polyfill')
+    //   .end()
   }
 }

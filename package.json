@@ -16,6 +16,7 @@
     "axios": "^0.18.0",
     "better-scroll": "^1.12.1",
     "element-ui": "^2.4.4",
+    "flex.css": "^1.1.7",
     "lodash.uniqueid": "^4.0.1",
     "lowdb": "^1.0.0",
     "mockjs": "^1.0.1-beta3",
