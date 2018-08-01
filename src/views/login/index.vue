@@ -1,7 +1,7 @@
 <template>
-  <div class="login-container pull-height"
+  <div class="login-container"
        @keyup.enter.native="handleLogin">
-    <div class="login-border animated fadeInRight">
+    <div class="login-border">
       <div class="login-main">
         <h4 class="login-title">登录</h4>
         <userLogin></userLogin>
@@ -26,12 +26,13 @@ export default {
 </script>
 
 <style lang="scss">
+  @import '~@/assets/style/public.scss';
   .login-container {
+    @extend %full;
     display: flex;
     align-items: center;
     justify-content: space-around;
     background: rgba(0, 0, 0, 0.2);
-    position: relative;
   }
   .login-container::before {
     z-index: -999;
@@ -61,6 +62,8 @@ export default {
     background-color: #fff;
     border-radius: 6px;
     box-shadow: 1px 1px 2px #eee;
+    /*left: 25%;*/
+    /*position: relative;*/
   }
   .login-main {
     border-radius: 3px;

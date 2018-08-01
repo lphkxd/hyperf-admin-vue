@@ -127,8 +127,8 @@ export default {
       if (confirm) {
         commit('grayModeSet', true)
         vm.$confirm('注销当前账户吗? ', '确认操作', {
-          confirmButtonText: '确定注销',
-          cancelButtonText: '放弃',
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
           type: 'warning'
         })
           .then(() => {
@@ -137,7 +137,7 @@ export default {
           })
           .catch(() => {
             commit('grayModeSet', false)
-            vm.$message('放弃注销用户')
+            vm.$message('放弃注销账户')
           })
       } else {
         logout()
