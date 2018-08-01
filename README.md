@@ -2,7 +2,7 @@
 
 > this is a CareyShop Admin for Vue.js project
 
-``` bash
+```
 # Project setup
 npm install
 # or
