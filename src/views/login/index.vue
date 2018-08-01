@@ -1,9 +1,10 @@
 <template>
-  <div class="login-container"
-       @keyup.enter.native="handleLogin">
+  <div class="login-container" @keyup.enter.native="handleLogin">
     <div class="login-border">
       <div class="login-main">
-        <h4 class="login-title">登录</h4>
+        <div class="login-logo">
+          <img src="~@/assets/image/logo_100.png" alt="logo">
+        </div>
         <userLogin></userLogin>
       </div>
     </div>
@@ -26,23 +27,13 @@ export default {
 </script>
 
 <style lang="scss">
-  @import '~@/assets/style/public.scss';
   .login-container {
-    @extend %full;
     display: flex;
     align-items: center;
     justify-content: space-around;
-    background: rgba(0, 0, 0, 0.2);
-  }
-  .login-container::before {
-    z-index: -999;
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
     width: 100%;
     height: 100%;
-    background-image: url('./image/bg4.jpg');
+    background-image: url('~@/assets/image/login.jpg');
     background-size: cover;
   }
   .login-info {
@@ -59,16 +50,12 @@ export default {
     justify-content: center;
     flex-direction: column;
     padding: 30px 50px 25px 50px;
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.12);
     border-radius: 6px;
-    box-shadow: 1px 1px 2px #eee;
-    /*left: 25%;*/
-    /*position: relative;*/
   }
   .login-main {
     border-radius: 3px;
     box-sizing: border-box;
-    background-color: #fff;
   }
   .login-main > h3 {
     margin-bottom: 20px;
@@ -76,16 +63,13 @@ export default {
   .login-main > p {
     color: #76838f;
   }
-  .login-title {
+  .login-logo {
     margin: 0 0 20px;
     text-align: center;
-    color: #409eff;
-    letter-spacing: 3px;
   }
   .login-submit {
     margin-top: 20px;
     width: 100%;
-    /*border-radius: 28px;*/
   }
   .login-form {
     margin: 10px 0;
@@ -93,7 +77,7 @@ export default {
       width: 270px;
     }
     .el-form-item {
-      margin-bottom: 12px;
+      margin-bottom: 15px;
     }
     .el-input {
       input {

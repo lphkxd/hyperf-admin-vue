@@ -2,6 +2,7 @@
   <cs-container>
     <template slot="header">Page 2 header</template>
     Hello World
+    <cs-icon name="html5"/>
     <template slot="footer">footer</template>
   </cs-container>
 </template>
