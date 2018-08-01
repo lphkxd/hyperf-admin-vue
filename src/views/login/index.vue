@@ -42,8 +42,8 @@ export default {
     top: 0;
     width: 100%;
     height: 100%;
-    background-image: url('./image/bg3.png');
-    /*background-size: cover;*/
+    background-image: url('./image/bg4.jpg');
+    background-size: cover;
   }
   .login-info {
     padding-left: 60px;
@@ -85,7 +85,7 @@ export default {
   .login-submit {
     margin-top: 20px;
     width: 100%;
-    border-radius: 28px;
+    /*border-radius: 28px;*/
   }
   .login-form {
     margin: 10px 0;
