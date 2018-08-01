@@ -42,8 +42,8 @@ export default {
     top: 0;
     width: 100%;
     height: 100%;
-    background-image: url('./image/bg-img.png');
-    background-size: cover;
+    background-image: url('./image/bg3.png');
+    /*background-size: cover;*/
   }
   .login-info {
     padding-left: 60px;
