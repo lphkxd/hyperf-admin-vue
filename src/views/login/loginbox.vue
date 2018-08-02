@@ -35,33 +35,16 @@
 
 <script>
 import '@/components/cs-icon'
-import { isvalidUsername } from '@/utils/validate'
 import util from '@/utils/util'
-import { mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 
 export default {
-  name: 'userlogin',
+  name: 'loginbox',
   data() {
-    const validateUsername = (rule, value, callback) => {
-      if (!isvalidUsername(value)) {
-        callback(new Error('请输入正确的用户名'))
-      } else {
-        callback()
-      }
-    }
-    const validateCode = (rule, value, callback) => {
-      if (this.code.value !== value) {
-        this.loginForm.code = ''
-        this.refreshCode()
-        callback(new Error('请输入正确的验证码'))
-      } else {
-        callback()
-      }
-    }
     return {
       loginForm: {
         username: 'admin',
-        password: '123456',
+        password: 'admin',
         code: '',
         redomStr: ''
       },
@@ -74,16 +57,15 @@ export default {
       },
       loginRules: {
         username: [
-          { required: true, trigger: 'blur', validator: validateUsername }
+          { required: true, message: '请输入用户名', trigger: 'blur' }
         ],
         password: [
           { required: true, message: '请输入密码', trigger: 'blur' },
-          { min: 6, message: '密码长度最少为6位', trigger: 'blur' }
+          { min: 5, message: '密码长度最少为5位', trigger: 'blur' }
         ],
         code: [
           { required: true, message: '请输入验证码', trigger: 'blur' },
-          { min: 4, max: 4, message: '验证码长度为4位', trigger: 'blur' },
-          { required: true, trigger: 'blur', validator: validateCode }
+          { min: 4, max: 4, message: '验证码长度为4位', trigger: 'blur' }
         ]
       },
       passwordType: 'password'
@@ -92,30 +74,38 @@ export default {
   created() {
     this.refreshCode()
   },
-  computed: {
-    ...mapGetters([
-      'tagWel'
-    ])
-  },
   methods: {
+    ...mapActions([
+      'userLogin'
+    ]),
+    /**
+     * @description 创建随机验证码
+     */
     refreshCode() {
       this.loginForm.redomStr = util.randomLenNum(this.code.len, true)
-      this.code.type === 'text'
-        ? (this.code.value = util.randomLenNum(this.code.len))
-        : (this.code.src = `${this.codeUrl}/${this.loginForm.redomStr}`)
+      this.code.value = util.randomLenNum(this.code.len)
       this.loginForm.code = this.code.value
     },
+    /**
+     * @description 是否显示实际密码
+     */
     showPassword() {
-      this.passwordType === ''
-        ? (this.passwordType = 'password')
-        : (this.passwordType = '')
+      this.passwordType === '' ? (this.passwordType = 'password') : (this.passwordType = '')
     },
+    /**
+     * @description 正式登陆
+     */
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-          // this.$store.dispatch('LoginByUsername', this.loginForm).then(res => {
-          //   this.$router.push({ path: this.tagWel.value })
-          // })
+          // 登陆
+          // 注意 这里的演示没有传验证码
+          // 具体需要传递的数据请自行修改代码
+          this.userLogin({
+            vm: this,
+            username: this.loginForm.username,
+            password: this.loginForm.password
+          })
         }
       })
     }

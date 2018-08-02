@@ -5,18 +5,19 @@
         <div class="login-logo">
           <img src="~@/assets/image/logo_100.png" alt="logo">
         </div>
-        <userLogin></userLogin>
+        <loginBox></loginBox>
       </div>
     </div>
   </div>
 </template>
+
 <script>
-import userLogin from './userlogin'
+import loginBox from './loginbox'
 
 export default {
   name: 'login',
   components: {
-    userLogin
+    loginBox
   },
   data() {
     return {

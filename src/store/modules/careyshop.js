@@ -103,6 +103,7 @@ export default {
           console.group('登陆结果')
           console.log('err: ', err)
           console.groupEnd()
+          vm.$message.error('用户名或密码错误')
         })
     },
     /**
