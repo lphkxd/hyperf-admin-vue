@@ -11,6 +11,12 @@ export default [
     preview: 'image/theme/line/preview@2x.png'
   },
   {
+    title: '海岸',
+    name: 'coastal',
+    backgroundImage: 'image/theme/coastal/bg.jpg',
+    preview: 'image/theme/coastal/preview@2x.png'
+  },
+  {
     title: '小镇',
     name: 'town',
     backgroundImage: 'image/theme/town/bg.jpg',
@@ -21,10 +27,5 @@ export default [
     name: 'star',
     backgroundImage: 'image/theme/star/bg.jpg',
     preview: 'image/theme/star/preview@2x.png'
-  },
-  {
-    title: '紫罗兰',
-    name: 'violet',
-    preview: 'image/theme/violet/preview@2x.png'
   }
 ]
