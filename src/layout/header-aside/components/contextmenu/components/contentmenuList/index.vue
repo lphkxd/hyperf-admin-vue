@@ -32,30 +32,37 @@ export default {
   methods: {
     rowClick(event) {
       let target = event.target
-      while (!target.dataset.value) {
-        target = target.parentNode
+      try {
+        let count = 0
+        while (!target.dataset.value && count < 6) {
+          target = target.parentNode
+          count++
+        }
+        this.$emit('rowClick', target.dataset.value)
+      } catch (error) {
+        // 不做任何处理
+        console.log(error)
       }
-      this.$emit('rowClick', target.dataset.value)
     }
   }
 }
 </script>
 
 <style lang="scss">
-.cs-contentmenu-list {
-  .cs-contentmenu-item {
-    padding: 8px 20px 8px 15px;
-    margin: 0;
-    font-size: 14px;
-    color: #606266;
-    cursor: pointer;
-    &:hover {
-      background: #ecf5ff;
-      color: #66b1ff;
-    }
-    .cs-contentmenu-item-title {
-      margin-left: 10px;
+  .cs-contentmenu-list {
+    .cs-contentmenu-item {
+      padding: 8px 20px 8px 15px;
+      margin: 0;
+      font-size: 14px;
+      color: #606266;
+      cursor: pointer;
+      &:hover {
+        background: #ecf5ff;
+        color: #66b1ff;
+      }
+      .cs-contentmenu-item-title {
+        margin-left: 10px;
+      }
     }
   }
-}
 </style>
