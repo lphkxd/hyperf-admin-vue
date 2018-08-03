@@ -1,14 +1,14 @@
 <template>
-    <el-submenu :index="menu.path || uniqueid">
-        <template slot="title">
-            <i :class="`fa fa-${menu.icon || 'folder-o'}`"></i>
-            <span slot="title">{{menu.title}}</span>
-        </template>
-        <template v-for="(child, childIndex) in menu.children">
-            <cs-layout-header-aside-menu-item v-if="child.children === undefined" :menu="child" :key="childIndex"/>
-            <cs-layout-header-aside-menu-sub v-else :menu="child" :key="childIndex"/>
-        </template>
-    </el-submenu>
+  <el-submenu :index="menu.path || uniqueid">
+    <template slot="title">
+      <i :class="`fa fa-${menu.icon || 'folder-o'}`"></i>
+      <span slot="title">{{menu.title}}</span>
+    </template>
+    <template v-for="(child, childIndex) in menu.children">
+      <cs-layout-header-aside-menu-item v-if="child.children === undefined" :menu="child" :key="childIndex"/>
+      <cs-layout-header-aside-menu-sub v-else :menu="child" :key="childIndex"/>
+    </template>
+  </el-submenu>
 </template>
 
 <script>

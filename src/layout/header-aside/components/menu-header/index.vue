@@ -1,10 +1,10 @@
 <template>
-    <el-menu mode="horizontal" @select="handleMenuSelect">
-        <template v-for="(menu, menuIndex) in menuHeader">
-            <cs-layout-header-aside-menu-item v-if="menu.children === undefined" :menu="menu" :key="menuIndex"/>
-            <cs-layout-header-aside-menu-sub v-else :menu="menu" :key="menuIndex"/>
-        </template>
-    </el-menu>
+  <el-menu mode="horizontal" @select="handleMenuSelect">
+    <template v-for="(menu, menuIndex) in menuHeader">
+      <cs-layout-header-aside-menu-item v-if="menu.children === undefined" :menu="menu" :key="menuIndex"/>
+      <cs-layout-header-aside-menu-sub v-else :menu="menu" :key="menuIndex"/>
+    </template>
+  </el-menu>
 </template>
 
 <script>

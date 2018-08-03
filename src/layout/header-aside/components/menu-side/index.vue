@@ -1,21 +1,21 @@
 <template>
-    <div class="cs-layout-header-aside-menu-side">
-        <el-menu
-                :collapse="isMenuAsideCollapse"
-                :unique-opened="true"
-                :default-active="active"
-                ref="menu"
-                @select="handleMenuSelect">
-            <template v-for="(menu, menuIndex) in menuAside">
-                <cs-layout-header-aside-menu-item v-if="menu.children === undefined" :menu="menu" :key="menuIndex"/>
-                <cs-layout-header-aside-menu-sub v-else :menu="menu" :key="menuIndex"/>
-            </template>
-        </el-menu>
-        <div v-if="menuAside.length === 0 && !isMenuAsideCollapse" class="cs-layout-header-aside-menu-empty" flex="dir:top main:center cross:center">
-            <cs-icon name="inbox"/>
-            <span>没有侧栏菜单</span>
-        </div>
+  <div class="cs-layout-header-aside-menu-side">
+    <el-menu
+      :collapse="isMenuAsideCollapse"
+      :unique-opened="true"
+      :default-active="active"
+      ref="menu"
+      @select="handleMenuSelect">
+      <template v-for="(menu, menuIndex) in menuAside">
+        <cs-layout-header-aside-menu-item v-if="menu.children === undefined" :menu="menu" :key="menuIndex"/>
+        <cs-layout-header-aside-menu-sub v-else :menu="menu" :key="menuIndex"/>
+      </template>
+    </el-menu>
+    <div v-if="menuAside.length === 0 && !isMenuAsideCollapse" class="cs-layout-header-aside-menu-empty">
+      <cs-icon name="inbox"/>
+      <span>没有侧栏菜单</span>
     </div>
+  </div>
 </template>
 
 <script>

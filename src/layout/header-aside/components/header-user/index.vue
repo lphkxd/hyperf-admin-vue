@@ -1,13 +1,13 @@
 <template>
-    <el-dropdown class="cs-mr">
-        <span class="btn-text">您好 {{userInfo.name}}</span>
-        <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item @click.native="logOff">
-                <cs-icon name="power-off" class="cs-mr-5"/>
-                注销
-            </el-dropdown-item>
-        </el-dropdown-menu>
-    </el-dropdown>
+  <el-dropdown class="cs-mr">
+    <span class="btn-text">您好 {{userInfo.name}}</span>
+    <el-dropdown-menu slot="dropdown">
+      <el-dropdown-item @click.native="logOff">
+        <cs-icon name="power-off" class="cs-mr-5"/>
+        注销
+      </el-dropdown-item>
+    </el-dropdown-menu>
+  </el-dropdown>
 </template>
 
 <script>

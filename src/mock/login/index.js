@@ -3,7 +3,7 @@ import Mock from 'mockjs'
 const userDB = [
   {
     username: 'admin',
-    password: 'admin',
+    password: 'admin888',
     uuid: 'admin-uuid',
     name: '管理员'
   },
