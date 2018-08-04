@@ -98,18 +98,21 @@ export default {
      */
     handleContextmenu(event) {
       let target = event.target
-      const attribute = target.getAttribute('aria-controls')
+      let flag = false
 
-      if (attribute === null) {
-        return
+      if (target.className.indexOf('el-tabs__item') > -1) {
+        flag = true
+      } else if (target.parentNode.className.indexOf('el-tabs__item') > -1) {
+        target = target.parentNode
+        flag = true
       }
 
-      if (target.className.indexOf('el-tabs__item') > -1 || target.parentNode.className.indexOf('el-tabs__item') > -1) {
+      if (flag) {
         event.preventDefault()
         event.stopPropagation()
         this.contentmenuX = event.clientX
         this.contentmenuY = event.clientY
-        this.tagName = attribute.slice(5)
+        this.tagName = target.getAttribute('aria-controls').slice(5)
         this.contextmenuFlag = true
       }
     },

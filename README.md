@@ -20,3 +20,6 @@ npm run lint
 # Run your unit tests
 npm run test:unit
 ```
+
+> 本框架基于 D2Admin 修改
+https://github.com/d2-projects/d2-admin
