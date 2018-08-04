@@ -75,7 +75,7 @@ export default {
       // 开始请求登录接口
       vm.$axios({
         method: 'post',
-        url: '/login',
+        url: '/v1/admin/login',
         data: {
           username,
           password
