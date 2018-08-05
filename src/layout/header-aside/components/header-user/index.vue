@@ -1,6 +1,6 @@
 <template>
   <el-dropdown class="cs-mr">
-    <span class="btn-text">您好 {{userInfo.name}}</span>
+    <span class="btn-text">您好 {{userInfo.nickname}}</span>
     <el-dropdown-menu slot="dropdown">
       <el-dropdown-item @click.native="logOff">
         <cs-icon name="power-off" class="cs-mr-5"/>
