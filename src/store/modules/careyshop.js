@@ -15,7 +15,7 @@ export default {
   state: {
     // 用户信息
     userInfo: {
-      name: ''
+      nickname: ''
     },
     // 顶栏菜单
     menuHeader: [],
@@ -75,7 +75,11 @@ export default {
       // 开始请求登录接口
       vm.$axios({
         method: 'post',
-        url: '/v1/admin/login',
+        url: '/v1/admin/',
+        params: {
+          method: 'login.admin.user',
+          platform: 'admin'
+        },
         data: {
           username,
           password
@@ -85,12 +89,19 @@ export default {
           // 设置 cookie 一定要存 uuid 和 token 两个 cookie
           // 整个系统依赖这两个数据进行校验和存储
           // uuid 是用户身份唯一标识 用户注册的时候确定 并且不可改变 不可重复
-          // token 代表用户当前登录状态 建议在网络请求中携带 token，如有必要 token 需要定时更新，默认保存一天
-          util.cookies.set('uuid', res.data.uuid)
-          util.cookies.set('token', res.data.token)
+          // token 代表用户当前登录状态
+          util.cookies.set('uuid', res.data['admin']['admin_id'])
+          util.cookies.set('token', res.data['token']['token'])
           // 设置 vuex 用户信息
           commit('userInfoSet', {
-            name: res.data.name
+            nickname: res.data['admin']['nickname']
+          })
+          // 存储用户数据
+          commit('utilDatabaseUser', database => {
+            database
+              .set('admin', res.data['admin'])
+              .set('token', res.data['token'])
+              .write()
           })
           // 用户登陆后从数据库加载一系列的设置
           commit('loginSuccessLoad')
@@ -116,9 +127,21 @@ export default {
        * @description 注销
        */
       function logout() {
-        // 删除cookie
-        util.cookies.remove('token')
-        util.cookies.remove('uuid')
+        // 发送注销请求
+        vm.$axios({
+          method: 'post',
+          url: '/v1/admin/',
+          params: {
+            method: 'logout.admin.user'
+          }
+        }).then(() => {
+          // 销毁vuex数据
+          commit('utilDatabaseUserClear')
+          // 删除cookie
+          util.cookies.remove('token')
+          util.cookies.remove('uuid')
+        })
+
         // 跳转路由
         vm.$router.push({
           name: 'login'
@@ -285,7 +308,7 @@ export default {
      * @param {state} state vuex state
      */
     loginSuccessLoad(state) {
-      // DB -> store 加载用户名
+      // DB -> store 加载用户信息
       this.commit('userInfoLoad')
       // DB -> store 加载主题
       this.commit('themeLoad')
@@ -295,7 +318,7 @@ export default {
       this.commit('menuAsideCollapseLoad')
     },
     /**
-     * @description 设置用户名
+     * @description 设置用户信息
      * @class userInfo
      * @param {state} state vuex state
      * @param {String} userInfo userInfo
@@ -305,7 +328,7 @@ export default {
       this.commit('utilVuex2DbByUuid', 'userInfo')
     },
     /**
-     * @description 从数据库取用户名
+     * @description 从数据库取用户信息
      * @class userInfo
      * @param {state} state vuex state
      */
@@ -313,7 +336,7 @@ export default {
       this.commit('utilDb2VuexByUuid', {
         key: 'userInfo',
         defaultValue: {
-          name: '请重新登陆'
+          nickname: '请重新登陆'
         }
       })
     },

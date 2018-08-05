@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import axios from 'axios'
+import util from '@/utils/util'
 
 // 创建一个axios实例
 const service = axios.create({
@@ -11,11 +12,26 @@ const service = axios.create({
 
 // 请求拦截器
 service.interceptors.request.use(config => {
-  // 在发送请求之前做一些事情
+  // 数据不存在则需要创建
+  if (!config.data || config.data === undefined) {
+    config.data = {}
+  }
+
+  // 附带 token
+  config.data['token'] = util.cookies.get('token')
+  // 附带 app_key
+  config.data['app_key'] = process.env.VUE_APP_KEY
+  // 附带 timestamp
+  config.data['timestamp'] = Math.round(new Date() / 1000)
+  // 附带 format
+  config.data['format'] = 'json'
+
+  // TODO:正在完成签名与注销,待续...
+
   return config
 }, error => {
   // 做一些请求错误
-  console.log(error)
+  console.log('err' + error)
   return Promise.reject(error)
 })
 
