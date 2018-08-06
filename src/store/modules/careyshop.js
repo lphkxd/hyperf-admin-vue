@@ -15,7 +15,9 @@ export default {
   state: {
     // 用户信息
     userInfo: {
-      nickname: ''
+      nickname: '',
+      admin: {},
+      token: {}
     },
     // 顶栏菜单
     menuHeader: [],
@@ -94,14 +96,9 @@ export default {
           util.cookies.set('token', res.data['token']['token'])
           // 设置 vuex 用户信息
           commit('userInfoSet', {
-            nickname: res.data['admin']['nickname']
-          })
-          // 存储用户数据
-          commit('utilDatabaseUser', database => {
-            database
-              .set('admin', res.data['admin'])
-              .set('token', res.data['token'])
-              .write()
+            nickname: res.data['admin']['nickname'],
+            admin: res.data['admin'],
+            toekn: res.data['token']
           })
           // 用户登陆后从数据库加载一系列的设置
           commit('loginSuccessLoad')
@@ -127,6 +124,9 @@ export default {
        * @description 注销
        */
       function logout() {
+        // 删除cookie
+        util.cookies.remove('token')
+        util.cookies.remove('uuid')
         // 发送注销请求
         vm.$axios({
           method: 'post',
@@ -134,14 +134,7 @@ export default {
           params: {
             method: 'logout.admin.user'
           }
-        }).then(() => {
-          // 销毁vuex数据
-          commit('utilDatabaseUserClear')
-          // 删除cookie
-          util.cookies.remove('token')
-          util.cookies.remove('uuid')
         })
-
         // 跳转路由
         vm.$router.push({
           name: 'login'
@@ -149,19 +142,15 @@ export default {
       }
       // 判断是否需要确认
       if (confirm) {
-        commit('grayModeSet', true)
         vm.$confirm('注销当前账户吗? ', '确认操作', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         })
           .then(() => {
-            commit('grayModeSet', false)
             logout()
           })
           .catch(() => {
-            commit('grayModeSet', false)
-            vm.$message('放弃注销账户')
           })
       } else {
         logout()
