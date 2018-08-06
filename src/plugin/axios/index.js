@@ -19,14 +19,16 @@ service.interceptors.request.use(config => {
 
   // 附带 token
   config.data['token'] = util.cookies.get('token')
-  // 附带 app_key
-  config.data['app_key'] = process.env.VUE_APP_KEY
+  // 附带 appkey
+  config.data['appkey'] = process.env.VUE_APP_KEY
   // 附带 timestamp
   config.data['timestamp'] = Math.round(new Date() / 1000)
   // 附带 format
   config.data['format'] = 'json'
 
-  // TODO:正在完成签名与注销,待续...
+  // 获取签名
+  const params = Object.assign(config.data, config.params)
+  config.data['sign'] = getSign(params)
 
   return config
 }, error => {
@@ -47,5 +49,10 @@ service.interceptors.response.use(response => {
   console.log('err' + error) // for debug
   return Promise.reject(error)
 })
+
+// 签名生成
+function getSign(params) {
+  console.log(params)
+}
 
 Vue.prototype.$axios = service
