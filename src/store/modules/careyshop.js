@@ -98,7 +98,7 @@ export default {
           commit('userInfoSet', {
             nickname: res.data['admin']['nickname'],
             admin: res.data['admin'],
-            toekn: res.data['token']
+            token: res.data['token']
           })
           // 用户登陆后从数据库加载一系列的设置
           commit('loginSuccessLoad')
@@ -124,20 +124,28 @@ export default {
        * @description 注销
        */
       function logout() {
-        // 删除cookie
-        util.cookies.remove('token')
-        util.cookies.remove('uuid')
-        // 发送注销请求
+        // // 删除用户信息
+        // commit('userInfoSet', {
+        //   nickname: '',
+        //   admin: {},
+        //   token: {}
+        // })
+        // // 删除cookie
+        // util.cookies.remove('token')
+        // util.cookies.remove('uuid')
+        // // 跳转路由
+        // vm.$router.push({
+        //   name: 'login'
+        // })
         vm.$axios({
           method: 'post',
           url: '/v1/admin/',
           params: {
-            method: 'logout.admin.user'
+            method: 'get.admin.item'
+          },
+          data: {
+            client_id: 1
           }
-        })
-        // 跳转路由
-        vm.$router.push({
-          name: 'login'
         })
       }
       // 判断是否需要确认
@@ -325,7 +333,9 @@ export default {
       this.commit('utilDb2VuexByUuid', {
         key: 'userInfo',
         defaultValue: {
-          nickname: '请重新登陆'
+          nickname: '请重新登陆',
+          admin: {},
+          token: {}
         }
       })
     },

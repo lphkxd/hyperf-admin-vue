@@ -100,4 +100,15 @@ util.randomLenNum = function randomLenNum(len, date) {
   return random
 }
 
+/**
+ * MD5加密
+ */
+util.md5 = function md5(str) {
+  let crypto = require('crypto')
+  let md5 = crypto.createHash('md5')
+
+  md5.update(str)
+  return md5.digest('hex')
+}
+
 export default util
