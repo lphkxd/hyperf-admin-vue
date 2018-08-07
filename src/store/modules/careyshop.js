@@ -124,28 +124,18 @@ export default {
        * @description 注销
        */
       function logout() {
-        // // 删除用户信息
-        // commit('userInfoSet', {
-        //   nickname: '',
-        //   admin: {},
-        //   token: {}
-        // })
-        // // 删除cookie
-        // util.cookies.remove('token')
-        // util.cookies.remove('uuid')
-        // // 跳转路由
-        // vm.$router.push({
-        //   name: 'login'
-        // })
-        vm.$axios({
-          method: 'post',
-          url: '/v1/admin/',
-          params: {
-            method: 'get.admin.item'
-          },
-          data: {
-            client_id: 1
-          }
+        // 删除用户信息
+        commit('userInfoSet', {
+          nickname: '',
+          admin: {},
+          token: {}
+        })
+        // 删除cookie
+        util.cookies.remove('token')
+        util.cookies.remove('uuid')
+        // 跳转路由
+        vm.$router.push({
+          name: 'login'
         })
       }
       // 判断是否需要确认
