@@ -143,7 +143,7 @@ util.log.danger = function(text) {
  * @description 显示版本信息
  */
 util.showInfo = function showInfo() {
-  util.log.capsule('CareyShop', `v${version}`)
+  util.log.capsule('CareyShop Admin', `v${version}`)
   console.log('Github https://github.com/dnyz520/careyshop-admin')
   console.log('Doc    https://doc.careyshop.cn/')
 }

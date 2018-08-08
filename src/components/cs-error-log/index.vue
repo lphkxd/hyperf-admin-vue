@@ -35,7 +35,7 @@
           v-if="props.row.type === 'error'"
           type="error"
           title="错误堆栈"
-          value="见下">
+          value="详细">
           <div style="overflow: auto;">
             <pre>{{stackBeautify(props.row.err)}}</pre>
           </div>

@@ -10,8 +10,10 @@
       <!-- 顶栏 -->
       <div class="cs-theme-header" flex-box="0">
         <div class="logo-group" :style="{width: isMenuAsideCollapse ? asideWidthCollapse : asideWidth}">
-          <img v-if="isMenuAsideCollapse" :src="`${$baseUrl}image/theme/${themeActiveSetting.name}/logo/icon-only.png`">
-          <img v-else :src="`${$baseUrl}image/theme/${themeActiveSetting.name}/logo/all.png`">
+          <a target="blank" href="//www.careyshop.cn/">
+            <img v-if="isMenuAsideCollapse" :src="`${$baseUrl}image/theme/${themeActiveSetting.name}/logo/icon-only.png`">
+            <img v-else :src="`${$baseUrl}image/theme/${themeActiveSetting.name}/logo/all.png`">
+          </a>
         </div>
         <div class="toggle-aside-btn" @click="handleToggleAside">
           <cs-icon name="bars"/>
@@ -61,11 +63,11 @@ export default {
   components: {
     'cs-menu-side': () => import('./components/menu-side'),
     'cs-menu-header': () => import('./components/menu-header'),
-    'cs-tabs': import('./components/tabs'),
+    'cs-tabs': () => import('./components/tabs'),
     'cs-header-fullscreen': () => import('./components/header-fullscreen'),
-    'cs-header-theme': import('./components/header-theme'),
-    'cs-header-user': import('./components/header-user'),
-    'cs-header-error-log': import('./components/header-error-log')
+    'cs-header-theme': () => import('./components/header-theme'),
+    'cs-header-user': () => import('./components/header-user'),
+    'cs-header-error-log': () => import('./components/header-error-log')
   },
   data() {
     return {
