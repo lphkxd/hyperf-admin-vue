@@ -9,10 +9,12 @@ import 'element-ui/lib/theme-chalk/index.css'
 import screenfull from 'screenfull'
 import '@/components'
 import '@/assets/svg-icons'
-import '@/plugin/axios'
 import '@/mock/register'
+import '@/plugin/axios'
 import util from '@/utils/util'
 import store from '@/store/index'
+import pluginLog from '@/plugin/log'
+import pluginError from '@/plugin/error'
 import pluginOpen from '@/plugin/open'
 
 // 菜单和路由设置
@@ -22,6 +24,8 @@ import menuAside from '@/menu/aside'
 import { frameInRoutes } from '@/router/routes'
 
 Vue.use(ElementUI)
+Vue.use(pluginLog)
+Vue.use(pluginError)
 Vue.use(pluginOpen)
 
 Vue.config.productionTip = false

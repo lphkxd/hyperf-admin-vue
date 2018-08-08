@@ -19,6 +19,8 @@
         <cs-menu-header/>
         <!-- 顶栏右侧 -->
         <div class="cs-header-right">
+          <!-- 如果你只想在开发环境显示这个按钮请添加 v-if="$env === 'development'" -->
+          <cs-header-error-log/>
           <cs-header-fullscreen/>
           <cs-header-theme/>
           <cs-header-user/>
@@ -54,22 +56,16 @@
 
 <script>
 import { mapState, mapGetters, mapMutations } from 'vuex'
-import menuSide from './components/menu-side'
-import menuHeader from './components/menu-header'
-import tabs from './components/tabs'
-import headerFullscreen from './components/header-fullscreen'
-import headerTheme from './components/header-theme'
-import headerUser from './components/header-user'
-
 export default {
   name: 'cs-layout-header-aside',
   components: {
-    'cs-menu-side': menuSide,
-    'cs-menu-header': menuHeader,
-    'cs-tabs': tabs,
-    'cs-header-fullscreen': headerFullscreen,
-    'cs-header-theme': headerTheme,
-    'cs-header-user': headerUser
+    'cs-menu-side': () => import('./components/menu-side'),
+    'cs-menu-header': () => import('./components/menu-header'),
+    'cs-tabs': import('./components/tabs'),
+    'cs-header-fullscreen': () => import('./components/header-fullscreen'),
+    'cs-header-theme': import('./components/header-theme'),
+    'cs-header-user': import('./components/header-user'),
+    'cs-header-error-log': import('./components/header-error-log')
   },
   data() {
     return {

@@ -7,8 +7,7 @@ import { MessageBox } from 'element-ui'
 // 创建一个axios实例
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API, // api的base_url
-  timeout: 5000, // request timeout
-  changeOrigin: true, // 允许跨域
+  timeout: 10000, // request timeout
   headers: { 'Content-Type': 'application/json; charset=utf-8' }
 })
 

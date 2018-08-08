@@ -2,6 +2,7 @@ import screenfull from 'screenfull'
 import util from '@/utils/util'
 import db from '@/utils/db'
 import themeList from '@/assets/style/theme/list'
+import get from 'lodash.get'
 
 const pageOpenedDefult = {
   name: 'index',
@@ -42,7 +43,9 @@ export default {
     // 当前页面
     pageCurrent: '',
     // 用户 UA
-    ua: {}
+    ua: {},
+    // 错误日志
+    log: []
   },
   getters: {
     /**
@@ -65,6 +68,20 @@ export default {
         }
         return true
       }).map(e => e.name)
+    },
+    /**
+     * @description 返回现存 log (all) 的条数
+     * @param {*} state vuex state
+     */
+    logLength(state) {
+      return state.log.length
+    },
+    /**
+     * @description 返回现存 log (error) 的条数
+     * @param {*} state vuex state
+     */
+    logErrorLength(state) {
+      return state.log.filter(l => l.type === 'error').length
     }
   },
   actions: {
@@ -628,6 +645,42 @@ export default {
      */
     grayModeSet(state, value) {
       state.isGrayMode = value
+    },
+    /**
+     * @class log
+     * @description 添加一个 log
+     * @param {state} state vuex state
+     * @param {Object} param1 { }
+     */
+    logAdd(state, { type, err, vm, info }) {
+      state.log.push(Object.assign({
+        // 记录类型
+        type: 'log', // error
+        // 信息
+        info: '',
+        // 错误对象
+        err: '',
+        // vue 实例
+        vm: '',
+        // 当前用户信息
+        user: state.userInfo,
+        // 当前用户的 uuid
+        uuid: util.cookies.get('uuid'),
+        // 当前的 token
+        token: util.cookies.get('token'),
+        // 当前地址
+        url: get(window, 'location.href', ''),
+        // 当前时间
+        time: Date().toLocaleString()
+      }, { type, err, vm, info }))
+    },
+    /**
+     * @class log
+     * @description 清空日志
+     * @param {state} state vuex state
+     */
+    logClean(state) {
+      state.log = []
     },
     /**
      * @class themeActiveName
