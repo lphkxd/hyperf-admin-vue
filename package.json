@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "better-scroll": "^1.12.1",
+    "better-scroll": "^1.12.6",
     "element-ui": "^2.4.4",
     "flex.css": "^1.1.7",
     "lodash.get": "^4.4.2",
@@ -19,7 +19,7 @@
     "mockjs": "^1.0.1-beta3",
     "screenfull": "^3.3.2",
     "ua-parser-js": "^0.7.18",
-    "vue": "^2.5.16",
+    "vue": "^2.5.17",
     "vue-cookies": "^1.5.6",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"
@@ -35,8 +35,8 @@
     "babel-jest": "^23.0.1",
     "chai": "^4.1.2",
     "node-sass": "^4.9.0",
-    "sass-loader": "^7.0.1",
+    "sass-loader": "^7.1.0",
     "svg-sprite-loader": "^3.8.0",
-    "vue-template-compiler": "^2.5.16"
+    "vue-template-compiler": "^2.5.17"
   }
 }
