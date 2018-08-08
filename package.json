@@ -24,12 +24,12 @@
     "vuex": "^3.0.1"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.0.0-rc.10",
-    "@vue/cli-plugin-eslint": "^3.0.0-rc.10",
-    "@vue/cli-plugin-unit-mocha": "^3.0.0-rc.10",
-    "@vue/cli-service": "^3.0.0-rc.10",
-    "@vue/eslint-config-standard": "^3.0.0-rc.10",
-    "@vue/test-utils": "^1.0.0-beta.20",
+    "@vue/cli-plugin-babel": "^3.0.0-rc.11",
+    "@vue/cli-plugin-eslint": "^3.0.0-rc.11",
+    "@vue/cli-plugin-unit-mocha": "^3.0.0-rc.11",
+    "@vue/cli-service": "^3.0.0-rc.11",
+    "@vue/eslint-config-standard": "^3.0.0-rc.11",
+    "@vue/test-utils": "^1.0.0-beta.24",
     "babel-core": "^6.26.3",
     "babel-jest": "^23.0.1",
     "chai": "^4.1.2",
