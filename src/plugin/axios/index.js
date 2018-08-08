@@ -87,8 +87,14 @@ function refreshToken(config) {
     return
   }
 
-  // 刷新令牌接口本身过滤
-  if (config.params['method'] === 'refresh.admin.token') {
+  // 以下接口不需要刷新令牌
+  const whiteList = [
+    'refresh.admin.token',
+    'logout.admin.user',
+    'login.admin.user'
+  ]
+
+  if (whiteList.indexOf(config.params['method']) >= 0) {
     return
   }
 
