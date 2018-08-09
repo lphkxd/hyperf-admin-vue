@@ -115,4 +115,9 @@ export default {
 <style lang="scss">
 // 注册主题
 @import '~@/assets/style/theme/register.scss';
+.logo-group{
+  img{
+    border:none
+  }
+}
 </style>
