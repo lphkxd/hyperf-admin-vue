@@ -22,7 +22,7 @@
         <!-- 顶栏右侧 -->
         <div class="cs-header-right">
           <!-- 如果你只想在开发环境显示这个按钮请添加 v-if="$env === 'development'" -->
-          <cs-header-error-log/>
+          <cs-header-error-log v-if="$env === 'development'"/>
           <cs-header-fullscreen/>
           <cs-header-theme/>
           <cs-header-user/>
@@ -113,11 +113,11 @@ export default {
 </script>
 
 <style lang="scss">
-// 注册主题
-@import '~@/assets/style/theme/register.scss';
-.logo-group{
-  img{
-    border:none
+  // 注册主题
+  @import '~@/assets/style/theme/register.scss';
+  .logo-group {
+    img {
+      border: none
+    }
   }
-}
 </style>
