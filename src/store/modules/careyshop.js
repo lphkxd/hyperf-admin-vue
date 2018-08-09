@@ -635,12 +635,16 @@ export default {
      * @description 切换全屏
      */
     fullScreenToggle() {
-      if (screenfull.isFullscreen) {
-        screenfull.exit()
-        this.commit('fullScreenSet', false)
-      } else {
-        screenfull.request()
-        this.commit('fullScreenSet', true)
+      try {
+        if (screenfull.isFullscreen) {
+          screenfull.exit()
+          this.commit('fullScreenSet', false)
+        } else {
+          screenfull.request()
+          this.commit('fullScreenSet', true)
+        }
+      } catch (e) {
+        console.log(e)
       }
     },
     /**
