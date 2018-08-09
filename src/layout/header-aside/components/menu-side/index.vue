@@ -87,7 +87,12 @@ export default {
     },
     scrollDestroy() {
       if (this.BS) {
-        this.BS.destroy()
+        try {
+          this.BS.destroy()
+        } catch (e) {
+          delete this.BS
+          this.BS = null
+        }
       }
     }
   }
