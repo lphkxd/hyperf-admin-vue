@@ -31,7 +31,7 @@
       <el-dropdown
         split-button
         @click="handleControlBtnClick"
-        @command="handleControlItemClick">
+        @command="command => handleControlItemClick(command)">
         <cs-icon name="times-circle"/>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item command="left">
