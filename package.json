@@ -39,5 +39,10 @@
     "sass-loader": "^7.1.0",
     "svg-sprite-loader": "^3.8.0",
     "vue-template-compiler": "^2.5.17"
-  }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ]
 }
