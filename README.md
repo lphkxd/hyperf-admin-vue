@@ -21,5 +21,5 @@ npm run lint
 npm run test:unit
 ```
 
-> 本框架基于 D2Admin 修改
-https://github.com/d2-projects/d2-admin
+### 演示地址
+demo地址：[https://demo.careyshop.cn/admin/](https://demo.careyshop.cn/admin/ "demo地址")
