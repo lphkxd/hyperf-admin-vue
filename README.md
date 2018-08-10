@@ -3,21 +3,27 @@
 > this is a CareyShop Admin for Vue.js project
 
 ```
-# Project setup
+# 克隆项目
+git clone https://github.com/dnyz520/careyshop-admin.git
+
+# 安装依赖
 npm install
-# or
+或
 yarn
 
-# Compiles and hot-reloads for development
+# 建议不要用cnpm安装 会有各种诡异的bug 可以通过如下操作解决 npm 下载速度慢的问题
+npm install --registry=https://registry.npm.taobao.org
+
+# 启动服务
 npm run serve
 
-# Compiles and minifies for production
+# 正式发布
 npm run build
 
-# Lints and fixes files
+# 检测修复
 npm run lint
 
-# Run your unit tests
+# 单元测试
 npm run test:unit
 ```
 
