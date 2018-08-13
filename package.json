@@ -18,6 +18,7 @@
     "lodash.uniqueid": "^4.0.1",
     "lowdb": "^1.0.0",
     "mockjs": "^1.0.1-beta3",
+    "nprogress": "^0.2.0",
     "screenfull": "^3.3.2",
     "ua-parser-js": "^0.7.18",
     "vue": "^2.5.17",
