@@ -17,24 +17,6 @@ const frameIn = [
         name: 'index',
         meta,
         component: () => import('@/views/index')
-      },
-      {
-        path: '/views1',
-        name: 'views1',
-        component: () => import('@/views/page1'),
-        meta: { meta, title: '页面 1' }
-      },
-      {
-        path: '/views2',
-        name: 'views2',
-        component: () => import('@/views/page2'),
-        meta: { meta, title: '页面 2' }
-      },
-      {
-        path: '/views3',
-        name: 'views3',
-        component: () => import('@/views/page3'),
-        meta: { meta, title: '页面 3' }
       }
     ]
   }
