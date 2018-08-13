@@ -1,6 +1,6 @@
 <template>
   <div class="page-404">
-    <cs-icon-svg style="width: 331px;" name="404"/>
+    <img src="~@/assets/image/404@2x.png" alt="404">
     <el-button class="cs-mt" @click="$router.replace({ path: '/' })">
       返回首页
     </el-button>
