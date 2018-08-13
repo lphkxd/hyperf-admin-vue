@@ -144,8 +144,8 @@ util.log.danger = function(text) {
  */
 util.showInfo = function showInfo() {
   util.log.capsule('CareyShop Admin', `v${version}`)
-  console.log('Github https://github.com/dnyz520/careyshop-admin')
-  console.log('Doc    https://doc.careyshop.cn/')
+  console.log('Web https://www.careyshop.cn/')
+  console.log('Doc https://doc.careyshop.cn/')
 }
 
 /**

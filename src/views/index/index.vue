@@ -22,6 +22,7 @@
       color: $color-text-sub;
       &:hover {
         color: $color-text-main;
+        cursor: pointer;
       }
     }
   }
