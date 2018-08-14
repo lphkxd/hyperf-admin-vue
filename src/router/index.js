@@ -22,11 +22,10 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   NProgress.start()
   const token = util.cookies.get('token')
-  const isLogin = token && token !== undefined
 
   // 验证当前路由所有的匹配中是否需要有登陆验证的
   if (to.matched.some(r => r.meta.requiresAuth)) {
-    if (isLogin) {
+    if (token) {
       next()
     } else {
       next({ name: 'login' })
@@ -34,7 +33,7 @@ router.beforeEach((to, from, next) => {
     }
   } else {
     // 不需要身份校验 直接通过
-    if (isLogin && to.path === '/login') {
+    if (token && to.path === '/login') {
       next({ path: '/' })
       NProgress.done()
     } else {
