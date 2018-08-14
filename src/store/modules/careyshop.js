@@ -20,6 +20,8 @@ export default {
       admin: {},
       token: {}
     },
+    // 菜单源
+    menuSource: [],
     // 顶栏菜单
     menuHeader: [],
     // 侧栏菜单
@@ -119,10 +121,10 @@ export default {
           })
           // 用户登陆后从数据库加载一系列的设置
           commit('loginSuccessLoad')
+          // 删除菜单源数据
+          state.menuSource = []
           // 跳转路由
-          vm.$router.push({
-            name: 'index'
-          })
+          vm.$router.push({ name: 'index' })
         })
         .catch(err => {
           console.group('登陆结果')
