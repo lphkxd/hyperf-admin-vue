@@ -21,21 +21,25 @@ const router = new VueRouter({
  */
 router.beforeEach((to, from, next) => {
   NProgress.start()
+  const token = util.cookies.get('token')
+  const isLogin = token && token !== undefined
+
   // 验证当前路由所有的匹配中是否需要有登陆验证的
   if (to.matched.some(r => r.meta.requiresAuth)) {
-    // 这里暂时将cookie里是否存有token作为验证是否登陆的条件
-    const token = util.cookies.get('token')
-    if (token && token !== 'undefined') {
+    if (isLogin) {
       next()
     } else {
-      // 没有登陆的时候跳转到登陆界面
       next({ name: 'login' })
       NProgress.done()
     }
   } else {
     // 不需要身份校验 直接通过
-    next()
-    NProgress.done()
+    if (isLogin && to.path === '/login') {
+      next({ path: '/' })
+      NProgress.done()
+    } else {
+      next()
+    }
   }
 })
 
