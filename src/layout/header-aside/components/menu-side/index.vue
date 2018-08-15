@@ -13,7 +13,7 @@
     </el-menu>
     <div v-if="menuAside.length === 0 && !isMenuAsideCollapse" class="cs-layout-header-aside-menu-empty" flex="dir:top main:center cross:center">
       <cs-icon name="inbox"/>
-      <span>没有侧栏菜单</span>
+      <span>收藏夹暂无数据</span>
     </div>
   </div>
 </template>
