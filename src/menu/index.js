@@ -45,13 +45,18 @@ export const menuHeader = [
 // 菜单 侧边栏
 export const menuAside = [
   {
-    path: '/demo/plugins',
+    path: '/system',
     title: '系统',
     children: [
       {
-        title: '权限管理',
+        title: '人员管理',
         children: [
-          { title: '用户管理' },
+          { title: '管理员列表' }
+        ]
+      },
+      {
+        title: '权限分配',
+        children: [
           { title: '用户组' },
           { title: '权限规则' },
           { title: '菜单管理' }
