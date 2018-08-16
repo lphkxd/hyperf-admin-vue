@@ -26,7 +26,7 @@ export const menuHeader = [
     icon: 'user-o'
   },
   {
-    /* path: '/system',*/
+    path: '/system/admin/member',
     title: '系统',
     icon: 'server'
   },
@@ -47,19 +47,36 @@ export const menuAside = [
   {
     path: '/system',
     title: '系统',
+    icon: 'server',
     children: [
       {
+        path: '/system/admin',
         title: '人员管理',
+        icon: 'user',
         children: [
-          { title: '管理员列表' }
+          {
+            path: '/system/admin/member',
+            title: '管理员列表'
+          }
         ]
       },
       {
+        path: '/system/auth',
         title: '权限分配',
+        icon: 'sitemap',
         children: [
-          { title: '用户组' },
-          { title: '权限规则' },
-          { title: '菜单管理' }
+          {
+            path: '/system/auth/group',
+            title: '用户组'
+          },
+          {
+            path: '/system/auth/rule',
+            title: '权限规则'
+          },
+          {
+            path: '/system/auth/menu',
+            title: '菜单管理'
+          }
         ]
       }
     ]

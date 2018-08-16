@@ -19,6 +19,21 @@ const frameIn = [
         component: () => import('@/views/index')
       }
     ]
+  },
+  {
+    path: '/system',
+    name: 'system',
+    meta,
+    redirect: { name: 'system-index' },
+    component: layoutHeaderAside,
+    children: [
+      {
+        path: 'admin/member',
+        name: `system-admin-member`,
+        component: () => import('@/views/system/test'),
+        meta: { ...meta, title: '管理员列表' }
+      }
+    ]
   }
 ]
 
