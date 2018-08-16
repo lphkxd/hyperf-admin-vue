@@ -77,11 +77,11 @@ export default {
   methods: {
     scrollInit() {
       this.BS = new BScroll(this.$el, {
-        mouseWheel: true,
-        scrollbar: {
-          fade: true,
-          interactive: false
-        }
+        mouseWheel: true
+        // scrollbar: {
+        //   fade: true,
+        //   interactive: false
+        // }
       })
     },
     scrollDestroy() {
