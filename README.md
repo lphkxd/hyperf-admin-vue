@@ -1,6 +1,6 @@
 # careyshop-admin
 
-> this is a CareyShop Admin for Vue.js project
+> this is a careyshop admin for vue.js project
 
 ```
 # 克隆项目
