@@ -3,15 +3,13 @@ import util from '@/utils/util'
 import store from '@/store/index'
 import { MessageBox } from 'element-ui'
 
-// 创建一个axios实例
-const service = axios.create({
-  baseURL: process.env.VUE_APP_BASE_API, // api的base_url
-  timeout: 10000, // request timeout
-  headers: { 'Content-Type': 'application/json; charset=utf-8' }
-})
+// 全局axios配置
+axios.defaults.baseURL = process.env.VUE_APP_BASE_API
+axios.defaults.timeout = 10000
+axios.defaults.headers['Content-Type'] = 'application/json; charset=utf-8'
 
 // 请求拦截器
-service.interceptors.request.use(
+axios.interceptors.request.use(
   config => {
     setDefaultParams(config)
     refreshToken(config)
@@ -24,9 +22,9 @@ service.interceptors.request.use(
 )
 
 // 响应拦截器
-service.interceptors.response.use(
+axios.interceptors.response.use(
   response => {
-    if (response.data.status === 200) {
+    if (response.status === 200) {
       return response.data
     } else if (response.config.responseType === 'blob') {
       return response.data
@@ -103,7 +101,7 @@ function refreshToken(config) {
   const nowTime = Math.round(new Date() / 1000) + 100
 
   if ((nowTime - 3600) > userInfo.token['token_expires'] && nowTime < userInfo.token['refresh_expires']) {
-    service({
+    axios({
       method: 'post',
       url: '/v1/admin/',
       params: {
@@ -186,6 +184,6 @@ function getSign(params) {
 
 export default {
   install(Vue, options) {
-    Vue.prototype.$axios = service
+    Vue.prototype.$axios = axios
   }
 }
