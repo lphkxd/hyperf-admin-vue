@@ -28,4 +28,30 @@ util.open = function(url) {
   document.body.removeChild(document.getElementById('careyshop-menu-link'))
 }
 
+/**
+ * 生成随机len位数字
+ * @param len
+ * @param date
+ * @returns {string}
+ */
+util.randomLenNum = function randomLenNum(len, date) {
+  let random
+  random = Math.ceil(Math.random() * 100000000000000).toString().substr(0, len || 4)
+  if (date) random = random + Date.now()
+  return random
+}
+
+/**
+ * MD5加密
+ * @param str
+ * @returns {*}
+ */
+util.md5 = function md5(str) {
+  let crypto = require('crypto')
+  let md5 = crypto.createHash('md5')
+
+  md5.update(str)
+  return md5.digest('hex')
+}
+
 export default util
