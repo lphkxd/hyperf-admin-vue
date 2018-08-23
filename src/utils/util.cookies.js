@@ -1,5 +1,5 @@
 import Cookies from 'vue-cookies'
-import setting from '@/setting.js'
+import setting from '@/setting'
 
 const cookies = {}
 
