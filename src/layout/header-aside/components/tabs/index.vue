@@ -36,19 +36,19 @@
         <cs-icon name="times-circle"/>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item command="left">
-            <cs-icon name="arrow-left" class="d2-mr-10"/>
+            <cs-icon name="arrow-left" class="cs-mr-10"/>
             关闭左侧
           </el-dropdown-item>
           <el-dropdown-item command="right">
-            <d2-icon name="arrow-right" class="d2-mr-10"/>
+            <cs-icon name="arrow-right" class="cs-mr-10"/>
             关闭右侧
           </el-dropdown-item>
           <el-dropdown-item command="other">
-            <d2-icon name="times" class="d2-mr-10"/>
+            <cs-icon name="times" class="cs-mr-10"/>
             关闭其它
           </el-dropdown-item>
           <el-dropdown-item command="all">
-            <d2-icon name="times-circle" class="d2-mr-10"/>
+            <cs-icon name="times-circle" class="cs-mr-10"/>
             全部关闭
           </el-dropdown-item>
         </el-dropdown-menu>
@@ -61,8 +61,8 @@
 import { mapState, mapMutations } from 'vuex'
 export default {
   components: {
-    D2Contextmenu: () => import('../contextmenu'),
-    D2ContextmenuList: () => import('../contextmenu/components/contentmenuList')
+    csContextmenu: () => import('../contextmenu'),
+    csContextmenuList: () => import('../contextmenu/components/contentmenuList')
   },
   data() {
     return {
@@ -82,13 +82,13 @@ export default {
     }
   },
   computed: {
-    ...mapState('d2admin/page', [
+    ...mapState('careyshop/page', [
       'opened',
       'current'
     ])
   },
   methods: {
-    ...mapMutations('d2admin/page', [
+    ...mapMutations('careyshop/page', [
       'close',
       'closeLeft',
       'closeRight',
@@ -100,11 +100,11 @@ export default {
      */
     handleContextmenu(event) {
       let target = event.target
-
-      // 解决 https://github.com/d2-projects/d2-admin/issues/54
       let flag = false
-      if (target.className.indexOf('el-tabs__item') > -1) flag = true
-      else if (target.parentNode.className.indexOf('el-tabs__item') > -1) {
+
+      if (target.className.indexOf('el-tabs__item') > -1) {
+        flag = true
+      } else if (target.parentNode.className.indexOf('el-tabs__item') > -1) {
         target = target.parentNode
         flag = true
       }
