@@ -28,4 +28,6 @@ npm run test:unit
 demo地址：[https://demo.careyshop.cn/admin/](https://demo.careyshop.cn/admin/ "demo地址")
 
 ### 基于框架
-CareyShop Admin 整体架构基于 D2Admin。https://github.com/d2-projects/d2-admin
+CareyShop Admin 整体架构基于 D2Admin。
+
+https://github.com/d2-projects/d2-admin
