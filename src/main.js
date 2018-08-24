@@ -27,7 +27,7 @@ new Vue({
     // 展示系统信息
     this.$store.commit('careyshop/releases/versionShow')
     // 检查最新版本
-    this.$store.dispatch('careyshop/releases/checkUpdate')
+    // this.$store.dispatch('careyshop/releases/checkUpdate')
     // 用户登陆后从数据库加载一系列的设置
     this.$store.commit('careyshop/account/load')
     // 获取并记录用户 UA

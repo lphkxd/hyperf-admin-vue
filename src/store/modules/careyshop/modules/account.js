@@ -1,4 +1,5 @@
 import util from '@/utils/util'
+import request from '@/utils/request'
 
 export default {
   namespaced: true,
@@ -11,38 +12,38 @@ export default {
      * @param {Object} param password {String} 密码
      */
     login({ commit }, { vm, username, password }) {
-      // 开始请求登录接口
-      vm.$axios({
+      request({
         method: 'post',
-        url: '/login',
+        url: '/v1/admin/',
+        params: {
+          method: 'login.admin.user',
+          platform: 'admin'
+        },
         data: {
           username,
           password
         }
       })
         .then(res => {
-          // 设置 cookie 一定要存 uuid 和 token 两个 cookie
-          // 整个系统依赖这两个数据进行校验和存储
-          // uuid 是用户身份唯一标识 用户注册的时候确定 并且不可改变 不可重复
-          // token 代表用户当前登录状态 建议在网络请求中携带 token
-          // 如有必要 token 需要定时更新，默认保存一天
-          util.cookies.set('uuid', res.data.uuid)
-          util.cookies.set('token', res.data.token)
-          // 设置 vuex 用户信息
+          // 设置cookie
+          util.cookies.set('uuid', res.data.admin.admin_id)
+          util.cookies.set('token', res.data.token.token)
+          // 设置info
           commit('careyshop/user/set', {
-            name: res.data.name
+            name: res.data.admin.nickname,
+            admin: res.data.admin,
+            token: res.data.token
           }, { root: true })
           // 用户登陆后从持久化数据加载一系列的设置
           commit('load')
           // 跳转路由
-          vm.$router.push({
-            name: 'index'
-          })
+          vm.$router.push({ name: 'index' })
         })
         .catch(err => {
           console.group('登陆结果')
           console.log('err: ', err)
           console.groupEnd()
+          vm.$message.error('用户名或密码错误')
         })
     },
     /**
@@ -56,29 +57,29 @@ export default {
        * @description 注销
        */
       function logout() {
+        // 删除info
+        commit('careyshop/user/set', {
+          name: '',
+          admin: {},
+          token: {}
+        }, { root: true })
         // 删除cookie
         util.cookies.remove('token')
         util.cookies.remove('uuid')
         // 跳转路由
-        vm.$router.push({
-          name: 'login'
-        })
+        vm.$router.push({ name: 'login' })
       }
       // 判断是否需要确认
       if (confirm) {
-        commit('careyshop/gray/set', true, { root: true })
-        vm.$confirm('注销当前账户吗?  打开的标签页和用户设置将会被保存。', '确认操作', {
-          confirmButtonText: '确定注销',
-          cancelButtonText: '放弃',
+        vm.$confirm('注销当前账户吗? ', '确认操作', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
           type: 'warning'
         })
           .then(() => {
-            commit('careyshop/gray/set', false, { root: true })
             logout()
           })
           .catch(() => {
-            commit('careyshop/gray/set', false, { root: true })
-            vm.$message('放弃注销用户')
           })
       } else {
         logout()
