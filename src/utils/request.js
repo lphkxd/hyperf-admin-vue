@@ -1,6 +1,6 @@
 import axios from 'axios'
 import util from '@/utils/util'
-// import store from '@/store/index'
+import store from '@/store/index'
 import { MessageBox } from 'element-ui'
 
 // 创建一个axios实例
@@ -80,47 +80,47 @@ service.interceptors.response.use(
 
 // 刷新令牌
 function refreshToken(config) {
-  // const token = util.cookies.get('token')
-  // if (!token || token === undefined) {
-  //   return
-  // }
-  //
-  // // 以下接口不需要刷新令牌
-  // const whiteList = [
-  //   'refresh.admin.token',
-  //   'logout.admin.user',
-  //   'login.admin.user'
-  // ]
-  //
-  // if (whiteList.indexOf(config.params['method']) >= 0) {
-  //   return
-  // }
-  //
-  // let userInfo = store.state.careyshop.userInfo
-  // const nowTime = Math.round(new Date() / 1000) + 100
-  //
-  // if ((nowTime - 3600) > userInfo.token['token_expires'] && nowTime < userInfo.token['refresh_expires']) {
-  //   service({
-  //     method: 'post',
-  //     url: '/v1/admin/',
-  //     params: {
-  //       method: 'refresh.admin.token'
-  //     },
-  //     data: {
-  //       refresh: userInfo.token['refresh']
-  //     }
-  //   })
-  //     .then(res => {
-  //       userInfo.token = res.data['token']
-  //       store.commit('userInfoSet', userInfo)
-  //       util.cookies.set('token', res.data['token']['token'])
-  //     })
-  //     .catch(err => {
-  //       console.group('刷新令牌')
-  //       console.log('err', err)
-  //       console.groupEnd()
-  //     })
-  // }
+  const token = util.cookies.get('token')
+  if (!token || token === undefined) {
+    return
+  }
+
+  // 以下接口不需要刷新令牌
+  const whiteList = [
+    'refresh.admin.token',
+    'logout.admin.user',
+    'login.admin.user'
+  ]
+
+  if (whiteList.indexOf(config.params['method']) >= 0) {
+    return
+  }
+
+  let userInfo = store.state.careyshop.user.info
+  const nowTime = Math.round(new Date() / 1000) + 100
+
+  if ((nowTime - 3600) > userInfo.token.token_expires && nowTime < userInfo.token.refresh_expires) {
+    service({
+      method: 'post',
+      url: '/v1/admin/',
+      params: {
+        method: 'refresh.admin.token'
+      },
+      data: {
+        refresh: userInfo.token.refresh
+      }
+    })
+      .then(res => {
+        userInfo.token = res.data.token
+        store.commit('careyshop/user/set', userInfo, { root: true })
+        util.cookies.set('token', res.data.token.token)
+      })
+      .catch(err => {
+        console.group('刷新令牌')
+        console.log('err', err)
+        console.groupEnd()
+      })
+  }
 }
 
 // 重新授权确认

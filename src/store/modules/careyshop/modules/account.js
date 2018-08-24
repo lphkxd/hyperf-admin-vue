@@ -43,7 +43,7 @@ export default {
           console.group('登陆结果')
           console.log('err: ', err)
           console.groupEnd()
-          vm.$message.error('用户名或密码错误')
+          vm.$message.error('账号或密码错误')
         })
     },
     /**
@@ -59,7 +59,7 @@ export default {
       function logout() {
         // 删除info
         commit('careyshop/user/set', {
-          name: '',
+          name: 'Ghost',
           admin: {},
           token: {}
         }, { root: true })
@@ -92,7 +92,7 @@ export default {
      * @param {Object} state vuex state
      */
     load(state) {
-      // DB -> store 加载用户名
+      // DB -> store 加载用户数据
       this.commit('careyshop/user/load')
       // DB -> store 加载主题
       this.commit('careyshop/theme/load')

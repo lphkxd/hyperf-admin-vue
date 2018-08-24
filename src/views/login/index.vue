@@ -49,7 +49,7 @@ export default {
     display: flex;
     justify-content: center;
     flex-direction: column;
-    padding: 30px 50px 25px 50px;
+    padding: 30px 55px 25px 55px;
     background-color: rgba(255, 255, 255, 0.12);
     border-radius: 6px;
   }

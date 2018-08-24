@@ -98,9 +98,7 @@ export default {
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-          // 登陆
-          // 注意 这里的演示没有传验证码
-          // 具体需要传递的数据请自行修改代码
+          // 登陆,暂时没有对验证码进行处理
           this.login({
             vm: this,
             username: this.loginForm.username,
