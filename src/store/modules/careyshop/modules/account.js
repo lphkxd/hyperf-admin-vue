@@ -40,9 +40,7 @@ export default {
           vm.$router.push({ name: 'index' })
         })
         .catch(err => {
-          console.group('登陆结果')
-          console.log('err: ', err)
-          console.groupEnd()
+          console.log(err)
           vm.$message.error('账号或密码错误')
         })
     },
