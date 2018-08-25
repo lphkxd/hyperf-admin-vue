@@ -1,5 +1,5 @@
 import util from '@/utils/util'
-import request from '@/utils/request'
+import { loginAdminUser, logoutAdminUser } from '@/api/admin'
 
 export default {
   namespaced: true,
@@ -12,37 +12,25 @@ export default {
      * @param {Object} param password {String} 密码
      */
     login({ commit }, { vm, username, password }) {
-      request({
-        method: 'post',
-        url: '/v1/admin/',
-        params: {
-          method: 'login.admin.user',
-          platform: 'admin'
-        },
-        data: {
-          username,
-          password
-        }
+      vm.loading = true
+      loginAdminUser(username, password).then(res => {
+        // 设置cookie
+        util.cookies.set('uuid', res.data.admin.admin_id)
+        util.cookies.set('token', res.data.token.token)
+        // 设置info
+        commit('careyshop/user/set', {
+          name: res.data.admin.nickname,
+          admin: res.data.admin,
+          token: res.data.token
+        }, { root: true })
+        // 用户登陆后从持久化数据加载一系列的设置
+        commit('load')
+        // 跳转路由
+        vm.$router.push({ name: 'index' })
+      }).catch(err => {
+        vm.loading = false
+        vm.$message.error(err)
       })
-        .then(res => {
-          // 设置cookie
-          util.cookies.set('uuid', res.data.admin.admin_id)
-          util.cookies.set('token', res.data.token.token)
-          // 设置info
-          commit('careyshop/user/set', {
-            name: res.data.admin.nickname,
-            admin: res.data.admin,
-            token: res.data.token
-          }, { root: true })
-          // 用户登陆后从持久化数据加载一系列的设置
-          commit('load')
-          // 跳转路由
-          vm.$router.push({ name: 'index' })
-        })
-        .catch(err => {
-          console.log(err)
-          vm.$message.error('账号或密码错误')
-        })
     },
     /**
      * @description 注销用户并返回登陆页面
@@ -51,37 +39,40 @@ export default {
      * @param {Object} param confirm {Boolean} 是否需要确认
      */
     logout({ commit }, { vm, confirm = false }) {
-      /**
-       * @description 注销
-       */
+      // 实际注销操作
       function logout() {
-        // 删除info
-        commit('careyshop/user/set', {
-          name: 'Ghost',
-          admin: {},
-          token: {}
-        }, { root: true })
-        // 删除cookie
-        util.cookies.remove('token')
-        util.cookies.remove('uuid')
-        // 跳转路由
-        vm.$router.push({ name: 'login' })
-      }
-      // 判断是否需要确认
-      if (confirm) {
-        vm.$confirm('注销当前账户吗? ', '确认操作', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
+        logoutAdminUser().finally(() => {
+          // 删除info
+          commit('careyshop/user/set', {
+            name: 'Ghost',
+            admin: {},
+            token: {}
+          }, { root: true })
+          // 删除cookie
+          util.cookies.remove('token')
+          util.cookies.remove('uuid')
+          // 跳转路由
+          vm.$router.push({ name: 'login' })
+        }).catch(err => {
+          vm.$log.warning(err)
         })
-          .then(() => {
-            logout()
-          })
-          .catch(() => {
-          })
-      } else {
-        logout()
       }
+
+      if (!confirm) {
+        logout()
+        return
+      }
+
+      vm.$confirm('注销当前账户吗? ', '确认操作', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(() => {
+          logout()
+        })
+        .catch(() => {
+        })
     }
   },
   mutations: {

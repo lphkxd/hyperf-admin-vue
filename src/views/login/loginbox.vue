@@ -28,7 +28,13 @@
     </el-form-item>
     <el-checkbox v-model="checked">记住账号</el-checkbox>
     <el-form-item>
-      <el-button type="primary" size="small" @click.native.prevent="handleLogin" class="login-submit">登录</el-button>
+      <el-button
+        type="primary"
+        size="small"
+        :loading="loading"
+        @click.native.prevent="handleLogin"
+        class="login-submit">{{loading ? '登陆中' : '登陆'}}
+      </el-button>
     </el-form-item>
   </el-form>
 </template>
@@ -68,7 +74,8 @@ export default {
           { min: 4, max: 4, message: '验证码长度为4位', trigger: 'blur' }
         ]
       },
-      passwordType: 'password'
+      passwordType: 'password',
+      loading: false
     }
   },
   created() {

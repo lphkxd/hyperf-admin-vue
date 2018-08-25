@@ -16,7 +16,7 @@ service.interceptors.request.use(config => {
   refreshToken(config)
   return config
 }, err => {
-  console.error(err)
+  util.log.danger(err)
   return Promise.resolve(err)
 })
 
@@ -29,7 +29,7 @@ service.interceptors.response.use(
       return response.data
     } else {
       reAuthorize(response.data.status)
-      return Promise.reject(response.data.message)
+      return Promise.reject(response.data.message ? response.data.message : response)
     }
   },
   error => {
@@ -69,10 +69,10 @@ service.interceptors.response.use(
           error.message = 'HTTP版本不受支持(505)'
           break
       }
-      console.log(error.response.status)
+      util.log.warning(error.response.status)
       reAuthorize(error.response.status)
     } else {
-      console.log(error)
+      util.log.warning(error)
     }
     return Promise.reject(error.response ? error.response.data : error)
   }
@@ -116,9 +116,7 @@ function refreshToken(config) {
         util.cookies.set('token', res.data.token.token)
       })
       .catch(err => {
-        console.group('刷新令牌')
-        console.log('err', err)
-        console.groupEnd()
+        util.log.warning(err)
       })
   }
 }
@@ -131,7 +129,7 @@ function reAuthorize(status) {
   }
 
   if (status === 401 || status === 403) {
-    MessageBox.confirm('您的授权已过期或在其他地方登录，是否重新登录？', '授权过期', {
+    MessageBox.confirm('您的授权已过期或在其他地方登陆，是否重新登陆？', '授权过期', {
       confirmButtonText: '确定',
       cancelButtonText: '取消',
       type: 'warning'
@@ -142,6 +140,7 @@ function reAuthorize(status) {
         location.reload()
       })
       .catch(() => {
+        util.log.warning('已取消重新登陆')
       })
   }
 }
