@@ -16,7 +16,7 @@ service.interceptors.request.use(config => {
   refreshToken(config)
   return config
 }, err => {
-  util.log.danger(err)
+  console.log(err)
   return Promise.resolve(err)
 })
 
@@ -69,10 +69,10 @@ service.interceptors.response.use(
           error.message = 'HTTP版本不受支持(505)'
           break
       }
-      util.log.warning(error.response.status)
+      console.log(error.response.status)
       reAuthorize(error.response.status)
     } else {
-      util.log.warning(error)
+      console.log(error)
     }
     return Promise.reject(error.response ? error.response.data : error)
   }
@@ -116,7 +116,7 @@ function refreshToken(config) {
         util.cookies.set('token', res.data.token.token)
       })
       .catch(err => {
-        util.log.warning(err)
+        console.log(err)
       })
   }
 }
@@ -140,7 +140,6 @@ function reAuthorize(status) {
         location.reload()
       })
       .catch(() => {
-        util.log.warning('已取消重新登陆')
       })
   }
 }

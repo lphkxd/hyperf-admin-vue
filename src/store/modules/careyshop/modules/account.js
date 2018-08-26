@@ -53,8 +53,7 @@ export default {
           util.cookies.remove('uuid')
           // 跳转路由
           vm.$router.push({ name: 'login' })
-        }).catch(err => {
-          vm.$log.warning(err)
+        }).catch(() => {
         })
       }
 
