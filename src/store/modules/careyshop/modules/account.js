@@ -1,4 +1,5 @@
 import util from '@/utils/util'
+import { getMenuAuthList } from '@/api/menu'
 import { loginAdminUser, logoutAdminUser } from '@/api/admin'
 
 export default {
@@ -12,24 +13,33 @@ export default {
      * @param {Object} param password {String} 密码
      */
     login({ commit }, { vm, username, password }) {
-      vm.loading = true
-      loginAdminUser(username, password).then(res => {
-        // 设置cookie
-        util.cookies.set('uuid', res.data.admin.admin_id)
-        util.cookies.set('token', res.data.token.token)
-        // 设置info
-        commit('careyshop/user/set', {
-          name: res.data.admin.nickname,
-          admin: res.data.admin,
-          token: res.data.token
-        }, { root: true })
-        // 用户登陆后从持久化数据加载一系列的设置
-        commit('load')
-        // 跳转路由
-        vm.$router.push({ name: 'index' })
-      }).catch(err => {
-        vm.loading = false
-        vm.$message.error(err)
+      return new Promise((resolve, reject) => {
+        loginAdminUser(username, password)
+          .then(res => {
+            util.cookies.set('uuid', res.data.admin.admin_id)
+            util.cookies.set('token', res.data.token.token)
+            commit('careyshop/user/set', {
+              name: res.data.admin.nickname,
+              admin: res.data.admin,
+              token: res.data.token
+            }, { root: true })
+          })
+          .then(() => {
+            getMenuAuthList()
+              .then(res => {
+                // 这里做一点权限与菜单的处理
+                console.log(res)
+              })
+              .catch(err => {
+                reject(err)
+              })
+          })
+          .then(() => {
+            resolve()
+          })
+          .catch(err => {
+            reject(err)
+          })
       })
     },
     /**
