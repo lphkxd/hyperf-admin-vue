@@ -23,21 +23,16 @@ export default {
               admin: res.data.admin,
               token: res.data.token
             }, { root: true })
+
+            return getMenuAuthList()
           })
-          .then(() => {
-            getMenuAuthList()
-              .then(res => {
-                // 这里做一点权限与菜单的处理
-                console.log(res)
-              })
-              .catch(err => {
-                reject(err)
-              })
-          })
-          .then(() => {
+          .then(menu => {
+            console.log('处理菜单', menu)
             resolve()
           })
           .catch(err => {
+            util.cookies.remove('token')
+            util.cookies.remove('uuid')
             reject(err)
           })
       })
