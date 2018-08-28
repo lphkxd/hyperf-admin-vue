@@ -3,6 +3,27 @@ import util from '@/utils/util'
 import store from '@/store/index'
 import { MessageBox } from 'element-ui'
 
+// 创建一个错误
+function errorCreat(msg) {
+  const err = new Error(msg)
+  errorLog(err)
+}
+
+// 记录和显示错误
+function errorLog(err) {
+  // 添加到日志
+  store.dispatch('careyshop/log/add', {
+    type: 'error',
+    err,
+    info: '数据请求异常'
+  })
+  // 打印到控制台
+  if (process.env.NODE_ENV === 'development') {
+    util.log.danger('>>>>>> Error >>>>>>')
+    console.log(err)
+  }
+}
+
 // 创建一个axios实例
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API, // api的base_url
@@ -16,64 +37,43 @@ service.interceptors.request.use(config => {
   refreshToken(config)
   return config
 }, err => {
-  console.log(err)
+  errorLog(err)
   return Promise.resolve(err)
 })
 
 // 响应拦截器
 service.interceptors.response.use(
   response => {
-    if (response.data.status === 200) {
-      return response.data
-    } else if (response.config.responseType === 'blob') {
-      return response.data
+    const dataAxios = response.data
+    const { status } = dataAxios
+
+    if (status === 200 || response.config.responseType === 'blob') {
+      return dataAxios
     } else {
-      reAuthorize(response.data.status)
-      return Promise.reject(response.data.message ? response.data.message : response)
+      reAuthorize(status)
+      errorCreat(`[status:${status}] ${dataAxios.message}: ${response.config.url}`)
+      return Promise.reject(dataAxios.message ? dataAxios.message : response)
     }
   },
   error => {
     if (error.response) {
       switch (error.response.status) {
-        case 400:
-          error.message = '请求错误(400)'
-          break
-        case 401:
-          error.message = '未授权，请重新登录(401)'
-          break
-        case 403:
-          error.message = '拒绝访问(403)'
-          break
-        case 404:
-          error.message = '请求出错(404)'
-          break
-        case 408:
-          error.message = '请求超时(408)'
-          break
-        case 500:
-          error.message = '服务器错误(500)'
-          break
-        case 501:
-          error.message = '服务未实现(501)'
-          break
-        case 502:
-          error.message = '网络错误(502)'
-          break
-        case 503:
-          error.message = '服务不可用(503)'
-          break
-        case 504:
-          error.message = '网络超时(504)'
-          break
-        case 505:
-          error.message = 'HTTP版本不受支持(505)'
-          break
+        case 400: error.message = '请求错误(400)'; break
+        case 401: error.message = '未授权，请重新登录(401)'; break
+        case 403: error.message = '拒绝访问(403)'; break
+        case 404: error.message = '请求出错(404)'; break
+        case 408: error.message = '请求超时(408)'; break
+        case 500: error.message = '服务器错误(500)'; break
+        case 501: error.message = '服务未实现(501)'; break
+        case 502: error.message = '网络错误(502)'; break
+        case 503: error.message = '服务不可用(503)'; break
+        case 504: error.message = '网络超时(504)'; break
+        case 505: error.message = 'HTTP版本不受支持(505)'; break
+        default: break
       }
-      console.log(error.response.status)
       reAuthorize(error.response.status)
-    } else {
-      console.log(error)
     }
+    errorLog(error)
     return Promise.reject(error.response ? error.response.data : error)
   }
 )
@@ -116,7 +116,7 @@ function refreshToken(config) {
         util.cookies.set('token', res.data.token.token)
       })
       .catch(err => {
-        console.log(err)
+        errorLog(err)
       })
   }
 }
@@ -139,7 +139,8 @@ function reAuthorize(status) {
         util.cookies.remove('uuid')
         location.reload()
       })
-      .catch(() => {
+      .catch(err => {
+        errorLog(err)
       })
   }
 }
