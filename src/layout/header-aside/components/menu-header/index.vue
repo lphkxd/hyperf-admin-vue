@@ -31,14 +31,14 @@ export default {
     return {
       active: ''
     }
-  },
-  watch: {
-    '$route.matched': {
-      handler(val) {
-        this.active = val[val.length - 1].path
-      },
-      immediate: true
-    }
+  // },
+  // watch: {
+  //   '$route.matched': {
+  //     handler(val) {
+  //       this.active = val[val.length - 1].path
+  //     },
+  //     immediate: true
+  //   }
   }
 }
 </script>

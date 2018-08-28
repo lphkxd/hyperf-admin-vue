@@ -27,7 +27,9 @@ export default {
             return getMenuAuthList()
           })
           .then(menu => {
-            console.log('处理菜单', menu)
+            // const db = vm.$store.dispatch('careyshop/db/database', { user: true })
+            // db.set('test', 'okok').write()
+            console.log(menu)
             resolve()
           })
           .catch(err => {
