@@ -8,7 +8,9 @@ export default {
     // 侧栏菜单
     aside: [],
     // 侧边栏收缩
-    asideCollapse: setting.menu.asideCollapse
+    asideCollapse: setting.menu.asideCollapse,
+    // 菜单源数据
+    sourceData: []
   },
   mutations: {
     /**
@@ -70,6 +72,19 @@ export default {
         dbName: 'sys',
         path: 'menu.asideCollapse',
         defaultValue: setting.menu.asideCollapse,
+        user: true
+      })
+    },
+    /**
+     * 从持久化数据读取菜单源数据
+     * @param state
+     * @returns {Promise<void>}
+     */
+    async sourceDataLoad(state) {
+      state.sourceData = await this.dispatch('careyshop/db/get', {
+        dbName: 'database',
+        path: 'menu.sourceData',
+        defaultValue: [],
         user: true
       })
     }

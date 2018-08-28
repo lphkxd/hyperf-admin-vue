@@ -16,7 +16,7 @@ export default {
       return new Promise((resolve, reject) => {
         loginAdminUser(username, password)
           .then(res => {
-            util.cookies.set('uuid', res.data.admin.admin_id)
+            util.cookies.set('uuid', res.data.admin.username)
             util.cookies.set('token', res.data.token.token)
             commit('careyshop/user/set', {
               name: res.data.admin.nickname,
@@ -100,6 +100,8 @@ export default {
       this.commit('careyshop/page/openedLoad')
       // DB -> store 持久化数据加载这个用户之前设置的侧边栏折叠状态
       this.commit('careyshop/menu/asideCollapseLoad')
+      // DB -> store 持久化数据读取菜单源数据
+      this.commit('careyshop/menu/sourceDataLoad')
     }
   }
 }
