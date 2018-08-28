@@ -76,8 +76,8 @@ export default {
       })
     },
     /**
-     * 从持久化数据读取菜单源数据
-     * @param state
+     * 从持久化数据读取菜单源数据,
+     * @param state vuex state
      * @returns {Promise<void>}
      */
     async sourceDataLoad(state) {
@@ -87,6 +87,8 @@ export default {
         defaultValue: [],
         user: true
       })
+
+      // let headerMenu = []
     }
   }
 }
