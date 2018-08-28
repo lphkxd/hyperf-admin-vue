@@ -1,5 +1,5 @@
 <template>
-  <el-menu mode="horizontal" @select="handleMenuSelect">
+  <el-menu mode="horizontal" :default-active="active" @select="handleMenuSelect">
     <template v-for="(menu, menuIndex) in header">
       <cs-layout-header-aside-menu-item v-if="menu.children === undefined" :menu="menu" :key="menuIndex"/>
       <cs-layout-header-aside-menu-sub v-else :menu="menu" :key="menuIndex"/>
@@ -26,6 +26,19 @@ export default {
     ...mapState('careyshop/menu', [
       'header'
     ])
+  },
+  data() {
+    return {
+      active: ''
+    }
+  },
+  watch: {
+    '$route.matched': {
+      handler(val) {
+        this.active = val[val.length - 1].path
+      },
+      immediate: true
+    }
   }
 }
 </script>
