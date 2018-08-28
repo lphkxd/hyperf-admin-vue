@@ -27,9 +27,12 @@ export default {
             return getMenuAuthList()
           })
           .then(menu => {
-            // const db = vm.$store.dispatch('careyshop/db/database', { user: true })
-            // db.set('test', 'okok').write()
-            console.log(menu)
+            vm.$store.dispatch('careyshop/db/set', {
+              dbName: 'database',
+              path: 'menu.sourceData',
+              value: menu.data,
+              user: true
+            })
             resolve()
           })
           .catch(err => {
