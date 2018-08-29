@@ -26,16 +26,6 @@ router.beforeEach((to, from, next) => {
   // 检测当前路由是否需要验证
   if (to.matched.some(r => r.meta.requiresAuth)) {
     if (token) {
-      /**
-       * 检测当前菜单源数据是否已处理,如果未处理则先获取.
-       * 之后处理路由,顶部菜单,侧边菜单.
-       * 该数据在每次用户登录成功后需要清空,以触发该模块的激活
-       */
-      // const state = router.app.$store
-      // if (state.state.careyshop.menuSource.length === 0) {
-      //   console.log('模拟处理菜单')
-      //   state.state.careyshop.menuSource = ['ok']
-      // }
       next()
     } else {
       next({ name: 'login' })
