@@ -81,6 +81,7 @@ export default {
      * @returns {Promise<void>}
      */
     async sourceDataLoad(state) {
+      // 菜单数据源持久化
       state.sourceData = await this.dispatch('careyshop/db/get', {
         dbName: 'database',
         path: 'menu.sourceData',
@@ -88,7 +89,26 @@ export default {
         user: true
       })
 
-      // let headerMenu = []
+      // 处理顶部菜单
+      let headerMenu = []
+      state.sourceData.forEach(item => {
+        if (item.parent_id !== 0) {
+          return
+        }
+
+        headerMenu.push({
+          path: item.url,
+          title: item.name,
+          icon: item.icon
+        })
+      })
+
+      // 处理侧边菜单
+
+      // 展示各个菜单
+      if (headerMenu.length > 0) {
+        this.commit('careyshop/menu/headerSet', headerMenu)
+      }
     }
   }
 }
