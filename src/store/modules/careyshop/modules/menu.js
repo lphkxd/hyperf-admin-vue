@@ -89,25 +89,35 @@ export default {
         user: true
       })
 
-      // 处理顶部菜单
-      let headerMenu = []
-      state.sourceData.forEach(item => {
-        if (item.parent_id !== 0) {
-          return
+      const arrayToTree = () => {
+        let source = []
+        let tree = { header: [], aside: [], router: [] }
+
+        state.sourceData.forEach(value => {
+          source[value.menu_id] = value
+        })
+
+        for (let index in source) {
+          console.log(index)
         }
 
-        headerMenu.push({
-          path: item.url,
-          title: item.name,
-          icon: item.icon
-        })
-      })
+        return tree
+      }
 
-      // 处理侧边菜单
+      // 将源数据实际转换成树
+      const menu = arrayToTree()
 
-      // 展示各个菜单
-      if (headerMenu.length > 0) {
-        this.commit('careyshop/menu/headerSet', headerMenu)
+      // 呈现顶栏与侧边菜单,新加载路由
+      if (menu.header.length > 0) {
+        this.commit('careyshop/menu/headerSet', menu.header)
+      }
+
+      if (menu.aside.length > 0) {
+        this.commit('careyshop/menu/asideSet', menu.aside)
+      }
+
+      if (menu.router.length > 0) {
+        this.$router.addRoutes(menu.router)
       }
     }
   }
