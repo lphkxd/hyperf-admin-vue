@@ -8,7 +8,7 @@ import careyshop from '@/plugin/careyshop'
 // 菜单和路由设置
 import router from './router'
 import { menuAside } from '@/menu'
-import { frameInRoutes } from '@/router/routes'
+// import { frameInRoutes } from '@/router/routes'
 
 // 核心插件
 Vue.use(careyshop)
@@ -19,7 +19,7 @@ new Vue({
   render: h => h(App),
   created() {
     // 处理路由 得到每一级的路由设置
-    this.$store.commit('careyshop/page/init', frameInRoutes)
+    // this.$store.commit('careyshop/page/init', frameInRoutes)
     // 设置顶栏菜单
     // this.$store.commit('careyshop/menu/headerSet', menuHeader)
   },

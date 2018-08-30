@@ -1,7 +1,4 @@
-// layout
 import layoutHeaderAside from '@/layout/header-aside'
-
-const meta = { requiresAuth: true }
 
 /**
  * 在主框架内显示
@@ -15,23 +12,8 @@ const frameIn = [
       {
         path: 'index',
         name: 'index',
-        meta,
+        meta: { requiresAuth: true },
         component: () => import('@/views/index')
-      }
-    ]
-  },
-  {
-    path: '/system',
-    name: 'system',
-    meta,
-    redirect: { name: 'system-index' },
-    component: layoutHeaderAside,
-    children: [
-      {
-        path: 'admin/member',
-        name: `system-admin-member`,
-        component: () => import('@/views/system/test'),
-        meta: { ...meta, title: '管理员列表' }
       }
     ]
   }
@@ -53,7 +35,6 @@ const frameOut = [
  * 错误页面
  */
 const errorPage = [
-  // 404
   {
     path: '*',
     name: '404',

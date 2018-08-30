@@ -1,10 +1,10 @@
 // 菜单 顶栏
 export const menuHeader = [
-  {
-    path: '/index',
-    title: '首页',
-    icon: 'home'
-  }
+  // {
+  //   path: '/index',
+  //   title: '首页',
+  //   icon: 'home'
+  // }
   // {
   //   /* path: '/goods', */
   //   title: '商品',

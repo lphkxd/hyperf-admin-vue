@@ -76,8 +76,8 @@ export default {
       })
     },
     /**
-     * 从持久化数据读取菜单源数据,
-     * @param state vuex state
+     * 从持久化数据读取菜单源数据
+     * @param {Object} state vuex state
      * @returns {Promise<void>}
      */
     async sourceDataLoad(state) {
@@ -88,37 +88,6 @@ export default {
         defaultValue: [],
         user: true
       })
-
-      const arrayToTree = () => {
-        let source = []
-        let tree = { header: [], aside: [], router: [] }
-
-        state.sourceData.forEach(value => {
-          source[value.menu_id] = value
-        })
-
-        for (let index in source) {
-          console.log(index)
-        }
-
-        return tree
-      }
-
-      // 将源数据实际转换成树
-      const menu = arrayToTree()
-
-      // 呈现顶栏与侧边菜单,新加载路由
-      if (menu.header.length > 0) {
-        this.commit('careyshop/menu/headerSet', menu.header)
-      }
-
-      if (menu.aside.length > 0) {
-        this.commit('careyshop/menu/asideSet', menu.aside)
-      }
-
-      if (menu.router.length > 0) {
-        this.$router.addRoutes(menu.router)
-      }
     }
   }
 }
