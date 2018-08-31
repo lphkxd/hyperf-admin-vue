@@ -32,20 +32,22 @@ const service = axios.create({
 })
 
 // 请求拦截器
-service.interceptors.request.use(config => {
-  setDefaultParams(config)
-  refreshToken(config)
-  return config
-}, err => {
-  errorLog(err)
-  return Promise.resolve(err)
-})
+service.interceptors.request.use(
+  config => {
+    setDefaultParams(config)
+    refreshToken(config)
+    return config
+  }, err => {
+    errorLog(err)
+    return Promise.resolve(err)
+  }
+)
 
 // 响应拦截器
 service.interceptors.response.use(
   response => {
     const dataAxios = response.data
-    const { status } = dataAxios
+    const { status } = dataAxios // response.data.status
 
     if (status === 200 || response.config.responseType === 'blob') {
       return dataAxios
@@ -123,11 +125,6 @@ function refreshToken(config) {
 
 // 重新授权确认
 function reAuthorize(status) {
-  const token = util.cookies.get('token')
-  if (!token || token === undefined) {
-    return
-  }
-
   if (status === 401 || status === 403) {
     MessageBox.confirm('您的授权已过期或在其他地方登陆，是否重新登陆？', '授权过期', {
       confirmButtonText: '确定',
