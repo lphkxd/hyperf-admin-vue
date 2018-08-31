@@ -126,7 +126,7 @@ function refreshToken(config) {
 // 重新授权确认
 function reAuthorize(status) {
   if (status === 401 || status === 403) {
-    MessageBox.confirm('您的授权已过期或在其他地方登陆，是否重新登陆？', '授权过期', {
+    MessageBox.confirm('您的授权已过期或在其他地方登录，是否重新登录？', '授权过期', {
       confirmButtonText: '确定',
       cancelButtonText: '取消',
       type: 'warning'

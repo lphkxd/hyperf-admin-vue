@@ -23,7 +23,7 @@ const frameIn = [
  * 在主框架之外显示
  */
 const frameOut = [
-  // 登陆
+  // 登录
   {
     path: '/login',
     name: 'login',

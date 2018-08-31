@@ -33,7 +33,7 @@
         size="small"
         :loading="loading"
         @click.native.prevent="handleLogin"
-        class="login-submit">{{loading ? '登陆中' : '登陆'}}
+        class="login-submit">{{loading ? '登 录 中' : '登 录'}}
       </el-button>
     </el-form-item>
   </el-form>
@@ -100,12 +100,12 @@ export default {
       this.passwordType === '' ? (this.passwordType = 'password') : (this.passwordType = '')
     },
     /**
-     * @description 正式登陆
+     * @description 正式登录
      */
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-          // 登陆,暂时没有对验证码进行处理
+          // 登录,暂时没有对验证码进行处理
           this.loading = true
           this.login({
             vm: this,

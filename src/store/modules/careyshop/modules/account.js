@@ -6,7 +6,7 @@ export default {
   namespaced: true,
   actions: {
     /**
-     * @description 登陆
+     * @description 登录
      * @param {Object} param context
      * @param {Object} param vm {Object} vue 实例
      * @param {Object} param username {String} 用户账号
@@ -43,7 +43,7 @@ export default {
       })
     },
     /**
-     * @description 注销用户并返回登陆页面
+     * @description 注销用户并返回登录页面
      * @param {Object} param context
      * @param {Object} param vm {Object} vue 实例
      * @param {Object} param confirm {Boolean} 是否需要确认
@@ -86,7 +86,7 @@ export default {
   },
   mutations: {
     /**
-     * @description 用户登陆后从持久化数据加载一系列的设置
+     * @description 用户登录后从持久化数据加载一系列的设置
      * @param {Object} state vuex state
      */
     load(state) {
