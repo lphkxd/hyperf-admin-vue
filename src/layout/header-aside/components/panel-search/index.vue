@@ -82,7 +82,7 @@ export default {
        * @description 过滤选项 这个方法在每次输入框的值发生变化时会触发
        */
     querySearch(queryString, callback) {
-      var pool = this.pool
+      let pool = this.pool
       const results = this.query(queryString ? pool : [], queryString)
       this.results = results
       callback(results)

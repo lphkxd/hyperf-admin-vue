@@ -41,6 +41,9 @@ export default {
         this.$refs.panelSearch.focus()
       }
     },
+    /**
+     * 打开搜索面板
+     */
     searchPanelOpen() {
       if (!this.searchActive) {
         this.searchSet(true)

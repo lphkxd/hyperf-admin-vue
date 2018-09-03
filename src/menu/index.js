@@ -4,7 +4,7 @@ export const menuHeader = [
   //   path: '/index',
   //   title: '首页',
   //   icon: 'home'
-  // }
+  // },
   // {
   //   /* path: '/goods', */
   //   title: '商品',

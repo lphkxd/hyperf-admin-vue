@@ -1,5 +1,4 @@
 import Vue from 'vue'
-
 import csContainer from './cs-container'
 
 // 注意 有些组件使用异步加载会有影响

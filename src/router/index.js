@@ -29,9 +29,13 @@ router.beforeEach((to, from, next) => {
 
   // 检测当前路由是否需要验证
   if (to.matched.some(r => r.meta.requiresAuth)) {
-    if (token) {
+    if (token && token !== undefined) {
       next()
     } else {
+      // 将当前预计打开的页面完整地址临时存储 登录后继续跳转
+      // 这个 cookie(redirect) 会在登录后自动删除
+      util.cookies.set('redirect', to.fullPath)
+
       next({ name: 'login' })
       NProgress.done()
     }
