@@ -3,7 +3,7 @@ import util from '@/utils/util'
 export default {
   methods: {
     handleMenuSelect(index, indexPath) {
-      if (/^cs-menu-empty-\d+$/.test(index)) {
+      if (/^cs-menu-empty-\d+$/.test(index) || index === undefined) {
         this.$message.warning('临时菜单')
       } else if (/^https:\/\/|http:\/\//.test(index)) {
         util.open(index)

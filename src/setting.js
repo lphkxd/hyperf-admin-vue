@@ -1,6 +1,14 @@
 import { version } from '../package.json'
 
 const setting = {
+  // 快捷键
+  // 支持快捷键 例如 ctrl+shift+s
+  hotkey: {
+    search: {
+      open: 's',
+      close: 'esc'
+    }
+  },
   // 侧边栏默认折叠状态
   menu: {
     asideCollapse: false
@@ -21,6 +29,10 @@ const setting = {
   releases: {
     version: version,
     api: 'https://api.github.com/repos/dnyz520/careyshop/releases/latest'
+  },
+  // 菜单搜索
+  search: {
+    enable: true
   },
   // 注册的主题
   theme: {

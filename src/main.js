@@ -7,7 +7,7 @@ import careyshop from '@/plugin/careyshop'
 
 // 菜单和路由设置
 import router from './router'
-import { menuAside } from '@/menu'
+import { menuAside, menuHeader } from '@/menu'
 // import { frameInRoutes } from '@/router/routes'
 
 // 核心插件
@@ -22,6 +22,8 @@ new Vue({
     // this.$store.commit('careyshop/page/init', frameInRoutes)
     // 设置顶栏菜单
     // this.$store.commit('careyshop/menu/headerSet', menuHeader)
+    // 初始化菜单搜索功能
+    this.$store.commit('careyshop/search/init', menuHeader)
   },
   mounted() {
     // 展示系统信息

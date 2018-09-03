@@ -33,7 +33,7 @@
         size="small"
         :loading="loading"
         @click.native.prevent="handleLogin"
-        class="login-submit">{{loading ? '登 录 中' : '登 录'}}
+        class="login-submit">登 录
       </el-button>
     </el-form-item>
   </el-form>

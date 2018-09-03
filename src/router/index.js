@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
+import store from '@/store'
 import util from '@/utils/util'
 import routes from './routes'
 
@@ -22,6 +23,9 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   NProgress.start()
   const token = util.cookies.get('token')
+
+  // 关闭搜索面板
+  store.commit('careyshop/search/set', false)
 
   // 检测当前路由是否需要验证
   if (to.matched.some(r => r.meta.requiresAuth)) {
