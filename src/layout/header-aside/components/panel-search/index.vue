@@ -1,9 +1,7 @@
 <template>
   <div class="panel-search" flex="dir:top">
     <div class="panel-search__input-group" flex-box="0" flex="dir:top main:center cross:center">
-      <cs-icon-svg
-        class="panel-search__logo"
-        name="cs-admin-text"/>
+      <img :src="`${$baseUrl}image/theme/${themeActiveSetting.name}/logo/all.png`" class="panel-search__logo">
       <el-autocomplete
         class="panel-search__input"
         ref="input"
@@ -18,10 +16,10 @@
         <cs-panel-search-item slot-scope="{ item }" :item="item"/>
       </el-autocomplete>
       <div class="panel-search__tip">
-        您可以使用快捷键
-        <span class="panel-search__key">{{hotkey.open}}</span>
+        您可以使用按键
+        <el-button class="panel-search__key" type="text">{{hotkey.open}}</el-button>
         唤醒搜索面板，按
-        <span class="panel-search__key">{{hotkey.close}}</span>
+        <el-button class="panel-search__key" type="text" @click="handleEsc">{{hotkey.close}}</el-button>
         关闭
       </div>
     </div>
@@ -45,7 +43,7 @@
 
 <script>
 import Fuse from 'fuse.js'
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import mixin from '../mixin/menu'
 export default {
   mixins: [
@@ -65,6 +63,9 @@ export default {
       'hotkey',
       'pool'
     ]),
+    ...mapGetters('careyshop', {
+      themeActiveSetting: 'theme/activeSetting'
+    }),
     // 这份数据是展示在搜索面板下面的
     resultsList() {
       return (this.results.length === 0 && this.searchText === '') ? this.pool.map(e => ({
@@ -175,7 +176,6 @@ export default {
     .panel-search__input-group {
       height: 240px;
       .panel-search__logo {
-        width: 80px;
         height: 80px;
         margin-bottom: 20px;
       }
@@ -183,11 +183,10 @@ export default {
         width: 500px;
       }
       .panel-search__tip {
-        @extend %unable-select;
         margin-top: 20px;
         margin-bottom: 40px;
-        font-size: 12px;
-        color: $color-text-sub;
+        font-size: 13px;
+        color: $color-text-placehoder;
         .panel-search__key {
           padding: 1px 5px;
           margin: 0px 2px;
