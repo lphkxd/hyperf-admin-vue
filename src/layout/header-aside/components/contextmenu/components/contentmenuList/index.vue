@@ -8,14 +8,8 @@
       :data-value="item.value"
       class="cs-contentmenu-item"
       flex="cross:center main:center">
-      <cs-icon
-        v-if="item.icon"
-        :name="item.icon"/>
-      <div
-        class="cs-contentmenu-item-title"
-        flex-box="1">
-        {{item.title}}
-      </div>
+      <cs-icon v-if="item.icon" :name="item.icon"/>
+      <div class="cs-contentmenu-item-title" flex-box="1">{{item.title}}</div>
     </div>
   </div>
 </template>

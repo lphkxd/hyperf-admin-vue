@@ -108,19 +108,13 @@
       label="错误类型"
       width="140px"
       :show-overflow-tooltip="true">
-      <template
-        slot-scope="scope">
-        {{get(scope.row.err, 'name', '')}}
-      </template>
+      <template slot-scope="scope">{{get(scope.row.err, 'name', '')}}</template>
     </el-table-column>
 
     <el-table-column
       label="错误信息"
       width="300px">
-      <template
-        slot-scope="scope">
-        {{get(scope.row.err, 'message', '')}}
-      </template>
+      <template slot-scope="scope">{{get(scope.row.err, 'message', '')}}</template>
     </el-table-column>
 
   </el-table>
