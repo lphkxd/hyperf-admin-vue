@@ -39,23 +39,9 @@
     "babel-jest": "^23.0.1",
     "chai": "^4.1.2",
     "eslint-plugin-html": "^4.0.5",
-    "lint-staged": "^7.2.0",
     "node-sass": "^4.9.0",
     "sass-loader": "^7.1.0",
     "svg-sprite-loader": "^3.9.2",
     "vue-template-compiler": "^2.5.17"
-  },
-  "gitHooks": {
-    "pre-commit": "lint-staged"
-  },
-  "lint-staged": {
-    "*.js": [
-      "vue-cli-service lint",
-      "git add"
-    ],
-    "*.vue": [
-      "vue-cli-service lint",
-      "git add"
-    ]
   }
 }
