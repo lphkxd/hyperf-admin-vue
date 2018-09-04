@@ -30,7 +30,7 @@ export default {
 @import '~@/assets/style/public.scss';
 .cs-page-cover {
   @extend %full;
-  @extend %unable-select;
+  //@extend %unable-select;
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;

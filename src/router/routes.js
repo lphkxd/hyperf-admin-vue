@@ -1,5 +1,7 @@
 import layoutHeaderAside from '@/layout/header-aside'
 
+export const meta = { requiresAuth: true }
+
 /**
  * 在主框架内显示
  */
@@ -12,11 +14,11 @@ const frameIn = [
       {
         path: 'index',
         name: 'index',
-        meta: { requiresAuth: true },
+        meta,
         component: () => import('@/views/index')
       }
     ]
-  }// ,
+  }
   // {
   //   path: '/system',
   //   name: 'system',

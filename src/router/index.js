@@ -22,10 +22,8 @@ const router = new VueRouter({
  */
 router.beforeEach((to, from, next) => {
   NProgress.start()
+  store.commit('careyshop/search/set', false) // 关闭搜索面板
   const token = util.cookies.get('token')
-
-  // 关闭搜索面板
-  store.commit('careyshop/search/set', false)
 
   // 检测当前路由是否需要验证
   if (to.matched.some(r => r.meta.requiresAuth)) {
