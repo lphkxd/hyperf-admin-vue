@@ -48,7 +48,7 @@ function formatDataToTree(arr) {
     }
   })
 
-  console.log(mappedArr)
+  // console.log(mappedArr)
   return tree
 }
 
