@@ -91,7 +91,7 @@ export default {
       })
 
       // 处理顶栏菜单、侧边菜单、路由、功能搜索
-      menu.install(state.sourceData)
+      menu.install(this, state.sourceData)
     }
   }
 }

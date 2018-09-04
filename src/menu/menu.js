@@ -1,5 +1,3 @@
-// import store from '@/store'
-
 // function formatDataToTree(arr) {
 //   let tree = []
 //   // let mappedArr = {}
@@ -31,8 +29,41 @@
 //   return tree
 // }
 
+function formatDataToTree(arr) {
+  let mappedArr = {}
+  const tree = { header: [], aside: [], frameIn: [] }
+
+  arr.forEach(value => {
+    if (value.parent_id === 0 && value.is_navi === 1) {
+      tree.header.push({
+        path: value.url,
+        title: value.name,
+        icon: value.icon
+      })
+    }
+
+    // 创建映射副本
+    mappedArr[value.menu_id] = {
+      // TODO:未完成
+    }
+  })
+
+  console.log(mappedArr)
+  return tree
+}
+
 export default {
-  install(source) {
-    console.log(source)
+  install(vm, source) {
+    // 获取顶栏、侧边、路由数据
+    const tree = formatDataToTree(source)
+
+    if (tree.header.length > 0) {
+      vm.commit('careyshop/menu/headerSet', tree.header)
+    }
+
+    if (tree.aside.length > 0) {
+      vm.commit('careyshop/menu/asideSet', tree.aside)
+      vm.commit('careyshop/search/init', tree.aside)
+    }
   }
 }
