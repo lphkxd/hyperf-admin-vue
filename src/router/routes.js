@@ -23,14 +23,14 @@ const frameIn = [
   //   path: '/system',
   //   name: 'system',
   //   meta,
-  //   redirect: { name: 'system-index' },
+  //   redirect: { name: 'system-admin-member' },
   //   component: layoutHeaderAside,
   //   children: [
   //     {
   //       path: 'admin/member',
   //       name: 'system-admin-member',
-  //       component: () => import('@/views/system/test'),
-  //       meta: { ...meta, title: '管理员列表' }
+  //       meta: { ...meta, title: '管理员列表' },
+  //       component: () => import('@/views/system/test')
   //     }
   //   ]
   // }

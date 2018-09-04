@@ -26,7 +26,7 @@ export const menuHeader = [
   //   icon: 'user-o'
   // },
   // {
-  //   path: '/system/admin/member',
+  //   path: '/system',
   //   title: '系统',
   //   icon: 'server'
   // },
