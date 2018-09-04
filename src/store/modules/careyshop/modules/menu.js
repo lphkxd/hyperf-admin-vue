@@ -1,4 +1,5 @@
 import setting from '@/setting'
+import menu from '@/menu/menu'
 
 export default {
   namespaced: true,
@@ -88,6 +89,9 @@ export default {
         defaultValue: [],
         user: true
       })
+
+      // 处理顶栏菜单、侧边菜单、路由、功能搜索
+      menu.install(state.sourceData)
     }
   }
 }
