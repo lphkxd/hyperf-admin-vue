@@ -1,69 +1,102 @@
-// function formatDataToTree(arr) {
-//   let tree = []
-//   // let mappedArr = {}
-//   // // let mappedElem
-//   //
-//   // // First map the nodes of the array to an object -> create a hash table.
-//   // arr.forEach(value => {
-//   // })
-//   //
-//   // // console.log(mappedArr)
-//   //
-//   // // for (var i = 0, len = arr.length; i < len; i++) {
-//   // //   arrElem = arr[i]
-//   // //   mappedArr[arrElem.menu_id] = arrElem
-//   // //   mappedArr[arrElem.menu_id]['childrens'] = []
-//   // // }
-//   //
-//   // // for (var id in mappedArr) {
-//   // //   if (mappedArr.hasOwnProperty(id)) {
-//   // //     mappedElem = mappedArr[id]
-//   // //     if (mappedElem.parent_id) {
-//   // //       mappedArr[mappedElem['parent_id']]['childrens'].push(mappedElem)
-//   // //     } else {
-//   // //       tree.push(mappedElem)
-//   // //     }
-//   // //   }
-//   // // }
-//
-//   return tree
-// }
+// import layoutHeaderAside from '@/layout/header-aside'
 
+/**
+ * 将任意对象转化为树
+ * @param arr
+ * @returns {Array}
+ */
 function formatDataToTree(arr) {
+  let tree = []
   let mappedArr = {}
-  const tree = { header: [], aside: [], frameIn: [] }
 
   arr.forEach(value => {
-    if (value.parent_id === 0 && value.is_navi === 1) {
-      tree.header.push({
-        path: value.url,
-        title: value.name,
-        icon: value.icon
-      })
-    }
-
-    // 创建映射副本
-    mappedArr[value.menu_id] = {
-      // TODO:未完成
-    }
+    mappedArr[value.menu_id] = { ...value }
   })
 
-  // console.log(mappedArr)
+  for (let id in mappedArr) {
+    if (!mappedArr.hasOwnProperty(id)) {
+      continue
+    }
+
+    if (mappedArr[id].parent_id) {
+      mappedArr[mappedArr[id].parent_id]['children'].push(mappedArr[id])
+    } else {
+      tree.push(mappedArr[id])
+    }
+  }
+
   return tree
+}
+
+/**
+ * 将数据源处理为菜单树
+ * @param arr
+ * @returns {{header: Array, aside: Array}}
+ */
+function getMenuData(arr) {
+  let tree = { header: [], aside: [] }
+  arr.forEach(value => {
+    if (!value.is_navi) {
+      return
+    }
+
+    let arrElem = {
+      path: value.url,
+      title: value.name,
+      icon: value.icon
+    }
+
+    // 储存顶部数据
+    if (value.parent_id === 0) {
+      tree.header.push({ ...arrElem })
+    }
+
+    arrElem['menu_id'] = value.menu_id
+    arrElem['parent_id'] = value.parent_id
+    if (value.children_total) {
+      arrElem['children'] = []
+    }
+
+    tree.aside.push(arrElem)
+  })
+
+  tree.aside = formatDataToTree(tree.aside)
+  return tree
+}
+
+function getRoutesData(arr) {
+  let tree = []
+  arr.forEach(value => {
+    const params = value.params ? JSON.parse(value.params) : null
+    if (!params) {
+      return
+    }
+
+    let arrElem = {
+      path: params.path,
+      name: params.name,
+      meta: { requiresAuth: true }
+    }
+
+    console.log(arrElem)
+  })
+
+  return formatDataToTree(tree)
 }
 
 export default {
   install(vm, source) {
-    // 获取顶栏、侧边、路由数据
-    const tree = formatDataToTree(source)
-
-    if (tree.header.length > 0) {
-      vm.commit('careyshop/menu/headerSet', tree.header)
-    }
-
-    if (tree.aside.length > 0) {
-      vm.commit('careyshop/menu/asideSet', tree.aside)
-      vm.commit('careyshop/search/init', tree.aside)
-    }
+    // try {
+    //   // 获取顶栏、侧边、路由数据
+    //   const menu = getMenuData(source)
+    //   vm.commit('careyshop/menu/headerSet', menu.header)
+    //   vm.commit('careyshop/search/init', menu.aside)
+    //   vm.commit('careyshop/menu/asideSet', menu.aside)
+    //
+    //   const routes = getRoutesData(source)
+    //   console.log(routes)
+    // } catch (err) {
+    //   console.log(err)
+    // }
   }
 }

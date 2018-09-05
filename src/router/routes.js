@@ -1,7 +1,5 @@
 import layoutHeaderAside from '@/layout/header-aside'
 
-export const meta = { requiresAuth: true }
-
 /**
  * 在主框架内显示
  */
@@ -14,7 +12,7 @@ const frameIn = [
       {
         path: 'index',
         name: 'index',
-        meta,
+        meta: { requiresAuth: true },
         component: () => import('@/views/index')
       }
     ]
@@ -22,14 +20,14 @@ const frameIn = [
   // {
   //   path: '/system',
   //   name: 'system',
-  //   meta,
+  //   meta: { requiresAuth: true },
   //   redirect: { name: 'system-admin-member' },
   //   component: layoutHeaderAside,
   //   children: [
   //     {
   //       path: 'admin/member',
   //       name: 'system-admin-member',
-  //       meta: { ...meta, title: '管理员列表' },
+  //       meta: { requiresAuth: true, title: '管理员列表' },
   //       component: () => import('@/views/system/test')
   //     }
   //   ]
