@@ -35,7 +35,8 @@ export default {
   watch: {
     '$route.matched': {
       handler(val) {
-        this.active = val[val.length - 1].path
+        const menu = val[val.length - 1]
+        this.active = menu.parent.path ? menu.parent.path : menu.path
       },
       immediate: true
     }

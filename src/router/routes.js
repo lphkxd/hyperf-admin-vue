@@ -16,22 +16,22 @@ const frameIn = [
         component: () => import('@/views/index')
       }
     ]
+  },
+  {
+    path: '/system',
+    name: 'system',
+    meta: { requiresAuth: true },
+    redirect: { name: 'system-admin-member' },
+    component: layoutHeaderAside,
+    children: [
+      {
+        path: 'admin/member',
+        name: 'system-admin-member',
+        meta: { requiresAuth: true, title: '管理员列表' },
+        component: () => import('@/views/system/test')
+      }
+    ]
   }
-  // {
-  //   path: '/system',
-  //   name: 'system',
-  //   meta: { requiresAuth: true },
-  //   redirect: { name: 'system-admin-member' },
-  //   component: layoutHeaderAside,
-  //   children: [
-  //     {
-  //       path: 'admin/member',
-  //       name: 'system-admin-member',
-  //       meta: { requiresAuth: true, title: '管理员列表' },
-  //       component: () => import('@/views/system/test')
-  //     }
-  //   ]
-  // }
 ]
 
 /**

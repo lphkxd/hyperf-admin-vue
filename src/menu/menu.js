@@ -86,17 +86,17 @@ function getRoutesData(arr) {
 
 export default {
   install(vm, source) {
-    // try {
-    //   // 获取顶栏、侧边、路由数据
-    //   const menu = getMenuData(source)
-    //   vm.commit('careyshop/menu/headerSet', menu.header)
-    //   vm.commit('careyshop/search/init', menu.aside)
-    //   vm.commit('careyshop/menu/asideSet', menu.aside)
-    //
-    //   const routes = getRoutesData(source)
-    //   console.log(routes)
-    // } catch (err) {
-    //   console.log(err)
-    // }
+    try {
+      // 获取顶栏、侧边、路由数据
+      const menu = getMenuData(source)
+      vm.commit('careyshop/menu/headerSet', menu.header)
+      vm.commit('careyshop/menu/asideSet', menu.aside)
+      vm.commit('careyshop/search/init', menu.aside)
+
+      // const routes = getRoutesData(source)
+      // console.log(routes)
+    } catch (err) {
+      console.log(err)
+    }
   }
 }

@@ -113,7 +113,8 @@ export default {
             password: this.loginForm.password
           }).then(() => {
             this.$store.commit('careyshop/account/load')
-            this.$router.go(-1)
+            const path = util.cookies.get('redirect')
+            this.$router.replace(path ? { path } : { path: '/' })
           }).catch(err => {
             this.loading = false
             this.$message.error(err)
