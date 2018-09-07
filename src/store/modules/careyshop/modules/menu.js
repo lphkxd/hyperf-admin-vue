@@ -1,5 +1,5 @@
 import setting from '@/setting'
-import menu from '@/menu/menu'
+import menu from '@/menu'
 
 export default {
   namespaced: true,
