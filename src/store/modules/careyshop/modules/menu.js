@@ -90,7 +90,7 @@ export default {
         user: true
       })
 
-      // 处理顶栏菜单、侧边菜单、路由、功能搜索
+      // 处理顶栏菜单、侧边菜单、功能搜索
       menu.install(this, state.sourceData)
     }
   }

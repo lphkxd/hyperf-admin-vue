@@ -1,40 +1,10 @@
-import layoutHeaderAside from '@/layout/header-aside'
-import router from '@/router'
-import frameIn from '@/router/routes'
+import util from '@/utils/util'
 
 // 菜单 顶栏
 export const menuHeader = []
 
 // 菜单 侧边栏
 export const menuAside = []
-
-/**
- * 将任意对象转化为树
- * @param arr
- * @returns {Array}
- */
-function formatDataToTree(arr) {
-  let tree = []
-  let mappedArr = {}
-
-  arr.forEach(value => {
-    mappedArr[value.menu_id] = { ...value }
-  })
-
-  for (let id in mappedArr) {
-    if (!mappedArr.hasOwnProperty(id)) {
-      continue
-    }
-
-    if (mappedArr[id].parent_id) {
-      mappedArr[mappedArr[id].parent_id]['children'].push(mappedArr[id])
-    } else {
-      tree.push(mappedArr[id])
-    }
-  }
-
-  return tree
-}
 
 /**
  * 将数据源处理为菜单树
@@ -63,87 +33,15 @@ function getMenuData(arr) {
     tree.aside.push(arrElem)
   })
 
-  tree.aside = formatDataToTree(tree.aside)
+  tree.aside = util.formatDataToTree(tree.aside)
   return tree
-}
-
-function getRoutesData(arr) {
-  let tree = []
-  arr.forEach(value => {
-    const params = value.params ? JSON.parse(value.params) : null
-    if (!params) {
-      return
-    }
-
-    let arrElem = {
-      menu_id: value.menu_id,
-      parent_id: value.parent_id,
-      path: params.path,
-      name: params.name,
-      meta: { requiresAuth: true, title: value.name }
-    }
-
-    if (value.parent_id === 0) {
-      arrElem['component'] = layoutHeaderAside
-    } else {
-      arrElem['component'] = () => import(`${params.component}`)
-    }
-
-    if (params.redirect) {
-      arrElem['redirect'] = params.redirect
-    }
-
-    if (value.children_total) {
-      arrElem['children'] = []
-    }
-
-    tree.push(arrElem)
-  })
-
-  return formatDataToTree(tree)
 }
 
 export default {
   install(vm, source) {
-    // try {
-    // 获取顶栏、侧边、路由数据
     const menu = getMenuData(source)
     vm.commit('careyshop/menu/headerSet', menu.header)
     vm.commit('careyshop/menu/asideSet', menu.aside)
     vm.commit('careyshop/search/init', menu.aside)
-
-    const routes = getRoutesData(source)
-    console.log(JSON.stringify(routes))
-    const test = [
-      {
-        path: '/system',
-        redirect: { name: 'system-admin-member' },
-        component: layoutHeaderAside,
-        children: [
-          {
-            path: 'admin',
-            name: 'system-admin',
-            meta: { requiresAuth: true, title: '人员管理' },
-            component: () => import('@/views/index'),
-            children: [
-              {
-                path: 'member',
-                name: 'system-admin-member',
-                meta: { requiresAuth: true, title: '管理员列表' },
-                component: () => import('@/views/system/test.vue')
-              }
-            ]
-          }
-        ]
-      }
-    ]
-    // console.log(routes)
-    router.addRoutes(test)
-    vm.commit('careyshop/page/init', test)
-
-    // console.log(menu, routes)
-    // } catch (err) {
-    //   console.log(err)
-    // }
   }
 }

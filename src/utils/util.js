@@ -34,7 +34,7 @@ util.open = function(url) {
  * @param date
  * @returns {string}
  */
-util.randomLenNum = function randomLenNum(len, date) {
+util.randomLenNum = function(len, date) {
   let random
   random = Math.ceil(Math.random() * 100000000000000).toString().substr(0, len || 4)
   if (date) random = random + Date.now()
@@ -46,12 +46,40 @@ util.randomLenNum = function randomLenNum(len, date) {
  * @param str
  * @returns {*}
  */
-util.md5 = function md5(str) {
+util.md5 = function(str) {
   let crypto = require('crypto')
   let md5 = crypto.createHash('md5')
 
   md5.update(str)
   return md5.digest('hex')
+}
+
+/**
+ * 将任意对象转化为树
+ * @param arr
+ * @returns {Array}
+ */
+util.formatDataToTree = function(arr) {
+  let tree = []
+  let mappedArr = {}
+
+  arr.forEach(value => {
+    mappedArr[value.menu_id] = { ...value }
+  })
+
+  for (let id in mappedArr) {
+    if (!mappedArr.hasOwnProperty(id)) {
+      continue
+    }
+
+    if (mappedArr[id].parent_id) {
+      mappedArr[mappedArr[id].parent_id]['children'].push(mappedArr[id])
+    } else {
+      tree.push(mappedArr[id])
+    }
+  }
+
+  return tree
 }
 
 export default util

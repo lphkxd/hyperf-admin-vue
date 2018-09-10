@@ -1,5 +1,7 @@
 import layoutHeaderAside from '@/layout/header-aside'
 
+const meta = { requiresAuth: true }
+
 /**
  * 在主框架内显示
  */
@@ -9,7 +11,7 @@ const frameIn = [
     redirect: { name: 'index' },
     component: layoutHeaderAside,
     children: [
-      { path: 'index', name: 'index', meta: { requiresAuth: true }, component: () => import('@/views/index') }
+      { path: 'index', name: 'index', meta, component: () => import('@/views/index') }
     ]
   }
 ]
