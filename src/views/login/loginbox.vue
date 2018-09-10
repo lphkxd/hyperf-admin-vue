@@ -115,9 +115,8 @@ export default {
             this.$store.commit('careyshop/account/load')
             const path = util.cookies.get('redirect')
             this.$router.replace(path ? { path } : { path: '/' })
-          }).catch(err => {
+          }).catch(() => {
             this.loading = false
-            this.$message.error(err)
           })
         }
       })

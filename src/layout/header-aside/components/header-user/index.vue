@@ -23,6 +23,8 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import { clearCacheAll, setSystemOptimize } from '@/api/index'
+
 export default {
   computed: {
     ...mapState('careyshop/user', [
@@ -46,11 +48,19 @@ export default {
      * 清空缓存
      */
     clearCache() {
+      clearCacheAll()
+        .then(() => {
+          this.$message.success('缓存更新成功')
+        })
     },
     /**
      * 最优设置
      */
     systemOptimize() {
+      setSystemOptimize()
+        .then(() => {
+          this.$message.success('正式环境下已调至最优状态')
+        })
     }
   }
 }
