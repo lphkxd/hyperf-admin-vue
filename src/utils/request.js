@@ -15,7 +15,7 @@ function errorLog(err) {
   Message({
     message: err.message,
     type: 'error',
-    duration: 5 * 1000
+    duration: 3 * 1000
   })
   // 添加到日志
   store.dispatch('careyshop/log/add', {
