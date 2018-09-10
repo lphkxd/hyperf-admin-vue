@@ -1,14 +1,14 @@
 <template>
   <cs-container>
     <template slot="header">header</template>
-    Hello World
+    Hello Rule
     <template slot="footer">footer</template>
   </cs-container>
 </template>
 
 <script>
 export default {
-  name: 'test'
+  name: 'rule'
 }
 </script>
 

@@ -13,6 +13,37 @@ const frameIn = [
     children: [
       { path: 'index', name: 'index', meta, component: () => import('@/views/index') }
     ]
+  },
+  {
+    path: '/system',
+    redirect: { name: 'system-admin-member' },
+    component: layoutHeaderAside,
+    children: (pre => [
+      {
+        path: 'admin/member',
+        name: `${pre}admin-member`,
+        meta: { ...meta, title: '管理员列表' },
+        component: () => import('@/views/system/admin/member')
+      },
+      {
+        path: 'auth/group',
+        name: `${pre}auth-group`,
+        meta: { ...meta, title: '用户组' },
+        component: () => import('@/views/system/auth/group')
+      },
+      {
+        path: 'auth/rule',
+        name: `${pre}auth-rule`,
+        meta: { ...meta, title: '权限规则' },
+        component: () => import('@/views/system/auth/rule')
+      },
+      {
+        path: 'auth/menu',
+        name: `${pre}auth-menu`,
+        meta: { ...meta, title: '菜单管理' },
+        component: () => import('@/views/system/auth/menu')
+      }
+    ])('system-')
   }
 ]
 
