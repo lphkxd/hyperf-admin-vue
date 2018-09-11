@@ -45,6 +45,7 @@
 import Fuse from 'fuse.js'
 import { mapState, mapGetters } from 'vuex'
 import mixin from '../mixin/menu'
+
 export default {
   mixins: [
     mixin
@@ -76,8 +77,8 @@ export default {
   },
   methods: {
     /**
-       * @description 过滤选项 这个方法在每次输入框的值发生变化时会触发
-       */
+     * @description 过滤选项 这个方法在每次输入框的值发生变化时会触发
+     */
     querySearch(queryString, callback) {
       let pool = this.pool
       const results = this.query(queryString ? pool : [], queryString)
@@ -85,10 +86,10 @@ export default {
       callback(results)
     },
     /**
-       * @description 指定的数据源中根据指定的查询字符串过滤数据
-       * @param {Object} pool 需要过滤的数据
-       * @param {String} queryString 查询字符串
-       */
+     * @description 指定的数据源中根据指定的查询字符串过滤数据
+     * @param {Object} pool 需要过滤的数据
+     * @param {String} queryString 查询字符串
+     */
     query(pool, queryString) {
       return new Fuse(pool, {
         shouldSort: true,
@@ -110,8 +111,8 @@ export default {
         }))
     },
     /**
-       * @description 聚焦输入框
-       */
+     * @description 聚焦输入框
+     */
     focus() {
       this.input = ''
       setTimeout(() => {
@@ -122,8 +123,8 @@ export default {
       }, 500)
     },
     /**
-       * @description 接收用户在列表中选择项目的事件
-       */
+     * @description 接收用户在列表中选择项目的事件
+     */
     handleResultsGroupItemClick(path) {
       // 如果用户选择的就是当前页面 就直接关闭搜索面板
       if (path === this.$route.path) {
@@ -134,8 +135,8 @@ export default {
       this.handleMenuSelect(path)
     },
     /**
-       * @description 接收用户在下拉菜单中选中事件
-       */
+     * @description 接收用户在下拉菜单中选中事件
+     */
     handleSelect({ path }) {
       // 如果用户选择的就是当前页面 就直接关闭搜索面板
       if (path === this.$route.path) {
@@ -148,8 +149,8 @@ export default {
       })
     },
     /**
-       * @description 关闭输入框的下拉菜单
-       */
+     * @description 关闭输入框的下拉菜单
+     */
     closeSuggestion() {
       if (this.$refs.input.activated) {
         this.$refs.input.suggestions = []
@@ -157,8 +158,8 @@ export default {
       }
     },
     /**
-       * @description 接收用户触发的关闭
-       */
+     * @description 接收用户触发的关闭
+     */
     handleEsc() {
       this.closeSuggestion()
       this.$nextTick(() => {
@@ -171,6 +172,7 @@ export default {
 
 <style lang="scss" scoped>
   @import '~@/assets/style/public.scss';
+
   .panel-search {
     margin: 20px;
     .panel-search__input-group {

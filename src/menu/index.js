@@ -19,13 +19,19 @@ function getMenuData(arr) {
     }
 
     // 储存顶部数据
-    let arrElem = { path: value.url, title: value.name, icon: value.icon }
+    let arrElem = {
+      path: value.url,
+      title: value.name,
+      icon: value.icon
+    }
+
     if (value.parent_id === 0) {
       tree.header.push({ ...arrElem })
     }
 
     arrElem['menu_id'] = value.menu_id
     arrElem['parent_id'] = value.parent_id
+
     if (value.children_total) {
       arrElem['children'] = []
     }
