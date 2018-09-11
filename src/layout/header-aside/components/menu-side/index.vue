@@ -59,16 +59,15 @@ export default {
     // 监听路由 控制侧边栏激活状态
     '$route.matched': {
       handler(val) {
-        // TODO:待处理
-        // const _side = this.aside.filter(menu => menu.path === val[0].path)
-        // this.menuAside = _side.length > 0 ? _side[0].children : []
+        const _side = this.aside.filter(menu => menu.path === val[0].path)
+        this.menuAside = _side.length === 1 ? _side[0].children : []
 
-        // this.active = val[val.length - 1].path
-        // this.$nextTick(() => {
-        //   if (this.aside.length > 0) {
-        //     this.$refs.menu.activeIndex = this.active
-        //   }
-        // })
+        this.active = val[val.length - 1].path
+        this.$nextTick(() => {
+          if (this.aside.length > 0) {
+            this.$refs.menu.activeIndex = this.active
+          }
+        })
       },
       immediate: true
     }
