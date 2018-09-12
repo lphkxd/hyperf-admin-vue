@@ -61,6 +61,12 @@ export default {
         .then(() => {
           this.$message.success('正式环境下已调至最优状态')
         })
+    },
+    /**
+     * 修改密码
+     */
+    setPassWord() {
+      console.log('okok')
     }
   }
 }
