@@ -27,7 +27,8 @@ npm run test:unit
 ### 演示地址
 demo地址：[https://demo.careyshop.cn/admin/](https://demo.careyshop.cn/admin/ "demo地址")
 
-### 基于框架
-CareyShop Admin 整体架构基于 D2Admin。
+### 后端程序
+本项目后端由 CareyShop 支持，https://github.com/dnyz520/careyshop
 
-https://github.com/d2-projects/d2-admin
+### 基于框架
+<a href="https://github.com/d2-projects/d2-admin" target="_blank"><img src="https://raw.githubusercontent.com/FairyEver/d2-admin/master/doc/image/d2-admin@2x.png" width="200"></a>
