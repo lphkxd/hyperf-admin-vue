@@ -58,13 +58,13 @@ service.interceptors.response.use(
     if (status === 200 || response.config.responseType === 'blob') {
       return dataAxios
     } else {
-      status === 401 ? reAuthorize() : errorCreat(`[status:${status}] ${dataAxios.message}`)
+      status === 401 ? reAuthorize() : errorCreat(dataAxios.message)
       return Promise.reject(dataAxios.message ? dataAxios.message : response)
     }
   },
   error => {
     if (error.response) {
-      error.message = `[status:${error.response.status}] ${error.response.data.message}`
+      error.message = error.response.data.message
     }
     error.response.status === 401 ? reAuthorize() : errorLog(error)
     return Promise.reject(error.response ? error.response.data : error)
