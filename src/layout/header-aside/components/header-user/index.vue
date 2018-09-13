@@ -9,7 +9,7 @@
         <cs-icon name="refresh" class="cs-mr-10"/>清空缓存
       </el-dropdown-item>
       <el-dropdown-item v-has="'/index/help/optimize'" @click.native="systemOptimize">
-        <cs-icon name="magic" class="cs-mr-10"/>最优设置
+        <cs-icon name="magic" class="cs-mr-10"/>优化缓存
       </el-dropdown-item>
       <el-dropdown-item divided @click.native="handleCreate">
         <cs-icon name="keyboard-o" class="cs-mr-10"/>修改密码
