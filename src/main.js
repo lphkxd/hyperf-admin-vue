@@ -12,6 +12,15 @@ import { frameInRoutes } from '@/router/routes'
 // 核心插件
 Vue.use(careyshop)
 
+// v-has
+Vue.directive('has', {
+  bind: function(el, binding) {
+    if (!Vue.prototype.$has(binding.value)) {
+      el.parentNode.removeChild(el)
+    }
+  }
+})
+
 new Vue({
   router,
   store,

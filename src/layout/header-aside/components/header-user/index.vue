@@ -5,10 +5,10 @@
       <el-dropdown-item @click.native="$open('/')">
         <cs-icon name="external-link-square" class="cs-mr-10"/>打开前台
       </el-dropdown-item>
-      <el-dropdown-item divided @click.native="clearCache">
+      <el-dropdown-item v-has="'/index/help/cache'" @click.native="clearCache">
         <cs-icon name="refresh" class="cs-mr-10"/>清空缓存
       </el-dropdown-item>
-      <el-dropdown-item @click.native="systemOptimize">
+      <el-dropdown-item v-has="'/index/help/optimize'" @click.native="systemOptimize">
         <cs-icon name="magic" class="cs-mr-10"/>最优设置
       </el-dropdown-item>
       <el-dropdown-item divided @click.native="handleCreate">
