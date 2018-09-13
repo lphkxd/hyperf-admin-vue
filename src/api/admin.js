@@ -32,3 +32,18 @@ export function logoutAdminUser() {
     }
   })
 }
+
+/**
+ * 修改一个账号密码
+ * @param data
+ */
+export function setAdminPassword(data) {
+  return request({
+    url: '/v1/admin',
+    method: 'post',
+    params: {
+      method: 'set.admin.password'
+    },
+    data
+  })
+}

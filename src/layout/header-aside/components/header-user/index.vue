@@ -11,29 +11,28 @@
       <el-dropdown-item @click.native="systemOptimize">
         <cs-icon name="magic" class="cs-mr-10"/>最优设置
       </el-dropdown-item>
-      <el-dropdown-item divided @click.native="dialogVisible = true">
+      <el-dropdown-item divided @click.native="handleCreate">
         <cs-icon name="keyboard-o" class="cs-mr-10"/>修改密码
       </el-dropdown-item>
       <el-dropdown-item divided @click.native="logOff">
         <cs-icon name="sign-out" class="cs-mr-10"/>退出账号
       </el-dropdown-item>
     </el-dropdown-menu>
-
     <el-dialog title="修改密码" width="600px" :visible.sync="dialogVisible" :append-to-body="true">
-      <el-form :model="form" :rules="passwordOld" ref="form" label-width="80px">
-        <el-form-item label="原密码" prop="passwordOld">
-          <el-input v-model="form.passwordOld" placeholder="原密码"></el-input>
+      <el-form :model="form" :rules="rules" ref="dataForm" label-width="80px">
+        <el-form-item label="原始密码" prop="passwordOld">
+          <el-input v-model="form.passwordOld" @keyup.enter.native="setPassword" type="password" placeholder="原始密码"></el-input>
         </el-form-item>
         <el-form-item label="新密码" prop="password">
-          <el-input v-model="form.password" placeholder="新密码"></el-input>
+          <el-input v-model="form.password" @keyup.enter.native="setPassword" type="password" placeholder="新密码"></el-input>
         </el-form-item>
         <el-form-item label="确认密码" prop="passwordConfirm">
-          <el-input v-model="form.passwordConfirm" placeholder="确认密码"></el-input>
+          <el-input v-model="form.passwordConfirm" @keyup.enter.native="setPassword" type="password" placeholder="确认密码"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        <el-button @click.native="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" :loading="loading" @click.native="setPassword">确 定</el-button>
       </div>
     </el-dialog>
   </el-dropdown>
@@ -42,10 +41,12 @@
 <script>
 import { mapState, mapActions } from 'vuex'
 import { clearCacheAll, setSystemOptimize } from '@/api/index'
+import { setAdminPassword } from '@/api/admin'
 
 export default {
   data() {
     return {
+      loading: false,
       dialogVisible: false,
       form: {
         password: '',
@@ -55,18 +56,37 @@ export default {
       rules: {
         password: [
           {
-            required: true
+            required: true,
+            message: '新密码不能为空',
+            trigger: 'blur'
+          },
+          {
+            min: 6,
+            message: '长度不能少于 6 个字符',
+            trigger: 'blur'
           }
         ],
         passwordConfirm: [
           {
-            required: true
+            required: true,
+            message: '确认密码不能为空',
+            trigger: 'blur'
+          },
+          {
+            min: 6,
+            message: '长度不能少于 6 个字符',
+            trigger: 'blur'
           }
         ],
         passwordOld: [
           {
             required: true,
-            message: '原始密码',
+            message: '原始密码不能为空',
+            trigger: 'blur'
+          },
+          {
+            min: 6,
+            message: '长度不能少于 6 个字符',
             trigger: 'blur'
           }
         ]
@@ -108,6 +128,48 @@ export default {
         .then(() => {
           this.$message.success('正式环境下已调至最优状态')
         })
+    },
+    /**
+     * 初始化成员变量
+     */
+    resetTemp() {
+      this.loading = false
+      this.form = { password: '', passwordConfirm: '', passwordOld: '' }
+    },
+    /**
+     * 创建修改密码对话框
+     */
+    handleCreate() {
+      this.resetTemp()
+      this.dialogVisible = true
+      this.$nextTick(() => {
+        this.$refs['dataForm'].clearValidate()
+      })
+    },
+    /**
+     * 修改密码
+     */
+    setPassword() {
+      this.$refs.dataForm.validate(valid => {
+        if (valid) {
+          this.loading = true
+          const request = {
+            client_id: this.info.admin.admin_id,
+            password_old: this.form.passwordOld,
+            password: this.form.password,
+            password_confirm: this.form.passwordConfirm
+          }
+
+          setAdminPassword(request)
+            .then(() => {
+              this.dialogVisible = false
+              this.$message.success('密码修改成功')
+            })
+            .catch(() => {
+              this.loading = false
+            })
+        }
+      })
     }
   }
 }
