@@ -29,19 +29,19 @@
     "vuex": "^3.0.1"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "3.0.3",
-    "@vue/cli-plugin-eslint": "^3.0.3",
-    "@vue/cli-plugin-unit-mocha": "^3.0.3",
-    "@vue/cli-service": "^3.0.3",
-    "@vue/eslint-config-standard": "^3.0.3",
+    "@vue/cli-plugin-babel": "3.0.4",
+    "@vue/cli-plugin-eslint": "^3.0.4",
+    "@vue/cli-plugin-unit-mocha": "^3.0.4",
+    "@vue/cli-service": "^3.0.4",
+    "@vue/eslint-config-standard": "^3.0.4",
     "@vue/test-utils": "1.0.0-beta.25",
     "babel-core": "^6.26.3",
     "babel-jest": "23.6.0",
-    "chai": "^4.1.2",
-    "eslint-plugin-html": "^4.0.5",
-    "node-sass": "^4.9.0",
+    "chai": "^4.2.0",
+    "eslint-plugin-html": "^4.0.6",
+    "node-sass": "^4.9.3",
     "sass-loader": "^7.1.0",
-    "svg-sprite-loader": "^3.9.2",
+    "svg-sprite-loader": "^4.1.1",
     "vue-template-compiler": "^2.5.17"
   }
 }
