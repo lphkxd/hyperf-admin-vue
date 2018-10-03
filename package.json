@@ -13,7 +13,7 @@
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
     "better-scroll": "^1.12.6",
-    "element-ui": "2.4.7",
+    "element-ui": "2.4.8",
     "flex.css": "^1.1.7",
     "fuse.js": "^3.2.1",
     "hotkeys-js": "3.3.8",
