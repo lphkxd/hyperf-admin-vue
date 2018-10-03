@@ -23,16 +23,6 @@ export default {
       return state.list.filter(l => l.type === 'error').length
     }
   },
-  mutations: {
-    /**
-     * @description 清空日志
-     * @param {Object} state vuex state
-     */
-    clean(state) {
-      // store 赋值
-      state.list = []
-    }
-  },
   actions: {
     /**
      * @description 添加一个日志
@@ -68,6 +58,16 @@ export default {
         vm,
         info: toString(info)
       }))
+    }
+  },
+  mutations: {
+    /**
+     * @description 清空日志
+     * @param {Object} state vuex state
+     */
+    clean(state) {
+      // store 赋值
+      state.list = []
     }
   }
 }

@@ -30,6 +30,7 @@
       class="cs-multiple-page-control-btn"
       flex-box="0">
       <el-dropdown
+        size="default"
         split-button
         @click="handleControlBtnClick"
         @command="command => handleControlItemClick(command)">
@@ -58,7 +59,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 export default {
   components: {
     csContextmenu: () => import('../contextmenu'),
@@ -88,7 +89,7 @@ export default {
     ])
   },
   methods: {
-    ...mapMutations('careyshop/page', [
+    ...mapActions('careyshop/page', [
       'close',
       'closeLeft',
       'closeRight',

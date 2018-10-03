@@ -11,26 +11,28 @@
       <div
         class="cs-theme-header"
         :style="{
-          opacity: this.searchActive ? 0.3 : 1
+          opacity: this.searchActive ? 0.5 : 1
         }"
-        flex-box="0">
-        <div class="logo-group" :style="{width: asideCollapse ? asideWidthCollapse : asideWidth}">
+        flex-box="0"
+        flex>
+        <div class="logo-group" :style="{width: asideCollapse ? asideWidthCollapse : asideWidth}" flex-box="0">
           <a target="blank" href="//www.careyshop.cn/">
             <img v-if="asideCollapse" :src="`${$baseUrl}image/theme/${themeActiveSetting.name}/logo/icon-only.png`">
             <img v-else :src="`${$baseUrl}image/theme/${themeActiveSetting.name}/logo/all.png`">
           </a>
         </div>
-        <div class="toggle-aside-btn" @click="handleToggleAside">
+        <div class="toggle-aside-btn" @click="handleToggleAside" flex-box="0">
           <cs-icon name="bars"/>
         </div>
-        <cs-menu-header/>
+        <cs-menu-header flex-box="1"/>
         <!-- 顶栏右侧 -->
-        <div class="cs-header-right">
+        <div class="cs-header-right" flex-box="0">
           <!-- 如果你只想在开发环境显示这个按钮请添加 v-if="$env === 'development'" -->
           <cs-header-error-log v-if="$env === 'development'"/>
           <cs-header-search @click="handleSearchClick"/>
           <cs-header-fullscreen/>
           <cs-header-theme/>
+          <cs-header-size/>
           <cs-header-user/>
         </div>
       </div>
@@ -43,7 +45,7 @@
           class="cs-theme-container-aside"
           :style="{
             width: asideCollapse ? asideWidthCollapse : asideWidth,
-            opacity: this.searchActive ? 0.3 : 1
+            opacity: this.searchActive ? 0.5 : 1
           }">
           <cs-menu-side/>
         </div>
@@ -81,7 +83,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations } from 'vuex'
+import { mapState, mapGetters, mapActions } from 'vuex'
 import mixinSearch from './mixins/search'
 export default {
   name: 'cs-layout-header-aside',
@@ -94,6 +96,7 @@ export default {
     'cs-tabs': () => import('./components/tabs'),
     'cs-header-fullscreen': () => import('./components/header-fullscreen'),
     'cs-header-search': () => import('./components/header-search'),
+    'cs-header-size': () => import('./components/header-size'),
     'cs-header-theme': () => import('./components/header-theme'),
     'cs-header-user': () => import('./components/header-user'),
     'cs-header-error-log': () => import('./components/header-error-log')
@@ -108,12 +111,12 @@ export default {
   },
   computed: {
     ...mapState('careyshop', {
+      keepAlive: state => state.page.keepAlive,
       grayActive: state => state.gray.active,
       transitionActive: state => state.transition.active,
       asideCollapse: state => state.menu.asideCollapse
     }),
     ...mapGetters('careyshop', {
-      keepAlive: 'page/keepAlive',
       themeActiveSetting: 'theme/activeSetting'
     }),
     /**
@@ -128,14 +131,14 @@ export default {
     }
   },
   methods: {
-    ...mapMutations({
-      menuAsideCollapseToggle: 'careyshop/menu/asideCollapseToggle'
-    }),
+    ...mapActions('careyshop/menu', [
+      'asideCollapseToggle'
+    ]),
     /**
      * 接收点击切换侧边栏的按钮
      */
     handleToggleAside() {
-      this.menuAsideCollapseToggle()
+      this.asideCollapseToggle()
     }
   }
 }

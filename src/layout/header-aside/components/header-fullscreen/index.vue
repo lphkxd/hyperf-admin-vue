@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 export default {
   computed: {
     ...mapState('careyshop/fullscreen', [
@@ -16,7 +16,7 @@ export default {
     ])
   },
   methods: {
-    ...mapMutations('careyshop/fullscreen', [
+    ...mapActions('careyshop/fullscreen', [
       'toggle'
     ])
   }

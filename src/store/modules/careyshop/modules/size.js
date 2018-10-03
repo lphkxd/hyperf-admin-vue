@@ -1,28 +1,26 @@
-import setting from '@/setting'
-
 export default {
   namespaced: true,
   state: {
-    // 用户信息
-    info: setting.user.info
+    // 尺寸
+    value: '' // medium small mini
   },
   actions: {
     /**
-     * @description 设置用户数据
+     * @description 设置尺寸
      * @param state vuex state
      * @param dispatch
-     * @param info
+     * @param size  尺寸
      * @returns {Promise<any>}
      */
-    set({ state, dispatch }, info) {
+    set({ state, dispatch }, size) {
       return new Promise(async resolve => {
         // store 赋值
-        state.info = info
+        state.value = size
         // 持久化
         await dispatch('careyshop/db/set', {
           dbName: 'sys',
-          path: 'user.info',
-          value: info,
+          path: 'size.value',
+          value: state.value,
           user: true
         }, { root: true })
         // end
@@ -30,7 +28,7 @@ export default {
       })
     },
     /**
-     * @description 从数据库取用户数据
+     * @description 从持久化数据读取尺寸设置
      * @param state vuex state
      * @param dispatch
      * @returns {Promise<any>}
@@ -38,10 +36,10 @@ export default {
     load({ state, dispatch }) {
       return new Promise(async resolve => {
         // store 赋值
-        state.info = await dispatch('careyshop/db/get', {
+        state.value = await dispatch('careyshop/db/get', {
           dbName: 'sys',
-          path: 'user.info',
-          defaultValue: setting.user.info,
+          path: 'size.value',
+          defaultValue: 'default',
           user: true
         }, { root: true })
         // end

@@ -1,6 +1,6 @@
 <template>
   <div class="panel-search" flex="dir:top">
-    <div class="panel-search__input-group" flex-box="0" flex="dir:top main:center cross:center">
+    <div class="panel-search__input-group" flex-box="0" flex="dir:top main:center cross:center" @click.self="handlePanelClick">
       <img :src="`${$baseUrl}image/theme/${themeActiveSetting.name}/logo/all.png`" class="panel-search__logo">
       <el-autocomplete
         class="panel-search__input"
@@ -156,6 +156,12 @@ export default {
         this.$refs.input.suggestions = []
         this.$refs.input.activated = false
       }
+    },
+    /**
+     * @description 接收用户点击空白区域的关闭
+     */
+    handlePanelClick() {
+      this.handleEsc()
     },
     /**
      * @description 接收用户触发的关闭

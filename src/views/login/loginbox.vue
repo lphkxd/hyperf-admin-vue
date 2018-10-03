@@ -1,5 +1,5 @@
 <template>
-  <el-form class="login-form" status-icon :rules="loginRules" ref="loginForm" :model="loginForm" label-width="0">
+  <el-form class="login-form" status-icon :rules="loginRules" ref="loginForm" :model="loginForm" label-width="0" size="default">
     <el-form-item prop="username">
       <el-input size="small" @keyup.enter.native="handleLogin" v-model="loginForm.username" auto-complete="off" placeholder="请输入账号">
         <i slot="prefix" class="fa fa-user-circle-o"></i>
@@ -112,7 +112,7 @@ export default {
             username: this.loginForm.username,
             password: this.loginForm.password
           }).then(() => {
-            this.$store.commit('careyshop/account/load')
+            this.$store.dispatch('careyshop/account/load')
             const path = util.cookies.get('redirect')
             this.$router.replace(path ? { path } : { path: '/' })
           }).catch(() => {

@@ -7,18 +7,18 @@ export default {
   actions: {
     /**
      * @description 登录
-     * @param {Object} param context
+     * @param {Object} param dispatch
      * @param {Object} param vm {Object} vue 实例
      * @param {Object} param username {String} 用户账号
      * @param {Object} param password {String} 密码
      */
-    login({ commit }, { vm, username, password }) {
+    login({ dispatch }, { vm, username, password }) {
       return new Promise((resolve, reject) => {
         loginAdminUser(username, password)
           .then(res => {
             util.cookies.set('uuid', res.data.admin.username)
             util.cookies.set('token', res.data.token.token)
-            commit('careyshop/user/set', {
+            dispatch('careyshop/user/set', {
               name: res.data.admin.nickname,
               admin: res.data.admin,
               token: res.data.token
@@ -44,16 +44,16 @@ export default {
     },
     /**
      * @description 注销用户并返回登录页面
-     * @param {Object} param context
+     * @param {Object} param dispatch
      * @param {Object} param vm {Object} vue 实例
      * @param {Object} param confirm {Boolean} 是否需要确认
      */
-    logout({ commit }, { vm, confirm = false }) {
+    logout({ dispatch }, { vm, confirm = false }) {
       // 实际注销操作
       function logout() {
         logoutAdminUser().finally(() => {
           // 删除info
-          commit('careyshop/user/set', {
+          dispatch('careyshop/user/set', {
             name: 'Ghost',
             admin: {},
             token: {}
@@ -82,26 +82,30 @@ export default {
         })
         .catch(() => {
         })
-    }
-  },
-  mutations: {
+    },
     /**
      * @description 用户登录后从持久化数据加载一系列的设置
      * @param {Object} state vuex state
      */
-    load(state) {
-      // DB -> store 加载用户数据
-      this.commit('careyshop/user/load')
-      // DB -> store 加载主题
-      this.commit('careyshop/theme/load')
-      // DB -> store 加载页面过渡效果设置
-      this.commit('careyshop/transition/load')
-      // DB -> store 持久化数据加载上次退出时的多页列表
-      this.commit('careyshop/page/openedLoad')
-      // DB -> store 持久化数据加载这个用户之前设置的侧边栏折叠状态
-      this.commit('careyshop/menu/asideCollapseLoad')
-      // DB -> store 持久化数据读取菜单源数据
-      this.commit('careyshop/menu/sourceDataLoad')
+    load({ commit, dispatch }) {
+      return new Promise(async resolve => {
+        // DB -> store 加载用户数据
+        await dispatch('careyshop/user/load', null, { root: true })
+        // DB -> store 加载主题
+        await dispatch('careyshop/theme/load', null, { root: true })
+        // DB -> store 加载页面过渡效果设置
+        await dispatch('careyshop/transition/load', null, { root: true })
+        // DB -> store 持久化数据加载上次退出时的多页列表
+        await dispatch('careyshop/page/openedLoad', null, { root: true })
+        // DB -> store 持久化数据加载侧边栏折叠状态
+        await dispatch('careyshop/menu/asideCollapseLoad', null, { root: true })
+        // DB -> store 持久化数据加载全局尺寸
+        await dispatch('careyshop/size/load', null, { root: true })
+        // DB -> store 持久化数据读取菜单源数据
+        await dispatch('careyshop/menu/sourceDataLoad', null, { root: true })
+        // end
+        resolve()
+      })
     }
   }
 }

@@ -105,7 +105,7 @@ function refreshToken(config) {
     })
       .then(res => {
         userInfo.token = res.data.token
-        store.commit('careyshop/user/set', userInfo, { root: true })
+        store.dispatch('careyshop/user/set', userInfo, { root: true })
         util.cookies.set('token', res.data.token.token)
       })
       .catch(err => {

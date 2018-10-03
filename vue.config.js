@@ -14,9 +14,10 @@ module.exports = {
   devServer: {
     publicPath: baseUrl // 和 baseUrl 保持一致
   },
-  // webpack 设置
   // 默认设置: https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-service/lib/config/base.js
   chainWebpack: config => {
+    // 解决 cli3 热更新失效
+    config.resolve.symlinks(true)
     // svg
     const svgRule = config.module.rule('svg')
     svgRule.uses.clear()

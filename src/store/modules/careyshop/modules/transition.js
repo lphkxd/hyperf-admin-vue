@@ -6,34 +6,46 @@ export default {
     // 是否开启页面过度动画
     active: setting.transition.active
   },
-  mutations: {
+  actions: {
     /**
      * @description 设置开启状态
-     * @param {Object} state vuex state
-     * @param {Boolean} active 新的状态
+     * @param state vuex state
+     * @param dispatch
+     * @param active  新的状态
+     * @returns {Promise<any>}
      */
-    set(state, active) {
-      // store 赋值
-      state.active = active
-      // 持久化
-      this.dispatch('careyshop/db/set', {
-        dbName: 'sys',
-        path: 'transition.active',
-        value: state.active,
-        user: true
+    set({ state, dispatch }, active) {
+      return new Promise(async resolve => {
+        // store 赋值
+        state.active = active
+        // 持久化
+        await dispatch('careyshop/db/set', {
+          dbName: 'sys',
+          path: 'transition.active',
+          value: state.active,
+          user: true
+        }, { root: true })
+        // end
+        resolve()
       })
     },
     /**
-     * 从数据库读取页面过渡动画设置
-     * @param {Object} state vuex state
+     * @description 从数据库读取页面过渡动画设置
+     * @param state vuex state
+     * @param dispatch
+     * @returns {Promise<any>}
      */
-    async load(state) {
-      // store 赋值
-      state.active = await this.dispatch('careyshop/db/get', {
-        dbName: 'sys',
-        path: 'transition.active',
-        defaultValue: setting.transition.active,
-        user: true
+    load({ state, dispatch }) {
+      return new Promise(async resolve => {
+        // store 赋值
+        state.active = await dispatch('careyshop/db/get', {
+          dbName: 'sys',
+          path: 'transition.active',
+          defaultValue: setting.transition.active,
+          user: true
+        }, { root: true })
+        // end
+        resolve()
       })
     }
   }

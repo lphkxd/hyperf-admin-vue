@@ -14,7 +14,7 @@
 .cs-layout-header-aside-group {
   height: 100%;
   width: 100%;
-  min-width: 1320px;
+  min-width: 900px;
   background-size: cover;
   background-position: center;
   overflow: hidden;
@@ -26,9 +26,51 @@
   // 内容层
   .cs-layout-header-aside-content {
     @extend %full;
-    $cs-theme-header-height: 60px;
     .cs-theme-header {
-      height: $cs-theme-header-height;
+      height: 60px;
+      .cs-theme-header-menu {
+        overflow: hidden;
+        &.is-scrollable {
+          position: relative;
+          padding: 0 20px;
+          .cs-theme-header-menu__prev, .cs-theme-header-menu__next {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+          }
+        }
+        .cs-theme-header-menu__content {
+          overflow: hidden;
+          .cs-theme-header-menu__scroll {
+            white-space: nowrap;
+            position: relative;
+            -webkit-transition: -webkit-transform .3s;
+            transition: -webkit-transform .3s;
+            transition: transform .3s;
+            transition: transform .3s, -webkit-transform .3s;
+            transition: transform .3s,-webkit-transform .3s;
+            float: left;
+          }
+        }
+        .cs-theme-header-menu__prev, .cs-theme-header-menu__next {
+          height: 60px;
+          position: absolute;
+          top: 0;
+          font-size: 20px;
+          cursor: pointer;
+          display: none;
+        }
+        .cs-theme-header-menu__prev {
+          left: 0;
+          border-top-left-radius: 2px;
+          border-bottom-left-radius: 2px;
+        }
+        .cs-theme-header-menu__next {
+          right: 0;
+          border-top-right-radius: 2px;
+          border-bottom-right-radius: 2px;
+        }
+      }
     }
     .cs-theme-container {
       .cs-theme-container-aside {
@@ -128,7 +170,6 @@
           padding: 14px 12px;
           border-radius: 4px;
           margin: 0px !important;
-          margin-left: 10px !important;
         }
         .el-dropdown {
           @extend %unable-select;

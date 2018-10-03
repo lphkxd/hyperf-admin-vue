@@ -13,6 +13,91 @@ export default {
     // 菜单源数据
     sourceData: []
   },
+  actions: {
+    /**
+     * @description 设置侧边栏展开或者收缩
+     * @param state vuex state
+     * @param dispatch
+     * @param collapse  is collapse
+     * @returns {Promise<any>}
+     */
+    asideCollapseSet({ state, dispatch }, collapse) {
+      return new Promise(async resolve => {
+        // store 赋值
+        state.asideCollapse = collapse
+        // 持久化
+        await dispatch('careyshop/db/set', {
+          dbName: 'sys',
+          path: 'menu.asideCollapse',
+          value: state.asideCollapse,
+          user: true
+        }, { root: true })
+        // end
+        resolve()
+      })
+    },
+    /**
+     * @description 切换侧边栏展开和收缩
+     * @param state vuex state
+     * @param dispatch
+     * @returns {Promise<any>}
+     */
+    asideCollapseToggle({ state, dispatch }) {
+      return new Promise(async resolve => {
+        // store 赋值
+        state.asideCollapse = !state.asideCollapse
+        // 持久化
+        await dispatch('careyshop/db/set', {
+          dbName: 'sys',
+          path: 'menu.asideCollapse',
+          value: state.asideCollapse,
+          user: true
+        }, { root: true })
+        // end
+        resolve()
+      })
+    },
+    /**
+     * @description 从持久化数据读取侧边栏展开或者收缩
+     * @param state vuex state
+     * @param dispatch
+     * @returns {Promise<any>}
+     */
+    asideCollapseLoad({ state, dispatch }) {
+      return new Promise(async resolve => {
+        // store 赋值
+        state.asideCollapse = await dispatch('careyshop/db/get', {
+          dbName: 'sys',
+          path: 'menu.asideCollapse',
+          defaultValue: setting.menu.asideCollapse,
+          user: true
+        }, { root: true })
+        // end
+        resolve()
+      })
+    },
+    /**
+     * @description 从持久化数据读取菜单源数据
+     * @param state vuex state
+     * @param dispatch
+     * @returns {Promise<*>}
+     */
+    async sourceDataLoad({ state, dispatch }) {
+      return new Promise(async resolve => {
+        // 菜单数据源持久化
+        state.sourceData = await dispatch('careyshop/db/get', {
+          dbName: 'database',
+          path: 'menu.sourceData',
+          defaultValue: [],
+          user: true
+        }, { root: true })
+        // 处理顶栏菜单、侧边菜单、功能搜索
+        menu.install(this, state.sourceData)
+        // end
+        resolve()
+      })
+    }
+  },
   mutations: {
     /**
      * @description 设置顶栏菜单
@@ -31,67 +116,6 @@ export default {
     asideSet(state, menu) {
       // store 赋值
       state.aside = menu
-    },
-    /**
-     * 设置侧边栏展开或者收缩
-     * @param {Object} state vuex state
-     * @param {Boolean} collapse is collapse
-     */
-    asideCollapseSet(state, collapse) {
-      // store 赋值
-      state.asideCollapse = collapse
-      // 持久化
-      this.dispatch('careyshop/db/set', {
-        dbName: 'sys',
-        path: 'menu.asideCollapse',
-        value: state.asideCollapse,
-        user: true
-      })
-    },
-    /**
-     * 切换侧边栏展开和收缩
-     * @param {Object} state vuex state
-     */
-    asideCollapseToggle(state) {
-      // store 赋值
-      state.asideCollapse = !state.asideCollapse
-      // 持久化
-      this.dispatch('careyshop/db/set', {
-        dbName: 'sys',
-        path: 'menu.asideCollapse',
-        value: state.asideCollapse,
-        user: true
-      })
-    },
-    /**
-     * 从持久化数据读取侧边栏展开或者收缩
-     * @param {Object} state vuex state
-     */
-    async asideCollapseLoad(state) {
-      // store 赋值
-      state.asideCollapse = await this.dispatch('careyshop/db/get', {
-        dbName: 'sys',
-        path: 'menu.asideCollapse',
-        defaultValue: setting.menu.asideCollapse,
-        user: true
-      })
-    },
-    /**
-     * 从持久化数据读取菜单源数据
-     * @param {Object} state vuex state
-     * @returns {Promise<void>}
-     */
-    async sourceDataLoad(state) {
-      // 菜单数据源持久化
-      state.sourceData = await this.dispatch('careyshop/db/get', {
-        dbName: 'database',
-        path: 'menu.sourceData',
-        defaultValue: [],
-        user: true
-      })
-
-      // 处理顶栏菜单、侧边菜单、功能搜索
-      menu.install(this, state.sourceData)
     }
   }
 }
