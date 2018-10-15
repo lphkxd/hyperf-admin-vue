@@ -54,7 +54,15 @@ const frameOut = [
   // 页面重定向使用 必须保留
   {
     path: '/redirect/:path*',
-    component: () => import('@/views/redirect')
+    component: {
+      beforeCreate() {
+        const path = this.$route.params.path
+        this.$router.replace(JSON.parse(path))
+      },
+      render: function(h) {
+        return h()
+      }
+    }
   },
   // 登录
   {
