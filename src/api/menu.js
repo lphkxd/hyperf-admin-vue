@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 /**
  * 根据权限获取菜单列表
- * @param data
+ * @param {Array} data
  */
 export function getMenuAuthList(data) {
   return request({

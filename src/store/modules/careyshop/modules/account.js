@@ -24,15 +24,15 @@ export default {
               token: res.data.token
             }, { root: true })
 
-            return getMenuAuthList()
+            return getMenuAuthList(null)
           })
           .then(menu => {
-            vm.$store.dispatch('careyshop/db/set', {
+            dispatch('careyshop/db/set', {
               dbName: 'database',
               path: 'menu.sourceData',
               value: menu.data,
               user: true
-            })
+            }, { root: true })
             resolve()
           })
           .catch(err => {

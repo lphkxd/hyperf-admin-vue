@@ -2,8 +2,8 @@ import request from '@/utils/request'
 
 /**
  * 账号登录，并且获取授权码
- * @param username
- * @param password
+ * @param {String} username
+ * @param {String} password
  */
 export function loginAdminUser(username, password) {
   return request({
@@ -35,7 +35,7 @@ export function logoutAdminUser() {
 
 /**
  * 修改一个账号密码
- * @param data
+ * @param {Array} data
  */
 export function setAdminPassword(data) {
   return request({
@@ -49,8 +49,8 @@ export function setAdminPassword(data) {
 }
 
 /**
- * 验证账号是否合法
- * @param username
+ *  验证账号是否合法
+ * @param {String} username
  */
 export function checkAdminUsername(username) {
   return request({
@@ -67,7 +67,7 @@ export function checkAdminUsername(username) {
 
 /**
  * 验证账号昵称是否合法
- * @param nickname
+ * @param {String} nickname
  */
 export function checkAdminNickname(nickname) {
   return request({
@@ -84,7 +84,7 @@ export function checkAdminNickname(nickname) {
 
 /**
  * 添加一个账号
- * @param data
+ * @param {Array} data
  */
 export function addAdminItem(data) {
   return request({
@@ -99,7 +99,7 @@ export function addAdminItem(data) {
 
 /**
  * 编辑一个账号
- * @param data
+ * @param {Array} data
  */
 export function setAdminItem(data) {
   return request({
@@ -114,8 +114,8 @@ export function setAdminItem(data) {
 
 /**
  * 批量设置账号状态
- * @param client_id array
- * @param status
+ * @param {Array} client_id
+ * @param {Number} status
  */
 export function setAdminStatus(client_id, status) {
   return request({
@@ -133,7 +133,7 @@ export function setAdminStatus(client_id, status) {
 
 /**
  * 重置一个账号密码
- * @param client_id int
+ * @param {Number} client_id
  */
 export function resetAdminItem(client_id) {
   return request({
@@ -150,7 +150,7 @@ export function resetAdminItem(client_id) {
 
 /**
  * 批量删除账号
- * @param client_id array
+ * @param {Array} client_id
  */
 export function delAdminList(client_id) {
   return request({
@@ -167,7 +167,7 @@ export function delAdminList(client_id) {
 
 /**
  * 获取一个账号
- * @param client_id int
+ * @param {Number} client_id
  */
 export function getAdminItem(client_id) {
   return request({
@@ -184,7 +184,7 @@ export function getAdminItem(client_id) {
 
 /**
  * 获取账号列表
- * @param data
+ * @param {Array} data
  */
 export function getAdminList(data) {
   return request({
