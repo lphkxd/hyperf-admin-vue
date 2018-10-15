@@ -47,3 +47,52 @@ export function setAdminPassword(data) {
     data
   })
 }
+
+/**
+ * 验证账号是否合法
+ * @param username
+ */
+export function checkAdminUsername(username) {
+  return request({
+    url: '/v1/admin',
+    method: 'post',
+    params: {
+      method: 'check.admin.username'
+    },
+    data: {
+      username
+    }
+  })
+}
+
+/**
+ * 验证账号昵称是否合法
+ * @param nickname
+ */
+export function checkAdminNickname(nickname) {
+  return request({
+    url: '/v1/admin',
+    method: 'post',
+    params: {
+      method: 'check.admin.nickname'
+    },
+    data: {
+      nickname
+    }
+  })
+}
+
+/**
+ * 添加一个账号
+ * @param data
+ */
+export function addAdminItem(data) {
+  return request({
+    url: '/v1/admin',
+    method: 'post',
+    params: {
+      method: 'add.admin.item'
+    },
+    data
+  })
+}
