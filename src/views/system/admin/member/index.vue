@@ -1,6 +1,11 @@
 <template>
   <cs-container>
-    <page-header slot="header" @submit="handleSubmit" ref="header"/>
+    <page-header
+      slot="header"
+      :group="group"
+      :loading="loading"
+      @submit="handleSubmit"
+      ref="header"/>
   </cs-container>
 </template>
 
@@ -33,11 +38,12 @@ export default {
         status: 1
       })
         .then(res => {
-          console.log(res)
+          this.group = res.data
         })
     },
     // 提交查询请求
     handleSubmit(form) {
+      console.log(form)
     }
   }
 }
