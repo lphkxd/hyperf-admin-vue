@@ -6,7 +6,11 @@ import request from '@/utils/request'
  */
 export function getMenuModule() {
   return new Promise(resolve => {
-    resolve(['api', 'admin', 'home'])
+    resolve({
+      api: 'API',
+      admin: '后台',
+      home: '前台'
+    })
   })
 }
 
