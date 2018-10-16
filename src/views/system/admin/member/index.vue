@@ -32,6 +32,9 @@ export default {
       getAuthGroupList({
         status: 1
       })
+        .then(res => {
+          console.log(res)
+        })
     },
     // 提交查询请求
     handleSubmit(form) {
