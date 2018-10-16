@@ -20,8 +20,8 @@
         clearable
         placeholder="请选择">
         <el-option
-          v-for="(item, index) in group"
-          :key="index"
+          v-for="item in group"
+          :key="item.group_id"
           :label="item.name"
           :value="item.group_id">
         </el-option>
