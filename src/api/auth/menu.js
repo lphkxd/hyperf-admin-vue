@@ -12,7 +12,7 @@ export function getMenuModule() {
 
 /**
  * 根据权限获取菜单列表
- * @param {Array} data
+ * @param {Object} data
  */
 export function getMenuAuthList(data) {
   return request({
@@ -45,7 +45,7 @@ export function getMenuItem(menu_id) {
 
 /**
  * 编辑一个菜单
- * @param {Array} data
+ * @param {Object} data
  */
 export function setMenuItem(data) {
   return request({
@@ -77,7 +77,7 @@ export function delMenuItem(menu_id) {
 
 /**
  * 获取菜单列表
- * @param {Array} data
+ * @param {Object} data
  */
 export function getMenuList(data) {
   return request({

@@ -41,7 +41,7 @@
 <script>
 import { mapState, mapActions } from 'vuex'
 import { clearCacheAll, setSystemOptimize } from '@/api/index'
-import { setAdminPassword } from '@/api/admin'
+import { setAdminPassword } from '@/api/user/admin'
 
 export default {
   data() {

@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 /**
  * 添加一个用户组
- * @param {Array} data
+ * @param {Object} data
  */
 export function addAuthGroupItem(data) {
   return request({
@@ -17,7 +17,7 @@ export function addAuthGroupItem(data) {
 
 /**
  * 编辑一个用户组
- * @param {Array} data
+ * @param {Object} data
  */
 export function setAuthGroupItem(data) {
   return request({
@@ -66,7 +66,7 @@ export function delAuthGroupItem(group_id) {
 
 /**
  * 获取用户组列表
- * @param {Array} data
+ * @param {Object} data
  */
 export function getAuthGroupList(data) {
   return request({

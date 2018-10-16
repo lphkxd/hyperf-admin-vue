@@ -35,7 +35,7 @@ export function logoutAdminUser() {
 
 /**
  * 修改一个账号密码
- * @param {Array} data
+ * @param {Object} data
  */
 export function setAdminPassword(data) {
   return request({
@@ -84,7 +84,7 @@ export function checkAdminNickname(nickname) {
 
 /**
  * 添加一个账号
- * @param {Array} data
+ * @param {Object} data
  */
 export function addAdminItem(data) {
   return request({
@@ -99,7 +99,7 @@ export function addAdminItem(data) {
 
 /**
  * 编辑一个账号
- * @param {Array} data
+ * @param {Object} data
  */
 export function setAdminItem(data) {
   return request({
@@ -184,7 +184,7 @@ export function getAdminItem(client_id) {
 
 /**
  * 获取账号列表
- * @param {Array} data
+ * @param {Object} data
  */
 export function getAdminList(data) {
   return request({

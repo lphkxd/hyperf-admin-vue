@@ -1,6 +1,6 @@
 import util from '@/utils/util'
-import { getMenuAuthList } from '@/api/menu'
-import { loginAdminUser, logoutAdminUser } from '@/api/admin'
+import { getMenuAuthList } from '@/api/auth/menu'
+import { loginAdminUser, logoutAdminUser } from '@/api/user/admin'
 
 export default {
   namespaced: true,
