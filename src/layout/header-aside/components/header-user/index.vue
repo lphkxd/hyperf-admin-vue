@@ -31,8 +31,8 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click.native="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" :loading="loading" @click.native="setPassword">确 定</el-button>
+        <el-button @click.native="dialogVisible = false" size="small">取消</el-button>
+        <el-button type="primary" :loading="loading" @click.native="setPassword" size="small">确定</el-button>
       </div>
     </el-dialog>
   </el-dropdown>
