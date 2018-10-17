@@ -42,7 +42,6 @@
     <el-form-item>
       <el-button
         type="primary"
-        plain
         :disabled="loading"
         @click="handleFormSubmit">
         <cs-icon name="search"/>
