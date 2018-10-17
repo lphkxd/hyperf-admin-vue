@@ -8,7 +8,6 @@
       ref="header"/>
     <page-main
       :table-list="table"
-      :group-list="group"
       :loading="loading"/>
     <page-footer
       slot="footer"
@@ -21,6 +20,7 @@
 
 <script>
 import { getAuthGroupList } from '@/api/auth/group'
+
 export default {
   name: 'system-admin-member',
   components: {
