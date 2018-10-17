@@ -6,6 +6,10 @@
       :loading="loading"
       @submit="handleSubmit"
       ref="header"/>
+    <page-main
+      :table-list="table"
+      :group-list="group"
+      :loading="loading"/>
     <page-footer
       slot="footer"
       :current="page.current"
@@ -21,6 +25,7 @@ export default {
   name: 'system-admin-member',
   components: {
     'PageHeader': () => import('./componnets/PageHeader'),
+    'PageMain': () => import('./componnets/PageMain'),
     'PageFooter': () => import('@/layout/header-aside/components/footer')
   },
   data() {

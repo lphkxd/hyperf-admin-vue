@@ -14,9 +14,9 @@
         style="width: 160px;"/>
     </el-form-item>
 
-    <el-form-item label="所属用户组" prop="group_id">
+    <el-form-item label="所属用户组" prop="group">
       <el-select
-        v-model="form.group_id"
+        v-model="form.group"
         clearable
         placeholder="请选择">
         <el-option
@@ -42,6 +42,7 @@
     <el-form-item>
       <el-button
         type="primary"
+        plain
         :disabled="loading"
         @click="handleFormSubmit">
         <cs-icon name="search"/>
@@ -75,7 +76,7 @@ export default {
       form: {
         account: '',
         status: null,
-        group_id: null
+        group: null
       },
       rules: {
       }
