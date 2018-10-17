@@ -14,7 +14,7 @@
         style="width: 160px;"/>
     </el-form-item>
 
-    <el-form-item label="所属用户组" prop="group">
+    <el-form-item label="用户组" prop="group">
       <el-select
         v-model="form.group"
         clearable
@@ -28,7 +28,7 @@
       </el-select>
     </el-form-item>
 
-    <el-form-item label="是否启用" prop="status">
+    <el-form-item label="状态" prop="status">
       <el-select
         v-model="form.status"
         clearable
