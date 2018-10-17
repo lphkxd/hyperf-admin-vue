@@ -6,6 +6,12 @@
       :loading="loading"
       @submit="handleSubmit"
       ref="header"/>
+    <page-footer
+      slot="footer"
+      :current="page.current"
+      :size="page.size"
+      :total="page.total"
+      @change="handlePaginationChange"/>
   </cs-container>
 </template>
 
@@ -14,7 +20,8 @@ import { getAuthGroupList } from '@/api/auth/group'
 export default {
   name: 'system-admin-member',
   components: {
-    'PageHeader': () => import('./componnets/PageHeader')
+    'PageHeader': () => import('./componnets/PageHeader'),
+    'PageFooter': () => import('@/layout/header-aside/components/footer')
   },
   data() {
     return {
@@ -41,9 +48,11 @@ export default {
           this.group = res.data
         })
     },
+    // 分页变化改动
+    handlePaginationChange(val) {
+    },
     // 提交查询请求
     handleSubmit(form) {
-      console.log(form)
     }
   }
 }
