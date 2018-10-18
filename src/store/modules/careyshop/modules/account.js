@@ -51,20 +51,22 @@ export default {
     logout({ dispatch }, { vm, confirm = false }) {
       // 实际注销操作
       function logout() {
-        logoutAdminUser().finally(() => {
+        logoutAdminUser()
+          .finally(() => {
           // 删除info
-          dispatch('careyshop/user/set', {
-            name: 'Ghost',
-            admin: {},
-            token: {}
-          }, { root: true })
-          // 删除cookie
-          util.cookies.remove('token')
-          util.cookies.remove('uuid')
-          // 跳转路由
-          vm.$router.push({ name: 'login' })
-        }).catch(() => {
-        })
+            dispatch('careyshop/user/set', {
+              name: 'Ghost',
+              admin: {},
+              token: {}
+            }, { root: true })
+            // 删除cookie
+            util.cookies.remove('token')
+            util.cookies.remove('uuid')
+            // 跳转路由
+            vm.$router.push({ name: 'login' })
+          })
+          .catch(() => {
+          })
       }
 
       if (!confirm) {

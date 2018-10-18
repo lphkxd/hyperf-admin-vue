@@ -153,10 +153,11 @@ function setDefaultParams(config) {
 function getSign(params) {
   let sorted = Object.keys(params).sort()
   let basestring = process.env.VUE_APP_SECRET
+  const type = ['undefined', 'object', 'function']
 
   for (let i = 0, l = sorted.length; i < l; i++) {
     let k = sorted[i]
-    if (typeof params[k] !== 'object') {
+    if (type.indexOf(typeof params[k]) === -1) {
       basestring += k + params[k]
     }
   }
