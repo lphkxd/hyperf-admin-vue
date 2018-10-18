@@ -7,24 +7,28 @@
       <el-form-item>
         <el-button-group>
           <el-button
+            :disabled="loading"
             @click="() => {}">
             <cs-icon name="plus"/>
             新增
           </el-button>
 
           <el-button
+            :disabled="loading"
             @click="() => {}">
             <cs-icon name="check"/>
             启用
           </el-button>
 
           <el-button
+            :disabled="loading"
             @click="() => {}">
-            <cs-icon name="times"/>
+            <cs-icon name="close"/>
             禁用
           </el-button>
 
           <el-button
+            :disabled="loading"
             @click="() => {}">
             <cs-icon name="trash-o"/>
             删除
@@ -32,18 +36,24 @@
         </el-button-group>
       </el-form-item>
 
-      <el-button
-        size="mini"
+      <el-popover
         style="float: right"
-        @click="() =>{}">
-        <cs-icon name="refresh"/>
-        刷新
-      </el-button>
+        placement="bottom-end"
+        width="200"
+        trigger="hover"
+        :content="helpContent">
+        <el-button
+          size="mini"
+          slot="reference">
+          <cs-icon name="question"/>
+        </el-button>
+      </el-popover>
     </el-form>
 
     <el-table
       :data="currentTableData"
       v-loading="loading"
+      element-loading-text="正在加载..."
       size="mini"
       stripe
       style="width: 100%;"
@@ -54,19 +64,19 @@
         width="55">
       </el-table-column>
 
-      <el-table-column label="账号">
+      <el-table-column label="账号" :show-overflow-tooltip="true">
         <template slot-scope="scope">
           {{scope.row.username}}
         </template>
       </el-table-column>
 
-      <el-table-column label="昵称">
+      <el-table-column label="昵称" :show-overflow-tooltip="true">
         <template slot-scope="scope">
           {{scope.row.nickname}}
         </template>
       </el-table-column>
 
-      <el-table-column label="用户组">
+      <el-table-column label="用户组" :show-overflow-tooltip="true">
         <template slot-scope="scope">
           {{scope.row.get_auth_group.name}}
         </template>
@@ -84,7 +94,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="状态">
+      <el-table-column label="状态" align="center" width="50">
         <template slot-scope="scope">
           {{scope.row.status}}
         </template>
@@ -96,7 +106,6 @@
       </el-table-column>
 
     </el-table>
-
   </div>
 </template>
 
@@ -113,7 +122,8 @@ export default {
   data() {
     return {
       currentTableData: [],
-      multipleSelection: []
+      multipleSelection: [],
+      helpContent: '暂无内容'
     }
   },
   watch: {

@@ -7,7 +7,7 @@
       @submit="handleSubmit"
       ref="header"/>
     <page-main
-      :table-list="table"
+      :table-data="table"
       :loading="loading"/>
     <page-footer
       slot="footer"
@@ -20,6 +20,7 @@
 
 <script>
 import { getAuthGroupList } from '@/api/auth/group'
+import { getAdminList } from '@/api/user/admin'
 
 export default {
   name: 'system-admin-member',
@@ -35,13 +36,14 @@ export default {
       loading: false,
       page: {
         current: 1,
-        size: 20,
+        size: 25,
         total: 0
       }
     }
   },
   created() {
     this.initialization()
+    this.getDatalist()
   },
   methods: {
     // 数据初始加载
@@ -53,11 +55,33 @@ export default {
           this.group = res.data
         })
     },
+    // 获取远程数据
+    getDatalist(parm) {
+      this.loading = true
+      getAdminList({
+        ...parm,
+        page_no: this.page.current,
+        page_size: this.page.size
+      })
+        .then(res => {
+          this.page.total = res.data.total_result
+          this.table = res.data.total_result > 0 ? res.data.items : []
+        })
+        .finally(() => {
+          this.loading = false
+        })
+    },
     // 分页变化改动
     handlePaginationChange(val) {
+      this.page = val
+      this.$nextTick(() => {
+        this.$refs.header.handleFormSubmit()
+      })
     },
     // 提交查询请求
     handleSubmit(form) {
+      // this.page.current = 1
+      this.getDatalist(form)
     }
   }
 }

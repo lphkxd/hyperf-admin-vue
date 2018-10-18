@@ -14,9 +14,9 @@
         style="width: 160px;"/>
     </el-form-item>
 
-    <el-form-item label="用户组" prop="group">
+    <el-form-item label="用户组" prop="group_id">
       <el-select
-        v-model="form.group"
+        v-model="form.group_id"
         clearable
         placeholder="请选择">
         <el-option
@@ -74,8 +74,8 @@ export default {
     return {
       form: {
         account: '',
-        status: null,
-        group: null
+        status: undefined,
+        group_id: undefined
       },
       rules: {
       }
