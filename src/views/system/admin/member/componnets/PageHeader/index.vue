@@ -10,7 +10,9 @@
     <el-form-item label="账号" prop="account">
       <el-input
         v-model="form.account"
+        clearable
         placeholder="账号/昵称"
+        @keyup.enter.native="handleFormSubmit"
         style="width: 160px;"/>
     </el-form-item>
 
@@ -43,7 +45,7 @@
       <el-button
         type="primary"
         :disabled="loading"
-        @click="handleFormSubmit">
+        @click="handleFormSubmit(true)">
         <cs-icon name="search"/>
         查询
       </el-button>
@@ -82,10 +84,10 @@ export default {
     }
   },
   methods: {
-    handleFormSubmit() {
+    handleFormSubmit(isRestore = false) {
       this.$refs.form.validate((valid) => {
         if (valid) {
-          this.$emit('submit', this.form)
+          this.$emit('submit', this.form, isRestore)
         } else {
           this.$message.error('表单校验失败')
           return false

@@ -64,7 +64,11 @@ export default {
       })
     },
     // 提交查询请求
-    handleSubmit(form) {
+    handleSubmit(form, isRestore = false) {
+      if (isRestore) {
+        this.page.current = 1
+      }
+
       this.loading = true
       getAdminList({
         ...form,
