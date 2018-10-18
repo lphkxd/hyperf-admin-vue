@@ -43,32 +43,17 @@ export default {
   },
   created() {
     this.initialization()
-    this.getDatalist()
+    this.handleSubmit()
   },
   methods: {
     // 数据初始加载
     initialization() {
       getAuthGroupList({
-        status: 1
+        status: 1,
+        exclude_id: [3, 4]
       })
         .then(res => {
           this.group = res.data
-        })
-    },
-    // 获取远程数据
-    getDatalist(parm) {
-      this.loading = true
-      getAdminList({
-        ...parm,
-        page_no: this.page.current,
-        page_size: this.page.size
-      })
-        .then(res => {
-          this.page.total = res.data.total_result
-          this.table = res.data.total_result > 0 ? res.data.items : []
-        })
-        .finally(() => {
-          this.loading = false
         })
     },
     // 分页变化改动
@@ -80,8 +65,19 @@ export default {
     },
     // 提交查询请求
     handleSubmit(form) {
-      // this.page.current = 1
-      this.getDatalist(form)
+      this.loading = true
+      getAdminList({
+        ...form,
+        page_no: this.page.current,
+        page_size: this.page.size
+      })
+        .then(res => {
+          this.page.total = res.data.total_result
+          this.table = res.data.total_result > 0 ? res.data.items : []
+        })
+        .finally(() => {
+          this.loading = false
+        })
     }
   }
 }

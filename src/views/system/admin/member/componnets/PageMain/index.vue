@@ -2,7 +2,7 @@
   <div>
     <el-form
       :inline="true"
-      size="mini">
+      size="small">
 
       <el-form-item>
         <el-button-group>
@@ -43,7 +43,7 @@
         trigger="hover"
         :content="helpContent">
         <el-button
-          size="mini"
+          size="small"
           slot="reference">
           <cs-icon name="question"/>
         </el-button>
@@ -53,8 +53,6 @@
     <el-table
       :data="currentTableData"
       v-loading="loading"
-      element-loading-text="正在加载..."
-      size="mini"
       stripe
       style="width: 100%;"
       @selection-change="handleSelectionChange">
@@ -82,13 +80,13 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="最后登陆">
+      <el-table-column label="最后登陆" width="160">
         <template slot-scope="scope">
           {{scope.row.last_login}}
         </template>
       </el-table-column>
 
-      <el-table-column label="登陆IP">
+      <el-table-column label="登陆IP" width="160">
         <template slot-scope="scope">
           {{scope.row.last_ip}}
         </template>
@@ -100,7 +98,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="操作">
+      <el-table-column label="操作" align="center">
         <template slot-scope="scope">
         </template>
       </el-table-column>
