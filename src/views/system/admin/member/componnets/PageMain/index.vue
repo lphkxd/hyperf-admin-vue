@@ -7,6 +7,7 @@
       <el-form-item>
         <el-button-group>
           <el-button
+            v-if="auth.add"
             :disabled="loading"
             @click="() => {}">
             <cs-icon name="plus"/>
@@ -14,6 +15,7 @@
           </el-button>
 
           <el-button
+            v-if="auth.enable"
             :disabled="loading"
             @click="() => {}">
             <cs-icon name="check"/>
@@ -21,6 +23,7 @@
           </el-button>
 
           <el-button
+            v-if="auth.disable"
             :disabled="loading"
             @click="() => {}">
             <cs-icon name="close"/>
@@ -28,6 +31,7 @@
           </el-button>
 
           <el-button
+            v-if="auth.del"
             :disabled="loading"
             @click="() => {}">
             <cs-icon name="trash-o"/>
@@ -117,11 +121,22 @@ export default {
       default: false
     }
   },
+  created() {
+    this.validationAuth()
+  },
   data() {
     return {
       currentTableData: [],
       multipleSelection: [],
-      helpContent: '暂无内容'
+      helpContent: '暂无内容',
+      auth: {
+        add: false,
+        del: false,
+        set: false,
+        enable: false,
+        disable: false,
+        reset: false
+      }
     }
   },
   watch: {
@@ -133,8 +148,18 @@ export default {
     }
   },
   methods: {
+    // 选中数据项
     handleSelectionChange(val) {
       this.multipleSelection = val
+    },
+    // 验证权限
+    validationAuth() {
+      this.auth.add = this.$has('/system/admin/member/add')
+      this.auth.del = this.$has('/system/admin/member/del')
+      this.auth.set = this.$has('/system/admin/member/set')
+      this.auth.enable = this.$has('/system/admin/member/enable')
+      this.auth.disable = this.$has('/system/admin/member/disable')
+      this.auth.reset = this.$has('/system/admin/member/reset')
     }
   }
 }
