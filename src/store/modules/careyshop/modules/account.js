@@ -75,7 +75,7 @@ export default {
         return
       }
 
-      vm.$confirm('注销当前账户吗? ', '确认操作', {
+      vm.$confirm('注销当前账户吗?', '确认操作', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
