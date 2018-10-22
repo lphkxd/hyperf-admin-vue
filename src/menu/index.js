@@ -18,7 +18,7 @@ function getMenuData(arr) {
       return
     }
 
-    // 储存顶部数据
+    // 储存顶部(父节点)数据
     let arrElem = {
       path: value.url,
       title: value.name,
@@ -29,12 +29,9 @@ function getMenuData(arr) {
       tree.header.push({ ...arrElem })
     }
 
+    // 处理子节点数据
     arrElem['menu_id'] = value.menu_id
     arrElem['parent_id'] = value.parent_id
-
-    if (value.children_total) {
-      arrElem['children'] = []
-    }
 
     tree.aside.push(arrElem)
   })

@@ -24,6 +24,7 @@ export default {
               token: res.data.token
             }, { root: true })
 
+            // 请求get.menu.list,并且由下个then处理
             return getMenuAuthList(null)
           })
           .then(menu => {

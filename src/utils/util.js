@@ -72,11 +72,17 @@ util.formatDataToTree = function(arr) {
       continue
     }
 
+    // 子节点压入
     if (mappedArr[id].parent_id) {
+      if (!mappedArr[mappedArr[id].parent_id].hasOwnProperty('children')) {
+        mappedArr[mappedArr[id].parent_id]['children'] = []
+      }
+
       mappedArr[mappedArr[id].parent_id]['children'].push(mappedArr[id])
-    } else {
-      tree.push(mappedArr[id])
+      continue
     }
+
+    tree.push(mappedArr[id])
   }
 
   return tree
