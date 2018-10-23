@@ -8,7 +8,8 @@
       ref="header"/>
     <page-main
       :table-data="table"
-      :loading="loading"/>
+      :loading="loading"
+      @refresh="handleRefresh"/>
     <page-footer
       slot="footer"
       :current="page.current"
@@ -55,6 +56,12 @@ export default {
         .then(res => {
           this.group = res.data
         })
+    },
+    // 刷新列表页面
+    handleRefresh() {
+      this.$nextTick(() => {
+        this.$refs.header.handleFormSubmit()
+      })
     },
     // 分页变化改动
     handlePaginationChange(val) {

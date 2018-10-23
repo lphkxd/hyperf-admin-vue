@@ -216,7 +216,16 @@ export default {
         .then(() => {
           delAdminList(clients)
             .then(() => {
-              // TODO:未完成
+              for (let i = this.currentTableData.length - 1; i >= 0; i--) {
+                if (clients.indexOf(this.currentTableData[i].admin_id) !== -1) {
+                  this.currentTableData.splice(i, 1)
+                }
+              }
+
+              if (this.currentTableData.length <= 0) {
+                this.$emit('refresh')
+              }
+
               this.$message.success('操作成功')
             })
         })
