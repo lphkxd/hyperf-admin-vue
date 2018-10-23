@@ -9,7 +9,7 @@
           <el-button
             v-if="auth.add"
             :disabled="loading"
-            @click="() => {}">
+            @click="handleCreate">
             <cs-icon name="plus"/>
             新增
           </el-button>
@@ -62,53 +62,130 @@
       style="width: 100%;"
       @selection-change="handleSelectionChange">
 
-      <el-table-column
-        type="selection"
-        width="55">
-      </el-table-column>
+      <el-table-column type="selection" width="55"/>
 
-      <el-table-column label="账号" :show-overflow-tooltip="true">
+      <el-table-column
+        label="账号"
+        :show-overflow-tooltip="true">
         <template slot-scope="scope">
           {{scope.row.username}}
         </template>
       </el-table-column>
 
-      <el-table-column label="昵称" :show-overflow-tooltip="true">
+      <el-table-column
+        label="昵称"
+        :show-overflow-tooltip="true">
         <template slot-scope="scope">
           {{scope.row.nickname}}
         </template>
       </el-table-column>
 
-      <el-table-column label="用户组" :show-overflow-tooltip="true">
+      <el-table-column
+        label="用户组"
+        :show-overflow-tooltip="true">
         <template slot-scope="scope">
           {{scope.row.get_auth_group.name}}
         </template>
       </el-table-column>
 
-      <el-table-column label="最后登陆" width="160">
+      <el-table-column
+        label="最后登陆"
+        width="160">
         <template slot-scope="scope">
           {{scope.row.last_login}}
         </template>
       </el-table-column>
 
-      <el-table-column label="登陆IP" width="160">
+      <el-table-column
+        label="登陆IP"
+        width="160">
         <template slot-scope="scope">
           {{scope.row.last_ip}}
         </template>
       </el-table-column>
 
-      <el-table-column label="状态" align="center" width="50">
+      <el-table-column
+        label="状态"
+        align="center"
+        width="50">
         <template slot-scope="scope">
           {{scope.row.status}}
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" align="center">
+      <el-table-column
+        label="操作"
+        align="center">
         <template slot-scope="scope">
         </template>
       </el-table-column>
 
     </el-table>
+
+    <el-dialog
+      :title="textMap[dialogStatus]"
+      :visible.sync="dialogFormVisible"
+      width="600px">
+      <el-form
+        :model="form"
+        :rules="rules"
+        ref="form"
+        label-width="80px">
+        <el-form-item
+          label="账号"
+          prop="username">
+          <el-input
+            v-model="form.username"
+            placeholder="请输入账号"/>
+        </el-form-item>
+
+        <el-form-item
+          v-if="dialogStatus === 'create'"
+          label="密码"
+          prop="password">
+          <el-input
+            type="password"
+            v-model="form.password"
+            placeholder="请输入密码"/>
+        </el-form-item>
+
+        <el-form-item
+          v-if="dialogStatus === 'create'"
+          label="确认密码"
+          prop="password_confirm">
+          <el-input
+            type="password"
+            v-model="form.password_confirm"
+            placeholder="请再次输入密码"/>
+        </el-form-item>
+
+        <el-form-item
+          label="昵称"
+          prop="nickname">
+          <el-input
+            v-model="form.nickname"
+            placeholder="请输入昵称"/>
+        </el-form-item>
+
+        <el-form-item
+          label="用户组"
+          prop="group_id">
+          <el-select
+            v-model="form.group_id"
+            placeholder="请选择"
+            style="width: 100%;">
+            <el-option label="区域一" value="shanghai"/>
+            <el-option label="区域二" value="beijing"/>
+          </el-select>
+        </el-form-item>
+      </el-form>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false" size="small">取消</el-button>
+        <el-button v-if="dialogStatus === 'create'" type="primary" @click="create" size="small">确定</el-button>
+        <el-button v-else type="primary" @click="update" size="small">修改</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -122,6 +199,9 @@ export default {
     },
     loading: {
       default: false
+    },
+    group: {
+      default: () => []
     }
   },
   created() {
@@ -139,6 +219,22 @@ export default {
         enable: false,
         disable: false,
         reset: false
+      },
+      dialogFormVisible: false,
+      dialogStatus: '',
+      textMap: {
+        update: '编辑用户',
+        create: '新增用户'
+      },
+      form: {
+        username: undefined,
+        password: undefined,
+        password_confirm: undefined,
+        group_id: undefined,
+        nickname: undefined,
+        head_pic: undefined
+      },
+      rules: {
       }
     }
   },
@@ -231,6 +327,22 @@ export default {
         })
         .catch(() => {
         })
+    },
+    // 弹出新建对话框
+    handleCreate() {
+      // this.form = {
+      //   username: undefined,
+      //   password: undefined,
+      //   password_confirm: undefined,
+      //   group_id: undefined,
+      //   nickname: undefined
+      // }
+
+      this.dialogStatus = 'create'
+      this.dialogFormVisible = true
+    },
+    // 请求新建用户
+    create() {
     }
   }
 }

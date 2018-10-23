@@ -9,6 +9,7 @@
     <page-main
       :table-data="table"
       :loading="loading"
+      :group="group"
       @refresh="handleRefresh"/>
     <page-footer
       slot="footer"

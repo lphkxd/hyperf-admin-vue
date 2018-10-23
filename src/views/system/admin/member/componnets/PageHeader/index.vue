@@ -25,8 +25,7 @@
           v-for="item in group"
           :key="item.group_id"
           :label="item.name"
-          :value="item.group_id">
-        </el-option>
+          :value="item.group_id"/>
       </el-select>
     </el-form-item>
 
@@ -75,7 +74,7 @@ export default {
   data() {
     return {
       form: {
-        account: '',
+        account: undefined,
         status: undefined,
         group_id: undefined
       },
