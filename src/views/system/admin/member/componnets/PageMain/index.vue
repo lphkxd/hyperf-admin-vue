@@ -89,7 +89,16 @@
       </el-table-column>
 
       <el-table-column
+        label="登陆IP"
+        width="150">
+        <template slot-scope="scope">
+          {{scope.row.last_ip}}
+        </template>
+      </el-table-column>
+
+      <el-table-column
         label="最后登陆"
+        align="center"
         width="160">
         <template slot-scope="scope">
           {{scope.row.last_login}}
@@ -97,19 +106,14 @@
       </el-table-column>
 
       <el-table-column
-        label="登陆IP"
-        width="160">
-        <template slot-scope="scope">
-          {{scope.row.last_ip}}
-        </template>
-      </el-table-column>
-
-      <el-table-column
         label="状态"
         align="center"
-        width="50">
+        width="100">
         <template slot-scope="scope">
-          {{scope.row.status}}
+          <cs-icon
+            name="check-circle"
+            style="font-size: 20px; line-height: 32px; color: #67C23A;cursor: pointer;"
+            slot="active"/>
         </template>
       </el-table-column>
 
@@ -117,6 +121,9 @@
         label="操作"
         align="center">
         <template slot-scope="scope">
+          <el-button size="small" type="text">编辑</el-button>
+          <el-button size="small" type="text">删除</el-button>
+          <el-button size="small" type="text">重置密码</el-button>
         </template>
       </el-table-column>
 
@@ -185,9 +192,20 @@
       </el-form>
 
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false" size="small">取消</el-button>
-        <el-button v-if="dialogStatus === 'create'" type="primary" :loading="dialogLoading" @click="create" size="small">确定</el-button>
-        <el-button v-else type="primary" :loading="dialogLoading" @click="update" size="small">修改</el-button>
+        <el-button
+          @click="dialogFormVisible = false"
+          size="small">取消</el-button>
+        <el-button
+          v-if="dialogStatus === 'create'"
+          type="primary"
+          :loading="dialogLoading"
+          @click="create"
+          size="small">确定</el-button>
+        <el-button
+          v-else type="primary"
+          :loading="dialogLoading"
+          @click="update"
+          size="small">修改</el-button>
       </div>
     </el-dialog>
   </div>
@@ -207,9 +225,6 @@ export default {
     group: {
       default: () => []
     }
-  },
-  created() {
-    this.validationAuth()
   },
   data() {
     return {
@@ -306,6 +321,9 @@ export default {
       },
       immediate: true
     }
+  },
+  mounted() {
+    this.validationAuth()
   },
   methods: {
     // 选中数据项
