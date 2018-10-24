@@ -64,7 +64,8 @@ export default {
             util.cookies.remove('token')
             util.cookies.remove('uuid')
             // 跳转路由
-            vm.$router.push({ name: 'login' })
+            // vm.$router.push({ name: 'login' })
+            location.reload()
           })
           .catch(() => {
           })
