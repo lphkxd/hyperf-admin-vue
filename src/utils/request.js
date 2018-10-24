@@ -156,6 +156,10 @@ function getSign(params) {
   const type = ['undefined', 'object', 'function']
 
   for (let i = 0, l = sorted.length; i < l; i++) {
+    if (sorted[i] === 'sign') {
+      continue
+    }
+
     let k = sorted[i]
     if (type.indexOf(typeof params[k]) === -1) {
       basestring += k + params[k]

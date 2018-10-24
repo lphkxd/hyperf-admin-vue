@@ -125,6 +125,7 @@
     <el-dialog
       :title="textMap[dialogStatus]"
       :visible.sync="dialogFormVisible"
+      :append-to-body="true"
       width="600px">
       <el-form
         :model="form"
@@ -174,23 +175,26 @@
             v-model="form.group_id"
             placeholder="请选择"
             style="width: 100%;">
-            <el-option label="区域一" value="shanghai"/>
-            <el-option label="区域二" value="beijing"/>
+            <el-option
+              v-for="item in group"
+              :key="item.group_id"
+              :label="item.name"
+              :value="item.group_id"/>
           </el-select>
         </el-form-item>
       </el-form>
 
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false" size="small">取消</el-button>
-        <el-button v-if="dialogStatus === 'create'" type="primary" @click="create" size="small">确定</el-button>
-        <el-button v-else type="primary" @click="update" size="small">修改</el-button>
+        <el-button v-if="dialogStatus === 'create'" type="primary" :loading="dialogLoading" @click="create" size="small">确定</el-button>
+        <el-button v-else type="primary" :loading="dialogLoading" @click="update" size="small">修改</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { setAdminStatus, delAdminList } from '@/api/user/admin'
+import { setAdminStatus, delAdminList, addAdminItem } from '@/api/user/admin'
 
 export default {
   props: {
@@ -220,6 +224,7 @@ export default {
         disable: false,
         reset: false
       },
+      dialogLoading: false,
       dialogFormVisible: false,
       dialogStatus: '',
       textMap: {
@@ -235,6 +240,62 @@ export default {
         head_pic: undefined
       },
       rules: {
+        username: [
+          {
+            required: true,
+            message: '账号不能为空',
+            trigger: 'blur'
+          },
+          {
+            min: 4,
+            max: 20,
+            message: '长度在 4 到 20 个字符',
+            trigger: 'blur'
+          }
+        ],
+        password: [
+          {
+            required: true,
+            message: '密码不能为空',
+            trigger: 'blur'
+          },
+          {
+            min: 6,
+            message: '长度不能少于 6 个字符',
+            trigger: 'blur'
+          }
+        ],
+        password_confirm: [
+          {
+            required: true,
+            message: '确认密码不能为空',
+            trigger: 'blur'
+          },
+          {
+            min: 6,
+            message: '长度不能少于 6 个字符',
+            trigger: 'blur'
+          }
+        ],
+        nickname: [
+          {
+            required: true,
+            message: '昵称不能为空',
+            trigger: 'blur'
+          },
+          {
+            max: 50,
+            message: '长度不能大于 50 个字符',
+            trigger: 'blur'
+          }
+        ],
+        group_id: [
+          {
+            required: true,
+            message: '至少选择一项',
+            trigger: 'blur'
+          }
+        ]
       }
     }
   },
@@ -330,19 +391,48 @@ export default {
     },
     // 弹出新建对话框
     handleCreate() {
-      // this.form = {
-      //   username: undefined,
-      //   password: undefined,
-      //   password_confirm: undefined,
-      //   group_id: undefined,
-      //   nickname: undefined
-      // }
+      this.form = {
+        username: undefined,
+        password: undefined,
+        password_confirm: undefined,
+        group_id: undefined,
+        nickname: undefined
+      }
+
+      this.$nextTick(() => {
+        this.$refs.form.clearValidate()
+      })
 
       this.dialogStatus = 'create'
+      this.dialogLoading = false
       this.dialogFormVisible = true
     },
     // 请求新建用户
     create() {
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          this.dialogLoading = true
+          addAdminItem(this.form)
+            .then(res => {
+              this.currentTableData.unshift({
+                ...res.data,
+                status: 1,
+                get_auth_group: {
+                  ...this.group.find(item => item.group_id === res.data.group_id)
+                }
+              })
+
+              this.dialogFormVisible = false
+              this.$message.success('操作成功')
+            })
+            .catch(() => {
+              this.dialogLoading = false
+            })
+        }
+      })
+    },
+    // 请求修改用户
+    update() {
     }
   }
 }
