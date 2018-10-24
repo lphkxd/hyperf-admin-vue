@@ -15,7 +15,7 @@
     "better-scroll": "1.13.2",
     "element-ui": "2.4.8",
     "flex.css": "^1.1.7",
-    "fuse.js": "^3.2.1",
+    "fuse.js": "^3.3.0",
     "hotkeys-js": "3.3.8",
     "lodash": "4.17.11",
     "lowdb": "^1.0.0",
