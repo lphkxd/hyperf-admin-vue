@@ -63,8 +63,7 @@ export default {
             // 删除cookie
             util.cookies.remove('token')
             util.cookies.remove('uuid')
-            // 跳转路由
-            // vm.$router.push({ name: 'login' })
+            // 重新载入vue
             location.reload()
           })
           .catch(() => {
@@ -82,6 +81,14 @@ export default {
         type: 'warning'
       })
         .then(() => {
+          const loading = vm.$loading({
+            lock: true,
+            text: 'Loading',
+            spinner: 'el-icon-loading',
+            background: 'rgba(0, 0, 0, 0.7)'
+          })
+
+          loading.close()
           logout()
         })
         .catch(() => {

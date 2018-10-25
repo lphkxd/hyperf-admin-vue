@@ -110,10 +110,12 @@
         align="center"
         width="100">
         <template slot-scope="scope">
-          <cs-icon
-            name="check-circle"
-            style="font-size: 20px; line-height: 32px; color: #67C23A;cursor: pointer;"
-            slot="active"/>
+          <el-tag
+            size="mini"
+            :type="scope.row.status ? 'success' : 'danger'"
+            style="cursor: pointer;">
+            {{scope.row.status ? '启用' : '禁用'}}
+          </el-tag>
         </template>
       </el-table-column>
 
@@ -251,6 +253,7 @@ export default {
   },
   data() {
     return {
+      currentIndex: null,
       currentTableData: [],
       multipleSelection: [],
       helpContent: '暂无帮助内容',
@@ -391,9 +394,12 @@ export default {
         .then(() => {
           setAdminStatus(clients, enable)
             .then(() => {
-              this.currentTableData.forEach(value => {
+              this.currentTableData.forEach((value, index) => {
                 if (clients.indexOf(value.admin_id) !== -1) {
-                  value.status = enable
+                  this.$set(this.currentTableData, index, {
+                    ...value,
+                    status: enable
+                  })
                 }
               })
 
@@ -479,9 +485,54 @@ export default {
     },
     // 弹出编辑对话框
     handleUpdate(index) {
+      this.currentIndex = index
+      let oldData = this.currentTableData[index]
+
+      this.form = {
+        client_id: oldData.admin_id,
+        username: oldData.username,
+        group_id: oldData.group_id,
+        nickname: oldData.nickname
+      }
+
+      this.$nextTick(() => {
+        this.$refs.form.clearValidate()
+      })
+
+      this.dialogStatus = 'update'
+      this.dialogLoading = false
+      this.dialogFormVisible = true
     },
     // 请求修改用户
     update() {
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          this.dialogLoading = true
+          const newData = {
+            client_id: this.form.client_id,
+            group_id: this.form.group_id,
+            nickname: this.form.nickname
+          }
+
+          setAdminItem(newData)
+            .then(() => {
+              const oldValue = this.currentTableData[this.currentIndex]
+              this.form['get_auth_group'] = this.group.find(item => item.group_id === this.form.group_id)
+
+              this.$set(this.currentTableData, this.currentIndex, {
+                ...oldValue,
+                ...this.form
+              })
+
+              this.currentIndex = null
+              this.dialogFormVisible = false
+              this.$message.success('操作成功')
+            })
+            .catch(() => {
+              this.dialogLoading = false
+            })
+        }
+      })
     },
     // 重置密码
     reset(index) {
