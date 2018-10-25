@@ -112,9 +112,10 @@
         <template slot-scope="scope">
           <el-tag
             size="mini"
-            :type="scope.row.status ? 'success' : 'danger'"
+            :type="statusMap[scope.row.status].type"
+            @click.native="switchStatus(scope.$index)"
             style="cursor: pointer;">
-            {{scope.row.status ? '启用' : '禁用'}}
+            {{statusMap[scope.row.status].text}}
           </el-tag>
         </template>
       </el-table-column>
@@ -272,6 +273,20 @@ export default {
         update: '编辑用户',
         create: '新增用户'
       },
+      statusMap: {
+        0: {
+          text: '禁用',
+          type: 'danger'
+        },
+        1: {
+          text: '启用',
+          type: 'success'
+        },
+        2: {
+          text: '...',
+          type: 'info'
+        }
+      },
       form: {
         client_id: undefined,
         username: undefined,
@@ -396,10 +411,11 @@ export default {
             .then(() => {
               this.currentTableData.forEach((value, index) => {
                 if (clients.indexOf(value.admin_id) !== -1) {
-                  this.$set(this.currentTableData, index, {
-                    ...value,
-                    status: enable
-                  })
+                  value.status = enable
+                  // this.$set(this.currentTableData, index, {
+                  //   ...value,
+                  //   status: enable
+                  // })
                 }
               })
 
@@ -557,6 +573,10 @@ export default {
         })
         .catch(() => {
         })
+    },
+    // 切换状态
+    switchStatus(index) {
+      console.log(index)
     }
   }
 }
