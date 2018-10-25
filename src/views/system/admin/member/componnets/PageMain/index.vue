@@ -121,9 +121,23 @@
         label="操作"
         align="center">
         <template slot-scope="scope">
-          <el-button size="small" type="text">编辑</el-button>
-          <el-button size="small" type="text">删除</el-button>
-          <el-button size="small" type="text">重置密码</el-button>
+          <el-button
+            v-if="auth.set"
+            size="small"
+            @click="handleUpdate(scope.$index)"
+            type="text">编辑</el-button>
+
+          <el-button
+            v-if="auth.del"
+            size="small"
+            @click="handleDelete(scope.$index)"
+            type="text">删除</el-button>
+
+          <el-button
+            v-if="auth.reset"
+            size="small"
+            @click="reset(scope.$index)"
+            type="text">重置密码</el-button>
         </template>
       </el-table-column>
 
@@ -144,6 +158,7 @@
           prop="username">
           <el-input
             v-model="form.username"
+            :disabled="dialogStatus !== 'create'"
             placeholder="请输入账号"/>
         </el-form-item>
 
@@ -195,12 +210,14 @@
         <el-button
           @click="dialogFormVisible = false"
           size="small">取消</el-button>
+
         <el-button
           v-if="dialogStatus === 'create'"
           type="primary"
           :loading="dialogLoading"
           @click="create"
           size="small">确定</el-button>
+
         <el-button
           v-else type="primary"
           :loading="dialogLoading"
@@ -212,7 +229,13 @@
 </template>
 
 <script>
-import { setAdminStatus, delAdminList, addAdminItem } from '@/api/user/admin'
+import {
+  setAdminStatus,
+  delAdminList,
+  addAdminItem,
+  setAdminItem,
+  resetAdminItem
+} from '@/api/user/admin'
 
 export default {
   props: {
@@ -247,12 +270,12 @@ export default {
         create: '新增用户'
       },
       form: {
+        client_id: undefined,
         username: undefined,
         password: undefined,
         password_confirm: undefined,
         group_id: undefined,
-        nickname: undefined,
-        head_pic: undefined
+        nickname: undefined
       },
       rules: {
         username: [
@@ -339,13 +362,22 @@ export default {
       this.auth.disable = this.$has('/system/admin/member/disable')
       this.auth.reset = this.$has('/system/admin/member/reset')
     },
+    // 获取列表中的用户编号
+    _getClientIdList(val) {
+      let clients = []
+      if (Array.isArray(val)) {
+        val.forEach(value => {
+          clients.push(value.admin_id)
+        })
+      } else {
+        clients.push(this.currentTableData[val].admin_id)
+      }
+
+      return clients
+    },
     // 批量设置状态
     handleState(val, enable) {
-      let clients = []
-      val.forEach(value => {
-        clients.push(value.admin_id)
-      })
-
+      let clients = this._getClientIdList(val)
       if (clients.length === 0) {
         this.$message.error('请选择要操作的数据')
         return
@@ -373,11 +405,7 @@ export default {
     },
     // 批量删除
     handleDelete(val) {
-      let clients = []
-      val.forEach(value => {
-        clients.push(value.admin_id)
-      })
-
+      let clients = this._getClientIdList(val)
       if (clients.length === 0) {
         this.$message.error('请选择要操作的数据')
         return
@@ -449,8 +477,35 @@ export default {
         }
       })
     },
+    // 弹出编辑对话框
+    handleUpdate(index) {
+    },
     // 请求修改用户
     update() {
+    },
+    // 重置密码
+    reset(index) {
+      const admin = this.currentTableData[index]
+      this.$confirm(`确定要重置 ${admin.username} 的密码吗?`, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(() => {
+          resetAdminItem(admin.admin_id)
+            .then(res => {
+              this.$notify({
+                title: '消息提示',
+                dangerouslyUseHTMLString: true,
+                message: `账号 ${admin.username} 的密码已重置为：</br>${res.data.password}`,
+                type: 'success',
+                position: 'bottom-right',
+                duration: 0
+              })
+            })
+        })
+        .catch(() => {
+        })
     }
   }
 }
