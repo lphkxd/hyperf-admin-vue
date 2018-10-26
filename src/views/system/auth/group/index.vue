@@ -1,17 +1,45 @@
 <template>
   <cs-container>
-    <template slot="header">header</template>
-    Hello Group
-    <template slot="footer">footer</template>
+    <page-header
+      slot="header"
+      :loading="loading"
+      @submit="handleSubmit"
+      ref="header"/>
+    <page-main
+      :table-data="table"
+      :loading="loading"/>
   </cs-container>
 </template>
 
 <script>
+import { getAuthGroupList } from '@/api/auth/group'
+
 export default {
-  name: 'group'
+  name: 'system-auth-group',
+  components: {
+    'PageHeader': () => import('./componnets/PageHeader'),
+    'PageMain': () => import('./componnets/PageMain')
+  },
+  data() {
+    return {
+      table: [],
+      loading: false
+    }
+  },
+  mounted() {
+    this.handleSubmit()
+  },
+  methods: {
+    handleSubmit(form) {
+      this.loading = true
+      getAuthGroupList(form)
+        .then(res => {
+          this.table = res.data
+        })
+        .finally(() => {
+          this.loading = false
+        })
+    }
+  }
 }
 </script>
-
-<style scoped>
-
-</style>
