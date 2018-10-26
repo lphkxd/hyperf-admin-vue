@@ -364,15 +364,11 @@ export default {
     }
   },
   mounted() {
-    this.validationAuth()
+    this._validationAuth()
   },
   methods: {
-    // 选中数据项
-    handleSelectionChange(val) {
-      this.multipleSelection = val
-    },
     // 验证权限
-    validationAuth() {
+    _validationAuth() {
       this.auth.add = this.$has('/system/admin/member/add')
       this.auth.del = this.$has('/system/admin/member/del')
       this.auth.set = this.$has('/system/admin/member/set')
@@ -392,6 +388,10 @@ export default {
       }
 
       return clients
+    },
+    // 选中数据项
+    handleSelectionChange(val) {
+      this.multipleSelection = val
     },
     // 批量设置状态
     handleState(val, enable) {

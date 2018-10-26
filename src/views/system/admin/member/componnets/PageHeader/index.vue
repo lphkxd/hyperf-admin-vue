@@ -2,7 +2,6 @@
   <el-form
     :inline="true"
     :model="form"
-    :rules="rules"
     ref="form"
     size="mini"
     style="margin-bottom: -18px;">
@@ -77,21 +76,12 @@ export default {
         account: undefined,
         status: undefined,
         group_id: undefined
-      },
-      rules: {
       }
     }
   },
   methods: {
     handleFormSubmit(isRestore = false) {
-      this.$refs.form.validate((valid) => {
-        if (valid) {
-          this.$emit('submit', this.form, isRestore)
-        } else {
-          this.$message.error('表单校验失败')
-          return false
-        }
-      })
+      this.$emit('submit', this.form, isRestore)
     },
     handleFormReset() {
       this.$refs.form.resetFields()
