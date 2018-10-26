@@ -113,8 +113,8 @@
           <el-tag
             size="mini"
             :type="statusMap[scope.row.status].type"
-            @click.native="switchStatus(scope.$index)"
-            style="cursor: pointer;">
+            :style="auth.disable || auth.enable ? 'cursor: pointer;' : ''"
+            @click.native="switchStatus(scope.$index)">
             {{statusMap[scope.row.status].text}}
           </el-tag>
         </template>
@@ -411,11 +411,11 @@ export default {
             .then(() => {
               this.currentTableData.forEach((value, index) => {
                 if (clients.indexOf(value.admin_id) !== -1) {
-                  value.status = enable
-                  // this.$set(this.currentTableData, index, {
-                  //   ...value,
-                  //   status: enable
-                  // })
+                  // value.status = enable // 此修改可保持勾选状态
+                  this.$set(this.currentTableData, index, {
+                    ...value,
+                    status: enable
+                  })
                 }
               })
 
@@ -576,7 +576,35 @@ export default {
     },
     // 切换状态
     switchStatus(index) {
-      console.log(index)
+      let oldData = this.currentTableData[index]
+      const newStatus = oldData.status ? 0 : 1
+
+      if (oldData.status > 1) {
+        return
+      }
+
+      // 禁用权限检测
+      if (newStatus === 0 && !this.auth.disable) {
+        return
+      }
+
+      // 启用权限检测
+      if (newStatus === 1 && !this.auth.enable) {
+        return
+      }
+
+      this.$set(this.currentTableData, index, { ...oldData, status: 2 })
+      setAdminStatus([oldData.admin_id], newStatus)
+        .then(() => {
+          this.$message.success('操作成功')
+          this.$set(this.currentTableData, index, {
+            ...oldData,
+            status: newStatus
+          })
+        })
+        .catch(() => {
+          this.$set(this.currentTableData, index, oldData)
+        })
     }
   }
 }
