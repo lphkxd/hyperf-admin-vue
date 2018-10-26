@@ -66,43 +66,33 @@
 
       <el-table-column
         label="账号"
+        prop="username"
         :show-overflow-tooltip="true">
-        <template slot-scope="scope">
-          {{scope.row.username}}
-        </template>
       </el-table-column>
 
       <el-table-column
         label="昵称"
+        prop="nickname"
         :show-overflow-tooltip="true">
-        <template slot-scope="scope">
-          {{scope.row.nickname}}
-        </template>
       </el-table-column>
 
       <el-table-column
         label="用户组"
+        prop="get_auth_group.name"
         :show-overflow-tooltip="true">
-        <template slot-scope="scope">
-          {{scope.row.get_auth_group.name}}
-        </template>
       </el-table-column>
 
       <el-table-column
         label="登陆IP"
+        prop="last_ip"
         width="150">
-        <template slot-scope="scope">
-          {{scope.row.last_ip}}
-        </template>
       </el-table-column>
 
       <el-table-column
         label="最后登陆"
+        prop="last_login"
         align="center"
         width="160">
-        <template slot-scope="scope">
-          {{scope.row.last_login}}
-        </template>
       </el-table-column>
 
       <el-table-column
