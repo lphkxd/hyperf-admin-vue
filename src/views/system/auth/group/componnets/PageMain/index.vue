@@ -33,7 +33,7 @@
     <el-table
       :data="currentTableData"
       v-loading="loading"
-      stripe
+      :row-class-name="tableRowClassName"
       style="width: 100%;">
 
       <el-table-column
@@ -59,9 +59,7 @@
         label="所属类型"
         align="center">
         <template slot-scope="scope">
-          <span :style="scope.row.system ? 'color: #F56C6C' : ''">
-            {{scope.row.system ? '系统保留' : '用户添加'}}
-          </span>
+          {{scope.row.system ? '系统保留' : '自行添加'}}
         </template>
       </el-table-column>
 
@@ -115,6 +113,29 @@ export default {
       },
       immediate: true
     }
+  },
+  methods: {
+    tableRowClassName({ row, rowIndex }) {
+      if (row.system) {
+        return 'warning-row'
+      }
+
+      if (rowIndex % 2 !== 0) {
+        return 'spacer-row'
+      }
+
+      return ''
+    }
   }
 }
 </script>
+
+<style>
+  .el-table .warning-row {
+    background: oldlace;
+  }
+
+  .el-table .spacer-row {
+    background: #FAFAFA;
+  }
+</style>

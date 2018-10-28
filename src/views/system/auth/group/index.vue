@@ -34,7 +34,7 @@ export default {
       this.loading = true
       getAuthGroupList(form)
         .then(res => {
-          this.table = res.data
+          this.table = res.data.length ? res.data : []
         })
         .finally(() => {
           this.loading = false
