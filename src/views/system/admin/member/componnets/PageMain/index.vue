@@ -17,7 +17,7 @@
           <el-button
             v-if="auth.enable"
             :disabled="loading"
-            @click="handleState(multipleSelection, 1)">
+            @click="handleState(1)">
             <cs-icon name="check"/>
             启用
           </el-button>
@@ -25,7 +25,7 @@
           <el-button
             v-if="auth.disable"
             :disabled="loading"
-            @click="handleState(multipleSelection, 0)">
+            @click="handleState(0)">
             <cs-icon name="close"/>
             禁用
           </el-button>
@@ -384,8 +384,8 @@ export default {
       this.multipleSelection = val
     },
     // 批量设置状态
-    handleState(val, enable) {
-      let clients = this._getClientIdList(val)
+    handleState(state) {
+      let clients = this._getClientIdList(this.multipleSelection)
       if (clients.length === 0) {
         this.$message.error('请选择要操作的数据')
         return
@@ -397,14 +397,14 @@ export default {
         type: 'warning'
       })
         .then(() => {
-          setAdminStatus(clients, enable)
+          setAdminStatus(clients, state)
             .then(() => {
               this.currentTableData.forEach((value, index) => {
                 if (clients.indexOf(value.admin_id) !== -1) {
                   // value.status = enable // 此修改可保持勾选状态
                   this.$set(this.currentTableData, index, {
                     ...value,
-                    status: enable
+                    status: state
                   })
                 }
               })
@@ -499,6 +499,11 @@ export default {
         username: oldData.username,
         group_id: oldData.group_id,
         nickname: oldData.nickname
+      }
+
+      // 处理el-select项不存在的bug
+      if (!this.group.find(item => item.group_id === oldData.group_id)) {
+        this.form.group_id = undefined
       }
 
       this.$nextTick(() => {

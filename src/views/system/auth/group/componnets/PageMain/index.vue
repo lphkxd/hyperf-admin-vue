@@ -5,13 +5,31 @@
       size="small">
 
       <el-form-item>
-        <el-button
-          v-if="auth.add"
-          :disabled="loading"
-          @click="handleCreate">
-          <cs-icon name="plus"/>
-          新增
-        </el-button>
+        <el-button-group>
+          <el-button
+            v-if="auth.add"
+            :disabled="loading"
+            @click="handleCreate">
+            <cs-icon name="plus"/>
+            新增
+          </el-button>
+
+          <el-button
+            v-if="auth.enable"
+            :disabled="loading"
+            @click="handleState(1)">
+            <cs-icon name="check"/>
+            启用
+          </el-button>
+
+          <el-button
+            v-if="auth.disable"
+            :disabled="loading"
+            @click="handleState(0)">
+            <cs-icon name="close"/>
+            禁用
+          </el-button>
+        </el-button-group>
       </el-form-item>
 
       <el-popover
@@ -33,7 +51,8 @@
       :data="currentTableData"
       v-loading="loading"
       :row-class-name="tableRowClassName"
-      style="width: 100%;">
+      style="width: 100%;"
+      @selection-change="handleSelectionChange">
 
       <el-table-column type="selection" width="55"/>
 
@@ -203,6 +222,7 @@ export default {
   data() {
     return {
       currentTableData: [],
+      multipleSelection: [],
       helpContent: '暂无帮助内容',
       auth: {
         add: false,
@@ -298,6 +318,10 @@ export default {
       this.auth.disable = this.$has('/system/auth/group/disable')
       this.auth.sort = this.$has('/system/auth/group/sort')
     },
+    // 选中数据项
+    handleSelectionChange(val) {
+      this.multipleSelection = val
+    },
     // 返回表格行颜色
     tableRowClassName({ row, rowIndex }) {
       if (row.system) {
@@ -343,6 +367,41 @@ export default {
             })
         }
       })
+    },
+    // 批量设置状态
+    handleState(state) {
+      let group_list = []
+      this.multipleSelection.forEach(value => {
+        group_list.push(value.group_id)
+      })
+
+      if (group_list.length === 0) {
+        this.$message.error('请选择要操作的数据')
+        return
+      }
+
+      this.$confirm('确定要执行该操作吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(() => {
+          setAuthGroupStatus(group_list, state)
+            .then(() => {
+              this.currentTableData.forEach((value, index) => {
+                if (group_list.indexOf(value.group_id) !== -1) {
+                  this.$set(this.currentTableData, index, {
+                    ...value,
+                    status: state
+                  })
+                }
+              })
+
+              this.$message.success('操作成功')
+            })
+        })
+        .catch(() => {
+        })
     },
     // 弹出编辑对话框
     handleUpdate(index) {
