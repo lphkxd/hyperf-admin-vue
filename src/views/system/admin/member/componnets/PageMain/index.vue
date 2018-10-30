@@ -214,7 +214,7 @@
         <el-button
           v-else type="primary"
           :loading="dialogLoading"
-          @click="update"
+          @click="update(form.index)"
           size="small">修改</el-button>
       </div>
     </el-dialog>
@@ -244,7 +244,6 @@ export default {
   },
   data() {
     return {
-      currentIndex: null,
       currentTableData: [],
       multipleSelection: [],
       helpContent: '暂无帮助内容',
@@ -278,6 +277,7 @@ export default {
         }
       },
       form: {
+        index: undefined,
         client_id: undefined,
         username: undefined,
         password: undefined,
@@ -491,18 +491,16 @@ export default {
     },
     // 弹出编辑对话框
     handleUpdate(index) {
-      this.currentIndex = index
-      let oldData = this.currentTableData[index]
-
       this.form = {
-        client_id: oldData.admin_id,
-        username: oldData.username,
-        group_id: oldData.group_id,
-        nickname: oldData.nickname
+        index: index,
+        client_id: this.currentTableData[index].admin_id,
+        username: this.currentTableData[index].username,
+        group_id: this.currentTableData[index].group_id,
+        nickname: this.currentTableData[index].nickname
       }
 
       // 处理el-select项不存在的bug
-      if (!this.group.find(item => item.group_id === oldData.group_id)) {
+      if (!this.group.find(item => item.group_id === this.form.group_id)) {
         this.form.group_id = undefined
       }
 
@@ -515,27 +513,18 @@ export default {
       this.dialogFormVisible = true
     },
     // 请求修改用户
-    update() {
+    update(index) {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.dialogLoading = true
-          const newData = {
-            client_id: this.form.client_id,
-            group_id: this.form.group_id,
-            nickname: this.form.nickname
-          }
-
-          setAdminItem(newData)
-            .then(() => {
-              const oldValue = this.currentTableData[this.currentIndex]
-              this.form['get_auth_group'] = this.group.find(item => item.group_id === this.form.group_id)
-
-              this.$set(this.currentTableData, this.currentIndex, {
-                ...oldValue,
-                ...this.form
+          setAdminItem(this.form)
+            .then(res => {
+              this.$set(this.currentTableData, index, {
+                ...this.currentTableData[index],
+                ...res.data,
+                get_auth_group: this.group.find(item => item.group_id === this.form.group_id)
               })
 
-              this.currentIndex = null
               this.dialogFormVisible = false
               this.$message.success('操作成功')
             })
