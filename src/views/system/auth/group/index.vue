@@ -7,7 +7,8 @@
       ref="header"/>
     <page-main
       :table-data="table"
-      :loading="loading"/>
+      :loading="loading"
+      @sort="handleSort"/>
   </cs-container>
 </template>
 
@@ -23,22 +24,34 @@ export default {
   data() {
     return {
       table: [],
-      loading: false
+      loading: false,
+      order: {
+        order_type: undefined,
+        order_field: undefined
+      }
     }
   },
   mounted() {
     this.handleSubmit()
   },
   methods: {
+    // 提交查询请求
     handleSubmit(form) {
       this.loading = true
-      getAuthGroupList(form)
+      getAuthGroupList({ ...form, ...this.order })
         .then(res => {
           this.table = res.data.length ? res.data : []
         })
         .finally(() => {
           this.loading = false
         })
+    },
+    // 排序刷新
+    handleSort(val) {
+      this.order = val
+      this.$nextTick(() => {
+        this.$refs.header.handleFormSubmit()
+      })
     }
   }
 }

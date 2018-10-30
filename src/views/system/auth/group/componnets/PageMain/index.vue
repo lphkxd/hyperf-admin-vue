@@ -341,7 +341,7 @@ export default {
         sort.order_field = prop
       }
 
-      console.log(sort)
+      this.$emit('sort', sort)
     },
     // 返回表格行颜色
     tableRowClassName({ row, rowIndex }) {
