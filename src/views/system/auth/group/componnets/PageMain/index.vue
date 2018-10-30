@@ -194,7 +194,7 @@
         <el-button
           v-else type="primary"
           :loading="dialogLoading"
-          @click="update"
+          @click="update(form.index)"
           size="small">修改</el-button>
       </div>
     </el-dialog>
@@ -254,6 +254,7 @@ export default {
         }
       },
       form: {
+        index: undefined,
         name: undefined,
         description: undefined,
         sort: undefined,
@@ -337,6 +338,7 @@ export default {
     // 弹出新建对话框
     handleCreate() {
       this.form = {
+        index: undefined,
         name: '',
         description: '',
         sort: 50,
@@ -406,6 +408,7 @@ export default {
     // 弹出编辑对话框
     handleUpdate(index) {
       this.form = {
+        index: index,
         group_id: this.currentTableData[index].group_id,
         name: this.currentTableData[index].name,
         description: this.currentTableData[index].description,
@@ -422,7 +425,25 @@ export default {
       this.dialogFormVisible = true
     },
     // 请求修改用户组
-    update() {
+    update(index) {
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          this.dialogLoading = true
+          setAuthGroupItem(this.form)
+            .then(res => {
+              this.$set(this.currentTableData, index, {
+                ...this.currentTableData[index],
+                ...res.data
+              })
+
+              this.dialogFormVisible = false
+              this.$message.success('操作成功')
+            })
+            .catch(() => {
+              this.dialogLoading = false
+            })
+        }
+      })
     },
     // 请求删除用户组
     handleDelete(index) {
