@@ -52,13 +52,15 @@
       v-loading="loading"
       :row-class-name="tableRowClassName"
       style="width: 100%;"
-      @selection-change="handleSelectionChange">
+      @selection-change="handleSelectionChange"
+      @sort-change="sortChange">
 
       <el-table-column type="selection" width="55"/>
 
       <el-table-column
         label="名称"
         prop="name"
+        sortable="custom"
         :show-overflow-tooltip="true">
       </el-table-column>
 
@@ -78,7 +80,9 @@
 
       <el-table-column
         label="排序值"
-        align="center">
+        prop="sort"
+        align="center"
+        sortable="custom">
         <template slot-scope="scope">
           <el-input-number
             v-if="auth.sort"
@@ -98,8 +102,10 @@
 
       <el-table-column
         label="状态"
+        prop="status"
         align="center"
-        width="100">
+        width="100"
+        sortable="custom">
         <template slot-scope="scope">
           <el-tag
             size="mini"
@@ -322,6 +328,20 @@ export default {
     // 选中数据项
     handleSelectionChange(val) {
       this.multipleSelection = val
+    },
+    // 获取排序字段
+    sortChange({ column, prop, order }) {
+      let sort = {
+        order_type: undefined,
+        order_field: undefined
+      }
+
+      if (column) {
+        sort.order_type = order === 'ascending' ? 'asc' : 'desc'
+        sort.order_field = prop
+      }
+
+      console.log(sort)
     },
     // 返回表格行颜色
     tableRowClassName({ row, rowIndex }) {
