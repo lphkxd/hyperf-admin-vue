@@ -1,9 +1,5 @@
-const path = require('path')
-
 // 拼接路径
-function resolve(dir) {
-  return path.join(__dirname, dir)
-}
+const resolve = dir => require('path').join(__dirname, dir)
 
 // 基础路径 注意发布之前要先修改这里
 const baseUrl = '/admin/'

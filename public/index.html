@@ -1,159 +1,56 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="renderer" content="webkit">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" href="favicon.ico">
-  <title><%= VUE_APP_TITLE %></title>
-  <style>
-    html, body, #app {
-      height: 100%;
-      margin: 0;
-      padding: 0;
-    }
-
-    .cs-app-loading-group {
-      height: 100%;
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      background: linear-gradient(to bottom, rgba(255, 255, 255, 0.15) 0%, rgba(0, 0, 0, 0.15) 100%), radial-gradient(at top center, rgba(255, 255, 255, 0.40) 0%, rgba(0, 0, 0, 0.40) 120%) #989898;
-      background-blend-mode: multiply, multiply;
-    }
-
-    .cs-app-loading-title {
-      color: #FFF;
-      font-weight: bold;
-      font-size: 14px;
-      margin-top: 40px;
-      margin-bottom: 10px;
-      letter-spacing: 0.2em;
-    }
-
-    .cs-app-loading-sub-title {
-      color: #FFF;
-      font-size: 10px;
-      margin-bottom: 10px;
-    }
-
-    .cs-app-loading-sub-info {
-      color: #FFF;
-      font-size: 10px;
-      opacity: .8;
-      margin-bottom: 4px;
-    }
-
-    .cs-app-loading-grid {
-      width: 30px;
-      height: 30px;
-    }
-
-    .cs-app-loading-grid .cs-app-loading {
-      width: 10px;
-      height: 10px;
-      background-color: #FFF;
-      float: left;
-      -webkit-animation: cs-app-loading-grid-scale-delay 1.3s infinite ease-in-out;
-      animation: cs-app-loading-grid-scale-delay 1.3s infinite ease-in-out;
-    }
-
-    .cs-app-loading-grid .cs-app-loading1 {
-      border-top-left-radius: 4px;
-      -webkit-animation-delay: 0.2s;
-      animation-delay: 0.2s;
-    }
-
-    .cs-app-loading-grid .cs-app-loading2 {
-      -webkit-animation-delay: 0.3s;
-      animation-delay: 0.3s;
-    }
-
-    .cs-app-loading-grid .cs-app-loading3 {
-      border-top-right-radius: 4px;
-      -webkit-animation-delay: 0.4s;
-      animation-delay: 0.4s;
-    }
-
-    .cs-app-loading-grid .cs-app-loading4 {
-      -webkit-animation-delay: 0.1s;
-      animation-delay: 0.1s;
-    }
-
-    .cs-app-loading-grid .cs-app-loading5 {
-      -webkit-animation-delay: 0.2s;
-      animation-delay: 0.2s;
-    }
-
-    .cs-app-loading-grid .cs-app-loading6 {
-      -webkit-animation-delay: 0.3s;
-      animation-delay: 0.3s;
-    }
-
-    .cs-app-loading-grid .cs-app-loading7 {
-      border-bottom-left-radius: 4px;
-      -webkit-animation-delay: 0s;
-      animation-delay: 0s;
-    }
-
-    .cs-app-loading-grid .cs-app-loading8 {
-      -webkit-animation-delay: 0.1s;
-      animation-delay: 0.1s;
-    }
-
-    .cs-app-loading-grid .cs-app-loading9 {
-      border-bottom-right-radius: 4px;
-      -webkit-animation-delay: 0.2s;
-      animation-delay: 0.2s;
-    }
-
-    @-webkit-keyframes cs-app-loading-grid-scale-delay {
-      0%, 70%, 100% {
-        -webkit-transform: scale3D(1, 1, 1);
-        transform: scale3D(1, 1, 1);
-      }
-      35% {
-        -webkit-transform: scale3D(0, 0, 1);
-        transform: scale3D(0, 0, 1);
-      }
-    }
-
-    @keyframes cs-app-loading-grid-scale-delay {
-      0%, 70%, 100% {
-        -webkit-transform: scale3D(1, 1, 1);
-        transform: scale3D(1, 1, 1);
-      }
-      35% {
-        -webkit-transform: scale3D(0, 0, 1);
-        transform: scale3D(0, 0, 1);
-      }
-    }
-  </style>
-</head>
-<body>
-<noscript>
-  <strong>We're sorry but careyshop admin doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
-</noscript>
-<div id="app">
-  <div class="cs-app-loading-group">
-    <div class="cs-app-loading-grid">
-      <div class="cs-app-loading cs-app-loading1"></div>
-      <div class="cs-app-loading cs-app-loading2"></div>
-      <div class="cs-app-loading cs-app-loading3"></div>
-      <div class="cs-app-loading cs-app-loading4"></div>
-      <div class="cs-app-loading cs-app-loading5"></div>
-      <div class="cs-app-loading cs-app-loading6"></div>
-      <div class="cs-app-loading cs-app-loading7"></div>
-      <div class="cs-app-loading cs-app-loading8"></div>
-      <div class="cs-app-loading cs-app-loading9"></div>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="favicon.ico">
+    <title><%= VUE_APP_TITLE %></title>
+    <style>
+      html, body, #app { height: 100%; margin: 0px; padding: 0px; }
+      .cs-home { background-color: #303133; height: 100%; display: flex; flex-direction: column; }
+      .cs-home__main { user-select: none; width: 100%; flex-grow: 1; display: flex; justify-content: center; align-items: center; flex-direction: column; }
+      .cs-home__footer { width: 100%; flex-grow: 0; text-align: center; padding: 1em 0; }
+      .cs-home__footer > a { font-size: 12px; color: #ABABAB; text-decoration: none; }
+      .cs-home__loading { height: 32px; width: 32px; margin-bottom: 20px; }
+      .cs-home__title { color: #FFF; font-size: 14px; margin-bottom: 10px; }
+      .cs-home__sub-title { color: #ABABAB; font-size: 12px; }
+    </style>
+    <script>
+      var _hmt = _hmt || [];
+      (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?e325e60ca4cd358f2b424f5aecb8021a";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
+  </head>
+  <body>
+    <noscript>
+      <strong>
+        很抱歉，如果没有 JavaScript 支持，CareyShop 将不能正常工作。请启用浏览器的 JavaScript 然后继续。
+      </strong>
+    </noscript>
+    <div id="app">
+      <div class="cs-home">
+        <div class="cs-home__main">
+          <img
+            class="cs-home__loading"
+            src="./image/loading/loading-spin.svg"
+            alt="loading">
+          <div class="cs-home__title">
+            正在加载资源
+          </div>
+          <div class="cs-home__sub-title">
+            初次加载资源可能需要较多时间 请耐心等待
+          </div>
+        </div>
+        <div class="cs-home__footer">
+          <a href="https://www.careyshop.cn" target="_blank">www.careyshop.cn</a>
+        </div>
+      </div>
     </div>
-    <div class="cs-app-loading-title">加载中</div>
-    <div class="cs-app-loading-sub-title">正在进入 CareyShop 管理后台，组件加载中，请耐心等待</div>
-    <div class="cs-app-loading-sub-info">如果加载时间过长，请尝试清空缓存后刷新本页面</div>
-  </div>
-</div>
-</body>
+  </body>
 </html>
