@@ -38,7 +38,10 @@ export default {
     // 提交查询请求
     handleSubmit(form) {
       this.loading = true
-      getAuthGroupList({ ...form, ...this.order })
+      getAuthGroupList({
+        ...form,
+        ...this.order
+      })
         .then(res => {
           this.table = res.data.length ? res.data : []
         })

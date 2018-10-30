@@ -60,26 +60,33 @@
       v-loading="loading"
       stripe
       style="width: 100%;"
-      @selection-change="handleSelectionChange">
+      @selection-change="handleSelectionChange"
+      @sort-change="sortChange">
 
       <el-table-column type="selection" width="55"/>
 
       <el-table-column
         label="账号"
         prop="username"
+        sortable="custom"
         :show-overflow-tooltip="true">
       </el-table-column>
 
       <el-table-column
         label="昵称"
         prop="nickname"
+        sortable="custom"
         :show-overflow-tooltip="true">
       </el-table-column>
 
       <el-table-column
         label="用户组"
-        prop="get_auth_group.name"
+        prop="group_id"
+        sortable="custom"
         :show-overflow-tooltip="true">
+        <template slot-scope="scope">
+          {{scope.row.get_auth_group.name}}
+        </template>
       </el-table-column>
 
       <el-table-column
@@ -91,12 +98,15 @@
       <el-table-column
         label="最后登陆"
         prop="last_login"
+        sortable="custom"
         align="center"
         width="160">
       </el-table-column>
 
       <el-table-column
         label="状态"
+        prop="status"
+        sortable="custom"
         align="center"
         width="100">
         <template slot-scope="scope">
@@ -382,6 +392,20 @@ export default {
     // 选中数据项
     handleSelectionChange(val) {
       this.multipleSelection = val
+    },
+    // 获取排序字段
+    sortChange({ column, prop, order }) {
+      let sort = {
+        order_type: undefined,
+        order_field: undefined
+      }
+
+      if (column) {
+        sort.order_type = order === 'ascending' ? 'asc' : 'desc'
+        sort.order_field = prop
+      }
+
+      this.$emit('sort', sort)
     },
     // 批量设置状态
     handleState(state) {

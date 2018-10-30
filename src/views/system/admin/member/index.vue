@@ -10,6 +10,7 @@
       :table-data="table"
       :loading="loading"
       :group="group"
+      @sort="handleSort"
       @refresh="handleRefresh"/>
     <page-footer
       slot="footer"
@@ -40,6 +41,10 @@ export default {
         current: 1,
         size: 25,
         total: 0
+      },
+      order: {
+        order_type: undefined,
+        order_field: undefined
       }
     }
   },
@@ -71,6 +76,13 @@ export default {
         this.$refs.header.handleFormSubmit()
       })
     },
+    // 排序刷新
+    handleSort(val) {
+      this.order = val
+      this.$nextTick(() => {
+        this.$refs.header.handleFormSubmit()
+      })
+    },
     // 提交查询请求
     handleSubmit(form, isRestore = false) {
       if (isRestore) {
@@ -80,6 +92,7 @@ export default {
       this.loading = true
       getAdminList({
         ...form,
+        ...this.order,
         page_no: this.page.current,
         page_size: this.page.size
       })
