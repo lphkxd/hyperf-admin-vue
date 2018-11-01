@@ -7,9 +7,9 @@ import request from '@/utils/request'
 export function getMenuModule() {
   return new Promise(resolve => {
     resolve({
-      api: 'API',
-      admin: '后台',
-      home: '前台'
+      api: 'API 接口菜单',
+      admin: '后台管理菜单',
+      home: '前台商城菜单'
     })
   })
 }
