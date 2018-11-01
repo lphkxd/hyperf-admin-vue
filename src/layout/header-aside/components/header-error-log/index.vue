@@ -41,11 +41,11 @@
 
 <script>
 import { mapGetters, mapMutations } from 'vuex'
-import csErrorLogList from './components/list'
+import CsErrorLogList from './components/list'
 
 export default {
   components: {
-    csErrorLogList
+    CsErrorLogList
   },
   data() {
     return {

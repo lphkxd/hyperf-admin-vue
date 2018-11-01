@@ -12,6 +12,8 @@
 </template>
 
 <script>
+import { getMenuList } from '@/api/auth/menu'
+
 export default {
   name: 'system-auth-menu',
   components: {
@@ -21,7 +23,8 @@ export default {
   data() {
     return {
       tree: [],
-      loading: false
+      loading: false,
+      module: 'admin'
     }
   },
   mounted() {
@@ -30,6 +33,17 @@ export default {
   methods: {
     // 提交查询请求
     handleSubmit(form) {
+      this.loading = true
+      getMenuList({
+        ...form,
+        module: this.module
+      })
+        .then(res => {
+          this.tree = res.data.length ? res.data : []
+        })
+        .finally(() => {
+          this.loading = false
+        })
     }
   }
 }
