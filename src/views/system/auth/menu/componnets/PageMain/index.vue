@@ -18,22 +18,28 @@
       <el-form-item>
         <el-button-group>
           <el-button
-            type="primary"
-            plain
             :disabled="loading"
             @click="() => {}">
             <cs-icon name="plus-square-o"/>
             展开
           </el-button>
           <el-button
-            type="primary"
-            plain
             :disabled="loading"
             @click="() => {}">
             <cs-icon name="minus-square-o"/>
             收起
           </el-button>
         </el-button-group>
+      </el-form-item>
+
+      <el-form-item label="菜单模型">
+        <el-radio-group
+          :disabled="loading"
+          v-model="radio">
+          <el-radio-button label="api">API</el-radio-button>
+          <el-radio-button label="admin">后台</el-radio-button>
+          <el-radio-button label="home">前台</el-radio-button>
+        </el-radio-group>
       </el-form-item>
 
       <el-popover
@@ -50,19 +56,10 @@
         </el-button>
       </el-popover>
     </el-form>
-
-    <el-tabs v-model="activeName" @tab-click="() => {}">
-      <el-tab-pane :label="menuModule.api" name="api"></el-tab-pane>
-      <el-tab-pane :label="menuModule.admin" name="admin"></el-tab-pane>
-      <el-tab-pane :label="menuModule.home" name="home"></el-tab-pane>
-    </el-tabs>
-
   </div>
 </template>
 
 <script>
-import { getMenuModule } from '@/api/auth/menu'
-
 export default {
   props: {
     treeData: {
@@ -74,9 +71,8 @@ export default {
   },
   data() {
     return {
-      activeName: 'api',
+      radio: 'admin',
       helpContent: '暂无帮助内容',
-      menuModule: {},
       auth: {
         add: true,
         del: true,
@@ -85,9 +81,6 @@ export default {
         disable: true
       }
     }
-  },
-  created() {
-    getMenuModule().then(res => { this.menuModule = res })
   }
 }
 </script>
