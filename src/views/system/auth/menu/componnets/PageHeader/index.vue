@@ -75,7 +75,11 @@ export default {
   },
   methods: {
     handleFormSubmit() {
-      this.$emit('submit', this.form)
+      // 对深度进行特殊处理
+      this.$emit('submit', {
+        ...this.form,
+        level: this.form.level <= 0 ? undefined : this.form.level - 1
+      })
     },
     handleFormReset() {
       this.$refs.form.resetFields()

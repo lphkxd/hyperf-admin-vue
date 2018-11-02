@@ -35,7 +35,8 @@
       <el-form-item label="菜单模型">
         <el-radio-group
           :disabled="loading"
-          v-model="radio">
+          v-model="radio"
+          @change="handleRadio">
           <el-radio-button label="api">API</el-radio-button>
           <el-radio-button label="admin">后台</el-radio-button>
           <el-radio-button label="home">前台</el-radio-button>
@@ -80,6 +81,12 @@ export default {
         enable: true,
         disable: true
       }
+    }
+  },
+  methods: {
+    // 切换模块
+    handleRadio() {
+      this.$emit('module', this.radio)
     }
   }
 }

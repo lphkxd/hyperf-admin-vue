@@ -7,7 +7,8 @@
       ref="header"/>
     <page-main
       :tree-data="tree"
-      :loading="loading"/>
+      :loading="loading"
+      @module="handleModule"/>
   </cs-container>
 </template>
 
@@ -44,6 +45,13 @@ export default {
         .finally(() => {
           this.loading = false
         })
+    },
+    // 切换模块
+    handleModule(val) {
+      this.module = val
+      this.$nextTick(() => {
+        this.$refs.header.handleFormSubmit()
+      })
     }
   }
 }
