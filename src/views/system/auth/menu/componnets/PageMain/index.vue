@@ -19,20 +19,20 @@
         <el-button-group>
           <el-button
             :disabled="loading"
-            @click="handleExpand">
+            @click="setCheckedNodes">
             <cs-icon name="plus-square-o"/>
             展开
           </el-button>
           <el-button
             :disabled="loading"
-            @click="handleCollapse">
+            @click="setCheckedKeys">
             <cs-icon name="minus-square-o"/>
             收起
           </el-button>
         </el-button-group>
       </el-form-item>
 
-      <el-form-item label="菜单过滤">
+      <el-form-item label="过滤">
         <el-input
           v-model="filterText"
           :disabled="loading"
@@ -40,17 +40,6 @@
           clearable
           style="width: 170px;">
         </el-input>
-      </el-form-item>
-
-      <el-form-item label="菜单模型">
-        <el-radio-group
-          :disabled="loading"
-          v-model="radio"
-          @change="handleRadio">
-          <el-radio-button label="api">API</el-radio-button>
-          <el-radio-button label="admin">后台</el-radio-button>
-          <el-radio-button label="home">前台</el-radio-button>
-        </el-radio-group>
       </el-form-item>
 
       <el-popover
@@ -75,18 +64,174 @@
           :data="currentTreeData"
           node-key="menu_id"
           :props="defaultProps"
-          @node-click="() => {}">
+          :filter-node-method="filterNode"
+          :highlight-current="true"
+          @node-click="() => {}"
+          ref="tree">
+          <span
+            class="custom-tree-node action"
+            slot-scope="{ node, data }">
+            <span class="brother-showing">
+              <i class="fa fa-align-justify move-tree cs-mr-10"></i>
+              <i v-if="node.icon" :class="`fa fa-${node.icon}`" style="width: 16px;"></i>
+              <i v-else-if="data.children" class="fa fa-folder-o" style="width: 16px;"></i>
+              <i v-else class="fa fa-file-o" style="width: 16px;"></i>
+              {{ node.label }}
+            </span>
+
+            <span class="active">
+              <el-button
+                type="text"
+                size="mini"
+                @click.stop="() => {}">
+                新增
+              </el-button>
+
+              <el-button
+                type="text"
+                size="mini"
+                @click.stop="() => {}">
+                编辑
+              </el-button>
+
+              <el-button
+                type="text"
+                size="mini"
+                @click.stop="() => {}">
+                删除
+              </el-button>
+            </span>
+          </span>
         </el-tree>
       </el-col>
 
       <el-col :span="14">
-        word
+        <el-form
+          :model="form"
+          label-width="80px"
+          ref="form">
+          <el-form-item
+            label="所属菜单"
+            prop="parent_id">
+            <span>{{form.parent_id}}</span>
+          </el-form-item>
+
+          <el-form-item
+            label="名称"
+            prop="name">
+            <el-input
+              v-model="form.name"
+              placeholder="请输入菜单名称"/>
+          </el-form-item>
+
+          <el-form-item
+            label="别名"
+            prop="alias">
+            <el-input
+              v-model="form.alias"
+              placeholder="请输入菜单别名"/>
+          </el-form-item>
+
+          <el-form-item
+            label="图标"
+            prop="icon">
+          </el-form-item>
+
+          <el-form-item
+            label="备注"
+            prop="remark">
+            <el-input
+              v-model="form.remark"
+              placeholder="请输入菜单备注"/>
+          </el-form-item>
+
+          <el-form-item
+            label="模块">
+            <el-radio-group v-model="form.module">
+              <el-radio
+                v-for="(name, index) in teerModule"
+                :key="index"
+                :label="index"
+                :disabled="form.module !== index">{{name}}</el-radio>
+            </el-radio-group>
+          </el-form-item>
+
+          <el-form-item
+            label="链接类型"
+            prop="type">
+            <el-radio-group v-model="form.type">
+              <el-radio label="0">模块</el-radio>
+              <el-radio label="1">外链</el-radio>
+            </el-radio-group>
+          </el-form-item>
+
+          <el-form-item
+            label="链接地址"
+            prop="url">
+            <el-input
+              v-model="form.url"
+              placeholder="请输入链接地址"/>
+          </el-form-item>
+
+          <el-form-item
+            label="链接参数"
+            prop="params">
+            <el-input
+              v-model="form.params"
+              placeholder="请输入链接参数"/>
+          </el-form-item>
+
+          <el-form-item
+            label="打开方式"
+            prop="target">
+            <el-radio-group v-model="form.target">
+              <el-radio label="_self">当前窗口</el-radio>
+              <el-radio label="_blank">新窗口</el-radio>
+            </el-radio-group>
+          </el-form-item>
+
+          <el-form-item
+            label="导航菜单"
+            prop="is_navi">
+            <el-radio-group v-model="form.is_navi">
+              <el-radio label="0">否</el-radio>
+              <el-radio label="1">是</el-radio>
+            </el-radio-group>
+          </el-form-item>
+
+          <el-form-item
+            label="排序"
+            prop="sort">
+            <el-input
+              v-model="form.sort"
+              placeholder="请输入菜单排序值"/>
+          </el-form-item>
+
+          <el-form-item
+            label="状态"
+            prop="status">
+            <el-radio-group v-model="form.status">
+              <el-radio label="1">启用</el-radio>
+              <el-radio label="0">禁用</el-radio>
+            </el-radio-group>
+          </el-form-item>
+        </el-form>
+
+        <div class="footer">
+          <el-button type="primary" size="small">确定</el-button>
+          <el-button size="small">取消</el-button>
+        </div>
       </el-col>
     </el-row>
   </div>
 </template>
 
 <script>
+import {
+  getMenuModule
+} from '@/api/auth/menu'
+import util from '@/utils/util'
+
 export default {
   props: {
     treeData: {
@@ -94,14 +239,17 @@ export default {
     },
     loading: {
       default: false
+    },
+    module: {
+      default: ''
     }
   },
   data() {
     return {
-      radio: 'admin',
       currentTreeData: [],
       helpContent: '暂无帮助内容',
       filterText: '',
+      teerModule: {},
       defaultProps: {
         label: 'name',
         children: 'children'
@@ -112,7 +260,8 @@ export default {
         set: true,
         enable: true,
         disable: true
-      }
+      },
+      form: {}
     }
   },
   watch: {
@@ -121,26 +270,78 @@ export default {
     },
     treeData: {
       handler(val) {
-        this.currentTreeData = val
+        this.currentTreeData = util.formatDataToTree(val)
       },
       immediate: true
     }
   },
+  mounted() {
+    this._getMenuModule()
+  },
   methods: {
     filterNode(value, data) {
       if (!value) { return true }
-      return data.label.indexOf(value) !== -1
+      return data.name.indexOf(value) !== -1
     },
-    // 切换模块
-    handleRadio() {
-      this.$emit('module', this.radio)
+    // 获取菜单模块
+    _getMenuModule() {
+      getMenuModule().then(res => { this.teerModule = res })
+    },
+    _resetForm(parent_id = 0, name = '') {
+      this.form = {
+        parent_id: parent_id,
+        name: name,
+        alias: '',
+        icon: '',
+        remark: '',
+        module: this.module,
+        type: '0',
+        url: '',
+        params: '',
+        target: '_self',
+        is_navi: '0',
+        sort: 50,
+        status: '1'
+      }
+    },
+    // 展开或收起节点
+    _checkedNodes(isExpand = false) {
+      const nodes = this.$refs.tree.store._getAllNodes()
+      const nodeCount = nodes.length
+
+      for (var i = 0; i < nodeCount; i++) {
+        nodes[i].expanded = isExpand
+      }
     },
     // 全部展开
-    handleExpand() {
+    setCheckedNodes() {
+      this._checkedNodes(true)
     },
     // 全部收起
-    handleCollapse() {
+    setCheckedKeys() {
+      this._checkedNodes(false)
     }
   }
 }
 </script>
+
+<style>
+  .custom-tree-node {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    padding-right: 8px;
+  }
+  .active {
+    display: none;
+  }
+  .action:hover .active{
+    display: block;
+  }
+  .move-tree {
+    color: #C0C4CC;
+    cursor: move;
+  }
+</style>

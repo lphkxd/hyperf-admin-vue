@@ -8,7 +8,7 @@
     <page-main
       :tree-data="tree"
       :loading="loading"
-      @module="handleModule"/>
+      :module="module"/>
   </cs-container>
 </template>
 
@@ -25,33 +25,24 @@ export default {
     return {
       tree: [],
       loading: false,
-      module: 'admin'
+      module: undefined
     }
   },
   mounted() {
-    this.handleSubmit()
+    this.handleSubmit({ module: 'admin' })
   },
   methods: {
     // 提交查询请求
     handleSubmit(form) {
       this.loading = true
-      getMenuList({
-        ...form,
-        module: this.module
-      })
+      getMenuList(form)
         .then(res => {
+          this.module = form.module
           this.tree = res.data.length ? res.data : []
         })
         .finally(() => {
           this.loading = false
         })
-    },
-    // 切换模块
-    handleModule(val) {
-      this.module = val
-      this.$nextTick(() => {
-        this.$refs.header.handleFormSubmit()
-      })
     }
   }
 }

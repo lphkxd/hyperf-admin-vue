@@ -20,7 +20,7 @@
           @contextmenu.native="handleContextmenu">
           <el-tab-pane
             v-for="(page, index) in opened"
-            :key="index"
+            :key="index + page.name"
             :label="page.meta.title || '未命名'"
             :name="page.name"/>
         </el-tabs>
