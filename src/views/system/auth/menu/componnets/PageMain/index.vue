@@ -8,7 +8,7 @@
           <el-button
             v-if="auth.add"
             :disabled="loading"
-            @click="() => {}">
+            @click="handleCreate">
             <cs-icon name="plus"/>
             新增顶层菜单
           </el-button>
@@ -111,9 +111,14 @@
           label-width="80px"
           ref="form">
           <el-form-item
-            label="所属菜单"
+            label="上级菜单"
             prop="parent_id">
-            <span>{{form.parent_id}}</span>
+            <el-cascader
+              expand-trigger="hover"
+              :options="currentTreeData"
+              @change="() => {}"
+              style="width: 100%;">
+            </el-cascader>
           </el-form-item>
 
           <el-form-item
@@ -121,7 +126,8 @@
             prop="name">
             <el-input
               v-model="form.name"
-              placeholder="请输入菜单名称"/>
+              placeholder="请输入菜单名称"
+              clearable/>
           </el-form-item>
 
           <el-form-item
@@ -129,12 +135,8 @@
             prop="alias">
             <el-input
               v-model="form.alias"
-              placeholder="请输入菜单别名"/>
-          </el-form-item>
-
-          <el-form-item
-            label="图标"
-            prop="icon">
+              placeholder="请输入菜单别名"
+              clearable/>
           </el-form-item>
 
           <el-form-item
@@ -142,17 +144,27 @@
             prop="remark">
             <el-input
               v-model="form.remark"
-              placeholder="请输入菜单备注"/>
+              placeholder="请输入菜单备注"
+              clearable/>
+          </el-form-item>
+
+          <el-form-item
+            label="图标"
+            prop="icon">
+            <cs-icon-select
+              v-model="form.icon"
+              :user-input="true"
+              placeholder="请选择菜单图标"/>
           </el-form-item>
 
           <el-form-item
             label="模块">
-            <el-radio-group v-model="form.module">
+            <el-radio-group v-model="module">
               <el-radio
                 v-for="(name, index) in teerModule"
                 :key="index"
                 :label="index"
-                :disabled="form.module !== index">{{name}}</el-radio>
+                :disabled="module !== index">{{name}}</el-radio>
             </el-radio-group>
           </el-form-item>
 
@@ -170,7 +182,8 @@
             prop="url">
             <el-input
               v-model="form.url"
-              placeholder="请输入链接地址"/>
+              placeholder="请输入链接地址"
+              clearable/>
           </el-form-item>
 
           <el-form-item
@@ -178,7 +191,19 @@
             prop="params">
             <el-input
               v-model="form.params"
-              placeholder="请输入链接参数"/>
+              placeholder="请输入链接参数"
+              clearable/>
+          </el-form-item>
+
+          <el-form-item
+            label="排序"
+            prop="sort">
+            <el-input-number
+              v-model="form.sort"
+              controls-position="right"
+              :min="0"
+              :max="255"
+              label="请输入菜单排序值"/>
           </el-form-item>
 
           <el-form-item
@@ -200,14 +225,6 @@
           </el-form-item>
 
           <el-form-item
-            label="排序"
-            prop="sort">
-            <el-input
-              v-model="form.sort"
-              placeholder="请输入菜单排序值"/>
-          </el-form-item>
-
-          <el-form-item
             label="状态"
             prop="status">
             <el-radio-group v-model="form.status">
@@ -217,7 +234,7 @@
           </el-form-item>
         </el-form>
 
-        <div class="footer">
+        <div v-show="false" class="footer">
           <el-button type="primary" size="small">确定</el-button>
           <el-button size="small">取消</el-button>
         </div>
@@ -287,23 +304,6 @@ export default {
     _getMenuModule() {
       getMenuModule().then(res => { this.teerModule = res })
     },
-    _resetForm(parent_id = 0, name = '') {
-      this.form = {
-        parent_id: parent_id,
-        name: name,
-        alias: '',
-        icon: '',
-        remark: '',
-        module: this.module,
-        type: '0',
-        url: '',
-        params: '',
-        target: '_self',
-        is_navi: '0',
-        sort: 50,
-        status: '1'
-      }
-    },
     // 展开或收起节点
     _checkedNodes(isExpand = false) {
       const nodes = this.$refs.tree.store._getAllNodes()
@@ -313,6 +313,24 @@ export default {
         nodes[i].expanded = isExpand
       }
     },
+    // 重置状态
+    resetForm(parent_id = 0, name = '') {
+      this.filterText = ''
+      this.form = {
+        parent_id: parent_id,
+        name: name,
+        alias: '',
+        icon: '',
+        remark: '',
+        type: '0',
+        url: '',
+        params: '',
+        target: '_self',
+        is_navi: '0',
+        sort: 50,
+        status: '1'
+      }
+    },
     // 全部展开
     setCheckedNodes() {
       this._checkedNodes(true)
@@ -320,6 +338,9 @@ export default {
     // 全部收起
     setCheckedKeys() {
       this._checkedNodes(false)
+    },
+    // 新增菜单
+    handleCreate() {
     }
   }
 }

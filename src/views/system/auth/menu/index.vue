@@ -8,7 +8,8 @@
     <page-main
       :tree-data="tree"
       :loading="loading"
-      :module="module"/>
+      :module="module"
+      ref="main"/>
   </cs-container>
 </template>
 
@@ -38,6 +39,7 @@ export default {
       getMenuList(form)
         .then(res => {
           this.module = form.module
+          this.$refs.main.resetForm()
           this.tree = res.data.length ? res.data : []
         })
         .finally(() => {

@@ -44,7 +44,6 @@
         controls-position="right"
         :min="0"
         label="请输入菜单深度值"
-        @keyup.enter.native="handleFormSubmit"
         style="width: 100px;"/>
     </el-form-item>
 

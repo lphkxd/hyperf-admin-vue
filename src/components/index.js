@@ -5,4 +5,5 @@ import csContainer from './cs-container'
 Vue.component('cs-container', csContainer)
 Vue.component('cs-page-cover', () => import('./cs-page-cover'))
 Vue.component('cs-icon', () => import('./cs-icon'))
-Vue.component('cs-icon-svg', () => import('./cs-icon-svg/index.vue'))
+Vue.component('cs-icon-svg', () => import('./cs-icon-svg'))
+Vue.component('cs-icon-select', () => import('./cs-icon-select'))
