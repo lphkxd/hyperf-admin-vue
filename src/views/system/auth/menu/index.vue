@@ -39,8 +39,11 @@ export default {
       getMenuList(form)
         .then(res => {
           this.module = form.module
-          this.$refs.main.resetForm()
           this.tree = res.data.length ? res.data : []
+
+          if (this.$refs.main) {
+            this.$refs.main.resetForm()
+          }
         })
         .finally(() => {
           this.loading = false

@@ -63,7 +63,7 @@
           v-loading="loading"
           :data="currentTreeData"
           node-key="menu_id"
-          :props="defaultProps"
+          :props="treeProps"
           :filter-node-method="filterNode"
           :highlight-current="true"
           @node-click="() => {}"
@@ -114,10 +114,14 @@
             label="上级菜单"
             prop="parent_id">
             <el-cascader
-              expand-trigger="hover"
+              v-model="form.parent_id"
               :options="currentTreeData"
-              @change="() => {}"
-              style="width: 100%;">
+              :props="cascaderProps"
+              change-on-select
+              filterable
+              clearable
+              style="width: 100%;"
+              placeholder="不选择表示顶层菜单 试试搜索：首页">
             </el-cascader>
           </el-form-item>
 
@@ -267,7 +271,12 @@ export default {
       helpContent: '暂无帮助内容',
       filterText: '',
       teerModule: {},
-      defaultProps: {
+      treeProps: {
+        label: 'name',
+        children: 'children'
+      },
+      cascaderProps: {
+        value: 'menu_id',
         label: 'name',
         children: 'children'
       },
@@ -278,7 +287,20 @@ export default {
         enable: true,
         disable: true
       },
-      form: {}
+      form: {
+        parent_id: undefined,
+        name: undefined,
+        alias: undefined,
+        icon: undefined,
+        remark: undefined,
+        type: '0',
+        url: undefined,
+        params: undefined,
+        target: '_self',
+        is_navi: '0',
+        sort: 50,
+        status: '1'
+      }
     }
   },
   watch: {
@@ -314,7 +336,7 @@ export default {
       }
     },
     // 重置状态
-    resetForm(parent_id = 0, name = '') {
+    resetForm(parent_id = [], name = '') {
       this.filterText = ''
       this.form = {
         parent_id: parent_id,
@@ -341,6 +363,7 @@ export default {
     },
     // 新增菜单
     handleCreate() {
+      console.log(this.form.parent_id)
     }
   }
 }
