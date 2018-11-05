@@ -526,7 +526,7 @@ export default {
           addMenuItem({
             ...this.form,
             'parent_id': parent_id.length > 0 ? parent_id[parent_id.length - 1] : 0,
-            module: this.module
+            'module': this.module
           })
         }
       })
