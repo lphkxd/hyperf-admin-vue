@@ -73,7 +73,7 @@
           <span
             class="custom-tree-node action"
             slot-scope="{ node, data }">
-            <span class="brother-showing" :style="data.status !== 1 ? 'color: #F56C6C;' : ''">
+            <span :class="`brother-showing ${!data.status ? 'status-tree' : ''}`">
               <i class="fa fa-align-justify move-tree cs-mr-10"></i>
               <i v-if="node.icon" :class="`fa fa-${node.icon}`" style="width: 16px;"></i>
               <i v-else-if="data.children" class="fa fa-folder-o" style="width: 16px;"></i>
@@ -99,7 +99,7 @@
               <el-button
                 type="text"
                 size="mini"
-                @click.stop="() => {}">
+                @click.stop="() => remove(data.menu_id)">
                 删除
               </el-button>
             </span>
@@ -302,6 +302,7 @@
 <script>
 import {
   getMenuModule,
+  delMenuItem,
   addMenuItem
 } from '@/api/auth/menu'
 import util from '@/utils/util'
@@ -541,8 +542,37 @@ export default {
             'parent_id': parent_id.length > 0 ? parent_id[parent_id.length - 1] : 0,
             'module': this.module
           })
+            .then(res => {
+              // this.currentTreeData.push(res.data)
+              // this.$refs.tree.setCurrentKey(4)
+              // this.$refs.tree.append(res.data)
+              this.resetElements()
+              this.$message.success('操作成功')
+            })
+            .catch(() => {
+              this.formLoading = false
+            })
         }
       })
+    },
+    // 删除菜单
+    remove(key) {
+      this.$confirm('确定要执行该操作吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(() => {
+          delMenuItem(key)
+            .then(() => {
+              let tree = this.$refs.tree.getNode(key)
+              this.$refs.tree.remove(tree)
+              this.cancel()
+              this.$message.success('操作成功')
+            })
+        })
+        .catch(() => {
+        })
     }
   }
 }
@@ -572,5 +602,9 @@ export default {
   }
   .el-card__header {
     padding: 10px 20px;
+  }
+  .status-tree {
+    color: #C0C4CC;
+    text-decoration: line-through
   }
 </style>
