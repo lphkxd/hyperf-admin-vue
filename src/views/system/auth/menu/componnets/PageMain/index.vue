@@ -108,184 +108,192 @@
       </el-col>
 
       <el-col :span="14">
-        <el-form
-          :model="form"
-          :rules="rules"
-          ref="form"
-          label-width="80px">
-          <el-form-item
-            label="上级菜单"
-            prop="parent_id">
-            <el-cascader
-              v-model="form.parent_id"
-              :options="currentTreeData"
-              :props="cascaderProps"
-              change-on-select
-              filterable
-              clearable
-              style="width: 100%;"
-              placeholder="不选择表示顶层菜单 试试搜索：首页">
-            </el-cascader>
-          </el-form-item>
+        <el-card shadow="never">
+          <div slot="header">
+            <span>{{textMap[formStatus]}}</span>
+          </div>
 
-          <el-row>
-            <el-col :span="12">
+          <div>
+            <el-form
+              :model="form"
+              :rules="rules"
+              ref="form"
+              label-width="80px">
               <el-form-item
-                label="名称"
-                prop="name">
-                <el-input
-                  v-model="form.name"
-                  placeholder="请输入菜单名称"
-                  clearable/>
+                label="上级菜单"
+                prop="parent_id">
+                <el-cascader
+                  v-model="form.parent_id"
+                  :options="currentTreeData"
+                  :props="cascaderProps"
+                  change-on-select
+                  filterable
+                  clearable
+                  style="width: 100%;"
+                  placeholder="不选择表示顶层菜单 试试搜索：首页">
+                </el-cascader>
               </el-form-item>
-            </el-col>
 
-            <el-col :span="12">
+              <el-row>
+                <el-col :span="12">
+                  <el-form-item
+                    label="名称"
+                    prop="name">
+                    <el-input
+                      v-model="form.name"
+                      placeholder="请输入菜单名称"
+                      clearable/>
+                  </el-form-item>
+                </el-col>
+
+                <el-col :span="12">
+                  <el-form-item
+                    label="别名"
+                    prop="alias">
+                    <el-input
+                      v-model="form.alias"
+                      placeholder="请输入菜单别名"
+                      clearable/>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+
+              <el-row>
+                <el-col :span="12">
+                  <el-form-item
+                    label="图标"
+                    prop="icon">
+                    <cs-icon-select
+                      v-model="form.icon"
+                      :user-input="true"
+                      placeholder="请选择菜单图标"/>
+                  </el-form-item>
+                </el-col>
+
+                <el-col :span="12">
+                  <el-form-item
+                    label="排序"
+                    prop="sort">
+                    <el-input-number
+                      v-model="form.sort"
+                      :min="0"
+                      :max="255"
+                      controls-position="right"
+                      label="请输入菜单排序值"/>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+
               <el-form-item
-                label="别名"
-                prop="alias">
-                <el-input
-                  v-model="form.alias"
-                  placeholder="请输入菜单别名"
-                  clearable/>
-              </el-form-item>
-            </el-col>
-          </el-row>
-
-          <el-row>
-            <el-col :span="12">
-              <el-form-item
-                label="图标"
-                prop="icon">
-                <cs-icon-select
-                  v-model="form.icon"
-                  :user-input="true"
-                  placeholder="请选择菜单图标"/>
-              </el-form-item>
-            </el-col>
-
-            <el-col :span="12">
-              <el-form-item
-                label="排序"
-                prop="sort">
-                <el-input-number
-                  v-model="form.sort"
-                  :min="0"
-                  :max="255"
-                  controls-position="right"
-                  label="请输入菜单排序值"/>
-              </el-form-item>
-            </el-col>
-          </el-row>
-
-          <el-form-item
-            label="模块">
-            <el-radio-group v-model="module" size="small">
-              <el-radio-button
-                v-for="(name, index) in teerModule"
-                :key="index"
-                :label="index"
-                :disabled="module !== index">{{name}}</el-radio-button>
-            </el-radio-group>
-          </el-form-item>
-
-          <el-row>
-            <el-col :span="12">
-              <el-form-item
-                label="链接类型"
-                prop="type">
-                <el-radio-group v-model="form.type">
-                  <el-radio label="0">模块</el-radio>
-                  <el-radio label="1">外链</el-radio>
+                label="模块">
+                <el-radio-group v-model="module" size="small">
+                  <el-radio-button
+                    v-for="(name, index) in teerModule"
+                    :key="index"
+                    :label="index"
+                    :disabled="module !== index">{{name}}</el-radio-button>
                 </el-radio-group>
               </el-form-item>
-            </el-col>
 
-            <el-col :span="12">
+              <el-row>
+                <el-col :span="12">
+                  <el-form-item
+                    label="链接类型"
+                    prop="type">
+                    <el-radio-group v-model="form.type">
+                      <el-radio label="0">模块</el-radio>
+                      <el-radio label="1">外链</el-radio>
+                    </el-radio-group>
+                  </el-form-item>
+                </el-col>
+
+                <el-col :span="12">
+                  <el-form-item
+                    label="打开方式"
+                    prop="target">
+                    <el-radio-group v-model="form.target">
+                      <el-radio label="_self">当前窗口</el-radio>
+                      <el-radio label="_blank">新窗口</el-radio>
+                    </el-radio-group>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+
+              <el-row>
+                <el-col :span="12">
+                  <el-form-item
+                    label="是否导航"
+                    prop="is_navi">
+                    <el-switch
+                      v-model="form.is_navi"
+                      active-value="1"
+                      inactive-value="0">
+                    </el-switch>
+                  </el-form-item>
+                </el-col>
+
+                <el-col :span="12">
+                  <el-form-item
+                    label="菜单状态"
+                    prop="status">
+                    <el-switch
+                      v-model="form.status"
+                      active-value="1"
+                      inactive-value="0">
+                    </el-switch>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+
               <el-form-item
-                label="打开方式"
-                prop="target">
-                <el-radio-group v-model="form.target">
-                  <el-radio label="_self">当前窗口</el-radio>
-                  <el-radio label="_blank">新窗口</el-radio>
-                </el-radio-group>
+                label="链接地址"
+                prop="url">
+                <el-input
+                  v-model="form.url"
+                  placeholder="请输入链接地址"
+                  clearable/>
               </el-form-item>
-            </el-col>
-          </el-row>
 
-          <el-row>
-            <el-col :span="12">
               <el-form-item
-                label="是否导航"
-                prop="is_navi">
-                <el-switch
-                  v-model="form.is_navi"
-                  active-value="1"
-                  inactive-value="0">
-                </el-switch>
+                label="链接参数"
+                prop="params">
+                <el-input
+                  v-model="form.params"
+                  placeholder="请输入链接参数"
+                  clearable/>
               </el-form-item>
-            </el-col>
 
-            <el-col :span="12">
               <el-form-item
-                label="菜单状态"
-                prop="status">
-                <el-switch
-                  v-model="form.status"
-                  active-value="1"
-                  inactive-value="0">
-                </el-switch>
+                label="备注"
+                prop="remark">
+                <el-input
+                  v-model="form.remark"
+                  maxlength="255"
+                  placeholder="请输入菜单备注"
+                  clearable/>
               </el-form-item>
-            </el-col>
-          </el-row>
+            </el-form>
 
-          <el-form-item
-            label="链接地址"
-            prop="url">
-            <el-input
-              v-model="form.url"
-              placeholder="请输入链接地址"
-              clearable/>
-          </el-form-item>
+            <div slot="footer" class="cs-text-center" v-show="isShowFormButton">
+              <el-button
+                v-if="formStatus === 'create'"
+                type="primary"
+                size="small"
+                :loading="formLoading"
+                @click="create">确定</el-button>
 
-          <el-form-item
-            label="链接参数"
-            prop="params">
-            <el-input
-              v-model="form.params"
-              placeholder="请输入链接参数"
-              clearable/>
-          </el-form-item>
+              <el-button
+                v-else-if="formStatus === 'update'"
+                type="primary"
+                :loading="formLoading"
+                size="small">修改</el-button>
 
-          <el-form-item
-            label="备注"
-            prop="remark">
-            <el-input
-              v-model="form.remark"
-              maxlength="255"
-              placeholder="请输入菜单备注"
-              clearable/>
-          </el-form-item>
-        </el-form>
-
-        <div v-show="isShowFormButton">
-          <el-button
-            v-if="formStatus === 'create'"
-            type="primary"
-            size="small"
-            :loading="formLoading"
-            @click="create">确定</el-button>
-
-          <el-button
-            v-else-if="formStatus === 'update'"
-            type="primary"
-            :loading="formLoading"
-            size="small">修改</el-button>
-
-          <el-button
-            size="small"
-            @click="cancel">取消</el-button>
-        </div>
+              <el-button
+                size="small"
+                @click="cancel">取消</el-button>
+            </div>
+          </div>
+        </el-card>
       </el-col>
     </el-row>
   </div>
@@ -409,9 +417,14 @@ export default {
           }
         ]
       },
-      formStatus: '',
+      formStatus: 'review',
       formLoading: false,
-      isShowFormButton: false
+      isShowFormButton: false,
+      textMap: {
+        create: '新增菜单',
+        update: '编辑菜单',
+        review: '查看菜单'
+      }
     }
   },
   watch: {
@@ -442,7 +455,7 @@ export default {
       const nodes = this.$refs.tree.store._getAllNodes()
       const nodeCount = nodes.length
 
-      for (var i = 0; i < nodeCount; i++) {
+      for (let i = 0; i < nodeCount; i++) {
         nodes[i].expanded = isExpand
       }
     },
@@ -490,7 +503,7 @@ export default {
         this.$refs.form.clearValidate()
       })
 
-      this.formStatus = ''
+      this.formStatus = 'review'
       this.formLoading = false
       this.isShowFormButton = false
     },
@@ -553,5 +566,11 @@ export default {
   .move-tree {
     color: #C0C4CC;
     cursor: move;
+  }
+  .el-card {
+    border-radius: 0;
+  }
+  .el-card__header {
+    padding: 10px 20px;
   }
 </style>
