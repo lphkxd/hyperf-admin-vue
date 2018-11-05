@@ -42,7 +42,9 @@ export default {
           this.tree = res.data.length ? res.data : []
 
           if (this.$refs.main) {
+            this.$refs.main.filterText = ''
             this.$refs.main.resetForm()
+            this.$refs.main.resetElements()
           }
         })
         .finally(() => {

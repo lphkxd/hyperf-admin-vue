@@ -66,12 +66,14 @@
           :props="treeProps"
           :filter-node-method="filterNode"
           :highlight-current="true"
-          @node-click="() => {}"
+          :expand-on-click-node="false"
+          @node-click="handleNodeClick"
+          draggable
           ref="tree">
           <span
             class="custom-tree-node action"
             slot-scope="{ node, data }">
-            <span class="brother-showing">
+            <span class="brother-showing" :style="data.status !== 1 ? 'color: #F56C6C;' : ''">
               <i class="fa fa-align-justify move-tree cs-mr-10"></i>
               <i v-if="node.icon" :class="`fa fa-${node.icon}`" style="width: 16px;"></i>
               <i v-else-if="data.children" class="fa fa-folder-o" style="width: 16px;"></i>
@@ -108,8 +110,9 @@
       <el-col :span="14">
         <el-form
           :model="form"
-          label-width="80px"
-          ref="form">
+          :rules="rules"
+          ref="form"
+          label-width="80px">
           <el-form-item
             label="上级菜单"
             prop="parent_id">
@@ -125,61 +128,116 @@
             </el-cascader>
           </el-form-item>
 
-          <el-form-item
-            label="名称"
-            prop="name">
-            <el-input
-              v-model="form.name"
-              placeholder="请输入菜单名称"
-              clearable/>
-          </el-form-item>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item
+                label="名称"
+                prop="name">
+                <el-input
+                  v-model="form.name"
+                  placeholder="请输入菜单名称"
+                  clearable/>
+              </el-form-item>
+            </el-col>
 
-          <el-form-item
-            label="别名"
-            prop="alias">
-            <el-input
-              v-model="form.alias"
-              placeholder="请输入菜单别名"
-              clearable/>
-          </el-form-item>
+            <el-col :span="12">
+              <el-form-item
+                label="别名"
+                prop="alias">
+                <el-input
+                  v-model="form.alias"
+                  placeholder="请输入菜单别名"
+                  clearable/>
+              </el-form-item>
+            </el-col>
+          </el-row>
 
-          <el-form-item
-            label="备注"
-            prop="remark">
-            <el-input
-              v-model="form.remark"
-              placeholder="请输入菜单备注"
-              clearable/>
-          </el-form-item>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item
+                label="图标"
+                prop="icon">
+                <cs-icon-select
+                  v-model="form.icon"
+                  :user-input="true"
+                  placeholder="请选择菜单图标"/>
+              </el-form-item>
+            </el-col>
 
-          <el-form-item
-            label="图标"
-            prop="icon">
-            <cs-icon-select
-              v-model="form.icon"
-              :user-input="true"
-              placeholder="请选择菜单图标"/>
-          </el-form-item>
+            <el-col :span="12">
+              <el-form-item
+                label="排序"
+                prop="sort">
+                <el-input-number
+                  v-model="form.sort"
+                  :min="0"
+                  :max="255"
+                  controls-position="right"
+                  label="请输入菜单排序值"/>
+              </el-form-item>
+            </el-col>
+          </el-row>
 
           <el-form-item
             label="模块">
-            <el-radio-group v-model="module">
-              <el-radio
+            <el-radio-group v-model="module" size="small">
+              <el-radio-button
                 v-for="(name, index) in teerModule"
                 :key="index"
                 :label="index"
-                :disabled="module !== index">{{name}}</el-radio>
+                :disabled="module !== index">{{name}}</el-radio-button>
             </el-radio-group>
           </el-form-item>
 
-          <el-form-item
-            label="链接类型"
-            prop="type">
-            <el-radio-group v-model="form.type">
-              <el-radio label="0">模块</el-radio>
-              <el-radio label="1">外链</el-radio>
-            </el-radio-group>
-          </el-form-item>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item
+                label="链接类型"
+                prop="type">
+                <el-radio-group v-model="form.type">
+                  <el-radio label="0">模块</el-radio>
+                  <el-radio label="1">外链</el-radio>
+                </el-radio-group>
+              </el-form-item>
+            </el-col>
+
+            <el-col :span="12">
+              <el-form-item
+                label="打开方式"
+                prop="target">
+                <el-radio-group v-model="form.target">
+                  <el-radio label="_self">当前窗口</el-radio>
+                  <el-radio label="_blank">新窗口</el-radio>
+                </el-radio-group>
+              </el-form-item>
+            </el-col>
+          </el-row>
+
+          <el-row>
+            <el-col :span="12">
+              <el-form-item
+                label="是否导航"
+                prop="is_navi">
+                <el-switch
+                  v-model="form.is_navi"
+                  active-value="1"
+                  inactive-value="0">
+                </el-switch>
+              </el-form-item>
+            </el-col>
+
+            <el-col :span="12">
+              <el-form-item
+                label="菜单状态"
+                prop="status">
+                <el-switch
+                  v-model="form.status"
+                  active-value="1"
+                  inactive-value="0">
+                </el-switch>
+              </el-form-item>
+            </el-col>
+          </el-row>
 
           <el-form-item
             label="链接地址"
@@ -200,47 +258,33 @@
           </el-form-item>
 
           <el-form-item
-            label="排序"
-            prop="sort">
-            <el-input-number
-              v-model="form.sort"
-              controls-position="right"
-              :min="0"
-              :max="255"
-              label="请输入菜单排序值"/>
-          </el-form-item>
-
-          <el-form-item
-            label="打开方式"
-            prop="target">
-            <el-radio-group v-model="form.target">
-              <el-radio label="_self">当前窗口</el-radio>
-              <el-radio label="_blank">新窗口</el-radio>
-            </el-radio-group>
-          </el-form-item>
-
-          <el-form-item
-            label="导航菜单"
-            prop="is_navi">
-            <el-radio-group v-model="form.is_navi">
-              <el-radio label="0">否</el-radio>
-              <el-radio label="1">是</el-radio>
-            </el-radio-group>
-          </el-form-item>
-
-          <el-form-item
-            label="状态"
-            prop="status">
-            <el-radio-group v-model="form.status">
-              <el-radio label="1">启用</el-radio>
-              <el-radio label="0">禁用</el-radio>
-            </el-radio-group>
+            label="备注"
+            prop="remark">
+            <el-input
+              v-model="form.remark"
+              maxlength="255"
+              placeholder="请输入菜单备注"
+              clearable/>
           </el-form-item>
         </el-form>
 
-        <div v-show="false" class="footer">
-          <el-button type="primary" size="small">确定</el-button>
-          <el-button size="small">取消</el-button>
+        <div v-show="isShowFormButton">
+          <el-button
+            v-if="formStatus === 'create'"
+            type="primary"
+            size="small"
+            :loading="formLoading"
+            @click="create">确定</el-button>
+
+          <el-button
+            v-else-if="formStatus === 'update'"
+            type="primary"
+            :loading="formLoading"
+            size="small">修改</el-button>
+
+          <el-button
+            size="small"
+            @click="cancel">取消</el-button>
         </div>
       </el-col>
     </el-row>
@@ -249,7 +293,8 @@
 
 <script>
 import {
-  getMenuModule
+  getMenuModule,
+  addMenuItem
 } from '@/api/auth/menu'
 import util from '@/utils/util'
 
@@ -300,7 +345,73 @@ export default {
         is_navi: '0',
         sort: 50,
         status: '1'
-      }
+      },
+      rules: {
+        name: [
+          {
+            required: true,
+            message: '名称不能为空',
+            trigger: 'blur'
+          },
+          {
+            max: 32,
+            message: '长度不能大于 32 个字符',
+            trigger: 'blur'
+          }
+        ],
+        alias: [
+          {
+            max: 16,
+            message: '长度不能大于 16 个字符',
+            trigger: 'blur'
+          }
+        ],
+        icon: [
+          {
+            max: 16,
+            message: '长度不能大于 16 个字符',
+            trigger: 'blur'
+          }
+        ],
+        sort: [
+          {
+            type: 'number',
+            message: '必须为数字值',
+            trigger: 'blur'
+          }
+        ],
+        type: [
+          {
+            required: true,
+            message: '链接类型不能为空',
+            trigger: 'blur'
+          }
+        ],
+        url: [
+          {
+            max: 255,
+            message: '长度不能大于 255 个字符',
+            trigger: 'blur'
+          }
+        ],
+        params: [
+          {
+            max: 255,
+            message: '长度不能大于 255 个字符',
+            trigger: 'blur'
+          }
+        ],
+        remark: [
+          {
+            max: 255,
+            message: '长度不能大于 255 个字符',
+            trigger: 'blur'
+          }
+        ]
+      },
+      formStatus: '',
+      formLoading: false,
+      isShowFormButton: false
     }
   },
   watch: {
@@ -335,12 +446,32 @@ export default {
         nodes[i].expanded = isExpand
       }
     },
-    // 重置状态
-    resetForm(parent_id = [], name = '') {
-      this.filterText = ''
+    // 根据父ID获取所有上级编号
+    _getParentId(parent_id, id_list = []) {
+      let index = this.treeData.findIndex(node => node.menu_id === parent_id)
+      if (index !== -1) {
+        id_list.unshift(this.treeData[index].menu_id)
+
+        if (this.treeData[index].parent_id) {
+          this._getParentId(this.treeData[index].parent_id, id_list)
+        }
+      }
+
+      return id_list
+    },
+    // 全部展开
+    setCheckedNodes() {
+      this._checkedNodes(true)
+    },
+    // 全部收起
+    setCheckedKeys() {
+      this._checkedNodes(false)
+    },
+    // 重置表单
+    resetForm() {
       this.form = {
-        parent_id: parent_id,
-        name: name,
+        parent_id: [],
+        name: '',
         alias: '',
         icon: '',
         remark: '',
@@ -353,17 +484,52 @@ export default {
         status: '1'
       }
     },
-    // 全部展开
-    setCheckedNodes() {
-      this._checkedNodes(true)
+    // 重置元素
+    resetElements() {
+      this.$nextTick(() => {
+        this.$refs.form.clearValidate()
+      })
+
+      this.formStatus = ''
+      this.formLoading = false
+      this.isShowFormButton = false
     },
-    // 全部收起
-    setCheckedKeys() {
-      this._checkedNodes(false)
+    cancel() {
+      this.resetElements()
+      this.resetForm()
+    },
+    // 点击树节点事件
+    handleNodeClick(data) {
+      this.resetForm()
+      this.resetElements()
+
+      this.form = { ...data }
+      this.form.parent_id = this._getParentId(data.parent_id)
+      this.form.type = String(data.type)
+      this.form.is_navi = String(data.is_navi)
+      this.form.status = String(data.status)
+    },
+    // 新增菜单表单初始化
+    handleCreate() {
+      this.resetForm()
+      this.formStatus = 'create'
+      this.formLoading = false
+      this.isShowFormButton = true
     },
     // 新增菜单
-    handleCreate() {
-      console.log(this.form.parent_id)
+    create() {
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          this.formLoading = true
+          const { parent_id } = this.form
+
+          addMenuItem({
+            ...this.form,
+            'parent_id': parent_id.length > 0 ? parent_id[parent_id.length - 1] : 0,
+            module: this.module
+          })
+        }
+      })
     }
   }
 }

@@ -48,6 +48,21 @@ export function getMenuItem(menu_id) {
 }
 
 /**
+ * 添加一个菜单
+ * @param {Object} data
+ */
+export function addMenuItem(data) {
+  return request({
+    url: '/v1/menu',
+    method: 'post',
+    params: {
+      method: 'add.menu.item'
+    },
+    data
+  })
+}
+
+/**
  * 编辑一个菜单
  * @param {Object} data
  */
