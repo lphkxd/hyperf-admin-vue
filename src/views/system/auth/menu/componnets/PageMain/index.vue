@@ -8,7 +8,7 @@
           <el-button
             v-if="auth.add"
             :disabled="loading"
-            @click="handleCreate">
+            @click="handleCreate('create')">
             <cs-icon name="plus"/>
             新增顶层菜单
           </el-button>
@@ -16,20 +16,22 @@
       </el-form-item>
 
       <el-form-item>
-        <el-button-group>
-          <el-button
+        <el-radio-group
+          v-model="isExpandAll"
+          @change="checkedNodes">
+          <el-radio-button
             :disabled="loading"
-            @click="setCheckedNodes">
+            :label="true">
             <cs-icon name="plus-square-o"/>
             展开
-          </el-button>
-          <el-button
+          </el-radio-button>
+          <el-radio-button
             :disabled="loading"
-            @click="setCheckedKeys">
+            :label="false">
             <cs-icon name="minus-square-o"/>
             收起
-          </el-button>
-        </el-button-group>
+          </el-radio-button>
+        </el-radio-group>
       </el-form-item>
 
       <el-form-item label="过滤">
@@ -60,13 +62,15 @@
     <el-row :gutter="20">
       <el-col :span="10">
         <el-tree
+          v-if="hackReset"
           v-loading="loading"
-          :data="currentTreeData"
+          :data="treeData"
           node-key="menu_id"
           :props="treeProps"
           :filter-node-method="filterNode"
           :highlight-current="true"
           :expand-on-click-node="false"
+          :default-expand-all="isExpandAll"
           @node-click="handleNodeClick"
           draggable
           ref="tree">
@@ -85,14 +89,14 @@
               <el-button
                 type="text"
                 size="mini"
-                @click.stop="() => {}">
+                @click.stop="() => handleAppend(data.menu_id)">
                 新增
               </el-button>
 
               <el-button
                 type="text"
                 size="mini"
-                @click.stop="() => {}">
+                @click.stop="() => handleUpdate(data.menu_id)">
                 编辑
               </el-button>
 
@@ -124,7 +128,7 @@
                 prop="parent_id">
                 <el-cascader
                   v-model="form.parent_id"
-                  :options="currentTreeData"
+                  :options="treeData"
                   :props="cascaderProps"
                   change-on-select
                   filterable
@@ -188,7 +192,7 @@
                 label="模块">
                 <el-radio-group v-model="module" size="small">
                   <el-radio-button
-                    v-for="(name, index) in teerModule"
+                    v-for="(name, index) in treeModule"
                     :key="index"
                     :label="index"
                     :disabled="module !== index">{{name}}</el-radio-button>
@@ -285,8 +289,9 @@
               <el-button
                 v-else-if="formStatus === 'update'"
                 type="primary"
+                size="small"
                 :loading="formLoading"
-                size="small">修改</el-button>
+                @click="update">修改</el-button>
 
               <el-button
                 size="small"
@@ -303,9 +308,10 @@
 import {
   getMenuModule,
   delMenuItem,
-  addMenuItem
+  addMenuItem,
+  setMenuItem,
+  setMenuStatus
 } from '@/api/auth/menu'
-import util from '@/utils/util'
 
 export default {
   props: {
@@ -321,10 +327,11 @@ export default {
   },
   data() {
     return {
-      currentTreeData: [],
+      hackReset: true,
+      isExpandAll: false,
       helpContent: '暂无帮助内容',
       filterText: '',
-      teerModule: {},
+      treeModule: {},
       treeProps: {
         label: 'name',
         children: 'children'
@@ -431,55 +438,47 @@ export default {
   watch: {
     filterText(val) {
       this.$refs.tree.filter(val)
-    },
-    treeData: {
-      handler(val) {
-        this.currentTreeData = util.formatDataToTree(val)
-      },
-      immediate: true
     }
   },
   mounted() {
     this._getMenuModule()
   },
   methods: {
+    // 过滤菜单
     filterNode(value, data) {
       if (!value) { return true }
       return data.name.indexOf(value) !== -1
     },
     // 获取菜单模块
     _getMenuModule() {
-      getMenuModule().then(res => { this.teerModule = res })
-    },
-    // 展开或收起节点
-    _checkedNodes(isExpand = false) {
-      const nodes = this.$refs.tree.store._getAllNodes()
-      const nodeCount = nodes.length
-
-      for (let i = 0; i < nodeCount; i++) {
-        nodes[i].expanded = isExpand
-      }
+      getMenuModule().then(res => { this.treeModule = res })
     },
     // 根据父ID获取所有上级编号
-    _getParentId(parent_id, id_list = []) {
-      let index = this.treeData.findIndex(node => node.menu_id === parent_id)
-      if (index !== -1) {
-        id_list.unshift(this.treeData[index].menu_id)
+    _getParentId(parent_id) {
+      let id_list = []
+      let node = this.$refs.tree.getNode(parent_id)
 
-        if (this.treeData[index].parent_id) {
-          this._getParentId(this.treeData[index].parent_id, id_list)
+      while (node) {
+        if (node.key) {
+          id_list.unshift(node.key)
         }
+
+        if (!node.parent) {
+          break
+        }
+
+        node = node.parent
       }
 
       return id_list
     },
-    // 全部展开
-    setCheckedNodes() {
-      this._checkedNodes(true)
-    },
-    // 全部收起
-    setCheckedKeys() {
-      this._checkedNodes(false)
+    // 展开或收起节点
+    checkedNodes(isExpand = false) {
+      this.hackReset = false
+      this.$nextTick(() => {
+        this.isExpandAll = isExpand
+        this.hackReset = true
+      })
     },
     // 重置表单
     resetForm() {
@@ -508,6 +507,7 @@ export default {
       this.formLoading = false
       this.isShowFormButton = false
     },
+    // 取消添加或编辑
     cancel() {
       this.resetElements()
       this.resetForm()
@@ -517,18 +517,40 @@ export default {
       this.resetForm()
       this.resetElements()
 
-      this.form = { ...data }
-      this.form.parent_id = this._getParentId(data.parent_id)
-      this.form.type = String(data.type)
-      this.form.is_navi = String(data.is_navi)
-      this.form.status = String(data.status)
+      this.form = {
+        ...data,
+        parent_id: this._getParentId(data.parent_id),
+        type: String(data.type),
+        is_navi: String(data.is_navi),
+        status: String(data.status)
+      }
     },
     // 新增菜单表单初始化
-    handleCreate() {
+    handleCreate(status, key = null) {
       this.resetForm()
-      this.formStatus = 'create'
+      this.formStatus = status
       this.formLoading = false
       this.isShowFormButton = true
+      this.$refs.tree.setCurrentKey(key)
+    },
+    // 追加菜单
+    handleAppend(key) {
+      this.handleCreate('create', key)
+      this.form.parent_id = this._getParentId(key)
+    },
+    // 编辑菜单
+    handleUpdate(key) {
+      this.handleCreate('update', key)
+      const oldData = this.$refs.tree.getNode(key).data
+
+      console.log(oldData)
+      this.form = {
+        ...oldData,
+        parent_id: this._getParentId(oldData.parent_id),
+        type: String(oldData.type),
+        is_navi: String(oldData.is_navi),
+        status: String(oldData.status)
+      }
     },
     // 新增菜单
     create() {
@@ -543,9 +565,15 @@ export default {
             'module': this.module
           })
             .then(res => {
-              // this.currentTreeData.push(res.data)
-              // this.$refs.tree.setCurrentKey(4)
-              // this.$refs.tree.append(res.data)
+              const tree = this.$refs.tree
+              let parent = tree.getNode(res.data.parent_id)
+              tree.append(res.data, parent)
+              tree.setCurrentKey(res.data.menu_id)
+
+              if (parent) {
+                parent.expanded = true
+              }
+
               this.resetElements()
               this.$message.success('操作成功')
             })
@@ -573,6 +601,9 @@ export default {
         })
         .catch(() => {
         })
+    },
+    // 更新菜单
+    update(key) {
     }
   }
 }
