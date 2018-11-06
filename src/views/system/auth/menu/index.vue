@@ -9,6 +9,7 @@
       :tree-data="tree"
       :loading="loading"
       :module="module"
+      @refresh="handleRefresh"
       ref="main"/>
   </cs-container>
 </template>
@@ -34,6 +35,12 @@ export default {
     this.handleSubmit({ module: 'admin' })
   },
   methods: {
+    // 重新载入页面
+    handleRefresh() {
+      this.$nextTick(() => {
+        this.$refs.header.handleFormSubmit()
+      })
+    },
     // 提交查询请求
     handleSubmit(form) {
       this.loading = true

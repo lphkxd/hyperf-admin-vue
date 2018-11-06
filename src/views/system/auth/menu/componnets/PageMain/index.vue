@@ -474,7 +474,9 @@ export default {
     },
     // 展开或收起节点
     checkedNodes(isExpand = false) {
+      this.filterText = ''
       this.hackReset = false
+
       this.$nextTick(() => {
         this.isExpandAll = isExpand
         this.hackReset = true
@@ -543,7 +545,6 @@ export default {
       this.handleCreate('update', key)
       const oldData = this.$refs.tree.getNode(key).data
 
-      console.log(oldData)
       this.form = {
         ...oldData,
         parent_id: this._getParentId(oldData.parent_id),
@@ -564,16 +565,30 @@ export default {
             'parent_id': parent_id.length > 0 ? parent_id[parent_id.length - 1] : 0,
             'module': this.module
           })
-            .then(res => {
-              const tree = this.$refs.tree
-              let parent = tree.getNode(res.data.parent_id)
-              tree.append(res.data, parent)
-              tree.setCurrentKey(res.data.menu_id)
+            .then(() => {
+              this.$emit('refresh')
+              this.resetElements()
+              this.$message.success('操作成功')
+            })
+            .catch(() => {
+              this.formLoading = false
+            })
+        }
+      })
+    },
+    // 更新菜单
+    update() {
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          this.formLoading = true
+          const { parent_id } = this.form
 
-              if (parent) {
-                parent.expanded = true
-              }
-
+          setMenuItem({
+            ...this.form,
+            'parent_id': parent_id.length > 0 ? parent_id[parent_id.length - 1] : 0
+          })
+            .then(() => {
+              this.$emit('refresh')
               this.resetElements()
               this.$message.success('操作成功')
             })
@@ -585,6 +600,7 @@ export default {
     },
     // 删除菜单
     remove(key) {
+      console.log(this.treeData)
       this.$confirm('确定要执行该操作吗?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -593,17 +609,13 @@ export default {
         .then(() => {
           delMenuItem(key)
             .then(() => {
-              let tree = this.$refs.tree.getNode(key)
-              this.$refs.tree.remove(tree)
+              this.$refs.tree.remove(this.$refs.tree.getNode(key))
               this.cancel()
               this.$message.success('操作成功')
             })
         })
         .catch(() => {
         })
-    },
-    // 更新菜单
-    update(key) {
     }
   }
 }
