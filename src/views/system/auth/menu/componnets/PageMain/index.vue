@@ -72,6 +72,7 @@
           :expand-on-click-node="false"
           :default-expand-all="isExpandAll"
           @node-click="handleNodeClick"
+          @node-drop="handleDrop"
           draggable
           ref="tree">
           <span
@@ -299,7 +300,8 @@ import {
   delMenuItem,
   addMenuItem,
   setMenuItem,
-  setMenuStatus
+  setMenuStatus,
+  setMenuIndex
 } from '@/api/auth/menu'
 
 export default {
@@ -603,6 +605,50 @@ export default {
         })
         .catch(() => {
         })
+    },
+    /**
+     * 拖拽成功后操作
+     * @param draggingNode  被拖拽节点对应的 Node
+     * @param dropNode      结束拖拽时最后进入的节点
+     * @param dropType      被拖拽节点的放置位置（before、after、inner）
+     * @param ev            event
+     */
+    handleDrop(draggingNode, dropNode, dropType, ev) {
+      // 获取原始数据
+      let setMenu = {
+        menu_id: draggingNode.data.menu_id,
+        parent_id: draggingNode.data.parent_id
+      }
+
+      // 待排序编号
+      let indexMenu = []
+
+      // 处理插入到其他菜单中
+      if (dropType === 'inner') {
+        setMenu.parent_id = dropNode.key
+      } else {
+        setMenu.parent_id = dropNode.data.parent_id
+        dropNode.parent.childNodes.forEach((value, index) => {
+          indexMenu.push(value.key)
+          value.data.sort = index + 1
+        })
+      }
+
+      setMenuItem(setMenu)
+        .then(res => {
+          draggingNode.data.parent_id = res.data.parent_id
+          this.$message.success('操作成功')
+        })
+        .catch(() => {
+          this.$emit('refresh')
+        })
+
+      if (indexMenu.length > 0) {
+        setMenuIndex(indexMenu)
+          .catch(() => {
+            this.$emit('refresh')
+          })
+      }
     }
   }
 }

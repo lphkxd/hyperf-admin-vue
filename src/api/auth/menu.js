@@ -186,6 +186,23 @@ export function setMenuSort(menu_id, sort) {
 }
 
 /**
+ * 根据编号自动设置排序值
+ * @param {Array} menu_id
+ */
+export function setMenuIndex(menu_id) {
+  return request({
+    url: '/v1/menu',
+    method: 'post',
+    params: {
+      method: 'set.menu.index'
+    },
+    data: {
+      menu_id
+    }
+  })
+}
+
+/**
  * 设置菜单状态，同时会影响上级与下级菜单的状态
  * @param {Number} menu_id
  * @param {Number} status
