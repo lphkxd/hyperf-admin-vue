@@ -56,33 +56,37 @@ util.md5 = function(str) {
 
 /**
  * 将任意对象转化为树
- * @param arr
+ * @param data
+ * @param key
+ * @param pid
  * @returns {Array}
  */
-util.formatDataToTree = function(arr) {
-  let tree = []
-  let mappedArr = {}
-
-  arr.forEach(value => {
-    mappedArr[value.menu_id] = { ...value }
+util.formatDataToTree = function(data, key = 'menu_id', pid = 'parent_id') {
+  let map = {}
+  data.forEach(value => {
+    map[value[key]] = { ...value }
   })
 
-  for (let id in mappedArr) {
-    if (!mappedArr.hasOwnProperty(id)) {
+  let tree = []
+  for (let id in data) {
+    if (!data.hasOwnProperty(id)) {
       continue
     }
+
+    // 对应索引
+    const index = data[id][key]
 
     // 子节点压入
-    if (mappedArr[id].parent_id) {
-      if (!mappedArr[mappedArr[id].parent_id].hasOwnProperty('children')) {
-        mappedArr[mappedArr[id].parent_id]['children'] = []
+    if (map[index][pid]) {
+      if (!map[map[index][pid]].hasOwnProperty('children')) {
+        map[map[index][pid]]['children'] = []
       }
 
-      mappedArr[mappedArr[id].parent_id]['children'].push(mappedArr[id])
+      map[map[index][pid]]['children'].push(map[index])
       continue
     }
 
-    tree.push(mappedArr[id])
+    tree.push(map[index])
   }
 
   return tree
