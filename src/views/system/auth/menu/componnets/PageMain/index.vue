@@ -87,6 +87,7 @@
 
             <span class="active">
               <el-button
+                v-if="auth.add"
                 type="text"
                 size="mini"
                 @click.stop="() => handleAppend(data.menu_id)">
@@ -94,13 +95,15 @@
               </el-button>
 
               <el-button
+                v-if="auth.status"
                 type="text"
                 size="mini"
-                @click.stop="() => handleUpdate(data.menu_id)">
-                编辑
+                @click.stop="() => enable(data.menu_id, data.status)">
+                {{data.status ? '禁用' : '启用'}}
               </el-button>
 
               <el-button
+                v-if="auth.del"
                 type="text"
                 size="mini"
                 @click.stop="() => remove(data.menu_id)">
@@ -112,9 +115,25 @@
       </el-col>
 
       <el-col :span="14">
-        <el-card shadow="never">
+        <el-card
+          v-if="auth.add || auth.set"
+          shadow="never">
+
           <div slot="header">
             <span>{{textMap[formStatus]}}</span>
+            <el-button
+              v-if="formStatus === 'create' && auth.add"
+              type="text"
+              :loading="formLoading"
+              style="float: right; padding: 3px 0"
+              @click="create">确定</el-button>
+
+            <el-button
+              v-else-if="formStatus === 'update' && auth.set"
+              type="text"
+              :loading="formLoading"
+              style="float: right; padding: 3px 0"
+              @click="update">修改</el-button>
           </div>
 
           <div>
@@ -188,16 +207,32 @@
                 </el-col>
               </el-row>
 
-              <el-form-item
-                label="模块">
-                <el-radio-group v-model="module" size="small">
-                  <el-radio-button
-                    v-for="(name, index) in treeModule"
-                    :key="index"
-                    :label="index"
-                    :disabled="module !== index">{{name}}</el-radio-button>
-                </el-radio-group>
-              </el-form-item>
+              <el-row>
+                <el-col :span="12">
+                  <el-form-item
+                    label="模块">
+                    <el-radio-group v-model="module" size="small">
+                      <el-radio-button
+                        v-for="(name, index) in treeModule"
+                        :key="index"
+                        :label="index"
+                        :disabled="module !== index">{{name}}</el-radio-button>
+                    </el-radio-group>
+                  </el-form-item>
+                </el-col>
+
+                <el-col :span="12">
+                  <el-form-item
+                    label="导航"
+                    prop="is_navi">
+                    <el-switch
+                      v-model="form.is_navi"
+                      active-value="1"
+                      inactive-value="0">
+                    </el-switch>
+                  </el-form-item>
+                </el-col>
+              </el-row>
 
               <el-row>
                 <el-col :span="12">
@@ -223,34 +258,8 @@
                 </el-col>
               </el-row>
 
-              <el-row>
-                <el-col :span="12">
-                  <el-form-item
-                    label="是否导航"
-                    prop="is_navi">
-                    <el-switch
-                      v-model="form.is_navi"
-                      active-value="1"
-                      inactive-value="0">
-                    </el-switch>
-                  </el-form-item>
-                </el-col>
-
-                <el-col :span="12">
-                  <el-form-item
-                    label="菜单状态"
-                    prop="status">
-                    <el-switch
-                      v-model="form.status"
-                      active-value="1"
-                      inactive-value="0">
-                    </el-switch>
-                  </el-form-item>
-                </el-col>
-              </el-row>
-
               <el-form-item
-                label="链接地址"
+                label="URL"
                 prop="url">
                 <el-input
                   v-model="form.url"
@@ -259,7 +268,7 @@
               </el-form-item>
 
               <el-form-item
-                label="链接参数"
+                label="参数"
                 prop="params">
                 <el-input
                   v-model="form.params"
@@ -277,26 +286,6 @@
                   clearable/>
               </el-form-item>
             </el-form>
-
-            <div slot="footer" class="cs-text-center" v-show="isShowFormButton">
-              <el-button
-                v-if="formStatus === 'create'"
-                type="primary"
-                size="small"
-                :loading="formLoading"
-                @click="create">确定</el-button>
-
-              <el-button
-                v-else-if="formStatus === 'update'"
-                type="primary"
-                size="small"
-                :loading="formLoading"
-                @click="update">修改</el-button>
-
-              <el-button
-                size="small"
-                @click="cancel">取消</el-button>
-            </div>
           </div>
         </el-card>
       </el-col>
@@ -345,8 +334,7 @@ export default {
         add: true,
         del: true,
         set: true,
-        enable: true,
-        disable: true
+        status: true
       },
       form: {
         parent_id: undefined,
@@ -359,8 +347,7 @@ export default {
         params: undefined,
         target: '_self',
         is_navi: '0',
-        sort: 50,
-        status: '1'
+        sort: 50
       },
       rules: {
         name: [
@@ -425,13 +412,11 @@ export default {
           }
         ]
       },
-      formStatus: 'review',
+      formStatus: 'create',
       formLoading: false,
-      isShowFormButton: false,
       textMap: {
         create: '新增菜单',
-        update: '编辑菜单',
-        review: '查看菜单'
+        update: '编辑菜单'
       }
     }
   },
@@ -442,8 +427,16 @@ export default {
   },
   mounted() {
     this._getMenuModule()
+    this._validationAuth()
   },
   methods: {
+    // 验证权限
+    _validationAuth() {
+      this.auth.add = this.$has('/system/auth/menu/add')
+      this.auth.del = this.$has('/system/auth/menu/del')
+      this.auth.set = this.$has('/system/auth/menu/set')
+      this.auth.status = this.$has('/system/auth/menu/status')
+    },
     // 过滤菜单
     filterNode(value, data) {
       if (!value) { return true }
@@ -495,36 +488,30 @@ export default {
         params: '',
         target: '_self',
         is_navi: '0',
-        sort: 50,
-        status: '1'
+        sort: 50
       }
     },
     // 重置元素
-    resetElements() {
+    resetElements(val = 'create') {
       this.$nextTick(() => {
-        this.$refs.form.clearValidate()
+        if (this.auth.add || this.auth.set) {
+          this.$refs.form.clearValidate()
+        }
       })
 
-      this.formStatus = 'review'
+      this.formStatus = val
       this.formLoading = false
-      this.isShowFormButton = false
-    },
-    // 取消添加或编辑
-    cancel() {
-      this.resetElements()
-      this.resetForm()
     },
     // 点击树节点事件
     handleNodeClick(data) {
       this.resetForm()
-      this.resetElements()
+      this.resetElements('update')
 
       this.form = {
         ...data,
         parent_id: this._getParentId(data.parent_id),
         type: String(data.type),
-        is_navi: String(data.is_navi),
-        status: String(data.status)
+        is_navi: String(data.is_navi)
       }
     },
     // 新增菜单表单初始化
@@ -532,26 +519,12 @@ export default {
       this.resetForm()
       this.formStatus = status
       this.formLoading = false
-      this.isShowFormButton = true
       this.$refs.tree.setCurrentKey(key)
     },
     // 追加菜单
     handleAppend(key) {
       this.handleCreate('create', key)
       this.form.parent_id = this._getParentId(key)
-    },
-    // 编辑菜单
-    handleUpdate(key) {
-      this.handleCreate('update', key)
-      const oldData = this.$refs.tree.getNode(key).data
-
-      this.form = {
-        ...oldData,
-        parent_id: this._getParentId(oldData.parent_id),
-        type: String(oldData.type),
-        is_navi: String(oldData.is_navi),
-        status: String(oldData.status)
-      }
     },
     // 新增菜单
     create() {
@@ -567,7 +540,6 @@ export default {
           })
             .then(() => {
               this.$emit('refresh')
-              this.resetElements()
               this.$message.success('操作成功')
             })
             .catch(() => {
@@ -589,7 +561,6 @@ export default {
           })
             .then(() => {
               this.$emit('refresh')
-              this.resetElements()
               this.$message.success('操作成功')
             })
             .catch(() => {
@@ -600,7 +571,6 @@ export default {
     },
     // 删除菜单
     remove(key) {
-      console.log(this.treeData)
       this.$confirm('确定要执行该操作吗?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -610,7 +580,24 @@ export default {
           delMenuItem(key)
             .then(() => {
               this.$refs.tree.remove(this.$refs.tree.getNode(key))
-              this.cancel()
+              this.handleCreate('create')
+              this.$message.success('操作成功')
+            })
+        })
+        .catch(() => {
+        })
+    },
+    // 启用与禁用的切换
+    enable(key, val) {
+      this.$confirm('状态的切换会影响上下级菜单，是否确认操作?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(() => {
+          setMenuStatus(key, val ? 0 : 1)
+            .then(() => {
+              this.$emit('refresh')
               this.$message.success('操作成功')
             })
         })
