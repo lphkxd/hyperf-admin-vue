@@ -71,8 +71,11 @@
           :highlight-current="true"
           :expand-on-click-node="false"
           :default-expand-all="isExpandAll"
+          :default-expanded-keys="expanded"
           @node-click="handleNodeClick"
           @node-drop="handleDrop"
+          @node-expand="handleExpand"
+          @node-collapse="handleCollapse"
           draggable
           ref="tree">
           <span
@@ -320,6 +323,7 @@ export default {
     return {
       hackReset: true,
       isExpandAll: false,
+      expanded: [],
       helpContent: '暂无帮助内容',
       filterText: '',
       treeModule: {},
@@ -470,6 +474,7 @@ export default {
     // 展开或收起节点
     checkedNodes(isExpand = false) {
       this.filterText = ''
+      this.expanded = []
       this.hackReset = false
 
       this.$nextTick(() => {
@@ -648,6 +653,19 @@ export default {
           .catch(() => {
             this.$emit('refresh')
           })
+      }
+    },
+    // 菜单展开时触发
+    handleExpand(data) {
+      if (this.expanded.indexOf(data.menu_id) === -1) {
+        this.expanded.push(data.menu_id)
+      }
+    },
+    // 菜单关闭时触发
+    handleCollapse(data) {
+      const index = this.expanded.indexOf(data.menu_id)
+      if (index !== -1) {
+        this.expanded.splice(index, 1)
       }
     }
   }
