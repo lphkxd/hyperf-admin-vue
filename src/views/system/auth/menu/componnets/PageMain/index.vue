@@ -64,8 +64,8 @@
         <el-tree
           v-if="hackReset"
           v-loading="loading"
-          :data="treeData"
           node-key="menu_id"
+          :data="treeData"
           :props="treeProps"
           :filter-node-method="filterNode"
           :highlight-current="true"
@@ -78,9 +78,7 @@
           @node-collapse="handleCollapse"
           draggable
           ref="tree">
-          <span
-            class="custom-tree-node action"
-            slot-scope="{ node, data }">
+          <span class="custom-tree-node action" slot-scope="{ node, data }">
             <span :class="`brother-showing ${!data.status ? 'status-tree' : ''}`">
               <i class="fa fa-align-justify move-tree cs-mr-10"></i>
               <i v-if="node.icon" :class="`fa fa-${node.icon}`" style="width: 16px;"></i>

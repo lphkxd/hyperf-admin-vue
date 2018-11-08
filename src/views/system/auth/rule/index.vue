@@ -67,22 +67,32 @@ export default {
       getAuthRuleList(form)
         .then(res => {
           this.tree = []
+          let mapModule = []
+
           for (const index in this.module) {
             if (!this.module.hasOwnProperty(index)) {
               continue
             }
 
-            this.tree[index] = {
+            if (form && form.module) {
+              if (form.module !== index) {
+                continue
+              }
+            }
+
+            mapModule[index] = this.tree.push({
               rule_id: index,
               name: this.module[index],
               children: [],
-              system: true
-            }
+              system: true,
+              module: index,
+              status: 1
+            })
           }
 
           if (res.data.length > 0) {
             res.data.forEach(value => {
-              this.tree[value.module].children.push(value)
+              this.tree[mapModule[value.module] - 1].children.push(value)
             })
           }
         })
