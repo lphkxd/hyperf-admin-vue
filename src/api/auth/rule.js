@@ -116,3 +116,20 @@ export function setAuthRuleSort(rule_id, sort) {
     }
   })
 }
+
+/**
+ * 根据编号自动设置排序值
+ * @param {Array} rule_id
+ */
+export function setAuthRuleIndex(rule_id) {
+  return request({
+    url: '/v1/auth_rule',
+    method: 'post',
+    params: {
+      method: 'set.auth.rule.index'
+    },
+    data: {
+      rule_id
+    }
+  })
+}

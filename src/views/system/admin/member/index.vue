@@ -50,7 +50,6 @@ export default {
   },
   mounted() {
     this.initialization()
-    this.handleSubmit()
   },
   methods: {
     // 数据初始加载
@@ -61,6 +60,9 @@ export default {
       })
         .then(res => {
           this.group = res.data
+        })
+        .then(() => {
+          this.handleSubmit()
         })
     },
     // 刷新列表页面
