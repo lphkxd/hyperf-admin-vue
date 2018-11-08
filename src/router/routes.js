@@ -42,6 +42,12 @@ const frameIn = [
         name: `${pre}auth-menu`,
         meta: { ...meta, title: '菜单管理' },
         component: () => import('@/views/system/auth/menu')
+      },
+      {
+        path: 'action/log',
+        name: `${pre}action-log`,
+        meta: { ...meta, title: '日志记录' },
+        component: () => import('@/views/system/action/log')
       }
     ])('system-')
   }
