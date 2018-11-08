@@ -654,7 +654,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
   .custom-tree-node {
     flex: 1;
     display: flex;
@@ -673,14 +673,11 @@ export default {
     color: #C0C4CC;
     cursor: move;
   }
-  .el-card {
-    border-radius: 0;
-  }
-  .el-card__header {
-    padding: 10px 20px;
-  }
   .status-tree {
     color: #C0C4CC;
     text-decoration: line-through
+  }
+  .el-card {
+    border-radius: 0;
   }
 </style>
