@@ -88,7 +88,9 @@
               {{ node.label }}
             </span>
 
-            <span class="active">
+            <span
+              v-if="!data.system"
+              class="active">
               <el-button
                 type="text"
                 size="mini"
@@ -165,8 +167,6 @@ export default {
         this.isExpandAll = isExpand
         this.hackReset = true
       })
-
-      console.log(this.treeData)
     },
     // 点击树节点事件
     handleNodeClick(data) {
