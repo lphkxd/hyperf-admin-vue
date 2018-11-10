@@ -10,7 +10,8 @@
         v-model="form.status"
         clearable
         placeholder="请选择"
-        style="width: 120px;">
+        style="width: 120px;"
+        value="">
         <el-option label="启用" value="1"/>
         <el-option label="禁用" value="0"/>
       </el-select>

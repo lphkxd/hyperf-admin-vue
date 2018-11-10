@@ -199,7 +199,8 @@
           <el-select
             v-model="form.group_id"
             placeholder="请选择"
-            style="width: 100%;">
+            style="width: 100%;"
+            value="">
             <el-option
               v-for="item in group"
               :key="item.group_id"

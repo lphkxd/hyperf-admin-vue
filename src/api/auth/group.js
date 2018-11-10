@@ -81,7 +81,7 @@ export function getAuthGroupList(data) {
 
 /**
  * 批量设置用户组状态
- * @param {Number} group_id
+ * @param {Array} group_id
  * @param {Number} status
  */
 export function setAuthGroupStatus(group_id, status) {

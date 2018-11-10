@@ -11,7 +11,8 @@
         v-model="form.module"
         clearable
         placeholder="请选择"
-        style="width: 120px;">
+        style="width: 120px;"
+        value="">
         <el-option
           v-for="(item, index) in module"
           :key="index"
@@ -24,7 +25,8 @@
       <el-select
         v-model="form.group_id"
         clearable
-        placeholder="请选择">
+        placeholder="请选择"
+        value="">
         <el-option
           v-for="item in group"
           :key="item.group_id"
@@ -38,7 +40,8 @@
         v-model="form.status"
         clearable
         placeholder="请选择"
-        style="width: 120px;">
+        style="width: 120px;"
+        value="">
         <el-option label="启用" value="1"/>
         <el-option label="禁用" value="0"/>
       </el-select>
