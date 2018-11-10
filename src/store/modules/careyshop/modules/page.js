@@ -1,6 +1,9 @@
 import { remove, get } from 'lodash'
 import setting from '@/setting'
 
+// 判定是否需要缓存
+const isKeepAlive = data => get(data, 'meta.cache', false)
+
 export default {
   namespaced: true,
   state: {
@@ -93,7 +96,9 @@ export default {
         page.query = query || page.query
         state.opened.splice(index, 1, page)
         // 增加缓存设置
-        commit('keepAlivePush', page.name)
+        if (isKeepAlive(page)) {
+          commit('keepAlivePush', page.name)
+        }
         // 持久化
         await dispatch('opencsdb')
         // end
@@ -119,7 +124,7 @@ export default {
         // 添加进当前显示的页面数组
         state.opened.push(newTag)
         // 如果这个页面需要缓存 将其添加到缓存设置
-        if (get(newTag, 'meta.cache', false)) {
+        if (isKeepAlive(newTag)) {
           commit('keepAlivePush', tag.name)
         }
         // 持久化
@@ -159,6 +164,7 @@ export default {
         } else {
           // 页面以前没有打开过
           let page = state.pool.find(t => t.name === name)
+          // 如果这里没有找到 page 代表这个路由虽然在框架内 但是不参与标签页显示
           if (page) {
             await dispatch('add', {
               tag: page,
@@ -367,14 +373,7 @@ export default {
      * @param {Object} state vuex state
      */
     keepAliveRefresh(state) {
-      state.keepAlive = state.opened.filter(item => {
-        if (item.meta) {
-          if (item.meta.notCache) {
-            return false
-          }
-        }
-        return true
-      }).map(e => e.name)
+      state.keepAlive = state.opened.filter(item => isKeepAlive(item)).map(e => e.name)
     },
     /**
      * @description 删除一个页面的缓存设置

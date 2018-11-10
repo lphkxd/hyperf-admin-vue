@@ -33,17 +33,17 @@ export default {
     // 注意 这里是关键
     // 因为需要访问 this.$ELEMENT 所以只能在这里使用这种方式
     value: {
-      handler(val) {
-        if (this.$ELEMENT.size !== val) {
-          // 设置 element 全局尺寸
+      handler(val, oldVal) {
+        if (oldVal) {
+          // 这个情况在已经加载完页面 用户改变了尺寸时触发
           this.$ELEMENT.size = val
-          // 清空缓存设置
+          // 由于已经加载过设置 需要清空缓存设置
           this.pageKeepAliveClean()
-          // 刷新此页面
-          const { path, query } = this.$route
-          this.$router.replace({
-            path: '/redirect/' + JSON.stringify({ path, query })
-          })
+          // 由于已经加载过设置 需要刷新此页面
+          this.$router.replace('/refresh')
+        } else {
+          // 这个情况在刷新页面时触发
+          this.$ELEMENT.size = val
         }
       },
       immediate: true

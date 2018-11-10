@@ -64,7 +64,7 @@ export default {
 
         this.active = val[val.length - 1].path
         this.$nextTick(() => {
-          if (this.aside.length > 0) {
+          if (this.aside.length > 0 && this.$refs.menu) {
             this.$refs.menu.activeIndex = this.active
           }
         })
