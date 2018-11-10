@@ -19,12 +19,14 @@
         <el-button-group>
           <el-button
             :disabled="loading"
+            :label="true"
             @click="checkedNodes(true)">
             <cs-icon name="plus-square-o"/>
             展开
           </el-button>
           <el-button
             :disabled="loading"
+            :label="false"
             @click="checkedNodes(false)">
             <cs-icon name="minus-square-o"/>
             收起
@@ -72,8 +74,6 @@
           :default-expanded-keys="expanded"
           @node-click="handleNodeClick"
           @node-drop="handleDrop"
-          @node-expand="handleExpand"
-          @node-collapse="handleCollapse"
           draggable
           ref="tree">
           <span class="custom-tree-node action" slot-scope="{ node, data }">
@@ -468,7 +468,7 @@ export default {
       return id_list
     },
     // 展开或收起节点
-    checkedNodes(isExpand = false) {
+    checkedNodes(isExpand) {
       this.filterText = ''
       this.expanded = []
       this.hackReset = false
@@ -541,7 +541,11 @@ export default {
             'parent_id': parent_id.length > 0 ? parent_id[parent_id.length - 1] : 0,
             'module': this.module
           })
-            .then(() => {
+            .then(res => {
+              if (!this.isExpandAll) {
+                this.expanded = [res.data.parent_id || res.data.menu_id]
+              }
+
               this.$emit('refresh')
               this.$message.success('操作成功')
             })
@@ -562,7 +566,11 @@ export default {
             ...this.form,
             'parent_id': parent_id.length > 0 ? parent_id[parent_id.length - 1] : 0
           })
-            .then(() => {
+            .then(res => {
+              if (!this.isExpandAll) {
+                this.expanded = [res.data.parent_id || res.data.menu_id]
+              }
+
               this.$emit('refresh')
               this.$message.success('操作成功')
             })
@@ -600,6 +608,10 @@ export default {
         .then(() => {
           setMenuStatus(key, val ? 0 : 1)
             .then(() => {
+              if (!this.isExpandAll) {
+                this.expanded = [this.$refs.tree.getNode(key).data.parent_id || key]
+              }
+
               this.$emit('refresh')
               this.$message.success('操作成功')
             })
@@ -649,19 +661,6 @@ export default {
           .catch(() => {
             this.$emit('refresh')
           })
-      }
-    },
-    // 菜单展开时触发
-    handleExpand(data) {
-      if (this.expanded.indexOf(data.menu_id) === -1) {
-        this.expanded.push(data.menu_id)
-      }
-    },
-    // 菜单关闭时触发
-    handleCollapse(data) {
-      const index = this.expanded.indexOf(data.menu_id)
-      if (index !== -1) {
-        this.expanded.splice(index, 1)
       }
     }
   }
