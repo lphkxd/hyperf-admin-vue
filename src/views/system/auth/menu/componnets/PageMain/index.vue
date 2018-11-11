@@ -19,14 +19,12 @@
         <el-button-group>
           <el-button
             :disabled="loading"
-            :label="true"
             @click="checkedNodes(true)">
             <cs-icon name="plus-square-o"/>
             展开
           </el-button>
           <el-button
             :disabled="loading"
-            :label="false"
             @click="checkedNodes(false)">
             <cs-icon name="minus-square-o"/>
             收起

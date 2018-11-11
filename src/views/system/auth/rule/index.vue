@@ -12,7 +12,8 @@
       :loading="loading"
       :module="module"
       :group="group"
-      @refresh="handleRefresh"/>
+      @refresh="handleRefresh"
+      ref="rule"/>
   </cs-container>
 </template>
 
@@ -94,6 +95,10 @@ export default {
             res.data.forEach(value => {
               this.tree[mapModule[value.module] - 1].children.push(value)
             })
+          }
+
+          if (this.$refs.rule) {
+            this.$refs.rule.filterText = ''
           }
         })
         .finally(() => {
