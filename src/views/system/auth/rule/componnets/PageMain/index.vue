@@ -141,7 +141,146 @@
       </el-col>
 
       <el-col :span="14">
-        <el-card shadow="never">
+        <el-card
+          v-loading="formLoading"
+          shadow="never">
+          <div slot="header">
+            <span>{{formMap[formStatus]}}</span>
+            <el-button
+              v-if="formStatus === 'create'"
+              type="text"
+              :loading="formLoading"
+              style="float: right; padding: 3px 0"
+              @click="create">确定</el-button>
+
+            <el-button
+              v-else-if="formStatus === 'update'"
+              type="text"
+              :loading="formLoading"
+              style="float: right; padding: 3px 0"
+              @click="update">修改</el-button>
+          </div>
+
+          <div>
+            <el-form
+              :model="form"
+              :rules="rules"
+              ref="form"
+              label-width="80px">
+              <el-form-item
+                label="名称"
+                prop="name">
+                <el-input
+                  v-model="form.name"
+                  placeholder="请输入权限名称"
+                  clearable/>
+              </el-form-item>
+
+              <el-row>
+                <el-col :span="12">
+                  <el-form-item
+                    label="模块"
+                    prop="module">
+                    <el-select
+                      v-model="form.module"
+                      placeholder="请选择"
+                      style="width: 100%;"
+                      @change="switchModule"
+                      value="">
+                      <el-option
+                        v-for="(item, index) in module"
+                        :key="index"
+                        :label="item"
+                        :value="index"/>
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item
+                    label="用户组"
+                    prop="group_id">
+                    <el-select
+                      v-model="form.group_id"
+                      placeholder="请选择"
+                      style="width: 100%;"
+                      value="">
+                      <el-option
+                        v-for="item in group"
+                        :key="item.group_id"
+                        :label="item.name"
+                        :value="item.group_id"/>
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+
+              <el-row>
+                <el-col :span="12">
+                  <el-form-item
+                    label="排序"
+                    prop="sort">
+                    <el-input-number
+                      v-model="form.sort"
+                      :min="0"
+                      :max="255"
+                      controls-position="right"
+                      label="请输入权限排序值"/>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item
+                    label="状态"
+                    prop="status">
+                    <el-switch
+                      v-model="form.status"
+                      active-value="1"
+                      inactive-value="0">
+                    </el-switch>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </el-form>
+
+            <el-collapse>
+              <el-collapse-item title="菜单权限">
+                <el-tree
+                  node-key="menu_id"
+                  :data="menuData"
+                  :props="treeProps"
+                  :default-checked-keys="form.menu_auth"
+                  show-checkbox
+                  ref="menuTree">
+                    <span class="custom-tree-node" slot-scope="{ node, data }">
+                      <span :class="`brother-showing ${!data.status ? 'status-tree' : ''}`">
+                        <i v-if="node.icon" :class="`fa fa-${node.icon}`" style="width: 16px;"></i>
+                        <i v-else-if="data.children" class="fa fa-folder-o" style="width: 16px;"></i>
+                        <i v-else class="fa fa-file-o" style="width: 16px;"></i>
+                        {{node.label}} {{data.url && `(${data.url})`}}
+                      </span>
+                    </span>
+                </el-tree>
+              </el-collapse-item>
+
+              <el-collapse-item title="记录权限">
+                <el-tree
+                  node-key="menu_id"
+                  :data="menuData"
+                  :props="treeProps"
+                  :default-checked-keys="form.log_auth"
+                  show-checkbox
+                  ref="logTree">
+                    <span class="custom-tree-node" slot-scope="{ node, data }">
+                      <span :class="`brother-showing ${!data.status ? 'status-tree' : ''}`">
+                        <i v-if="node.icon" :class="`fa fa-${node.icon}`" style="width: 16px;"></i>
+                        <i v-else-if="data.children" class="fa fa-folder-o" style="width: 16px;"></i>
+                        <i v-else class="fa fa-file-o" style="width: 16px;"></i>
+                        {{node.label}} {{data.url && `(${data.url})`}}
+                      </span>
+                    </span>
+                </el-tree>
+              </el-collapse-item>
+            </el-collapse>
+          </div>
         </el-card>
       </el-col>
     </el-row>
@@ -153,8 +292,11 @@
 import {
   delAuthRuleList,
   setAuthRuleStatus,
-  setAuthRuleIndex
+  setAuthRuleIndex,
+  addAuthRuleItem
 } from '@/api/auth/rule'
+import { getMenuList } from '@/api/auth/menu'
+import util from '@/utils/util'
 
 export default {
   props: {
@@ -181,6 +323,57 @@ export default {
       treeProps: {
         label: 'name',
         children: 'children'
+      },
+      form: {
+        module: undefined,
+        group_id: undefined,
+        name: undefined,
+        menu_auth: [],
+        log_auth: [],
+        sort: 50,
+        status: '1'
+      },
+      menuData: [],
+      formStatus: 'create',
+      formLoading: false,
+      formMap: {
+        create: '新增权限',
+        update: '编辑权限'
+      },
+      rules: {
+        name: [
+          {
+            required: true,
+            message: '名称不能为空',
+            trigger: 'blur'
+          },
+          {
+            max: 32,
+            message: '长度不能大于 32 个字符',
+            trigger: 'blur'
+          }
+        ],
+        module: [
+          {
+            required: true,
+            message: '至少选择一项',
+            trigger: 'blur'
+          }
+        ],
+        group_id: [
+          {
+            required: true,
+            message: '至少选择一项',
+            trigger: 'blur'
+          }
+        ],
+        sort: [
+          {
+            type: 'number',
+            message: '必须为数字值',
+            trigger: 'blur'
+          }
+        ]
       }
     }
   },
@@ -190,7 +383,7 @@ export default {
     }
   },
   methods: {
-    // 过滤菜单
+    // 过滤节点
     filterNode(value, data) {
       if (!value) { return true }
       return data.name.indexOf(value) !== -1
@@ -308,6 +501,48 @@ export default {
         .catch(() => {
           this.$emit('refresh')
         })
+    },
+    // 切换模块菜单
+    switchModule(val) {
+      if (!val) {
+        this.menuData = []
+        return
+      }
+
+      this.formLoading = true
+      getMenuList({ module: val })
+        .then(res => {
+          this.menuData = res.data.length ? util.formatDataToTree(res.data) : []
+        })
+        .finally(() => {
+          this.formLoading = false
+        })
+    },
+    // 重置表单
+    resetForm() {
+      this.form = {
+        module: '',
+        group_id: '',
+        name: '',
+        menu_auth: [],
+        log_auth: [],
+        sort: 50,
+        status: '1'
+      }
+    },
+    // 新增权限
+    create() {
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          this.formLoading = true
+          // this.form.menu_auth = [
+          //   ...this.$refs.menuTree.getCheckedKeys(true),
+          //   ...this.$refs.menuTree.getHalfCheckedKeys(true)
+          // ]
+          console.log(this.form.menu_auth)
+          // this.form.log_auth = this.$refs.logTree.getCheckedKeys(true)
+        }
+      })
     }
   }
 }
