@@ -99,6 +99,8 @@ export default {
 
           if (this.$refs.rule) {
             this.$refs.rule.filterText = ''
+            this.$refs.rule.resetForm()
+            this.$refs.rule.resetElements()
           }
         })
         .finally(() => {

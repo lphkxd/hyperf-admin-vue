@@ -495,9 +495,7 @@ export default {
     // 重置元素
     resetElements(val = 'create') {
       this.$nextTick(() => {
-        if (this.auth.add || this.auth.set) {
-          this.$refs.form.clearValidate()
-        }
+        this.$refs.form.clearValidate()
       })
 
       this.formStatus = val
@@ -518,8 +516,7 @@ export default {
     // 新增菜单表单初始化
     handleCreate(status, key = null) {
       this.resetForm()
-      this.formStatus = status
-      this.formLoading = false
+      this.resetElements(status)
       this.$refs.tree.setCurrentKey(key)
     },
     // 追加菜单

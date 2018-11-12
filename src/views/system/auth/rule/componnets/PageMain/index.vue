@@ -8,7 +8,7 @@
         <el-button-group>
           <el-button
             :disabled="loading"
-            @click="() => {}">
+            @click="handleCreate('create')">
             <cs-icon name="plus"/>
             新增
           </el-button>
@@ -123,17 +123,6 @@
                 size="mini"
                 @click.stop="() => remove([data.rule_id], false)">
                 删除
-              </el-button>
-            </span>
-
-            <span
-              v-else
-              class="active">
-              <el-button
-                type="text"
-                size="mini"
-                @click.stop="() => {}">
-                新增
               </el-button>
             </span>
           </span>
@@ -530,17 +519,38 @@ export default {
         status: '1'
       }
     },
+    // 重置元素
+    resetElements(val = 'create') {
+      this.$nextTick(() => {
+        this.$refs.form.clearValidate()
+      })
+
+      this.menuData = []
+      this.formStatus = val
+      this.formLoading = false
+    },
+    // 新增表单初始化
+    handleCreate(status) {
+      this.resetForm()
+      this.resetElements(status)
+    },
     // 新增权限
     create() {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.formLoading = true
-          // this.form.menu_auth = [
-          //   ...this.$refs.menuTree.getCheckedKeys(true),
-          //   ...this.$refs.menuTree.getHalfCheckedKeys(true)
-          // ]
-          console.log(this.form.menu_auth)
-          // this.form.log_auth = this.$refs.logTree.getCheckedKeys(true)
+          addAuthRuleItem({
+            ...this.form,
+            menu_auth: this.$refs.menuTree.getCheckedKeys(),
+            log_auth: this.$refs.logTree.getCheckedKeys()
+          })
+            .then(() => {
+              this.$emit('refresh')
+              this.$message.success('操作成功')
+            })
+            .catch(() => {
+              this.formLoading = false
+            })
         }
       })
     }

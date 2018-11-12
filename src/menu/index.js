@@ -14,7 +14,7 @@ export const menuAside = []
 function getMenuData(arr) {
   let tree = { header: [], aside: [] }
   arr.forEach(value => {
-    if (!value.is_navi) {
+    if (!value.is_navi || !value.status) {
       return
     }
 

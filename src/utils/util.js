@@ -78,6 +78,10 @@ util.formatDataToTree = function(data, key = 'menu_id', pid = 'parent_id') {
 
     // 子节点压入
     if (map[index][pid]) {
+      if (!map[map[index][pid]]) {
+        continue
+      }
+
       if (!map[map[index][pid]].hasOwnProperty('children')) {
         map[map[index][pid]]['children'] = []
       }
