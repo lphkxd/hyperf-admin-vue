@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 /**
  * 添加一条规则
- * @param {Array} data
+ * @param {Object} data
  */
 export function addAuthRuleItem(data) {
   return request({

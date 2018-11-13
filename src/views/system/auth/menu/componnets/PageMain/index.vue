@@ -70,13 +70,14 @@
           :expand-on-click-node="false"
           :default-expand-all="isExpandAll"
           :default-expanded-keys="expanded"
+          :allow-drag="allowDrag"
           @node-click="handleNodeClick"
           @node-drop="handleDrop"
           draggable
           ref="tree">
           <span class="custom-tree-node action" slot-scope="{ node, data }">
             <span :class="`brother-showing ${!data.status ? 'status-tree' : ''}`">
-              <i class="fa fa-align-justify move-tree cs-mr-10"></i>
+              <i v-if="auth.move" class="fa fa-align-justify move-tree cs-mr-10"></i>
               <i v-if="node.icon" :class="`fa fa-${node.icon}`" style="width: 16px;"></i>
               <i v-else-if="data.children" class="fa fa-folder-o" style="width: 16px;"></i>
               <i v-else class="fa fa-file-o" style="width: 16px;"></i>
@@ -331,10 +332,11 @@ export default {
         children: 'children'
       },
       auth: {
-        add: true,
-        del: true,
-        set: true,
-        status: true
+        add: false,
+        del: false,
+        set: false,
+        status: false,
+        move: false
       },
       form: {
         parent_id: undefined,
@@ -436,6 +438,7 @@ export default {
       this.auth.del = this.$has('/system/auth/menu/del')
       this.auth.set = this.$has('/system/auth/menu/set')
       this.auth.status = this.$has('/system/auth/menu/status')
+      this.auth.move = this.$has('/system/auth/menu/move')
     },
     // 过滤菜单
     filterNode(value, data) {
@@ -657,6 +660,10 @@ export default {
             this.$emit('refresh')
           })
       }
+    },
+    // 判断节点是否可移动
+    allowDrag() {
+      return this.auth.move
     }
   }
 }
