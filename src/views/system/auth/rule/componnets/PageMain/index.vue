@@ -7,6 +7,7 @@
       <el-form-item>
         <el-button-group>
           <el-button
+            v-if="auth.add"
             :disabled="loading"
             @click="handleCreate('create')">
             <cs-icon name="plus"/>
@@ -14,6 +15,7 @@
           </el-button>
 
           <el-button
+            v-if="auth.enable"
             :disabled="loading"
             @click="setStatusList(1)">
             <cs-icon name="check"/>
@@ -21,6 +23,7 @@
           </el-button>
 
           <el-button
+            v-if="auth.disable"
             :disabled="loading"
             @click="setStatusList(0)">
             <cs-icon name="close"/>
@@ -28,6 +31,7 @@
           </el-button>
 
           <el-button
+            v-if="auth.del"
             :disabled="loading"
             @click="removeList">
             <cs-icon name="trash-o"/>
@@ -103,7 +107,7 @@
           ref="tree">
           <span class="custom-tree-node action" slot-scope="{ node, data }">
             <span :class="`brother-showing ${!data.status ? 'status-tree' : ''}`">
-              <i v-if="!data.system" class="fa fa-align-justify move-tree cs-mr-10"></i>
+              <i v-if="!data.system && auth.move" class="fa fa-align-justify move-tree cs-mr-10"></i>
               <i v-if="data.children" class="fa fa-folder-o"></i>
               <i v-else class="fa fa-file-o"></i>
               {{ node.label }}
@@ -113,16 +117,30 @@
               v-if="!data.system"
               class="active">
               <el-button
+                v-if="auth.disable || auth.enable"
                 type="text"
                 size="mini"
                 @click.stop="() => setStatusItem(data.rule_id, data.status)">
                 {{data.status ? '禁用' : '启用'}}
               </el-button>
               <el-button
+                v-if="auth.del"
                 type="text"
                 size="mini"
                 @click.stop="() => remove([data.rule_id], false)">
                 删除
+              </el-button>
+            </span>
+
+            <span
+              v-else
+              class="active">
+              <el-button
+                v-if="auth.add"
+                type="text"
+                size="mini"
+                @click.stop="() => handleCreate('create', node.key)">
+                新增
               </el-button>
             </span>
           </span>
@@ -131,19 +149,19 @@
 
       <el-col :span="14">
         <el-card
-          v-loading="formLoading"
+          v-if="auth.add || auth.set"
           shadow="never">
           <div slot="header">
             <span>{{formMap[formStatus]}}</span>
             <el-button
-              v-if="formStatus === 'create'"
+              v-if="formStatus === 'create' && auth.add"
               type="text"
               :loading="formLoading"
               style="float: right; padding: 3px 0"
               @click="create">确定</el-button>
 
             <el-button
-              v-else-if="formStatus === 'update'"
+              v-else-if="formStatus === 'update' && auth.set"
               type="text"
               :loading="formLoading"
               style="float: right; padding: 3px 0"
@@ -174,7 +192,6 @@
                       v-model="form.module"
                       placeholder="请选择"
                       style="width: 100%;"
-                      @change="switchModule"
                       value="">
                       <el-option
                         v-for="(item, index) in module"
@@ -230,15 +247,16 @@
               </el-row>
             </el-form>
 
-            <el-collapse>
-              <el-collapse-item title="菜单权限">
-                <el-tree
-                  node-key="menu_id"
-                  :data="menuData"
-                  :props="treeProps"
-                  :default-checked-keys="form.menu_auth"
-                  show-checkbox
-                  ref="menuTree">
+            <div v-loading="treeLoading">
+              <el-collapse>
+                <el-collapse-item title="菜单权限">
+                  <el-tree
+                    node-key="menu_id"
+                    :data="menuData"
+                    :props="treeProps"
+                    :default-checked-keys="form.menu_auth"
+                    show-checkbox
+                    ref="menuTree">
                     <span class="custom-tree-node" slot-scope="{ node, data }">
                       <span :class="`brother-showing ${!data.status ? 'status-tree' : ''}`">
                         <i v-if="node.icon" :class="`fa fa-${node.icon}`" style="width: 16px;"></i>
@@ -247,17 +265,17 @@
                         {{node.label}} {{data.url && `(${data.url})`}}
                       </span>
                     </span>
-                </el-tree>
-              </el-collapse-item>
+                  </el-tree>
+                </el-collapse-item>
 
-              <el-collapse-item title="记录权限">
-                <el-tree
-                  node-key="menu_id"
-                  :data="menuData"
-                  :props="treeProps"
-                  :default-checked-keys="form.log_auth"
-                  show-checkbox
-                  ref="logTree">
+                <el-collapse-item title="记录权限">
+                  <el-tree
+                    node-key="menu_id"
+                    :data="menuData"
+                    :props="treeProps"
+                    :default-checked-keys="form.log_auth"
+                    show-checkbox
+                    ref="logTree">
                     <span class="custom-tree-node" slot-scope="{ node, data }">
                       <span :class="`brother-showing ${!data.status ? 'status-tree' : ''}`">
                         <i v-if="node.icon" :class="`fa fa-${node.icon}`" style="width: 16px;"></i>
@@ -266,9 +284,11 @@
                         {{node.label}} {{data.url && `(${data.url})`}}
                       </span>
                     </span>
-                </el-tree>
-              </el-collapse-item>
-            </el-collapse>
+                  </el-tree>
+                </el-collapse-item>
+              </el-collapse>
+            </div>
+
           </div>
         </el-card>
       </el-col>
@@ -282,7 +302,8 @@ import {
   delAuthRuleList,
   setAuthRuleStatus,
   setAuthRuleIndex,
-  addAuthRuleItem
+  addAuthRuleItem,
+  setAuthRuleItem
 } from '@/api/auth/rule'
 import { getMenuList } from '@/api/auth/menu'
 import util from '@/utils/util'
@@ -309,9 +330,18 @@ export default {
       expanded: [],
       helpContent: '暂无帮助内容',
       filterText: '',
+      treeLoading: false,
       treeProps: {
         label: 'name',
         children: 'children'
+      },
+      auth: {
+        add: false,
+        del: false,
+        set: false,
+        enable: false,
+        disable: false,
+        move: false
       },
       form: {
         module: undefined,
@@ -329,6 +359,8 @@ export default {
         create: '新增权限',
         update: '编辑权限'
       },
+      menuAuth: [],
+      logAuth: [],
       rules: {
         name: [
           {
@@ -369,9 +401,27 @@ export default {
   watch: {
     filterText(val) {
       this.$refs.tree.filter(val)
+    },
+    'form.module': {
+      handler(val) {
+        this.switchModule(val)
+      },
+      deep: true
     }
   },
+  mounted() {
+    this._validationAuth()
+  },
   methods: {
+    // 验证权限
+    _validationAuth() {
+      this.auth.add = this.$has('/system/auth/rule/add')
+      this.auth.del = this.$has('/system/auth/rule/del')
+      this.auth.set = this.$has('/system/auth/rule/set')
+      this.auth.enable = this.$has('/system/auth/rule/enable')
+      this.auth.disable = this.$has('/system/auth/rule/disable')
+      this.auth.move = this.$has('/system/auth/rule/move')
+    },
     // 过滤节点
     filterNode(value, data) {
       if (!value) { return true }
@@ -420,7 +470,7 @@ export default {
     },
     // 批量删除规则
     removeList() {
-      this.remove(this.$refs.tree.getCheckedKeys())
+      this.remove(this.$refs.tree.getCheckedKeys(true))
     },
     // 启用或禁用
     enable(key, val, checked = true) {
@@ -454,7 +504,7 @@ export default {
     },
     // 批量设置规则状态
     setStatusList(val) {
-      this.enable(this.$refs.tree.getCheckedKeys(), val)
+      this.enable(this.$refs.tree.getCheckedKeys(true), val)
     },
     // 快捷设置规则状态
     setStatusItem(key, val) {
@@ -462,10 +512,29 @@ export default {
     },
     // 点击树节点事件
     handleNodeClick(data) {
+      if (!this.auth.add && !this.auth.set) {
+        return
+      }
+
+      if (data.system) {
+        this.handleCreate('create', data.module)
+        return
+      }
+
+      this.resetForm()
+      this.resetElements('update')
+
+      this.menuAuth = data.menu_auth
+      this.logAuth = data.log_auth
+
+      this.form = {
+        ...data,
+        status: String(data.status)
+      }
     },
     // 判断节点是否能被拖动
     allowDrag(draggingNode) {
-      return !this.module.hasOwnProperty(draggingNode.key)
+      return !this.module.hasOwnProperty(draggingNode.key) && this.auth.move
     },
     // 拖拽时判定目标节点能否被放置
     allowDrop(draggingNode, dropNode, type) {
@@ -498,13 +567,32 @@ export default {
         return
       }
 
-      this.formLoading = true
+      this.treeLoading = true
       getMenuList({ module: val })
         .then(res => {
           this.menuData = res.data.length ? util.formatDataToTree(res.data) : []
+          if (this.formStatus === 'update' && res.data.length) {
+            if (!this.menuAuth.length && !this.logAuth.length) {
+              return
+            }
+
+            let nodeId = []
+            res.data.forEach(value => {
+              if (value['children_total'] <= 0) {
+                nodeId.push(String(value.menu_id))
+              }
+            })
+
+            if (!nodeId.length) {
+              return
+            }
+
+            this.form.menu_auth = this.menuAuth.filter(item => nodeId.includes(item))
+            this.form.log_auth = this.logAuth.filter(item => nodeId.includes(item))
+          }
         })
         .finally(() => {
-          this.formLoading = false
+          this.treeLoading = false
         })
     },
     // 重置表单
@@ -526,24 +614,58 @@ export default {
       })
 
       this.menuData = []
+      this.menuAuth = []
+      this.logAuth = []
       this.formStatus = val
       this.formLoading = false
     },
     // 新增表单初始化
-    handleCreate(status) {
+    handleCreate(status, module = null) {
       this.resetForm()
       this.resetElements(status)
+
+      if (module) {
+        this.form.module = module
+      }
+    },
+    // 获取勾选节点
+    _getCheckedKeys() {
+      this.form.menu_auth = [
+        ...this.$refs.menuTree.getCheckedKeys(),
+        ...this.$refs.menuTree.getHalfCheckedKeys()
+      ]
+
+      this.form.log_auth = [
+        ...this.$refs.logTree.getCheckedKeys(),
+        ...this.$refs.logTree.getHalfCheckedKeys()
+      ]
     },
     // 新增权限
     create() {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.formLoading = true
-          addAuthRuleItem({
-            ...this.form,
-            menu_auth: this.$refs.menuTree.getCheckedKeys(),
-            log_auth: this.$refs.logTree.getCheckedKeys()
-          })
+          this._getCheckedKeys()
+
+          addAuthRuleItem(this.form)
+            .then(() => {
+              this.$emit('refresh')
+              this.$message.success('操作成功')
+            })
+            .catch(() => {
+              this.formLoading = false
+            })
+        }
+      })
+    },
+    // 编辑权限
+    update() {
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          this.formLoading = true
+          this._getCheckedKeys()
+
+          setAuthRuleItem(this.form)
             .then(() => {
               this.$emit('refresh')
               this.$message.success('操作成功')

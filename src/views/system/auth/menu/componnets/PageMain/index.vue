@@ -506,6 +506,10 @@ export default {
     },
     // 点击树节点事件
     handleNodeClick(data) {
+      if (!this.auth.add && !this.auth.set) {
+        return
+      }
+
       this.resetForm()
       this.resetElements('update')
 
