@@ -24,10 +24,6 @@ router.beforeEach((to, from, next) => {
   NProgress.start()
   const token = util.cookies.get('token')
 
-  if (to.fullPath !== '/login') {
-    util.cookies.set('redirect', to.fullPath)
-  }
-
   if (token) {
     store.commit('careyshop/search/set', false)
   }
@@ -37,6 +33,10 @@ router.beforeEach((to, from, next) => {
     if (token && token !== undefined) {
       next()
     } else {
+      if (to.fullPath !== '/login') {
+        util.cookies.set('redirect', to.fullPath)
+      }
+
       next({ name: 'login' })
       NProgress.done()
     }

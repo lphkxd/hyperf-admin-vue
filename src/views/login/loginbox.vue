@@ -115,6 +115,7 @@ export default {
             this.$store.dispatch('careyshop/account/load')
             const path = util.cookies.get('redirect')
             this.$router.replace(path ? { path } : { path: '/' })
+            util.cookies.remove('redirect')
           }).catch(() => {
             this.loading = false
           })

@@ -54,15 +54,20 @@ export default {
       function logout() {
         logoutAdminUser()
           .finally(() => {
-          // 删除info
+            // 删除info
             dispatch('careyshop/user/set', {
               name: 'Ghost',
               admin: {},
               token: {}
             }, { root: true })
+
             // 删除cookie
             util.cookies.remove('token')
             util.cookies.remove('uuid')
+
+            // 跳转路由
+            vm.$router.push({ name: 'login' })
+
             // 重新载入vue
             location.reload()
           })
@@ -81,14 +86,13 @@ export default {
         type: 'warning'
       })
         .then(() => {
-          const loading = vm.$loading({
+          vm.$loading({
             lock: true,
             text: 'Loading',
             spinner: 'el-icon-loading',
             background: 'rgba(0, 0, 0, 0.7)'
           })
 
-          loading.close()
           logout()
         })
         .catch(() => {
