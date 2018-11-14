@@ -516,8 +516,8 @@ export default {
       this.form = {
         ...data,
         parent_id: this._getParentId(data.parent_id),
-        type: String(data.type),
-        is_navi: String(data.is_navi)
+        type: data.type.toString(),
+        is_navi: data.is_navi.toString()
       }
     },
     // 新增菜单表单初始化

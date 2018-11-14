@@ -46,7 +46,6 @@ const frameIn = [
   },
   {
     path: '/system',
-    redirect: { name: 'system-admin-member' },
     component: layoutHeaderAside,
     children: (pre => [
       {

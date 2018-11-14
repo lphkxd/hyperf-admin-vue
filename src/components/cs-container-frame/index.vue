@@ -1,9 +1,6 @@
 <template>
   <cs-container>
-    <iframe
-      class="cs-container-frame"
-      :src="src"
-      frameborder="0"/>
+    <iframe class="cs-container-frame" :src="src" frameborder="0"></iframe>
   </cs-container>
 </template>
 

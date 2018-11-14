@@ -268,7 +268,7 @@
                   </el-tree>
                 </el-collapse-item>
 
-                <el-collapse-item title="记录权限">
+                <el-collapse-item v-if="form.module === 'api'" title="记录权限">
                   <el-tree
                     node-key="menu_id"
                     :data="menuData"
@@ -529,7 +529,7 @@ export default {
 
       this.form = {
         ...data,
-        status: String(data.status)
+        status: data.status.toString()
       }
     },
     // 判断节点是否能被拖动
@@ -579,7 +579,7 @@ export default {
             let nodeId = []
             res.data.forEach(value => {
               if (value['children_total'] <= 0) {
-                nodeId.push(String(value.menu_id))
+                nodeId.push(value.menu_id.toString())
               }
             })
 
@@ -588,7 +588,10 @@ export default {
             }
 
             this.form.menu_auth = this.menuAuth.filter(item => nodeId.includes(item))
-            this.form.log_auth = this.logAuth.filter(item => nodeId.includes(item))
+
+            if (val === 'api') {
+              this.form.log_auth = this.logAuth.filter(item => nodeId.includes(item))
+            }
           }
         })
         .finally(() => {
@@ -635,10 +638,12 @@ export default {
         ...this.$refs.menuTree.getHalfCheckedKeys()
       ]
 
-      this.form.log_auth = [
-        ...this.$refs.logTree.getCheckedKeys(),
-        ...this.$refs.logTree.getHalfCheckedKeys()
-      ]
+      if (this.form.module === 'api') {
+        this.form.log_auth = [
+          ...this.$refs.logTree.getCheckedKeys(),
+          ...this.$refs.logTree.getHalfCheckedKeys()
+        ]
+      }
     },
     // 新增权限
     create() {

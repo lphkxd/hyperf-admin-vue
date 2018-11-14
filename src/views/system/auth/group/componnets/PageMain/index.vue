@@ -433,7 +433,7 @@ export default {
         name: this.currentTableData[index].name,
         description: this.currentTableData[index].description,
         sort: this.currentTableData[index].sort,
-        status: String(this.currentTableData[index].status)
+        status: this.currentTableData[index].status.toString()
       }
 
       this.$nextTick(() => {

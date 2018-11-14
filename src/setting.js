@@ -70,7 +70,7 @@ export default {
   },
   // 是否默认开启页面切换动画
   transition: {
-    active: true
+    active: false
   },
   // 在读取持久化数据失败时默认用户信息
   user: {
