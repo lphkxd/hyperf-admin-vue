@@ -14,7 +14,7 @@ export default {
     },
     getRouterAuthPath(index, indexPath) {
       // 子级路由直接访问
-      if (indexPath.length > 1) {
+      if (indexPath.length > 1 || index === '/index') {
         this.$router.push({ path: index })
         return
       }

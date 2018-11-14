@@ -3,10 +3,9 @@
     <el-form
       :inline="true"
       size="small">
-      <el-form-item>
+      <el-form-item v-if="auth.add">
         <el-button-group>
           <el-button
-            v-if="auth.add"
             :disabled="loading"
             @click="handleCreate('create')">
             <cs-icon name="plus"/>
@@ -498,7 +497,9 @@ export default {
     // 重置元素
     resetElements(val = 'create') {
       this.$nextTick(() => {
-        this.$refs.form.clearValidate()
+        if (this.$refs.form) {
+          this.$refs.form.clearValidate()
+        }
       })
 
       this.formStatus = val
