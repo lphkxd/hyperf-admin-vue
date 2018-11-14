@@ -20,21 +20,17 @@ export default {
       }
 
       // 顶级路由导航到子级路由
-      let router = {}
-      for (const key in frameInRoutes) {
-        if (frameInRoutes[key].path === index) {
-          router = frameInRoutes[key].children
+      let router = null
+      for (const value of frameInRoutes) {
+        if (value.path === index) {
+          router = value.children
           break
         }
       }
 
       // 判断子级路由是否有权限
-      for (const key in router) {
-        if (!router.hasOwnProperty(key)) {
-          continue
-        }
-
-        const newPath = index + '/' + router[key].path
+      for (const value of router) {
+        const newPath = index + '/' + value.path
         if (this.$has(newPath)) {
           this.$router.push({ path: newPath })
           break
