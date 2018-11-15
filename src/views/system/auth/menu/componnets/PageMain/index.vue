@@ -372,8 +372,8 @@ export default {
         ],
         icon: [
           {
-            max: 16,
-            message: '长度不能大于 16 个字符',
+            max: 64,
+            message: '长度不能大于 64 个字符',
             trigger: 'blur'
           }
         ],
