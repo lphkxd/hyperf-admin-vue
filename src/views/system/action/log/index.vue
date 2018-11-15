@@ -1,16 +1,37 @@
 <template>
   <cs-container>
-    <template slot="header">header</template>
-    Hello Log
-    <template slot="footer">footer</template>
+    <page-header
+      slot="header"
+      :loading="loading"
+      :group="group"
+      @submit="handleSubmit"
+      ref="header"/>
   </cs-container>
 </template>
 
 <script>
 export default {
-  name: 'log'
+  name: 'system-action-log',
+  components: {
+    'PageHeader': () => import('./componnets/PageHeader')
+  },
+  data() {
+    return {
+      loading: false,
+      page: {
+        current: 1,
+        size: 25,
+        total: 0
+      },
+      order: {
+        order_type: undefined,
+        order_field: undefined
+      }
+    }
+  },
+  mounted() {
+  },
+  methods: {
+  }
 }
 </script>
-
-<style scoped>
-</style>
