@@ -37,7 +37,8 @@
           :disabled="loading"
           placeholder="输入关键字进行过滤"
           clearable
-          style="width: 170px;">
+          prefix-icon="el-icon-search"
+          style="width: 180px;">
         </el-input>
       </el-form-item>
 
@@ -367,13 +368,6 @@ export default {
           {
             max: 16,
             message: '长度不能大于 16 个字符',
-            trigger: 'blur'
-          }
-        ],
-        icon: [
-          {
-            max: 64,
-            message: '长度不能大于 64 个字符',
             trigger: 'blur'
           }
         ],

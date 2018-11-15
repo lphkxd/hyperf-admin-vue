@@ -64,7 +64,8 @@
           :disabled="loading"
           placeholder="输入关键字进行过滤"
           clearable
-          style="width: 170px;">
+          prefix-icon="el-icon-search"
+          style="width: 180px;">
         </el-input>
       </el-form-item>
 
