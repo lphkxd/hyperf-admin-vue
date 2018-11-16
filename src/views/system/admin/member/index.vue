@@ -49,22 +49,18 @@ export default {
     }
   },
   mounted() {
-    this.initialization()
+    getAuthGroupList({
+      status: 1,
+      exclude_id: [3, 4]
+    })
+      .then(res => {
+        this.group = res.data
+      })
+      .then(() => {
+        this.handleSubmit()
+      })
   },
   methods: {
-    // 数据初始加载
-    initialization() {
-      getAuthGroupList({
-        status: 1,
-        exclude_id: [3, 4]
-      })
-        .then(res => {
-          this.group = res.data
-        })
-        .then(() => {
-          this.handleSubmit()
-        })
-    },
     // 刷新列表页面
     handleRefresh() {
       this.$nextTick(() => {
