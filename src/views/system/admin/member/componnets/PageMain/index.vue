@@ -81,7 +81,6 @@
 
       <el-table-column
         label="用户组"
-        prop="group_id"
         sortable="custom"
         :show-overflow-tooltip="true">
         <template slot-scope="scope">
@@ -105,7 +104,6 @@
 
       <el-table-column
         label="状态"
-        prop="status"
         sortable="custom"
         align="center"
         width="100">

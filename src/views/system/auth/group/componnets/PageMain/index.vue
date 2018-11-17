@@ -80,7 +80,6 @@
 
       <el-table-column
         label="排序值"
-        prop="sort"
         align="center"
         sortable="custom">
         <template slot-scope="scope">
@@ -102,7 +101,6 @@
 
       <el-table-column
         label="状态"
-        prop="status"
         align="center"
         width="100"
         sortable="custom">

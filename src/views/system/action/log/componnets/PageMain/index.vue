@@ -10,12 +10,12 @@
         label="编号"
         width="100"
         prop="action_log_id"
-        sortable="custom">
+        sortable="custom"
+        :show-overflow-tooltip="true">
       </el-table-column>
 
       <el-table-column
         label="账号类型"
-        prop="client_type"
         width="100"
         sortable="custom">
         <template slot-scope="scope">
@@ -27,65 +27,93 @@
         label="账号"
         prop="username"
         sortable="custom"
+        width="110"
         :show-overflow-tooltip="true">
       </el-table-column>
 
       <el-table-column
-        label="访问路径"
+        label="动作"
+        prop="action">
+      </el-table-column>
+
+      <el-table-column
+        label="路径"
         prop="path"
         sortable="custom"
         :show-overflow-tooltip="true">
       </el-table-column>
 
       <el-table-column
-        label="模型"
-        prop="module"
-        :show-overflow-tooltip="true">
-      </el-table-column>
-
-      <el-table-column
         label="请求参数"
-        prop="params"
+        align="center"
+        width="80"
         :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          {{scope.row.params}}
+          <el-tag
+            size="mini"
+            type="info"
+            style="cursor: pointer;"
+            @click.native="getObjectToJson(scope.$index, 'params')">
+            详细
+          </el-tag>
         </template>
       </el-table-column>
 
       <el-table-column
         label="处理结果"
-        prop="result"
+        align="center"
+        width="80"
         :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          {{scope.row.result}}
+          <el-tag
+            size="mini"
+            type="info"
+            style="cursor: pointer;"
+            @click.native="getObjectToJson(scope.$index, 'result')">
+            详细
+          </el-tag>
         </template>
       </el-table-column>
 
       <el-table-column
         label="状态"
-        prop="status"
         align="center"
+        width="75"
         sortable="custom">
         <template slot-scope="scope">
-          {{statusMap[scope.row.status]}}
+          <el-tag
+            size="mini"
+            :type="scope.row.status ? 'warning' : 'success'">
+            {{statusMap[scope.row.status]}}
+          </el-tag>
         </template>
       </el-table-column>
 
       <el-table-column
         label="IP"
         prop="ip"
-        width="150">
+        width="130">
       </el-table-column>
 
       <el-table-column
         label="创建时间"
         prop="create_time"
         align="center"
-        width="160"
+        width="150"
         sortable="custom">
       </el-table-column>
 
     </el-table>
+
+    <el-dialog
+      :title="jsonMap[dialogStatus]"
+      :visible.sync="dialogFormVisible"
+      :append-to-body="true"
+      width="600px">
+      <el-card shadow="never">
+        <cs-highlight :code="dialogJson"/>
+      </el-card>
+    </el-dialog>
   </div>
 </template>
 
@@ -107,7 +135,14 @@ export default {
       statusMap: {
         0: '成功',
         1: '失败'
-      }
+      },
+      jsonMap: {
+        params: '请求参数',
+        result: '处理结果'
+      },
+      dialogJson: '',
+      dialogStatus: '',
+      dialogFormVisible: false
     }
   },
   methods: {
@@ -125,24 +160,11 @@ export default {
 
       this.$emit('sort', sort)
     },
-    tmep() {
-      // util.objectToString = (data, length = 0, omitted = '...') => {
-      //   if (typeof data !== 'object') {
-      //     return data
-      //   }
-      //
-      //   let jsonText = ''
-      //   try {
-      //     jsonText = JSON.stringify(data)
-      //     if (length > 0) {
-      //       jsonText = jsonText.slice(0, length) + omitted
-      //     }
-      //   } catch (e) {
-      //     return e.message
-      //   }
-      //
-      //   return jsonText
-      // }
+    // 从结果集中获取JSON数据
+    getObjectToJson(index, type) {
+      this.dialogJson = JSON.stringify(this.tableData[index][type], null, 2)
+      this.dialogStatus = type
+      this.dialogFormVisible = true
     }
   }
 }

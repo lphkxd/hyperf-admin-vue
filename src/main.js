@@ -3,7 +3,6 @@ import App from './App'
 
 import store from '@/store'
 import careyshop from '@/plugin/careyshop'
-// import '@/mock'
 
 // 菜单和路由设置
 import router from './router'
