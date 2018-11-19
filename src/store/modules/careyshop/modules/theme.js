@@ -53,12 +53,25 @@ export default {
     load({ state, commit, dispatch }) {
       return new Promise(async resolve => {
         // store 赋值
-        state.activeName = await dispatch('careyshop/db/get', {
+        let activeName = await dispatch('careyshop/db/get', {
           dbName: 'sys',
           path: 'theme.activeName',
           defaultValue: state.list[0].name,
           user: true
         }, { root: true })
+        // 检查这个主题在主题列表里是否存在
+        if (state.list.find(e => e.name === activeName)) {
+          state.activeName = activeName
+        } else {
+          state.activeName = state.list[0].name
+          // 持久化
+          await dispatch('careyshop/db/set', {
+            dbName: 'sys',
+            path: 'theme.activeName',
+            value: state.activeName,
+            user: true
+          }, { root: true })
+        }
         // 将 vuex 中的主题应用到 dom
         commit('dom')
         // end

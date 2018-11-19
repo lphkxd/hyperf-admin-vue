@@ -13,6 +13,14 @@ module.exports = {
   devServer: {
     publicPath: baseUrl // 和 baseUrl 保持一致
   },
+  css: {
+    loaderOptions: {
+      // 设置 scss 公用变量文件
+      sass: {
+        data: `@import '~@/assets/style/public.scss';`
+      }
+    }
+  },
   productionSourceMap: false,
   // build时 超过10K的打包成gzip 减小体积
   configureWebpack: config => {
@@ -55,6 +63,10 @@ module.exports = {
     // 重新设置 alias
     config.resolve.alias
       .set('@', resolve('src'))
+    // node
+    config.node
+      .set('__dirname', true)
+      .set('__filename', true)
     // babel-polyfill 加入 entry
     const entry = config.entry('app')
     entry

@@ -3,6 +3,7 @@
     <el-menu
       :collapse="asideCollapse"
       :unique-opened="true"
+      :collapse-transition="false"
       :default-active="active"
       ref="menu"
       @select="handleMenuSelect">

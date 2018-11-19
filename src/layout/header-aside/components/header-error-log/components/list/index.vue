@@ -160,7 +160,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import '~@/assets/style/public.scss';
 .cs-error-log-list__expand-group {
   .cs-error-log-list__expand {
     padding-left: 20px;

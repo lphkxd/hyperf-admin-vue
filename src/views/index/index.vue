@@ -14,7 +14,6 @@
 </template>
 
 <style lang="scss" scoped>
-  @import '~@/assets/style/public.scss';
   .index-btn-group {
     color: $color-text-placehoder;
     span {
