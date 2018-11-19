@@ -1,6 +1,9 @@
 // 拼接路径
 const resolve = dir => require('path').join(__dirname, dir)
 
+// 插件 CompressionPlugin
+const CompressionPlugin = require('compression-webpack-plugin')
+
 // 基础路径 注意发布之前要先修改这里
 const baseUrl = '/admin/'
 
@@ -9,6 +12,21 @@ module.exports = {
   lintOnSave: true,
   devServer: {
     publicPath: baseUrl // 和 baseUrl 保持一致
+  },
+  productionSourceMap: false,
+  // build时 超过10K的打包成gzip 减小体积
+  configureWebpack: config => {
+    if (process.env.NODE_ENV === 'production') {
+      return {
+        plugins: [
+          new CompressionPlugin({
+            test: /\.(js|html|css)(\?.*)?$/,
+            threshold: 10240, // 10K
+            deleteOriginalAssets: false
+          })
+        ]
+      }
+    }
   },
   // 默认设置: https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-service/lib/config/base.js
   chainWebpack: config => {
