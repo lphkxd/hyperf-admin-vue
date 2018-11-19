@@ -78,7 +78,7 @@
           <span class="custom-tree-node action" slot-scope="{ node, data }">
             <span :class="`brother-showing ${!data.status ? 'status-tree' : ''}`">
               <i v-if="auth.move" class="fa fa-align-justify move-tree cs-mr-10"></i>
-              <i v-if="node.icon" :class="`fa fa-${node.icon}`" style="width: 16px;"></i>
+              <i v-if="data.icon" :class="`fa fa-${data.icon}`" style="width: 16px;"></i>
               <i v-else-if="data.children" class="fa fa-folder-o" style="width: 16px;"></i>
               <i v-else class="fa fa-file-o" style="width: 16px;"></i>
               {{ node.label }}
@@ -421,8 +421,13 @@ export default {
     }
   },
   mounted() {
-    this._getMenuModule()
-    this._validationAuth()
+    getMenuModule()
+      .then(res => {
+        this.treeModule = res
+      })
+      .then(() => {
+        this._validationAuth()
+      })
   },
   methods: {
     // 验证权限
@@ -437,10 +442,6 @@ export default {
     filterNode(value, data) {
       if (!value) { return true }
       return data.name.indexOf(value) !== -1
-    },
-    // 获取菜单模块
-    _getMenuModule() {
-      getMenuModule().then(res => { this.treeModule = res })
     },
     // 根据父ID获取所有上级编号
     _getParentId(parent_id) {
