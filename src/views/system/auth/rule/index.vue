@@ -37,25 +37,21 @@ export default {
     }
   },
   mounted() {
-    this.initialization()
+    Promise.all([
+      getMenuModule(),
+      getAuthGroupList({ status: 1 })
+    ])
+      .then(res => {
+        this.module = res[0]
+        res[1].data.forEach(value => {
+          this.group[value.group_id] = value
+        })
+      })
+      .then(() => {
+        this.handleSubmit()
+      })
   },
   methods: {
-    // 数据初始加载
-    initialization() {
-      Promise.all([
-        getMenuModule(),
-        getAuthGroupList({ status: 1 })
-      ])
-        .then(res => {
-          this.module = res[0]
-          res[1].data.forEach(value => {
-            this.group[value.group_id] = value
-          })
-        })
-        .then(() => {
-          this.handleSubmit()
-        })
-    },
     // 重新载入页面
     handleRefresh() {
       this.$nextTick(() => {
