@@ -111,14 +111,14 @@ export default {
             vm: this,
             username: this.loginForm.username,
             password: this.loginForm.password
-          }).then(() => {
-            this.$store.dispatch('careyshop/account/load')
-            const path = util.cookies.get('redirect')
-            this.$router.replace(path ? { path } : { path: '/' })
-            util.cookies.remove('redirect')
-          }).catch(() => {
-            this.loading = false
           })
+            .then(() => {
+              this.$store.dispatch('careyshop/account/load')
+              this.$router.replace(this.$route.query.redirect || '/')
+            })
+            .catch(() => {
+              this.loading = false
+            })
         }
       })
     }

@@ -1,5 +1,5 @@
 <template>
-  <cs-container>
+  <cs-container v-bind="$attrs">
     <iframe class="cs-container-frame" :src="src" frameborder="0"></iframe>
   </cs-container>
 </template>

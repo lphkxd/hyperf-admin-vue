@@ -33,11 +33,10 @@ router.beforeEach((to, from, next) => {
     if (token && token !== undefined) {
       next()
     } else {
-      if (to.fullPath !== '/login') {
-        util.cookies.set('redirect', to.fullPath)
-      }
-
-      next({ name: 'login' })
+      next({
+        name: 'login',
+        query: { redirect: to.fullPath }
+      })
       NProgress.done()
     }
   } else {
