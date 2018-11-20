@@ -66,7 +66,7 @@ export default {
             util.cookies.remove('uuid')
 
             // 跳转路由
-            vm.$router.push({ name: 'login' })
+            vm.$router.push({ name: '/' })
 
             // 重新载入vue
             location.reload()
