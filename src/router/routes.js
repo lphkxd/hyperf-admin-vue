@@ -77,6 +77,12 @@ const frameIn = [
         name: `${pre}action-log`,
         meta: { ...meta, cache: true, title: '日志记录' },
         component: () => import('@/views/system/action/log')
+      },
+      {
+        path: 'article/cat',
+        name: `${pre}article-cat`,
+        meta: { ...meta, cache: true, title: '文章分类' },
+        component: () => import('@/views/system/article/cat')
       }
     ])('system-')
   }
