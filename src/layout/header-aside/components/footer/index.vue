@@ -4,6 +4,7 @@
     :page-size="size"
     :total="total"
     :page-sizes="[25, 50, 100, 250, 500]"
+    :disabled="loading"
     layout="total, sizes, prev, pager, next, jumper"
     style="margin: -10px;"
     @size-change="handleSizeChange"
@@ -22,6 +23,9 @@ export default {
     },
     total: {
       default: 0
+    },
+    loading: {
+      default: false
     }
   },
   methods: {
