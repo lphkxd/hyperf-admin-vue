@@ -10,6 +10,7 @@
 
 <script>
 import util from '@/utils/util'
+import { getArticleCatList } from '@/api/article/cat'
 
 export default {
   name: 'system-article-cat',
@@ -36,6 +37,13 @@ export default {
     // 提交查询请求
     handleSubmit(form) {
       this.loading = true
+      getArticleCatList(form)
+        .then(res => {
+          this.tree = res.data.length ? util.formatDataToTree(res.data) : []
+        })
+        .finally(() => {
+          this.loading = false
+        })
     }
   }
 }

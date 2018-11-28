@@ -5,6 +5,18 @@
     ref="form"
     size="mini"
     style="margin-bottom: -18px;">
+    <el-form-item label="导航属性" prop="is_navi">
+      <el-select
+        v-model="form.is_navi"
+        clearable
+        placeholder="请选择"
+        style="width: 150px;"
+        value="">
+        <el-option label="可见" value="1"/>
+        <el-option label="隐藏" value="0"/>
+      </el-select>
+    </el-form-item>
+
     <el-form-item label="菜单深度" prop="level">
       <el-input-number
         v-model="form.level"
@@ -43,6 +55,7 @@ export default {
   data() {
     return {
       form: {
+        is_navi: undefined,
         level: 0
       }
     }
