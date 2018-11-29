@@ -22,6 +22,15 @@ export default {
     return {
       activeName: 'user'
     }
+  },
+  mounted() {
+    this.$notify({
+      title: 'Demo 演示提示',
+      dangerouslyUseHTMLString: true,
+      message: '<p>为避免相同账号多人登录而被踢下线，可使用账号"admin1~admin45"进行登录，密码全部为"admin888"。</p><br><p>目前仅"系统"菜单下有具体演示内容，其余都为占位菜单。</p>',
+      position: 'bottom-right',
+      duration: 0
+    })
   }
 }
 </script>
