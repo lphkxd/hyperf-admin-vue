@@ -111,7 +111,7 @@
               <i v-if="!data.system && auth.move" class="fa fa-align-justify move-tree cs-mr-10"></i>
               <i v-if="data.children" class="fa fa-folder-o"></i>
               <i v-else class="fa fa-file-o"></i>
-              {{ node.label }}
+              {{node.label}}
             </span>
 
             <span

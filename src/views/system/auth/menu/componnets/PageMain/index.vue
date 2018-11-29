@@ -81,7 +81,7 @@
               <i v-if="data.icon" :class="`fa fa-${data.icon}`" style="width: 16px;"></i>
               <i v-else-if="data.children" class="fa fa-folder-o" style="width: 16px;"></i>
               <i v-else class="fa fa-file-o" style="width: 16px;"></i>
-              {{ node.label }}
+              {{node.label}}
             </span>
 
             <span class="active">

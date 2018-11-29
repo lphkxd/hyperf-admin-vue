@@ -5,6 +5,11 @@
       :loading="loading"
       @submit="handleSubmit"
       ref="header"/>
+    <page-main
+      :tree-data="tree"
+      :loading="loading"
+      @refresh="handleRefresh"
+      ref="main"/>
   </cs-container>
 </template>
 
@@ -39,7 +44,13 @@ export default {
       this.loading = true
       getArticleCatList(form)
         .then(res => {
-          this.tree = res.data.length ? util.formatDataToTree(res.data) : []
+          this.tree = res.data.length ? util.formatDataToTree(res.data, 'article_cat_id') : []
+
+          if (this.$refs.main) {
+            this.$refs.main.filterText = ''
+            this.$refs.main.resetForm()
+            this.$refs.main.resetElements()
+          }
         })
         .finally(() => {
           this.loading = false

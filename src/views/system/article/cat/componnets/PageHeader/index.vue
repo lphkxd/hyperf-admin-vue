@@ -17,12 +17,12 @@
       </el-select>
     </el-form-item>
 
-    <el-form-item label="菜单深度" prop="level">
+    <el-form-item label="分类深度" prop="level">
       <el-input-number
         v-model="form.level"
         controls-position="right"
         :min="0"
-        label="请输入菜单深度值"/>
+        label="请输入分类深度值"/>
     </el-form-item>
 
     <el-form-item>
