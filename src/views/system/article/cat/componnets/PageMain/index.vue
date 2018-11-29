@@ -102,7 +102,120 @@
       </el-col>
 
       <el-col :span="14">
+        <el-card shadow="never">
+          <div slot="header">
+            <span>{{textMap[formStatus]}}</span>
+            <el-button
+              v-if="formStatus === 'create'"
+              type="text"
+              :loading="formLoading"
+              style="float: right; padding: 3px 0"
+              @click="() => {}">确定</el-button>
+
+            <el-button
+              v-else-if="formStatus === 'update'"
+              type="text"
+              :loading="formLoading"
+              style="float: right; padding: 3px 0"
+              @click="() => {}">修改</el-button>
+          </div>
+
+          <div>
+            <el-form
+              :model="form"
+              :rules="rules"
+              ref="form"
+              label-width="80px">
+              <el-form-item
+                label="上级分类"
+                prop="parent_id">
+                <el-cascader
+                  v-model="form.parent_id"
+                  :options="treeData"
+                  :props="cascaderProps"
+                  change-on-select
+                  filterable
+                  clearable
+                  style="width: 100%;"
+                  placeholder="不选择表示顶层分类 试试搜索：首页">
+                </el-cascader>
+              </el-form-item>
+
+              <el-row>
+                <el-col :span="12">
+                  <el-form-item
+                    label="名称"
+                    prop="cat_name">
+                    <el-input
+                      v-model="form.cat_name"
+                      placeholder="请输入文章分类名称"
+                      clearable/>
+                  </el-form-item>
+                </el-col>
+
+                <el-col :span="12">
+                  <el-form-item
+                    label="类型"
+                    prop="cat_type">
+                    <el-input-number
+                      v-model="form.cat_type"
+                      :min="-128"
+                      :max="127"
+                      controls-position="right"
+                      label="请输入文章分类类型"/>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+
+              <el-row>
+                <el-col :span="12">
+                  <el-form-item
+                    label="导航"
+                    prop="is_navi">
+                    <el-switch
+                      v-model="form.is_navi"
+                      active-value="1"
+                      inactive-value="0">
+                    </el-switch>
+                  </el-form-item>
+                </el-col>
+
+                <el-col :span="12">
+                  <el-form-item
+                    label="排序"
+                    prop="sort">
+                    <el-input-number
+                      v-model="form.sort"
+                      :min="0"
+                      :max="255"
+                      controls-position="right"
+                      label="请输入文章分类排序值"/>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+
+              <el-form-item
+                label="关键词"
+                prop="keywords">
+                <el-input
+                  v-model="form.keywords"
+                  placeholder="请输入文章分类关键词"
+                  clearable/>
+              </el-form-item>
+
+              <el-form-item
+                label="描述"
+                prop="description">
+                <el-input
+                  v-model="form.description"
+                  placeholder="请输入文章分类描述"
+                  clearable/>
+              </el-form-item>
+            </el-form>
+          </div>
+        </el-card>
       </el-col>
+
     </el-row>
   </div>
 </template>
@@ -127,6 +240,28 @@ export default {
       treeProps: {
         label: 'cat_name',
         children: 'children'
+      },
+      cascaderProps: {
+        value: 'article_cat_id',
+        label: 'cat_name',
+        children: 'children'
+      },
+      formStatus: 'create',
+      formLoading: false,
+      textMap: {
+        create: '新增分类',
+        update: '编辑分类'
+      },
+      form: {
+        parent_id: undefined,
+        cat_name: undefined,
+        cat_type: 0,
+        keywords: undefined,
+        description: undefined,
+        sort: 50,
+        is_navi: '0'
+      },
+      rules: {
       }
     }
   },
