@@ -3,11 +3,11 @@
     <el-form
       :inline="true"
       size="small">
-      <el-form-item>
+      <el-form-item v-if="auth.add">
         <el-button-group>
           <el-button
             :disabled="loading"
-            @click="() => {}">
+            @click="handleCreate('create')">
             <cs-icon name="plus"/>
             新增顶层分类
           </el-button>
@@ -18,13 +18,13 @@
         <el-button-group>
           <el-button
             :disabled="loading"
-            @click="() => {}">
+            @click="checkedNodes(true)">
             <cs-icon name="plus-square-o"/>
             展开
           </el-button>
           <el-button
             :disabled="loading"
-            @click="() => {}">
+            @click="checkedNodes(false)">
             <cs-icon name="minus-square-o"/>
             收起
           </el-button>
@@ -70,13 +70,14 @@
           :expand-on-click-node="false"
           :default-expand-all="isExpandAll"
           :default-expanded-keys="expanded"
-          @node-click="() => {}"
-          @node-drop="() => {}"
+          :allow-drag="allowDrag"
+          @node-click="handleNodeClick"
+          @node-drop="handleDrop"
           draggable
           ref="tree">
           <span class="custom-tree-node action" slot-scope="{ node, data }">
             <span class="brother-showing">
-              <i class="fa fa-align-justify move-tree cs-mr-10"></i>
+              <i v-if="auth.move" class="fa fa-align-justify move-tree cs-mr-10"></i>
               <i v-if="data.children" class="fa fa-folder-o" style="width: 16px;"></i>
               <i v-else class="fa fa-file-o" style="width: 16px;"></i>
               {{node.label}}
@@ -84,16 +85,18 @@
 
             <span class="active">
               <el-button
+                v-if="auth.add"
                 type="text"
                 size="mini"
-                @click.stop="() => {}">
+                @click.stop="() => handleAppend(data.article_cat_id)">
                 新增
               </el-button>
 
               <el-button
+                v-if="auth.del"
                 type="text"
                 size="mini"
-                @click.stop="() => {}">
+                @click.stop="() => remove(data.article_cat_id)">
                 删除
               </el-button>
             </span>
@@ -102,22 +105,25 @@
       </el-col>
 
       <el-col :span="14">
-        <el-card shadow="never">
+        <el-card
+          v-if="auth.add || auth.set"
+          shadow="never">
+
           <div slot="header">
             <span>{{textMap[formStatus]}}</span>
             <el-button
-              v-if="formStatus === 'create'"
+              v-if="formStatus === 'create' && auth.add"
               type="text"
               :loading="formLoading"
               style="float: right; padding: 3px 0"
-              @click="() => {}">确定</el-button>
+              @click="create">确定</el-button>
 
             <el-button
-              v-else-if="formStatus === 'update'"
+              v-else-if="formStatus === 'update' && auth.set"
               type="text"
               :loading="formLoading"
               style="float: right; padding: 3px 0"
-              @click="() => {}">修改</el-button>
+              @click="update">修改</el-button>
           </div>
 
           <div>
@@ -221,6 +227,13 @@
 </template>
 
 <script>
+import {
+  addArticleCatItem,
+  setArticleCatItem,
+  delArticleCatList,
+  setArticleCatIndex
+} from '@/api/article/cat'
+
 export default {
   props: {
     treeData: {
@@ -252,6 +265,12 @@ export default {
         create: '新增分类',
         update: '编辑分类'
       },
+      auth: {
+        add: false,
+        del: false,
+        set: false,
+        move: false
+      },
       form: {
         parent_id: undefined,
         cat_name: undefined,
@@ -259,9 +278,49 @@ export default {
         keywords: undefined,
         description: undefined,
         sort: 50,
-        is_navi: '0'
+        is_navi: '1'
       },
       rules: {
+        cat_name: [
+          {
+            required: true,
+            message: '名称不能为空',
+            trigger: 'blur'
+          },
+          {
+            max: 100,
+            message: '长度不能大于 100 个字符',
+            trigger: 'blur'
+          }
+        ],
+        cat_type: [
+          {
+            type: 'number',
+            message: '必须为数字值',
+            trigger: 'blur'
+          }
+        ],
+        keywords: [
+          {
+            max: 255,
+            message: '长度不能大于 255 个字符',
+            trigger: 'blur'
+          }
+        ],
+        description: [
+          {
+            max: 255,
+            message: '长度不能大于 255 个字符',
+            trigger: 'blur'
+          }
+        ],
+        sort: [
+          {
+            type: 'number',
+            message: '必须为数字值',
+            trigger: 'blur'
+          }
+        ]
       }
     }
   },
@@ -270,11 +329,223 @@ export default {
       this.$refs.tree.filter(val)
     }
   },
+  mounted() {
+    this._validationAuth()
+  },
   methods: {
-    // 过滤菜单
+    // 验证权限
+    _validationAuth() {
+      this.auth.add = this.$has('/system/article/cat/add')
+      this.auth.set = this.$has('/system/article/cat/set')
+      this.auth.del = this.$has('/system/article/cat/del')
+      this.auth.move = this.$has('/system/article/cat/move')
+    },
+    // 过滤分类
     filterNode(value, data) {
       if (!value) { return true }
       return data.cat_name.indexOf(value) !== -1
+    },
+    // 根据父ID获取所有上级编号
+    _getParentId(parent_id) {
+      let id_list = []
+      let node = this.$refs.tree.getNode(parent_id)
+
+      while (node) {
+        if (node.key) {
+          id_list.unshift(node.key)
+        }
+
+        if (!node.parent) {
+          break
+        }
+
+        node = node.parent
+      }
+
+      return id_list
+    },
+    // 展开或收起节点
+    checkedNodes(isExpand) {
+      this.filterText = ''
+      this.expanded = []
+      this.hackReset = false
+
+      this.$nextTick(() => {
+        this.isExpandAll = isExpand
+        this.hackReset = true
+      })
+    },
+    // 重置表单
+    resetForm() {
+      this.form = {
+        parent_id: [],
+        cat_name: '',
+        cat_type: 0,
+        keywords: '',
+        description: '',
+        sort: 50,
+        is_navi: '1'
+      }
+    },
+    // 重置元素
+    resetElements(val = 'create') {
+      this.$nextTick(() => {
+        if (this.$refs.form) {
+          this.$refs.form.clearValidate()
+        }
+      })
+
+      this.formStatus = val
+      this.formLoading = false
+    },
+    // 新增分类表单初始化
+    handleCreate(status, key = null) {
+      this.resetForm()
+      this.resetElements(status)
+      this.$refs.tree.setCurrentKey(key)
+    },
+    // 追加分类
+    handleAppend(key) {
+      this.handleCreate('create', key)
+      this.form.parent_id = this._getParentId(key)
+    },
+    // 点击树节点事件
+    handleNodeClick(data) {
+      if (!this.auth.add && !this.auth.set) {
+        return
+      }
+
+      this.resetForm()
+      this.resetElements('update')
+
+      this.form = {
+        ...data,
+        parent_id: this._getParentId(data.parent_id),
+        is_navi: data.is_navi.toString()
+      }
+    },
+    // 新增分类
+    create() {
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          this.formLoading = true
+          const { parent_id } = this.form
+
+          addArticleCatItem({
+            ...this.form,
+            'parent_id': parent_id.length > 0 ? parent_id[parent_id.length - 1] : 0
+          })
+            .then(res => {
+              if (!this.isExpandAll) {
+                this.expanded = [res.data.parent_id || res.data.article_cat_id]
+              }
+
+              this.$emit('refresh')
+              this.$message.success('操作成功')
+            })
+            .catch(() => {
+              this.formLoading = false
+            })
+        }
+      })
+    },
+    // 更新分类
+    update() {
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          this.formLoading = true
+          const { parent_id } = this.form
+
+          setArticleCatItem({
+            ...this.form,
+            'parent_id': parent_id.length > 0 ? parent_id[parent_id.length - 1] : 0
+          })
+            .then(res => {
+              if (!this.isExpandAll) {
+                this.expanded = [res.data.parent_id || res.data.article_cat_id]
+              }
+
+              this.$emit('refresh')
+              this.$message.success('操作成功')
+            })
+            .catch(() => {
+              this.formLoading = false
+            })
+        }
+      })
+    },
+    // 删除分类
+    remove(key) {
+      let msg = '确定要执行该操作吗?'
+      const node = this.$refs.tree.getNode(key)
+
+      if (node.data.aricle_total > 0) {
+        msg = `该类目下存在 ${node.data.aricle_total} 篇关联文章，是否删除?`
+      }
+
+      this.$confirm(msg, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(() => {
+          delArticleCatList([key])
+            .then(() => {
+              this.$refs.tree.remove(node)
+              this.handleCreate('create')
+              this.$message.success('操作成功')
+            })
+        })
+        .catch(() => {
+        })
+    },
+    /**
+     * 拖拽成功后操作
+     * @param draggingNode  被拖拽节点对应的 Node
+     * @param dropNode      结束拖拽时最后进入的节点
+     * @param dropType      被拖拽节点的放置位置（before、after、inner）
+     * @param ev            event
+     */
+    handleDrop(draggingNode, dropNode, dropType, ev) {
+      // 获取原始数据
+      let setCat = {
+        article_cat_id: draggingNode.data.article_cat_id,
+        parent_id: draggingNode.data.parent_id
+      }
+
+      // 待排序编号
+      let indexCat = []
+
+      // 处理插入到其他分类中
+      if (dropType === 'inner') {
+        setCat.parent_id = dropNode.key
+      } else {
+        setCat.parent_id = dropNode.data.parent_id
+        dropNode.parent.childNodes.forEach((value, index) => {
+          indexCat.push(value.key)
+          value.data.sort = index + 1
+        })
+      }
+
+      setArticleCatItem(setCat)
+        .then(res => {
+          draggingNode.data.parent_id = res.data.parent_id
+          this.$message.success('操作成功')
+        })
+        .catch(() => {
+          this.$emit('refresh')
+        })
+
+      if (indexCat.length > 0) {
+        setArticleCatIndex(indexCat)
+          .catch(() => {
+            this.$emit('refresh')
+          })
+      }
+    },
+    // 判断节点是否可移动
+    allowDrag() {
+      return this.auth.move
     }
   }
 }

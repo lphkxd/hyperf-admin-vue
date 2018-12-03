@@ -142,7 +142,7 @@ export function setArticleCatNavi(article_cat_id, is_navi) {
  * 根据编号自动设置排序值
  * @param {Array} article_cat_id
  */
-export function setMenuIndex(article_cat_id) {
+export function setArticleCatIndex(article_cat_id) {
   return request({
     url: '/v1/article_cat',
     method: 'post',
