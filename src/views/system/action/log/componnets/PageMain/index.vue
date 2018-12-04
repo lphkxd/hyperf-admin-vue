@@ -99,7 +99,7 @@
         label="创建时间"
         prop="create_time"
         align="center"
-        width="150"
+        width="160"
         sortable="custom">
       </el-table-column>
 
