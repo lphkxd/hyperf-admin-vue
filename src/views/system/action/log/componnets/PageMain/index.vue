@@ -17,6 +17,7 @@
       <el-table-column
         label="账号类型"
         width="100"
+        prop="client_type"
         sortable="custom">
         <template slot-scope="scope">
           {{group[scope.row.client_type]}}
@@ -79,6 +80,7 @@
         label="状态"
         align="center"
         width="75"
+        prop="status"
         sortable="custom">
         <template slot-scope="scope">
           <el-tag
