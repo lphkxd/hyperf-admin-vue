@@ -263,7 +263,10 @@
                         <i v-if="data.icon" :class="`fa fa-${data.icon}`" style="width: 16px;"></i>
                         <i v-else-if="data.children" class="fa fa-folder-o" style="width: 16px;"></i>
                         <i v-else class="fa fa-file-o" style="width: 16px;"></i>
-                        {{node.label}} {{data.url && `(${data.url})`}}
+                        {{node.label}}
+                        <i v-if="data.url" class="fa fa-link" style="font-size: 12px;">
+                          {{data.url}}
+                        </i>
                       </span>
                     </span>
                   </el-tree>
@@ -282,7 +285,10 @@
                         <i v-if="data.icon" :class="`fa fa-${data.icon}`" style="width: 16px;"></i>
                         <i v-else-if="data.children" class="fa fa-folder-o" style="width: 16px;"></i>
                         <i v-else class="fa fa-file-o" style="width: 16px;"></i>
-                        {{node.label}} {{data.url && `(${data.url})`}}
+                        {{node.label}}
+                        <i v-if="data.url" class="fa fa-link" style="font-size: 12px;">
+                          {{data.url}}
+                        </i>
                       </span>
                     </span>
                   </el-tree>

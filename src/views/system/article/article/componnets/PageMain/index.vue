@@ -91,12 +91,8 @@
         label="标题"
         prop="title"
         sortable="custom"
+        width="400"
         :show-overflow-tooltip="true">
-        <template slot-scope="scope">
-          <el-badge value="置顶" class="item" :hidden="!scope.row.is_top">
-            {{scope.row.title}}
-          </el-badge>
-        </template>
       </el-table-column>
 
       <el-table-column
@@ -110,12 +106,24 @@
 
       <el-table-column
         label="游览量"
-        prop="page_views">
+        prop="page_views"
+        width="100">
+      </el-table-column>
+
+      <el-table-column
+        label="置顶"
+        prop="is_top"
+        sortable="custom"
+        align="center"
+        width="100">
       </el-table-column>
 
       <el-table-column
         label="状态"
-        prop="status">
+        prop="status"
+        sortable="custom"
+        align="center"
+        width="100">
       </el-table-column>
 
       <el-table-column
@@ -129,6 +137,22 @@
       <el-table-column
         label="操作"
         align="center">
+        <template slot-scope="scope">
+          <el-button
+            size="small"
+            @click="() => {}"
+            type="text">预览</el-button>
+
+          <el-button
+            size="small"
+            @click="() => {}"
+            type="text">编辑</el-button>
+
+          <el-button
+            size="small"
+            @click="() => {}"
+            type="text">删除</el-button>
+        </template>
       </el-table-column>
 
     </el-table>
