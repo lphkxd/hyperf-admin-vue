@@ -83,6 +83,18 @@ const frameIn = [
         name: `${pre}article-cat`,
         meta: { ...meta, cache: true, title: '文章分类' },
         component: () => import('@/views/system/article/cat')
+      },
+      {
+        path: 'article/article',
+        name: `${pre}article-article`,
+        meta: { ...meta, cache: true, title: '文章管理' },
+        component: () => import('@/views/system/article/article')
+      },
+      {
+        path: 'article/topic',
+        name: `${pre}article-topic`,
+        meta: { ...meta, cache: true, title: '专题管理' },
+        component: () => import('@/views/system/article/topic')
       }
     ])('system-')
   }
