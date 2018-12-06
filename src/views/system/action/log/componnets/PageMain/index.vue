@@ -8,15 +8,20 @@
       @sort-change="sortChange">
       <el-table-column
         label="编号"
-        width="100"
+        min-width="50"
         prop="action_log_id"
+        sortable="custom">
+      </el-table-column>
+
+      <el-table-column
+        label="账号"
+        prop="username"
         sortable="custom"
         :show-overflow-tooltip="true">
       </el-table-column>
 
       <el-table-column
         label="账号类型"
-        width="100"
         prop="client_type"
         sortable="custom">
         <template slot-scope="scope">
@@ -25,16 +30,9 @@
       </el-table-column>
 
       <el-table-column
-        label="账号"
-        prop="username"
-        sortable="custom"
-        width="110"
-        :show-overflow-tooltip="true">
-      </el-table-column>
-
-      <el-table-column
         label="动作"
-        prop="action">
+        prop="action"
+        :show-overflow-tooltip="true">
       </el-table-column>
 
       <el-table-column

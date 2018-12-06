@@ -11,9 +11,13 @@
             :disabled="loading"
             @click="handleCreate">
             <cs-icon name="plus"/>
-            新增
+            新增用户组
           </el-button>
+        </el-button-group>
+      </el-form-item>
 
+      <el-form-item>
+        <el-button-group>
           <el-button
             v-if="auth.enable"
             :disabled="loading"
@@ -67,6 +71,7 @@
       <el-table-column
         label="描述"
         prop="description"
+        min-width="150"
         :show-overflow-tooltip="true">
       </el-table-column>
 

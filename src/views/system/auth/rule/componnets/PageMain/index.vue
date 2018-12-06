@@ -11,9 +11,13 @@
             :disabled="loading"
             @click="handleCreate('create')">
             <cs-icon name="plus"/>
-            新增
+            新增权限
           </el-button>
+        </el-button-group>
+      </el-form-item>
 
+      <el-form-item>
+        <el-button-group>
           <el-button
             v-if="auth.enable"
             :disabled="loading"
@@ -29,15 +33,6 @@
             <cs-icon name="close"/>
             禁用
           </el-button>
-
-          <el-button
-            v-if="auth.del"
-            :disabled="loading"
-            @click="removeList">
-            <cs-icon name="trash-o"/>
-            删除
-          </el-button>
-
         </el-button-group>
       </el-form-item>
 
@@ -54,6 +49,18 @@
             @click="checkedNodes(false)">
             <cs-icon name="minus-square-o"/>
             收起
+          </el-button>
+        </el-button-group>
+      </el-form-item>
+
+      <el-form-item>
+        <el-button-group>
+          <el-button
+            v-if="auth.del"
+            :disabled="loading"
+            @click="removeList">
+            <cs-icon name="trash-o"/>
+            删除
           </el-button>
         </el-button-group>
       </el-form-item>

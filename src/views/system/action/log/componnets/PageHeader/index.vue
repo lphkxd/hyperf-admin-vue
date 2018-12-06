@@ -6,6 +6,14 @@
     size="mini"
     style="margin-bottom: -18px;">
 
+    <el-form-item label="账号" prop="username">
+      <el-input
+        v-model="form.username"
+        clearable
+        placeholder="可输入账号"
+        style="width: 125px;"/>
+    </el-form-item>
+
     <el-form-item label="账号类型" prop="client_type">
       <el-select
         v-model="form.client_type"
@@ -21,19 +29,11 @@
       </el-select>
     </el-form-item>
 
-    <el-form-item label="账号" prop="username">
-      <el-input
-        v-model="form.username"
-        clearable
-        placeholder="请输入账号"
-        style="width: 125px;"/>
-    </el-form-item>
-
     <el-form-item label="路径" prop="path">
       <el-input
         v-model="form.path"
         clearable
-        placeholder="请输入路径"
+        placeholder="可输入路径"
         style="width: 125px;"/>
     </el-form-item>
 

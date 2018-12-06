@@ -91,7 +91,7 @@
         label="标题"
         prop="title"
         sortable="custom"
-        width="400"
+        min-width="200"
         :show-overflow-tooltip="true">
       </el-table-column>
 
@@ -107,7 +107,7 @@
       <el-table-column
         label="游览量"
         prop="page_views"
-        width="100">
+        min-width="65">
       </el-table-column>
 
       <el-table-column

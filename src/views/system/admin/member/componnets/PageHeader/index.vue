@@ -10,7 +10,7 @@
       <el-input
         v-model="form.account"
         clearable
-        placeholder="账号/昵称"
+        placeholder="可输入 账号/昵称"
         @keyup.enter.native="handleFormSubmit"
         style="width: 160px;"/>
     </el-form-item>

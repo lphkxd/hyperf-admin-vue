@@ -11,9 +11,13 @@
             :disabled="loading"
             @click="handleCreate">
             <cs-icon name="plus"/>
-            新增
+            新增用户
           </el-button>
+        </el-button-group>
+      </el-form-item>
 
+      <el-form-item>
+        <el-button-group>
           <el-button
             v-if="auth.enable"
             :disabled="loading"
@@ -29,7 +33,11 @@
             <cs-icon name="close"/>
             禁用
           </el-button>
+        </el-button-group>
+      </el-form-item>
 
+      <el-form-item>
+        <el-button-group>
           <el-button
             v-if="auth.del"
             :disabled="loading"
