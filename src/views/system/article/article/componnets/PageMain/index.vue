@@ -19,16 +19,16 @@
         <el-button-group>
           <el-button
             :disabled="loading"
-            @click="() => {}">
-            <cs-icon name="check"/>
-            启用
+            @click="handleTop(null, 1, true)">
+            <cs-icon name="level-up"/>
+            置顶
           </el-button>
 
           <el-button
             :disabled="loading"
-            @click="() => {}">
-            <cs-icon name="close"/>
-            禁用
+            @click="handleTop(null, 0, true)">
+            <cs-icon name="level-down"/>
+            撤顶
           </el-button>
         </el-button-group>
       </el-form-item>
@@ -37,16 +37,16 @@
         <el-button-group>
           <el-button
             :disabled="loading"
-            @click="() => {}">
-            <cs-icon name="level-up"/>
-            置顶
+            @click="handleStatus(null, 1, true)">
+            <cs-icon name="check"/>
+            启用
           </el-button>
 
           <el-button
             :disabled="loading"
-            @click="() => {}">
-            <cs-icon name="level-down"/>
-            撤顶
+            @click="handleStatus(null, 0, true)">
+            <cs-icon name="close"/>
+            禁用
           </el-button>
         </el-button-group>
       </el-form-item>
@@ -120,8 +120,8 @@
           <el-tag
             size="mini"
             :type="topMap[scope.row.is_top].type"
-            :style="true ? 'cursor: pointer;' : ''"
-            @click.native="switchTop(scope.$index)">
+            style="cursor: pointer;"
+            @click.native="handleTop(scope.$index)">
             {{topMap[scope.row.is_top].text}}
           </el-tag>
         </template>
@@ -137,8 +137,8 @@
           <el-tag
             size="mini"
             :type="statusMap[scope.row.status].type"
-            :style="true ? 'cursor: pointer;' : ''"
-            @click.native="switchStatus(scope.$index)">
+            style="cursor: pointer;"
+            @click.native="handleStatus(scope.$index)">
             {{statusMap[scope.row.status].text}}
           </el-tag>
         </template>
@@ -243,6 +243,23 @@ export default {
     }
   },
   methods: {
+    // 获取列表中的文章编号
+    _getArticleIdList(val) {
+      if (val === null) {
+        val = this.multipleSelection
+      }
+
+      let idList = []
+      if (Array.isArray(val)) {
+        val.forEach(value => {
+          idList.push(value.article_id)
+        })
+      } else {
+        idList.push(this.currentTableData[val].article_id)
+      }
+
+      return idList
+    },
     // 选中数据项
     handleSelectionChange(val) {
       this.multipleSelection = val
@@ -262,10 +279,100 @@ export default {
       this.$emit('sort', sort)
     },
     // 批量设置状态
-    handleStatus(index, status, confirm = false) {
+    handleStatus(val, status = 0, confirm = false) {
+      let article_id = this._getArticleIdList(val)
+      if (article_id.length === 0) {
+        this.$message.error('请选择要操作的数据')
+        return
+      }
+
+      function setStatus(article_id, status, vm) {
+        setArticleStatus(article_id, status)
+          .then(() => {
+            vm.currentTableData.forEach((value, index) => {
+              if (article_id.indexOf(value.article_id) !== -1) {
+                vm.$set(vm.currentTableData, index, {
+                  ...value,
+                  status
+                })
+              }
+            })
+
+            vm.$message.success('操作成功')
+          })
+      }
+
+      if (!confirm) {
+        let oldData = this.currentTableData[val]
+        const newStatus = oldData.status ? 0 : 1
+
+        if (oldData.status > 1) {
+          return
+        }
+
+        this.$set(this.currentTableData, val, { ...oldData, status: 2 })
+        setStatus(article_id, newStatus, this)
+        return
+      }
+
+      this.$confirm('确定要执行该操作吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(() => {
+          setStatus(article_id, status, this)
+        })
+        .catch(() => {
+        })
     },
     // 批量设置置顶
-    handleTop(index, is_top, confirm = false) {
+    handleTop(val, is_top = 0, confirm = false) {
+      let article_id = this._getArticleIdList(val)
+      if (article_id.length === 0) {
+        this.$message.error('请选择要操作的数据')
+        return
+      }
+
+      function setTop(article_id, is_top, vm) {
+        setArticleTop(article_id, is_top)
+          .then(() => {
+            vm.currentTableData.forEach((value, index) => {
+              if (article_id.indexOf(value.article_id) !== -1) {
+                vm.$set(vm.currentTableData, index, {
+                  ...value,
+                  is_top
+                })
+              }
+            })
+
+            vm.$message.success('操作成功')
+          })
+      }
+
+      if (!confirm) {
+        let oldData = this.currentTableData[val]
+        const newTop = oldData.is_top ? 0 : 1
+
+        if (oldData.is_top > 1) {
+          return
+        }
+
+        this.$set(this.currentTableData, val, { ...oldData, is_top: 2 })
+        setTop(article_id, newTop, this)
+        return
+      }
+
+      this.$confirm('确定要执行该操作吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(() => {
+          setTop(article_id, is_top, this)
+        })
+        .catch(() => {
+        })
     },
     // 批量删除文章
     handleDelete(index) {
