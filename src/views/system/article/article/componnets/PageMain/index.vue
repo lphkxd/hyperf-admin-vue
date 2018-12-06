@@ -116,6 +116,15 @@
         sortable="custom"
         align="center"
         width="100">
+        <template slot-scope="scope">
+          <el-tag
+            size="mini"
+            :type="topMap[scope.row.is_top].type"
+            :style="true ? 'cursor: pointer;' : ''"
+            @click.native="switchTop(scope.$index)">
+            {{topMap[scope.row.is_top].text}}
+          </el-tag>
+        </template>
       </el-table-column>
 
       <el-table-column
@@ -124,6 +133,15 @@
         sortable="custom"
         align="center"
         width="100">
+        <template slot-scope="scope">
+          <el-tag
+            size="mini"
+            :type="statusMap[scope.row.status].type"
+            :style="true ? 'cursor: pointer;' : ''"
+            @click.native="switchStatus(scope.$index)">
+            {{statusMap[scope.row.status].text}}
+          </el-tag>
+        </template>
       </el-table-column>
 
       <el-table-column
@@ -150,7 +168,7 @@
 
           <el-button
             size="small"
-            @click="() => {}"
+            @click="handleDelete(scope.$index)"
             type="text">删除</el-button>
         </template>
       </el-table-column>
@@ -160,6 +178,14 @@
 </template>
 
 <script>
+import {
+  addArticleItem,
+  setArticleItem,
+  delArticleList,
+  setArticleTop,
+  setArticleStatus
+} from '@/api/article/article'
+
 export default {
   props: {
     catData: {
@@ -177,7 +203,35 @@ export default {
       currentTableData: [],
       multipleSelection: [],
       helpContent: '暂无帮助内容',
-      auth: {}
+      auth: {},
+      topMap: {
+        0: {
+          text: '普通',
+          type: 'info'
+        },
+        1: {
+          text: '置顶',
+          type: 'warning'
+        },
+        2: {
+          text: '...',
+          type: 'info'
+        }
+      },
+      statusMap: {
+        0: {
+          text: '禁用',
+          type: 'danger'
+        },
+        1: {
+          text: '启用',
+          type: 'success'
+        },
+        2: {
+          text: '...',
+          type: 'info'
+        }
+      }
     }
   },
   watch: {
@@ -206,6 +260,15 @@ export default {
       }
 
       this.$emit('sort', sort)
+    },
+    // 批量设置状态
+    handleStatus(index, status, confirm = false) {
+    },
+    // 批量设置置顶
+    handleTop(index, is_top, confirm = false) {
+    },
+    // 批量删除文章
+    handleDelete(index) {
     }
   }
 }
