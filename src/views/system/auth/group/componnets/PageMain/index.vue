@@ -164,7 +164,7 @@
           prop="description">
           <el-input
             v-model="form.description"
-            placeholder="请输入描述"/>
+            placeholder="可输入描述"/>
         </el-form-item>
 
         <el-form-item
@@ -175,7 +175,7 @@
             controls-position="right"
             :min="0"
             :max="255"
-            label="请输入排序值"
+            label="可输入排序值"
             style="width: 120px;"/>
         </el-form-item>
 

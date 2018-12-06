@@ -46,7 +46,7 @@
         v-model="form.level"
         controls-position="right"
         :min="0"
-        label="请输入菜单深度值"
+        label="可输入菜单深度值"
         style="width: 100px;"/>
     </el-form-item>
 

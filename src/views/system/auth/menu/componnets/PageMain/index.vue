@@ -174,7 +174,7 @@
                     prop="alias">
                     <el-input
                       v-model="form.alias"
-                      placeholder="请输入菜单别名"
+                      placeholder="可输入菜单别名"
                       clearable/>
                   </el-form-item>
                 </el-col>
@@ -188,7 +188,7 @@
                     <cs-icon-select
                       v-model="form.icon"
                       :user-input="true"
-                      placeholder="请选择菜单图标"/>
+                      placeholder="可选择菜单图标"/>
                   </el-form-item>
                 </el-col>
 
@@ -201,7 +201,7 @@
                       :min="0"
                       :max="255"
                       controls-position="right"
-                      label="请输入菜单排序值"/>
+                      label="可输入菜单排序值"/>
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -262,7 +262,7 @@
                 prop="url">
                 <el-input
                   v-model="form.url"
-                  placeholder="请输入链接地址"
+                  placeholder="可输入链接地址"
                   clearable/>
               </el-form-item>
 
@@ -271,7 +271,7 @@
                 prop="params">
                 <el-input
                   v-model="form.params"
-                  placeholder="请输入链接参数"
+                  placeholder="可输入链接参数"
                   clearable/>
               </el-form-item>
 
@@ -281,7 +281,7 @@
                 <el-input
                   v-model="form.remark"
                   maxlength="255"
-                  placeholder="请输入菜单备注"
+                  placeholder="可输入菜单备注"
                   clearable/>
               </el-form-item>
             </el-form>

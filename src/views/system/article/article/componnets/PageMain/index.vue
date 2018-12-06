@@ -189,6 +189,24 @@ export default {
     }
   },
   methods: {
+    // 选中数据项
+    handleSelectionChange(val) {
+      this.multipleSelection = val
+    },
+    // 获取排序字段
+    sortChange({ column, prop, order }) {
+      let sort = {
+        order_type: undefined,
+        order_field: undefined
+      }
+
+      if (column) {
+        sort.order_type = order === 'ascending' ? 'asc' : 'desc'
+        sort.order_field = prop
+      }
+
+      this.$emit('sort', sort)
+    }
   }
 }
 </script>

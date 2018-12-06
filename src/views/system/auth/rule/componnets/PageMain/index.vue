@@ -238,7 +238,7 @@
                       :min="0"
                       :max="255"
                       controls-position="right"
-                      label="请输入权限排序值"/>
+                      label="可输入权限排序值"/>
                   </el-form-item>
                 </el-col>
                 <el-col :span="12">

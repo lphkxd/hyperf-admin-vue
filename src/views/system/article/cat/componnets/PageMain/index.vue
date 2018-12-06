@@ -168,7 +168,7 @@
                       :min="-128"
                       :max="127"
                       controls-position="right"
-                      label="请输入文章分类类型"/>
+                      label="可输入文章分类类型"/>
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -195,7 +195,7 @@
                       :min="0"
                       :max="255"
                       controls-position="right"
-                      label="请输入文章分类排序值"/>
+                      label="可输入文章分类排序值"/>
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -205,7 +205,7 @@
                 prop="keywords">
                 <el-input
                   v-model="form.keywords"
-                  placeholder="请输入文章分类关键词"
+                  placeholder="可输入文章分类关键词"
                   clearable/>
               </el-form-item>
 
@@ -214,7 +214,7 @@
                 prop="description">
                 <el-input
                   v-model="form.description"
-                  placeholder="请输入文章分类描述"
+                  placeholder="可输入文章分类描述"
                   clearable/>
               </el-form-item>
             </el-form>
