@@ -118,7 +118,7 @@
       <el-table-column
         label="游览量"
         prop="page_views"
-        min-width="65">
+        min-width="70">
       </el-table-column>
 
       <el-table-column
@@ -165,12 +165,17 @@
 
       <el-table-column
         label="操作"
-        align="center">
+        align="center"
+        min-width="100">
         <template slot-scope="scope">
           <el-button
             size="small"
-            @click="handlePreview(scope.row.article_id)"
-            type="text">预览</el-button>
+            @click="handlePreview(scope.$index)"
+            type="text">
+            <el-tooltip content="外部链接" placement="top">
+              <cs-icon v-if="scope.row.url" name="link"/>
+            </el-tooltip>
+            预览</el-button>
 
           <el-button
             size="small"
@@ -196,6 +201,7 @@ import {
   setArticleTop,
   setArticleStatus
 } from '@/api/article/article'
+import util from '@/utils/util'
 
 export default {
   props: {
@@ -419,10 +425,15 @@ export default {
     },
     // 发送预览文章请求
     handlePreview(index) {
+      if (this.currentTableData[index].url) {
+        util.open(this.currentTableData[index].url)
+        return
+      }
+
       this.$router.push({
         name: 'system-article-preview',
         params: {
-          article_id: index
+          article_id: this.currentTableData[index].article_id
         }
       })
     }
