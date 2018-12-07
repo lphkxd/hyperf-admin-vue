@@ -55,7 +55,7 @@
         <el-button-group>
           <el-button
             :disabled="loading"
-            @click="() => {}">
+            @click="handleDelete(null)">
             <cs-icon name="trash-o"/>
             删除
           </el-button>
@@ -93,6 +93,17 @@
         sortable="custom"
         min-width="200"
         :show-overflow-tooltip="true">
+        <template slot-scope="scope">
+          <el-popover
+            v-if="scope.row.image"
+            placement="top-start"
+            trigger="hover"
+            width="150">
+            <img class="image" :src="scope.row.image" alt="">
+            <cs-icon slot="reference" name="image"/>
+          </el-popover>
+          {{scope.row.title}}
+        </template>
       </el-table-column>
 
       <el-table-column
@@ -158,7 +169,7 @@
         <template slot-scope="scope">
           <el-button
             size="small"
-            @click="() => {}"
+            @click="handlePreview(scope.row.article_id)"
             type="text">预览</el-button>
 
           <el-button
@@ -375,7 +386,45 @@ export default {
         })
     },
     // 批量删除文章
-    handleDelete(index) {
+    handleDelete(val) {
+      let article_id = this._getArticleIdList(val)
+      if (article_id.length === 0) {
+        this.$message.error('请选择要操作的数据')
+        return
+      }
+
+      this.$confirm('确定要执行该操作吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(() => {
+          delArticleList(article_id)
+            .then(() => {
+              for (let i = this.currentTableData.length - 1; i >= 0; i--) {
+                if (article_id.indexOf(this.currentTableData[i].article_id) !== -1) {
+                  this.currentTableData.splice(i, 1)
+                }
+              }
+
+              if (this.currentTableData.length <= 0) {
+                this.$emit('refresh')
+              }
+
+              this.$message.success('操作成功')
+            })
+        })
+        .catch(() => {
+        })
+    },
+    // 发送预览文章请求
+    handlePreview(index) {
+      this.$router.push({
+        name: 'system-article-preview',
+        params: {
+          article_id: index
+        }
+      })
     }
   }
 }
@@ -385,5 +434,9 @@ export default {
   .item {
     margin-top: 10px;
     margin-right: 40px;
+  }
+  .image {
+    width: 100%;
+    margin: 0 auto;
   }
 </style>
