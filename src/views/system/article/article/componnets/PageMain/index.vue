@@ -8,7 +8,7 @@
         <el-button-group>
           <el-button
             :disabled="loading"
-            @click="() => {}">
+            @click="handleCreate">
             <cs-icon name="plus"/>
             新增文章
           </el-button>
@@ -190,6 +190,62 @@
       </el-table-column>
 
     </el-table>
+
+    <el-dialog
+      :title="textMap[dialogStatus]"
+      :visible.sync="dialogFormVisible"
+      :append-to-body="true"
+      width="60%">
+      <el-form
+        :model="form"
+        :rules="rules"
+        ref="form"
+        label-width="80px">
+
+        <el-form-item
+          label="标题"
+          prop="title">
+          <el-input
+            v-model="form.title"
+            clearable
+            placeholder="请输入文章标题"/>
+        </el-form-item>
+
+        <el-form-item
+          label="分类"
+          prop="article_cat_id">
+          <el-cascader
+            v-model="form.article_cat_id"
+            :options="catData"
+            :props="cascaderProps"
+            change-on-select
+            filterable
+            clearable
+            style="width: 100%;"
+            placeholder="试试搜索：分类">
+          </el-cascader>
+        </el-form-item>
+      </el-form>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button
+          @click="dialogFormVisible = false"
+          size="small">取消</el-button>
+
+        <el-button
+          v-if="dialogStatus === 'create'"
+          type="primary"
+          :loading="dialogLoading"
+          @click="create"
+          size="small">确定</el-button>
+
+        <el-button
+          v-else type="primary"
+          :loading="dialogLoading"
+          @click="update(form.index)"
+          size="small">修改</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -248,6 +304,22 @@ export default {
           text: '...',
           type: 'info'
         }
+      },
+      dialogLoading: false,
+      dialogFormVisible: false,
+      dialogStatus: '',
+      textMap: {
+        update: '编辑文章',
+        create: '新增文章'
+      },
+      cascaderProps: {
+        value: 'article_cat_id',
+        label: 'cat_name',
+        children: 'children'
+      },
+      form: {
+      },
+      rules: {
       }
     }
   },
@@ -436,6 +508,19 @@ export default {
           article_id: this.currentTableData[index].article_id
         }
       })
+    },
+    // 新建文章
+    handleCreate() {
+      this.form = {
+      }
+
+      this.$nextTick(() => {
+        this.$refs.form.clearValidate()
+      })
+
+      this.dialogStatus = 'create'
+      this.dialogLoading = false
+      this.dialogFormVisible = true
     }
   }
 }

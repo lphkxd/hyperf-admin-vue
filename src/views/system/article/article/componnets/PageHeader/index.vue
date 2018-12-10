@@ -9,7 +9,7 @@
     <el-form-item label="分类" prop="article_cat_id">
       <el-cascader
         v-model="form.article_cat_id"
-        :options="catTree"
+        :options="catData"
         :props="cascaderProps"
         change-on-select
         filterable
@@ -84,8 +84,6 @@
 </template>
 
 <script>
-import util from '@/utils/util'
-
 export default {
   props: {
     catData: {
@@ -97,7 +95,6 @@ export default {
   },
   data() {
     return {
-      catTree: [],
       cascaderProps: {
         value: 'article_cat_id',
         label: 'cat_name',
@@ -110,14 +107,6 @@ export default {
         is_top: undefined,
         status: undefined
       }
-    }
-  },
-  watch: {
-    catData: {
-      handler(val) {
-        this.catTree = val.length ? util.formatDataToTree(val, 'article_cat_id') : []
-      },
-      immediate: true
     }
   },
   methods: {

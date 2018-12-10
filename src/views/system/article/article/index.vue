@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import util from '@/utils/util'
 import { getArticleCatList } from '@/api/article/cat'
 import { getArticleList } from '@/api/article/article'
 
@@ -52,7 +53,7 @@ export default {
   mounted() {
     getArticleCatList(null)
       .then(res => {
-        this.cat = res.data
+        this.cat = res.data.length ? util.formatDataToTree(res.data, 'article_cat_id') : []
       })
       .then(() => {
         this.handleSubmit()
