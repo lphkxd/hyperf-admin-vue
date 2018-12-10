@@ -7,7 +7,6 @@
       @submit="handleSubmit"
       ref="header"/>
     <page-main
-      :cat-data="cat"
       :table-data="table"
       :loading="loading"
       @sort="handleSort"

@@ -479,8 +479,8 @@ export default {
       let msg = '确定要执行该操作吗?'
       const node = this.$refs.tree.getNode(key)
 
-      if (node.data.aricle_total > 0) {
-        msg = `该类目下存在 ${node.data.aricle_total} 篇关联文章，是否删除?`
+      if (node.data.children_total > 0 || node.data.aricle_total > 0) {
+        msg = `该分类下有 ${node.data.children_total} 个子分类，${node.data.aricle_total} 篇关联文章，是否删除?`
       }
 
       this.$confirm(msg, '提示', {
