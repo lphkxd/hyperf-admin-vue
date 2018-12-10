@@ -172,8 +172,11 @@
             size="small"
             @click="handlePreview(scope.$index)"
             type="text">
-            <el-tooltip content="外部链接" placement="top">
-              <cs-icon v-if="scope.row.url" name="link"/>
+            <el-tooltip
+              v-if="scope.row.url"
+              :content="scope.row.url"
+              placement="top">
+              <cs-icon name="link"/>
             </el-tooltip>
             {{scope.row.url ? '外链' : '预览'}}</el-button>
 
