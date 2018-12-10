@@ -175,7 +175,7 @@
             <el-tooltip content="外部链接" placement="top">
               <cs-icon v-if="scope.row.url" name="link"/>
             </el-tooltip>
-            预览</el-button>
+            {{scope.row.url ? '外链' : '预览'}}</el-button>
 
           <el-button
             size="small"
