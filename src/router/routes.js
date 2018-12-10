@@ -93,7 +93,7 @@ const frameIn = [
       {
         path: 'article/preview/:article_id',
         name: `${pre}article-preview`,
-        meta: { ...meta, cache: true, title: '文章预览' },
+        meta: { ...meta, title: '文章预览' },
         component: () => import('@/views/system/article/article/preview')
       },
       {
