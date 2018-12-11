@@ -87,7 +87,7 @@ export default {
         // 菜单数据源持久化
         state.sourceData = await dispatch('careyshop/db/get', {
           dbName: 'database',
-          path: 'menu.sourceData',
+          path: '$menu.sourceData',
           defaultValue: [],
           user: true
         }, { root: true })

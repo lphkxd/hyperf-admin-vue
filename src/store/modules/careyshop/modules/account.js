@@ -30,7 +30,7 @@ export default {
           .then(menu => {
             dispatch('careyshop/db/set', {
               dbName: 'database',
-              path: 'menu.sourceData',
+              path: '$menu.sourceData',
               value: menu.data,
               user: true
             }, { root: true })
@@ -65,10 +65,8 @@ export default {
             util.cookies.remove('token')
             util.cookies.remove('uuid')
 
-            // 跳转路由
-            vm.$router.push({ name: '/' })
-
-            // 重新载入vue
+            // 跳转路由并重新载入vue
+            vm.$router.push({ name: 'index' })
             location.reload()
           })
           .catch(() => {
