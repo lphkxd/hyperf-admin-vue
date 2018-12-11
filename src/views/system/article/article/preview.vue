@@ -15,7 +15,6 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
 import base from './mixins/preview'
 
 export default {
@@ -25,47 +24,22 @@ export default {
   // 第一次进入或从其他组件对应路由进入时触发
   beforeRouteEnter(to, from, next) {
     if (to.params.article_id) {
-      // next(async vm => {
-      //   await vm.loadDataFromDb(to)
-      //   if (!vm.article.article_id) {
-      //     vm.getArticleData(to.params.article_id)
-      //       .then(() => {
-      //         vm.saveDataToDb()
-      //       })
-      //   }
-      // })
+      next(vm => {
+        vm.resetArticleData()
+        vm.getArticleData(to.params.article_id)
+      })
+    } else {
+      next(new Error('异常访问'))
     }
   },
   // 在同一组件对应的多个路由间切换时触发
   beforeRouteUpdate(to, from, next) {
     if (to.params.article_id) {
-      this.loadDataFromDb(to)
+      this.resetArticleData()
+      this.getArticleData(to.params.article_id)
       next()
-    }
-  },
-  methods: {
-    ...mapActions('careyshop/db', [
-      'pageSet',
-      'pageGet',
-      'pageClear'
-    ]),
-    // 将页面数据同步到持久化存储
-    saveDataToDb() {
-      this.pageSet({ vm: this, user: true })
-    },
-    // 从持久化存储恢复数据到页面
-    async loadDataFromDb(to) {
-      const vm = {
-        $route: { fullPath: to.fullPath },
-        $data: {}
-      }
-
-      const data = await this.pageGet({ vm, user: true })
-      for (const key in data) {
-        if (data.hasOwnProperty(key)) {
-          this[key] = data[key]
-        }
-      }
+    } else {
+      next(new Error('异常访问'))
     }
   }
 }

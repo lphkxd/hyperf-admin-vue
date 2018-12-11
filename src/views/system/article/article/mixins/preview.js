@@ -13,9 +13,12 @@ export default {
     }
   },
   methods: {
+    resetArticleData() {
+      this.article = {}
+    },
     getArticleData(article_id) {
       return new Promise((resolve, reject) => {
-        this.article = {}
+        this.resetArticleData()
         getArticleItem(article_id)
           .then(res => {
             this.article = res.data
