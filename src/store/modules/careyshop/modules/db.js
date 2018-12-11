@@ -1,5 +1,6 @@
 import db from '@/utils/db'
 import util from '@/utils/util'
+import { cloneDeep } from 'lodash'
 
 /**
  * @description 检查路径是否存在 不存在的话初始化
@@ -68,12 +69,12 @@ export default {
       user = false
     }) {
       return new Promise(resolve => {
-        resolve(db.get(pathInit({
+        resolve(cloneDeep(db.get(pathInit({
           dbName,
           path,
           user,
           defaultValue
-        })).value())
+        })).value()))
       })
     },
     /**
@@ -120,7 +121,7 @@ export default {
      */
     databasePage(context, {
       vm,
-      basis = 'name',
+      basis = 'fullPath',
       user = false
     } = {}) {
       return new Promise(resolve => {
@@ -141,7 +142,7 @@ export default {
      */
     databasePageClear(context, {
       vm,
-      basis = 'name',
+      basis = 'fullPath',
       user = false
     } = {}) {
       return new Promise(resolve => {
@@ -163,7 +164,7 @@ export default {
      */
     pageSet(context, {
       vm,
-      basis = 'name',
+      basis = 'fullPath',
       user = false
     }) {
       return new Promise(resolve => {
@@ -172,7 +173,7 @@ export default {
           path: `$page.${vm.$route[basis]}.$data`,
           user,
           validator: () => false,
-          defaultValue: vm.$data
+          defaultValue: cloneDeep(vm.$data)
         })))
       })
     },
@@ -185,16 +186,16 @@ export default {
      */
     pageGet(context, {
       vm,
-      basis = 'name',
+      basis = 'fullPath',
       user = false
     }) {
       return new Promise(resolve => {
-        resolve(db.get(pathInit({
+        resolve(cloneDeep(db.get(pathInit({
           dbName: 'database',
           path: `$page.${vm.$route[basis]}.$data`,
           user,
-          defaultValue: vm.$data
-        })).value())
+          defaultValue: cloneDeep(vm.$data)
+        })).value()))
       })
     },
     /**
@@ -206,7 +207,7 @@ export default {
      */
     pageClear(context, {
       vm,
-      basis = 'name',
+      basis = 'fullPath',
       user = false
     }) {
       return new Promise(resolve => {
