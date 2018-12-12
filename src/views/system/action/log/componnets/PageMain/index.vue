@@ -110,9 +110,7 @@
       :visible.sync="dialogFormVisible"
       :append-to-body="true"
       width="600px">
-      <el-card shadow="never">
-        <cs-highlight :code="dialogJson"/>
-      </el-card>
+      <cs-highlight :code="dialogJson"/>
     </el-dialog>
   </div>
 </template>
