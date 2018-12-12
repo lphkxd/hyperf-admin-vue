@@ -74,7 +74,7 @@ service.interceptors.response.use(
 // 刷新令牌
 function refreshToken(config) {
   const token = util.cookies.get('token')
-  if (!token || token === undefined) {
+  if (!token || token === 'undefined') {
     return
   }
 
@@ -133,7 +133,7 @@ function reAuthorize() {
 // 添加默认参数及签名
 function setDefaultParams(config) {
   const token = util.cookies.get('token')
-  if (!token || token === undefined) {
+  if (!token || token === 'undefined') {
     return
   }
 
