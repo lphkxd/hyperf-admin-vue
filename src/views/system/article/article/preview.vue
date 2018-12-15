@@ -1,8 +1,6 @@
 <template>
-  <cs-container>
-    <el-card
-      :model="article"
-      shadow="never">
+  <cs-container :model="article_id">
+    <el-card shadow="never" v-loading="loading">
       <div slot="header" class="clearfix">
         <h2>{{article.title}}</h2>
         <span>最后编辑：{{article.update_time}}</span>
@@ -15,31 +13,46 @@
 </template>
 
 <script>
-import base from './mixins/preview'
+import { getArticleItem } from '@/api/article/article'
 
 export default {
-  mixins: [
-    base
-  ],
-  // 第一次进入或从其他组件对应路由进入时触发
-  beforeRouteEnter(to, from, next) {
-    if (to.params.article_id) {
-      next(vm => {
-        vm.resetArticleData()
-        vm.getArticleData(to.params.article_id)
-      })
-    } else {
-      next(new Error('异常访问'))
+  props: {
+    article_id: {
+      type: [String, Number],
+      required: true
     }
   },
-  // 在同一组件对应的多个路由间切换时触发
-  beforeRouteUpdate(to, from, next) {
-    if (to.params.article_id) {
+  data() {
+    return {
+      article: {},
+      loading: false
+    }
+  },
+  mounted() {
+    this.getArticleData()
+  },
+  watch: {
+    article_id: {
+      handler() {
+        this.getArticleData()
+      }
+    }
+  },
+  methods: {
+    resetArticleData() {
+      this.article = {}
+    },
+    getArticleData() {
+      this.loading = true
       this.resetArticleData()
-      this.getArticleData(to.params.article_id)
-      next()
-    } else {
-      next(new Error('异常访问'))
+
+      getArticleItem(this.article_id)
+        .then(res => {
+          this.article = res.data
+        })
+        .finally(() => {
+          this.loading = false
+        })
     }
   }
 }
