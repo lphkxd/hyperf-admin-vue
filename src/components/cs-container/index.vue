@@ -1,11 +1,12 @@
 <script>
 // 组件
-import csContainerFull from './components/cs-container-full.vue'
-import csContainerFullBs from './components/cs-container-full-bs.vue'
-import csContainerGhost from './components/cs-container-ghost.vue'
-import csContainerGhostBs from './components/cs-container-ghost-bs.vue'
-import csContainerCard from './components/cs-container-card.vue'
-import csContainerCardBs from './components/cs-container-card-bs.vue'
+import csContainerFull from './components/cs-container-full'
+import csContainerFullBs from './components/cs-container-full-bs'
+import csContainerGhost from './components/cs-container-ghost'
+import csContainerGhostBs from './components/cs-container-ghost-bs'
+import csContainerCard from './components/cs-container-card'
+import csContainerCardBs from './components/cs-container-card-bs'
+import csBackToTop from './components/cs-back-to-top'
 
 export default {
   name: 'cs-container',
@@ -53,7 +54,10 @@ export default {
         on: {
           scroll: e => this.$emit('scroll', e)
         }
-      }, slots)
+      }, slots),
+      h(csBackToTop, {
+        props: this.$attrs
+      })
     ])
   },
   methods: {

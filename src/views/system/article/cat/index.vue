@@ -1,5 +1,7 @@
 <template>
-  <cs-container>
+  <cs-container
+    :scrollTop="scrollTop"
+    @scroll="({x, y}) => {this.scrollTop = y}">
     <page-header
       slot="header"
       :loading="loading"
@@ -26,6 +28,7 @@ export default {
   data() {
     return {
       tree: [],
+      scrollTop: 0,
       loading: false
     }
   },

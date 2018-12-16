@@ -1,5 +1,7 @@
 <template>
-  <cs-container>
+  <cs-container
+    :scrollTop="scrollTop"
+    @scroll="({x, y}) => {this.scrollTop = y}">
     <page-header
       slot="header"
       :cat-data="cat"
@@ -37,6 +39,7 @@ export default {
     return {
       table: [],
       cat: [],
+      scrollTop: 0,
       loading: false,
       page: {
         current: 1,

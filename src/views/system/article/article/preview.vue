@@ -1,5 +1,8 @@
 <template>
-  <cs-container :model="article_id">
+  <cs-container
+    :model="article_id"
+    :scrollTop="scrollTop"
+    @scroll="({x, y}) => {this.scrollTop = y}">
     <el-card shadow="never" v-loading="loading">
       <div slot="header" class="clearfix">
         <h2>{{article.title}}</h2>
@@ -25,6 +28,7 @@ export default {
   data() {
     return {
       article: {},
+      scrollTop: 0,
       loading: false
     }
   },
