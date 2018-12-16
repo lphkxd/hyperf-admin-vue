@@ -9,7 +9,7 @@
 
 <style lang="scss" scoped>
   .page {
-    background: #303133;
+    background: $color-text-main;
     background-blend-mode: multiply, multiply;
     height: 100%;
     display: flex;

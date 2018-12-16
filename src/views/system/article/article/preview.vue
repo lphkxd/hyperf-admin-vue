@@ -62,7 +62,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   .el-card {
     border-radius: 0;
   }
@@ -70,7 +70,7 @@ export default {
     text-align: center;
   }
   .clearfix span, a{
-    color: #909399;
+    color: $color-text-sub;
     font-size: 13px;
     margin-right: 15px;
   }

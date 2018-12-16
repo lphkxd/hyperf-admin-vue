@@ -701,7 +701,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   .custom-tree-node {
     flex: 1;
     display: flex;
@@ -717,14 +717,14 @@ export default {
     display: block;
   }
   .move-tree {
-    color: #C0C4CC;
+    color: $color-text-placehoder;
     cursor: move;
   }
   .el-card {
     border-radius: 0;
   }
   .status-tree {
-    color: #C0C4CC;
+    color: $color-text-placehoder;
     text-decoration: line-through
   }
 </style>
