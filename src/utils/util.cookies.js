@@ -1,5 +1,4 @@
 import Cookies from 'vue-cookies'
-import setting from '@/setting'
 
 const cookies = {}
 
@@ -12,7 +11,7 @@ const cookies = {}
 cookies.set = function(name = 'default', value = '', cookieSetting = {}) {
   let currentCookieSetting = { expires: 1 }
   Object.assign(currentCookieSetting, cookieSetting)
-  Cookies.set(`careyshop-${setting.releases.version}-${name}`, value, currentCookieSetting)
+  Cookies.set(`careyshop-${process.env.VUE_APP_VERSION}-${name}`, value, currentCookieSetting)
 }
 
 /**
@@ -20,7 +19,7 @@ cookies.set = function(name = 'default', value = '', cookieSetting = {}) {
  * @param {String} name cookie name
  */
 cookies.get = function(name = 'default') {
-  return Cookies.get(`careyshop-${setting.releases.version}-${name}`)
+  return Cookies.get(`careyshop-${process.env.VUE_APP_VERSION}-${name}`)
 }
 
 /**
@@ -35,7 +34,7 @@ cookies.getAll = function() {
  * @param {String} name cookie name
  */
 cookies.remove = function(name = 'default') {
-  return Cookies.remove(`careyshop-${setting.releases.version}-${name}`)
+  return Cookies.remove(`careyshop-${process.env.VUE_APP_VERSION}-${name}`)
 }
 
 export default cookies

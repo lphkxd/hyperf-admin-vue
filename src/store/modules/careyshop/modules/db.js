@@ -1,4 +1,3 @@
-import db from '@/utils/db'
 import util from '@/utils/util'
 import { cloneDeep } from 'lodash'
 
@@ -20,9 +19,9 @@ function pathInit({
 }) {
   const uuid = util.cookies.get('uuid') || 'ghost-uuid'
   const currentPath = `${dbName}.${user ? `user.${uuid}` : 'public'}${path ? `.${path}` : ''}`
-  const value = db.get(currentPath).value()
+  const value = util.db.get(currentPath).value()
   if (!(value !== undefined && validator(value))) {
-    db
+    util.db
       .set(currentPath, defaultValue)
       .write()
   }
@@ -47,7 +46,7 @@ export default {
       value = '',
       user = false
     }) {
-      db.set(pathInit({
+      util.db.set(pathInit({
         dbName,
         path,
         user
@@ -69,7 +68,7 @@ export default {
       user = false
     }) {
       return new Promise(resolve => {
-        resolve(cloneDeep(db.get(pathInit({
+        resolve(cloneDeep(util.db.get(pathInit({
           dbName,
           path,
           user,
@@ -86,7 +85,7 @@ export default {
       user = false
     } = {}) {
       return new Promise(resolve => {
-        resolve(db.get(pathInit({
+        resolve(util.db.get(pathInit({
           dbName: 'database',
           path: '',
           user,
@@ -103,7 +102,7 @@ export default {
       user = false
     } = {}) {
       return new Promise(resolve => {
-        resolve(db.get(pathInit({
+        resolve(util.db.get(pathInit({
           dbName: 'database',
           path: '',
           user,
@@ -125,7 +124,7 @@ export default {
       user = false
     } = {}) {
       return new Promise(resolve => {
-        resolve(db.get(pathInit({
+        resolve(util.db.get(pathInit({
           dbName: 'database',
           path: `$page.${vm.$route[basis]}`,
           user,
@@ -146,7 +145,7 @@ export default {
       user = false
     } = {}) {
       return new Promise(resolve => {
-        resolve(db.get(pathInit({
+        resolve(util.db.get(pathInit({
           dbName: 'database',
           path: `$page.${vm.$route[basis]}`,
           user,
@@ -168,7 +167,7 @@ export default {
       user = false
     }) {
       return new Promise(resolve => {
-        resolve(db.get(pathInit({
+        resolve(util.db.get(pathInit({
           dbName: 'database',
           path: `$page.${vm.$route[basis]}.$data`,
           user,
@@ -190,7 +189,7 @@ export default {
       user = false
     }) {
       return new Promise(resolve => {
-        resolve(cloneDeep(db.get(pathInit({
+        resolve(cloneDeep(util.db.get(pathInit({
           dbName: 'database',
           path: `$page.${vm.$route[basis]}.$data`,
           user,
@@ -211,7 +210,7 @@ export default {
       user = false
     }) {
       return new Promise(resolve => {
-        resolve(db.get(pathInit({
+        resolve(util.db.get(pathInit({
           dbName: 'database',
           path: `$page.${vm.$route[basis]}.$data`,
           user,

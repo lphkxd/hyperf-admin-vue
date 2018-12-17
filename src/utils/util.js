@@ -1,8 +1,10 @@
-import log from './util.log.js'
-import cookies from './util.cookies.js'
+import cookies from './util.cookies'
+import db from './util.db'
+import log from './util.log'
 
 let util = {
   cookies,
+  db,
   log
 }
 
@@ -22,10 +24,10 @@ util.open = function(url) {
   let a = document.createElement('a')
   a.setAttribute('href', url)
   a.setAttribute('target', '_blank')
-  a.setAttribute('id', 'careyshop-menu-link')
+  a.setAttribute('id', 'careyshop-link-temp')
   document.body.appendChild(a)
   a.click()
-  document.body.removeChild(document.getElementById('careyshop-menu-link'))
+  document.body.removeChild(document.getElementById('careyshop-link-temp'))
 }
 
 /**

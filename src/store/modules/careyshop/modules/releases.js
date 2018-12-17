@@ -1,13 +1,10 @@
 import axios from 'axios'
 import semver from 'semver'
 import util from '@/utils/util'
-import setting from '@/setting'
 
 export default {
   namespaced: true,
   state: {
-    // CareyShop Admin 版本
-    version: setting.releases.version,
     // 最新版本的信息
     latest: {},
     // 是否有新版本
@@ -19,10 +16,10 @@ export default {
      * @param {Object} param context
      */
     checkUpdate({ state, commit }) {
-      axios.get(setting.releases.api)
+      axios.get('https://api.github.com/repos/dnyz520/careyshop/releases/latest')
         .then(res => {
           let versionGet = res.tag_name
-          const update = semver.lt(state.version, versionGet)
+          const update = semver.lt(process.env.VUE_APP_VERSION, versionGet)
           if (update) {
             util.log.capsule('CareyShop Admin', `New version ${res.name}`)
             console.log(`版本号: ${res.tag_name} | 详情 ${res.html_url}`)
@@ -38,10 +35,9 @@ export default {
   mutations: {
     /**
      * @description 显示版本信息
-     * @param {Object} state vuex state
      */
-    versionShow(state) {
-      util.log.capsule('CareyShop Admin', `v${state.version}`)
+    versionShow() {
+      util.log.capsule('CareyShop Admin', `v${process.env.VUE_APP_VERSION}`)
       console.log('Web https://www.careyshop.cn/')
       console.log('Doc https://doc.careyshop.cn/')
     },

@@ -1,5 +1,3 @@
-import { version } from '../package.json'
-
 export default {
   // 快捷键
   // 支持快捷键 例如 ctrl+shift+s
@@ -21,15 +19,10 @@ export default {
         fullPath: '/index',
         meta: {
           title: '首页',
-          requiresAuth: false
+          auth: false
         }
       }
     ]
-  },
-  // 版本
-  releases: {
-    version: version,
-    api: 'https://api.github.com/repos/dnyz520/careyshop/releases/latest'
   },
   // 菜单搜索
   search: {

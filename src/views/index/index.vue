@@ -1,8 +1,8 @@
 <template>
   <cs-container>
     <cs-page-cover
-      title="I AM CAREYSHOP-ADMIN"
-      sub-title="追求简约美感的后台管理系统集成方案(开发继续中...)">
+      title="CareyShop Admin"
+      sub-title="商城后台管理系统集成方案(开发继续中...)">
       <img src="~@/assets/image/logo@2x.png" alt="logo">
       <div slot="footer" class="index-btn-group">
         <span @click="$open('https://www.careyshop.cn')">主页</span> |

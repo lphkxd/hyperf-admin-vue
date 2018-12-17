@@ -29,7 +29,7 @@ router.beforeEach((to, from, next) => {
   }
 
   // 检测当前路由是否需要验证
-  if (to.matched.some(r => r.meta.requiresAuth)) {
+  if (to.matched.some(r => r.meta.auth)) {
     if (token && token !== 'undefined') {
       next()
     } else {

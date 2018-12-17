@@ -5,6 +5,9 @@ const resolve = dir => require('path').join(__dirname, dir)
 const CompressionPlugin = require('compression-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
+// 增加环境变量
+process.env.VUE_APP_VERSION = require('./package.json').version
+
 // 基础路径 注意发布之前要先修改这里
 const baseUrl = '/admin/'
 

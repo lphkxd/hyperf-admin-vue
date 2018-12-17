@@ -3,7 +3,7 @@
     <div class="cs-page-cover__logo">
       <slot/>
     </div>
-    <p class="cs-page-cover__title">{{title}}</p>
+    <p class="cs-page-cover__title">{{title}} {{$version}}</p>
     <p class="cs-page-cover__sub-title cs-mt-0">{{subTitle}}</p>
     <slot name="footer"/>
   </div>

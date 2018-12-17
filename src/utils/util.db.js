@@ -1,8 +1,7 @@
 import low from 'lowdb'
 import LocalStorage from 'lowdb/adapters/LocalStorage'
-import setting from '@/setting'
 
-const adapter = new LocalStorage(`careyshop-${setting.releases.version}`)
+const adapter = new LocalStorage(`careyshop-${process.env.VUE_APP_VERSION}`)
 const db = low(adapter)
 
 db.defaults({

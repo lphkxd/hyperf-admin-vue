@@ -17,8 +17,8 @@
         flex>
         <div class="logo-group" :style="{width: asideCollapse ? asideWidthCollapse : asideWidth}" flex-box="0">
           <a target="blank" href="//www.careyshop.cn/">
-            <img v-if="asideCollapse" :src="`${$baseUrl}image/theme/${themeActiveSetting.name}/logo/icon-only.png`">
-            <img v-else :src="`${$baseUrl}image/theme/${themeActiveSetting.name}/logo/all.png`">
+            <img v-if="asideCollapse" :src="`${$baseUrl}image/theme/${themeActiveSetting.name}/logo/icon-only.png`" alt="">
+            <img v-else :src="`${$baseUrl}image/theme/${themeActiveSetting.name}/logo/all.png`" alt="">
           </a>
         </div>
         <div class="toggle-aside-btn" @click="handleToggleAside" flex-box="0">
@@ -83,6 +83,15 @@
 </template>
 
 <script>
+import csMenuSide from './components/menu-side'
+import csMenuHeader from './components/menu-header'
+import csTabs from './components/tabs'
+import csHeaderFullscreen from './components/header-fullscreen'
+import csHeaderSearch from './components/header-search'
+import csHeaderSize from './components/header-size'
+import csHeaderTheme from './components/header-theme'
+import csHeaderUser from './components/header-user'
+import csHeaderErrorLog from './components/header-error-log'
 import { mapState, mapGetters, mapActions } from 'vuex'
 import mixinSearch from './mixins/search'
 export default {
@@ -91,15 +100,15 @@ export default {
     mixinSearch
   ],
   components: {
-    'cs-menu-side': () => import('./components/menu-side'),
-    'cs-menu-header': () => import('./components/menu-header'),
-    'cs-tabs': () => import('./components/tabs'),
-    'cs-header-fullscreen': () => import('./components/header-fullscreen'),
-    'cs-header-search': () => import('./components/header-search'),
-    'cs-header-size': () => import('./components/header-size'),
-    'cs-header-theme': () => import('./components/header-theme'),
-    'cs-header-user': () => import('./components/header-user'),
-    'cs-header-error-log': () => import('./components/header-error-log')
+    csMenuSide,
+    csMenuHeader,
+    csTabs,
+    csHeaderFullscreen,
+    csHeaderSearch,
+    csHeaderSize,
+    csHeaderTheme,
+    csHeaderUser,
+    csHeaderErrorLog
   },
   data() {
     return {
