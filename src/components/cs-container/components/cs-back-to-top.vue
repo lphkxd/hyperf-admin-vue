@@ -28,6 +28,7 @@ export default {
     padding: 5px 13px;
     background-color: rgba($color-text-sub, .7);
     color: #FFF;
+    transition: all .3s;
     @extend %unable-select;
     &.cs-back-to-top--active {
       opacity: 1;
