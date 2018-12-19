@@ -91,11 +91,18 @@ const frameIn = [
         component: () => import('@/views/system/article/article')
       },
       {
-        path: 'article/preview/:article_id',
-        name: `${pre}article-preview`,
+        path: 'article/view/:article_id',
+        name: `${pre}article-view`,
         props: true,
         meta: { ...meta, title: '文章预览' },
-        component: () => import('@/views/system/article/article/preview')
+        component: () => import('@/views/system/article/article/view')
+      },
+      {
+        path: 'article/edit/:article_id',
+        name: `${pre}article-edit`,
+        props: true,
+        meta: { ...meta, cache: true, title: '文章编辑' },
+        component: () => import('@/views/system/article/article/edit')
       },
       {
         path: 'article/topic',

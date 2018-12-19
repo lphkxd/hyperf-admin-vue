@@ -8,7 +8,7 @@
         <el-button-group>
           <el-button
             :disabled="loading"
-            @click="() => {}">
+            @click="handleEdit(0)">
             <cs-icon name="plus"/>
             新增文章
           </el-button>
@@ -170,7 +170,7 @@
         <template slot-scope="scope">
           <el-button
             size="small"
-            @click="handlePreview(scope.$index)"
+            @click="handleView(scope.$index)"
             type="text">
             <el-tooltip
               v-if="scope.row.url"
@@ -182,7 +182,7 @@
 
           <el-button
             size="small"
-            @click="() => {}"
+            @click="handleEdit(scope.row.article_id)"
             type="text">编辑</el-button>
 
           <el-button
@@ -421,16 +421,25 @@ export default {
         })
     },
     // 发送预览文章请求
-    handlePreview(index) {
+    handleView(index) {
       if (this.currentTableData[index].url) {
         util.open(this.currentTableData[index].url)
         return
       }
 
       this.$router.push({
-        name: 'system-article-preview',
+        name: 'system-article-view',
         params: {
           article_id: this.currentTableData[index].article_id
+        }
+      })
+    },
+    // 创建或编辑文章
+    handleEdit(key) {
+      this.$router.push({
+        name: 'system-article-edit',
+        params: {
+          article_id: key
         }
       })
     }
