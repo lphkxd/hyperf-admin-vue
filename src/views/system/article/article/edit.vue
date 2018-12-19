@@ -6,6 +6,9 @@
       class="box-card"
       shadow="never"
       v-loading="loading">
+      <div slot="header" class="clearfix">
+        <span>{{form.article_id ? '编辑文章' : '新建文章'}}</span>
+      </div>
       <el-form
         :model="form"
         :rules="rules"
@@ -58,6 +61,14 @@ export default {
 </script>
 
 <style scoped>
+  .clearfix:before,
+  .clearfix:after {
+    display: table;
+    content: "";
+  }
+  .clearfix:after {
+    clear: both
+  }
   .box-card {
     border-radius: 0;
   }
