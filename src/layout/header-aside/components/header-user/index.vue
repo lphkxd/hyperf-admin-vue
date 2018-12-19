@@ -18,16 +18,45 @@
         <cs-icon name="sign-out" class="cs-mr-10"/>退出账号
       </el-dropdown-item>
     </el-dropdown-menu>
-    <el-dialog title="修改密码" width="600px" :visible.sync="dialogVisible" :append-to-body="true">
-      <el-form :model="form" :rules="rules" ref="dataForm" label-width="80px">
-        <el-form-item label="原始密码" prop="passwordOld">
-          <el-input v-model="form.passwordOld" @keyup.enter.native="setPassword" type="password" placeholder="原始密码"/>
+    <el-dialog
+      title="修改密码"
+      width="600px"
+      :visible.sync="dialogVisible"
+      :append-to-body="true">
+      <el-form
+        :model="form"
+        :rules="rules"
+        ref="dataForm"
+        label-width="80px">
+        <el-form-item
+          label="原始密码"
+          prop="passwordOld">
+          <el-input
+            v-model="form.passwordOld"
+            @keyup.enter.native="setPassword"
+            type="password"
+            placeholder="原始密码"
+            clearable/>
         </el-form-item>
-        <el-form-item label="新密码" prop="password">
-          <el-input v-model="form.password" @keyup.enter.native="setPassword" type="password" placeholder="新密码"/>
+        <el-form-item
+          label="新密码"
+          prop="password">
+          <el-input
+            v-model="form.password"
+            @keyup.enter.native="setPassword"
+            type="password"
+            placeholder="新密码"
+            clearable/>
         </el-form-item>
-        <el-form-item label="确认密码" prop="passwordConfirm">
-          <el-input v-model="form.passwordConfirm" @keyup.enter.native="setPassword" type="password" placeholder="确认密码"/>
+        <el-form-item
+          label="确认密码"
+          prop="passwordConfirm">
+          <el-input
+            v-model="form.passwordConfirm"
+            @keyup.enter.native="setPassword"
+            type="password"
+            placeholder="确认密码"
+            clearable/>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

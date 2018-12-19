@@ -99,7 +99,9 @@
             placement="top-start"
             trigger="hover"
             width="150">
-            <img class="image" :src="scope.row.image" alt="">
+            <a :href="scope.row.image" target="_blank">
+              <img class="image" :src="scope.row.image" alt="">
+            </a>
             <cs-icon slot="reference" name="image"/>
           </el-popover>
           {{scope.row.title}}

@@ -170,7 +170,8 @@
           <el-input
             v-model="form.username"
             :disabled="dialogStatus !== 'create'"
-            placeholder="请输入账号"/>
+            placeholder="请输入账号"
+            clearable/>
         </el-form-item>
 
         <el-form-item
@@ -180,7 +181,8 @@
           <el-input
             type="password"
             v-model="form.password"
-            placeholder="请输入密码"/>
+            placeholder="请输入密码"
+            clearable/>
         </el-form-item>
 
         <el-form-item
@@ -190,7 +192,8 @@
           <el-input
             type="password"
             v-model="form.password_confirm"
-            placeholder="请再次输入密码"/>
+            placeholder="请再次输入密码"
+            clearable/>
         </el-form-item>
 
         <el-form-item
@@ -198,7 +201,8 @@
           prop="nickname">
           <el-input
             v-model="form.nickname"
-            placeholder="请输入昵称"/>
+            placeholder="请输入昵称"
+            clearable/>
         </el-form-item>
 
         <el-form-item

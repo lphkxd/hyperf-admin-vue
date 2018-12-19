@@ -156,7 +156,8 @@
           prop="name">
           <el-input
             v-model="form.name"
-            placeholder="请输入名称"/>
+            placeholder="请输入名称"
+            clearable/>
         </el-form-item>
 
         <el-form-item
@@ -164,7 +165,8 @@
           prop="description">
           <el-input
             v-model="form.description"
-            placeholder="可输入描述"/>
+            placeholder="可输入描述"
+            clearable/>
         </el-form-item>
 
         <el-form-item
