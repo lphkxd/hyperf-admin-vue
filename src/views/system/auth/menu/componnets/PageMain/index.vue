@@ -116,6 +116,7 @@
       <el-col :span="14">
         <el-card
           v-if="auth.add || auth.set"
+          class="box-card"
           shadow="never">
 
           <div slot="header">
@@ -692,7 +693,7 @@ export default {
     color: $color-text-placehoder;
     text-decoration: line-through
   }
-  .el-card {
+  .box-card {
     border-radius: 0;
   }
 </style>

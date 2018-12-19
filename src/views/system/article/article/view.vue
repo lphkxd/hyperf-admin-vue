@@ -3,8 +3,13 @@
     :model="article_id"
     :scrollTop="scrollTop"
     @scroll="({x, y}) => {this.scrollTop = y}">
-    <el-card shadow="never" v-loading="loading">
-      <div slot="header" class="clearfix">
+    <el-card
+      class="box-card"
+      shadow="never"
+      v-loading="loading">
+      <div
+        slot="header"
+        class="clearfix">
         <h2>{{article.title}}</h2>
         <span>最后编辑：{{article.update_time}}</span>
         <span>来源：<a :href="article.source_url" target="_blank">{{article.source}}</a></span>
@@ -63,7 +68,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .el-card {
+  .box-card {
     border-radius: 0;
   }
   .clearfix{

@@ -158,6 +158,7 @@
       <el-col :span="14">
         <el-card
           v-if="auth.add || auth.set"
+          class="box-card"
           shadow="never">
           <div slot="header">
             <span>{{formMap[formStatus]}}</span>
@@ -720,11 +721,11 @@ export default {
     color: $color-text-placehoder;
     cursor: move;
   }
-  .el-card {
-    border-radius: 0;
-  }
   .status-tree {
     color: $color-text-placehoder;
     text-decoration: line-through
+  }
+  .box-card {
+    border-radius: 0;
   }
 </style>

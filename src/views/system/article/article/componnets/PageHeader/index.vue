@@ -84,17 +84,18 @@
 </template>
 
 <script>
+import util from '@/utils/util'
+import { getArticleCatList } from '@/api/article/cat'
+
 export default {
   props: {
-    catData: {
-      default: () => []
-    },
     loading: {
       default: false
     }
   },
   data() {
     return {
+      catData: [],
       cascaderProps: {
         value: 'article_cat_id',
         label: 'cat_name',
@@ -108,6 +109,14 @@ export default {
         status: undefined
       }
     }
+  },
+  mounted() {
+    getArticleCatList(null)
+      .then(res => {
+        this.catData = res.data.length
+          ? util.formatDataToTree(res.data, 'article_cat_id')
+          : []
+      })
   },
   methods: {
     handleFormSubmit(isRestore = false) {
