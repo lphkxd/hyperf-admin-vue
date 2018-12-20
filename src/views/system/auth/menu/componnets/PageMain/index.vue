@@ -283,7 +283,8 @@
                   v-model="form.remark"
                   maxlength="255"
                   placeholder="可输入菜单备注"
-                  clearable/>
+                  type="textarea"
+                  :rows="3"/>
               </el-form-item>
             </el-form>
           </div>

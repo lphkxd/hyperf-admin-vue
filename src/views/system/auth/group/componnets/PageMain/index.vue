@@ -166,7 +166,8 @@
           <el-input
             v-model="form.description"
             placeholder="可输入描述"
-            clearable/>
+            type="textarea"
+            :rows="5"/>
         </el-form-item>
 
         <el-form-item

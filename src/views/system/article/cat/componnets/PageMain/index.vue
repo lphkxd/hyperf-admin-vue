@@ -216,7 +216,8 @@
                 <el-input
                   v-model="form.description"
                   placeholder="可输入文章分类描述"
-                  clearable/>
+                  type="textarea"
+                  :rows="3"/>
               </el-form-item>
             </el-form>
           </div>
