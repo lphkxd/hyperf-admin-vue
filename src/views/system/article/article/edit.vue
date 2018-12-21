@@ -1,7 +1,7 @@
 <template>
   <cs-container
     :scrollTop="scrollTop"
-    @scroll="({x, y}) => {this.scrollTop = y}">
+    @scroll="(move) => {this.scrollTop = move.y}">
     <el-card
       class="box-card"
       shadow="never"

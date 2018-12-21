@@ -1,8 +1,9 @@
 <template>
   <cs-container
     :model="article_id"
+    parentPath="system-article-article"
     :scrollTop="scrollTop"
-    @scroll="({x, y}) => {this.scrollTop = y}">
+    @scroll="(move) => {this.scrollTop = move.y}">
     <el-card
       class="box-card"
       shadow="never"

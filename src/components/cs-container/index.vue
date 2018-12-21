@@ -60,6 +60,12 @@ export default {
       })
     ])
   },
+  activated() {
+    // 恢复滚动位置
+    if (this.$parent.scrollTop) {
+      this.scrollTop(this.$parent.scrollTop)
+    }
+  },
   methods: {
     // 返回顶部
     scrollToTop() {
