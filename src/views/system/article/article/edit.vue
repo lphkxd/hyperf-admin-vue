@@ -1,6 +1,7 @@
 <template>
   <cs-container
     :scrollTop="scrollTop"
+    parentPath="system-article-article"
     @scroll="(move) => {this.scrollTop = move.y}">
     <el-card
       class="box-card"
