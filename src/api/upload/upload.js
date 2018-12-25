@@ -17,7 +17,7 @@ export function getUploadModule() {
  * 获取上传地址
  * @param {String} module
  */
-export function getUploadUrl(module = null) {
+export function getUploadUrl(module = undefined) {
   return request({
     url: '/v1/upload',
     method: 'post',
@@ -35,7 +35,7 @@ export function getUploadUrl(module = null) {
  * @param {String} module
  * @param {String} type
  */
-export function getUploadToken(module = null, type = 'web') {
+export function getUploadToken(module = undefined, type = 'web') {
   return request({
     url: '/v1/upload',
     method: 'post',

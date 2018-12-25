@@ -43,31 +43,7 @@
         <el-form-item
           label="封面"
           prop="image">
-          <el-input
-            v-model="form.image"
-            style="width: 40%;"
-            placeholder="可选择上传文章封面图片"
-            clearable>
-            <template slot="prepend">
-              <el-popover
-                v-if="form.image"
-                placement="top"
-                trigger="hover"
-                width="150">
-                <a :href="form.image" target="_blank">
-                  <img class="image" :src="form.image" alt="">
-                </a>
-                <cs-icon slot="reference" name="image"/>
-              </el-popover>
-            </template>
-
-            <template slot="append">
-              <el-button>
-                <cs-icon name="cloud-upload"/>
-                上传
-              </el-button>
-            </template>
-          </el-input>
+          <cs-upload></cs-upload>
         </el-form-item>
 
         <el-form-item
