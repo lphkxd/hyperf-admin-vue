@@ -98,4 +98,23 @@ util.formatDataToTree = function(data, key = 'menu_id', pid = 'parent_id') {
   return tree
 }
 
+/**
+ * 字符计量大小转换为字节大小
+ * @param val
+ * @returns {number}
+ */
+util.stringToByte = function(val) {
+  const exp = '(^[0-9\\.]+)(\\w+)'
+  const result = val.match(exp)
+
+  const size = result[1]
+  const suffix = result[2].toLocaleUpperCase()
+
+  const a = { 'B': 0, 'KB': 1, 'MB': 2, 'GB': 3, 'TB': 4, 'PB': 5 }
+  const b = { 'B': 0, 'K': 1, 'M': 2, 'G': 3, 'T': 4, 'P': 5 }
+
+  const pos = a.hasOwnProperty(suffix) && a[suffix] !== 0 ? a[suffix] : b[suffix]
+  return Math.round(size * Math.pow(1024, pos))
+}
+
 export default util

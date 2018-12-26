@@ -1,6 +1,6 @@
 <script>
 // 组件
-import csSingle from './components/cs-single'
+import csUploadSlot from './components/cs-upload-slot'
 
 export default {
   name: 'cs-upload',
@@ -9,13 +9,13 @@ export default {
     type: {
       type: String,
       required: false,
-      default: 'single'
+      default: 'slot'
     }
   },
   computed: {
     component() {
-      if (this.type === 'single') {
-        return csSingle
+      if (this.type === 'slot') {
+        return csUploadSlot
       }
 
       return 'div'
