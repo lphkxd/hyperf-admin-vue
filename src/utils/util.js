@@ -117,4 +117,48 @@ util.stringToByte = function(val) {
   return Math.round(size * Math.pow(1024, pos))
 }
 
+/**
+ * 生成 GUID
+ * @returns {string}
+ */
+util.guid = function() {
+  let s = []
+  const hexDigits = '0123456789abcdef'
+
+  for (let i = 0; i < 36; i++) {
+    s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1)
+  }
+
+  s[14] = '4' // bits 12-15 of the time_hi_and_version field to 0010
+  s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1) // bits 6-7 of the clock_seq_hi_and_reserved to 01
+  s[8] = s[13] = s[18] = s[23] = '-'
+
+  return s.join('')
+}
+
+/**
+ * 签名生成
+ * @param params
+ * @returns {*}
+ */
+util.getSign = function(params) {
+  let sorted = Object.keys(params).sort()
+  let basestring = process.env.VUE_APP_SECRET
+  const type = ['undefined', 'object', 'function']
+
+  for (let i = 0, l = sorted.length; i < l; i++) {
+    if (sorted[i] === 'sign') {
+      continue
+    }
+
+    let k = sorted[i]
+    if (type.indexOf(typeof params[k]) === -1) {
+      basestring += k + params[k]
+    }
+  }
+
+  basestring += process.env.VUE_APP_SECRET
+  return util.md5(basestring)
+}
+
 export default util

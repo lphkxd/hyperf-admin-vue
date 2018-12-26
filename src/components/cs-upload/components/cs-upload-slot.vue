@@ -45,23 +45,23 @@ export default {
         return
       }
 
-      const response = file.response.data[0]
-      if (response && response.storage_id) {
-        this.removeStorage(response.storage_id)
+      const response = file.response.data
+      if (response && response[0].storage_id) {
+        this.removeStorage(response[0].storage_id)
       }
     },
     // 资源预览
     handlePreview(file) {
-      if (file.status === 'success') {
-        const response = file.response.data[0]
-        if (response && response.type === 0) {
+      const response = file.response.data
+      if (file.status === 'success' && response) {
+        if (response[0].type === 0) {
           this.dialogVisible = true
           this.dialogImageUrl = file.url
           return
         }
       }
 
-      this.$message.warning('正在上传或资源不可预览')
+      this.$message.warning('上传尚未完成或资源不可预览')
     }
   }
 }

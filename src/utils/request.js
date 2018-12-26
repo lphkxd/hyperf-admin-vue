@@ -146,28 +146,7 @@ function setDefaultParams(config) {
   config.data['appkey'] = process.env.VUE_APP_KEY
   config.data['timestamp'] = Math.round(new Date() / 1000) + 100
   config.data['format'] = 'json'
-  config.data['sign'] = getSign(Object.assign(config.data, config.params))
-}
-
-// 签名生成
-function getSign(params) {
-  let sorted = Object.keys(params).sort()
-  let basestring = process.env.VUE_APP_SECRET
-  const type = ['undefined', 'object', 'function']
-
-  for (let i = 0, l = sorted.length; i < l; i++) {
-    if (sorted[i] === 'sign') {
-      continue
-    }
-
-    let k = sorted[i]
-    if (type.indexOf(typeof params[k]) === -1) {
-      basestring += k + params[k]
-    }
-  }
-
-  basestring += process.env.VUE_APP_SECRET
-  return util.md5(basestring)
+  config.data['sign'] = util.getSign(Object.assign(config.data, config.params))
 }
 
 export default service
