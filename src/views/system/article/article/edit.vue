@@ -44,7 +44,8 @@
           label="封面"
           prop="image">
           <cs-upload
-          v-model="form.image"/>
+            v-model="form.image"
+            upload-tip="请选择图片进行上传，"/>
         </el-form-item>
 
         <el-form-item
@@ -166,7 +167,6 @@ export default {
       },
       tempData: [],
       form: {
-        title: undefined
       },
       rules: {
       }

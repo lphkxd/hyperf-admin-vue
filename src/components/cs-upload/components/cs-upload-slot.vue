@@ -85,9 +85,7 @@ export default {
   data() {
     return {
       dialogImageUrl: '',
-      dialogVisible: false,
-      // 上传的文件列表
-      fileList: []
+      dialogVisible: false
     }
   },
   methods: {
@@ -100,8 +98,7 @@ export default {
         }
       }
 
-      // 更新本地列表
-      this.fileList = fileList
+      this.$emit('upload', fileList)
     },
     // 资源预览
     handlePreview(file) {

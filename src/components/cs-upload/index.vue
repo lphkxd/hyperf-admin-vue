@@ -5,6 +5,12 @@ import csUploadSlot from './components/cs-upload-slot'
 export default {
   name: 'cs-upload',
   props: {
+    // 外部v-model值
+    value: {
+      type: Array,
+      required: false,
+      default: () => []
+    },
     // 上传类型
     type: {
       type: String,
@@ -39,7 +45,10 @@ export default {
       // 或使用字符串来生成“文本节点”。可选参数。
       [
         h(this.component, {
-          props: this.$attrs
+          props: this.$attrs,
+          on: {
+            'upload': e => { this.$emit('input', e) }
+          }
         })
       ]
     )

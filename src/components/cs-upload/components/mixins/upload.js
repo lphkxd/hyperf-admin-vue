@@ -7,6 +7,7 @@ export default {
     return {
       token: {},
       params: {},
+      fileList: [],
       uploadUrl: ''
     }
   },
@@ -83,7 +84,7 @@ export default {
           return
         }
 
-        this.fileList = fileList
+        this.$emit('upload', fileList)
         return
       }
 
@@ -92,12 +93,12 @@ export default {
     // 文件上传失败时的钩子
     handleError(err, file, fileList) {
       this.$message.error('资源上传失败')
-      util.log.danger('资源上传失败：' + err || file.response)
+      util.log.danger('资源上传失败：' + (err || file.response))
 
       for (let i = fileList.length - 1; i >= 0; i--) {
         if (file === fileList[i]) {
           fileList.splice(i, 1)
-          this.fileList = fileList
+          this.$emit('upload', fileList)
           break
         }
       }
