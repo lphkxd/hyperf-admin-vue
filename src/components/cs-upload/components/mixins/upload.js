@@ -74,6 +74,45 @@ export default {
         this.params['method'] = 'add.upload.list'
         this.params['sign'] = util.getSign({ ...this.params })
       }
+    },
+    // 文件上传成功时的钩子
+    handleSuccess(response, file, fileList) {
+      if (response.status === 200 && response.data) {
+        if (response.data[0]['status'] !== 200) {
+          this.handleError(response.data[0]['message'], file, fileList)
+          return
+        }
+
+        this.fileList = fileList
+        return
+      }
+
+      this.handleError(response.message, file, fileList)
+    },
+    // 文件上传失败时的钩子
+    handleError(err, file, fileList) {
+      this.$message.error('资源上传失败')
+      util.log.danger('资源上传失败：' + err || file.response)
+
+      for (let i = fileList.length - 1; i >= 0; i--) {
+        if (file === fileList[i]) {
+          fileList.splice(i, 1)
+          this.fileList = fileList
+          break
+        }
+      }
+    },
+    // 文件超出个数限制时的钩子
+    handleExceed(files, fileList) {
+      if (fileList.length >= this.limit) {
+        this.$message.warning(`最多只能上传 ${this.limit} 个文件`)
+        return
+      }
+
+      if (files.length + fileList.length > this.limit) {
+        const count = this.limit - fileList.length
+        this.$message.warning(`上传数量超出限制，最多还能选择 ${count} 个文件`)
+      }
     }
   }
 }

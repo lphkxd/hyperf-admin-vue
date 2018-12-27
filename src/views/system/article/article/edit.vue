@@ -43,7 +43,8 @@
         <el-form-item
           label="封面"
           prop="image">
-          <cs-upload></cs-upload>
+          <cs-upload
+          v-model="form.image"/>
         </el-form-item>
 
         <el-form-item
@@ -131,7 +132,7 @@
         </el-form-item>
 
         <el-form-item size="small">
-          <el-button v-if="!form.article_id" type="primary">确定</el-button>
+          <el-button v-if="!form.article_id" type="primary" @click="test">确定</el-button>
           <el-button v-else type="primary">修改</el-button>
           <el-button>取消</el-button>
         </el-form-item>
@@ -183,6 +184,11 @@ export default {
         .finally(() => {
           this.loading = false
         })
+    }
+  },
+  methods: {
+    test() {
+      console.log(this.form)
     }
   }
 }

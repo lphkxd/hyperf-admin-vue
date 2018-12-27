@@ -40,12 +40,12 @@
     "babel-jest": "23.6.0",
     "chai": "^4.2.0",
     "compression-webpack-plugin": "^2.0.0",
-    "eslint": "^5.10.0",
+    "eslint": "^5.11.0",
     "eslint-plugin-vue": "^5.0.0",
     "node-sass": "^4.11.0",
     "sass-loader": "^7.1.0",
     "svg-sprite-loader": "^4.1.3",
-    "uglifyjs-webpack-plugin": "^2.0.1",
+    "uglifyjs-webpack-plugin": "^2.1.0",
     "vue-template-compiler": "^2.5.21"
   }
 }
