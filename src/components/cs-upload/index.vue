@@ -65,7 +65,7 @@ export default {
         }
       })
 
-      return data.length > 1 ? data : data[0]
+      return data
     }
   }
 }
