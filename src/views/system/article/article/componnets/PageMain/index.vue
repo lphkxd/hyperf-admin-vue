@@ -95,12 +95,12 @@
         :show-overflow-tooltip="true">
         <template slot-scope="scope">
           <el-popover
-            v-if="scope.row.image"
+            v-if="scope.row.image.length"
             placement="top-start"
             trigger="hover"
             width="150">
-            <a :href="scope.row.image.url | getThumbUrl" target="_blank">
-              <img class="image" :src="scope.row.image.url | getThumbUrl(150)" :alt="scope.row.image.name">
+            <a :href="scope.row.image | getThumbUrl" target="_blank">
+              <img class="image" :src="scope.row.image | getThumbUrl(150)" :alt="scope.row.image.name">
             </a>
             <cs-icon slot="reference" name="image"/>
           </el-popover>
