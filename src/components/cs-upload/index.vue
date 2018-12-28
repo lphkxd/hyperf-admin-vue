@@ -7,7 +7,7 @@ export default {
   props: {
     // 外部v-model值
     value: {
-      type: Array,
+      type: [Array, Object],
       required: false,
       default: () => []
     },
@@ -47,11 +47,26 @@ export default {
         h(this.component, {
           props: this.$attrs,
           on: {
-            'upload': e => { this.$emit('input', e) }
+            'upload': e => { this.$emit('input', this.getUploadData(e)) }
           }
         })
       ]
     )
+  },
+  methods: {
+    getUploadData(fileList) {
+      let data = []
+      fileList.forEach(val => {
+        if (val.response) {
+          data.push({
+            name: val.response.data[0]['name'],
+            url: val.response.data[0]['url']
+          })
+        }
+      })
+
+      return data.length > 1 ? data : data[0]
+    }
   }
 }
 </script>

@@ -188,7 +188,7 @@ export default {
   },
   methods: {
     test() {
-      console.log(this.form)
+      console.log(JSON.stringify(this.form.image))
     }
   }
 }
