@@ -1,5 +1,6 @@
 <script>
 // 组件
+import csUploadComp from './components/cs-upload-comp'
 import csUploadSlot from './components/cs-upload-slot'
 
 export default {
@@ -7,7 +8,7 @@ export default {
   props: {
     // 外部v-model值
     value: {
-      type: [Array, Object],
+      type: Array,
       required: false,
       default: () => []
     },
@@ -15,11 +16,15 @@ export default {
     type: {
       type: String,
       required: false,
-      default: 'slot'
+      default: 'comp'
     }
   },
   computed: {
     component() {
+      if (this.type === 'comp') {
+        return csUploadComp
+      }
+
       if (this.type === 'slot') {
         return csUploadSlot
       }

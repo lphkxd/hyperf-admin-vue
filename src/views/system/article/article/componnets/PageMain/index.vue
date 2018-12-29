@@ -99,8 +99,8 @@
             placement="top-start"
             trigger="hover"
             width="150">
-            <a :href="scope.row.image | getThumbUrl" target="_blank">
-              <img class="image" :src="scope.row.image | getThumbUrl(150)" :alt="scope.row.image.name">
+            <a :href="scope.row.image" target="_blank">
+              <img class="image" :src="scope.row.image" :alt="scope.row.image.name">
             </a>
             <cs-icon slot="reference" name="image"/>
           </el-popover>
@@ -256,21 +256,6 @@ export default {
         this.currentTableData = val
       },
       immediate: true
-    }
-  },
-  filters: {
-    getThumbUrl(val, width = 0, high = 0) {
-      if (val) {
-        let thumbUrl = process.env.VUE_APP_BASE_API
-        thumbUrl += '/v1/storage/method/get.storage.thumb'
-        thumbUrl += `?url=${encodeURI(val)}`
-
-        if (width || high) {
-          thumbUrl += `&size[]=${width}&size[]=${high}`
-        }
-
-        return thumbUrl
-      }
     }
   },
   methods: {

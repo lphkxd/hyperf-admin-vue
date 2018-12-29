@@ -7,8 +7,9 @@ export default {
     return {
       token: {},
       params: {},
-      fileList: [],
-      uploadUrl: ''
+      uploadUrl: '',
+      dialogImageUrl: '',
+      dialogVisible: false
     }
   },
   mounted() {
@@ -19,9 +20,32 @@ export default {
       })
   },
   methods: {
-    // 批量删除资源
-    removeStorage(storage_id) {
-      delStorageList(Array.isArray(storage_id) ? storage_id : [storage_id])
+    // 删除资源
+    handleRemove(file, fileList) {
+      if (file.status === 'success' && file.response) {
+        const response = file.response.data
+        if (response && response[0].storage_id) {
+          const storageId = response[0].storage_id
+          delStorageList(Array.isArray(storageId) ? storageId : [storageId])
+        }
+      }
+
+      this.$emit('upload', fileList)
+    },
+    // 资源预览
+    handlePreview(file) {
+      if (file.status === 'success') {
+        let imgObj = new Image()
+        imgObj.src = file.url
+
+        if (imgObj.fileSize > 0 || (imgObj.width > 0 && imgObj.height > 0)) {
+          this.dialogVisible = true
+          this.dialogImageUrl = file.url
+          return
+        }
+      }
+
+      this.$message.warning('该资源不支持预览')
     },
     // 上传文件之前的钩子
     handleBeforeUpload(file) {

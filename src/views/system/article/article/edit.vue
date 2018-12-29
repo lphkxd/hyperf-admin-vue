@@ -41,11 +41,14 @@
         </el-form-item>
 
         <el-form-item
-          label="封面"
+          label="封面1"
           prop="image">
-          <cs-upload
-            v-model="form.image"
-            upload-tip="请选择图片进行上传，"/>
+          <cs-upload v-model="form.image"/>
+        </el-form-item>
+
+        <el-form-item
+          label="封面2"
+          prop="images">
         </el-form-item>
 
         <el-form-item
