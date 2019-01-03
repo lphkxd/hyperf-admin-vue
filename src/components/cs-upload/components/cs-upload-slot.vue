@@ -29,8 +29,8 @@ export default {
   },
   methods: {
     handleCreate() {
-      console.log('okok')
-      // this.visible = true
+      // console.log('okok')
+      this.visible = true
     }
   }
 }
