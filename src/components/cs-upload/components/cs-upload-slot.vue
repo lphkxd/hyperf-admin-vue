@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 0;" @click="handleCreate">
+  <div class="upload" @click="handleCreate">
     <slot name="control"/>
     <el-dialog
       width="600px"
@@ -29,8 +29,16 @@ export default {
   },
   methods: {
     handleCreate() {
-      this.visible = true
+      console.log('okok')
+      // this.visible = true
     }
   }
 }
 </script>
+
+<style scoped>
+  .upload {
+    width: auto;
+    display: inline-block !important;
+  }
+</style>
