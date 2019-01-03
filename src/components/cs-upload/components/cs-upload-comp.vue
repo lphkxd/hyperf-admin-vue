@@ -20,7 +20,9 @@
       <i class="el-icon-plus"></i>
       <div slot="tip" class="el-upload__tip">{{uploadTip}}大小不能超过 {{this.token.file_size}}</div>
     </el-upload>
-    <el-dialog :visible.sync="dialogVisible">
+    <el-dialog
+      :visible.sync="dialogVisible"
+      :append-to-body="true">
       <img width="100%" :src="dialogImageUrl" alt="">
     </el-dialog>
   </div>

@@ -21,10 +21,12 @@ export default {
   },
   computed: {
     component() {
+      // 组件模式
       if (this.type === 'comp') {
         return csUploadComp
       }
 
+      // 插槽模式
       if (this.type === 'slot') {
         return csUploadSlot
       }
@@ -33,6 +35,11 @@ export default {
     }
   },
   render(h) {
+    const slots = [h('div', this.$slots.default)]
+    if (this.$slots.control) {
+      slots.push(h('div', { slot: 'control' }, [this.$slots.control]))
+    }
+
     return h(
       // {String | Object | Function}
       // 一个 HTML 标签字符串，组件选项对象，或者
@@ -54,7 +61,7 @@ export default {
           on: {
             'upload': e => { this.$emit('input', this.getUploadData(e)) }
           }
-        })
+        }, slots)
       ]
     )
   },
