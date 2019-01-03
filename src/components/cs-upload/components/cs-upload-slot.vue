@@ -1,5 +1,5 @@
 <template>
-  <div class="upload" @click="handleCreate">
+  <div class="upload-control" @click="handleCreate">
     <slot name="control"/>
     <el-dialog
       width="600px"
@@ -37,7 +37,7 @@ export default {
 </script>
 
 <style scoped>
-  .upload {
+  .upload-control {
     width: auto;
     display: inline-block !important;
   }
