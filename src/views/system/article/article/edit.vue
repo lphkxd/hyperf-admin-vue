@@ -41,17 +41,9 @@
         </el-form-item>
 
         <el-form-item
-          label="封面1"
-          prop="image1">
-          <cs-upload v-model="form.image1"/>
-        </el-form-item>
-
-        <el-form-item
-          label="封面2"
-          prop="image2">
-          <cs-upload v-model="form.image2" type="slot">
-            <el-button slot="control">上传图片</el-button>
-          </cs-upload>
+          label="封面"
+          prop="image">
+          <cs-upload v-model="form.image"/>
         </el-form-item>
 
         <el-form-item
@@ -194,7 +186,6 @@ export default {
   },
   methods: {
     test() {
-      console.log(this.form)
     }
   }
 }

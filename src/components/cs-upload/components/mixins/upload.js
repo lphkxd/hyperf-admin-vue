@@ -40,12 +40,12 @@ export default {
 
         if (imgObj.fileSize > 0 || (imgObj.width > 0 && imgObj.height > 0)) {
           this.dialogVisible = true
-          this.dialogImageUrl = file.url
+          this.dialogImageUrl = imgObj.src
           return
         }
       }
 
-      this.$message.warning('该资源不支持预览')
+      this.$message.warning('当前模式或资源不支持预览')
     },
     // 上传文件之前的钩子
     handleBeforeUpload(file) {

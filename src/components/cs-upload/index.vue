@@ -12,11 +12,20 @@ export default {
       required: false,
       default: () => []
     },
+    // 确认按钮事件
+    confirm: {
+      type: Function
+    },
     // 上传类型
     type: {
       type: String,
       required: false,
       default: 'comp'
+    }
+  },
+  data() {
+    return {
+      fileList: []
     }
   },
   computed: {
@@ -59,7 +68,21 @@ export default {
         h(this.component, {
           props: this.$attrs,
           on: {
-            'upload': e => { this.$emit('input', this.getUploadData(e)) }
+            'upload': e => {
+              if (this.type === 'comp') {
+                this.$emit('input', this.getUploadData(e))
+              }
+
+              if (this.type === 'slot') {
+                this.fileList = e
+              }
+            },
+            'confirm': () => {
+              if (this.type === 'slot') {
+                this.$emit('confirm', this.getUploadData(this.fileList))
+                this.fileList = []
+              }
+            }
           }
         }, slots)
       ]
