@@ -1,6 +1,7 @@
 <template>
   <div class="tinymce-editor">
     <editor
+      v-if="active"
       v-model="content"
       :disabled="disabled"
       :init="init">
@@ -49,6 +50,7 @@ export default {
   },
   data() {
     return {
+      active: true,
       // 富文本内容
       content: this.value,
       // 初始化配置
@@ -68,8 +70,10 @@ export default {
     tinymce.init({})
   },
   activated() {
+    this.active = true
   },
   deactivated() {
+    this.active = false
   },
   methods: {
   },
