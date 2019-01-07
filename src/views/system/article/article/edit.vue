@@ -95,10 +95,7 @@
         <el-form-item
           label="内容"
           prop="content">
-          <el-input
-            v-model="form.content"
-            placeholder="请输入文章内容"
-            clearable/>
+          <cs-tinymce v-model="form.content"></cs-tinymce>
         </el-form-item>
 
         <el-form-item
@@ -147,6 +144,10 @@ import { getArticleCatList } from '@/api/article/cat'
 
 export default {
   name: 'system-article-edit',
+  components: {
+    'csUpload': () => import('@/components/cs-upload'),
+    'csTinymce': () => import('@/components/cs-tinymce')
+  },
   props: {
     article_id: {
       type: [String, Number],
@@ -165,6 +166,7 @@ export default {
       },
       tempData: [],
       form: {
+        content: '这个结果,我还是满意的.'
       },
       rules: {
       }
@@ -186,6 +188,7 @@ export default {
   },
   methods: {
     test() {
+      console.log(this.form)
     }
   }
 }

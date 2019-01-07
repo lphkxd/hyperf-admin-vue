@@ -10,6 +10,7 @@
     "inspect": "vue-cli-service inspect --mode production --verbose"
   },
   "dependencies": {
+    "@tinymce/tinymce-vue": "^1.1.0",
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
     "better-scroll": "1.13.2",
@@ -23,6 +24,7 @@
     "mockjs": "^1.0.1-beta3",
     "nprogress": "^0.2.0",
     "screenfull": "^4.0.0",
+    "tinymce": "^4.9.2",
     "ua-parser-js": "^0.7.19",
     "vue": "^2.5.21",
     "vue-cookies": "^1.5.12",
