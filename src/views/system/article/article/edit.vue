@@ -84,18 +84,18 @@
         </el-form-item>
 
         <el-form-item
+          label="内容"
+          prop="content">
+          <cs-tinymce v-model="form.content"/>
+        </el-form-item>
+
+        <el-form-item
           label="外部连接"
           prop="url">
           <el-input
             v-model="form.url"
             placeholder="可输入文章外部连接"
             clearable/>
-        </el-form-item>
-
-        <el-form-item
-          label="内容"
-          prop="content">
-          <cs-tinymce v-model="form.content"></cs-tinymce>
         </el-form-item>
 
         <el-form-item

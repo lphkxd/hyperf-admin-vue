@@ -101,6 +101,7 @@ module.exports = {
     // 重新设置 alias
     config.resolve.alias
       .set('@', resolve('src'))
+      .set('@static', resolve('public/static'))
     // node
     config.node
       .set('__dirname', true)
