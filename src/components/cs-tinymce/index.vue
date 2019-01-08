@@ -1,39 +1,27 @@
 <template>
-  <div class="tinymce-editor">
-    <editor
-      v-if="active"
-      v-model="content"
-      :disabled="disabled"
-      :init="init">
-    </editor>
+  <div class="tinymce-container editor-container" :class="{fullscreen:fullscreen}">
+    <label>
+      <textarea class="tinymce-textarea" :id="tinymceId"></textarea>
+    </label>
   </div>
 </template>
 
 <script>
-import tinymce from 'tinymce/tinymce'
-import Editor from '@tinymce/tinymce-vue'
+import util from '@/utils/util'
 import plugins from './config/plugins'
 import toolbar from './config/toolbar'
-import 'tinymce/themes/modern/theme'
-import 'tinymce/plugins/image'
-import 'tinymce/plugins/media'
-import 'tinymce/plugins/table'
-import 'tinymce/plugins/lists'
-import 'tinymce/plugins/contextmenu'
-import 'tinymce/plugins/wordcount'
-import 'tinymce/plugins/colorpicker'
-import 'tinymce/plugins/textcolor'
 
 export default {
   name: 'cs-tinymce',
-  components: {
-    Editor
-  },
   props: {
     // 外部v-model值
     value: {
       type: String,
       default: ''
+    },
+    id: {
+      type: String,
+      default: undefined
     },
     disabled: {
       type: Boolean,
@@ -50,37 +38,35 @@ export default {
   },
   data() {
     return {
-      active: true,
-      // 富文本内容
-      content: this.value,
-      // 初始化配置
-      init: {
-        language_url: '/static/tinymce/langs/zh_CN.js',
-        language: 'zh_CN',
-        skin_url: '/static/tinymce/skins/lightgray',
-        height: 300,
-        plugins: this.plugins,
-        toolbar: this.toolbar,
-        branding: false,
-        menubar: false
-      }
-    }
-  },
-  mounted() {
-    tinymce.init({})
-  },
-  activated() {
-    this.active = true
-  },
-  deactivated() {
-    this.active = false
-  },
-  methods: {
-  },
-  watch: {
-    content(val) {
-      this.$emit('input', val)
+      fullscreen: false,
+      tinymceId: this.id || util.guid()
     }
   }
 }
 </script>
+
+<style scoped>
+  .tinymce-container {
+    position: relative;
+  }
+  .tinymce-container>>>.mce-fullscreen {
+    z-index: 10000;
+  }
+  .tinymce-textarea {
+    visibility: hidden;
+    z-index: -1;
+  }
+  .editor-custom-btn-container {
+    position: absolute;
+    right: 4px;
+    top: 4px;
+    /*z-index: 2005;*/
+  }
+  .fullscreen .editor-custom-btn-container {
+    z-index: 10000;
+    position: fixed;
+  }
+  .editor-upload-btn {
+    display: inline-block;
+  }
+</style>

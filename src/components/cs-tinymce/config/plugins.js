@@ -2,6 +2,6 @@
 // Detail plugins list see https://www.tinymce.com/docs/plugins/
 // Custom builds see https://www.tinymce.com/download/custom-builds/
 
-const plugins = 'lists image media table textcolor wordcount contextmenu'
+const plugins = 'code lists link preview anchor pagebreak searchreplace visualblocks visualchars image media table textcolor wordcount contextmenu'
 
 export default plugins
