@@ -26,8 +26,8 @@ export default {
       default: plugins
     },
     toolbar: {
-      type: [String, Boolean],
-      default: toolbar
+      type: [Array, String, Boolean],
+      default: () => { return toolbar }
     },
     menubar: {
       type: [String, Boolean],
@@ -115,6 +115,14 @@ export default {
         selector: `#${this.tinymceId}`,
         setup: editor => {
           self.handleEditor = editor
+          // 注册自定义按钮
+          editor.addButton('upload', {
+            tooltip: '上传本地资源',
+            icon: 'template',
+            onclick: () => {
+              console.log('okok')
+            }
+          })
           editor.on(
             'init', () => {
               self.loading = true
