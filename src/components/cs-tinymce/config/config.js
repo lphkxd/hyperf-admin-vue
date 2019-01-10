@@ -8,5 +8,5 @@ export const plugins = 'advlist anchor autolink autosave charmap code codesample
 // 中文注释 https://blog.csdn.net/zjiang1994/article/details/79880806
 export const toolbar = [
   'code undo redo formatselect fontselect fontsizeselect bold italic underline strikethrough removeformat forecolor backcolor',
-  'preview searchreplace hr anchor insertdatetime alignleft aligncenter alignright alignjustify bullist numlist outdent indent table image media link upload fullscreen'
+  'preview searchreplace anchor insertdatetime alignleft aligncenter alignright alignjustify bullist numlist outdent indent table image media link upload storage fullscreen'
 ]

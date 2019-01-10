@@ -72,9 +72,9 @@ export default {
           img                 { max-width:100%; display:block; height:auto; }
           a                   { text-decoration:none; }
           iframe              { width:100%; }
-          p                   { line-height:1.6; margin:0px; }
+          p                   { line-height:1.6; }
           table               { word-wrap:break-word; word-break:break-all; max-width:100%; border:none; border-color:#999; }
-          .mce-object-iframe  { width:100%; box-sizing:border-box; margin:0; padding:0; }
+          .mce-object-iframe  { width:100%; box-sizing:border-box; padding:0; }
           ul,ol               { list-style-position:inside; }
         `,
         // IMAGE
@@ -129,12 +129,20 @@ export default {
         selector: `#${this.tinymceId}`,
         setup: editor => {
           self.handleEditor = editor
-          // 注册自定义按钮
+          // 上传本地资源
           editor.addButton('upload', {
             tooltip: '上传本地资源',
             icon: 'template',
             onclick: () => {
               self.$refs.upload.handleUploadDlg()
+            }
+          })
+          // 资源管理选取
+          editor.addButton('storage', {
+            tooltip: '资源管理选取',
+            icon: 'browse',
+            onclick: () => {
+              console.log('待组件完成')
             }
           })
           editor.on(
