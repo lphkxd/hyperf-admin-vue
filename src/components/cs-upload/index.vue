@@ -66,6 +66,7 @@ export default {
       // 或使用字符串来生成“文本节点”。可选参数。
       [
         h(this.component, {
+          ref: 'upload',
           props: this.$attrs,
           on: {
             'upload': e => {
@@ -79,7 +80,7 @@ export default {
             },
             'confirm': () => {
               if (this.type === 'slot') {
-                this.$emit('confirm', this.getUploadData(this.fileList))
+                this.$emit('confirm', this.fileList)
                 this.fileList = []
               }
             }
@@ -101,6 +102,9 @@ export default {
       })
 
       return data
+    },
+    handleUploadDlg() {
+      this.$refs.upload.visible = true
     }
   }
 }

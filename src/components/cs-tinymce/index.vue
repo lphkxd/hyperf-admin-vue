@@ -1,6 +1,7 @@
 <template>
   <label>
     <textarea class="tinymce-textarea" :id="tinymceId"></textarea>
+    <cs-upload style="display: none" ref="upload" type="slot" @confirm="getUploadFileList"/>
   </label>
 </template>
 
@@ -11,6 +12,9 @@ import { plugins, toolbar } from './config/config'
 
 export default {
   name: 'cs-tinymce',
+  components: {
+    'csUpload': () => import('@/components/cs-upload')
+  },
   props: {
     // 外部v-model值
     value: {
@@ -62,14 +66,24 @@ export default {
         nonbreaking_force_tab: true,
         toolbar_items_size: 'small',
         autosave_ask_before_unload: false,
-        content_style: 'html, body { font-family:inherit; font-size: 14px; line-height:inherit; }',
+        content_style: `
+          *                   { padding:0; }
+          html, body          { font-family:inherit; font-size:14px; line-height:inherit; }
+          img                 { max-width:100%; display:block; height:auto; }
+          a                   { text-decoration:none; }
+          iframe              { width:100%; }
+          p                   { line-height:1.6; margin:0px; }
+          table               { word-wrap:break-word; word-break:break-all; max-width:100%; border:none; border-color:#999; }
+          .mce-object-iframe  { width:100%; box-sizing:border-box; margin:0; padding:0; }
+          ul,ol               { list-style-position:inside; }
+        `,
         // IMAGE
         image_caption: true,
         image_advtab: true,
         // LINK
         default_link_target: '_blank',
         link_context_toolbar: true,
-        // Tab
+        // TAB
         tabfocus_elements: ':prev,:next',
         object_resizing: true,
         // FontSize
@@ -120,7 +134,7 @@ export default {
             tooltip: '上传本地资源',
             icon: 'template',
             onclick: () => {
-              console.log('okok')
+              self.$refs.upload.handleUploadDlg()
             }
           })
           editor.on(
@@ -149,6 +163,36 @@ export default {
     },
     getContent() {
       return this.handleEditor.getContent()
+    },
+    getUploadFileList(files) {
+      for (const value of files) {
+        if (value.status !== 'success') {
+          continue
+        }
+
+        const response = value.response
+        if (!response || response.status !== 200) {
+          continue
+        }
+
+        if (response.data) {
+          let insert = ''
+          const file = response.data[0]
+
+          switch (file.type) {
+            case 0:
+              insert = `<img src="//${file.url}" alt="" />`
+              break
+            case 1:
+              insert = `<p><a href="//${file.url}" target="_blank">附件：${file.name}</a></p>`
+              break
+          }
+
+          if (this.handleEditor) {
+            this.handleEditor.insertContent(insert)
+          }
+        }
+      }
     }
   },
   destroyed() {
