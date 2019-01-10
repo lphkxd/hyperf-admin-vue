@@ -84,7 +84,7 @@ export default {
     accept: {
       type: String,
       required: false,
-      default: ''
+      default: '*/*'
     },
     // 最大允许上传个数
     limit: {
