@@ -29,6 +29,7 @@ module.exports = {
   // build时 超过10K的打包成gzip 减小体积
   configureWebpack: config => {
     if (process.env.NODE_ENV === 'production') {
+      // 生产环境
       return {
         plugins: [
           new CompressionPlugin({
@@ -38,6 +39,8 @@ module.exports = {
           })
         ]
       }
+    } else {
+      // 开发环境
     }
   },
   // 默认设置: https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-service/lib/config/base.js
