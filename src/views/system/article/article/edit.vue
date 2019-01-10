@@ -166,7 +166,6 @@ export default {
       },
       tempData: [],
       form: {
-        content: '这个结果,我还是满意的.'
       },
       rules: {
       }

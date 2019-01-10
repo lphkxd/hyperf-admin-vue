@@ -80,9 +80,14 @@ export default {
           return
         }
 
+        // 填入请求接口返回的参数
         this.params[value.name] = this.token['token'].hasOwnProperty(value.name)
           ? this.token['token'][value.name]
           : value.default
+
+        if (value.name === 'x:filename') {
+          this.params['x:filename'] = file.name
+        }
 
         if (value.name === 'key') {
           const fileName = util.guid()
