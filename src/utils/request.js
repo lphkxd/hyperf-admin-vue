@@ -4,7 +4,7 @@ import store from '@/store/index'
 import { Message, MessageBox } from 'element-ui'
 
 // 创建一个错误
-function errorCreat(msg) {
+function errorCreate(msg) {
   const err = new Error(msg)
   errorLog(err)
 }
@@ -58,7 +58,7 @@ service.interceptors.response.use(
     if (status === 200 || response.config.responseType === 'blob') {
       return dataAxios
     } else {
-      status === 401 ? reAuthorize() : errorCreat(dataAxios.message)
+      status === 401 ? reAuthorize() : errorCreate(dataAxios.message)
       return Promise.reject(dataAxios.message ? dataAxios.message : response)
     }
   },

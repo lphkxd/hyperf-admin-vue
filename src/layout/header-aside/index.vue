@@ -17,8 +17,8 @@
         flex>
         <div class="logo-group" :style="{width: asideCollapse ? asideWidthCollapse : asideWidth}" flex-box="0">
           <a target="blank" href="//www.careyshop.cn/">
-            <img v-if="asideCollapse" :src="`${$baseUrl}image/theme/${themeActiveSetting.name}/logo/icon-only.png`" alt="">
-            <img v-else :src="`${$baseUrl}image/theme/${themeActiveSetting.name}/logo/all.png`" alt="">
+            <img v-if="asideCollapse" :src="`${$publicPath}image/theme/${themeActiveSetting.name}/logo/icon-only.png`" alt="">
+            <img v-else :src="`${$publicPath}image/theme/${themeActiveSetting.name}/logo/all.png`" alt="">
           </a>
         </div>
         <div class="toggle-aside-btn" @click="handleToggleAside" flex-box="0">
@@ -134,7 +134,7 @@ export default {
     styleLayoutMainGroup() {
       return {
         ...this.themeActiveSetting.backgroundImage ? {
-          backgroundImage: `url('${this.$baseUrl}${this.themeActiveSetting.backgroundImage}')`
+          backgroundImage: `url('${this.$publicPath}${this.themeActiveSetting.backgroundImage}')`
         } : {}
       }
     }

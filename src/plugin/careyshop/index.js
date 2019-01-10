@@ -24,8 +24,8 @@ export default {
     Vue.config.productionTip = false
     // 当前环境
     Vue.prototype.$env = process.env.NODE_ENV
-    // 当前的 baseUrl
-    Vue.prototype.$baseUrl = process.env.BASE_URL
+    // 当前的 publicPath
+    Vue.prototype.$publicPath = process.env.BASE_URL
     // 当前版本
     Vue.prototype.$version = process.env.VUE_APP_VERSION
 

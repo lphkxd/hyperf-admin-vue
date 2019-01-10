@@ -1,8 +1,10 @@
 <template>
-  <label>
+  <div>
     <textarea class="tinymce-textarea" :id="tinymceId"></textarea>
-    <cs-upload style="display: none" ref="upload" type="slot" @confirm="getUploadFileList"/>
-  </label>
+    <div style="display: none">
+      <cs-upload ref="upload" type="slot" @confirm="getUploadFileList"/>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -131,7 +133,7 @@ export default {
           self.handleEditor = editor
           // 上传本地资源
           editor.addButton('upload', {
-            tooltip: '上传本地资源',
+            tooltip: '从本地上传资源',
             icon: 'template',
             onclick: () => {
               self.$refs.upload.handleUploadDlg()
@@ -139,10 +141,10 @@ export default {
           })
           // 资源管理选取
           editor.addButton('storage', {
-            tooltip: '资源管理选取',
+            tooltip: '从资源管理选取',
             icon: 'browse',
             onclick: () => {
-              console.log('待组件完成')
+              this.$message.warning('组件正在制作中...')
             }
           })
           editor.on(

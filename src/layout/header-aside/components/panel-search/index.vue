@@ -1,7 +1,7 @@
 <template>
   <div class="panel-search" flex="dir:top">
     <div class="panel-search__input-group" flex-box="0" flex="dir:top main:center cross:center" @click.self="handlePanelClick">
-      <img :src="`${$baseUrl}image/theme/${themeActiveSetting.name}/logo/all.png`" class="panel-search__logo">
+      <img :src="`${$publicPath}image/theme/${themeActiveSetting.name}/logo/all.png`" class="panel-search__logo">
       <el-autocomplete
         class="panel-search__input"
         ref="input"
