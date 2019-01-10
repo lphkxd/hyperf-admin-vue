@@ -69,13 +69,13 @@ export default {
           ref: 'upload',
           props: this.$attrs,
           on: {
-            'upload': e => {
+            'upload': file => {
               if (this.type === 'comp') {
-                this.$emit('input', this.getUploadData(e))
+                this.$emit('input', this.getUploadData(file))
               }
 
               if (this.type === 'slot') {
-                this.fileList = e
+                this.fileList = file
               }
             },
             'confirm': () => {
