@@ -37,7 +37,11 @@ module.exports = {
             threshold: 10240, // 10K
             deleteOriginalAssets: false
           })
-        ]
+        ],
+        // 屏蔽资源体积过大警告
+        performance: {
+          hints: false
+        }
       }
     } else {
       // 开发环境
