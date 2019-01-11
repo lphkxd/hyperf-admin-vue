@@ -161,4 +161,19 @@ util.getSign = function(params) {
   return util.md5(basestring)
 }
 
+/**
+ * 根据样式编码获取缩略图地址
+ * @param url
+ * @param code
+ * @returns {string}
+ */
+util.getImageCodeUrl = function(url, code) {
+  let data = process.env.VUE_APP_BASE_API
+  data += '/v1/storage/method/get.storage.thumb/code/' + code
+  data += '?url=' + encodeURI(url)
+
+  console.log(data)
+  return data
+}
+
 export default util

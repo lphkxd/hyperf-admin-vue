@@ -27,6 +27,10 @@ export default {
       type: String,
       default: undefined
     },
+    code: {
+      type: String,
+      default: ''
+    },
     plugins: {
       type: String,
       default: plugins
@@ -191,7 +195,7 @@ export default {
 
           switch (file.type) {
             case 0:
-              insert = `<img src="//${file.url}" alt="" />`
+              insert = `<img src="${util.getImageCodeUrl(file.url, this.code)}" alt="" />`
               break
             case 1:
               insert = `<p><a href="//${file.url}" target="_blank">附件：${file.name}</a></p>`

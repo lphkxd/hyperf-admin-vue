@@ -99,8 +99,8 @@
             placement="top-start"
             trigger="hover"
             width="150">
-            <a :href="scope.row.image" target="_blank">
-              <img class="image" :src="scope.row.image" :alt="scope.row.image.name">
+            <a :href="`//${scope.row.image[0]['url']}`" target="_blank">
+              <img class="image" :src="`//${scope.row.image[0]['url']}`" alt="">
             </a>
             <cs-icon slot="reference" name="image"/>
           </el-popover>

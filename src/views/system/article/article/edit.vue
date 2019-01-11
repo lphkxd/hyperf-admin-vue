@@ -43,7 +43,9 @@
         <el-form-item
           label="封面"
           prop="image">
-          <cs-upload v-model="form.image"/>
+          <cs-upload
+            v-model="form.image"
+            v-bind:limit="1"/>
         </el-form-item>
 
         <el-form-item
@@ -86,7 +88,9 @@
         <el-form-item
           label="内容"
           prop="content">
-          <cs-tinymce v-model="form.content"/>
+          <cs-tinymce
+            v-model="form.content"
+            code="article_content"/>
         </el-form-item>
 
         <el-form-item
@@ -187,7 +191,7 @@ export default {
   },
   methods: {
     test() {
-      console.log(this.form)
+      console.log(JSON.stringify(this.form))
     }
   }
 }
