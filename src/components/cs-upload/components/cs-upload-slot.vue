@@ -3,9 +3,9 @@
     <slot name="control"/>
     <el-dialog
       width="400px"
-      :before-close="handleClose"
       :visible.sync="visible"
-      :append-to-body="true">
+      :append-to-body="true"
+      @close="handleClose">
 
       <el-upload
         ref="upload"
