@@ -7,9 +7,7 @@ export default {
     return {
       token: {},
       params: {},
-      uploadUrl: '',
-      dialogImageUrl: '',
-      dialogVisible: false
+      uploadUrl: ''
     }
   },
   mounted() {
@@ -39,8 +37,7 @@ export default {
         imgObj.src = file.url
 
         if (imgObj.fileSize > 0 || (imgObj.width > 0 && imgObj.height > 0)) {
-          this.dialogVisible = true
-          this.dialogImageUrl = imgObj.src
+          this.$preview(imgObj.src)
           return
         }
       }

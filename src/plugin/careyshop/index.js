@@ -17,6 +17,7 @@ import pluginError from '@/plugin/error'
 import pluginLog from '@/plugin/log'
 import pluginOpen from '@/plugin/open'
 import pluginHas from '@/plugin/has'
+import pluginPreview from '@/plugin/preview'
 
 export default {
   async install(Vue, options) {
@@ -36,5 +37,6 @@ export default {
     Vue.use(pluginLog)
     Vue.use(pluginOpen)
     Vue.use(pluginHas)
+    Vue.use(pluginPreview)
   }
 }

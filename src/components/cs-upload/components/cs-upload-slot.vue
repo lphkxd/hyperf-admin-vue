@@ -40,12 +40,6 @@
           size="small">确定</el-button>
       </div>
     </el-dialog>
-
-    <el-dialog
-      :visible.sync="dialogVisible"
-      :append-to-body="true">
-      <img width="100%" :src="dialogImageUrl" alt="">
-    </el-dialog>
   </div>
 </template>
 
