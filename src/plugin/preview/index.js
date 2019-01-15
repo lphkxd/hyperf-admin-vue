@@ -1,4 +1,4 @@
-import PreviewComponent from './preview'
+import PreviewComponent from './components/preview'
 
 export default {
   install(Vue, options) {
