@@ -105,7 +105,7 @@ export default {
     },
     handleConfirm() {
       this.$emit('confirm')
-      this.handleClose()
+      this.visible = false
     }
   }
 }
