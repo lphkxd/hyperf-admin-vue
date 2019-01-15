@@ -96,11 +96,14 @@
         <template slot-scope="scope">
           <el-popover
             v-if="scope.row.image.length"
-            placement="top-start"
-            trigger="hover"
-            width="150">
-            <a :href="`//${scope.row.image[0]['url']}`" target="_blank">
-              <img class="image" :src="`//${scope.row.image[0]['url']}`" alt="">
+            placement="right"
+            trigger="hover">
+            <a
+              v-for="(item, index) in scope.row.image"
+              :key="index"
+              :href="`//${item.url}`"
+              target="_blank">
+              <img class="image" :src="item.url | getPreviewUrl" align="center" alt="">
             </a>
             <cs-icon slot="reference" name="image"/>
           </el-popover>
@@ -256,6 +259,11 @@ export default {
         this.currentTableData = val
       },
       immediate: true
+    }
+  },
+  filters: {
+    getPreviewUrl(val) {
+      return util.getImageCodeUrl(val, 'article_lists')
     }
   },
   methods: {
@@ -455,7 +463,7 @@ export default {
     margin-right: 40px;
   }
   .image {
-    width: 100%;
+    width: auto;
     margin: 0 auto;
   }
 </style>
