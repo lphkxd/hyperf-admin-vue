@@ -172,7 +172,6 @@ util.getImageCodeUrl = function(url, code) {
   data += '/v1/storage/method/get.storage.thumb/code/' + code
   data += '?url=' + encodeURI(url)
 
-  console.log(data)
   return data
 }
 
