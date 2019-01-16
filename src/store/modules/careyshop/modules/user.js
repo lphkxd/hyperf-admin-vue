@@ -1,10 +1,8 @@
-import setting from '@/setting'
-
 export default {
   namespaced: true,
   state: {
     // 用户信息
-    info: setting.user.info
+    info: {}
   },
   actions: {
     /**
@@ -41,7 +39,7 @@ export default {
         state.info = await dispatch('careyshop/db/get', {
           dbName: 'sys',
           path: 'user.info',
-          defaultValue: setting.user.info,
+          defaultValue: {},
           user: true
         }, { root: true })
         // end

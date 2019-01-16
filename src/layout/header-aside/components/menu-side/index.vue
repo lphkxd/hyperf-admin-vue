@@ -85,7 +85,9 @@ export default {
     ]),
     scrollInit() {
       this.BS = new BScroll(this.$el, {
-        mouseWheel: true
+        mouseWheel: true,
+        click: true
+        // 如果你愿意可以打开显示滚动条
         // scrollbar: {
         //   fade: true,
         //   interactive: false

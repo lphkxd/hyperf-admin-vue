@@ -1,6 +1,6 @@
 <template>
   <el-dropdown class="cs-mr">
-    <span class="btn-text">您好 {{info.name}}</span>
+    <span class="btn-text">{{info.name ? `您好 ${info.name}` : '未登录'}}</span>
     <el-dropdown-menu slot="dropdown">
       <el-dropdown-item @click.native="$open('/')">
         <cs-icon name="external-link-square" class="cs-mr-10"/>打开前台

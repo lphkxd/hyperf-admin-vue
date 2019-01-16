@@ -55,11 +55,7 @@ export default {
         logoutAdminUser()
           .finally(() => {
             // 删除info
-            dispatch('careyshop/user/set', {
-              name: 'Ghost',
-              admin: {},
-              token: {}
-            }, { root: true })
+            dispatch('careyshop/user/set', {}, { root: true })
 
             // 删除cookie
             util.cookies.remove('token')
