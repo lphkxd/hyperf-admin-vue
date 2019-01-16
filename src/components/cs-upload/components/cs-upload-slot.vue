@@ -5,7 +5,7 @@
       width="400px"
       :visible.sync="visible"
       :append-to-body="true"
-      @close="handleClose">
+      :before-close="handleClose">
 
       <el-upload
         ref="upload"
@@ -105,7 +105,7 @@ export default {
     },
     handleConfirm() {
       this.$emit('confirm')
-      this.visible = false
+      this.handleClose()
     }
   }
 }

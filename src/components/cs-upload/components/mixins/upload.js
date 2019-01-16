@@ -118,7 +118,7 @@ export default {
     },
     // 文件上传失败时的钩子
     handleError(err, file, fileList) {
-      this.$message.error('资源上传失败')
+      this.$message.error(`资源：${file.name} 上传失败`)
       util.log.danger('资源上传失败：' + (err || file.response))
 
       for (let i = fileList.length - 1; i >= 0; i--) {
