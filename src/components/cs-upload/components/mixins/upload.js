@@ -115,18 +115,8 @@ export default {
           return
         }
 
-        let fileCount = 0
-        fileList.forEach(value => {
-          if (value.status === 'success') {
-            fileCount++
-          }
-        })
-
-        if (fileCount >= fileList.length) {
-          this.loading = false
-        }
-
         this.$emit('upload', fileList)
+        this.handleChange(fileList)
         return
       }
 
@@ -144,6 +134,8 @@ export default {
           break
         }
       }
+
+      this.handleChange(fileList)
     },
     // 文件超出个数限制时的钩子
     handleExceed(files, fileList) {
@@ -155,6 +147,14 @@ export default {
       if (files.length + fileList.length > this.limit) {
         const count = this.limit - fileList.length
         this.$message.warning(`上传数量超出限制，最多还能选择 ${count} 个文件`)
+      }
+    },
+    // "确定"按钮状态转换
+    handleChange(fileList) {
+      if (this.autoUpload) {
+        if (Object.keys(fileList).every(item => fileList[item].status === 'success')) {
+          this.loading = false
+        }
       }
     }
   }
