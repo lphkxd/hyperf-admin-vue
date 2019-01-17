@@ -18,7 +18,7 @@
       :on-error="handleError"
       :on-exceed="handleExceed">
       <i class="el-icon-plus"></i>
-      <div slot="tip" class="el-upload__tip">{{uploadTip}}大小不能超过 {{this.token.file_size}}</div>
+      <div slot="tip" class="el-upload__tip">{{uploadTip}}大小不能超过 {{this.token['file_size']}}</div>
     </el-upload>
   </div>
 </template>
