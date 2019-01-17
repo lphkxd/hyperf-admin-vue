@@ -36,6 +36,7 @@
 
         <el-button
           @click="handleConfirm"
+          :loading="loading"
           type="primary"
           size="small">确定</el-button>
       </div>
@@ -95,12 +96,14 @@ export default {
   },
   data() {
     return {
-      visible: false
+      visible: false,
+      loading: false
     }
   },
   methods: {
     handleClose() {
       this.visible = false
+      this.loading = false
       this.$refs.upload && this.$refs.upload.clearFiles()
     },
     handleConfirm() {

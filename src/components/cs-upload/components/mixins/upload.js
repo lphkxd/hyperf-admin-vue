@@ -101,6 +101,11 @@ export default {
         this.params['method'] = 'add.upload.list'
         this.params['sign'] = util.getSign({ ...this.params })
       }
+
+      // 自动上传时,"确定"按钮将改变状态
+      if (this.autoUpload) {
+        this.loading = true
+      }
     },
     // 文件上传成功时的钩子
     handleSuccess(response, file, fileList) {
@@ -108,6 +113,17 @@ export default {
         if (response.data[0]['status'] !== 200) {
           this.handleError(response.data[0]['message'], file, fileList)
           return
+        }
+
+        let fileCount = 0
+        fileList.forEach(value => {
+          if (value.status === 'success') {
+            fileCount++
+          }
+        })
+
+        if (fileCount >= fileList.length) {
+          this.loading = false
         }
 
         this.$emit('upload', fileList)
