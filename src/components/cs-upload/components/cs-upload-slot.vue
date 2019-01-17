@@ -26,7 +26,7 @@
         :on-exceed="handleExceed">
         <i class="el-icon-upload"></i>
         <div class="el-upload__text">将资源拖到此处，或<em>点击上传</em></div>
-        <div slot="tip" class="el-upload__tip">{{uploadTip}}大小不能超过 {{this.token.file_size}}</div>
+        <div slot="tip" class="el-upload__tip">{{uploadTip}}大小不能超过 {{this.token['file_size']}}</div>
       </el-upload>
 
       <div slot="footer" class="dialog-footer">
