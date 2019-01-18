@@ -12,10 +12,10 @@ process.env.VUE_APP_VERSION = require('./package.json').version
 const publicPath = ''
 
 module.exports = {
-  publicPath: publicPath, // 根据你的实际情况更改这里
+  publicPath, // 根据你的实际情况更改这里
   lintOnSave: true,
   devServer: {
-    publicPath: publicPath // 和 publicPath 保持一致
+    publicPath // 和 publicPath 保持一致
   },
   css: {
     loaderOptions: {
@@ -107,16 +107,10 @@ module.exports = {
       .end()
     // 重新设置 alias
     config.resolve.alias
-      .set('@', resolve('src'))
       .set('@static', resolve('public/static'))
     // node
     config.node
       .set('__dirname', true)
       .set('__filename', true)
-    // babel-polyfill 加入 entry
-    const entry = config.entry('app')
-    entry
-      .add('babel-polyfill')
-      .end()
   }
 }
