@@ -8,7 +8,7 @@
       shadow="never"
       v-loading="loading">
       <div slot="header" class="clearfix" style="text-align: center;">
-        <span>{{form.article_id ? '编辑文章' : '新增文章'}}</span>
+        <span>{{article_id ? '编辑文章' : '新增文章'}}</span>
       </div>
       <el-form
         ref="form"
@@ -32,9 +32,9 @@
             v-model="form.article_cat_id"
             :options="catData"
             :props="cascaderProps"
-            change-on-select
             filterable
             clearable
+            change-on-select
             style="width: 100%;"
             placeholder="请选择文章分类 试试搜索：首页">
           </el-cascader>
@@ -46,24 +46,6 @@
           <cs-upload
             v-model="form.image"
             v-bind:limit="1"/>
-        </el-form-item>
-
-        <el-form-item
-          label="文章来源"
-          prop="source">
-          <el-input
-            v-model="form.source"
-            placeholder="可输入文章来源"
-            clearable/>
-        </el-form-item>
-
-        <el-form-item
-          label="来源地址"
-          prop="source_url">
-          <el-input
-            v-model="form.source_url"
-            placeholder="可输入来源地址"
-            clearable/>
         </el-form-item>
 
         <el-form-item
@@ -91,6 +73,24 @@
           <cs-tinymce
             v-model="form.content"
             code="article_content"/>
+        </el-form-item>
+
+        <el-form-item
+          label="文章来源"
+          prop="source">
+          <el-input
+            v-model="form.source"
+            placeholder="可输入文章来源"
+            clearable/>
+        </el-form-item>
+
+        <el-form-item
+          label="来源地址"
+          prop="source_url">
+          <el-input
+            v-model="form.source_url"
+            placeholder="可输入来源地址"
+            clearable/>
         </el-form-item>
 
         <el-form-item
@@ -132,9 +132,9 @@
         </el-form-item>
 
         <el-form-item size="small">
-          <el-button v-if="!form.article_id" type="primary" @click="test">确定</el-button>
-          <el-button v-else type="primary">修改</el-button>
-          <el-button>取消</el-button>
+          <el-button v-if="!article_id" type="primary" @click="() => {}">确定</el-button>
+          <el-button v-else type="primary" @click="() => {}">修改</el-button>
+          <el-button @click="handleClose">取消</el-button>
         </el-form-item>
 
       </el-form>
@@ -144,7 +144,9 @@
 
 <script>
 import util from '@/utils/util'
+import { mapActions } from 'vuex'
 import { getArticleCatList } from '@/api/article/cat'
+import { getArticleItem } from '@/api/article/article'
 
 export default {
   name: 'system-article-edit',
@@ -168,30 +170,76 @@ export default {
         label: 'cat_name',
         children: 'children'
       },
-      tempData: [],
-      form: {
-      },
+      buffer: [],
+      form: {},
       rules: {
       }
     }
   },
   mounted() {
-    if (this.catData.length <= 0) {
-      this.loading = true
-      getArticleCatList(null)
-        .then(res => {
-          this.catData = res.data.length
-            ? util.formatDataToTree(res.data, 'article_cat_id')
-            : []
-        })
-        .finally(() => {
-          this.loading = false
-        })
-    }
+    this.getCatList()
+    this.getArticleData()
   },
   methods: {
-    test() {
-      console.log(JSON.stringify(this.form))
+    ...mapActions('careyshop/page', [
+      'close'
+    ]),
+    // 多窗口缓存数据选择
+    switchData(id) {
+      let data = this.buffer[id]
+      if (!data) {
+        data = {}
+        this.buffer[id] = data
+      }
+
+      this.form = data
+    },
+    // 关闭当前窗口
+    handleClose() {
+      this.close({
+        tagName: this.$route.fullPath,
+        vm: this
+      })
+    },
+    // 获取文章分类
+    getCatList() {
+      if (this.catData.length <= 0) {
+        getArticleCatList(null)
+          .then(res => {
+            this.catData = res.data.length
+              ? util.formatDataToTree(res.data, 'article_cat_id')
+              : []
+          })
+      }
+    },
+    // 获取文章数据
+    getArticleData() {
+      if (this.article_id > 0) {
+        getArticleItem(this.article_id)
+          .then(res => {
+          })
+      }
+    }
+  },
+  // 第一次进入或从其他组件对应路由进入时触发
+  beforeRouteEnter(to, from, next) {
+    const id = to.params.article_id
+    if (id >= 0) {
+      next(vm => {
+        vm.switchData(id)
+      })
+    } else {
+      next(new Error('未指定ID'))
+    }
+  },
+  // 在同一组件对应的多个路由间切换时触发
+  beforeRouteUpdate(to, from, next) {
+    const id = to.params.article_id
+    if (id >= 0) {
+      this.switchData(id)
+      next()
+    } else {
+      next(new Error('未指定ID'))
     }
   }
 }
