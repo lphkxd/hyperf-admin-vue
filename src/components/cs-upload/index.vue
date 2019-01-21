@@ -104,7 +104,9 @@ export default {
       return data
     },
     handleUploadDlg() {
-      this.$refs.upload.visible = true
+      if (this.type === 'slot') {
+        this.$refs.upload.visible = true
+      }
     }
   }
 }

@@ -36,12 +36,6 @@ export default {
       required: false,
       default: '请选择图片进行上传，'
     },
-    // 已上传的文件
-    fileList: {
-      type: Array,
-      required: false,
-      default: () => []
-    },
     // 文件列表的类型
     listType: {
       type: String,
@@ -83,6 +77,12 @@ export default {
       type: Boolean,
       required: false,
       default: true
+    }
+  },
+  data() {
+    return {
+      // 已上传的文件
+      fileList: []
     }
   }
 }
