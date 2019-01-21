@@ -71,6 +71,7 @@
           label="内容"
           prop="content">
           <cs-tinymce
+            ref="tinymce"
             v-model="form.content"
             code="article_content"/>
         </el-form-item>
@@ -190,6 +191,10 @@ export default {
       if (!data) {
         data = {}
         this.buffer[id] = data
+      }
+
+      if (this.$refs.tinymce) {
+        this.$refs.tinymce.setContent(data.content)
       }
 
       this.form = data

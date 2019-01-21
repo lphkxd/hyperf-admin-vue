@@ -173,7 +173,9 @@ export default {
       window.tinymce.remove(`#${this.tinymceId}`)
     },
     setContent(value) {
-      this.handleEditor.setContent(value)
+      this.$nextTick(() => {
+        this.handleEditor.setContent(value || '')
+      })
     },
     getContent() {
       return this.handleEditor.getContent()
