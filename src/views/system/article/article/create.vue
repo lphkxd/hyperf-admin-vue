@@ -5,7 +5,7 @@
 
 <script>
 export default {
-  name: 'system-article-edit'
+  name: 'system-article-create'
 }
 </script>
 

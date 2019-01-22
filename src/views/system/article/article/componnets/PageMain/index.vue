@@ -8,7 +8,7 @@
         <el-button-group>
           <el-button
             :disabled="loading"
-            @click="handleEdit(0)">
+            @click="handleCreate">
             <cs-icon name="plus"/>
             新增文章
           </el-button>
@@ -444,7 +444,13 @@ export default {
         }
       })
     },
-    // 创建或编辑文章
+    // 创建文章
+    handleCreate() {
+      this.$router.push({
+        name: 'system-article-create'
+      })
+    },
+    // 编辑文章
     handleEdit(key) {
       this.$router.push({
         name: 'system-article-edit',
