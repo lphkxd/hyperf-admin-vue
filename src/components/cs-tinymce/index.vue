@@ -79,7 +79,7 @@ export default {
           a                   { text-decoration:none; }
           iframe              { width:100%; }
           p                   { line-height:1.6; }
-          table               { word-wrap:break-word; word-break:break-all; max-width:100%; border:none; border-color:#999; }
+          table               { word-wrap:break-word; word-break:break-all; max-width:100%; border:none #999; }
           .mce-object-iframe  { width:100%; box-sizing:border-box; padding:0; }
           ul,ol               { list-style-position:inside; }
         `,

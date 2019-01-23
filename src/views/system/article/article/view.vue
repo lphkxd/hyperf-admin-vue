@@ -16,7 +16,7 @@
         <span>来源：<a :href="article.source_url" target="_blank">{{article.source}}</a></span>
         <span>游览量：{{article.page_views}}</span>
       </div>
-      <div v-html="article.content"></div>
+      <div class="mce-content-body" v-html="article.content"></div>
     </el-card>
   </cs-container>
 </template>
@@ -87,5 +87,44 @@ export default {
   }
   .clearfix:after {
     clear: both
+  }
+</style>
+
+<style scoped>
+  .mce-content-body {
+    padding: 0;
+  }
+  .mce-content-body>>>html, body {
+    font-family: inherit;
+    font-size: 14px;
+    line-height: inherit;
+  }
+  .mce-content-body>>>img {
+    max-width: 100%;
+    display: block;
+    height: auto;
+  }
+  .mce-content-body>>>a {
+    text-decoration: none;
+  }
+  .mce-content-body>>>iframe {
+    width: 100%;
+  }
+  .mce-content-body>>>p {
+    line-height: 1.6;
+  }
+  .mce-content-body>>>table {
+    word-wrap: break-word;
+    word-break: break-all;
+    max-width: 100%;
+    border: none #999;
+  }
+  .mce-content-body>>>.mce-object-iframe{
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0;
+  }
+  .mce-content-body>>>ul, ol{
+    list-style-position: inside;
   }
 </style>

@@ -9,7 +9,7 @@
 
     <el-form
       ref="form"
-      :model="form"
+      :model="currentForm"
       :rules="rules"
       label-width="80px">
 
@@ -17,7 +17,7 @@
         label="标题"
         prop="title">
         <el-input
-          v-model="form.title"
+          v-model="currentForm.title"
           placeholder="请输入文章标题"
           clearable/>
       </el-form-item>
@@ -26,7 +26,7 @@
         label="分类"
         prop="article_cat_id">
         <el-cascader
-          v-model="form.article_cat_id"
+          v-model="currentForm.article_cat_id"
           :options="catData"
           :props="cascaderProps"
           filterable
@@ -41,7 +41,7 @@
         label="封面"
         prop="image">
         <cs-upload
-          v-model="form.image"
+          v-model="currentForm.image"
           v-bind:limit="1"/>
       </el-form-item>
 
@@ -49,7 +49,7 @@
         label="关键词"
         prop="keywords">
         <el-input
-          v-model="form.keywords"
+          v-model="currentForm.keywords"
           placeholder="可输入文章关键词"
           clearable/>
       </el-form-item>
@@ -58,7 +58,7 @@
         label="描述"
         prop="description">
         <el-input
-          v-model="form.description"
+          v-model="currentForm.description"
           placeholder="可输入文章描述"
           type="textarea"
           :rows="3"/>
@@ -69,7 +69,7 @@
         prop="content">
         <cs-tinymce
           ref="tinymce"
-          v-model="form.content"
+          v-model="currentForm.content"
           code="article_content"/>
       </el-form-item>
 
@@ -77,7 +77,7 @@
         label="文章来源"
         prop="source">
         <el-input
-          v-model="form.source"
+          v-model="currentForm.source"
           placeholder="可输入文章来源"
           clearable/>
       </el-form-item>
@@ -86,7 +86,7 @@
         label="来源地址"
         prop="source_url">
         <el-input
-          v-model="form.source_url"
+          v-model="currentForm.source_url"
           placeholder="可输入来源地址"
           clearable/>
       </el-form-item>
@@ -95,7 +95,7 @@
         label="外部连接"
         prop="url">
         <el-input
-          v-model="form.url"
+          v-model="currentForm.url"
           placeholder="可输入文章外部连接"
           clearable/>
       </el-form-item>
@@ -103,7 +103,7 @@
       <el-form-item
         label="打开方式"
         prop="target">
-        <el-radio-group v-model="form.target">
+        <el-radio-group v-model="currentForm.target">
           <el-radio label="_self">当前窗口</el-radio>
           <el-radio label="_blank">新窗口</el-radio>
         </el-radio-group>
@@ -113,7 +113,7 @@
         label="置顶"
         prop="is_top">
         <el-switch
-          v-model="form.is_top"
+          v-model="currentForm.is_top"
           active-value="1"
           inactive-value="0">
         </el-switch>
@@ -123,14 +123,14 @@
         label="状态"
         prop="status">
         <el-switch
-          v-model="form.status"
+          v-model="currentForm.status"
           active-value="1"
           inactive-value="0">
         </el-switch>
       </el-form-item>
 
       <el-form-item size="small">
-        <el-button type="primary" @click="handleChange">{{stateButton[state]}}</el-button>
+        <el-button type="primary" :loading="dialogLoading" @click="handleConfirm">{{stateButton[state]}}</el-button>
         <el-button @click="handleClose">取消</el-button>
       </el-form-item>
 
@@ -142,6 +142,7 @@
 import util from '@/utils/util'
 import { mapActions } from 'vuex'
 import { getArticleCatList } from '@/api/article/cat'
+import { getArticleItem, addArticleItem, setArticleItem } from '@/api/article/article'
 
 export default {
   components: {
@@ -156,24 +157,16 @@ export default {
       default: 'create'
     },
     // 表单数据
-    form: {
+    formData: {
       type: Object,
-      required: true,
-      default: () => {}
-    },
-    // 滚动进度
-    loading: {
-      type: Boolean,
       required: false,
-      default: false
-    },
-    // 返回数据事件
-    onChange: {
-      type: Function
+      default: () => {}
     }
   },
   data() {
     return {
+      loading: false,
+      dialogLoading: false,
       stateMap: {
         create: '新增文章',
         update: '编辑文章'
@@ -188,17 +181,102 @@ export default {
         label: 'cat_name',
         children: 'children'
       },
-      rules: {}
+      currentForm: {
+        title: '',
+        article_cat_id: [],
+        image: [],
+        keywords: '',
+        description: '',
+        content: '',
+        source: '',
+        source_url: '',
+        url: '',
+        target: '_blank',
+        is_top: '0',
+        status: '1'
+      },
+      rules: {
+        title: [
+          {
+            required: true,
+            message: '标题不能为空',
+            trigger: 'blur'
+          },
+          {
+            max: 200,
+            message: '长度不能大于 200 个字符',
+            trigger: 'blur'
+          }
+        ],
+        article_cat_id: [
+          {
+            required: true,
+            message: '分类不能为空',
+            trigger: 'blur'
+          }
+        ],
+        keywords: [
+          {
+            max: 255,
+            message: '长度不能大于 255 个字符',
+            trigger: 'blur'
+          }
+        ],
+        description: [
+          {
+            max: 255,
+            message: '长度不能大于 255 个字符',
+            trigger: 'blur'
+          }
+        ],
+        content: [
+          {
+            required: true,
+            message: '内容不能为空',
+            trigger: 'blur'
+          }
+        ],
+        source: [
+          {
+            max: 60,
+            message: '长度不能大于 60 个字符',
+            trigger: 'blur'
+          }
+        ],
+        source_url: [
+          {
+            max: 255,
+            message: '长度不能大于 255 个字符',
+            trigger: 'blur'
+          }
+        ],
+        url: [
+          {
+            max: 255,
+            message: '长度不能大于 255 个字符',
+            trigger: 'blur'
+          }
+        ]
+      }
+    }
+  },
+  watch: {
+    formData(value) {
+      this.currentForm = value
     }
   },
   mounted() {
     // 获取文章分类数据
     if (!this.catData.length) {
+      this.loading = true
       getArticleCatList(null)
         .then(res => {
           this.catData = res.data.length
             ? util.formatDataToTree(res.data, 'article_cat_id')
             : []
+        })
+        .finally(() => {
+          this.loading = false
         })
     }
   },
@@ -213,14 +291,44 @@ export default {
         vm: this
       })
     },
-    // 返回修改后的内容至父级
-    handleChange() {
+    // 清除数据
+    clearState() {
+      this.loading = false
+      this.dialogLoading = false
+
+      this.$nextTick(() => {
+        this.$refs.form.clearValidate()
+      })
+    },
+    // 确认新增或修改
+    handleConfirm() {
       this.$refs.form.validate(valid => {
         if (valid) {
-          console.log('nono')
-          this.$emit('onChange', 'okok')
+          this.dialogLoading = true
+          this.state === 'create' ? this.handleCreate() : this.handleUpdate()
         }
       })
+    },
+    // 新增文章
+    handleCreate() {
+      // 获取分类编号
+      const { article_cat_id } = this.currentForm
+
+      // 发送添加请求
+      addArticleItem({
+        ...this.currentForm,
+        article_cat_id: article_cat_id.length > 0 ? article_cat_id[article_cat_id.length - 1] : 0
+      })
+        .then(() => {
+          this.$message.success('操作成功')
+          this.handleClose()
+        })
+        .catch(() => {
+          this.dialogLoading = false
+        })
+    },
+    // 更新文章
+    handleUpdate() {
     }
   }
 }
