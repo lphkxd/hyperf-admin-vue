@@ -90,6 +90,11 @@ export default {
           const fileName = util.guid()
           this.params['key'] = `${this.token['token']['dir']}${fileName}.${suffix}`
         }
+
+        // 阿里云的Content-Disposition处理
+        if (value.name === 'Content-Disposition') {
+          this.params['Content-Disposition'] = `attachment; filename="${encodeURI(file.name)}"`
+        }
       })
 
       // 本地上传所需要的权限参数
