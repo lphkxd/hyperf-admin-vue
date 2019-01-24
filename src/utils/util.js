@@ -175,4 +175,19 @@ util.getImageCodeUrl = function(url, code) {
   return data
 }
 
+/**
+ * 根据样式编码生成下载链接
+ * @param file
+ * @param code
+ * @returns {*}
+ */
+util.getDownloadUrl = function(file, code) {
+  let data = process.env.VUE_APP_BASE_API
+  data += '/v1/storage/method/get.storage.download/code/' + code
+  data += '?url=' + encodeURI(file.url)
+  data += '&filename=' + encodeURI(file.name)
+
+  return data
+}
+
 export default util

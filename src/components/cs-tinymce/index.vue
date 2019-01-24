@@ -200,7 +200,7 @@ export default {
               insert = `<img src="${util.getImageCodeUrl(file.url, this.code)}" alt="" />`
               break
             case 1:
-              insert = `<p><a href="//${file.url}" target="_blank">附件：${file.name}</a></p>`
+              insert = `<p><a href="${util.getDownloadUrl(file, this.code)}">附件：${file.name}</a></p>`
               break
           }
 
