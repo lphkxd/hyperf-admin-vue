@@ -181,6 +181,7 @@ export default {
       return this.handleEditor.getContent()
     },
     getUploadFileList(files) {
+      let insert = ''
       for (const value of files) {
         if (value.status !== 'success') {
           continue
@@ -192,22 +193,20 @@ export default {
         }
 
         if (response.data) {
-          let insert = ''
           const file = response.data[0]
-
           switch (file.type) {
             case 0:
-              insert = `<img src="${util.getImageCodeUrl(file.url, this.code)}" alt="" />`
+              insert += `<img src="${util.getImageCodeUrl(file.url, this.code)}" alt="" />`
               break
             case 1:
-              insert = `<p><a href="${util.getDownloadUrl(file, this.code)}">附件：${file.name}</a></p>`
+              insert += `<p><a href="${util.getDownloadUrl(file, this.code)}">附件：${file.name}</a></p>`
               break
           }
-
-          if (this.handleEditor) {
-            this.handleEditor.insertContent(insert)
-          }
         }
+      }
+
+      if (insert.length > 0 && this.handleEditor) {
+        this.handleEditor.insertContent(insert)
       }
     }
   },
