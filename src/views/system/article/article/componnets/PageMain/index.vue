@@ -470,6 +470,7 @@ export default {
   }
   .image {
     width: auto;
+    max-height: 100px;
     margin: 0 auto;
   }
 </style>
