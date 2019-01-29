@@ -140,7 +140,7 @@
 
 <script>
 import util from '@/utils/util'
-import { mapActions } from 'vuex'
+import { mapActions, mapMutations } from 'vuex'
 import { getArticleCatList } from '@/api/article/cat'
 import { getArticleItem, addArticleItem, setArticleItem } from '@/api/article/article'
 
@@ -284,6 +284,9 @@ export default {
     ...mapActions('careyshop/page', [
       'close'
     ]),
+    ...mapMutations({
+      updateAdd: 'careyshop/update/add'
+    }),
     // 关闭当前窗口
     handleClose() {
       this.close({
@@ -318,8 +321,9 @@ export default {
         ...this.currentForm,
         article_cat_id: article_cat_id.length > 0 ? article_cat_id[article_cat_id.length - 1] : 0
       })
-        .then(() => {
+        .then(res => {
           this.$message.success('操作成功')
+          this.updateAdd(this.$route.fullPath, res)
           this.handleClose()
         })
         .catch(() => {
