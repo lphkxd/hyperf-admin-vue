@@ -1,4 +1,5 @@
 import { get } from 'lodash'
+import router from '@/router'
 import setting from '@/setting'
 
 // 判定是否需要缓存
@@ -187,10 +188,9 @@ export default {
      * @param commit
      * @param dispatch
      * @param tagName 要关闭的标签名字
-     * @param vm  vue
      * @returns {Promise<any>}
      */
-    close({ state, commit, dispatch }, { tagName, vm }) {
+    close({ state, commit, dispatch }, { tagName }) {
       return new Promise(async resolve => {
         // 下个新的页面
         let newPage = state.opened[0]
@@ -233,7 +233,7 @@ export default {
             params,
             query
           }
-          vm.$router.push(routerObj)
+          router.push(routerObj)
         }
         // end
         resolve()
@@ -245,10 +245,9 @@ export default {
      * @param commit
      * @param dispatch
      * @param pageSelect  当前选中的tagName
-     * @param vm  vue
      * @returns {Promise<any>}
      */
-    closeLeft({ state, commit, dispatch }, { pageSelect, vm } = {}) {
+    closeLeft({ state, commit, dispatch }, { pageSelect } = {}) {
       return new Promise(async resolve => {
         const pageAim = pageSelect || state.current
         let currentIndex = 0
@@ -262,8 +261,8 @@ export default {
           state.opened.splice(1, currentIndex - 1).forEach(({ name }) => commit('keepAliveRemove', name))
         }
         state.current = pageAim
-        if (vm && vm.$route.fullPath !== pageAim) {
-          vm.$router.push(pageAim)
+        if (router.app.$route.fullPath !== pageAim) {
+          router.push(pageAim)
         }
         // 持久化
         await dispatch('opencsdb')
@@ -277,10 +276,9 @@ export default {
      * @param commit
      * @param dispatch
      * @param pageSelect  当前选中的tagName
-     * @param vm  vue
      * @returns {Promise<any>}
      */
-    closeRight({ state, commit, dispatch }, { pageSelect, vm } = {}) {
+    closeRight({ state, commit, dispatch }, { pageSelect } = {}) {
       return new Promise(async resolve => {
         const pageAim = pageSelect || state.current
         let currentIndex = 0
@@ -293,8 +291,8 @@ export default {
         state.opened.splice(currentIndex + 1).forEach(({ name }) => commit('keepAliveRemove', name))
         // 设置当前的页面
         state.current = pageAim
-        if (vm && vm.$route.fullPath !== pageAim) {
-          vm.$router.push(pageAim)
+        if (router.app.$route.fullPath !== pageAim) {
+          router.push(pageAim)
         }
         // 持久化
         await dispatch('opencsdb')
@@ -308,10 +306,9 @@ export default {
      * @param commit
      * @param dispatch
      * @param pageSelect  当前选中的tagName
-     * @param vm  vue
      * @returns {Promise<any>}
      */
-    closeOther({ state, commit, dispatch }, { pageSelect, vm } = {}) {
+    closeOther({ state, commit, dispatch }, { pageSelect } = {}) {
       return new Promise(async resolve => {
         const pageAim = pageSelect || state.current
         let currentIndex = 0
@@ -329,8 +326,8 @@ export default {
         }
         // 设置新的页面
         state.current = pageAim
-        if (vm && vm.$route.fullPath !== pageAim) {
-          vm.$router.push(pageAim)
+        if (router.app.$route.fullPath !== pageAim) {
+          router.push(pageAim)
         }
         // 持久化
         await dispatch('opencsdb')
@@ -343,18 +340,17 @@ export default {
      * @param state vuex state
      * @param commit
      * @param dispatch
-     * @param vm vue
      * @returns {Promise<any>}
      */
-    closeAll({ state, commit, dispatch }, vm) {
+    closeAll({ state, commit, dispatch }) {
       return new Promise(async resolve => {
         // 删除打开的页面 并在缓存设置中删除
         state.opened.splice(1).forEach(({ name }) => commit('keepAliveRemove', name))
         // 持久化
         await dispatch('opencsdb')
         // 关闭所有的标签页后需要判断一次现在是不是在首页
-        if (vm.$route.name !== 'index') {
-          vm.$router.push({
+        if (router.app.$route.name !== 'index') {
+          router.push({
             name: 'index'
           })
         }

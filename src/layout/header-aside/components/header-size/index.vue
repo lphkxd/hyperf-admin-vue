@@ -4,17 +4,8 @@
       <cs-icon name="font" style="font-size: 16px;"/>
     </el-button>
     <el-dropdown-menu slot="dropdown">
-      <el-dropdown-item command="default">
-        <cs-icon :name="iconName('default')" class="cs-mr-5"/>默认
-      </el-dropdown-item>
-      <el-dropdown-item command="medium">
-        <cs-icon :name="iconName('medium')" class="cs-mr-5"/>中
-      </el-dropdown-item>
-      <el-dropdown-item command="small">
-        <cs-icon :name="iconName('small')" class="cs-mr-5"/>小
-      </el-dropdown-item>
-      <el-dropdown-item command="mini">
-        <cs-icon :name="iconName('mini')" class="cs-mr-5"/>最小
+      <el-dropdown-item v-for="item in options" :key="item.value" :command="item.value">
+        <cs-icon :name="iconName(item.value)" class="cs-mr-5"/>{{item.label}}
       </el-dropdown-item>
     </el-dropdown-menu>
   </el-dropdown>
@@ -28,6 +19,16 @@ export default {
     ...mapState('careyshop/size', [
       'value'
     ])
+  },
+  data() {
+    return {
+      options: [
+        { label: '默认', value: 'default' },
+        { label: '中', value: 'medium' },
+        { label: '小', value: 'small' },
+        { label: '最小', value: 'mini' }
+      ]
+    }
   },
   watch: {
     // 注意 这里是关键

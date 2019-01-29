@@ -287,8 +287,7 @@ export default {
     // 关闭当前窗口
     handleClose() {
       this.close({
-        tagName: this.$route.fullPath,
-        vm: this
+        tagName: this.$route.fullPath
       })
     },
     // 清除数据

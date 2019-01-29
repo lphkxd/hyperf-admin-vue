@@ -32,7 +32,7 @@
       <el-dropdown
         size="default"
         split-button
-        @click="handleControlBtnClick"
+        @click="closeAll"
         @command="command => handleControlItemClick(command)">
         <cs-icon name="times-circle"/>
         <el-dropdown-menu slot="dropdown">
@@ -132,10 +132,11 @@ export default {
       if (tagName) {
         this.contextmenuFlag = false
       }
+
       const params = {
-        pageSelect: tagName,
-        vm: this
+        pageSelect: tagName
       }
+
       switch (command) {
         case 'left':
           this.closeLeft(params)
@@ -147,18 +148,12 @@ export default {
           this.closeOther(params)
           break
         case 'all':
-          this.closeAll(this)
+          this.closeAll()
           break
         default:
           this.$message.error('无效的操作')
           break
       }
-    },
-    /**
-     * @description 接收点击关闭控制上按钮的事件
-     */
-    handleControlBtnClick() {
-      this.closeAll(this)
     },
     /**
      * @description 接收点击 tab 标签的事件
@@ -177,8 +172,7 @@ export default {
     handleTabsEdit(tagName, action) {
       if (action === 'remove') {
         this.close({
-          tagName,
-          vm: this
+          tagName
         })
       }
     }
