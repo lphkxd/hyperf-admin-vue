@@ -2,71 +2,106 @@ export default {
   namespaced: true,
   state: {
     // 数据源
-    data: {}
-  },
-  getters: {
-    /**
-     * 返回当前数据列表数量
-     * @param state
-     * @param idx
-     * @returns {*}
-     */
-    length(state, idx) {
-      if (state.data.hasOwnProperty(idx)) {
-        return state.data[idx].length
-      }
-
-      return 0
-    }
-  },
-  actions: {
+    list: {}
   },
   mutations: {
     /**
-     * 添加一条待新增记录
+     * 添加一条待添加记录
      * @param state
-     * @param name
      * @param data
      */
-    add(state, name, data) {
-      state.data[name].push({
+    addUpdate(state, data) {
+      const insert = state.list[data.name]
+      if (!insert) {
+        state.list[data.name] = []
+      }
+
+      insert.push({
         type: 'add',
-        data: Object.assign({}, data)
+        data: Object.assign({}, data.data)
       })
     },
     /**
      * 添加一条待修改记录
      * @param state
-     * @param name
-     * @param srcId
      * @param data
      */
-    set(state, name, srcId, data) {
-      state.data[name].push({
+    setUpdate(state, data) {
+      const insert = state.list[data.name]
+      if (!insert) {
+        state.list[data.name] = []
+      }
+
+      insert.push({
         type: 'set',
-        id: srcId,
-        data: Object.assign({}, data)
+        idx: data.srcId,
+        data: Object.assign({}, data.data)
       })
     },
     /**
      * 添加一条待删除记录
      * @param state
-     * @param name
-     * @param srcId
+     * @param data
      */
-    del(state, name, srcId) {
-      state.data[name].push({
+    delUpdate(state, data) {
+      const insert = state.list[data.name]
+      if (!insert) {
+        state.list[data.name] = []
+      }
+
+      insert.push({
         type: 'del',
-        id: srcId
+        idx: data.srcId
       })
     },
     /**
-     * 清空某个模块记录
+     * 清除某个索引下的所有记录
      * @param state
      * @param name
      */
-    clear(state, name) {
-      state.data[name] = []
+    clearUpdate(state, name) {
+      state.list[name] = []
+    }
+  },
+  actions: {
+    /**
+     * 执行某个数据更新动作
+     * @param commit
+     * @param type
+     * @param data
+     */
+    updateData({ commit }, { type, data }) {
+      switch (type) {
+        case 'add':
+          commit('addUpdate', data)
+          break
+        case 'set':
+          commit('setUpdate', data)
+          break
+        case 'del':
+          commit('delUpdate', data)
+          break
+        case 'clear':
+          commit('clearUpdate', data.name)
+          break
+      }
+    },
+    updateChange({ state, commit }, { name, key, source }) {
+      // 源数据处理
+      function setSourceData(action) {
+        console.log(action, key, source)
+      }
+
+      return new Promise(resolve => {
+        if (state.list.hasOwnProperty(name) && state.list[name].length > 0) {
+          state.list[name].forEach(value => {
+            setSourceData(value)
+          })
+        }
+
+        commit('clearUpdate', name)
+        resolve()
+      })
     }
   }
 }

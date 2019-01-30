@@ -201,12 +201,8 @@
 </template>
 
 <script>
-import {
-  delArticleList,
-  setArticleTop,
-  setArticleStatus
-} from '@/api/article/article'
 import util from '@/utils/util'
+import { delArticleList, setArticleTop, setArticleStatus } from '@/api/article/article'
 
 export default {
   props: {
@@ -265,6 +261,13 @@ export default {
     getPreviewUrl(val) {
       return util.getImageCodeUrl(val, 'article_lists')
     }
+  },
+  activated() {
+    // this.$store.dispatch('careyshop/update/updateChange', {
+    //   name: 'system-article-article',
+    //   source: this.currentTableData,
+    //   key: 'article_id'
+    // })
   },
   methods: {
     // 获取列表中的文章编号

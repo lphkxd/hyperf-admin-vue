@@ -140,7 +140,7 @@
 
 <script>
 import util from '@/utils/util'
-import { mapActions, mapMutations } from 'vuex'
+import { mapActions } from 'vuex'
 import { getArticleCatList } from '@/api/article/cat'
 import { getArticleItem, addArticleItem, setArticleItem } from '@/api/article/article'
 
@@ -284,9 +284,9 @@ export default {
     ...mapActions('careyshop/page', [
       'close'
     ]),
-    ...mapMutations({
-      updateAdd: 'careyshop/update/add'
-    }),
+    ...mapActions('careyshop/update', [
+      'updateData'
+    ]),
     // 关闭当前窗口
     handleClose() {
       this.close({
@@ -322,8 +322,13 @@ export default {
         article_cat_id: article_cat_id.length > 0 ? article_cat_id[article_cat_id.length - 1] : 0
       })
         .then(res => {
+          // this.updateData({
+          //   type: 'add',
+          //   name: 'system-article-article',
+          //   data: res.data
+          // })
+
           this.$message.success('操作成功')
-          this.updateAdd(this.$route.fullPath, res)
           this.handleClose()
         })
         .catch(() => {
