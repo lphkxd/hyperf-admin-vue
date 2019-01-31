@@ -11,12 +11,11 @@ export default {
      * @param data
      */
     addUpdate(state, data) {
-      const insert = state.list[data.name]
-      if (!insert) {
+      if (!state.list[data.name]) {
         state.list[data.name] = []
       }
 
-      insert.push({
+      state.list[data.name].push({
         type: 'add',
         data: Object.assign({}, data.data)
       })
@@ -27,12 +26,11 @@ export default {
      * @param data
      */
     setUpdate(state, data) {
-      const insert = state.list[data.name]
-      if (!insert) {
+      if (!state.list[data.name]) {
         state.list[data.name] = []
       }
 
-      insert.push({
+      state.list[data.name].push({
         type: 'set',
         idx: data.srcId,
         data: Object.assign({}, data.data)
@@ -44,12 +42,11 @@ export default {
      * @param data
      */
     delUpdate(state, data) {
-      const insert = state.list[data.name]
-      if (!insert) {
+      if (!state.list[data.name]) {
         state.list[data.name] = []
       }
 
-      insert.push({
+      state.list[data.name].push({
         type: 'del',
         idx: data.srcId
       })
@@ -70,8 +67,8 @@ export default {
      * @param type
      * @param data
      */
-    updateData({ commit }, { type, data }) {
-      switch (type) {
+    updateData({ commit }, data) {
+      switch (data.type) {
         case 'add':
           commit('addUpdate', data)
           break
@@ -87,9 +84,26 @@ export default {
       }
     },
     updateChange({ state, commit }, { name, key, source }) {
-      // 源数据处理
+      // 源数据处理,每次只对源数据处理一次
       function setSourceData(action) {
-        console.log(action, key, source)
+        if (action.type === 'add') {
+          source.unshift(action.data)
+          return
+        }
+
+        for (let i = this.source.length - 1; i >= 0; i--) {
+          if (this.source[i][key] === action.idx) {
+            if (action.type === 'set') {
+              this.$set(this.source, i, action.data)
+            }
+
+            if (action.type === 'del') {
+              this.source.splice(i, 1)
+            }
+
+            break
+          }
+        }
       }
 
       return new Promise(resolve => {

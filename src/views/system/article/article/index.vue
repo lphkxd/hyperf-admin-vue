@@ -26,7 +26,9 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import { getArticleList } from '@/api/article/article'
+
 export default {
   name: 'system-article-article',
   components: {
@@ -54,6 +56,9 @@ export default {
     this.handleSubmit()
   },
   methods: {
+    ...mapActions('careyshop/update', [
+      'updateData'
+    ]),
     // 刷新列表页面
     handleRefresh() {
       this.$nextTick(() => {
@@ -88,6 +93,7 @@ export default {
         page_size: this.page.size
       })
         .then(res => {
+          this.updateData({ type: 'clear', name: 'system-article-article' })
           this.page.total = res.data.total_result
           this.table = res.data.total_result > 0 ? res.data.items : []
         })

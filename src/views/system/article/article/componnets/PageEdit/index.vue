@@ -139,10 +139,8 @@
 </template>
 
 <script>
-import util from '@/utils/util'
 import { mapActions } from 'vuex'
-import { getArticleCatList } from '@/api/article/cat'
-import { getArticleItem, addArticleItem, setArticleItem } from '@/api/article/article'
+import { addArticleItem, setArticleItem } from '@/api/article/article'
 
 export default {
   components: {
@@ -161,11 +159,28 @@ export default {
       type: Object,
       required: false,
       default: () => {}
+    },
+    // 加载状态
+    loading: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    // 分类源数据
+    catList: {
+      type: Array,
+      required: true,
+      default: () => []
+    },
+    // 整理后的分类数据
+    catData: {
+      type: Array,
+      required: true,
+      default: () => []
     }
   },
   data() {
     return {
-      loading: false,
       dialogLoading: false,
       stateMap: {
         create: '新增文章',
@@ -175,7 +190,6 @@ export default {
         create: '确定',
         update: '修改'
       },
-      catData: [],
       cascaderProps: {
         value: 'article_cat_id',
         label: 'cat_name',
@@ -261,24 +275,18 @@ export default {
     }
   },
   watch: {
-    formData(value) {
-      this.currentForm = value
-    }
-  },
-  mounted() {
-    // 获取文章分类数据
-    if (!this.catData.length) {
-      this.loading = true
-      getArticleCatList(null)
-        .then(res => {
-          this.catData = res.data.length
-            ? util.formatDataToTree(res.data, 'article_cat_id')
-            : []
-        })
-        .finally(() => {
-          this.loading = false
-        })
-    }
+    // formData: {
+    //   handler(val) {
+    //     if (this.state === 'update') {
+    //       this.currentForm = {
+    //         ...val,
+    //         article_cat_id: this._getParentId(val.article_cat_id)
+    //       }
+    //
+    //       console.log('ok', this.currentForm)
+    //     }
+    //   }
+    // }
   },
   methods: {
     ...mapActions('careyshop/page', [
@@ -287,19 +295,14 @@ export default {
     ...mapActions('careyshop/update', [
       'updateData'
     ]),
+    // 根据父ID获取所有上级编号
+    _getParentId(id) {
+      return []
+    },
     // 关闭当前窗口
     handleClose() {
       this.close({
         tagName: this.$route.fullPath
-      })
-    },
-    // 清除数据
-    clearState() {
-      this.loading = false
-      this.dialogLoading = false
-
-      this.$nextTick(() => {
-        this.$refs.form.clearValidate()
       })
     },
     // 确认新增或修改
@@ -322,11 +325,17 @@ export default {
         article_cat_id: article_cat_id.length > 0 ? article_cat_id[article_cat_id.length - 1] : 0
       })
         .then(res => {
-          // this.updateData({
-          //   type: 'add',
-          //   name: 'system-article-article',
-          //   data: res.data
-          // })
+          this.updateData({
+            type: 'add',
+            name: 'system-article-article',
+            data: {
+              ...res.data,
+              page_views: 0,
+              get_article_cat: {
+                ...this.catList.find(item => item.article_cat_id === res.data.article_cat_id)
+              }
+            }
+          })
 
           this.$message.success('操作成功')
           this.handleClose()

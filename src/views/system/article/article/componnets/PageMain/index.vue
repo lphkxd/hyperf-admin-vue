@@ -202,6 +202,7 @@
 
 <script>
 import util from '@/utils/util'
+import { mapActions } from 'vuex'
 import { delArticleList, setArticleTop, setArticleStatus } from '@/api/article/article'
 
 export default {
@@ -263,13 +264,16 @@ export default {
     }
   },
   activated() {
-    // this.$store.dispatch('careyshop/update/updateChange', {
-    //   name: 'system-article-article',
-    //   source: this.currentTableData,
-    //   key: 'article_id'
-    // })
+    this.updateChange({
+      name: 'system-article-article',
+      source: this.currentTableData,
+      key: 'article_id'
+    })
   },
   methods: {
+    ...mapActions('careyshop/update', [
+      'updateChange'
+    ]),
     // 获取列表中的文章编号
     _getArticleIdList(val) {
       if (val === null) {
@@ -456,7 +460,7 @@ export default {
     // 编辑文章
     handleEdit(key) {
       this.$router.push({
-        name: 'system-article-edit',
+        name: 'system-article-update',
         params: {
           article_id: key
         }

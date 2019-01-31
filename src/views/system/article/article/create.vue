@@ -4,12 +4,20 @@
     parentPath="system-article-article"
     @scroll="(move) => {this.scrollTop = move.y}">
 
-    <page-edit state="create"></page-edit>
+    <page-edit
+      state="create"
+      :loading="loading"
+      :catList="catList"
+      :catData="catData">
+    </page-edit>
 
   </cs-container>
 </template>
 
 <script>
+import util from '@/utils/util'
+import { getArticleCatList } from '@/api/article/cat'
+
 export default {
   name: 'system-article-create',
   components: {
@@ -17,8 +25,27 @@ export default {
   },
   data() {
     return {
-      scrollTop: 0
+      scrollTop: 0,
+      // 加载状态
+      loading: false,
+      // 分类源数据
+      catList: [],
+      // 整理后的分类数据
+      catData: []
     }
+  },
+  mounted() {
+    this.loading = true
+    getArticleCatList(null)
+      .then(res => {
+        this.catList = res.data || []
+        if (this.catList.length) {
+          this.catData = util.formatDataToTree(this.catList, 'article_cat_id')
+        }
+      })
+      .finally(() => {
+        this.loading = false
+      })
   }
 }
 </script>

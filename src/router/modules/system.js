@@ -62,11 +62,11 @@ export default {
       component: () => import('@/views/system/article/article/create')
     },
     {
-      path: 'article/edit/:article_id',
-      name: `${pre}article-edit`,
+      path: 'article/update/:article_id',
+      name: `${pre}article-update`,
       props: true,
       meta: { ...meta, cache: true, title: '编辑文章' },
-      component: () => import('@/views/system/article/article/edit')
+      component: () => import('@/views/system/article/article/update')
     },
     {
       path: 'article/topic',
