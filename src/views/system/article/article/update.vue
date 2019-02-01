@@ -47,21 +47,35 @@ export default {
     }
   },
   methods: {
-    setArticleData(data) {
-      const article = [...data]
+    getCatParentId(id, catId = []) {
+      for (const key in this.catList) {
+        if (!this.catList.hasOwnProperty(key)) {
+          continue
+        }
 
-      // 封面处理
-      // if (article.image.length) {
-      //   article.image.forEach(value => {
-      //     value.url = '//' + value.url
-      //   })
-      // }
+        if (this.catList[key].article_cat_id === id) {
+          catId.unshift(id)
+
+          if (this.catList[key].parent_id) {
+            this.getCatParentId(this.catList[key].parent_id, catId)
+          }
+
+          break
+        }
+      }
+
+      return catId
+    },
+    setArticleData(data) {
+      // 数据类型转为字符型
+      data.is_top = data.is_top.toString()
+      data.status = data.status.toString()
 
       // 分类处理
+      data.article_cat_id = this.getCatParentId(data.article_cat_id)
 
-      return article
+      return data
     },
-
     switchData(id) {
       // 缓存存在则返回缓存数据(已加工数据)
       if (this.formBuffer[id]) {
@@ -78,7 +92,7 @@ export default {
         // 分类数据已存在时
         getArticleItem(id)
           .then(res => {
-            this.formBuffer[id] = this.setArticleData(res.data)
+            this.formBuffer[id] = this.setArticleData({ ...res.data })
             this.formData = this.formBuffer[id]
           })
           .finally(() => {
@@ -100,15 +114,13 @@ export default {
             }
 
             // 处理文章数据
-            this.formBuffer[id] = this.setArticleData(res[1].data)
+            this.formBuffer[id] = this.setArticleData({ ...res[1].data })
             this.formData = this.formBuffer[id]
           })
           .finally(() => {
             this.$nextTick(() => {
               this.loading = false
             })
-
-            console.log(this)
           })
       }
     }

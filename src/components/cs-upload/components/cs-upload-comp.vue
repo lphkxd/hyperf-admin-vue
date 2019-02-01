@@ -77,12 +77,12 @@ export default {
       type: Boolean,
       required: false,
       default: true
-    }
-  },
-  data() {
-    return {
-      // 已上传的文件
-      fileList: []
+    },
+    // 已上传文件列表
+    fileList: {
+      type: Array,
+      required: false,
+      default: () => []
     }
   }
 }

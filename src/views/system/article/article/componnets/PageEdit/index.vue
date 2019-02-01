@@ -42,6 +42,7 @@
         prop="image">
         <cs-upload
           v-model="currentForm.image"
+          :fileList="imageFile"
           v-bind:limit="1"/>
       </el-form-item>
 
@@ -182,6 +183,7 @@ export default {
   data() {
     return {
       dialogLoading: false,
+      imageFile: [],
       stateMap: {
         create: '新增文章',
         update: '编辑文章'
@@ -275,18 +277,27 @@ export default {
     }
   },
   watch: {
-    // formData: {
-    //   handler(val) {
-    //     if (this.state === 'update') {
-    //       this.currentForm = {
-    //         ...val,
-    //         article_cat_id: this._getParentId(val.article_cat_id)
-    //       }
-    //
-    //       console.log('ok', this.currentForm)
-    //     }
-    //   }
-    // }
+    formData: {
+      handler(val) {
+        if (this.state === 'update') {
+          // 更新数据
+          this.currentForm = val
+          this.imageFile = val.image || []
+
+          // 更新富文本
+          if (this.$refs.tinymce) {
+            this.$refs.tinymce.setContent(val.content)
+          }
+
+          // 清除表单验证
+          if (this.$refs.form) {
+            this.$nextTick(() => {
+              this.$refs.form.clearValidate()
+            })
+          }
+        }
+      }
+    }
   },
   methods: {
     ...mapActions('careyshop/page', [
@@ -295,10 +306,6 @@ export default {
     ...mapActions('careyshop/update', [
       'updateData'
     ]),
-    // 根据父ID获取所有上级编号
-    _getParentId(id) {
-      return []
-    },
     // 关闭当前窗口
     handleClose() {
       this.close({
@@ -314,15 +321,15 @@ export default {
         }
       })
     },
+    getArticleCatId() {
+      const { article_cat_id } = this.currentForm
+      return article_cat_id.length > 0 ? article_cat_id[article_cat_id.length - 1] : 0
+    },
     // 新增文章
     handleCreate() {
-      // 获取分类编号
-      const { article_cat_id } = this.currentForm
-
-      // 发送添加请求
       addArticleItem({
         ...this.currentForm,
-        article_cat_id: article_cat_id.length > 0 ? article_cat_id[article_cat_id.length - 1] : 0
+        article_cat_id: this.getArticleCatId()
       })
         .then(res => {
           this.updateData({
@@ -340,12 +347,34 @@ export default {
           this.$message.success('操作成功')
           this.handleClose()
         })
-        .catch(() => {
+        .finally(() => {
           this.dialogLoading = false
         })
     },
     // 更新文章
     handleUpdate() {
+      setArticleItem({
+        ...this.currentForm,
+        article_cat_id: this.getArticleCatId()
+      })
+        .then(res => {
+          this.updateData({
+            type: 'set',
+            name: 'system-article-article',
+            data: {
+              ...res.data,
+              get_article_cat: {
+                ...this.catList.find(item => item.article_cat_id === res.data.article_cat_id)
+              }
+            }
+          })
+
+          this.$message.success('操作成功')
+          this.handleClose()
+        })
+        .finally(() => {
+          this.dialogLoading = false
+        })
     }
   }
 }
@@ -362,9 +391,5 @@ export default {
   }
   .box-card {
     border-radius: 0;
-  }
-  .image {
-    width: 100%;
-    margin: 0 auto;
   }
 </style>

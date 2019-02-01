@@ -96,7 +96,8 @@ export default {
         if (val.response) {
           data.push({
             name: val.response.data[0]['name'],
-            url: val.response.data[0]['url']
+            source: val.response.data[0]['url'],
+            url: '//' + val.response.data[0]['url']
           })
         }
       })

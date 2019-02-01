@@ -101,9 +101,9 @@
             <a
               v-for="(item, index) in scope.row.image"
               :key="index"
-              :href="`//${item.url}`"
+              :href="item.url"
               target="_blank">
-              <img class="image" :src="item.url | getPreviewUrl" align="center" alt="">
+              <img class="image" :src="item.source | getPreviewUrl" align="center" alt="">
             </a>
             <cs-icon slot="reference" name="image"/>
           </el-popover>
