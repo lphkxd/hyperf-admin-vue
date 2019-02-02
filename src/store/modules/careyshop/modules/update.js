@@ -91,14 +91,14 @@ export default {
           return
         }
 
-        for (let i = this.source.length - 1; i >= 0; i--) {
-          if (this.source[i][key] === action.idx) {
+        for (let i = source.length - 1; i >= 0; i--) {
+          if (source[i][key] === action.idx) {
             if (action.type === 'set') {
-              this.$set(this.source, i, action.data)
+              source[i] = { ...source[i], ...action.data }
             }
 
             if (action.type === 'del') {
-              this.source.splice(i, 1)
+              source.splice(i, 1)
             }
 
             break

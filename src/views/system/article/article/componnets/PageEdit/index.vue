@@ -361,6 +361,7 @@ export default {
           this.updateData({
             type: 'set',
             name: 'system-article-article',
+            srcId: res.data.article_id,
             data: {
               ...res.data,
               get_article_cat: {
