@@ -594,7 +594,7 @@ export default {
             let nodeId = []
             res.data.forEach(value => {
               if (value['children_total'] <= 0) {
-                nodeId.push(value.menu_id.toString())
+                nodeId.push(value.menu_id)
               }
             })
 
