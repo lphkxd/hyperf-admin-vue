@@ -4,7 +4,7 @@
       :inline="true"
       size="small">
 
-      <el-form-item>
+      <el-form-item v-if="auth.add">
         <el-button-group>
           <el-button
             :disabled="loading"
@@ -15,9 +15,10 @@
         </el-button-group>
       </el-form-item>
 
-      <el-form-item>
+      <el-form-item v-if="auth.top || auth.remove_top">
         <el-button-group>
           <el-button
+            v-if="auth.top"
             :disabled="loading"
             @click="handleTop(null, 1, true)">
             <cs-icon name="level-up"/>
@@ -25,6 +26,7 @@
           </el-button>
 
           <el-button
+            v-if="auth.remove_top"
             :disabled="loading"
             @click="handleTop(null, 0, true)">
             <cs-icon name="level-down"/>
@@ -33,9 +35,10 @@
         </el-button-group>
       </el-form-item>
 
-      <el-form-item>
+      <el-form-item v-if="auth.enable || auth.disable">
         <el-button-group>
           <el-button
+            v-if="auth.enable"
             :disabled="loading"
             @click="handleStatus(null, 1, true)">
             <cs-icon name="check"/>
@@ -43,6 +46,7 @@
           </el-button>
 
           <el-button
+            v-if="auth.disable"
             :disabled="loading"
             @click="handleStatus(null, 0, true)">
             <cs-icon name="close"/>
@@ -51,7 +55,7 @@
         </el-button-group>
       </el-form-item>
 
-      <el-form-item>
+      <el-form-item v-if="auth.del">
         <el-button-group>
           <el-button
             :disabled="loading"
@@ -136,7 +140,7 @@
           <el-tag
             size="mini"
             :type="topMap[scope.row.is_top].type"
-            style="cursor: pointer;"
+            :style="auth.top || auth.remove_top ? 'cursor: pointer;' : ''"
             @click.native="handleTop(scope.$index)">
             {{topMap[scope.row.is_top].text}}
           </el-tag>
@@ -153,7 +157,7 @@
           <el-tag
             size="mini"
             :type="statusMap[scope.row.status].type"
-            style="cursor: pointer;"
+            :style="auth.enable || auth.disable ? 'cursor: pointer;' : ''"
             @click.native="handleStatus(scope.$index)">
             {{statusMap[scope.row.status].text}}
           </el-tag>
@@ -174,6 +178,7 @@
         min-width="100">
         <template slot-scope="scope">
           <el-button
+            v-if="auth.view"
             size="small"
             @click="handleView(scope.$index)"
             type="text">
@@ -186,11 +191,13 @@
             {{scope.row.url ? '外链' : '预览'}}</el-button>
 
           <el-button
+            v-if="auth.set"
             size="small"
             @click="handleEdit(scope.row.article_id)"
             type="text">编辑</el-button>
 
           <el-button
+            v-if="auth.del"
             size="small"
             @click="handleDelete(scope.$index)"
             type="text">删除</el-button>
@@ -219,7 +226,16 @@ export default {
       currentTableData: [],
       multipleSelection: [],
       helpContent: '暂无帮助内容',
-      auth: {},
+      auth: {
+        add: false,
+        del: false,
+        set: false,
+        view: false,
+        top: false,
+        remove_top: false,
+        enable: false,
+        disable: false
+      },
       topMap: {
         0: {
           text: '普通',
@@ -269,6 +285,16 @@ export default {
       source: this.currentTableData,
       key: 'article_id'
     })
+  },
+  mounted() {
+    this.auth.add = this.$has('/system/article/article/add')
+    this.auth.del = this.$has('/system/article/article/del')
+    this.auth.set = this.$has('/system/article/article/set')
+    this.auth.view = this.$has('/system/article/article/view')
+    this.auth.top = this.$has('/system/article/article/top')
+    this.auth.remove_top = this.$has('/system/article/article/remove_top')
+    this.auth.enable = this.$has('/system/article/article/enable')
+    this.auth.disable = this.$has('/system/article/article/disable')
   },
   methods: {
     ...mapActions('careyshop/update', [
@@ -341,6 +367,16 @@ export default {
           return
         }
 
+        // 禁用权限检测
+        if (newStatus === 0 && !this.auth.disable) {
+          return
+        }
+
+        // 启用权限检测
+        if (newStatus === 1 && !this.auth.enable) {
+          return
+        }
+
         this.$set(this.currentTableData, val, { ...oldData, status: 2 })
         setStatus(article_id, newStatus, this)
         return
@@ -386,6 +422,16 @@ export default {
         const newTop = oldData.is_top ? 0 : 1
 
         if (oldData.is_top > 1) {
+          return
+        }
+
+        // 禁用权限检测
+        if (newTop === 0 && !this.auth.remove_top) {
+          return
+        }
+
+        // 启用权限检测
+        if (newTop === 1 && !this.auth.top) {
           return
         }
 
