@@ -491,7 +491,7 @@ export default {
       }
 
       this.$router.push({
-        name: 'system-article-view',
+        name: 'system-article-article-view',
         params: {
           article_id: this.currentTableData[index].article_id
         }
@@ -500,13 +500,13 @@ export default {
     // 创建文章
     handleCreate() {
       this.$router.push({
-        name: 'system-article-create'
+        name: 'system-article-article-create'
       })
     },
     // 编辑文章
     handleEdit(key) {
       this.$router.push({
-        name: 'system-article-update',
+        name: 'system-article-article-update',
         params: {
           article_id: key
         }

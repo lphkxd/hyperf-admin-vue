@@ -19,7 +19,7 @@ import util from '@/utils/util'
 import { getArticleCatList } from '@/api/article/cat'
 
 export default {
-  name: 'system-article-create',
+  name: 'system-article-article-create',
   components: {
     'PageEdit': () => import('./componnets/PageEdit')
   },

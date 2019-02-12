@@ -21,7 +21,7 @@ import { getArticleCatList } from '@/api/article/cat'
 import { getArticleItem } from '@/api/article/article'
 
 export default {
-  name: 'system-article-update',
+  name: 'system-article-article-update',
   components: {
     'PageEdit': () => import('./componnets/PageEdit')
   },

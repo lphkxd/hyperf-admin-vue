@@ -43,21 +43,21 @@ export default {
       component: () => import('@/views/system/article/article')
     },
     {
-      path: 'article/view/:article_id',
-      name: `${pre}article-view`,
+      path: 'article/article/view/:article_id',
+      name: `${pre}article-article-view`,
       props: true,
       meta: { ...meta, title: '文章预览' },
       component: () => import('@/views/system/article/article/view')
     },
     {
-      path: 'article/create',
-      name: `${pre}article-create`,
+      path: 'article/article/create',
+      name: `${pre}article-article-create`,
       meta: { ...meta, cache: true, title: '新增文章' },
       component: () => import('@/views/system/article/article/create')
     },
     {
-      path: 'article/update/:article_id',
-      name: `${pre}article-update`,
+      path: 'article/article/update/:article_id',
+      name: `${pre}article-article-update`,
       props: true,
       meta: { ...meta, cache: true, title: '编辑文章' },
       component: () => import('@/views/system/article/article/update')
