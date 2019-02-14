@@ -79,7 +79,7 @@
         label="所属类型"
         align="center">
         <template slot-scope="scope">
-          {{scope.row.system ? '系统保留' : '自行添加'}}
+          {{scope.row.system ? '系统保留' : '用户添加'}}
         </template>
       </el-table-column>
 
