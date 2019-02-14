@@ -12,8 +12,8 @@
         slot="header"
         class="clearfix">
         <h2>{{topic.title}}</h2>
+        <span>创建时间：{{topic.create_time}}</span>
         <span>最后编辑：{{topic.update_time}}</span>
-        <span>别名：{{topic.alias}}</span>
       </div>
       <div class="mce-content-body" v-html="topic.content"></div>
     </el-card>

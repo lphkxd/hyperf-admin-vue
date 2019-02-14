@@ -69,6 +69,26 @@ export default {
       component: () => import('@/views/system/article/topic')
     },
     {
+      path: 'article/topic/view/:topic_id',
+      name: `${pre}article-topic-view`,
+      props: true,
+      meta: { ...meta, title: '专题预览' },
+      component: () => import('@/views/system/article/topic/view')
+    },
+    {
+      path: 'article/topic/create',
+      name: `${pre}article-topic-create`,
+      meta: { ...meta, cache: true, title: '新增专题' },
+      component: () => import('@/views/system/article/topic/create')
+    },
+    {
+      path: 'article/topic/update/:topic_id',
+      name: `${pre}article-topic-update`,
+      props: true,
+      meta: { ...meta, cache: true, title: '编辑专题' },
+      component: () => import('@/views/system/article/topic/update')
+    },
+    {
       path: 'action/log',
       name: `${pre}action-log`,
       meta: { ...meta, cache: true, title: '日志记录' },

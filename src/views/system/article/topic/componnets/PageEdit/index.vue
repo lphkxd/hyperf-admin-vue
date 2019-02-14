@@ -18,32 +18,17 @@
         prop="title">
         <el-input
           v-model="currentForm.title"
-          placeholder="请输入文章标题"
+          placeholder="请输入专题标题"
           clearable/>
       </el-form-item>
 
       <el-form-item
-        label="分类"
-        prop="article_cat_id">
-        <el-cascader
-          v-model="currentForm.article_cat_id"
-          :options="catData"
-          :props="cascaderProps"
-          filterable
-          clearable
-          change-on-select
-          style="width: 100%;"
-          placeholder="请选择文章分类 试试搜索：首页">
-        </el-cascader>
-      </el-form-item>
-
-      <el-form-item
-        label="封面"
-        prop="image">
-        <cs-upload
-          v-model="currentForm.image"
-          :fileList="imageFile"
-          v-bind:limit="1"/>
+        label="别名"
+        prop="alias">
+        <el-input
+          v-model="currentForm.alias"
+          placeholder="可输入专题别名"
+          clearable/>
       </el-form-item>
 
       <el-form-item
@@ -51,7 +36,7 @@
         prop="keywords">
         <el-input
           v-model="currentForm.keywords"
-          placeholder="可输入文章关键词"
+          placeholder="可输入专题关键词"
           clearable/>
       </el-form-item>
 
@@ -60,7 +45,7 @@
         prop="description">
         <el-input
           v-model="currentForm.description"
-          placeholder="可输入文章描述"
+          placeholder="可输入专题描述"
           type="textarea"
           :rows="3"/>
       </el-form-item>
@@ -71,53 +56,7 @@
         <cs-tinymce
           ref="tinymce"
           v-model="currentForm.content"
-          code="article_content"/>
-      </el-form-item>
-
-      <el-form-item
-        label="文章来源"
-        prop="source">
-        <el-input
-          v-model="currentForm.source"
-          placeholder="可输入文章来源"
-          clearable/>
-      </el-form-item>
-
-      <el-form-item
-        label="来源地址"
-        prop="source_url">
-        <el-input
-          v-model="currentForm.source_url"
-          placeholder="可输入来源地址"
-          clearable/>
-      </el-form-item>
-
-      <el-form-item
-        label="外部连接"
-        prop="url">
-        <el-input
-          v-model="currentForm.url"
-          placeholder="可输入文章外部连接"
-          clearable/>
-      </el-form-item>
-
-      <el-form-item
-        label="打开方式"
-        prop="target">
-        <el-radio-group v-model="currentForm.target">
-          <el-radio label="_self">当前窗口</el-radio>
-          <el-radio label="_blank">新窗口</el-radio>
-        </el-radio-group>
-      </el-form-item>
-
-      <el-form-item
-        label="置顶"
-        prop="is_top">
-        <el-switch
-          v-model="currentForm.is_top"
-          active-value="1"
-          inactive-value="0">
-        </el-switch>
+          code="topic_content"/>
       </el-form-item>
 
       <el-form-item
@@ -141,11 +80,10 @@
 
 <script>
 import { mapActions } from 'vuex'
-import { addArticleItem, setArticleItem } from '@/api/article/article'
+import { addTopicItem, setTopicItem } from '@/api/article/topic'
 
 export default {
   components: {
-    'csUpload': () => import('@/components/cs-upload'),
     'csTinymce': () => import('@/components/cs-tinymce')
   },
   props: {
@@ -166,49 +104,25 @@ export default {
       type: Boolean,
       required: false,
       default: false
-    },
-    // 分类源数据
-    catList: {
-      type: Array,
-      required: true,
-      default: () => []
-    },
-    // 整理后的分类数据
-    catData: {
-      type: Array,
-      required: true,
-      default: () => []
     }
   },
   data() {
     return {
       dialogLoading: false,
-      imageFile: [],
       stateMap: {
-        create: '新增文章',
-        update: '编辑文章'
+        create: '新增专题',
+        update: '编辑专题'
       },
       stateButton: {
         create: '确定',
         update: '修改'
       },
-      cascaderProps: {
-        value: 'article_cat_id',
-        label: 'cat_name',
-        children: 'children'
-      },
       currentForm: {
         title: '',
-        article_cat_id: [],
-        image: [],
+        alias: '',
+        content: '',
         keywords: '',
         description: '',
-        content: '',
-        source: '',
-        source_url: '',
-        url: '',
-        target: '_blank',
-        is_top: '0',
         status: '1'
       },
       rules: {
@@ -224,10 +138,10 @@ export default {
             trigger: 'blur'
           }
         ],
-        article_cat_id: [
+        alias: [
           {
-            required: true,
-            message: '分类不能为空',
+            max: 100,
+            message: '长度不能大于 100 个字符',
             trigger: 'blur'
           }
         ],
@@ -251,27 +165,6 @@ export default {
             message: '内容不能为空',
             trigger: 'blur'
           }
-        ],
-        source: [
-          {
-            max: 60,
-            message: '长度不能大于 60 个字符',
-            trigger: 'blur'
-          }
-        ],
-        source_url: [
-          {
-            max: 255,
-            message: '长度不能大于 255 个字符',
-            trigger: 'blur'
-          }
-        ],
-        url: [
-          {
-            max: 255,
-            message: '长度不能大于 255 个字符',
-            trigger: 'blur'
-          }
         ]
       }
     }
@@ -282,7 +175,6 @@ export default {
         if (this.state === 'update') {
           // 更新数据
           this.currentForm = val
-          this.imageFile = val.image || []
 
           // 更新富文本
           if (this.$refs.tinymce) {
@@ -323,27 +215,14 @@ export default {
         }
       })
     },
-    getArticleCatId() {
-      const { article_cat_id } = this.currentForm
-      return article_cat_id.length > 0 ? article_cat_id[article_cat_id.length - 1] : 0
-    },
-    // 新增文章
+    // 新增专题
     handleCreate() {
-      addArticleItem({
-        ...this.currentForm,
-        article_cat_id: this.getArticleCatId()
-      })
+      addTopicItem({ ...this.currentForm })
         .then(res => {
           this.updateData({
             type: 'add',
-            name: 'system-article-article',
-            data: {
-              ...res.data,
-              page_views: 0,
-              get_article_cat: {
-                ...this.catList.find(item => item.article_cat_id === res.data.article_cat_id)
-              }
-            }
+            name: 'system-article-topic',
+            data: { ...res.data }
           })
 
           this.$message.success('操作成功')
@@ -353,23 +232,15 @@ export default {
           this.dialogLoading = false
         })
     },
-    // 更新文章
+    // 更新专题
     handleUpdate() {
-      setArticleItem({
-        ...this.currentForm,
-        article_cat_id: this.getArticleCatId()
-      })
+      setTopicItem({ ...this.currentForm })
         .then(res => {
           this.updateData({
             type: 'set',
-            name: 'system-article-article',
-            srcId: res.data.article_id,
-            data: {
-              ...res.data,
-              get_article_cat: {
-                ...this.catList.find(item => item.article_cat_id === res.data.article_cat_id)
-              }
-            }
+            name: 'system-article-topic',
+            srcId: res.data.topic_id,
+            data: { ...res.data }
           })
 
           this.$message.success('操作成功')
