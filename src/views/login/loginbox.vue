@@ -108,7 +108,6 @@ export default {
           // 登录,暂时没有对验证码进行处理
           this.loading = true
           this.login({
-            vm: this,
             username: this.loginForm.username,
             password: this.loginForm.password
           })

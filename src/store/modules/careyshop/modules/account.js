@@ -8,11 +8,10 @@ export default {
     /**
      * @description 登录
      * @param {Object} param dispatch
-     * @param {Object} param vm {Object} vue 实例
      * @param {Object} param username {String} 用户账号
      * @param {Object} param password {String} 密码
      */
-    login({ dispatch }, { vm, username, password }) {
+    login({ dispatch }, { username, password }) {
       return new Promise((resolve, reject) => {
         loginAdminUser(username, password)
           .then(res => {

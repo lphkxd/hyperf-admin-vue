@@ -1,4 +1,5 @@
 import util from '@/utils/util'
+import router from '@/router'
 import { cloneDeep } from 'lodash'
 
 /**
@@ -114,19 +115,17 @@ export default {
     /**
      * @description 获取存储数据库对象 [ 区分页面 ]
      * @param {Object} context context
-     * @param {Object} param vm {Object} vue
      * @param {Object} param basis {String} 页面区分依据 [ name | path | fullPath ]
      * @param {Object} param user {Boolean} 是否区分用户
      */
     databasePage(context, {
-      vm,
       basis = 'fullPath',
       user = false
     } = {}) {
       return new Promise(resolve => {
         resolve(util.db.get(pathInit({
           dbName: 'database',
-          path: `$page.${vm.$route[basis]}`,
+          path: `$page.${router.app.$route[basis]}`,
           user,
           defaultValue: {}
         })))
@@ -135,19 +134,17 @@ export default {
     /**
      * @description 清空存储数据库对象 [ 区分页面 ]
      * @param {Object} context context
-     * @param {Object} param vm {Object} vue
      * @param {Object} param basis {String} 页面区分依据 [ name | path | fullPath ]
      * @param {Object} param user {Boolean} 是否区分用户
      */
     databasePageClear(context, {
-      vm,
       basis = 'fullPath',
       user = false
     } = {}) {
       return new Promise(resolve => {
         resolve(util.db.get(pathInit({
           dbName: 'database',
-          path: `$page.${vm.$route[basis]}`,
+          path: `$page.${router.app.$route[basis]}`,
           user,
           validator: () => false,
           defaultValue: {}
@@ -157,62 +154,60 @@ export default {
     /**
      * @description 快速将页面当前的数据 ( $data ) 持久化
      * @param {Object} context context
-     * @param {Object} param vm {Object} vue
+     * @param {Object} param instance {Object} vue
      * @param {Object} param basis {String} 页面区分依据 [ name | path | fullPath ]
      * @param {Object} param user {Boolean} 是否区分用户
      */
     pageSet(context, {
-      vm,
+      instance,
       basis = 'fullPath',
       user = false
     }) {
       return new Promise(resolve => {
         resolve(util.db.get(pathInit({
           dbName: 'database',
-          path: `$page.${vm.$route[basis]}.$data`,
+          path: `$page.${router.app.$route[basis]}.$data`,
           user,
           validator: () => false,
-          defaultValue: cloneDeep(vm.$data)
+          defaultValue: cloneDeep(instance.$data)
         })))
       })
     },
     /**
      * @description 快速获取页面快速持久化的数据
      * @param {Object} context context
-     * @param {Object} param vm {Object} vue
+     * @param {Object} param instance {Object} vue
      * @param {Object} param basis {String} 页面区分依据 [ name | path | fullPath ]
      * @param {Object} param user {Boolean} 是否区分用户
      */
     pageGet(context, {
-      vm,
+      instance,
       basis = 'fullPath',
       user = false
     }) {
       return new Promise(resolve => {
         resolve(cloneDeep(util.db.get(pathInit({
           dbName: 'database',
-          path: `$page.${vm.$route[basis]}.$data`,
+          path: `$page.${router.app.$route[basis]}.$data`,
           user,
-          defaultValue: cloneDeep(vm.$data)
+          defaultValue: cloneDeep(instance.$data)
         })).value()))
       })
     },
     /**
      * @description 清空页面快照
      * @param {Object} context context
-     * @param {Object} param vm {Object} vue
      * @param {Object} param basis {String} 页面区分依据 [ name | path | fullPath ]
      * @param {Object} param user {Boolean} 是否区分用户
      */
     pageClear(context, {
-      vm,
       basis = 'fullPath',
       user = false
     }) {
       return new Promise(resolve => {
         resolve(util.db.get(pathInit({
           dbName: 'database',
-          path: `$page.${vm.$route[basis]}.$data`,
+          path: `$page.${router.app.$route[basis]}.$data`,
           user,
           validator: () => false,
           defaultValue: {}

@@ -128,9 +128,7 @@ export default {
   // 第一次进入或从其他组件对应路由进入时触发
   beforeRouteEnter(to, from, next) {
     if (to.params.article_id) {
-      next(vm => {
-        vm.switchData(to.params.article_id)
-      })
+      next(instance => { instance.switchData(to.params.article_id) })
     } else {
       next(new Error('未指定ID'))
     }

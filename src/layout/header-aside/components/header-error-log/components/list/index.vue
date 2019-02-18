@@ -1,65 +1,65 @@
 <template>
   <el-table
-    :data="logReverse"
+    :data="logReversed"
     border
     stripe
     style="width: 100%"
     size="mini">
 
     <el-table-column type="expand">
-      <div slot-scope="props" class="cs-error-log-list__expand-group">
+      <div slot-scope="{ row = {} }" class="cs-error-log-list__expand-group">
         <expand-item
-          :type="props.row.type"
+          :type="row.type"
           title="类型"
-          :value="props.row.type === 'log' ? '日志' : '异常'"/>
+          :value="row.type === 'log' ? '日志' : '异常'"/>
         <expand-item
-          :type="props.row.type"
+          :type="row.type"
           title="内容"
-          :value="props.row.info"/>
+          :value="row.info"/>
         <expand-item
-          v-if="props.row.type === 'error'"
+          v-if="row.type === 'error'"
           type="error"
           title="报错组件"
-          :value="get(props.row.vm, '$vnode.tag', '')"/>
+          :value="get(row, 'instance.$vnode.tag', '')"/>
         <expand-item
-          v-if="props.row.type === 'error'"
+          v-if="row.type === 'error'"
           type="error"
           title="错误名称"
-          :value="get(props.row.err, 'name', '')"/>
+          :value="get(row, 'err.name', '')"/>
         <expand-item
-          v-if="props.row.type === 'error'"
+          v-if="row.type === 'error'"
           type="error"
           title="错误信息"
-          :value="get(props.row.err, 'message', '')"/>
+          :value="get(row, 'err.message', '')"/>
         <expand-item
-          v-if="props.row.type === 'error'"
+          v-if="row.type === 'error'"
           type="error"
           title="错误堆栈"
           value="见下">
           <div style="overflow: auto;">
-            <pre>{{stackBeautify(props.row.err)}}</pre>
+            <pre>{{stackBeautify(row.err)}}</pre>
           </div>
         </expand-item>
         <expand-item
-          :type="props.row.type"
+          :type="row.type"
           title="用户名"
-          :value="get(props.row.user, 'name', '')"/>
+          :value="get(row, 'user.name', '')"/>
         <expand-item
-          :type="props.row.type"
+          :type="row.type"
           title="uuid"
-          :value="props.row.uuid"/>
+          :value="row.uuid"/>
         <expand-item
-          :type="props.row.type"
+          :type="row.type"
           title="token"
-          :value="props.row.token"/>
+          :value="row.token"/>
         <expand-item
-          :type="props.row.type"
+          :type="row.type"
           title="页面地址"
-          :value="props.row.url"/>
+          :value="row.url"/>
         <expand-item
-          :type="props.row.type"
+          :type="row.type"
           title="时间"
-          :value="props.row.time"/>
+          :value="row.time"/>
       </div>
     </el-table-column>
 
@@ -77,7 +77,7 @@
       filter-placement="bottom">
       <template slot-scope="scope">
         <el-tag
-          v-if="scope.row.type === 'error'"
+          v-if="get(scope, 'row.type') === 'error'"
           size="mini"
           type="danger">
           <cs-icon name="bug"/> Bug
@@ -108,13 +108,13 @@
       label="错误类型"
       width="140px"
       :show-overflow-tooltip="true">
-      <template slot-scope="scope">{{get(scope.row.err, 'name', '')}}</template>
+      <template slot-scope="scope">{{get(scope, 'row.err.name', '')}}</template>
     </el-table-column>
 
     <el-table-column
       label="错误信息"
       width="300px">
-      <template slot-scope="scope">{{get(scope.row.err, 'message', '')}}</template>
+      <template slot-scope="scope">{{get(scope, 'row.err.message', '')}}</template>
     </el-table-column>
 
   </el-table>
@@ -122,7 +122,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import { get } from 'lodash'
+import { get, cloneDeep } from 'lodash'
 import ExpandItem from './components/ExpandItem'
 
 export default {
@@ -134,14 +134,8 @@ export default {
     ...mapState('careyshop', {
       logList: state => state.log.list
     }),
-    logReverse() {
-      // 直接 reverse 的话有点问题
-      const res = []
-      const loglength = this.logList.length
-      this.logList.forEach((log, index) => {
-        res.push(this.logList[loglength - 1 - index])
-      })
-      return res
+    logReversed() {
+      return cloneDeep(this.logList).reverse()
     }
   },
   methods: {
@@ -150,10 +144,7 @@ export default {
       return row.type === value
     },
     stackBeautify(err) {
-      if (!err) {
-        return ''
-      }
-      return err.stack
+      return get(err, 'stack', '')
     }
   }
 }
@@ -165,18 +156,18 @@ export default {
     padding-left: 20px;
     margin-bottom: 10px;
     &:last-child {
-      margin-bottom: 0px;
+      margin-bottom: 0;
     }
     .cs-error-log-list__expand-title {
       font-size: 16px;
       font-weight: bold;
-      margin-top: 0px;
+      margin-top: 0;
       margin-bottom: 10px;
     }
     .cs-error-log-list__expand-value {
       font-size: 12px;
-      margin-top: 0px;
-      margin-bottom: 0px;
+      margin-top: 0;
+      margin-bottom: 0;
     }
   }
   .cs-error-log-list__expand--log {
