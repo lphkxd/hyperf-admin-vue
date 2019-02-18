@@ -93,6 +93,12 @@ export default {
       name: `${pre}action-log`,
       meta: { ...meta, cache: true, title: '日志记录' },
       component: () => import('@/views/system/action/log')
+    },
+    {
+      path: 'ads/position',
+      name: `${pre}ads-position`,
+      meta: { ...meta, cache: true, title: '广告位置' },
+      component: () => import('@/views/system/ads/position')
     }
   ])('system-')
 }

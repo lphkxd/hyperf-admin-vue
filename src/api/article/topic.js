@@ -81,7 +81,7 @@ export function getTopicList(data) {
 
 /**
  * 批量设置专题是否显示
- * @param {Number} topic_id
+ * @param {Array} topic_id
  * @param {Number} status
  */
 export function setTopicStatus(topic_id, status) {
