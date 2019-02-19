@@ -175,12 +175,36 @@
         :rules="rules"
         ref="form"
         label-width="80px">
+        <el-row>
+          <el-col :span="14">
+            <el-form-item
+              label="名称"
+              prop="name">
+              <el-input
+                v-model="form.name"
+                placeholder="请输入广告位置名称"
+                clearable/>
+            </el-form-item>
+          </el-col>
+
+          <el-col :span="10">
+            <el-form-item
+              label="编码"
+              prop="code">
+              <el-input
+                v-model="form.code"
+                placeholder="可输入广告位置编码"
+                clearable/>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
         <el-form-item
-          label="名称"
-          prop="name">
+          label="描述"
+          prop="description">
           <el-input
-            v-model="form.name"
-            placeholder="请输入广告位置名称"
+            v-model="form.description"
+            placeholder="可输入广告位置描述"
             clearable/>
         </el-form-item>
       </el-form>
