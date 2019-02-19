@@ -8,7 +8,7 @@
         <el-button-group>
           <el-button
             :disabled="loading"
-            @click="() => {}">
+            @click="create">
             <cs-icon name="plus"/>
             新增位置
           </el-button>
@@ -154,7 +154,7 @@
         <template slot-scope="scope">
           <el-button
             size="small"
-            @click="handleEdit(scope.row.ads_position_id)"
+            @click="edit(scope.$index)"
             type="text">编辑</el-button>
 
           <el-button
@@ -163,13 +163,40 @@
             type="text">删除</el-button>
         </template>
       </el-table-column>
-
     </el-table>
+
+    <el-dialog
+      :title="textMap[dialogStatus]"
+      :visible.sync="dialogFormVisible"
+      :append-to-body="true">
+
+      <div slot="footer" class="dialog-footer">
+        <el-button
+          @click="dialogFormVisible = false"
+          size="small">取消</el-button>
+
+        <el-button
+          v-if="dialogStatus === 'create'"
+          type="primary"
+          :loading="dialogLoading"
+          @click="handleCreate"
+          size="small">确定</el-button>
+
+        <el-button
+          v-else type="primary"
+          :loading="dialogLoading"
+          @click="handleUpdate(form.index)"
+          size="small">修改</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { setAdsPositionStatus, delAdsPositionList } from '@/api/ads/position'
+import {
+  setAdsPositionStatus,
+  delAdsPositionList
+} from '@/api/ads/position'
 
 export default {
   props: {
@@ -185,6 +212,13 @@ export default {
       currentTableData: [],
       multipleSelection: [],
       helpContent: '暂无帮助内容',
+      dialogLoading: false,
+      dialogFormVisible: false,
+      dialogStatus: '',
+      textMap: {
+        update: '编辑位置',
+        create: '新增位置'
+      },
       platformMap: {
         0: 'all',
         1: 'pc',
@@ -221,6 +255,21 @@ export default {
           text: '...',
           type: 'info'
         }
+      },
+      form: {
+        name: undefined,
+        code: undefined,
+        platform: undefined,
+        description: undefined,
+        width: undefined,
+        height: undefined,
+        content: undefined,
+        color: undefined,
+        type: undefined,
+        display: undefined,
+        status: undefined
+      },
+      rules: {
       }
     }
   },
@@ -345,6 +394,30 @@ export default {
         })
         .catch(() => {
         })
+    },
+    // 新建位置
+    create() {
+      this.form = {
+        name: '',
+        code: '',
+        platform: 0,
+        description: '',
+        width: 0,
+        height: 0,
+        content: '',
+        color: '#ffffff',
+        type: '0',
+        display: '0',
+        status: '1'
+      }
+
+      this.$nextTick(() => {
+        this.$refs.form.clearValidate()
+      })
+
+      this.dialogStatus = 'create'
+      this.dialogLoading = false
+      this.dialogFormVisible = true
     }
   }
 }
