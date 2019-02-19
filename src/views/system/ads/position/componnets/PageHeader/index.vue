@@ -1,0 +1,113 @@
+<template>
+  <el-form
+    :inline="true"
+    :model="form"
+    ref="form"
+    size="mini"
+    style="margin-bottom: -18px;">
+
+    <el-form-item label="名称" prop="name">
+      <el-input
+        v-model="form.name"
+        clearable
+        placeholder="广告位置名称"
+        @keyup.enter.native="handleFormSubmit"
+        style="width: 180px;"/>
+    </el-form-item>
+
+    <el-form-item label="编码" prop="code">
+      <el-input
+        v-model="form.code"
+        clearable
+        placeholder="广告位置编码"
+        @keyup.enter.native="handleFormSubmit"
+        style="width: 130px;"/>
+    </el-form-item>
+
+    <el-form-item label="类型" prop="type">
+      <el-select
+        v-model="form.type"
+        clearable
+        placeholder="请选择"
+        style="width: 100px;"
+        value="">
+        <el-option label="图片" value="0"/>
+        <el-option label="代码" value="1"/>
+      </el-select>
+    </el-form-item>
+
+    <el-form-item label="展示方式" prop="display">
+      <el-select
+        v-model="form.display"
+        clearable
+        placeholder="请选择"
+        style="width: 120px;"
+        value="">
+        <el-option label="多个广告" value="0"/>
+        <el-option label="单个广告" value="1"/>
+        <el-option label="随机多个广告" value="2"/>
+        <el-option label="随机单个广告" value="3"/>
+      </el-select>
+    </el-form-item>
+
+    <el-form-item label="状态" prop="status">
+      <el-select
+        v-model="form.status"
+        clearable
+        placeholder="请选择"
+        style="width: 100px;"
+        value="">
+        <el-option label="启用" value="1"/>
+        <el-option label="禁用" value="0"/>
+      </el-select>
+    </el-form-item>
+
+    <el-form-item>
+      <el-button
+        type="primary"
+        :disabled="loading"
+        @click="handleFormSubmit(true)">
+        <cs-icon name="search"/>
+        查询
+      </el-button>
+    </el-form-item>
+
+    <el-form-item>
+      <el-button
+        @click="handleFormReset">
+        <cs-icon name="refresh"/>
+        重置
+      </el-button>
+    </el-form-item>
+
+  </el-form>
+</template>
+
+<script>
+export default {
+  props: {
+    loading: {
+      default: false
+    }
+  },
+  data() {
+    return {
+      form: {
+        name: undefined,
+        code: undefined,
+        type: undefined,
+        display: undefined,
+        status: undefined
+      }
+    }
+  },
+  methods: {
+    handleFormSubmit(isRestore = false) {
+      this.$emit('submit', this.form, isRestore)
+    },
+    handleFormReset() {
+      this.$refs.form.resetFields()
+    }
+  }
+}
+</script>
