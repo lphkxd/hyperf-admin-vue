@@ -198,42 +198,6 @@
         <el-row>
           <el-col :span="12">
             <el-form-item
-              label="编码"
-              prop="code">
-              <el-input
-                v-model="form.code"
-                placeholder="可输入广告位置编码"
-                clearable/>
-            </el-form-item>
-          </el-col>
-
-          <el-col :span="12">
-            <el-row>
-              <el-col :span="12">
-                <el-form-item
-                  label="宽度"
-                  prop="width">
-                  <el-input
-                    v-model="form.width"
-                    clearable/>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item
-                  label="高度"
-                  prop="height">
-                  <el-input
-                    v-model="form.height"
-                    clearable/>
-                </el-form-item>
-              </el-col>
-            </el-row>
-          </el-col>
-        </el-row>
-
-        <el-row>
-          <el-col :span="12">
-            <el-form-item
               label="所属平台"
               prop="platform">
               <el-select
@@ -274,9 +238,47 @@
         <el-row>
           <el-col :span="12">
             <el-form-item
+              label="编码"
+              prop="code">
+              <el-input
+                v-model="form.code"
+                placeholder="可输入广告位置编码"
+                clearable/>
+            </el-form-item>
+          </el-col>
+
+          <el-col :span="12">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item
+                  label="宽度"
+                  prop="width">
+                  <el-input
+                    v-model="form.width"
+                    clearable/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item
+                  label="高度"
+                  prop="height">
+                  <el-input
+                    v-model="form.height"
+                    clearable/>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-col>
+        </el-row>
+
+        <el-row>
+          <el-col :span="12">
+            <el-form-item
               label="类型"
               prop="type">
-              <el-radio-group v-model="form.type">
+              <el-radio-group
+                v-model="form.type"
+                @change="switchType">
                 <el-radio label="0">图片</el-radio>
                 <el-radio label="1">代码</el-radio>
               </el-radio-group>
@@ -292,6 +294,22 @@
             </el-form-item>
           </el-col>
         </el-row>
+
+        <el-form-item
+          label="内容"
+          prop="content">
+          <cs-upload
+            v-if="contentType === 0"
+            v-model="form.content"
+            :multiple="true"
+            :fileList="imageFile"/>
+
+          <cs-tinymce
+            v-else
+            v-model="form.content"
+            code="ads_content"
+            :height="200"/>
+        </el-form-item>
 
         <el-form-item
           label="状态"
@@ -334,6 +352,10 @@ import {
 } from '@/api/ads/position'
 
 export default {
+  components: {
+    'csUpload': () => import('@/components/cs-upload'),
+    'csTinymce': () => import('@/components/cs-tinymce')
+  },
   props: {
     tableData: {
       default: () => []
@@ -344,6 +366,8 @@ export default {
   },
   data() {
     return {
+      imageFile: [],
+      contentType: 0,
       currentTableData: [],
       multipleSelection: [],
       helpContent: '暂无帮助内容',
@@ -530,6 +554,17 @@ export default {
         .catch(() => {
         })
     },
+    // 切换正文内容
+    switchType(label) {
+      if (label === '0') {
+        this.imageFile = []
+        this.form.content = []
+        this.contentType = 0
+      } else {
+        this.form.content = ''
+        this.contentType = 1
+      }
+    },
     // 新建位置
     create() {
       this.form = {
@@ -539,7 +574,7 @@ export default {
         description: '',
         width: 0,
         height: 0,
-        content: '',
+        content: undefined,
         color: '#ffffff',
         type: '0',
         display: '',
@@ -549,6 +584,9 @@ export default {
       this.$nextTick(() => {
         this.$refs.form.clearValidate()
       })
+
+      this.imageFile = []
+      this.contentType = 0
 
       this.dialogStatus = 'create'
       this.dialogLoading = false
