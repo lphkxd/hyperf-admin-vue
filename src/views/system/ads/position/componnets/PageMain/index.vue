@@ -88,8 +88,8 @@
       </el-table-column>
 
       <el-table-column
-        label="平台"
-        min-width="60">
+        label="所属平台"
+        min-width="65">
         <template slot-scope="scope">
           {{platformMap[scope.row.platform]}}
         </template>
@@ -175,19 +175,28 @@
         :rules="rules"
         ref="form"
         label-width="80px">
-        <el-row>
-          <el-col :span="14">
-            <el-form-item
-              label="名称"
-              prop="name">
-              <el-input
-                v-model="form.name"
-                placeholder="请输入广告位置名称"
-                clearable/>
-            </el-form-item>
-          </el-col>
 
-          <el-col :span="10">
+        <el-form-item
+          label="名称"
+          prop="name">
+          <el-input
+            v-model="form.name"
+            placeholder="请输入广告位置名称"
+            clearable/>
+        </el-form-item>
+
+        <el-form-item
+          label="描述"
+          prop="description">
+          <el-input
+            v-model="form.description"
+            placeholder="可输入广告位置描述"
+            type="textarea"
+            :rows="3"/>
+        </el-form-item>
+
+        <el-row>
+          <el-col :span="12">
             <el-form-item
               label="编码"
               prop="code">
@@ -197,16 +206,103 @@
                 clearable/>
             </el-form-item>
           </el-col>
+
+          <el-col :span="12">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item
+                  label="宽度"
+                  prop="width">
+                  <el-input
+                    v-model="form.width"
+                    clearable/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item
+                  label="高度"
+                  prop="height">
+                  <el-input
+                    v-model="form.height"
+                    clearable/>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-col>
+        </el-row>
+
+        <el-row>
+          <el-col :span="12">
+            <el-form-item
+              label="所属平台"
+              prop="platform">
+              <el-select
+                v-model="form.platform"
+                clearable
+                placeholder="请选择"
+                style="width: 100%;"
+                value="">
+                <el-option
+                  v-for="(item, index) in platformMap"
+                  :key="index"
+                  :label="item"
+                  :value="index"/>
+              </el-select>
+            </el-form-item>
+          </el-col>
+
+          <el-col :span="12">
+            <el-form-item
+              label="展示方式"
+              prop="display">
+              <el-select
+                v-model="form.display"
+                clearable
+                placeholder="请选择"
+                style="width: 100%;"
+                value="">
+                <el-option
+                  v-for="(item, index) in displayMap"
+                  :key="index"
+                  :label="item"
+                  :value="index"/>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-row>
+          <el-col :span="12">
+            <el-form-item
+              label="类型"
+              prop="type">
+              <el-radio-group v-model="form.type">
+                <el-radio label="0">图片</el-radio>
+                <el-radio label="1">代码</el-radio>
+              </el-radio-group>
+            </el-form-item>
+          </el-col>
+
+          <el-col :span="12">
+            <el-form-item
+              label="背景色"
+              prop="color">
+              <el-color-picker v-model="form.color">
+              </el-color-picker>
+            </el-form-item>
+          </el-col>
         </el-row>
 
         <el-form-item
-          label="描述"
-          prop="description">
-          <el-input
-            v-model="form.description"
-            placeholder="可输入广告位置描述"
-            clearable/>
+          label="状态"
+          prop="status">
+          <el-switch
+            v-model="form.status"
+            active-value="1"
+            inactive-value="0">
+          </el-switch>
         </el-form-item>
+
       </el-form>
 
       <div slot="footer" class="dialog-footer">
@@ -439,14 +535,14 @@ export default {
       this.form = {
         name: '',
         code: '',
-        platform: 0,
+        platform: '',
         description: '',
         width: 0,
         height: 0,
         content: '',
         color: '#ffffff',
         type: '0',
-        display: '0',
+        display: '',
         status: '1'
       }
 
