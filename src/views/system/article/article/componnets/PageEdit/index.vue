@@ -228,7 +228,7 @@ export default {
           {
             required: true,
             message: '分类不能为空',
-            trigger: 'blur'
+            trigger: 'change'
           }
         ],
         keywords: [

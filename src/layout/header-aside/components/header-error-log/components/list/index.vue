@@ -1,6 +1,6 @@
 <template>
   <el-table
-    :data="logReversed"
+    :data="logReverse"
     border
     stripe
     style="width: 100%"
@@ -122,7 +122,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import { get, cloneDeep } from 'lodash'
+import { get } from 'lodash'
 import ExpandItem from './components/ExpandItem'
 
 export default {
@@ -134,8 +134,16 @@ export default {
     ...mapState('careyshop', {
       logList: state => state.log.list
     }),
-    logReversed() {
-      return cloneDeep(this.logList).reverse()
+    logReverse() {
+      // 直接 reverse 的话有点问题
+      const res = []
+      const loglength = this.logList.length
+
+      this.logList.forEach((log, index) => {
+        res.push(this.logList[loglength - 1 - index])
+      })
+
+      return res
     }
   },
   methods: {

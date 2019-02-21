@@ -391,14 +391,14 @@ export default {
           {
             required: true,
             message: '至少选择一项',
-            trigger: 'blur'
+            trigger: 'change'
           }
         ],
         group_id: [
           {
             required: true,
             message: '至少选择一项',
-            trigger: 'blur'
+            trigger: 'change'
           }
         ],
         sort: [

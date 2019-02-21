@@ -306,7 +306,7 @@ export default {
             type: 'enum',
             enum: ['0', '1'],
             message: '值的范围必须为 0 或 1',
-            trigger: 'blur'
+            trigger: 'change'
           }
         ]
       }

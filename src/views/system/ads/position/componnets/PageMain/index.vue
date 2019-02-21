@@ -75,9 +75,13 @@
         sortable="custom"
         min-width="180">
         <template slot-scope="scope">
-          <el-tooltip :content="scope.row.description" placement="top">
-            <span>{{scope.row.name}}</span>
+          <el-tooltip
+            v-if="scope.row.description"
+            :content="`描述：${scope.row.description}`"
+            placement="right">
+            <cs-icon name="commenting-o"/>
           </el-tooltip>
+          {{scope.row.name}}
         </template>
       </el-table-column>
 
@@ -88,8 +92,8 @@
       </el-table-column>
 
       <el-table-column
-        label="所属平台"
-        min-width="65">
+        label="平台"
+        min-width="70">
         <template slot-scope="scope">
           {{platformMap[scope.row.platform]}}
         </template>
@@ -168,7 +172,8 @@
     <el-dialog
       :title="textMap[dialogStatus]"
       :visible.sync="dialogFormVisible"
-      :append-to-body="true">
+      :append-to-body="true"
+      width="750px">
 
       <el-form
         :model="form"
@@ -192,17 +197,16 @@
             v-model="form.description"
             placeholder="可输入广告位置描述"
             type="textarea"
-            :rows="3"/>
+            :rows="2"/>
         </el-form-item>
 
         <el-row>
           <el-col :span="12">
             <el-form-item
-              label="所属平台"
+              label="平台"
               prop="platform">
               <el-select
                 v-model="form.platform"
-                clearable
                 placeholder="请选择"
                 style="width: 100%;"
                 value="">
@@ -221,7 +225,6 @@
               prop="display">
               <el-select
                 v-model="form.display"
-                clearable
                 placeholder="请选择"
                 style="width: 100%;"
                 value="">
@@ -229,7 +232,7 @@
                   v-for="(item, index) in displayMap"
                   :key="index"
                   :label="item"
-                  :value="index"/>
+                  v-bind:value="index"/>
               </el-select>
             </el-form-item>
           </el-col>
@@ -253,18 +256,22 @@
                 <el-form-item
                   label="宽度"
                   prop="width">
-                  <el-input
+                  <el-input-number
                     v-model="form.width"
-                    clearable/>
+                    :min="0"
+                    :controls="false"
+                    style="width: 100%;"/>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item
                   label="高度"
                   prop="height">
-                  <el-input
+                  <el-input-number
                     v-model="form.height"
-                    clearable/>
+                    :min="0"
+                    :controls="false"
+                    style="width: 100%;"/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -276,11 +283,9 @@
             <el-form-item
               label="类型"
               prop="type">
-              <el-radio-group
-                v-model="form.type"
-                @change="switchType">
-                <el-radio label="0">图片</el-radio>
-                <el-radio label="1">代码</el-radio>
+              <el-radio-group v-model="form.type">
+                <el-radio :label="0">图片</el-radio>
+                <el-radio :label="1">代码</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
@@ -296,19 +301,23 @@
         </el-row>
 
         <el-form-item
-          label="内容"
+          v-if="!form.type"
+          label="图片"
           prop="content">
           <cs-upload
-            v-if="contentType === 0"
-            v-model="form.content"
-            :multiple="true"
-            :fileList="imageFile"/>
+            v-model="content.image"
+            :fileList="imageFile"
+            :multiple="true"/>
+        </el-form-item>
 
+        <el-form-item
+          v-if="form.type && dialogFormVisible"
+          label="代码"
+          prop="content">
           <cs-tinymce
-            v-else
-            v-model="form.content"
+            v-model="content.code"
             code="ads_content"
-            :height="200"/>
+            :height="180"/>
         </el-form-item>
 
         <el-form-item
@@ -316,8 +325,8 @@
           prop="status">
           <el-switch
             v-model="form.status"
-            active-value="1"
-            inactive-value="0">
+            :active-value="1"
+            :inactive-value="0">
           </el-switch>
         </el-form-item>
 
@@ -332,7 +341,7 @@
           v-if="dialogStatus === 'create'"
           type="primary"
           :loading="dialogLoading"
-          @click="() => {}"
+          @click="handleCreate"
           size="small">确定</el-button>
 
         <el-button
@@ -348,7 +357,8 @@
 <script>
 import {
   setAdsPositionStatus,
-  delAdsPositionList
+  delAdsPositionList,
+  addAdsPositionItem
 } from '@/api/ads/position'
 
 export default {
@@ -367,7 +377,7 @@ export default {
   data() {
     return {
       imageFile: [],
-      contentType: 0,
+      content: { image: [], code: '' },
       currentTableData: [],
       multipleSelection: [],
       helpContent: '暂无帮助内容',
@@ -394,11 +404,11 @@ export default {
       typeMap: {
         0: {
           text: '图片',
-          type: 'file-image-o'
+          type: 'image'
         },
         1: {
           text: '代码',
-          type: 'file-code-o'
+          type: 'code'
         }
       },
       statusMap: {
@@ -429,6 +439,79 @@ export default {
         status: undefined
       },
       rules: {
+        code: [
+          {
+            max: 16,
+            message: '长度不能大于 16 个字符',
+            trigger: 'blur'
+          }
+        ],
+        platform: [
+          {
+            required: true,
+            message: '至少选择一项',
+            trigger: 'change'
+          }
+        ],
+        name: [
+          {
+            required: true,
+            message: '名称不能为空',
+            trigger: 'blur'
+          },
+          {
+            max: 100,
+            message: '长度不能大于 100 个字符',
+            trigger: 'blur'
+          }
+        ],
+        description: [
+          {
+            max: 255,
+            message: '长度不能大于 255 个字符',
+            trigger: 'blur'
+          }
+        ],
+        width: [
+          {
+            type: 'number',
+            message: '必须为数字值',
+            trigger: 'blur'
+          }
+        ],
+        height: [
+          {
+            type: 'number',
+            message: '必须为数字值',
+            trigger: 'blur'
+          }
+        ],
+        type: [
+          {
+            required: true,
+            message: '至少选择一项',
+            trigger: 'change'
+          },
+          {
+            type: 'enum',
+            enum: [0, 1],
+            message: '值的范围必须为 0 或 1',
+            trigger: 'change'
+          }
+        ],
+        display: [
+          {
+            required: true,
+            message: '至少选择一项',
+            trigger: 'change'
+          },
+          {
+            type: 'enum',
+            enum: [0, 1, 2, 3],
+            message: '值的范围必须为 0 ~ 3',
+            trigger: 'change'
+          }
+        ]
       }
     }
   },
@@ -554,31 +637,20 @@ export default {
         .catch(() => {
         })
     },
-    // 切换正文内容
-    switchType(label) {
-      if (label === '0') {
-        this.imageFile = []
-        this.form.content = []
-        this.contentType = 0
-      } else {
-        this.form.content = ''
-        this.contentType = 1
-      }
-    },
     // 新建位置
     create() {
       this.form = {
         name: '',
         code: '',
-        platform: '',
+        platform: 0,
         description: '',
         width: 0,
         height: 0,
         content: undefined,
         color: '#ffffff',
-        type: '0',
-        display: '',
-        status: '1'
+        type: 0,
+        display: 0,
+        status: 0
       }
 
       this.$nextTick(() => {
@@ -586,9 +658,63 @@ export default {
       })
 
       this.imageFile = []
-      this.contentType = 0
+      this.content = { image: [], code: '' }
 
       this.dialogStatus = 'create'
+      this.dialogLoading = false
+      this.dialogFormVisible = true
+    },
+    // 请求创建位置
+    handleCreate() {
+      console.log(this.form)
+      // this.$refs.form.validate(valid => {
+      //   if (valid) {
+      //     this.dialogLoading = true
+      //     this.form.content = this.form.type === '0' ? this.content.image : this.content.code
+      //
+      //     addAdsPositionItem(this.form)
+      //       .then(res => {
+      //         this.currentTableData.unshift(res.data)
+      //         this.dialogFormVisible = false
+      //         this.$message.success('操作成功')
+      //       })
+      //       .catch(() => {
+      //         this.dialogLoading = false
+      //       })
+      //   }
+      // })
+    },
+    // 编辑位置
+    edit(index) {
+      const data = this.currentTableData[index]
+      this.form = {
+        ...data,
+        platform: data.platform.toString(),
+        type: data.type.toString(),
+        display: data.display.toString(),
+        status: data.status.toString()
+      }
+
+      if (this.$refs.form) {
+        this.$nextTick(() => {
+          this.$refs.form.clearValidate()
+        })
+      }
+
+      if (this.form.type === '0') {
+        this.imageFile = [...this.form.content]
+        this.content = {
+          image: [...this.form.content],
+          code: ''
+        }
+      } else {
+        this.content = {
+          image: [],
+          code: this.form.content
+        }
+      }
+
+      this.dialogStatus = 'update'
       this.dialogLoading = false
       this.dialogFormVisible = true
     }
