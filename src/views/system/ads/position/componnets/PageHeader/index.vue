@@ -31,8 +31,8 @@
         placeholder="请选择"
         style="width: 100px;"
         value="">
-        <el-option label="图片" :value="0"/>
-        <el-option label="代码" :value="1"/>
+        <el-option label="图片" value="0"/>
+        <el-option label="代码" value="1"/>
       </el-select>
     </el-form-item>
 
@@ -43,10 +43,10 @@
         placeholder="请选择"
         style="width: 120px;"
         value="">
-        <el-option label="多个广告" :value="0"/>
-        <el-option label="单个广告" :value="1"/>
-        <el-option label="随机多个广告" :value="2"/>
-        <el-option label="随机单个广告" :value="3"/>
+        <el-option label="多个广告" value="0"/>
+        <el-option label="单个广告" value="1"/>
+        <el-option label="随机多个广告" value="2"/>
+        <el-option label="随机单个广告" value="3"/>
       </el-select>
     </el-form-item>
 
@@ -57,8 +57,8 @@
         placeholder="请选择"
         style="width: 100px;"
         value="">
-        <el-option label="启用" :value="1"/>
-        <el-option label="禁用" :value="0"/>
+        <el-option label="启用" value="1"/>
+        <el-option label="禁用" value="0"/>
       </el-select>
     </el-form-item>
 

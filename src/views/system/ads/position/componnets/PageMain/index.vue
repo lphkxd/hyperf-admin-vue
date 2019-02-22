@@ -4,7 +4,7 @@
       :inline="true"
       size="small">
 
-      <el-form-item>
+      <el-form-item v-if="auth.add">
         <el-button-group>
           <el-button
             :disabled="loading"
@@ -15,9 +15,10 @@
         </el-button-group>
       </el-form-item>
 
-      <el-form-item>
+      <el-form-item v-if="auth.enable || auth.disable">
         <el-button-group>
           <el-button
+            v-if="auth.enable"
             :disabled="loading"
             @click="handleStatus(null, 1, true)">
             <cs-icon name="check"/>
@@ -25,6 +26,7 @@
           </el-button>
 
           <el-button
+            v-if="auth.disable"
             :disabled="loading"
             @click="handleStatus(null, 0, true)">
             <cs-icon name="close"/>
@@ -36,6 +38,7 @@
       <el-form-item>
         <el-button-group>
           <el-button
+            v-if="auth.del"
             :disabled="loading"
             @click="handleDelete(null)">
             <cs-icon name="trash-o"/>
@@ -144,7 +147,7 @@
           <el-tag
             size="mini"
             :type="statusMap[scope.row.status].type"
-            style="cursor: pointer;"
+            :style="auth.enable || auth.disable ? 'cursor: pointer;' : ''"
             @click.native="handleStatus(scope.$index)">
             {{statusMap[scope.row.status].text}}
           </el-tag>
@@ -157,11 +160,13 @@
         min-width="80">
         <template slot-scope="scope">
           <el-button
+            v-if="auth.set"
             size="small"
-            @click="edit(scope.$index)"
+            @click="updata(scope.$index)"
             type="text">编辑</el-button>
 
           <el-button
+            v-if="auth.del"
             size="small"
             @click="handleDelete(scope.$index)"
             type="text">删除</el-button>
@@ -232,7 +237,7 @@
                   v-for="(item, index) in displayMap"
                   :key="index"
                   :label="item"
-                  v-bind:value="index"/>
+                  :value="index"/>
               </el-select>
             </el-form-item>
           </el-col>
@@ -263,6 +268,7 @@
                     style="width: 100%;"/>
                 </el-form-item>
               </el-col>
+
               <el-col :span="12">
                 <el-form-item
                   label="高度"
@@ -284,8 +290,8 @@
               label="类型"
               prop="type">
               <el-radio-group v-model="form.type">
-                <el-radio :label="0">图片</el-radio>
-                <el-radio :label="1">代码</el-radio>
+                <el-radio label="0">图片</el-radio>
+                <el-radio label="1">代码</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
@@ -301,7 +307,7 @@
         </el-row>
 
         <el-form-item
-          v-if="!form.type"
+          v-if="form.type === '0' && dialogFormVisible"
           label="图片"
           prop="content">
           <cs-upload
@@ -311,7 +317,7 @@
         </el-form-item>
 
         <el-form-item
-          v-if="form.type && dialogFormVisible"
+          v-if="form.type === '1' && dialogFormVisible"
           label="代码"
           prop="content">
           <cs-tinymce
@@ -325,8 +331,8 @@
           prop="status">
           <el-switch
             v-model="form.status"
-            :active-value="1"
-            :inactive-value="0">
+            active-value="1"
+            inactive-value="0">
           </el-switch>
         </el-form-item>
 
@@ -347,7 +353,7 @@
         <el-button
           v-else type="primary"
           :loading="dialogLoading"
-          @click="() => {}"
+          @click="handleUpdata"
           size="small">修改</el-button>
       </div>
     </el-dialog>
@@ -358,7 +364,8 @@
 import {
   setAdsPositionStatus,
   delAdsPositionList,
-  addAdsPositionItem
+  addAdsPositionItem,
+  setAdsPositionItem
 } from '@/api/ads/position'
 
 export default {
@@ -384,6 +391,13 @@ export default {
       dialogLoading: false,
       dialogFormVisible: false,
       dialogStatus: '',
+      auth: {
+        add: false,
+        del: false,
+        set: false,
+        enable: false,
+        disable: false
+      },
       textMap: {
         update: '编辑位置',
         create: '新增位置'
@@ -494,7 +508,7 @@ export default {
           },
           {
             type: 'enum',
-            enum: [0, 1],
+            enum: ['0', '1'],
             message: '值的范围必须为 0 或 1',
             trigger: 'change'
           }
@@ -507,7 +521,7 @@ export default {
           },
           {
             type: 'enum',
-            enum: [0, 1, 2, 3],
+            enum: ['0', '1', '2', '3'],
             message: '值的范围必须为 0 ~ 3',
             trigger: 'change'
           }
@@ -522,6 +536,13 @@ export default {
       },
       immediate: true
     }
+  },
+  mounted() {
+    this.auth.add = this.$has('/system/ads/position/add')
+    this.auth.set = this.$has('/system/ads/position/set')
+    this.auth.del = this.$has('/system/ads/position/del')
+    this.auth.enable = this.$has('/system/ads/position/enable')
+    this.auth.disable = this.$has('/system/ads/position/disable')
   },
   methods: {
     // 获取列表中的编号
@@ -590,6 +611,16 @@ export default {
           return
         }
 
+        // 禁用权限检测
+        if (newStatus === 0 && !this.auth.disable) {
+          return
+        }
+
+        // 启用权限检测
+        if (newStatus === 1 && !this.auth.enable) {
+          return
+        }
+
         this.$set(this.currentTableData, val, { ...oldData, status: 2 })
         setStatus(ads_position_id, newStatus, this)
         return
@@ -642,15 +673,15 @@ export default {
       this.form = {
         name: '',
         code: '',
-        platform: 0,
+        platform: '0',
         description: '',
         width: 0,
         height: 0,
         content: undefined,
         color: '#ffffff',
-        type: 0,
-        display: 0,
-        status: 0
+        type: '0',
+        display: '0',
+        status: '1'
       }
 
       this.$nextTick(() => {
@@ -664,29 +695,34 @@ export default {
       this.dialogLoading = false
       this.dialogFormVisible = true
     },
+    // 根据类型获取广告位置的实际内容
+    getFormContent() {
+      return this.form.type === '0' ? this.content.image : this.content.code
+    },
     // 请求创建位置
     handleCreate() {
-      console.log(this.form)
-      // this.$refs.form.validate(valid => {
-      //   if (valid) {
-      //     this.dialogLoading = true
-      //     this.form.content = this.form.type === '0' ? this.content.image : this.content.code
-      //
-      //     addAdsPositionItem(this.form)
-      //       .then(res => {
-      //         this.currentTableData.unshift(res.data)
-      //         this.dialogFormVisible = false
-      //         this.$message.success('操作成功')
-      //       })
-      //       .catch(() => {
-      //         this.dialogLoading = false
-      //       })
-      //   }
-      // })
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          this.dialogLoading = true
+          this.form.content = this.getFormContent()
+
+          addAdsPositionItem(this.form)
+            .then(res => {
+              this.currentTableData.unshift(res.data)
+              this.dialogFormVisible = false
+              this.$message.success('操作成功')
+            })
+            .catch(() => {
+              this.dialogLoading = false
+            })
+        }
+      })
     },
     // 编辑位置
-    edit(index) {
+    updata(index) {
+      this.currentIndex = index
       const data = this.currentTableData[index]
+
       this.form = {
         ...data,
         platform: data.platform.toString(),
@@ -701,22 +737,42 @@ export default {
         })
       }
 
+      // 初始化组件数据
+      this.content = { image: [], code: '' }
+
       if (this.form.type === '0') {
-        this.imageFile = [...this.form.content]
+        this.imageFile = Array.isArray(this.form.content) ? this.form.content : []
         this.content = {
-          image: [...this.form.content],
+          image: [...this.imageFile],
           code: ''
         }
       } else {
-        this.content = {
-          image: [],
-          code: this.form.content
-        }
+        this.imageFile = []
+        this.content.code = this.form.content.toString()
       }
 
       this.dialogStatus = 'update'
       this.dialogLoading = false
       this.dialogFormVisible = true
+    },
+    // 请求编辑位置
+    handleUpdata() {
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          this.dialogLoading = true
+          this.form.content = this.getFormContent()
+
+          setAdsPositionItem(this.form)
+            .then(res => {
+              this.$set(this.currentTableData, this.currentIndex, res.data)
+              this.dialogFormVisible = false
+              this.$message.success('操作成功')
+            })
+            .catch(() => {
+              this.dialogLoading = false
+            })
+        }
+      })
     }
   }
 }

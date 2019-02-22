@@ -55,9 +55,10 @@
         </el-button-group>
       </el-form-item>
 
-      <el-form-item v-if="auth.del">
+      <el-form-item>
         <el-button-group>
           <el-button
+            v-if="auth.del"
             :disabled="loading"
             @click="handleDelete(null)">
             <cs-icon name="trash-o"/>
