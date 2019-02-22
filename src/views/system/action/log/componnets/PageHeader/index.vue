@@ -10,8 +10,7 @@
       <el-input
         v-model="form.username"
         clearable
-        placeholder="可输入账号"
-        style="width: 125px;"/>
+        placeholder="可输入账号"/>
     </el-form-item>
 
     <el-form-item label="账号类型" prop="client_type">
@@ -19,7 +18,7 @@
         v-model="form.client_type"
         clearable
         placeholder="请选择"
-        style="width: 100px;"
+        style="width: 150px;"
         value="">
         <el-option
           v-for="(item, index) in group"
@@ -27,25 +26,6 @@
           :label="item"
           :value="index"/>
       </el-select>
-    </el-form-item>
-
-    <el-form-item label="路径" prop="path">
-      <el-input
-        v-model="form.path"
-        clearable
-        placeholder="可输入路径"
-        style="width: 125px;"/>
-    </el-form-item>
-
-    <el-form-item label="时间段" prop="time_period">
-      <el-date-picker
-        v-model="form.time_period"
-        type="datetimerange"
-        range-separator="至"
-        start-placeholder="开始日期"
-        end-placeholder="结束日期"
-        style="width: 320px;">
-      </el-date-picker>
     </el-form-item>
 
     <el-form-item>
@@ -66,6 +46,38 @@
       </el-button>
     </el-form-item>
 
+    <el-form-item>
+      <el-popover
+        placement="bottom"
+        trigger="click">
+
+        <div style="margin-bottom: -18px;">
+          <el-form-item label="路径" prop="path">
+            <el-input
+              v-model="form.path"
+              clearable
+              placeholder="可输入路径"/>
+          </el-form-item>
+
+          <el-form-item label="时间" prop="time_period">
+            <el-date-picker
+              v-model="form.time_period"
+              type="datetimerange"
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期">
+            </el-date-picker>
+          </el-form-item>
+        </div>
+
+        <el-button
+          slot="reference"
+          type="text">
+          更多筛选
+          <cs-icon name="angle-down"/>
+        </el-button>
+      </el-popover>
+    </el-form-item>
   </el-form>
 </template>
 

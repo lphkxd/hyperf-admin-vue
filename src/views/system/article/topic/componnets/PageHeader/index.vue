@@ -12,16 +12,7 @@
         clearable
         placeholder="专题标题"
         @keyup.enter.native="handleFormSubmit"
-        style="width: 250px;"/>
-    </el-form-item>
-
-    <el-form-item label="别名" prop="title">
-      <el-input
-        v-model="form.alias"
-        clearable
-        placeholder="专题别名"
-        @keyup.enter.native="handleFormSubmit"
-        style="width: 150px;"/>
+        style="width: 170px;"/>
     </el-form-item>
 
     <el-form-item label="关键词" prop="keywords">
@@ -30,19 +21,7 @@
         clearable
         placeholder="专题关键词"
         @keyup.enter.native="handleFormSubmit"
-        style="width: 150px;"/>
-    </el-form-item>
-
-    <el-form-item label="状态" prop="status">
-      <el-select
-        v-model="form.status"
-        clearable
-        placeholder="请选择"
-        style="width: 100px;"
-        value="">
-        <el-option label="启用" value="1"/>
-        <el-option label="禁用" value="0"/>
-      </el-select>
+        style="width: 140px;"/>
     </el-form-item>
 
     <el-form-item>
@@ -61,6 +40,41 @@
         <cs-icon name="refresh"/>
         重置
       </el-button>
+    </el-form-item>
+
+    <el-form-item>
+      <el-popover
+        placement="bottom"
+        trigger="click">
+
+        <div style="margin-bottom: -18px;">
+          <el-form-item label="别名" prop="title">
+            <el-input
+              v-model="form.alias"
+              clearable
+              placeholder="专题别名"
+              @keyup.enter.native="handleFormSubmit"/>
+          </el-form-item>
+
+          <el-form-item label="状态" prop="status">
+            <el-select
+              v-model="form.status"
+              clearable
+              placeholder="请选择"
+              value="">
+              <el-option label="启用" value="1"/>
+              <el-option label="禁用" value="0"/>
+            </el-select>
+          </el-form-item>
+        </div>
+
+        <el-button
+          slot="reference"
+          type="text">
+          更多筛选
+          <cs-icon name="angle-down"/>
+        </el-button>
+      </el-popover>
     </el-form-item>
   </el-form>
 </template>

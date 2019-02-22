@@ -12,7 +12,7 @@
         clearable
         placeholder="广告位置名称"
         @keyup.enter.native="handleFormSubmit"
-        style="width: 180px;"/>
+        style="width: 170px;"/>
     </el-form-item>
 
     <el-form-item label="编码" prop="code">
@@ -21,7 +21,7 @@
         clearable
         placeholder="广告位置编码"
         @keyup.enter.native="handleFormSubmit"
-        style="width: 130px;"/>
+        style="width: 150px;"/>
     </el-form-item>
 
     <el-form-item label="类型" prop="type">
@@ -33,32 +33,6 @@
         value="">
         <el-option label="图片" value="0"/>
         <el-option label="代码" value="1"/>
-      </el-select>
-    </el-form-item>
-
-    <el-form-item label="展示方式" prop="display">
-      <el-select
-        v-model="form.display"
-        clearable
-        placeholder="请选择"
-        style="width: 120px;"
-        value="">
-        <el-option label="多个广告" value="0"/>
-        <el-option label="单个广告" value="1"/>
-        <el-option label="随机多个广告" value="2"/>
-        <el-option label="随机单个广告" value="3"/>
-      </el-select>
-    </el-form-item>
-
-    <el-form-item label="状态" prop="status">
-      <el-select
-        v-model="form.status"
-        clearable
-        placeholder="请选择"
-        style="width: 100px;"
-        value="">
-        <el-option label="启用" value="1"/>
-        <el-option label="禁用" value="0"/>
       </el-select>
     </el-form-item>
 
@@ -80,6 +54,45 @@
       </el-button>
     </el-form-item>
 
+    <el-form-item>
+      <el-popover
+        placement="bottom"
+        trigger="click">
+
+        <div style="margin-bottom: -18px;">
+          <el-form-item label="展示方式" prop="display">
+            <el-select
+              v-model="form.display"
+              clearable
+              placeholder="请选择"
+              value="">
+              <el-option label="多个广告" value="0"/>
+              <el-option label="单个广告" value="1"/>
+              <el-option label="随机多个广告" value="2"/>
+              <el-option label="随机单个广告" value="3"/>
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="状态" prop="status">
+            <el-select
+              v-model="form.status"
+              clearable
+              placeholder="请选择"
+              value="">
+              <el-option label="启用" value="1"/>
+              <el-option label="禁用" value="0"/>
+            </el-select>
+          </el-form-item>
+        </div>
+
+        <el-button
+          slot="reference"
+          type="text">
+          更多筛选
+          <cs-icon name="angle-down"/>
+        </el-button>
+      </el-popover>
+    </el-form-item>
   </el-form>
 </template>
 

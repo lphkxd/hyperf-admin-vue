@@ -26,7 +26,7 @@
         clearable
         placeholder="文章标题"
         @keyup.enter.native="handleFormSubmit"
-        style="width: 140px;"/>
+        style="width: 170px;"/>
     </el-form-item>
 
     <el-form-item label="关键词" prop="keywords">
@@ -36,30 +36,6 @@
         placeholder="文章关键词"
         @keyup.enter.native="handleFormSubmit"
         style="width: 140px;"/>
-    </el-form-item>
-
-    <el-form-item label="置顶" prop="is_top">
-      <el-select
-        v-model="form.is_top"
-        clearable
-        placeholder="请选择"
-        style="width: 100px;"
-        value="">
-        <el-option label="置顶" value="1"/>
-        <el-option label="普通" value="0"/>
-      </el-select>
-    </el-form-item>
-
-    <el-form-item label="状态" prop="status">
-      <el-select
-        v-model="form.status"
-        clearable
-        placeholder="请选择"
-        style="width: 100px;"
-        value="">
-        <el-option label="启用" value="1"/>
-        <el-option label="禁用" value="0"/>
-      </el-select>
     </el-form-item>
 
     <el-form-item>
@@ -80,6 +56,43 @@
       </el-button>
     </el-form-item>
 
+    <el-form-item>
+      <el-popover
+        placement="bottom"
+        trigger="click">
+
+        <div style="margin-bottom: -18px;">
+          <el-form-item label="置顶" prop="is_top">
+            <el-select
+              v-model="form.is_top"
+              clearable
+              placeholder="请选择"
+              value="">
+              <el-option label="置顶" value="1"/>
+              <el-option label="普通" value="0"/>
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="状态" prop="status">
+            <el-select
+              v-model="form.status"
+              clearable
+              placeholder="请选择"
+              value="">
+              <el-option label="启用" value="1"/>
+              <el-option label="禁用" value="0"/>
+            </el-select>
+          </el-form-item>
+        </div>
+
+        <el-button
+          slot="reference"
+          type="text">
+          更多筛选
+          <cs-icon name="angle-down"/>
+        </el-button>
+      </el-popover>
+    </el-form-item>
   </el-form>
 </template>
 
