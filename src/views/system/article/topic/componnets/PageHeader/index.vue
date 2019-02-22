@@ -12,7 +12,7 @@
         clearable
         placeholder="专题标题"
         @keyup.enter.native="handleFormSubmit"
-        style="width: 170px;"/>
+        style="width: 200px;"/>
     </el-form-item>
 
     <el-form-item label="关键词" prop="keywords">

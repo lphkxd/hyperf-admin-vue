@@ -15,7 +15,7 @@
         filterable
         clearable
         :show-all-levels="false"
-        style="width: 165px;"
+        style="width: 140px;"
         placeholder="试试搜索：分类">
       </el-cascader>
     </el-form-item>
@@ -26,7 +26,7 @@
         clearable
         placeholder="文章标题"
         @keyup.enter.native="handleFormSubmit"
-        style="width: 170px;"/>
+        style="width: 200px;"/>
     </el-form-item>
 
     <el-form-item label="关键词" prop="keywords">

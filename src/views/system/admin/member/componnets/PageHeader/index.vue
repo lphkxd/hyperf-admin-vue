@@ -12,7 +12,7 @@
         clearable
         placeholder="可输入 账号/昵称"
         @keyup.enter.native="handleFormSubmit"
-        style="width: 160px;"/>
+        style="width: 200px;"/>
     </el-form-item>
 
     <el-form-item label="用户组" prop="group_id">
@@ -20,6 +20,7 @@
         v-model="form.group_id"
         clearable
         placeholder="请选择"
+        style="width: 120px;"
         value="">
         <el-option
           v-for="item in group"
@@ -34,7 +35,7 @@
         v-model="form.status"
         clearable
         placeholder="请选择"
-        style="width: 100px;"
+        style="width: 120px;"
         value="">
         <el-option label="启用" value="1"/>
         <el-option label="禁用" value="0"/>

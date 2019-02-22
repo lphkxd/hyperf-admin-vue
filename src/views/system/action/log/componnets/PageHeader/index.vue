@@ -10,7 +10,8 @@
       <el-input
         v-model="form.username"
         clearable
-        placeholder="可输入账号"/>
+        placeholder="可输入账号"
+        style="width: 200px;"/>
     </el-form-item>
 
     <el-form-item label="账号类型" prop="client_type">
@@ -18,7 +19,7 @@
         v-model="form.client_type"
         clearable
         placeholder="请选择"
-        style="width: 150px;"
+        style="width: 120px;"
         value="">
         <el-option
           v-for="(item, index) in group"

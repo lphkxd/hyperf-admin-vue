@@ -10,7 +10,7 @@
         v-model="form.is_navi"
         clearable
         placeholder="请选择"
-        style="width: 150px;"
+        style="width: 120px;"
         value="">
         <el-option label="可见" value="1"/>
         <el-option label="隐藏" value="0"/>
@@ -22,7 +22,8 @@
         v-model="form.level"
         controls-position="right"
         :min="0"
-        label="可输入文章分类深度值"/>
+        label="可输入文章分类深度值"
+        style="width: 100px;"/>
     </el-form-item>
 
     <el-form-item>

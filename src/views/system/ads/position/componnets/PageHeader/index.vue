@@ -12,7 +12,7 @@
         clearable
         placeholder="广告位置名称"
         @keyup.enter.native="handleFormSubmit"
-        style="width: 170px;"/>
+        style="width: 200px;"/>
     </el-form-item>
 
     <el-form-item label="编码" prop="code">
@@ -21,7 +21,7 @@
         clearable
         placeholder="广告位置编码"
         @keyup.enter.native="handleFormSubmit"
-        style="width: 150px;"/>
+        style="width: 140px;"/>
     </el-form-item>
 
     <el-form-item label="类型" prop="type">
@@ -29,7 +29,7 @@
         v-model="form.type"
         clearable
         placeholder="请选择"
-        style="width: 100px;"
+        style="width: 120px;"
         value="">
         <el-option label="图片" value="0"/>
         <el-option label="代码" value="1"/>

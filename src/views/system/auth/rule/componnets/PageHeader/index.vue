@@ -26,6 +26,7 @@
         v-model="form.group_id"
         clearable
         placeholder="请选择"
+        style="width: 120px;"
         value="">
         <el-option
           v-for="item in group"

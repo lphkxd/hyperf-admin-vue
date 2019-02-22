@@ -82,7 +82,7 @@
             v-if="scope.row.description"
             :content="`描述：${scope.row.description}`"
             placement="right">
-            <cs-icon name="commenting-o"/>
+            <cs-icon name="square-o"/>
           </el-tooltip>
           {{scope.row.name}}
         </template>
@@ -226,6 +226,19 @@
 
           <el-col :span="12">
             <el-form-item
+              label="编码"
+              prop="code">
+              <el-input
+                v-model="form.code"
+                placeholder="可输入广告位置编码"
+                clearable/>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-row>
+          <el-col :span="12">
+            <el-form-item
               label="展示方式"
               prop="display">
               <el-select
@@ -239,19 +252,6 @@
                   :label="item"
                   :value="index"/>
               </el-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
-
-        <el-row>
-          <el-col :span="12">
-            <el-form-item
-              label="编码"
-              prop="code">
-              <el-input
-                v-model="form.code"
-                placeholder="可输入广告位置编码"
-                clearable/>
             </el-form-item>
           </el-col>
 
