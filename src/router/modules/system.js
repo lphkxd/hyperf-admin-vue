@@ -99,6 +99,12 @@ export default {
       name: `${pre}ads-position`,
       meta: { ...meta, cache: true, title: '广告位置' },
       component: () => import('@/views/system/ads/position')
+    },
+    {
+      path: 'ads/ads',
+      name: `${pre}ads-ads`,
+      meta: { ...meta, cache: true, title: '广告列表' },
+      component: () => import('@/views/system/ads/ads')
     }
   ])('system-')
 }
