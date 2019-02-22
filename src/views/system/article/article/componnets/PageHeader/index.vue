@@ -58,10 +58,11 @@
 
     <el-form-item>
       <el-popover
+        width="241"
         placement="bottom"
         trigger="click">
 
-        <div style="margin-bottom: -18px;">
+        <div class="more-filter">
           <el-form-item label="置顶" prop="is_top">
             <el-select
               v-model="form.is_top"
@@ -148,3 +149,12 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .more-filter {
+    margin-bottom: -18px;
+  }
+  .more-filter>>>label {
+    width: auto;
+  }
+</style>

@@ -44,16 +44,18 @@
 
     <el-form-item>
       <el-popover
+        width="241"
         placement="bottom"
         trigger="click">
 
-        <div style="margin-bottom: -18px;">
+        <div class="more-filter">
           <el-form-item label="别名" prop="title">
             <el-input
               v-model="form.alias"
               clearable
               placeholder="专题别名"
-              @keyup.enter.native="handleFormSubmit"/>
+              @keyup.enter.native="handleFormSubmit"
+              style="width: 200px;"/>
           </el-form-item>
 
           <el-form-item label="状态" prop="status">
@@ -106,3 +108,12 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .more-filter {
+    margin-bottom: -18px;
+  }
+  .more-filter>>>label {
+    width: auto;
+  }
+</style>

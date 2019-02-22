@@ -56,10 +56,25 @@
 
     <el-form-item>
       <el-popover
+        width="271"
         placement="bottom"
         trigger="click">
 
-        <div style="margin-bottom: -18px;">
+        <div class="more-filter">
+          <el-form-item label="平台" prop="platform">
+            <el-select
+              v-model="form.platform"
+              clearable
+              placeholder="请选择"
+              value="">
+              <el-option label="all" value="0"/>
+              <el-option label="pc" value="1"/>
+              <el-option label="mobile" value="2"/>
+              <el-option label="ios" value="3"/>
+              <el-option label="android" value="4"/>
+            </el-select>
+          </el-form-item>
+
           <el-form-item label="展示方式" prop="display">
             <el-select
               v-model="form.display"
@@ -110,7 +125,8 @@ export default {
         code: undefined,
         type: undefined,
         display: undefined,
-        status: undefined
+        status: undefined,
+        platform: undefined
       }
     }
   },
@@ -124,3 +140,12 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .more-filter {
+    margin-bottom: -18px;
+  }
+  .more-filter>>>label {
+    width: 70px;
+  }
+</style>
