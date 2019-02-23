@@ -58,7 +58,7 @@
 
     <el-form-item>
       <el-popover
-        width="241"
+        width="200"
         placement="bottom"
         trigger="click">
 
@@ -156,5 +156,8 @@ export default {
   }
   .more-filter>>>label {
     width: auto;
+  }
+  .more-filter>>>input {
+    width: 160px;
   }
 </style>
