@@ -6,27 +6,33 @@
     size="mini"
     style="margin-bottom: -18px;">
 
-    <el-form-item label="账号" prop="username">
+    <el-form-item label="名称" prop="name">
       <el-input
-        v-model="form.username"
+        v-model="form.name"
         clearable
-        placeholder="可输入账号"
+        placeholder="广告列表名称"
         @keyup.enter.native="handleFormSubmit"
         style="width: 200px;"/>
     </el-form-item>
 
-    <el-form-item label="账号类型" prop="client_type">
+    <el-form-item label="编码" prop="code">
+      <el-input
+        v-model="form.code"
+        clearable
+        placeholder="广告列表编码"
+        @keyup.enter.native="handleFormSubmit"
+        style="width: 140px;"/>
+    </el-form-item>
+
+    <el-form-item label="类型" prop="type">
       <el-select
-        v-model="form.client_type"
+        v-model="form.type"
         clearable
         placeholder="请选择"
         style="width: 120px;"
         value="">
-        <el-option
-          v-for="(item, index) in group"
-          :key="index"
-          :label="item"
-          :value="index"/>
+        <el-option label="图片" value="0"/>
+        <el-option label="代码" value="1"/>
       </el-select>
     </el-form-item>
 
@@ -50,29 +56,62 @@
 
     <el-form-item>
       <el-popover
-        width="375"
+        width="388"
         placement="bottom"
         trigger="click">
 
         <div class="more-filter">
-          <el-form-item label="路径" prop="path">
-            <el-input
-              v-model="form.path"
-              clearable
-              placeholder="可输入路径"
-              @keyup.enter.native="handleFormSubmit"
-              style="width: 320px;"/>
-          </el-form-item>
-
           <el-form-item label="时间段" prop="time_period">
             <el-date-picker
               v-model="form.time_period"
               type="datetimerange"
               range-separator="至"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期"
+              start-placeholder="开始投放时间"
+              end-placeholder="投放结束时间"
               style="width: 320px;">
             </el-date-picker>
+          </el-form-item>
+
+          <el-form-item label="广告位置" prop="ads_position_id">
+            <el-select
+              v-model="form.ads_position_id"
+              clearable
+              placeholder="请选择"
+              style="width: 320px;"
+              value="">
+              <el-option
+                v-for="(item, index) in positionTable"
+                :key="index"
+                :label="item.name"
+                :value="item.ads_position_id"/>
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="平台" prop="platform">
+            <el-select
+              v-model="form.platform"
+              clearable
+              placeholder="请选择"
+              style="width: 160px;"
+              value="">
+              <el-option label="all" value="0"/>
+              <el-option label="pc" value="1"/>
+              <el-option label="mobile" value="2"/>
+              <el-option label="ios" value="3"/>
+              <el-option label="android" value="4"/>
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="状态" prop="status">
+            <el-select
+              v-model="form.status"
+              clearable
+              placeholder="请选择"
+              style="width: 160px;"
+              value="">
+              <el-option label="启用" value="1"/>
+              <el-option label="禁用" value="0"/>
+            </el-select>
           </el-form-item>
         </div>
 
@@ -84,6 +123,7 @@
         </el-button>
       </el-popover>
     </el-form-item>
+
   </el-form>
 </template>
 
@@ -93,16 +133,19 @@ export default {
     loading: {
       default: false
     },
-    group: {
-      default: () => {}
+    positionTable: {
+      default: () => []
     }
   },
   data() {
     return {
       form: {
-        client_type: undefined,
-        username: undefined,
-        path: undefined,
+        ads_position_id: undefined,
+        code: undefined,
+        platform: undefined,
+        name: undefined,
+        type: undefined,
+        status: undefined,
         begin_time: undefined,
         end_time: undefined,
         time_period: null
@@ -144,6 +187,6 @@ export default {
     margin-bottom: -18px;
   }
   .more-filter>>>label {
-    width: 54px;
+    width: 68px;
   }
 </style>

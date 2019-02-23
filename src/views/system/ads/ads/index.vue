@@ -5,8 +5,16 @@
     <page-header
       slot="header"
       :loading="loading"
+      :position-table="positionTable"
       @submit="handleSubmit"
       ref="header"/>
+
+    <page-main
+      :table-data="table"
+      :loading="loading"
+      :position-table="positionTable"
+      @sort="handleSort"
+      @refresh="handleRefresh"/>
 
     <page-footer
       slot="footer"
@@ -19,15 +27,20 @@
 </template>
 
 <script>
+import { getAdsList } from '@/api/ads/ads'
+import { getAdsPositionSelect } from '@/api/ads/position'
+
 export default {
   name: 'system-ads-ads',
   components: {
     'PageHeader': () => import('./componnets/PageHeader'),
+    'PageMain': () => import('./componnets/PageMain'),
     'PageFooter': () => import('@/layout/header-aside/components/footer')
   },
   data() {
     return {
       table: [],
+      positionTable: [],
       scrollTop: 0,
       loading: false,
       page: {
@@ -42,6 +55,13 @@ export default {
     }
   },
   mounted() {
+    getAdsPositionSelect(null)
+      .then(res => {
+        this.positionTable = res.data
+      })
+      .then(() => {
+        this.handleSubmit()
+      })
   },
   methods: {
     // 刷新列表页面
@@ -66,6 +86,24 @@ export default {
     },
     // 提交查询请求
     handleSubmit(form, isRestore = false) {
+      if (isRestore) {
+        this.page.current = 1
+      }
+
+      this.loading = true
+      getAdsList({
+        ...form,
+        ...this.order,
+        page_no: this.page.current,
+        page_size: this.page.size
+      })
+        .then(res => {
+          this.page.total = res.data.total_result
+          this.table = res.data.total_result > 0 ? res.data.items : []
+        })
+        .finally(() => {
+          this.loading = false
+        })
     }
   }
 }
