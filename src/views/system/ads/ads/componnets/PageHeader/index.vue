@@ -61,7 +61,7 @@
         trigger="click">
 
         <div class="more-filter">
-          <el-form-item label="时间段" prop="time_period">
+          <el-form-item label="投放时间" prop="time_period">
             <el-date-picker
               v-model="form.time_period"
               type="datetimerange"
@@ -176,6 +176,7 @@ export default {
       this.$emit('submit', form, isRestore)
     },
     handleFormReset() {
+      this.form.time_period = null
       this.$refs.form.resetFields()
     }
   }

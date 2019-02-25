@@ -133,6 +133,7 @@ export default {
       this.$emit('submit', form, isRestore)
     },
     handleFormReset() {
+      this.form.time_period = null
       this.$refs.form.resetFields()
     }
   }
