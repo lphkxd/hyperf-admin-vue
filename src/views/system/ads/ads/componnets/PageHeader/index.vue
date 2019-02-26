@@ -61,13 +61,13 @@
         trigger="click">
 
         <div class="more-filter">
-          <el-form-item label="投放时间" prop="time_period">
+          <el-form-item label="投放日期" prop="time_period">
             <el-date-picker
               v-model="form.time_period"
               type="datetimerange"
               range-separator="至"
-              start-placeholder="开始投放时间"
-              end-placeholder="投放结束时间"
+              start-placeholder="开始投放日期"
+              end-placeholder="投放结束日期"
               style="width: 320px;">
             </el-date-picker>
           </el-form-item>

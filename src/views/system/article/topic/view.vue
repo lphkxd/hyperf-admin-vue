@@ -12,7 +12,7 @@
         slot="header"
         class="clearfix">
         <h2>{{topic.title}}</h2>
-        <span>创建时间：{{topic.create_time}}</span>
+        <span>创建日期：{{topic.create_time}}</span>
         <span>最后编辑：{{topic.update_time}}</span>
       </div>
       <div class="mce-content-body" v-html="topic.content"></div>

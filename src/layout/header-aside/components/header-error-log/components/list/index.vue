@@ -58,7 +58,7 @@
           :value="row.url"/>
         <expand-item
           :type="row.type"
-          title="时间"
+          title="日期"
           :value="row.time"/>
       </div>
     </el-table-column>
