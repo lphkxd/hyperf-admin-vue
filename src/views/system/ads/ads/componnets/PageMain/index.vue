@@ -123,7 +123,7 @@
         prop="sort"
         align="center"
         sortable="custom"
-        min-width="100">
+        min-width="95">
         <template slot-scope="scope">
           <el-input-number
             size="mini"
@@ -140,15 +140,18 @@
       <el-table-column
         label="投放日期"
         prop="begin_time"
+        align="center"
         sortable="custom"
-        width="160">
-      </el-table-column>
-
-      <el-table-column
-        label="结束日期"
-        prop="end_time"
-        sortable="custom"
-        width="160">
+        min-width="100">
+        <template slot-scope="scope">
+          <el-tooltip placement="top">
+            <div slot="content">
+              开始投放日期：{{scope.row.begin_time}}<br/>
+              投放结束日期：{{scope.row.end_time}}
+            </div>
+            <el-tag size="mini" type="info">详细</el-tag>
+          </el-tooltip>
+        </template>
       </el-table-column>
 
       <el-table-column
@@ -169,7 +172,6 @@
       </el-table-column>
 
       <el-table-column
-        fixed="right"
         label="操作"
         align="center"
         min-width="140">
