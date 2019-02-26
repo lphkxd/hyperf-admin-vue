@@ -76,7 +76,8 @@
         label="名称"
         prop="name"
         sortable="custom"
-        min-width="180">
+        min-width="180"
+        :show-overflow-tooltip="true">
         <template slot-scope="scope">
           <el-tooltip
             v-if="scope.row.description"
@@ -289,7 +290,9 @@
             <el-form-item
               label="类型"
               prop="type">
-              <el-radio-group v-model="form.type">
+              <el-radio-group
+                v-model="form.type"
+                @change="switchType">
                 <el-radio label="0">图片</el-radio>
                 <el-radio label="1">代码</el-radio>
               </el-radio-group>
@@ -391,6 +394,7 @@ export default {
       dialogLoading: false,
       dialogFormVisible: false,
       dialogStatus: '',
+      form: {},
       auth: {
         add: false,
         del: false,
@@ -438,19 +442,6 @@ export default {
           text: '...',
           type: 'info'
         }
-      },
-      form: {
-        name: undefined,
-        code: undefined,
-        platform: undefined,
-        description: undefined,
-        width: undefined,
-        height: undefined,
-        content: undefined,
-        color: undefined,
-        type: undefined,
-        display: undefined,
-        status: undefined
       },
       rules: {
         code: [
@@ -678,7 +669,7 @@ export default {
         width: 0,
         height: 0,
         content: undefined,
-        color: '#ffffff',
+        color: '#FFFFFF',
         type: '0',
         display: '0',
         status: '1'
@@ -704,6 +695,7 @@ export default {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.dialogLoading = true
+          this.form.color = this.form.color || ''
           this.form.content = this.getFormContent()
 
           addAdsPositionItem(this.form)
@@ -739,13 +731,9 @@ export default {
 
       // 初始化组件数据
       this.content = { image: [], code: '' }
-
       if (this.form.type === '0') {
         this.imageFile = Array.isArray(this.form.content) ? this.form.content : []
-        this.content = {
-          image: [...this.imageFile],
-          code: ''
-        }
+        this.content = { image: [...this.imageFile], code: '' }
       } else {
         this.imageFile = []
         this.content.code = this.form.content.toString()
@@ -760,6 +748,7 @@ export default {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.dialogLoading = true
+          this.form.color = this.form.color || ''
           this.form.content = this.getFormContent()
 
           setAdsPositionItem(this.form)
@@ -773,6 +762,12 @@ export default {
             })
         }
       })
+    },
+    // 切换内容类型
+    switchType(val) {
+      if (val === '1') {
+        this.imageFile = this.content.image
+      }
     }
   }
 }

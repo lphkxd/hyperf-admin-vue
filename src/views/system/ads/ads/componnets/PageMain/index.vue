@@ -73,14 +73,16 @@
         label="名称"
         prop="name"
         sortable="custom"
-        min-width="180">
+        min-width="180"
+        :show-overflow-tooltip="true">
       </el-table-column>
 
       <el-table-column
         label="广告位置"
         prop="ads_position_id"
         sortable="custom"
-        min-width="180">
+        min-width="180"
+        :show-overflow-tooltip="true">
         <template slot-scope="scope">
           {{scope.row['get_ads_position']['name']}}
         </template>
@@ -136,14 +138,14 @@
       </el-table-column>
 
       <el-table-column
-        label="投放时间"
+        label="投放日期"
         prop="begin_time"
         sortable="custom"
         width="160">
       </el-table-column>
 
       <el-table-column
-        label="结束时间"
+        label="结束日期"
         prop="end_time"
         sortable="custom"
         width="160">
@@ -178,7 +180,7 @@
             type="text">
             <el-tooltip placement="top">
               <div slot="content">
-                打开方式：{{scope.row.target}}<br/>
+                打开方式：{{targetMap[scope.row.target]}}<br/>
                 链接地址：{{scope.row.url}}
               </div>
               <cs-icon name="link"/>
@@ -187,7 +189,7 @@
 
           <el-button
             size="small"
-            @click="() => {}"
+            @click="updata(scope.$index)"
             type="text">编辑</el-button>
 
           <el-button
@@ -202,13 +204,13 @@
       :title="textMap[dialogStatus]"
       :visible.sync="dialogFormVisible"
       :append-to-body="true"
-      width="750px">
+      width="760px">
 
       <el-form
         :model="form"
         :rules="rules"
         ref="form"
-        label-width="80px">
+        label-width="90px">
 
         <el-form-item
           label="名称"
@@ -279,12 +281,13 @@
         <el-row>
           <el-col :span="12">
             <el-form-item
-              label="投放时间"
+              label="投放日期"
               prop="begin_time">
               <el-date-picker
                 v-model="form.begin_time"
                 type="datetime"
-                placeholder="请选择广告开始投放时间"
+                value-format="yyyy-MM-dd HH:mm:ss"
+                placeholder="请选择广告开始投放日期"
                 style="width: 100%;">
               </el-date-picker>
             </el-form-item>
@@ -292,12 +295,13 @@
 
           <el-col :span="12">
             <el-form-item
-              label="结束时间"
+              label="结束日期"
               prop="end_time">
               <el-date-picker
                 v-model="form.end_time"
                 type="datetime"
-                placeholder="请选择广告投放结束时间"
+                value-format="yyyy-MM-dd HH:mm:ss"
+                placeholder="请选择广告投放结束日期"
                 style="width: 100%;">
               </el-date-picker>
             </el-form-item>
@@ -373,13 +377,13 @@
           v-if="dialogStatus === 'create'"
           type="primary"
           :loading="dialogLoading"
-          @click="() => {}"
+          @click="handleCreate"
           size="small">确定</el-button>
 
         <el-button
           v-else type="primary"
           :loading="dialogLoading"
-          @click="() => {}"
+          @click="handleUpdata"
           size="small">修改</el-button>
       </div>
     </el-dialog>
@@ -390,7 +394,9 @@
 import {
   setAdsStatus,
   delAdsList,
-  setAdsSort
+  setAdsSort,
+  addAdsItem,
+  setAdsItem
 } from '@/api/ads/ads'
 import util from '@/utils/util'
 
@@ -429,6 +435,7 @@ export default {
       dialogLoading: false,
       dialogFormVisible: false,
       dialogStatus: '',
+      form: {},
       textMap: {
         update: '编辑广告',
         create: '新增广告'
@@ -468,9 +475,66 @@ export default {
         _self: '当前窗口',
         _blank: '新窗口'
       },
-      form: {
-      },
       rules: {
+        ads_position_id: [
+          {
+            required: true,
+            message: '至少选择一项',
+            trigger: 'change'
+          }
+        ],
+        code: [
+          {
+            max: 16,
+            message: '长度不能大于 16 个字符',
+            trigger: 'blur'
+          }
+        ],
+        name: [
+          {
+            required: true,
+            message: '名称不能为空',
+            trigger: 'blur'
+          },
+          {
+            max: 100,
+            message: '长度不能大于 100 个字符',
+            trigger: 'blur'
+          }
+        ],
+        url: [
+          {
+            required: true,
+            message: '链接地址不能为空',
+            trigger: 'blur'
+          },
+          {
+            max: 255,
+            message: '长度不能大于 255 个字符',
+            trigger: 'blur'
+          }
+        ],
+        begin_time: [
+          {
+            required: true,
+            message: '投放日期不能为空',
+            trigger: 'change'
+          }
+        ],
+        end_time: [
+          {
+            required: true,
+            message: '结束日期不能为空',
+            trigger: 'change'
+          }
+        ],
+        sort: [
+          {
+            type: 'number',
+            message: '必须为数字值',
+            trigger: 'blur'
+          }
+        ]
       }
     }
   },
@@ -611,6 +675,10 @@ export default {
       for (const value of this.positionTable) {
         if (value.ads_position_id === val) {
           this.adsType = value.type
+          if (this.adsType === 1) {
+            this.imageFile = this.content.image
+          }
+
           break
         }
       }
@@ -618,6 +686,17 @@ export default {
     // 新建广告
     create() {
       this.form = {
+        ads_position_id: undefined,
+        code: '',
+        name: '',
+        url: '',
+        target: '_blank',
+        content: undefined,
+        color: '#FFFFFF',
+        begin_time: undefined,
+        end_time: undefined,
+        sort: 50,
+        status: '1'
       }
 
       this.$nextTick(() => {
@@ -631,6 +710,98 @@ export default {
       this.dialogStatus = 'create'
       this.dialogLoading = false
       this.dialogFormVisible = true
+    },
+    // 根据类型获取广告实际内容
+    getFormContent() {
+      return this.adsType === 0 ? this.content.image : this.content.code
+    },
+    // 请求创建广告
+    handleCreate() {
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          this.dialogLoading = true
+          this.form.color = this.form.color || ''
+          this.form.content = this.getFormContent()
+
+          addAdsItem(this.form)
+            .then(res => {
+              this.currentTableData.unshift({
+                ...res.data,
+                get_ads_position: {
+                  ...this.positionTable.find(item => item.ads_position_id === res.data.ads_position_id)
+                }
+              })
+
+              this.dialogFormVisible = false
+              this.$message.success('操作成功')
+            })
+            .catch(() => {
+              this.dialogLoading = false
+            })
+        }
+      })
+    },
+    // 编辑广告
+    updata(index) {
+      this.currentIndex = index
+      const data = this.currentTableData[index]
+      this.adsType = data.type
+
+      this.form = {
+        ...data,
+        status: data.status.toString()
+      }
+
+      if (this.$refs.form) {
+        this.$nextTick(() => {
+          this.$refs.form.clearValidate()
+        })
+      }
+
+      // 初始化组件数据
+      this.content = { image: [], code: '' }
+      if (this.adsType === 0) {
+        this.imageFile = Array.isArray(this.form.content) ? this.form.content : []
+        this.content = { image: [...this.imageFile], code: '' }
+      } else {
+        this.imageFile = []
+        this.content.code = this.form.content.toString()
+      }
+
+      this.dialogStatus = 'update'
+      this.dialogLoading = false
+      this.dialogFormVisible = true
+    },
+    // 请求编辑广告
+    handleUpdata() {
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          this.dialogLoading = true
+          this.form.color = this.form.color || ''
+          this.form.content = this.getFormContent()
+
+          setAdsItem(this.form)
+            .then(res => {
+              this.$set(
+                this.currentTableData,
+                this.currentIndex,
+                {
+                  ...this.currentTableData[this.currentIndex],
+                  ...res.data,
+                  get_ads_position: {
+                    ...this.positionTable.find(item => item.ads_position_id === this.form.ads_position_id)
+                  }
+                }
+              )
+
+              this.dialogFormVisible = false
+              this.$message.success('操作成功')
+            })
+            .catch(() => {
+              this.dialogLoading = false
+            })
+        }
+      })
     }
   }
 }
