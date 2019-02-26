@@ -4,7 +4,7 @@
       :inline="true"
       size="small">
 
-      <el-form-item>
+      <el-form-item v-if="auth.add">
         <el-button-group>
           <el-button
             :disabled="loading"
@@ -15,9 +15,10 @@
         </el-button-group>
       </el-form-item>
 
-      <el-form-item>
+      <el-form-item v-if="auth.enable || auth.disable">
         <el-button-group>
           <el-button
+            v-if="auth.enable"
             :disabled="loading"
             @click="handleStatus(null, 1, true)">
             <cs-icon name="check"/>
@@ -25,6 +26,7 @@
           </el-button>
 
           <el-button
+            v-if="auth.disable"
             :disabled="loading"
             @click="handleStatus(null, 0, true)">
             <cs-icon name="close"/>
@@ -36,6 +38,7 @@
       <el-form-item>
         <el-button-group>
           <el-button
+            v-if="auth.del"
             :disabled="loading"
             @click="handleDelete(null)">
             <cs-icon name="trash-o"/>
@@ -126,6 +129,7 @@
         min-width="95">
         <template slot-scope="scope">
           <el-input-number
+            v-if="auth.sort"
             size="mini"
             v-model="scope.row.sort"
             @change="handleSort(scope.$index)"
@@ -134,6 +138,9 @@
             :min="0"
             :max="255">
           </el-input-number>
+          <span v-else>
+            {{scope.row.sort}}
+          </span>
         </template>
       </el-table-column>
 
@@ -164,7 +171,7 @@
           <el-tag
             size="mini"
             :type="statusMap[scope.row.status].type"
-            style="cursor: pointer;"
+            :style="auth.enable || auth.disable ? 'cursor: pointer;' : ''"
             @click.native="handleStatus(scope.$index)">
             {{statusMap[scope.row.status].text}}
           </el-tag>
@@ -190,11 +197,13 @@
             链接</el-button>
 
           <el-button
+            v-if="auth.set"
             size="small"
             @click="updata(scope.$index)"
             type="text">编辑</el-button>
 
           <el-button
+            v-if="auth.del"
             size="small"
             @click="handleDelete(scope.$index)"
             type="text">删除</el-button>
@@ -438,6 +447,14 @@ export default {
       dialogFormVisible: false,
       dialogStatus: '',
       form: {},
+      auth: {
+        add: false,
+        set: false,
+        del: false,
+        sort: false,
+        enable: false,
+        disable: false
+      },
       textMap: {
         update: '编辑广告',
         create: '新增广告'
@@ -541,6 +558,12 @@ export default {
     }
   },
   mounted() {
+    this.auth.add = this.$has('/system/ads/ads/add')
+    this.auth.set = this.$has('/system/ads/ads/set')
+    this.auth.del = this.$has('/system/ads/ads/del')
+    this.auth.sort = this.$has('/system/ads/ads/sort')
+    this.auth.enable = this.$has('/system/ads/ads/enable')
+    this.auth.disable = this.$has('/system/ads/ads/disable')
   },
   methods: {
     // 获取列表中的编号
@@ -606,6 +629,16 @@ export default {
         const newStatus = oldData.status ? 0 : 1
 
         if (oldData.status > 1) {
+          return
+        }
+
+        // 禁用权限检测
+        if (newStatus === 0 && !this.auth.disable) {
+          return
+        }
+
+        // 启用权限检测
+        if (newStatus === 1 && !this.auth.enable) {
           return
         }
 

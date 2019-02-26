@@ -179,7 +179,6 @@
         min-width="100">
         <template slot-scope="scope">
           <el-button
-            v-if="auth.view"
             size="small"
             @click="handleView(scope.$index)"
             type="text">
@@ -231,7 +230,6 @@ export default {
         add: false,
         del: false,
         set: false,
-        view: false,
         top: false,
         remove_top: false,
         enable: false,
@@ -291,7 +289,6 @@ export default {
     this.auth.add = this.$has('/system/article/article/add')
     this.auth.del = this.$has('/system/article/article/del')
     this.auth.set = this.$has('/system/article/article/set')
-    this.auth.view = this.$has('/system/article/article/view')
     this.auth.top = this.$has('/system/article/article/top')
     this.auth.remove_top = this.$has('/system/article/article/remove_top')
     this.auth.enable = this.$has('/system/article/article/enable')

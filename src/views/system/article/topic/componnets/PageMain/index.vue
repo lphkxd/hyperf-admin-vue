@@ -119,7 +119,6 @@
         min-width="100">
         <template slot-scope="scope">
           <el-button
-            v-if="auth.view"
             size="small"
             @click="handleView(scope.row.topic_id)"
             type="text">预览</el-button>
@@ -164,7 +163,6 @@ export default {
         add: false,
         del: false,
         set: false,
-        view: false,
         enable: false,
         disable: false
       },
@@ -203,7 +201,6 @@ export default {
     this.auth.add = this.$has('/system/article/topic/add')
     this.auth.del = this.$has('/system/article/topic/del')
     this.auth.set = this.$has('/system/article/topic/set')
-    this.auth.view = this.$has('/system/article/topic/view')
     this.auth.enable = this.$has('/system/article/topic/enable')
     this.auth.disable = this.$has('/system/article/topic/disable')
   },
