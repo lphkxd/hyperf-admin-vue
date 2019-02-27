@@ -31,8 +31,8 @@ import { getAdminList } from '@/api/user/admin'
 export default {
   name: 'system-admin-member',
   components: {
-    'PageHeader': () => import('./componnets/PageHeader'),
-    'PageMain': () => import('./componnets/PageMain'),
+    'PageHeader': () => import('./components/PageHeader'),
+    'PageMain': () => import('./components/PageMain'),
     'PageFooter': () => import('@/layout/header-aside/components/footer')
   },
   data() {

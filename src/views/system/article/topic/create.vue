@@ -16,7 +16,7 @@
 export default {
   name: 'system-article-topic-create',
   components: {
-    'PageEdit': () => import('./componnets/PageEdit')
+    'PageEdit': () => import('./components/PageEdit')
   },
   data() {
     return {

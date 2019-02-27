@@ -21,7 +21,7 @@ import { getArticleCatList } from '@/api/article/cat'
 export default {
   name: 'system-article-article-create',
   components: {
-    'PageEdit': () => import('./componnets/PageEdit')
+    'PageEdit': () => import('./components/PageEdit')
   },
   data() {
     return {

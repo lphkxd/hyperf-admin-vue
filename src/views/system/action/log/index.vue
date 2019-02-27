@@ -33,8 +33,8 @@ import { getActionLogList } from '@/api/action/log'
 export default {
   name: 'system-action-log',
   components: {
-    'PageHeader': () => import('./componnets/PageHeader'),
-    'PageMain': () => import('./componnets/PageMain'),
+    'PageHeader': () => import('./components/PageHeader'),
+    'PageMain': () => import('./components/PageMain'),
     'PageFooter': () => import('@/layout/header-aside/components/footer')
   },
   data() {

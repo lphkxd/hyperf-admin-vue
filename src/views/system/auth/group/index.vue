@@ -20,8 +20,8 @@ import { getAuthGroupList } from '@/api/auth/group'
 export default {
   name: 'system-auth-group',
   components: {
-    'PageHeader': () => import('./componnets/PageHeader'),
-    'PageMain': () => import('./componnets/PageMain')
+    'PageHeader': () => import('./components/PageHeader'),
+    'PageMain': () => import('./components/PageMain')
   },
   data() {
     return {

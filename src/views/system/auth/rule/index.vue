@@ -27,8 +27,8 @@ import { getAuthRuleList } from '@/api/auth/rule'
 export default {
   name: 'system-auth-rule',
   components: {
-    'PageHeader': () => import('./componnets/PageHeader'),
-    'PageMain': () => import('./componnets/PageMain')
+    'PageHeader': () => import('./components/PageHeader'),
+    'PageMain': () => import('./components/PageMain')
   },
   data() {
     return {

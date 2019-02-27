@@ -83,8 +83,8 @@
               value="">
               <el-option label="多个广告" value="0"/>
               <el-option label="单个广告" value="1"/>
-              <el-option label="随机多个广告" value="2"/>
-              <el-option label="随机单个广告" value="3"/>
+              <el-option label="随机多个" value="2"/>
+              <el-option label="随机单个" value="3"/>
             </el-select>
           </el-form-item>
 

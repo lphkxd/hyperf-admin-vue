@@ -31,8 +31,8 @@ import { getAdsPositionList } from '@/api/ads/position'
 export default {
   name: 'system-ads-position',
   components: {
-    'PageHeader': () => import('./componnets/PageHeader'),
-    'PageMain': () => import('./componnets/PageMain'),
+    'PageHeader': () => import('./components/PageHeader'),
+    'PageMain': () => import('./components/PageMain'),
     'PageFooter': () => import('@/layout/header-aside/components/footer')
   },
   data() {

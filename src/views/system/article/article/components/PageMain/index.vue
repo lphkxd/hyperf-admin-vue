@@ -10,7 +10,27 @@
             :disabled="loading"
             @click="handleCreate">
             <cs-icon name="plus"/>
-            新增专题
+            新增文章
+          </el-button>
+        </el-button-group>
+      </el-form-item>
+
+      <el-form-item v-if="auth.top || auth.remove_top">
+        <el-button-group>
+          <el-button
+            v-if="auth.top"
+            :disabled="loading"
+            @click="handleTop(null, 1, true)">
+            <cs-icon name="level-up"/>
+            置顶
+          </el-button>
+
+          <el-button
+            v-if="auth.remove_top"
+            :disabled="loading"
+            @click="handleTop(null, 0, true)">
+            <cs-icon name="level-down"/>
+            撤顶
           </el-button>
         </el-button-group>
       </el-form-item>
@@ -76,16 +96,64 @@
         label="标题"
         prop="title"
         sortable="custom"
-        min-width="200"
+        min-width="250"
         :show-overflow-tooltip="true">
+        <template slot-scope="scope">
+          <el-popover
+            v-if="scope.row.image.length"
+            placement="right"
+            trigger="hover">
+            <a
+              v-for="(item, index) in scope.row.image"
+              :key="index"
+              :href="item.url"
+              target="_blank">
+              <img class="image" :src="item.source | getPreviewUrl" align="center" alt="">
+            </a>
+            <cs-icon slot="reference" name="image"/>
+          </el-popover>
+          {{scope.row.title}}
+        </template>
       </el-table-column>
 
       <el-table-column
-        label="别名"
-        prop="alias"
+        label="分类"
+        prop="article_cat_id"
+        sortable="custom">
+        <template slot-scope="scope">
+          {{scope.row.get_article_cat.cat_name}}
+        </template>
+      </el-table-column>
+
+      <el-table-column
+        label="游览量"
+        prop="page_views"
+        min-width="70">
+      </el-table-column>
+
+      <el-table-column
+        label="创建日期"
+        prop="create_time"
         sortable="custom"
-        min-width="130"
-        :show-overflow-tooltip="true">
+        align="center"
+        min-width="160">
+      </el-table-column>
+
+      <el-table-column
+        label="置顶"
+        prop="is_top"
+        sortable="custom"
+        align="center"
+        width="100">
+        <template slot-scope="scope">
+          <el-tag
+            size="mini"
+            :type="topMap[scope.row.is_top].type"
+            :style="auth.top || auth.remove_top ? 'cursor: pointer;' : ''"
+            @click.native="handleTop(scope.$index)">
+            {{topMap[scope.row.is_top].text}}
+          </el-tag>
+        </template>
       </el-table-column>
 
       <el-table-column
@@ -106,27 +174,26 @@
       </el-table-column>
 
       <el-table-column
-        label="创建日期"
-        prop="create_time"
-        sortable="custom"
-        align="center"
-        width="160">
-      </el-table-column>
-
-      <el-table-column
         label="操作"
         align="center"
-        min-width="100">
+        min-width="110">
         <template slot-scope="scope">
           <el-button
             size="small"
-            @click="handleView(scope.row.topic_id)"
-            type="text">预览</el-button>
+            @click="handleView(scope.$index)"
+            type="text">
+            <el-tooltip
+              v-if="scope.row.url"
+              :content="scope.row.url"
+              placement="top">
+              <cs-icon name="link"/>
+            </el-tooltip>
+            {{scope.row.url ? '外链' : '预览'}}</el-button>
 
           <el-button
             v-if="auth.set"
             size="small"
-            @click="handleEdit(scope.row.topic_id)"
+            @click="handleEdit(scope.row.article_id)"
             type="text">编辑</el-button>
 
           <el-button
@@ -136,14 +203,14 @@
             type="text">删除</el-button>
         </template>
       </el-table-column>
-
     </el-table>
   </div>
 </template>
 
 <script>
+import util from '@/utils/util'
 import { mapActions } from 'vuex'
-import { delTopicList, setTopicStatus } from '@/api/article/topic'
+import { delArticleList, setArticleTop, setArticleStatus } from '@/api/article/article'
 
 export default {
   props: {
@@ -163,8 +230,24 @@ export default {
         add: false,
         del: false,
         set: false,
+        top: false,
+        remove_top: false,
         enable: false,
         disable: false
+      },
+      topMap: {
+        0: {
+          text: '普通',
+          type: 'info'
+        },
+        1: {
+          text: '置顶',
+          type: 'warning'
+        },
+        2: {
+          text: '...',
+          type: 'info'
+        }
       },
       statusMap: {
         0: {
@@ -190,26 +273,33 @@ export default {
       immediate: true
     }
   },
+  filters: {
+    getPreviewUrl(val) {
+      return util.getImageCodeUrl(val, 'article_lists')
+    }
+  },
   activated() {
     this.updateChange({
-      name: 'system-article-topic',
+      name: 'system-article-article',
       source: this.currentTableData,
-      key: 'topic_id'
+      key: 'article_id'
     })
   },
   mounted() {
-    this.auth.add = this.$has('/system/article/topic/add')
-    this.auth.del = this.$has('/system/article/topic/del')
-    this.auth.set = this.$has('/system/article/topic/set')
-    this.auth.enable = this.$has('/system/article/topic/enable')
-    this.auth.disable = this.$has('/system/article/topic/disable')
+    this.auth.add = this.$has('/system/article/article/add')
+    this.auth.del = this.$has('/system/article/article/del')
+    this.auth.set = this.$has('/system/article/article/set')
+    this.auth.top = this.$has('/system/article/article/top')
+    this.auth.remove_top = this.$has('/system/article/article/remove_top')
+    this.auth.enable = this.$has('/system/article/article/enable')
+    this.auth.disable = this.$has('/system/article/article/disable')
   },
   methods: {
     ...mapActions('careyshop/update', [
       'updateChange'
     ]),
-    // 获取列表中的专题编号
-    _getTopicIdList(val) {
+    // 获取列表中的文章编号
+    _getArticleIdList(val) {
       if (val === null) {
         val = this.multipleSelection
       }
@@ -217,10 +307,10 @@ export default {
       let idList = []
       if (Array.isArray(val)) {
         val.forEach(value => {
-          idList.push(value.topic_id)
+          idList.push(value.article_id)
         })
       } else {
-        idList.push(this.currentTableData[val].topic_id)
+        idList.push(this.currentTableData[val].article_id)
       }
 
       return idList
@@ -245,17 +335,17 @@ export default {
     },
     // 批量设置状态
     handleStatus(val, status = 0, confirm = false) {
-      let topic_id = this._getTopicIdList(val)
-      if (topic_id.length === 0) {
+      let article_id = this._getArticleIdList(val)
+      if (article_id.length === 0) {
         this.$message.error('请选择要操作的数据')
         return
       }
 
-      function setStatus(topic_id, status, vm) {
-        setTopicStatus(topic_id, status)
+      function setStatus(article_id, status, vm) {
+        setArticleStatus(article_id, status)
           .then(() => {
             vm.currentTableData.forEach((value, index) => {
-              if (topic_id.indexOf(value.topic_id) !== -1) {
+              if (article_id.indexOf(value.article_id) !== -1) {
                 vm.$set(vm.currentTableData, index, {
                   ...value,
                   status
@@ -286,7 +376,7 @@ export default {
         }
 
         this.$set(this.currentTableData, val, { ...oldData, status: 2 })
-        setStatus(topic_id, newStatus, this)
+        setStatus(article_id, newStatus, this)
         return
       }
 
@@ -296,15 +386,73 @@ export default {
         type: 'warning'
       })
         .then(() => {
-          setStatus(topic_id, status, this)
+          setStatus(article_id, status, this)
         })
         .catch(() => {
         })
     },
-    // 批量删除专题
+    // 批量设置置顶
+    handleTop(val, is_top = 0, confirm = false) {
+      let article_id = this._getArticleIdList(val)
+      if (article_id.length === 0) {
+        this.$message.error('请选择要操作的数据')
+        return
+      }
+
+      function setTop(article_id, is_top, vm) {
+        setArticleTop(article_id, is_top)
+          .then(() => {
+            vm.currentTableData.forEach((value, index) => {
+              if (article_id.indexOf(value.article_id) !== -1) {
+                vm.$set(vm.currentTableData, index, {
+                  ...value,
+                  is_top
+                })
+              }
+            })
+
+            vm.$message.success('操作成功')
+          })
+      }
+
+      if (!confirm) {
+        let oldData = this.currentTableData[val]
+        const newTop = oldData.is_top ? 0 : 1
+
+        if (oldData.is_top > 1) {
+          return
+        }
+
+        // 禁用权限检测
+        if (newTop === 0 && !this.auth.remove_top) {
+          return
+        }
+
+        // 启用权限检测
+        if (newTop === 1 && !this.auth.top) {
+          return
+        }
+
+        this.$set(this.currentTableData, val, { ...oldData, is_top: 2 })
+        setTop(article_id, newTop, this)
+        return
+      }
+
+      this.$confirm('确定要执行该操作吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(() => {
+          setTop(article_id, is_top, this)
+        })
+        .catch(() => {
+        })
+    },
+    // 批量删除文章
     handleDelete(val) {
-      let topic_id = this._getTopicIdList(val)
-      if (topic_id.length === 0) {
+      let article_id = this._getArticleIdList(val)
+      if (article_id.length === 0) {
         this.$message.error('请选择要操作的数据')
         return
       }
@@ -315,10 +463,10 @@ export default {
         type: 'warning'
       })
         .then(() => {
-          delTopicList(topic_id)
+          delArticleList(article_id)
             .then(() => {
               for (let i = this.currentTableData.length - 1; i >= 0; i--) {
-                if (topic_id.indexOf(this.currentTableData[i].topic_id) !== -1) {
+                if (article_id.indexOf(this.currentTableData[i].article_id) !== -1) {
                   this.currentTableData.splice(i, 1)
                 }
               }
@@ -333,26 +481,47 @@ export default {
         .catch(() => {
         })
     },
-    // 发送预览专题请求
-    handleView(key) {
+    // 发送预览文章请求
+    handleView(index) {
+      if (this.currentTableData[index].url) {
+        util.open(this.currentTableData[index].url)
+        return
+      }
+
       this.$router.push({
-        name: 'system-article-topic-view',
-        params: { topic_id: key }
+        name: 'system-article-article-view',
+        params: {
+          article_id: this.currentTableData[index].article_id
+        }
       })
     },
-    // 创建专题
+    // 创建文章
     handleCreate() {
       this.$router.push({
-        name: 'system-article-topic-create'
+        name: 'system-article-article-create'
       })
     },
-    // 编辑专题
+    // 编辑文章
     handleEdit(key) {
       this.$router.push({
-        name: 'system-article-topic-update',
-        params: { topic_id: key }
+        name: 'system-article-article-update',
+        params: {
+          article_id: key
+        }
       })
     }
   }
 }
 </script>
+
+<style scoped>
+  .item {
+    margin-top: 10px;
+    margin-right: 40px;
+  }
+  .image {
+    width: auto;
+    max-height: 100px;
+    margin: 0 auto;
+  }
+</style>

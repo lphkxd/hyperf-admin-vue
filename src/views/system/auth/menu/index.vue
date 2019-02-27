@@ -23,8 +23,8 @@ import { getMenuList } from '@/api/auth/menu'
 export default {
   name: 'system-auth-menu',
   components: {
-    'PageHeader': () => import('./componnets/PageHeader'),
-    'PageMain': () => import('./componnets/PageMain')
+    'PageHeader': () => import('./components/PageHeader'),
+    'PageMain': () => import('./components/PageMain')
   },
   data() {
     return {

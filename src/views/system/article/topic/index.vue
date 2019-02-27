@@ -32,8 +32,8 @@ import { getTopicList } from '@/api/article/topic'
 export default {
   name: 'system-article-topic',
   components: {
-    'PageHeader': () => import('./componnets/PageHeader'),
-    'PageMain': () => import('./componnets/PageMain'),
+    'PageHeader': () => import('./components/PageHeader'),
+    'PageMain': () => import('./components/PageMain'),
     'PageFooter': () => import('@/layout/header-aside/components/footer')
   },
   data() {

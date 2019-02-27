@@ -10,7 +10,7 @@
             :disabled="loading"
             @click="create">
             <cs-icon name="plus"/>
-            新增广告
+            新增位置
           </el-button>
         </el-button-group>
       </el-form-item>
@@ -78,16 +78,14 @@
         sortable="custom"
         min-width="180"
         :show-overflow-tooltip="true">
-      </el-table-column>
-
-      <el-table-column
-        label="广告位置"
-        prop="ads_position_id"
-        sortable="custom"
-        min-width="180"
-        :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          {{scope.row['get_ads_position']['name']}}
+          <el-tooltip
+            v-if="scope.row.description"
+            :content="`描述：${scope.row.description}`"
+            placement="top-start">
+            <cs-icon name="square-o"/>
+          </el-tooltip>
+          {{scope.row.name}}
         </template>
       </el-table-column>
 
@@ -106,6 +104,14 @@
       </el-table-column>
 
       <el-table-column
+        label="展示方式"
+        align="center">
+        <template slot-scope="scope">
+          {{displayMap[scope.row.display]}}
+        </template>
+      </el-table-column>
+
+      <el-table-column
         label="类型"
         align="center">
         <template slot-scope="scope">
@@ -114,50 +120,22 @@
       </el-table-column>
 
       <el-table-column
+        label="宽度"
+        prop="width"
+        sortable="custom">
+      </el-table-column>
+
+      <el-table-column
+        label="高度"
+        prop="height"
+        sortable="custom">
+      </el-table-column>
+
+      <el-table-column
         label="背景色"
         min-width="90">
         <template slot-scope="scope">
           <span :style="`background-color:${scope.row.color}`">{{scope.row.color}}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column
-        label="排序值"
-        prop="sort"
-        align="center"
-        sortable="custom"
-        min-width="95">
-        <template slot-scope="scope">
-          <el-input-number
-            v-if="auth.sort"
-            size="mini"
-            v-model="scope.row.sort"
-            @change="handleSort(scope.$index)"
-            style="width: 88px;"
-            controls-position="right"
-            :min="0"
-            :max="255">
-          </el-input-number>
-          <span v-else>
-            {{scope.row.sort}}
-          </span>
-        </template>
-      </el-table-column>
-
-      <el-table-column
-        label="投放日期"
-        prop="begin_time"
-        align="center"
-        sortable="custom"
-        min-width="100">
-        <template slot-scope="scope">
-          <el-tooltip placement="top">
-            <div slot="content">
-              开始投放日期：{{scope.row.begin_time}}<br/>
-              投放结束日期：{{scope.row.end_time}}
-            </div>
-            <el-tag size="mini" type="info">详细</el-tag>
-          </el-tooltip>
         </template>
       </el-table-column>
 
@@ -181,21 +159,8 @@
       <el-table-column
         label="操作"
         align="center"
-        min-width="140">
+        min-width="80">
         <template slot-scope="scope">
-          <el-button
-            size="small"
-            @click="handleView(scope.$index)"
-            type="text">
-            <el-tooltip placement="top">
-              <div slot="content">
-                打开方式：{{targetMap[scope.row.target]}}<br/>
-                链接地址：{{scope.row.url}}
-              </div>
-              <cs-icon name="link"/>
-            </el-tooltip>
-            链接</el-button>
-
           <el-button
             v-if="auth.set"
             size="small"
@@ -215,39 +180,48 @@
       :title="textMap[dialogStatus]"
       :visible.sync="dialogFormVisible"
       :append-to-body="true"
-      width="760px">
+      width="750px">
 
       <el-form
         :model="form"
         :rules="rules"
         ref="form"
-        label-width="90px">
+        label-width="80px">
 
         <el-form-item
           label="名称"
           prop="name">
           <el-input
             v-model="form.name"
-            placeholder="请输入广告名称"
+            placeholder="请输入广告位置名称"
             clearable/>
+        </el-form-item>
+
+        <el-form-item
+          label="描述"
+          prop="description">
+          <el-input
+            v-model="form.description"
+            placeholder="可输入广告位置描述"
+            type="textarea"
+            :rows="2"/>
         </el-form-item>
 
         <el-row>
           <el-col :span="12">
             <el-form-item
-              label="广告位置"
-              prop="ads_position_id">
+              label="平台"
+              prop="platform">
               <el-select
-                v-model="form.ads_position_id"
+                v-model="form.platform"
                 placeholder="请选择"
                 style="width: 100%;"
-                @change="switchPosition"
                 value="">
                 <el-option
-                  v-for="(item, index) in positionTable"
+                  v-for="(item, index) in platformMap"
                   :key="index"
-                  :label="item.name"
-                  :value="item.ads_position_id"/>
+                  :label="item"
+                  :value="index"/>
               </el-select>
             </el-form-item>
           </el-col>
@@ -258,63 +232,8 @@
               prop="code">
               <el-input
                 v-model="form.code"
-                placeholder="可输入广告编码"
+                placeholder="可输入广告位置编码"
                 clearable/>
-            </el-form-item>
-          </el-col>
-        </el-row>
-
-        <el-form-item
-          v-if="dialogFormVisible"
-          :label="adsType !== undefined ? typeMap[adsType]['text'] : '内容'"
-          prop="content">
-          <cs-upload
-            v-if="adsType === 0"
-            v-model="content.image"
-            :fileList="imageFile"
-            :multiple="true"/>
-
-          <cs-tinymce
-            v-if="adsType === 1"
-            v-model="content.code"
-            code="ads_content"
-            :height="180"/>
-
-          <el-alert
-            v-if="adsType === undefined"
-            title="请先选择广告位置"
-            type="info"
-            :closable="false"
-            center>
-          </el-alert>
-        </el-form-item>
-
-        <el-row>
-          <el-col :span="12">
-            <el-form-item
-              label="投放日期"
-              prop="begin_time">
-              <el-date-picker
-                v-model="form.begin_time"
-                type="datetime"
-                value-format="yyyy-MM-dd HH:mm:ss"
-                placeholder="请选择广告开始投放日期"
-                style="width: 100%;">
-              </el-date-picker>
-            </el-form-item>
-          </el-col>
-
-          <el-col :span="12">
-            <el-form-item
-              label="结束日期"
-              prop="end_time">
-              <el-date-picker
-                v-model="form.end_time"
-                type="datetime"
-                value-format="yyyy-MM-dd HH:mm:ss"
-                placeholder="请选择广告投放结束日期"
-                style="width: 100%;">
-              </el-date-picker>
             </el-form-item>
           </el-col>
         </el-row>
@@ -322,38 +241,62 @@
         <el-row>
           <el-col :span="12">
             <el-form-item
-              label="链接地址"
-              prop="url">
-              <el-input
-                v-model="form.url"
-                placeholder="请输入广告链接地址"
-                clearable/>
+              label="展示方式"
+              prop="display">
+              <el-select
+                v-model="form.display"
+                placeholder="请选择"
+                style="width: 100%;"
+                value="">
+                <el-option
+                  v-for="(item, index) in displayMap"
+                  :key="index"
+                  :label="item"
+                  :value="index"/>
+              </el-select>
             </el-form-item>
           </el-col>
 
           <el-col :span="12">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item
+                  label="宽度"
+                  prop="width">
+                  <el-input-number
+                    v-model="form.width"
+                    :min="0"
+                    :controls="false"
+                    style="width: 100%;"/>
+                </el-form-item>
+              </el-col>
+
+              <el-col :span="12">
+                <el-form-item
+                  label="高度"
+                  prop="height">
+                  <el-input-number
+                    v-model="form.height"
+                    :min="0"
+                    :controls="false"
+                    style="width: 100%;"/>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-col>
+        </el-row>
+
+        <el-row>
+          <el-col :span="12">
             <el-form-item
-              label="打开方式"
-              prop="target">
-              <el-radio-group v-model="form.target">
-                <el-radio label="_self">当前窗口</el-radio>
-                <el-radio label="_blank">新窗口</el-radio>
+              label="类型"
+              prop="type">
+              <el-radio-group
+                v-model="form.type"
+                @change="switchType">
+                <el-radio label="0">图片</el-radio>
+                <el-radio label="1">代码</el-radio>
               </el-radio-group>
-            </el-form-item>
-          </el-col>
-        </el-row>
-
-        <el-row>
-          <el-col :span="12">
-            <el-form-item
-              label="排序"
-              prop="sort">
-              <el-input-number
-                v-model="form.sort"
-                :min="0"
-                :max="255"
-                controls-position="right"
-                label="可输入广告排序值"/>
             </el-form-item>
           </el-col>
 
@@ -366,6 +309,26 @@
             </el-form-item>
           </el-col>
         </el-row>
+
+        <el-form-item
+          v-if="form.type === '0' && dialogFormVisible"
+          label="图片"
+          prop="content">
+          <cs-upload
+            v-model="content.image"
+            :fileList="imageFile"
+            :multiple="true"/>
+        </el-form-item>
+
+        <el-form-item
+          v-if="form.type === '1' && dialogFormVisible"
+          label="代码"
+          prop="content">
+          <cs-tinymce
+            v-model="content.code"
+            code="ads_content"
+            :height="180"/>
+        </el-form-item>
 
         <el-form-item
           label="状态"
@@ -403,13 +366,11 @@
 
 <script>
 import {
-  setAdsStatus,
-  delAdsList,
-  setAdsSort,
-  addAdsItem,
-  setAdsItem
-} from '@/api/ads/ads'
-import util from '@/utils/util'
+  setAdsPositionStatus,
+  delAdsPositionList,
+  addAdsPositionItem,
+  setAdsPositionItem
+} from '@/api/ads/position'
 
 export default {
   components: {
@@ -420,24 +381,12 @@ export default {
     tableData: {
       default: () => []
     },
-    positionTable: {
-      default: () => []
-    },
     loading: {
       default: false
     }
   },
-  watch: {
-    tableData: {
-      handler(val) {
-        this.currentTableData = val
-      },
-      immediate: true
-    }
-  },
   data() {
     return {
-      adsType: undefined,
       imageFile: [],
       content: { image: [], code: '' },
       currentTableData: [],
@@ -449,15 +398,14 @@ export default {
       form: {},
       auth: {
         add: false,
-        set: false,
         del: false,
-        sort: false,
+        set: false,
         enable: false,
         disable: false
       },
       textMap: {
-        update: '编辑广告',
-        create: '新增广告'
+        update: '编辑位置',
+        create: '新增位置'
       },
       platformMap: {
         0: 'all',
@@ -465,6 +413,12 @@ export default {
         2: 'mobile',
         3: 'ios',
         4: 'android'
+      },
+      displayMap: {
+        0: '多个广告',
+        1: '单个广告',
+        2: '随机多个',
+        3: '随机单个'
       },
       typeMap: {
         0: {
@@ -490,23 +444,19 @@ export default {
           type: 'info'
         }
       },
-      targetMap: {
-        _self: '当前窗口',
-        _blank: '新窗口'
-      },
       rules: {
-        ads_position_id: [
-          {
-            required: true,
-            message: '至少选择一项',
-            trigger: 'change'
-          }
-        ],
         code: [
           {
             max: 16,
             message: '长度不能大于 16 个字符',
             trigger: 'blur'
+          }
+        ],
+        platform: [
+          {
+            required: true,
+            message: '至少选择一项',
+            trigger: 'change'
           }
         ],
         name: [
@@ -521,49 +471,70 @@ export default {
             trigger: 'blur'
           }
         ],
-        url: [
-          {
-            required: true,
-            message: '链接地址不能为空',
-            trigger: 'blur'
-          },
+        description: [
           {
             max: 255,
             message: '长度不能大于 255 个字符',
             trigger: 'blur'
           }
         ],
-        begin_time: [
-          {
-            required: true,
-            message: '投放日期不能为空',
-            trigger: 'change'
-          }
-        ],
-        end_time: [
-          {
-            required: true,
-            message: '结束日期不能为空',
-            trigger: 'change'
-          }
-        ],
-        sort: [
+        width: [
           {
             type: 'number',
             message: '必须为数字值',
             trigger: 'blur'
           }
+        ],
+        height: [
+          {
+            type: 'number',
+            message: '必须为数字值',
+            trigger: 'blur'
+          }
+        ],
+        type: [
+          {
+            required: true,
+            message: '至少选择一项',
+            trigger: 'change'
+          },
+          {
+            type: 'enum',
+            enum: ['0', '1'],
+            message: '值的范围必须为 0 或 1',
+            trigger: 'change'
+          }
+        ],
+        display: [
+          {
+            required: true,
+            message: '至少选择一项',
+            trigger: 'change'
+          },
+          {
+            type: 'enum',
+            enum: ['0', '1', '2', '3'],
+            message: '值的范围必须为 0 ~ 3',
+            trigger: 'change'
+          }
         ]
       }
     }
   },
+  watch: {
+    tableData: {
+      handler(val) {
+        this.currentTableData = val
+      },
+      immediate: true
+    }
+  },
   mounted() {
-    this.auth.add = this.$has('/system/ads/ads/add')
-    this.auth.set = this.$has('/system/ads/ads/set')
-    this.auth.del = this.$has('/system/ads/ads/del')
-    this.auth.sort = this.$has('/system/ads/ads/sort')
-    this.auth.enable = this.$has('/system/ads/ads/enable')
-    this.auth.disable = this.$has('/system/ads/ads/disable')
+    this.auth.add = this.$has('/system/ads/position/add')
+    this.auth.set = this.$has('/system/ads/position/set')
+    this.auth.del = this.$has('/system/ads/position/del')
+    this.auth.enable = this.$has('/system/ads/position/enable')
+    this.auth.disable = this.$has('/system/ads/position/disable')
   },
   methods: {
     // 获取列表中的编号
@@ -575,10 +546,10 @@ export default {
       let idList = []
       if (Array.isArray(val)) {
         val.forEach(value => {
-          idList.push(value.ads_id)
+          idList.push(value.ads_position_id)
         })
       } else {
-        idList.push(this.currentTableData[val].ads_id)
+        idList.push(this.currentTableData[val].ads_position_id)
       }
 
       return idList
@@ -603,16 +574,16 @@ export default {
     },
     // 批量设置状态
     handleStatus(val, status = 0, confirm = false) {
-      let ads_id = this._getIdList(val)
-      if (ads_id.length === 0) {
+      let ads_position_id = this._getIdList(val)
+      if (ads_position_id.length === 0) {
         this.$message.error('请选择要操作的数据')
       }
 
-      function setStatus(ads_id, status, vm) {
-        setAdsStatus(ads_id, status)
+      function setStatus(ads_position_id, status, vm) {
+        setAdsPositionStatus(ads_position_id, status)
           .then(() => {
             vm.currentTableData.forEach((value, index) => {
-              if (ads_id.indexOf(value.ads_id) !== -1) {
+              if (ads_position_id.indexOf(value.ads_position_id) !== -1) {
                 vm.$set(vm.currentTableData, index, {
                   ...value,
                   status
@@ -643,7 +614,7 @@ export default {
         }
 
         this.$set(this.currentTableData, val, { ...oldData, status: 2 })
-        setStatus(ads_id, newStatus, this)
+        setStatus(ads_position_id, newStatus, this)
         return
       }
 
@@ -653,15 +624,15 @@ export default {
         type: 'warning'
       })
         .then(() => {
-          setStatus(ads_id, status, this)
+          setStatus(ads_position_id, status, this)
         })
         .catch(() => {
         })
     },
     // 批量删除
     handleDelete(val) {
-      let ads_id = this._getIdList(val)
-      if (ads_id.length === 0) {
+      let ads_position_id = this._getIdList(val)
+      if (ads_position_id.length === 0) {
         this.$message.error('请选择要操作的数据')
       }
 
@@ -671,10 +642,10 @@ export default {
         type: 'warning'
       })
         .then(() => {
-          delAdsList(ads_id)
+          delAdsPositionList(ads_position_id)
             .then(() => {
               for (let i = this.currentTableData.length - 1; i >= 0; i--) {
-                if (ads_id.indexOf(this.currentTableData[i].ads_id) !== -1) {
+                if (ads_position_id.indexOf(this.currentTableData[i].ads_position_id) !== -1) {
                   this.currentTableData.splice(i, 1)
                 }
               }
@@ -689,48 +660,19 @@ export default {
         .catch(() => {
         })
     },
-    // 打开链接地址
-    handleView(index) {
-      if (this.currentTableData[index].url) {
-        util.open(this.currentTableData[index].url)
-        return
-      }
-
-      this.$message.warning('无效的链接地址')
-    },
-    // 设置排序值
-    handleSort(index) {
-      setAdsSort(
-        this.currentTableData[index].ads_id,
-        this.currentTableData[index].sort
-      )
-    },
-    // 切换广告位置
-    switchPosition(val) {
-      for (const value of this.positionTable) {
-        if (value.ads_position_id === val) {
-          this.adsType = value.type
-          if (this.adsType === 1) {
-            this.imageFile = this.content.image
-          }
-
-          break
-        }
-      }
-    },
-    // 新建广告
+    // 新建位置
     create() {
       this.form = {
-        ads_position_id: undefined,
-        code: '',
         name: '',
-        url: '',
-        target: '_blank',
+        code: '',
+        platform: '0',
+        description: '',
+        width: 0,
+        height: 0,
         content: undefined,
         color: '#FFFFFF',
-        begin_time: undefined,
-        end_time: undefined,
-        sort: 50,
+        type: '0',
+        display: '0',
         status: '1'
       }
 
@@ -740,17 +682,16 @@ export default {
 
       this.imageFile = []
       this.content = { image: [], code: '' }
-      this.adsType = undefined
 
       this.dialogStatus = 'create'
       this.dialogLoading = false
       this.dialogFormVisible = true
     },
-    // 根据类型获取广告实际内容
+    // 根据类型获取广告位置的实际内容
     getFormContent() {
-      return this.adsType === 0 ? this.content.image : this.content.code
+      return this.form.type === '0' ? this.content.image : this.content.code
     },
-    // 请求创建广告
+    // 请求创建位置
     handleCreate() {
       this.$refs.form.validate(valid => {
         if (valid) {
@@ -758,15 +699,9 @@ export default {
           this.form.color = this.form.color || ''
           this.form.content = this.getFormContent()
 
-          addAdsItem(this.form)
+          addAdsPositionItem(this.form)
             .then(res => {
-              this.currentTableData.unshift({
-                ...res.data,
-                get_ads_position: {
-                  ...this.positionTable.find(item => item.ads_position_id === res.data.ads_position_id)
-                }
-              })
-
+              this.currentTableData.unshift(res.data)
               this.dialogFormVisible = false
               this.$message.success('操作成功')
             })
@@ -776,14 +711,16 @@ export default {
         }
       })
     },
-    // 编辑广告
+    // 编辑位置
     updata(index) {
       this.currentIndex = index
       const data = this.currentTableData[index]
-      this.adsType = data.type
 
       this.form = {
         ...data,
+        platform: data.platform.toString(),
+        type: data.type.toString(),
+        display: data.display.toString(),
         status: data.status.toString()
       }
 
@@ -795,7 +732,7 @@ export default {
 
       // 初始化组件数据
       this.content = { image: [], code: '' }
-      if (this.adsType === 0) {
+      if (this.form.type === '0') {
         this.imageFile = Array.isArray(this.form.content) ? this.form.content : []
         this.content = { image: [...this.imageFile], code: '' }
       } else {
@@ -807,7 +744,7 @@ export default {
       this.dialogLoading = false
       this.dialogFormVisible = true
     },
-    // 请求编辑广告
+    // 请求编辑位置
     handleUpdata() {
       this.$refs.form.validate(valid => {
         if (valid) {
@@ -815,20 +752,9 @@ export default {
           this.form.color = this.form.color || ''
           this.form.content = this.getFormContent()
 
-          setAdsItem(this.form)
+          setAdsPositionItem(this.form)
             .then(res => {
-              this.$set(
-                this.currentTableData,
-                this.currentIndex,
-                {
-                  ...this.currentTableData[this.currentIndex],
-                  ...res.data,
-                  get_ads_position: {
-                    ...this.positionTable.find(item => item.ads_position_id === this.form.ads_position_id)
-                  }
-                }
-              )
-
+              this.$set(this.currentTableData, this.currentIndex, res.data)
               this.dialogFormVisible = false
               this.$message.success('操作成功')
             })
@@ -837,6 +763,12 @@ export default {
             })
         }
       })
+    },
+    // 切换内容类型
+    switchType(val) {
+      if (val === '1') {
+        this.imageFile = this.content.image
+      }
     }
   }
 }
