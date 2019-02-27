@@ -101,7 +101,7 @@
         label="平台"
         min-width="70">
         <template slot-scope="scope">
-          {{platformMap[scope.row.platform]}}
+          {{platformTable[scope.row.platform]}}
         </template>
       </el-table-column>
 
@@ -423,6 +423,9 @@ export default {
     positionTable: {
       default: () => []
     },
+    platformTable: {
+      default: () => []
+    },
     loading: {
       default: false
     }
@@ -458,13 +461,6 @@ export default {
       textMap: {
         update: '编辑广告',
         create: '新增广告'
-      },
-      platformMap: {
-        0: 'all',
-        1: 'pc',
-        2: 'mobile',
-        3: 'ios',
-        4: 'android'
       },
       typeMap: {
         0: {

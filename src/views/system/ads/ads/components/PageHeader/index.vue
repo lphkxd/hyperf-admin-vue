@@ -94,11 +94,11 @@
               placeholder="请选择"
               style="width: 160px;"
               value="">
-              <el-option label="all" value="0"/>
-              <el-option label="pc" value="1"/>
-              <el-option label="mobile" value="2"/>
-              <el-option label="ios" value="3"/>
-              <el-option label="android" value="4"/>
+              <el-option
+                v-for="(item, index) in platformTable"
+                :key="index"
+                :label="item"
+                :value="index"/>
             </el-select>
           </el-form-item>
 
@@ -135,6 +135,9 @@ export default {
     },
     positionTable: {
       default: () => []
+    },
+    platformTable: {
+      default: () => []
     }
   },
   data() {
@@ -156,13 +159,13 @@ export default {
     handleFormSubmit(isRestore = false) {
       let form = {}
       for (const index in this.form) {
-        if (!this.form.hasOwnProperty(index) || !this.form[index]) {
+        if (!this.form.hasOwnProperty(index)) {
           continue
         }
 
         // 时间段处理
         if (index === 'time_period') {
-          if (this.form[index].length === 2) {
+          if (this.form[index] && this.form[index].length === 2) {
             form['begin_time'] = this.form[index][0].toUTCString()
             form['end_time'] = this.form[index][1].toUTCString()
           }

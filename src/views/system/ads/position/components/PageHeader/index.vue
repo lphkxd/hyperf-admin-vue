@@ -67,11 +67,11 @@
               clearable
               placeholder="请选择"
               value="">
-              <el-option label="all" value="0"/>
-              <el-option label="pc" value="1"/>
-              <el-option label="mobile" value="2"/>
-              <el-option label="ios" value="3"/>
-              <el-option label="android" value="4"/>
+              <el-option
+                v-for="(item, index) in platformTable"
+                :key="index"
+                :label="item"
+                :value="index"/>
             </el-select>
           </el-form-item>
 
@@ -114,6 +114,9 @@
 <script>
 export default {
   props: {
+    platformTable: {
+      default: () => []
+    },
     loading: {
       default: false
     }

@@ -99,7 +99,7 @@
         label="平台"
         min-width="70">
         <template slot-scope="scope">
-          {{platformMap[scope.row.platform]}}
+          {{platformTable[scope.row.platform]}}
         </template>
       </el-table-column>
 
@@ -218,7 +218,7 @@
                 style="width: 100%;"
                 value="">
                 <el-option
-                  v-for="(item, index) in platformMap"
+                  v-for="(item, index) in platformTable"
                   :key="index"
                   :label="item"
                   :value="index"/>
@@ -381,6 +381,9 @@ export default {
     tableData: {
       default: () => []
     },
+    platformTable: {
+      default: () => []
+    },
     loading: {
       default: false
     }
@@ -406,13 +409,6 @@ export default {
       textMap: {
         update: '编辑位置',
         create: '新增位置'
-      },
-      platformMap: {
-        0: 'all',
-        1: 'pc',
-        2: 'mobile',
-        3: 'ios',
-        4: 'android'
       },
       displayMap: {
         0: '多个广告',
@@ -665,7 +661,7 @@ export default {
       this.form = {
         name: '',
         code: '',
-        platform: '0',
+        platform: 0,
         description: '',
         width: 0,
         height: 0,
@@ -718,7 +714,6 @@ export default {
 
       this.form = {
         ...data,
-        platform: data.platform.toString(),
         type: data.type.toString(),
         display: data.display.toString(),
         status: data.status.toString()

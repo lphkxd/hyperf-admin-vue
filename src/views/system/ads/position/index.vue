@@ -4,12 +4,14 @@
     @scroll="(move) => {this.scrollTop = move.y}">
     <page-header
       slot="header"
+      :platform-table="platformTable"
       :loading="loading"
       @submit="handleSubmit"
       ref="header"/>
 
     <page-main
       :table-data="table"
+      :platform-table="platformTable"
       :loading="loading"
       @sort="handleSort"
       @refresh="handleRefresh"/>
@@ -26,6 +28,7 @@
 </template>
 
 <script>
+import { getSettingList } from '@/api/config/setting'
 import { getAdsPositionList } from '@/api/ads/position'
 
 export default {
@@ -38,6 +41,7 @@ export default {
   data() {
     return {
       table: [],
+      platformTable: [],
       scrollTop: 0,
       loading: false,
       page: {
@@ -52,7 +56,13 @@ export default {
     }
   },
   mounted() {
-    this.handleSubmit()
+    getSettingList('system_info', 'platform')
+      .then(res => {
+        this.platformTable = res.data['platform']['value']
+      })
+      .then(() => {
+        this.handleSubmit()
+      })
   },
   methods: {
     // 刷新列表页面

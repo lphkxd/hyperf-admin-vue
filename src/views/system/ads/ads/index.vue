@@ -6,6 +6,7 @@
       slot="header"
       :loading="loading"
       :position-table="positionTable"
+      :platform-table="platformTable"
       @submit="handleSubmit"
       ref="header"/>
 
@@ -13,6 +14,7 @@
       :table-data="table"
       :loading="loading"
       :position-table="positionTable"
+      :platform-table="platformTable"
       @sort="handleSort"
       @refresh="handleRefresh"/>
 
@@ -28,6 +30,7 @@
 
 <script>
 import { getAdsList } from '@/api/ads/ads'
+import { getSettingList } from '@/api/config/setting'
 import { getAdsPositionSelect } from '@/api/ads/position'
 
 export default {
@@ -41,8 +44,9 @@ export default {
     return {
       table: [],
       positionTable: [],
+      platformTable: [],
       scrollTop: 0,
-      loading: false,
+      loading: true,
       page: {
         current: 1,
         size: 25,
@@ -55,9 +59,13 @@ export default {
     }
   },
   mounted() {
-    getAdsPositionSelect(null)
+    Promise.all([
+      getAdsPositionSelect(null),
+      getSettingList('system_info', 'platform')
+    ])
       .then(res => {
-        this.positionTable = res.data
+        this.positionTable = res[0].data
+        this.platformTable = res[1].data['platform']['value']
       })
       .then(() => {
         this.handleSubmit()
