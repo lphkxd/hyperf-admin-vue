@@ -31,7 +31,7 @@ export default {
     return {
       scrollTop: 0,
       // 加载状态
-      loading: false,
+      loading: true,
       // 表单数据
       formData: {},
       // 表单数据缓存

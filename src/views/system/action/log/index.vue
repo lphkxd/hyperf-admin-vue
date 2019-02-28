@@ -40,7 +40,7 @@ export default {
   data() {
     return {
       scrollTop: 0,
-      loading: false,
+      loading: true,
       group: [],
       table: [],
       page: {

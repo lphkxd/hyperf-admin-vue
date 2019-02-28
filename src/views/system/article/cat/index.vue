@@ -29,7 +29,7 @@ export default {
     return {
       tree: [],
       scrollTop: 0,
-      loading: false
+      loading: true
     }
   },
   mounted() {

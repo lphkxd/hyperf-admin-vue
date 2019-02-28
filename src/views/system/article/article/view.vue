@@ -35,7 +35,7 @@ export default {
     return {
       article: {},
       scrollTop: 0,
-      loading: false
+      loading: true
     }
   },
   mounted() {

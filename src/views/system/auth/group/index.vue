@@ -27,7 +27,7 @@ export default {
     return {
       table: [],
       scrollTop: 0,
-      loading: false,
+      loading: true,
       order: {
         order_type: undefined,
         order_field: undefined

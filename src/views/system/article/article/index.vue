@@ -40,7 +40,7 @@ export default {
     return {
       table: [],
       scrollTop: 0,
-      loading: false,
+      loading: true,
       page: {
         current: 1,
         size: 25,

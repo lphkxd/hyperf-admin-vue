@@ -27,7 +27,7 @@ export default {
     return {
       scrollTop: 0,
       // 加载状态
-      loading: false,
+      loading: true,
       // 分类源数据
       catList: [],
       // 整理后的分类数据
@@ -35,7 +35,6 @@ export default {
     }
   },
   mounted() {
-    this.loading = true
     getArticleCatList(null)
       .then(res => {
         this.catList = res.data || []

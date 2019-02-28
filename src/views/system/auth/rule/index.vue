@@ -33,7 +33,7 @@ export default {
   data() {
     return {
       scrollTop: 0,
-      loading: false,
+      loading: true,
       tree: [],
       module: {},
       group: {}

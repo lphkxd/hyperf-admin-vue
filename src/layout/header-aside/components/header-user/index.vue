@@ -60,8 +60,15 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click.native="dialogVisible = false" size="small">取消</el-button>
-        <el-button type="primary" :loading="loading" @click.native="setPassword" size="small">确定</el-button>
+        <el-button
+          @click.native="dialogVisible = false"
+          size="small">取消</el-button>
+
+        <el-button
+          type="primary"
+          :loading="dialogLoading"
+          @click.native="setPassword"
+          size="small">确定</el-button>
       </div>
     </el-dialog>
   </el-dropdown>
@@ -75,8 +82,8 @@ import { setAdminPassword } from '@/api/user/admin'
 export default {
   data() {
     return {
-      loading: false,
       dialogVisible: false,
+      dialogLoading: false,
       form: {
         password: '',
         passwordConfirm: '',
@@ -162,7 +169,7 @@ export default {
      * 初始化成员变量
      */
     resetTemp() {
-      this.loading = false
+      this.dialogLoading = false
       this.form = { password: '', passwordConfirm: '', passwordOld: '' }
     },
     /**
@@ -181,7 +188,7 @@ export default {
     setPassword() {
       this.$refs.dataForm.validate(valid => {
         if (valid) {
-          this.loading = true
+          this.dialogLoading = true
           const request = {
             client_id: this.info.admin.admin_id,
             password_old: this.form.passwordOld,
@@ -195,7 +202,7 @@ export default {
               this.$message.success('密码修改成功')
             })
             .catch(() => {
-              this.loading = false
+              this.dialogLoading = false
             })
         }
       })

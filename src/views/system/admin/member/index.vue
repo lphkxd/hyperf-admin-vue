@@ -38,9 +38,9 @@ export default {
   data() {
     return {
       scrollTop: 0,
+      loading: true,
       table: [],
       group: [],
-      loading: false,
       page: {
         current: 1,
         size: 25,
