@@ -105,6 +105,12 @@ export default {
       name: `${pre}ads-ads`,
       meta: { ...meta, cache: true, title: '广告列表' },
       component: () => import('@/views/system/ads/ads')
+    },
+    {
+      path: 'storage/style',
+      name: `${pre}storage-style`,
+      meta: { ...meta, cache: true, title: '资源样式' },
+      component: () => import('@/views/system/storage/style')
     }
   ])('system-')
 }
