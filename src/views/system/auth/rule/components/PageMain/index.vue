@@ -566,9 +566,6 @@ export default {
       })
 
       setAuthRuleIndex(ruleList)
-        .then(() => {
-          this.$message.success('操作成功')
-        })
         .catch(() => {
           this.$emit('refresh')
         })

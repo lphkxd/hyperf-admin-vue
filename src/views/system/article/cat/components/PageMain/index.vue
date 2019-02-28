@@ -532,7 +532,6 @@ export default {
       setArticleCatItem(setCat)
         .then(res => {
           draggingNode.data.parent_id = res.data.parent_id
-          this.$message.success('操作成功')
         })
         .catch(() => {
           this.$emit('refresh')
