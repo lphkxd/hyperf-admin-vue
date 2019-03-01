@@ -92,6 +92,12 @@ export default {
       type: Boolean,
       required: false,
       default: true
+    },
+    // 指定上传模块
+    moduleName: {
+      type: String,
+      required: false,
+      default: undefined
     }
   },
   data() {

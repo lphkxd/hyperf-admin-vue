@@ -11,7 +11,7 @@ export default {
     }
   },
   mounted() {
-    getUploadToken()
+    getUploadToken(this.moduleName)
       .then(res => {
         this.token = res.data ? res.data : {}
         this.uploadUrl = this.token['token']['upload_url']['upload_url']
