@@ -1,25 +1,6 @@
 import request from '@/utils/request'
 
 /**
- * 验证资源样式编码是否唯一
- * @param {String} code
- * @param {Number} exclude_id
- */
-export function uniqueStorageStyleCode(code, exclude_id) {
-  return request({
-    url: '/v1/storage_style',
-    method: 'post',
-    params: {
-      method: 'unique.storage.style.code'
-    },
-    data: {
-      code,
-      exclude_id
-    }
-  })
-}
-
-/**
  * 添加一个资源样式
  * @param {Object} data
  */

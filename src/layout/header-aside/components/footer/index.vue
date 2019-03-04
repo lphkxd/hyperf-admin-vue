@@ -3,7 +3,7 @@
     :current-page="current"
     :page-size="size"
     :total="total"
-    :page-sizes="[25, 50, 100, 250, 500]"
+    :page-sizes="[10, 25, 50, 100, 250, 500]"
     :disabled="loading"
     layout="total, sizes, prev, pager, next, jumper"
     style="margin: -10px;"
