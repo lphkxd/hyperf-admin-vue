@@ -19,14 +19,14 @@
         <el-button-group>
           <el-button
             :disabled="loading"
-            @click="() => {}">
+            @click="handleStatus(null, 1, true)">
             <cs-icon name="check"/>
             启用
           </el-button>
 
           <el-button
             :disabled="loading"
-            @click="() => {}">
+            @click="handleStatus(null, 0, true)">
             <cs-icon name="close"/>
             禁用
           </el-button>
@@ -37,7 +37,7 @@
         <el-button-group>
           <el-button
             :disabled="loading"
-            @click="() => {}">
+            @click="handleDelete(null)">
             <cs-icon name="trash-o"/>
             删除
           </el-button>
@@ -143,6 +143,11 @@
 </template>
 
 <script>
+import {
+  setStorageStyleStatus,
+  delStorageStyleList
+} from '@/api/upload/style'
+
 export default {
   props: {
     tableData: {
@@ -222,6 +227,81 @@ export default {
     },
     // 批量设置状态
     handleStatus(val, status = 0, confirm = false) {
+      let styleId = this._getIdList(val)
+      if (styleId.length === 0) {
+        this.$message.error('请选择要操作的数据')
+      }
+
+      function setStatus(styleId, status, vm) {
+        setStorageStyleStatus(styleId, status)
+          .then(() => {
+            vm.currentTableData.forEach((value, index) => {
+              if (styleId.indexOf(value.storage_style_id) !== -1) {
+                vm.$set(vm.currentTableData, index, {
+                  ...value,
+                  status
+                })
+              }
+            })
+
+            vm.$message.success('操作成功')
+          })
+      }
+
+      if (!confirm) {
+        let oldData = this.currentTableData[val]
+        const newStatus = oldData.status ? 0 : 1
+
+        if (oldData.status > 1) {
+          return
+        }
+
+        this.$set(this.currentTableData, val, { ...oldData, status: 2 })
+        setStatus(styleId, newStatus, this)
+        return
+      }
+
+      this.$confirm('确定要执行该操作吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(() => {
+          setStatus(styleId, status, this)
+        })
+        .catch(() => {
+        })
+    },
+    // 批量删除
+    handleDelete(val) {
+      let styleId = this._getIdList(val)
+      if (styleId.length === 0) {
+        this.$message.error('请选择要操作的数据')
+      }
+
+      this.$confirm('确定要执行该操作吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(() => {
+          delStorageStyleList(styleId)
+            .then(() => {
+              for (let i = this.currentTableData.length - 1; i >= 0; i--) {
+                if (styleId.indexOf(this.currentTableData[i].storage_style_id) !== -1) {
+                  this.currentTableData.splice(i, 1)
+                }
+              }
+
+              if (this.currentTableData.length <= 0) {
+                this.$emit('refresh')
+              }
+
+              this.$message.success('操作成功')
+            })
+        })
+        .catch(() => {
+        })
     }
   }
 }
