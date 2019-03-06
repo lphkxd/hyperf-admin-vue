@@ -98,11 +98,10 @@
       </el-table-column>
 
       <el-table-column
-        label="缩放方式"
-        prop="resize"
-        min-width="100">
+        label="输出格式"
+        prop="suffix">
         <template slot-scope="scope">
-          {{resizeMap[scope.row.resize].text}}
+          {{scope.row.suffix || '原图格式'}}
         </template>
       </el-table-column>
 
@@ -115,10 +114,11 @@
       </el-table-column>
 
       <el-table-column
-        label="输出格式"
-        prop="suffix">
+        label="缩放方式"
+        prop="resize"
+        min-width="100">
         <template slot-scope="scope">
-          {{scope.row.suffix || '原图格式'}}
+          {{resizeMap[scope.row.resize].text}}
         </template>
       </el-table-column>
 
@@ -213,14 +213,6 @@
             </el-form-item>
 
             <el-form-item
-              label="图片质量"
-              prop="quality">
-              <el-slider
-                v-model="form.quality">
-              </el-slider>
-            </el-form-item>
-
-            <el-form-item
               label="输出格式"
               prop="suffix">
               <el-select
@@ -237,6 +229,14 @@
                 <el-option label="tiff" value="tiff"/>
                 <el-option label="webp" value="webp"/>
               </el-select>
+            </el-form-item>
+
+            <el-form-item
+              label="图片质量"
+              prop="quality">
+              <el-slider
+                v-model="form.quality">
+              </el-slider>
             </el-form-item>
           </el-col>
 
