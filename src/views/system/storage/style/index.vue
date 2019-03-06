@@ -45,7 +45,7 @@ export default {
       platformTable: [],
       page: {
         current: 1,
-        size: 10,
+        size: 25,
         total: 0
       },
       order: {

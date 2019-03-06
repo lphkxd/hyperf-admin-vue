@@ -573,6 +573,7 @@ export default {
       let ads_position_id = this._getIdList(val)
       if (ads_position_id.length === 0) {
         this.$message.error('请选择要操作的数据')
+        return
       }
 
       function setStatus(ads_position_id, status, vm) {
@@ -630,6 +631,7 @@ export default {
       let ads_position_id = this._getIdList(val)
       if (ads_position_id.length === 0) {
         this.$message.error('请选择要操作的数据')
+        return
       }
 
       this.$confirm('确定要执行该操作吗?', '提示', {
