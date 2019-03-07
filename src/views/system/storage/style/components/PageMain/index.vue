@@ -174,10 +174,13 @@
         :model="form"
         :rules="rules"
         ref="form"
-        label-width="80px">
+        label-width="130px"
+        style="margin-top: -25px;">
 
         <el-row :gutter="20">
-          <el-col :span="12">
+          <el-col :span="13">
+            <cs-line title="基础"></cs-line>
+
             <el-form-item
               label="名称"
               prop="name">
@@ -212,35 +215,102 @@
               </el-select>
             </el-form-item>
 
-            <el-form-item
-              label="输出格式"
-              prop="suffix">
-              <el-select
-                v-model="form.suffix"
-                placeholder="请选择"
-                style="width: 100%;"
-                value="">
-                <el-option label="原图格式" value=""/>
-                <el-option label="jpg" value="jpg"/>
-                <el-option label="png" value="png"/>
-                <el-option label="svg" value="svg"/>
-                <el-option label="gif" value="gif"/>
-                <el-option label="bmp" value="bmp"/>
-                <el-option label="tiff" value="tiff"/>
-                <el-option label="webp" value="webp"/>
-              </el-select>
-            </el-form-item>
+            <cs-line title="图片"></cs-line>
+
+            <template v-if="!form.style">
+              <el-form-item
+                label="缩放方式"
+                prop="resize">
+                <el-select
+                  v-model="form.resize"
+                  placeholder="请选择"
+                  style="width: 100%;"
+                  value="">
+                  <el-option label="不使用缩略" value=""/>
+                  <el-option
+                    v-for="(item, index) in resizeMap"
+                    :key="index"
+                    :label="item.text"
+                    :value="item.type"/>
+                </el-select>
+              </el-form-item>
+
+              <el-form-item
+                v-if="form.resize !== ''"
+                label="缩放规格"
+                prop="scale">
+                <el-tabs value="pc">
+                  <el-tab-pane label="Pc" name="pc">
+                  </el-tab-pane>
+
+                  <el-tab-pane label="Mobile" name="mobile">
+                  </el-tab-pane>
+                </el-tabs>
+              </el-form-item>
+
+              <el-form-item
+                label="输出格式"
+                prop="suffix">
+                <el-select
+                  v-model="form.suffix"
+                  placeholder="请选择"
+                  style="width: 100%;"
+                  value="">
+                  <el-option label="原图格式" value=""/>
+                  <el-option
+                    v-for="(item, index) in suffixMap"
+                    :key="index"
+                    :label="item"
+                    :value="item"/>
+                </el-select>
+              </el-form-item>
+
+              <el-form-item
+                label="图片质量"
+                prop="quality">
+                <el-slider
+                  v-model="form.quality">
+                </el-slider>
+              </el-form-item>
+            </template>
+
+            <template v-else>
+              <el-form-item>
+                <el-alert
+                  title="启用第三方样式后本地样式将失效"
+                  type="warning"
+                  :closable="false"
+                  center>
+                </el-alert>
+              </el-form-item>
+            </template>
+
+            <cs-line title="高级"></cs-line>
 
             <el-form-item
-              label="图片质量"
-              prop="quality">
-              <el-slider
-                v-model="form.quality">
-              </el-slider>
+              label="第三方样式"
+              prop="style">
+              <el-input
+                v-model="form.style"
+                placeholder="可输入第三方样式"
+                type="textarea"
+                :rows="2"/>
+            </el-form-item>
+
+            <cs-line title="设置"></cs-line>
+
+            <el-form-item
+              label="状态"
+              prop="status">
+              <el-switch
+                v-model="form.status"
+                active-value="1"
+                inactive-value="0">
+              </el-switch>
             </el-form-item>
           </el-col>
 
-          <el-col :span="12">
+          <el-col :span="11">
             <span>image</span>
           </el-col>
         </el-row>
@@ -304,6 +374,7 @@ export default {
       dialogLoading: false,
       dialogFormVisible: false,
       dialogStatus: '',
+      imageUrl: '',
       form: {},
       rules: {},
       textMap: {
@@ -337,7 +408,8 @@ export default {
           text: '固定宽高填充',
           type: 'pad'
         }
-      }
+      },
+      suffixMap: ['jpg', 'png', 'svg', 'gif', 'bmp', 'tiff', 'webp']
     }
   },
   methods: {
@@ -461,13 +533,13 @@ export default {
       this.form = {
         name: '',
         code: '',
-        platform: undefined,
-        scale: undefined,
+        platform: 'all',
+        scale: {},
         resize: '',
         quality: 90,
         suffix: '',
         style: '',
-        status: 1
+        status: '1'
       }
 
       this.$nextTick(() => {
@@ -481,3 +553,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  /*.proportion {*/
+    /*padding: 0 15px;*/
+  /*}*/
+</style>
