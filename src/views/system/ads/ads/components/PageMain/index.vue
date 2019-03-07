@@ -221,7 +221,7 @@
         :model="form"
         :rules="rules"
         ref="form"
-        label-width="90px">
+        label-width="80px">
 
         <el-form-item
           label="名称"
@@ -232,7 +232,7 @@
             clearable/>
         </el-form-item>
 
-        <el-row>
+        <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item
               label="广告位置"
@@ -289,7 +289,7 @@
           </el-alert>
         </el-form-item>
 
-        <el-row>
+        <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item
               label="投放日期"
@@ -301,6 +301,26 @@
                 placeholder="请选择广告开始投放日期"
                 style="width: 100%;">
               </el-date-picker>
+            </el-form-item>
+
+            <el-form-item
+              label="链接地址"
+              prop="url">
+              <el-input
+                v-model="form.url"
+                placeholder="请输入广告链接地址"
+                clearable/>
+            </el-form-item>
+
+            <el-form-item
+              label="排序"
+              prop="sort">
+              <el-input-number
+                v-model="form.sort"
+                :min="0"
+                :max="255"
+                controls-position="right"
+                label="可输入广告排序值"/>
             </el-form-item>
           </el-col>
 
@@ -316,22 +336,7 @@
                 style="width: 100%;">
               </el-date-picker>
             </el-form-item>
-          </el-col>
-        </el-row>
 
-        <el-row>
-          <el-col :span="12">
-            <el-form-item
-              label="链接地址"
-              prop="url">
-              <el-input
-                v-model="form.url"
-                placeholder="请输入广告链接地址"
-                clearable/>
-            </el-form-item>
-          </el-col>
-
-          <el-col :span="12">
             <el-form-item
               label="打开方式"
               prop="target">
@@ -340,24 +345,7 @@
                 <el-radio label="_blank">新窗口</el-radio>
               </el-radio-group>
             </el-form-item>
-          </el-col>
-        </el-row>
 
-        <el-row>
-          <el-col :span="12">
-            <el-form-item
-              label="排序"
-              prop="sort">
-              <el-input-number
-                v-model="form.sort"
-                :min="0"
-                :max="255"
-                controls-position="right"
-                label="可输入广告排序值"/>
-            </el-form-item>
-          </el-col>
-
-          <el-col :span="12">
             <el-form-item
               label="背景色"
               prop="color">

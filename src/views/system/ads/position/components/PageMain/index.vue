@@ -180,7 +180,7 @@
       :title="textMap[dialogStatus]"
       :visible.sync="dialogFormVisible"
       :append-to-body="true"
-      width="750px">
+      width="760px">
 
       <el-form
         :model="form"
@@ -207,7 +207,7 @@
             :rows="2"/>
         </el-form-item>
 
-        <el-row>
+        <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item
               label="平台"
@@ -224,22 +224,7 @@
                   :value="index"/>
               </el-select>
             </el-form-item>
-          </el-col>
 
-          <el-col :span="12">
-            <el-form-item
-              label="编码"
-              prop="code">
-              <el-input
-                v-model="form.code"
-                placeholder="可输入广告位置编码"
-                clearable/>
-            </el-form-item>
-          </el-col>
-        </el-row>
-
-        <el-row>
-          <el-col :span="12">
             <el-form-item
               label="展示方式"
               prop="display">
@@ -255,9 +240,29 @@
                   :value="index"/>
               </el-select>
             </el-form-item>
+
+            <el-form-item
+              label="类型"
+              prop="type">
+              <el-radio-group
+                v-model="form.type"
+                @change="switchType">
+                <el-radio label="0">图片</el-radio>
+                <el-radio label="1">代码</el-radio>
+              </el-radio-group>
+            </el-form-item>
           </el-col>
 
           <el-col :span="12">
+            <el-form-item
+              label="编码"
+              prop="code">
+              <el-input
+                v-model="form.code"
+                placeholder="可输入广告位置编码"
+                clearable/>
+            </el-form-item>
+
             <el-row>
               <el-col :span="12">
                 <el-form-item
@@ -283,24 +288,7 @@
                 </el-form-item>
               </el-col>
             </el-row>
-          </el-col>
-        </el-row>
 
-        <el-row>
-          <el-col :span="12">
-            <el-form-item
-              label="类型"
-              prop="type">
-              <el-radio-group
-                v-model="form.type"
-                @change="switchType">
-                <el-radio label="0">图片</el-radio>
-                <el-radio label="1">代码</el-radio>
-              </el-radio-group>
-            </el-form-item>
-          </el-col>
-
-          <el-col :span="12">
             <el-form-item
               label="背景色"
               prop="color">

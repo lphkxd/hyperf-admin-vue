@@ -190,7 +190,7 @@
                   clearable/>
               </el-form-item>
 
-              <el-row>
+              <el-row :gutter="20">
                 <el-col :span="12">
                   <el-form-item
                     label="模块"
@@ -207,7 +207,19 @@
                         :value="index"/>
                     </el-select>
                   </el-form-item>
+
+                  <el-form-item
+                    label="排序"
+                    prop="sort">
+                    <el-input-number
+                      v-model="form.sort"
+                      :min="0"
+                      :max="255"
+                      controls-position="right"
+                      label="可输入权限排序值"/>
+                  </el-form-item>
                 </el-col>
+
                 <el-col :span="12">
                   <el-form-item
                     label="用户组"
@@ -224,23 +236,7 @@
                         :value="item.group_id"/>
                     </el-select>
                   </el-form-item>
-                </el-col>
-              </el-row>
 
-              <el-row>
-                <el-col :span="12">
-                  <el-form-item
-                    label="排序"
-                    prop="sort">
-                    <el-input-number
-                      v-model="form.sort"
-                      :min="0"
-                      :max="255"
-                      controls-position="right"
-                      label="可输入权限排序值"/>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="12">
                   <el-form-item
                     label="状态"
                     prop="status">

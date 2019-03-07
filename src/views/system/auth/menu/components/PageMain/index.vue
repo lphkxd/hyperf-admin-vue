@@ -157,7 +157,7 @@
                 </el-cascader>
               </el-form-item>
 
-              <el-row>
+              <el-row :gutter="20">
                 <el-col :span="12">
                   <el-form-item
                     label="名称"
@@ -166,6 +166,35 @@
                       v-model="form.name"
                       placeholder="请输入菜单名称"
                       clearable/>
+                  </el-form-item>
+
+                  <el-form-item
+                    label="图标"
+                    prop="icon">
+                    <cs-icon-select
+                      v-model="form.icon"
+                      :user-input="true"
+                      placeholder="可选择菜单图标"/>
+                  </el-form-item>
+
+                  <el-form-item
+                    label="模块">
+                    <el-radio-group v-model="module" size="small">
+                      <el-radio-button
+                        v-for="(name, index) in treeModule"
+                        :key="index"
+                        :label="index"
+                        :disabled="module !== index">{{name}}</el-radio-button>
+                    </el-radio-group>
+                  </el-form-item>
+
+                  <el-form-item
+                    label="链接类型"
+                    prop="type">
+                    <el-radio-group v-model="form.type">
+                      <el-radio label="0">模块</el-radio>
+                      <el-radio label="1">外链</el-radio>
+                    </el-radio-group>
                   </el-form-item>
                 </el-col>
 
@@ -178,22 +207,7 @@
                       placeholder="可输入菜单别名"
                       clearable/>
                   </el-form-item>
-                </el-col>
-              </el-row>
 
-              <el-row>
-                <el-col :span="12">
-                  <el-form-item
-                    label="图标"
-                    prop="icon">
-                    <cs-icon-select
-                      v-model="form.icon"
-                      :user-input="true"
-                      placeholder="可选择菜单图标"/>
-                  </el-form-item>
-                </el-col>
-
-                <el-col :span="12">
                   <el-form-item
                     label="排序"
                     prop="sort">
@@ -204,24 +218,7 @@
                       controls-position="right"
                       label="可输入菜单排序值"/>
                   </el-form-item>
-                </el-col>
-              </el-row>
 
-              <el-row>
-                <el-col :span="12">
-                  <el-form-item
-                    label="模块">
-                    <el-radio-group v-model="module" size="small">
-                      <el-radio-button
-                        v-for="(name, index) in treeModule"
-                        :key="index"
-                        :label="index"
-                        :disabled="module !== index">{{name}}</el-radio-button>
-                    </el-radio-group>
-                  </el-form-item>
-                </el-col>
-
-                <el-col :span="12">
                   <el-form-item
                     label="导航"
                     prop="is_navi">
@@ -231,22 +228,7 @@
                       inactive-value="0">
                     </el-switch>
                   </el-form-item>
-                </el-col>
-              </el-row>
 
-              <el-row>
-                <el-col :span="12">
-                  <el-form-item
-                    label="链接类型"
-                    prop="type">
-                    <el-radio-group v-model="form.type">
-                      <el-radio label="0">模块</el-radio>
-                      <el-radio label="1">外链</el-radio>
-                    </el-radio-group>
-                  </el-form-item>
-                </el-col>
-
-                <el-col :span="12">
                   <el-form-item
                     label="打开方式"
                     prop="target">
