@@ -409,7 +409,15 @@ export default {
           type: 'pad'
         }
       },
-      suffixMap: ['jpg', 'png', 'svg', 'gif', 'bmp', 'tiff', 'webp']
+      suffixMap: [
+        'jpg',
+        'png',
+        'svg',
+        'gif',
+        'bmp',
+        'tiff',
+        'webp'
+      ]
     }
   },
   methods: {
