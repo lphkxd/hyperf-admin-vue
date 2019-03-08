@@ -158,16 +158,6 @@
                       placeholder="请输入文章分类名称"
                       clearable/>
                   </el-form-item>
-
-                  <el-form-item
-                    label="导航"
-                    prop="is_navi">
-                    <el-switch
-                      v-model="form.is_navi"
-                      active-value="1"
-                      inactive-value="0">
-                    </el-switch>
-                  </el-form-item>
                 </el-col>
 
                 <el-col :span="12">
@@ -181,7 +171,23 @@
                       controls-position="right"
                       label="可输入文章分类类型"/>
                   </el-form-item>
+                </el-col>
+              </el-row>
 
+              <el-row :gutter="20">
+                <el-col :span="12">
+                  <el-form-item
+                    label="导航"
+                    prop="is_navi">
+                    <el-switch
+                      v-model="form.is_navi"
+                      active-value="1"
+                      inactive-value="0">
+                    </el-switch>
+                  </el-form-item>
+                </el-col>
+
+                <el-col :span="12">
                   <el-form-item
                     label="排序"
                     prop="sort">

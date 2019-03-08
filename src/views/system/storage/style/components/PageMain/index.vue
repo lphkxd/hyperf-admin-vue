@@ -178,7 +178,7 @@
         style="margin-top: -25px;">
 
         <el-row :gutter="20">
-          <el-col :span="13">
+          <el-col :span="14">
             <cs-line title="基础"></cs-line>
 
             <el-form-item
@@ -241,9 +241,209 @@
                 prop="scale">
                 <el-tabs value="pc">
                   <el-tab-pane label="Pc" name="pc">
+                    <el-row :gutter="5">
+                      <el-col :span="5">
+                        <span>
+                          缩略
+                          <el-tooltip :content="scaleHelp.help" placement="top">
+                           <cs-icon name="question"/>
+                          </el-tooltip>
+                        </span>
+                      </el-col>
+
+                      <el-col :span="19">
+                        <div v-if="form.resize === 'proportion'">
+                          <el-slider
+                            v-model="scale.pc.slider"
+                            class="proportion">
+                          </el-slider>
+                        </div>
+
+                        <div v-else>
+                          <el-row :gutter="10">
+                            <el-col :span="12">
+                              <span>宽 </span>
+                              <el-input-number
+                                v-model="scale.pc.size.width"
+                                controls-position="right"
+                                :min="0"
+                                size="mini"
+                                class="size-input">
+                              </el-input-number>
+                            </el-col>
+
+                            <el-col :span="12">
+                              <span>高 </span>
+                              <el-input-number
+                                v-model="scale.pc.size.high"
+                                controls-position="right"
+                                :min="0"
+                                size="mini"
+                                class="size-input">
+                              </el-input-number>
+                            </el-col>
+                          </el-row>
+                        </div>
+                      </el-col>
+                    </el-row>
+
+                    <el-row :gutter="5">
+                      <el-col :span="5">
+                        <span>
+                          裁剪
+                          <el-tooltip :content="scaleHelp.help" placement="top">
+                            <cs-icon name="question"/>
+                          </el-tooltip>
+                        </span>
+                      </el-col>
+
+                      <el-col :span="19">
+                        <el-row :gutter="10">
+                          <el-col :span="12">
+                            <span>宽 </span>
+                            <el-input-number
+                              v-model="scale.pc.crop.width"
+                              controls-position="right"
+                              :min="0"
+                              size="mini"
+                              class="size-input">
+                            </el-input-number>
+                          </el-col>
+
+                          <el-col :span="12">
+                            <span>高 </span>
+                            <el-input-number
+                              v-model="scale.pc.crop.high"
+                              controls-position="right"
+                              :min="0"
+                              size="mini"
+                              class="size-input">
+                            </el-input-number>
+                          </el-col>
+                        </el-row>
+                      </el-col>
+                    </el-row>
+
+                    <el-row :gutter="5">
+                      <el-col :span="5">
+                        <span>
+                          顺序
+                          <el-tooltip :content="scaleHelp.order" placement="top">
+                            <cs-icon name="question"/>
+                          </el-tooltip>
+                        </span>
+                      </el-col>
+
+                      <el-col :span="19">
+                        <el-radio-group v-model="scale.pc.order">
+                          <el-radio :label="true">先缩后裁</el-radio>
+                          <el-radio :label="false">先裁后缩</el-radio>
+                        </el-radio-group>
+                      </el-col>
+                    </el-row>
                   </el-tab-pane>
 
                   <el-tab-pane label="Mobile" name="mobile">
+                    <el-row :gutter="5">
+                      <el-col :span="5">
+                        <span>
+                          缩略
+                          <el-tooltip :content="scaleHelp.help" placement="top">
+                           <cs-icon name="question"/>
+                          </el-tooltip>
+                        </span>
+                      </el-col>
+
+                      <el-col :span="19">
+                        <div v-if="form.resize === 'proportion'">
+                          <el-slider
+                            v-model="scale.mobile.slider"
+                            class="proportion">
+                          </el-slider>
+                        </div>
+
+                        <div v-else>
+                          <el-row :gutter="10">
+                            <el-col :span="12">
+                              <span>宽 </span>
+                              <el-input-number
+                                v-model="scale.mobile.size.width"
+                                controls-position="right"
+                                :min="0"
+                                size="mini"
+                                class="size-input">
+                              </el-input-number>
+                            </el-col>
+
+                            <el-col :span="12">
+                              <span>高 </span>
+                              <el-input-number
+                                v-model="scale.mobile.size.high"
+                                controls-position="right"
+                                :min="0"
+                                size="mini"
+                                class="size-input">
+                              </el-input-number>
+                            </el-col>
+                          </el-row>
+                        </div>
+                      </el-col>
+                    </el-row>
+
+                    <el-row :gutter="5">
+                      <el-col :span="5">
+                        <span>
+                          裁剪
+                          <el-tooltip :content="scaleHelp.help" placement="top">
+                            <cs-icon name="question"/>
+                          </el-tooltip>
+                        </span>
+                      </el-col>
+
+                      <el-col :span="19">
+                        <el-row :gutter="10">
+                          <el-col :span="12">
+                            <span>宽 </span>
+                            <el-input-number
+                              v-model="scale.mobile.crop.width"
+                              controls-position="right"
+                              :min="0"
+                              size="mini"
+                              class="size-input">
+                            </el-input-number>
+                          </el-col>
+
+                          <el-col :span="12">
+                            <span>高 </span>
+                            <el-input-number
+                              v-model="scale.mobile.crop.high"
+                              controls-position="right"
+                              :min="0"
+                              size="mini"
+                              class="size-input">
+                            </el-input-number>
+                          </el-col>
+                        </el-row>
+                      </el-col>
+                    </el-row>
+
+                    <el-row :gutter="5">
+                      <el-col :span="5">
+                        <span>
+                          顺序
+                          <el-tooltip :content="scaleHelp.order" placement="top">
+                            <cs-icon name="question"/>
+                          </el-tooltip>
+                        </span>
+                      </el-col>
+
+                      <el-col :span="19">
+                        <el-radio-group v-model="scale.mobile.order">
+                          <el-radio :label="true">先缩后裁</el-radio>
+                          <el-radio :label="false">先裁后缩</el-radio>
+                        </el-radio-group>
+                      </el-col>
+                    </el-row>
                   </el-tab-pane>
                 </el-tabs>
               </el-form-item>
@@ -310,8 +510,17 @@
             </el-form-item>
           </el-col>
 
-          <el-col :span="11">
-            <span>image</span>
+          <el-col :span="10">
+            <span>大小：0 KB 宽: 0 PX 高: 0 PX</span>
+            <el-card :body-style="{padding: '0px'}">
+              <img src="https://ojpbly1un.qnssl.com/gogopher.jpg" class="image" alt="">
+              <div style="padding: 14px;">
+                <div class="bottom clearfix">
+                  <span class="image-info">原图</span>
+                  <el-button type="text" class="button">上传原图</el-button>
+                </div>
+              </div>
+            </el-card>
           </el-col>
         </el-row>
 
@@ -347,6 +556,9 @@ import {
 } from '@/api/upload/style'
 
 export default {
+  components: {
+    'csUpload': () => import('@/components/cs-upload')
+  },
   props: {
     tableData: {
       default: () => []
@@ -375,6 +587,20 @@ export default {
       dialogFormVisible: false,
       dialogStatus: '',
       imageUrl: '',
+      scale: {
+        pc: {
+          slider: 0,
+          size: { width: 0, high: 0 },
+          crop: { width: 0, high: 0 },
+          order: true
+        },
+        mobile: {
+          slider: 0,
+          size: { width: 0, high: 0 },
+          crop: { width: 0, high: 0 },
+          order: true
+        }
+      },
       form: {},
       rules: {},
       textMap: {
@@ -417,7 +643,11 @@ export default {
         'bmp',
         'tiff',
         'webp'
-      ]
+      ],
+      scaleHelp: {
+        help: '宽或高的某一项值为 0 时，该项会进行自适应',
+        order: '缩略与裁剪的先后顺序会影响最终的成图'
+      }
     }
   },
   methods: {
@@ -550,6 +780,24 @@ export default {
         status: '1'
       }
 
+      // 部分数据进行初始
+      this.scale = {
+        pc: {
+          slider: 0,
+          size: { width: 0, high: 0 },
+          crop: { width: 0, high: 0 },
+          order: true
+        },
+        mobile: {
+          slider: 0,
+          size: { width: 0, high: 0 },
+          crop: { width: 0, high: 0 },
+          order: true
+        }
+      }
+
+      this.imageUrl = ''
+
       this.$nextTick(() => {
         this.$refs.form.clearValidate()
       })
@@ -563,7 +811,34 @@ export default {
 </script>
 
 <style scoped>
-  /*.proportion {*/
-    /*padding: 0 15px;*/
-  /*}*/
+  .proportion {
+    padding: 0 12px;
+  }
+  .size-input {
+    width: 80%;
+  }
+  .image {
+    width: 100%;
+    display: block;
+  }
+  .image-info {
+    font-size: 13px;
+    color: #999;
+  }
+  .bottom {
+    margin-top: 13px;
+    line-height: 12px;
+  }
+  .button {
+    padding: 0;
+    float: right;
+  }
+  .clearfix:before,
+  .clearfix:after {
+    display: table;
+    content: "";
+  }
+  .clearfix:after {
+    clear: both
+  }
 </style>
