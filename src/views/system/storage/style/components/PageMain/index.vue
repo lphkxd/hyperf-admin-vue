@@ -511,19 +511,64 @@
           </el-col>
 
           <el-col :span="10">
-            <span>大小：0 KB 宽: 0 PX 高: 0 PX</span>
-            <el-card :body-style="{padding: '0px'}">
-              <img src="https://ojpbly1un.qnssl.com/gogopher.jpg" class="image" alt="">
-              <div style="padding: 14px;">
+            <el-card :body-style="{padding: '0px'}" shadow="never">
+              <el-alert
+                v-if="!imageUrl"
+                title="暂无原始图片"
+                center
+                :closable="false">
+              </el-alert>
+
+              <a
+                v-else
+                :href="imageUrl"
+                target="_blank">
+                <img :src="imageUrl" class="image" title="点击查看原图" alt="">
+              </a>
+
+              <div style="display: none">
+                <cs-upload
+                  ref="upload"
+                  type="slot"
+                  :multiple="false"
+                  :limit="1"
+                  accept="image/*"
+                  @confirm="getUploadFileList"/>
+              </div>
+
+              <div style="padding: 10px;">
                 <div class="bottom clearfix">
-                  <span class="image-info">原图</span>
-                  <el-button type="text" class="button">上传原图</el-button>
+                  <span class="image-info">{{imageInfo}}</span>
                 </div>
+                <el-button type="text" class="button" @click="handleUploadDlg">上传原图</el-button>
               </div>
             </el-card>
+
+            <el-card :body-style="{padding: '0px'}" shadow="never" style="margin-top: 20px;">
+              <el-alert
+                v-if="!imageUrl"
+                title="暂无处理结果"
+                center
+                :closable="false">
+              </el-alert>
+
+              <a
+                v-else
+                :href="imageResult"
+                target="_blank">
+                <img :src="imageUrl" class="image" title="点击查看原图" alt="">
+              </a>
+
+              <div style="padding: 10px;">
+                <div class="bottom clearfix">
+                  <span class="image-info">处理结果</span>
+                </div>
+                <el-button type="text" class="button" @click="() => {}">刷新结果</el-button>
+              </div>
+            </el-card>
+
           </el-col>
         </el-row>
-
       </el-form>
 
       <div slot="footer" class="dialog-footer">
@@ -587,6 +632,8 @@ export default {
       dialogFormVisible: false,
       dialogStatus: '',
       imageUrl: '',
+      imageResult: '',
+      imageInfo: '大小: 0byte 宽: 0px 高: 0px',
       scale: {
         pc: {
           slider: 0,
@@ -796,8 +843,6 @@ export default {
         }
       }
 
-      this.imageUrl = ''
-
       this.$nextTick(() => {
         this.$refs.form.clearValidate()
       })
@@ -805,6 +850,19 @@ export default {
       this.dialogStatus = 'create'
       this.dialogLoading = false
       this.dialogFormVisible = true
+    },
+    handleUploadDlg() {
+      this.$refs.upload.handleUploadDlg()
+    },
+    getUploadFileList(files) {
+      const response = files[0].response
+      if (!response || response.status !== 200) {
+        return
+      }
+
+      const data = response.data[0]
+      this.imageUrl = `//${data.url}`
+      this.imageInfo = `大小: ${data.size}kb 宽: ${data['pixel']['width']}px 高: ${data['pixel']['height']}px`
     }
   }
 }
@@ -826,12 +884,12 @@ export default {
     color: #999;
   }
   .bottom {
-    margin-top: 13px;
-    line-height: 12px;
+    margin-top: 5px;
+    line-height: 15px;
   }
   .button {
-    padding: 0;
-    float: right;
+    margin-right: 10px;
+    float: left;
   }
   .clearfix:before,
   .clearfix:after {
