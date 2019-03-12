@@ -82,7 +82,7 @@ export default {
     moduleName: {
       type: String,
       required: false,
-      default: undefined
+      default: ''
     },
     // 已上传文件列表
     fileList: {

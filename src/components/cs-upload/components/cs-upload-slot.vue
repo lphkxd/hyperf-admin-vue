@@ -97,7 +97,7 @@ export default {
     moduleName: {
       type: String,
       required: false,
-      default: undefined
+      default: ''
     }
   },
   data() {

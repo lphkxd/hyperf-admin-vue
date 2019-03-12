@@ -239,8 +239,8 @@
                 v-if="form.resize !== ''"
                 label="缩放规格"
                 prop="scale">
-                <el-tabs value="pc">
-                  <el-tab-pane label="Pc" name="pc">
+                <el-tabs v-model="scaleTab">
+                  <el-tab-pane label="Pc" name="Pc">
                     <el-row :gutter="5">
                       <el-col :span="5">
                         <span>
@@ -343,7 +343,7 @@
                     </el-row>
                   </el-tab-pane>
 
-                  <el-tab-pane label="Mobile" name="mobile">
+                  <el-tab-pane label="Mobile" name="Mobile">
                     <el-row :gutter="5">
                       <el-col :span="5">
                         <span>
@@ -513,26 +513,27 @@
           <el-col :span="10">
             <el-card :body-style="{padding: '0px'}" shadow="never">
               <el-alert
-                v-if="!imageUrl"
-                title="暂无原始图片"
-                center
-                :closable="false">
+                title="原始图片"
+                :closable="false"
+                style="border-radius: 0"
+                center>
               </el-alert>
 
               <a
-                v-else
-                :href="imageUrl"
+                v-if="imageUrl"
+                :href="`//${imageUrl}`"
                 target="_blank">
-                <img :src="imageUrl" class="image" title="点击查看原图" alt="">
+                <img :src="`//${imageUrl}`" class="image" title="点击查看原图" alt="">
               </a>
 
               <div style="display: none">
                 <cs-upload
                   ref="upload"
                   type="slot"
-                  :multiple="false"
-                  :limit="1"
                   accept="image/*"
+                  :limit="1"
+                  :multiple="false"
+                  :module-name="uploadModule"
                   @confirm="getUploadFileList"/>
               </div>
 
@@ -540,30 +541,45 @@
                 <div class="bottom clearfix">
                   <span class="image-info">{{imageInfo}}</span>
                 </div>
-                <el-button type="text" class="button" @click="handleUploadDlg">上传原图</el-button>
+                <el-button type="text" class="button" @click="$refs.upload.handleUploadDlg()">上传原图</el-button>
+                <el-popover
+                  placement="top"
+                  trigger="click">
+                  <el-select
+                    v-model="uploadModule"
+                    placeholder="请选择"
+                    value="">
+                    <el-option
+                      v-for="(item, index) in uploadTable"
+                      :key="index"
+                      :label="item.name"
+                      :value="item.module"/>
+                  </el-select>
+                  <el-button type="text" class="button" slot="reference">更换模块</el-button>
+                </el-popover>
               </div>
             </el-card>
 
             <el-card :body-style="{padding: '0px'}" shadow="never" style="margin-top: 20px;">
               <el-alert
-                v-if="!imageUrl"
-                title="暂无处理结果"
-                center
-                :closable="false">
+                :title="`处理结果 ${form.style || !form.resize ? '' : scaleTab}`"
+                :closable="false"
+                style="border-radius: 0"
+                center>
               </el-alert>
 
               <a
-                v-else
+                v-if="imageUrl"
                 :href="imageResult"
                 target="_blank">
-                <img :src="imageUrl" class="image" title="点击查看原图" alt="">
+                <img :src="imageResult" class="image" title="点击查看原图" alt="">
               </a>
 
               <div style="padding: 10px;">
                 <div class="bottom clearfix">
-                  <span class="image-info">处理结果</span>
+                  <span class="image-info">{{imageResultInfo}}</span>
                 </div>
-                <el-button type="text" class="button" @click="() => {}">刷新结果</el-button>
+                <el-button type="text" class="button" @click="getThumbUrl">刷新结果</el-button>
               </div>
             </el-card>
 
@@ -599,6 +615,8 @@ import {
   setStorageStyleStatus,
   delStorageStyleList
 } from '@/api/upload/style'
+import { getUploadModule } from '@/api/upload/upload'
+import { getStorageThumbUrl } from '@/api/upload/storage'
 
 export default {
   components: {
@@ -631,9 +649,13 @@ export default {
       dialogLoading: false,
       dialogFormVisible: false,
       dialogStatus: '',
+      scaleTab: 'Pc',
       imageUrl: '',
       imageResult: '',
       imageInfo: '大小: 0byte 宽: 0px 高: 0px',
+      imageResultInfo: '大小: 0byte 宽: 0px 高: 0px',
+      uploadModule: '',
+      uploadTable: [],
       scale: {
         pc: {
           slider: 0,
@@ -843,6 +865,14 @@ export default {
         }
       }
 
+      if (!this.uploadTable.length) {
+        getUploadModule()
+          .then(res => {
+            this.uploadTable = res.data
+            this.uploadTable.unshift({ name: '使用系统默认', module: '' })
+          })
+      }
+
       this.$nextTick(() => {
         this.$refs.form.clearValidate()
       })
@@ -851,9 +881,6 @@ export default {
       this.dialogLoading = false
       this.dialogFormVisible = true
     },
-    handleUploadDlg() {
-      this.$refs.upload.handleUploadDlg()
-    },
     getUploadFileList(files) {
       const response = files[0].response
       if (!response || response.status !== 200) {
@@ -861,8 +888,23 @@ export default {
       }
 
       const data = response.data[0]
-      this.imageUrl = `//${data.url}`
+      this.imageUrl = data.url
       this.imageInfo = `大小: ${data.size}kb 宽: ${data['pixel']['width']}px 高: ${data['pixel']['height']}px`
+    },
+    getThumbUrl() {
+      if (!this.imageUrl) {
+        return
+      }
+
+      let data = {
+        url: this.imageUrl,
+        quality: this.form.quality
+      }
+
+      getStorageThumbUrl(data)
+        .then(res => {
+          this.imageResult = res.data['url_prefix']
+        })
     }
   }
 }
@@ -876,7 +918,8 @@ export default {
     width: 80%;
   }
   .image {
-    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
     display: block;
   }
   .image-info {

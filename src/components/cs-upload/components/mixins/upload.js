@@ -10,14 +10,23 @@ export default {
       uploadUrl: ''
     }
   },
-  mounted() {
-    getUploadToken(this.moduleName)
-      .then(res => {
-        this.token = res.data ? res.data : {}
-        this.uploadUrl = this.token['token']['upload_url']['upload_url']
-      })
+  watch: {
+    moduleName: {
+      handler(val) {
+        this.getToken(val)
+      },
+      immediate: true
+    }
   },
   methods: {
+    // 获取 Token
+    getToken(val) {
+      getUploadToken(val)
+        .then(res => {
+          this.token = res.data ? res.data : {}
+          this.uploadUrl = this.token['token']['upload_url']['upload_url']
+        })
+    },
     // 删除资源
     handleRemove(file, fileList) {
       if (file.status === 'success' && file.response) {
