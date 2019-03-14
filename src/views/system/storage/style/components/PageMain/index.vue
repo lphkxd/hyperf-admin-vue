@@ -254,7 +254,8 @@
                       <el-col :span="20">
                         <div v-if="form.resize === 'proportion'">
                           <el-slider
-                            v-model="scale.pc.slider"
+                            v-model="slider.pc"
+                            @change="(val) => {scale.pc.slider = val}"
                             class="proportion">
                           </el-slider>
                         </div>
@@ -357,7 +358,8 @@
                       <el-col :span="20">
                         <div v-if="form.resize === 'proportion'">
                           <el-slider
-                            v-model="scale.mobile.slider"
+                            v-model="slider.mobile"
+                            @change="(val) => {scale.mobile.slider = val}"
                             class="proportion">
                           </el-slider>
                         </div>
@@ -469,7 +471,8 @@
                 label="图片质量"
                 prop="quality">
                 <el-slider
-                  v-model="form.quality">
+                  v-model="quality"
+                  @change="(val) => {form.quality = val}">
                 </el-slider>
               </el-form-item>
             </template>
@@ -566,7 +569,7 @@
               shadow="never"
               style="margin-top: 20px;">
               <el-alert
-                :title="`处理结果 ${form.style || !form.resize ? '' : scaleTab}`"
+                :title="`效果预览 ${form.style || !form.resize ? '' : scaleTab}`"
                 :closable="false"
                 style="border-radius: 0"
                 center>
@@ -583,7 +586,7 @@
                 <div class="bottom clearfix">
                   <span class="image-info">{{imageResultInfo}}</span>
                 </div>
-                <el-button type="text" class="button" @click="getThumbUrl">刷新结果</el-button>
+                <el-button type="text" class="button" @click="getThumbUrl">刷新效果</el-button>
               </div>
             </el-card>
 
@@ -600,7 +603,7 @@
           v-if="dialogStatus === 'create'"
           type="primary"
           :loading="dialogLoading"
-          @click="() => {}"
+          @click="handleCreate"
           size="small">确定</el-button>
 
         <el-button
@@ -638,12 +641,37 @@ export default {
       default: false
     }
   },
+  computed: {
+    // 图片处理参数变化监控
+    changeData() {
+      const { scaleTab, imageUrl, scale } = this
+      const { resize, suffix, quality, style } = this.form
+
+      return {
+        resize,
+        suffix,
+        quality,
+        style,
+        scaleTab,
+        imageUrl,
+        scale
+      }
+    }
+  },
   watch: {
     tableData: {
       handler(val) {
         this.currentTableData = val
       },
       immediate: true
+    },
+    changeData: {
+      handler() {
+        this.$nextTick(() => {
+          this.getThumbUrl()
+        })
+      },
+      deep: true
     }
   },
   data() {
@@ -662,6 +690,11 @@ export default {
       imageLoading: false,
       uploadModule: '',
       uploadTable: [],
+      quality: 90,
+      slider: {
+        pc: 0,
+        mobile: 0
+      },
       scale: {
         pc: {
           slider: 0,
@@ -871,6 +904,9 @@ export default {
         }
       }
 
+      this.quality = 90
+      this.slider = { pc: 0, mobile: 0 }
+
       this.scaleTab = 'Pc'
       this.imageUrl = ''
       this.imageResult = {}
@@ -894,6 +930,9 @@ export default {
       this.dialogStatus = 'create'
       this.dialogLoading = false
       this.dialogFormVisible = true
+    },
+    // 请求创建样式
+    handleCreate() {
     },
     getUploadFileList(files) {
       const response = files[0].response
