@@ -190,4 +190,58 @@ util.getDownloadUrl = function(file, code) {
   return data
 }
 
+/**
+ * 数字 格式化
+ * @param num
+ * @param digits
+ * @returns {string}
+ */
+util.numberFormatter = function(num, digits = 2) {
+  const si = [
+    { value: 1E18, symbol: 'EB' },
+    { value: 1E15, symbol: 'PB' },
+    { value: 1E12, symbol: 'TB' },
+    { value: 1E9, symbol: 'GB' },
+    { value: 1E6, symbol: 'MB' },
+    { value: 1E3, symbol: 'KB' }
+  ]
+
+  for (let i = 0; i < si.length; i++) {
+    if (num >= si[i].value) {
+      return (num / si[i].value + 0.1).toFixed(digits).replace(/\.0+$|(\.[0-9]*[1-9])0+$/, '$1') + si[i].symbol
+    }
+  }
+
+  return num.toString()
+}
+
+/**
+ * 字节转字符串单位
+ * @param bytes
+ * @param spacer
+ * @returns {string}
+ */
+util.bytesFormatter = function(bytes, spacer = ' ') {
+  if (isNaN(bytes)) {
+    return ''
+  }
+
+  const symbols = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
+  let exp = Math.floor(Math.log(bytes) / Math.log(2))
+
+  if (exp < 1) {
+    exp = 0
+  }
+
+  const i = Math.floor(exp / 10)
+  bytes = bytes / Math.pow(2, 10 * i)
+
+  if (bytes.toString().length > bytes.toFixed(2).toString().length) {
+    bytes = bytes.toFixed(2)
+  }
+
+  // bytes + symbols[i]
+  return `${bytes}${spacer}${symbols[i]}`
+}
+
 export default util

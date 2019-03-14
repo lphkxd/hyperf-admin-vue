@@ -222,6 +222,25 @@ export function getStorageThumbUrl(data) {
 }
 
 /**
+ * 获取资源缩略图信息
+ * @param {String} url
+ * @param {String} source
+ */
+export function getStorageThumbInfo(url, source) {
+  return request({
+    url: '/v1/storage',
+    method: 'post',
+    params: {
+      method: 'get.storage.thumb.info'
+    },
+    data: {
+      url,
+      source
+    }
+  })
+}
+
+/**
  * 批量删除资源
  * @param {Array} storage_id
  */

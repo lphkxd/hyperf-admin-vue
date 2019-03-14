@@ -21,6 +21,7 @@ export default {
   methods: {
     // 获取 Token
     getToken(val) {
+      this.params = {}
       getUploadToken(val)
         .then(res => {
           this.token = res.data ? res.data : {}

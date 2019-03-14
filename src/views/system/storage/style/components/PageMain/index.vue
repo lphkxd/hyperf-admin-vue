@@ -242,7 +242,7 @@
                 <el-tabs v-model="scaleTab">
                   <el-tab-pane label="Pc" name="Pc">
                     <el-row :gutter="5">
-                      <el-col :span="5">
+                      <el-col :span="4">
                         <span>
                           缩略
                           <el-tooltip :content="scaleHelp.help" placement="top">
@@ -251,7 +251,7 @@
                         </span>
                       </el-col>
 
-                      <el-col :span="19">
+                      <el-col :span="20">
                         <div v-if="form.resize === 'proportion'">
                           <el-slider
                             v-model="scale.pc.slider"
@@ -260,7 +260,7 @@
                         </div>
 
                         <div v-else>
-                          <el-row :gutter="10">
+                          <el-row :gutter="5">
                             <el-col :span="12">
                               <span>宽 </span>
                               <el-input-number
@@ -288,7 +288,7 @@
                     </el-row>
 
                     <el-row :gutter="5">
-                      <el-col :span="5">
+                      <el-col :span="4">
                         <span>
                           裁剪
                           <el-tooltip :content="scaleHelp.help" placement="top">
@@ -297,8 +297,8 @@
                         </span>
                       </el-col>
 
-                      <el-col :span="19">
-                        <el-row :gutter="10">
+                      <el-col :span="20">
+                        <el-row :gutter="5">
                           <el-col :span="12">
                             <span>宽 </span>
                             <el-input-number
@@ -325,7 +325,7 @@
                     </el-row>
 
                     <el-row :gutter="5">
-                      <el-col :span="5">
+                      <el-col :span="4">
                         <span>
                           顺序
                           <el-tooltip :content="scaleHelp.order" placement="top">
@@ -334,7 +334,7 @@
                         </span>
                       </el-col>
 
-                      <el-col :span="19">
+                      <el-col :span="20">
                         <el-radio-group v-model="scale.pc.order">
                           <el-radio :label="true">先缩后裁</el-radio>
                           <el-radio :label="false">先裁后缩</el-radio>
@@ -345,7 +345,7 @@
 
                   <el-tab-pane label="Mobile" name="Mobile">
                     <el-row :gutter="5">
-                      <el-col :span="5">
+                      <el-col :span="4">
                         <span>
                           缩略
                           <el-tooltip :content="scaleHelp.help" placement="top">
@@ -354,7 +354,7 @@
                         </span>
                       </el-col>
 
-                      <el-col :span="19">
+                      <el-col :span="20">
                         <div v-if="form.resize === 'proportion'">
                           <el-slider
                             v-model="scale.mobile.slider"
@@ -363,7 +363,7 @@
                         </div>
 
                         <div v-else>
-                          <el-row :gutter="10">
+                          <el-row :gutter="5">
                             <el-col :span="12">
                               <span>宽 </span>
                               <el-input-number
@@ -391,7 +391,7 @@
                     </el-row>
 
                     <el-row :gutter="5">
-                      <el-col :span="5">
+                      <el-col :span="4">
                         <span>
                           裁剪
                           <el-tooltip :content="scaleHelp.help" placement="top">
@@ -400,8 +400,8 @@
                         </span>
                       </el-col>
 
-                      <el-col :span="19">
-                        <el-row :gutter="10">
+                      <el-col :span="20">
+                        <el-row :gutter="5">
                           <el-col :span="12">
                             <span>宽 </span>
                             <el-input-number
@@ -428,7 +428,7 @@
                     </el-row>
 
                     <el-row :gutter="5">
-                      <el-col :span="5">
+                      <el-col :span="4">
                         <span>
                           顺序
                           <el-tooltip :content="scaleHelp.order" placement="top">
@@ -437,7 +437,7 @@
                         </span>
                       </el-col>
 
-                      <el-col :span="19">
+                      <el-col :span="20">
                         <el-radio-group v-model="scale.mobile.order">
                           <el-radio :label="true">先缩后裁</el-radio>
                           <el-radio :label="false">先裁后缩</el-radio>
@@ -560,7 +560,11 @@
               </div>
             </el-card>
 
-            <el-card :body-style="{padding: '0px'}" shadow="never" style="margin-top: 20px;">
+            <el-card
+              v-loading="imageLoading"
+              :body-style="{padding: '0px'}"
+              shadow="never"
+              style="margin-top: 20px;">
               <el-alert
                 :title="`处理结果 ${form.style || !form.resize ? '' : scaleTab}`"
                 :closable="false"
@@ -570,9 +574,9 @@
 
               <a
                 v-if="imageUrl"
-                :href="imageResult"
+                :href="imageResult['url_prefix']"
                 target="_blank">
-                <img :src="imageResult" class="image" title="点击查看原图" alt="">
+                <img :src="imageResult['url_prefix']" class="image" title="点击查看原图" id="image" alt="">
               </a>
 
               <div style="padding: 10px;">
@@ -616,7 +620,8 @@ import {
   delStorageStyleList
 } from '@/api/upload/style'
 import { getUploadModule } from '@/api/upload/upload'
-import { getStorageThumbUrl } from '@/api/upload/storage'
+import { getStorageThumbUrl, getStorageThumbInfo } from '@/api/upload/storage'
+import util from '@/utils/util'
 
 export default {
   components: {
@@ -651,9 +656,10 @@ export default {
       dialogStatus: '',
       scaleTab: 'Pc',
       imageUrl: '',
-      imageResult: '',
-      imageInfo: '大小: 0byte 宽: 0px 高: 0px',
-      imageResultInfo: '大小: 0byte 宽: 0px 高: 0px',
+      imageResult: {},
+      imageInfo: '',
+      imageResultInfo: '',
+      imageLoading: false,
       uploadModule: '',
       uploadTable: [],
       scale: {
@@ -865,6 +871,14 @@ export default {
         }
       }
 
+      this.scaleTab = 'Pc'
+      this.imageUrl = ''
+      this.imageResult = {}
+      this.imageInfo = ''
+      this.imageResultInfo = ''
+      this.imageLoading = false
+      this.uploadModule = ''
+
       if (!this.uploadTable.length) {
         getUploadModule()
           .then(res => {
@@ -889,7 +903,9 @@ export default {
 
       const data = response.data[0]
       this.imageUrl = data.url
-      this.imageInfo = `大小: ${data.size}kb 宽: ${data['pixel']['width']}px 高: ${data['pixel']['height']}px`
+      this.imageInfo = `大小: ${util.bytesFormatter(data.size)} `
+      this.imageInfo += `宽: ${data['pixel']['width']} PX `
+      this.imageInfo += `高: ${data['pixel']['height']} PX`
     },
     getThumbUrl() {
       if (!this.imageUrl) {
@@ -898,12 +914,43 @@ export default {
 
       let data = {
         url: this.imageUrl,
-        quality: this.form.quality
+        quality: this.form.quality,
+        suffix: this.form.suffix,
+        style: this.form.style
       }
 
+      if (this.form.resize && !this.form.style) {
+        // 给予缩放方式
+        data.resize = this.form.resize
+
+        // 根据当前选项卡获得缩放数据
+        const scale = this.scale[this.scaleTab.toLowerCase()]
+        const order = scale.order ? ['size', 'crop'] : ['crop', 'size']
+
+        order.forEach(value => {
+          if (this.form.resize === 'proportion' && value === 'size') {
+            data.size = [scale.slider]
+          } else {
+            data[value] = [scale[value]['width'], scale[value]['high']]
+          }
+        })
+      }
+
+      this.imageLoading = true
       getStorageThumbUrl(data)
         .then(res => {
-          this.imageResult = res.data['url_prefix']
+          this.imageResult = res.data
+        })
+        .then(() => {
+          getStorageThumbInfo(this.imageResult.url, this.imageResult.source)
+            .then(res => {
+              this.imageResultInfo = `大小: ${util.bytesFormatter(res.data.size)} `
+              this.imageResultInfo += `宽: ${res.data.width} PX `
+              this.imageResultInfo += `高: ${res.data.height} PX`
+            })
+        })
+        .finally(() => {
+          this.imageLoading = false
         })
     }
   }
@@ -915,7 +962,7 @@ export default {
     padding: 0 12px;
   }
   .size-input {
-    width: 80%;
+    width: 82%;
   }
   .image {
     max-width: 100%;
