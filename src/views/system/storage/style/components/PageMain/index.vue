@@ -1111,7 +1111,7 @@ export default {
           this.imageResult = res.data
         })
         .then(() => {
-          getStorageThumbInfo(this.imageResult.url, this.imageResult.source)
+          getStorageThumbInfo(this.imageResult['url_prefix'], this.imageResult['source'])
             .then(res => {
               this.imageResultInfo = `大小: ${util.bytesFormatter(res.data.size)} `
               this.imageResultInfo += `宽: ${res.data.width} PX `
