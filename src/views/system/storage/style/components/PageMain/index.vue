@@ -4,7 +4,7 @@
       :inline="true"
       size="small">
 
-      <el-form-item>
+      <el-form-item v-if="auth.add">
         <el-button-group>
           <el-button
             :disabled="loading"
@@ -15,9 +15,10 @@
         </el-button-group>
       </el-form-item>
 
-      <el-form-item>
+      <el-form-item v-if="auth.enable || auth.disable">
         <el-button-group>
           <el-button
+            v-if="auth.enable"
             :disabled="loading"
             @click="handleStatus(null, 1, true)">
             <cs-icon name="check"/>
@@ -25,6 +26,7 @@
           </el-button>
 
           <el-button
+            v-if="auth.disable"
             :disabled="loading"
             @click="handleStatus(null, 0, true)">
             <cs-icon name="close"/>
@@ -36,6 +38,7 @@
       <el-form-item>
         <el-button-group>
           <el-button
+            v-if="auth.del"
             :disabled="loading"
             @click="handleDelete(null)">
             <cs-icon name="trash-o"/>
@@ -139,7 +142,7 @@
           <el-tag
             size="mini"
             :type="statusMap[scope.row.status].type"
-            style="cursor: pointer;"
+            :style="auth.enable || auth.disable ? 'cursor: pointer;' : ''"
             @click.native="handleStatus(scope.$index)">
             {{statusMap[scope.row.status].text}}
           </el-tag>
@@ -152,11 +155,13 @@
         min-width="120">
         <template slot-scope="scope">
           <el-button
+            v-if="auth.set"
             size="small"
             @click="updata(scope.$index)"
             type="text">编辑</el-button>
 
           <el-button
+            v-if="auth.del"
             size="small"
             @click="handleDelete(scope.$index)"
             type="text">删除</el-button>
@@ -226,7 +231,6 @@
                   placeholder="请选择"
                   style="width: 100%;"
                   value="">
-                  <el-option label="不使用缩略" value=""/>
                   <el-option
                     v-for="(item, index) in resizeMap"
                     :key="index"
@@ -276,7 +280,7 @@
                             <el-col :span="12">
                               <span>高 </span>
                               <el-input-number
-                                v-model="scale.pc.size.high"
+                                v-model="scale.pc.size.height"
                                 controls-position="right"
                                 :min="0"
                                 size="mini"
@@ -314,7 +318,7 @@
                           <el-col :span="12">
                             <span>高 </span>
                             <el-input-number
-                              v-model="scale.pc.crop.high"
+                              v-model="scale.pc.crop.height"
                               controls-position="right"
                               :min="0"
                               size="mini"
@@ -380,7 +384,7 @@
                             <el-col :span="12">
                               <span>高 </span>
                               <el-input-number
-                                v-model="scale.mobile.size.high"
+                                v-model="scale.mobile.size.height"
                                 controls-position="right"
                                 :min="0"
                                 size="mini"
@@ -418,7 +422,7 @@
                           <el-col :span="12">
                             <span>高 </span>
                             <el-input-number
-                              v-model="scale.mobile.crop.high"
+                              v-model="scale.mobile.crop.height"
                               controls-position="right"
                               :min="0"
                               size="mini"
@@ -603,14 +607,14 @@
           v-if="dialogStatus === 'create'"
           type="primary"
           :loading="dialogLoading"
-          @click="handleCreate"
+          @click="handleEdit(true)"
           size="small">确定</el-button>
 
         <el-button
           v-else
           type="primary"
           :loading="dialogLoading"
-          @click="() => {}"
+          @click="handleEdit(false)"
           size="small">修改</el-button>
       </div>
     </el-dialog>
@@ -620,7 +624,9 @@
 <script>
 import {
   setStorageStyleStatus,
-  delStorageStyleList
+  delStorageStyleList,
+  addStorageStyleItem,
+  setStorageStyleItem
 } from '@/api/upload/style'
 import { getUploadModule } from '@/api/upload/upload'
 import { getStorageThumbUrl, getStorageThumbInfo } from '@/api/upload/storage'
@@ -698,19 +704,65 @@ export default {
       scale: {
         pc: {
           slider: 0,
-          size: { width: 0, high: 0 },
-          crop: { width: 0, high: 0 },
+          size: { width: 0, height: 0 },
+          crop: { width: 0, height: 0 },
           order: true
         },
         mobile: {
           slider: 0,
-          size: { width: 0, high: 0 },
-          crop: { width: 0, high: 0 },
+          size: { width: 0, height: 0 },
+          crop: { width: 0, height: 0 },
           order: true
         }
       },
       form: {},
-      rules: {},
+      auth: {
+        add: false,
+        set: false,
+        del: false,
+        enable: false,
+        disable: false
+      },
+      rules: {
+        name: [
+          {
+            required: true,
+            message: '名称不能为空',
+            trigger: 'blur'
+          },
+          {
+            max: 64,
+            message: '长度不能大于 64 个字符',
+            trigger: 'blur'
+          }
+        ],
+        code: [
+          {
+            required: true,
+            message: '编码不能为空',
+            trigger: 'blur'
+          },
+          {
+            max: 32,
+            message: '长度不能大于 32 个字符',
+            trigger: 'blur'
+          }
+        ],
+        platform: [
+          {
+            required: true,
+            message: '至少选择一项',
+            trigger: 'change'
+          }
+        ],
+        style: [
+          {
+            max: 64,
+            message: '长度不能大于 64 个字符',
+            trigger: 'blur'
+          }
+        ]
+      },
       textMap: {
         update: '编辑样式',
         create: '新增样式'
@@ -730,6 +782,10 @@ export default {
         }
       },
       resizeMap: {
+        '': {
+          text: '不使用缩放',
+          type: ''
+        },
         scaling: {
           text: '指定宽高缩放',
           type: 'scaling'
@@ -757,6 +813,13 @@ export default {
         order: '缩略与裁剪的先后顺序会影响最终的成图'
       }
     }
+  },
+  mounted() {
+    this.auth.add = this.$has('/system/storage/style/add')
+    this.auth.set = this.$has('/system/storage/style/set')
+    this.auth.del = this.$has('/system/storage/style/del')
+    this.auth.enable = this.$has('/system/storage/style/enable')
+    this.auth.disable = this.$has('/system/storage/style/disable')
   },
   methods: {
     // 获取列表中的编号
@@ -826,6 +889,16 @@ export default {
           return
         }
 
+        // 禁用权限检测
+        if (newStatus === 0 && !this.auth.disable) {
+          return
+        }
+
+        // 启用权限检测
+        if (newStatus === 1 && !this.auth.enable) {
+          return
+        }
+
         this.$set(this.currentTableData, val, { ...oldData, status: 2 })
         setStatus(styleId, newStatus, this)
         return
@@ -879,7 +952,7 @@ export default {
       this.form = {
         name: '',
         code: '',
-        platform: 'all',
+        platform: 0,
         scale: {},
         resize: '',
         quality: 90,
@@ -892,14 +965,14 @@ export default {
       this.scale = {
         pc: {
           slider: 0,
-          size: { width: 0, high: 0 },
-          crop: { width: 0, high: 0 },
+          size: { width: 0, height: 0 },
+          crop: { width: 0, height: 0 },
           order: true
         },
         mobile: {
           slider: 0,
-          size: { width: 0, high: 0 },
-          crop: { width: 0, high: 0 },
+          size: { width: 0, height: 0 },
+          crop: { width: 0, height: 0 },
           order: true
         }
       }
@@ -931,8 +1004,65 @@ export default {
       this.dialogLoading = false
       this.dialogFormVisible = true
     },
-    // 请求创建样式
-    handleCreate() {
+    // 创建或修改样式
+    handleEdit(isCreate) {
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          let scale = {
+            pc: {},
+            mobile: {}
+          }
+
+          for (const key in this.scale) {
+            if (!this.scale.hasOwnProperty(key)) {
+              continue
+            }
+
+            const temp = this.scale[key]
+            const order = temp.order ? ['size', 'crop'] : ['crop', 'size']
+
+            order.forEach(value => {
+              if (this.form.resize === 'proportion' && value === 'size') {
+                scale[key]['size'] = [temp['slider']]
+              } else {
+                scale[key][value] = [temp[value]['width'], temp[value]['height']]
+              }
+            })
+
+            scale[key]['slider'] = temp['slider']
+            scale[key]['order'] = temp['order']
+          }
+
+          this.dialogLoading = true
+          if (isCreate) {
+            addStorageStyleItem({
+              ...this.form,
+              scale
+            })
+              .then(res => {
+                this.currentTableData.unshift(res.data)
+                this.dialogFormVisible = false
+                this.$message.success('操作成功')
+              })
+              .catch(() => {
+                this.dialogLoading = false
+              })
+          } else {
+            setStorageStyleItem({
+              ...this.form,
+              scale
+            })
+              .then(res => {
+                this.$set(this.currentTableData, this.currentIndex, res.data)
+                this.dialogFormVisible = false
+                this.$message.success('操作成功')
+              })
+              .catch(() => {
+                this.dialogLoading = false
+              })
+          }
+        }
+      })
     },
     getUploadFileList(files) {
       const response = files[0].response
@@ -968,9 +1098,9 @@ export default {
 
         order.forEach(value => {
           if (this.form.resize === 'proportion' && value === 'size') {
-            data.size = [scale.slider]
+            data['size'] = [scale['slider']]
           } else {
-            data[value] = [scale[value]['width'], scale[value]['high']]
+            data[value] = [scale[value]['width'], scale[value]['height']]
           }
         })
       }
@@ -991,6 +1121,77 @@ export default {
         .finally(() => {
           this.imageLoading = false
         })
+    },
+    // 编辑样式
+    updata(index) {
+      this.currentIndex = index
+      const data = this.currentTableData[index]
+
+      let scale = {}
+      for (const key in data.scale) {
+        if (!data.scale.hasOwnProperty(key)) {
+          continue
+        }
+
+        scale[key] = {}
+        for (const item in data.scale[key]) {
+          if (!data.scale[key].hasOwnProperty(item)) {
+            continue
+          }
+
+          const temp = data.scale[key][item]
+          if (item === 'size' || item === 'crop') {
+            scale[key][item] = { width: temp[0], height: temp[1] }
+
+            if (data.resize === 'proportion' && item === 'size') {
+              this.slider[key] = temp[0]
+              scale[key][item] = { width: 0, height: 0 }
+            }
+          } else {
+            scale[key][item] = temp
+          }
+        }
+      }
+
+      // 表单数据
+      this.form = {
+        ...data,
+        status: data.status.toString(),
+        scale: {}
+      }
+
+      // 规格数据
+      this.scale = {
+        ...scale
+      }
+
+      // 其他数据
+      this.scaleTab = 'Pc'
+      this.imageUrl = ''
+      this.imageResult = {}
+      this.imageInfo = ''
+      this.imageResultInfo = ''
+      this.imageLoading = false
+      this.uploadModule = ''
+      this.quality = data.quality
+
+      if (!this.uploadTable.length) {
+        getUploadModule()
+          .then(res => {
+            this.uploadTable = res.data
+            this.uploadTable.unshift({ name: '使用系统默认', module: '' })
+          })
+      }
+
+      if (this.$refs.form) {
+        this.$nextTick(() => {
+          this.$refs.form.clearValidate()
+        })
+      }
+
+      this.dialogStatus = 'update'
+      this.dialogLoading = false
+      this.dialogFormVisible = true
     }
   }
 }
