@@ -190,6 +190,13 @@ util.getDownloadUrl = function(file, code) {
   return data
 }
 
+util.getImageStyleUrl = function(url, style) {
+  // let data = process.env.VUE_APP_BASE_API
+  // data += '/v1/storage/method/get.storage.thumb/code/' + code
+  // 未完,待续
+  return url
+}
+
 /**
  * 数字 格式化
  * @param num

@@ -530,7 +530,7 @@
                 v-if="imageUrl"
                 :href="`//${imageUrl}`"
                 target="_blank">
-                <img :src="`//${imageUrl}`" class="image" title="点击查看原图" alt="">
+                <img :src="imageUrl | getPreviewUrl" class="image" title="点击查看原图" alt="">
               </a>
 
               <div style="display: none">
@@ -678,6 +678,12 @@ export default {
         })
       },
       deep: true
+    }
+  },
+  filters: {
+    getPreviewUrl(val) {
+      const style = ''
+      return util.getImageStyleUrl(val, style)
     }
   },
   data() {
