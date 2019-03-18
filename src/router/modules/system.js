@@ -111,6 +111,12 @@ export default {
       name: `${pre}storage-style`,
       meta: { ...meta, cache: true, title: '资源样式' },
       component: () => import('@/views/system/storage/style')
+    },
+    {
+      path: 'storage/storage',
+      name: `${pre}storage-storage`,
+      meta: { ...meta, cache: true, title: '资源管理' },
+      component: () => import('@/views/system/storage/storage')
     }
   ])('system-')
 }
