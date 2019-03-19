@@ -91,7 +91,7 @@ export default {
     {
       path: 'action/log',
       name: `${pre}action-log`,
-      meta: { ...meta, cache: true, title: '日志记录' },
+      meta: { ...meta, cache: true, title: '操作日志' },
       component: () => import('@/views/system/action/log')
     },
     {
