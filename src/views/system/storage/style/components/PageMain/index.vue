@@ -682,7 +682,7 @@ export default {
   },
   filters: {
     getPreviewUrl(val) {
-      const style = ''
+      const style = '&size[]=300'
       return util.getImageStyleUrl(val, style)
     }
   },

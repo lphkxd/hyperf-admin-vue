@@ -190,11 +190,18 @@ util.getDownloadUrl = function(file, code) {
   return data
 }
 
+/**
+ * 根据请求参数获取缩略图地址
+ * @param url
+ * @param style
+ * @returns {string}
+ */
 util.getImageStyleUrl = function(url, style) {
-  // let data = process.env.VUE_APP_BASE_API
-  // data += '/v1/storage/method/get.storage.thumb/code/' + code
-  // 未完,待续
-  return url
+  let data = process.env.VUE_APP_BASE_API
+  data += '/v1/storage/method/get.storage.thumb' + '?url=' + encodeURI(url)
+  data += style
+
+  return data
 }
 
 /**
