@@ -77,10 +77,11 @@
       <el-popover
         style="float: right"
         placement="bottom-end"
-        width="200"
+        width="400"
         trigger="hover"
         title="提示"
-        :content="helpContent">
+        @show="getHelp">
+        <div class="popover-content" v-html="helpContent"></div>
         <el-button
           size="small"
           slot="reference">
@@ -320,6 +321,7 @@ import {
   addAuthRuleItem,
   setAuthRuleItem
 } from '@/api/auth/rule'
+import { getHelpRouter } from '@/api/index/help'
 import { getMenuList } from '@/api/auth/menu'
 import util from '@/utils/util'
 
@@ -343,7 +345,7 @@ export default {
       hackReset: true,
       isExpandAll: true,
       expanded: [],
-      helpContent: '暂无帮助内容',
+      helpContent: '',
       filterText: '',
       treeLoading: false,
       treeProps: {
@@ -436,6 +438,13 @@ export default {
       this.auth.enable = this.$has('/system/auth/rule/enable')
       this.auth.disable = this.$has('/system/auth/rule/disable')
       this.auth.move = this.$has('/system/auth/rule/move')
+    },
+    // 获取帮助文档
+    getHelp() {
+      if (!this.helpContent) {
+        this.helpContent = '正在获取内容,请稍后...'
+        getHelpRouter(this.$route.path).then(res => { this.helpContent = res })
+      }
     },
     // 过滤节点
     filterNode(value, data) {

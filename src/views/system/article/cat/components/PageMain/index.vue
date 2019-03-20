@@ -45,10 +45,11 @@
       <el-popover
         style="float: right"
         placement="bottom-end"
-        width="200"
+        width="400"
         trigger="hover"
         title="提示"
-        :content="helpContent">
+        @show="getHelp">
+        <div class="popover-content" v-html="helpContent"></div>
         <el-button
           size="small"
           slot="reference">
@@ -235,6 +236,7 @@ import {
   delArticleCatList,
   setArticleCatIndex
 } from '@/api/article/cat'
+import { getHelpRouter } from '@/api/index/help'
 
 export default {
   props: {
@@ -247,7 +249,7 @@ export default {
   },
   data() {
     return {
-      helpContent: '暂无帮助内容',
+      helpContent: '',
       filterText: '',
       hackReset: true,
       isExpandAll: false,
@@ -365,6 +367,13 @@ export default {
       }
 
       return id_list
+    },
+    // 获取帮助文档
+    getHelp() {
+      if (!this.helpContent) {
+        this.helpContent = '正在获取内容,请稍后...'
+        getHelpRouter(this.$route.path).then(res => { this.helpContent = res })
+      }
     },
     // 展开或收起节点
     checkedNodes(isExpand) {

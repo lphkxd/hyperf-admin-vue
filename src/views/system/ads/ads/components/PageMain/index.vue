@@ -50,10 +50,11 @@
       <el-popover
         style="float: right"
         placement="bottom-end"
-        width="200"
+        width="400"
         trigger="hover"
         title="提示"
-        :content="helpContent">
+        @show="getHelp">
+        <div class="popover-content" v-html="helpContent"></div>
         <el-button
           size="small"
           slot="reference">
@@ -409,6 +410,7 @@ import {
   addAdsItem,
   setAdsItem
 } from '@/api/ads/ads'
+import { getHelpRouter } from '@/api/index/help'
 import util from '@/utils/util'
 
 export default {
@@ -445,7 +447,7 @@ export default {
       content: { image: [], code: '' },
       currentTableData: [],
       multipleSelection: [],
-      helpContent: '暂无帮助内容',
+      helpContent: '',
       dialogLoading: false,
       dialogFormVisible: false,
       dialogStatus: '',
@@ -578,6 +580,13 @@ export default {
       }
 
       return idList
+    },
+    // 获取帮助文档
+    getHelp() {
+      if (!this.helpContent) {
+        this.helpContent = '正在获取内容,请稍后...'
+        getHelpRouter(this.$route.path).then(res => { this.helpContent = res })
+      }
     },
     // 选中数据项
     handleSelectionChange(val) {
