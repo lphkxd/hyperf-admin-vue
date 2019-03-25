@@ -12,7 +12,7 @@
         clearable
         placeholder="资源名称"
         @keyup.enter.native="handleFormSubmit"
-        style="width: 250px;"/>
+        style="width: 200px;"/>
     </el-form-item>
 
     <el-form-item>
@@ -33,6 +33,45 @@
       </el-button>
     </el-form-item>
 
+    <el-form-item>
+      <el-popover
+        width="230"
+        placement="bottom"
+        trigger="click">
+        <div class="more-filter">
+          <el-form-item label="排序类型" prop="order_field">
+            <el-select
+              v-model="form.order_field"
+              placeholder="请选择"
+              value="">
+              <el-option label="编号" value="storage_id"/>
+              <el-option label="名称" value="name"/>
+              <el-option label="类型" value="type"/>
+              <el-option label="创建日期" value="create_time"/>
+              <el-option label="最后更新" value="update_time"/>
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="排序方式" prop="order_type">
+            <el-select
+              v-model="form.order_type"
+              placeholder="请选择"
+              value="">
+              <el-option label="升序" value="asc"/>
+              <el-option label="降序" value="desc"/>
+            </el-select>
+          </el-form-item>
+        </div>
+
+        <el-button
+          slot="reference"
+          type="text">
+          更多筛选
+          <cs-icon name="angle-down"/>
+        </el-button>
+      </el-popover>
+    </el-form-item>
+
   </el-form>
 </template>
 
@@ -46,7 +85,9 @@ export default {
   data() {
     return {
       form: {
-        name: undefined
+        name: undefined,
+        order_type: 'asc',
+        order_field: 'storage_id'
       }
     }
   },
@@ -60,3 +101,15 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .more-filter {
+    margin-bottom: -18px;
+  }
+  .more-filter>>>label {
+    width: 68px;
+  }
+  .more-filter>>>input {
+    width: 160px;
+  }
+</style>

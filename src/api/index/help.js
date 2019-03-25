@@ -1,9 +1,19 @@
-import request from '@/utils/request'
+import axios from 'axios'
 
 export function getHelpRouter(router) {
+  let host = process.env.VUE_APP_BASE_API
+  if (process.env.NODE_ENV !== 'development') {
+    host = 'https://demo.careyshop.cn/api'
+  }
+
   return new Promise(resolve => {
-    request({
-      url: '/v1/help',
+    axios({
+      /**
+       * 帮助文档内容使用远程官方接口,便于文档统一
+       * 如二次开发后文档与实际内容不一致,那么可以将
+       * url 修改为 /v1/help ,表示使用本地接口
+       */
+      url: host + '/v1/help',
       method: 'post',
       params: {
         method: 'get.help.router'
@@ -30,6 +40,9 @@ export function getHelpRouter(router) {
         }
 
         resolve(content)
+      })
+      .catch(err => {
+        resolve(err)
       })
   })
 }

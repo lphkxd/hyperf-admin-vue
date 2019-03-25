@@ -11,7 +11,6 @@
     <page-main
       :loading="loading"
       :table-data="table"
-      @sort="handleSort"
       @refresh="handleRefresh"/>
 
     <page-footer
@@ -41,12 +40,8 @@ export default {
       table: [],
       page: {
         current: 1,
-        size: 25,
+        size: 100,
         total: 0
-      },
-      order: {
-        order_type: undefined,
-        order_field: undefined
       }
     }
   },
@@ -67,13 +62,6 @@ export default {
         this.$refs.header.handleFormSubmit()
       })
     },
-    // 排序刷新
-    handleSort(val) {
-      this.order = val
-      this.$nextTick(() => {
-        this.$refs.header.handleFormSubmit()
-      })
-    },
     // 查询请求
     handleSubmit(form, isRestore = false) {
       if (isRestore) {
@@ -83,7 +71,6 @@ export default {
       this.loading = true
       getStorageList({
         ...form,
-        ...this.order,
         page_no: this.page.current,
         page_size: this.page.size
       })
