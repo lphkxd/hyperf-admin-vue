@@ -11,6 +11,7 @@
     <page-main
       :loading="loading"
       :table-data="table"
+      :navi-data="navi"
       @refresh="handleRefresh"/>
 
     <page-footer
@@ -24,7 +25,7 @@
 </template>
 
 <script>
-import { getStorageList } from '@/api/upload/storage'
+import { getStorageNavi, getStorageList } from '@/api/upload/storage'
 
 export default {
   name: 'system-storage-storage',
@@ -37,7 +38,9 @@ export default {
     return {
       scrollTop: 0,
       loading: true,
+      storageId: 0,
       table: [],
+      navi: [],
       page: {
         current: 1,
         size: 100,
@@ -47,6 +50,13 @@ export default {
   },
   mounted() {
     this.handleSubmit()
+  },
+  watch: {
+    storageId: {
+      handler(val) {
+        getStorageNavi(val).then(res => { this.navi = res.data })
+      }
+    }
   },
   methods: {
     // 刷新列表页面
@@ -80,6 +90,7 @@ export default {
         })
         .finally(() => {
           this.loading = false
+          this.storageId = form ? form.storage_id : 0
         })
     }
   }
