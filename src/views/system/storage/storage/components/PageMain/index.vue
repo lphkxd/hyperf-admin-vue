@@ -73,9 +73,11 @@
       <li v-for="(item, index) in currentTableData" :key="index">
         <dl>
           <dt>
-            <div class="picture cs-ml-15"></div>
+            <div class="picture cs-m-15">
+              <a @click="() => {}"><img :src="item | getImageThumb" alt=""></a>
+            </div>
           </dt>
-          <dd>
+          <dd class="cs-ml-10">
             <p>
               <span>创建日期: {{item.create_time}}</span>
             </p>
@@ -90,9 +92,11 @@
 </template>
 
 <script>
+import storage from '../mixins'
 import { getHelpRouter } from '@/api/index/help'
 
 export default {
+  mixins: [storage],
   props: {
     tableData: {
       default: () => []
@@ -151,17 +155,35 @@ export default {
     width: 204px;
     height: 300px;
     font-size: 13px;
-    text-align: center;
     opacity: 1;
     border-style: solid;
     border-color: $color-border-1;
     border-width: 0 1px 1px 1px;
     margin-right: -1px;
   }
-  .storage-list li .picture {
+  .storage-list>li:hover {
+     background-color: rgb(230, 230, 230);
+  }
+  .storage-list li dl dt .picture {
     width: 172px;
     height: 172px;
     border: solid 1px #FAFAFA;
+  }
+  .storage-list li dl dt .covers a,
+  .storage-list li dl dt .picture a {
+    background-color: #fff;
+    text-align: center;
+    vertical-align: middle;
+    display: table-cell;
+    width: 172px;
+    height: 172px;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .storage-list li dl dt .covers a img,
+  .storage-list li dl dt .picture a img {
+    max-width: 172px;
+    max-height: 172px;
   }
   .storage-list li:after {
     content: "";
