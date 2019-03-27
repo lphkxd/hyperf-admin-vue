@@ -27,6 +27,31 @@
           <el-button
             :disabled="loading"
             @click="() => {}">
+            <cs-icon name="check-square-o"/>
+            全选
+          </el-button>
+
+          <el-button
+            :disabled="loading"
+            @click="() => {}">
+            <cs-icon name="minus-square-o"/>
+            反选
+          </el-button>
+
+          <el-button
+            :disabled="loading"
+            @click="() => {}">
+            <cs-icon name="square-o"/>
+            取消
+          </el-button>
+        </el-button-group>
+      </el-form-item>
+
+      <el-form-item>
+        <el-button-group>
+          <el-button
+            :disabled="loading"
+            @click="() => {}">
             <cs-icon name="arrows"/>
             移动
           </el-button>
@@ -76,6 +101,8 @@
             <div class="picture cs-m-15">
               <a @click="() => {}"><img :src="item | getImageThumb" alt=""></a>
             </div>
+            <span class="storage-name cs-ml-10" :title="item.name">{{item.name}}</span>
+            <cs-icon class="edit-name" name="edit"/>
           </dt>
           <dd class="cs-ml-10">
             <p>
@@ -138,16 +165,14 @@ export default {
   .breadcrumb {
     background-color: #fff;
     border: 1px solid $color-border-1;
-    border-radius: 4px;
     padding: 10px !important;
-    margin-bottom: 20px;
   }
   .storage-list {
     overflow: hidden;
     list-style: none;
     padding: 0;
-    margin: 0;
-    border-top: 1px solid $color-border-1;
+    border: 1px solid $color-border-1;
+    border-right: 0;
     background-color: #fff;
   }
   .storage-list li {
@@ -158,8 +183,8 @@ export default {
     opacity: 1;
     border-style: solid;
     border-color: $color-border-1;
-    border-width: 0 1px 1px 1px;
-    margin-right: -1px;
+    border-width: 0 1px 1px 0;
+    margin-bottom: -1px;
   }
   .storage-list>li:hover {
      background-color: rgb(230, 230, 230);
@@ -198,5 +223,15 @@ export default {
     line-height: normal;
     color: $color-text-sub;
     transition: color .15s linear;
+  }
+  .storage-list .storage-name {
+    color: $color-text-main;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    overflow:hidden;
+    width:172px;
+  }
+  .storage-list .edit-name {
+    color: $color-text-sub;
   }
 </style>
