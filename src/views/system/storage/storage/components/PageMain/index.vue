@@ -99,12 +99,10 @@
         <dl>
           <dt>
             <div class="picture cs-m-15">
-              <a @click="() => {}">
-                <div class="folder">
-                  <img  v-if="item.type === 2" src="http://careyshop.oruei.com/api/v1/storage/method/get.storage.thumb/code/storage_lists?url=careyshop.oruei.com/uploads/files/20190328/afd93bf9addafde1e369a0fbcbdecba1.png?type=careyshop" alt="">
+              <a>
+                <div v-if="item.type === 2" class="folder">
+                  <img src="http://careyshop.oruei.com/api/v1/storage/method/get.storage.thumb/code/storage_lists?url=careyshop.oruei.com/uploads/files/20190328/5eaff12abe23396740e365ea85539406.png?type=careyshop" alt="">
                 </div>
-                <img v-if="item.type === 0" :src="item.url | getImageThumb" alt="">
-                <img v-else-if="item.type === 1" :src="`${$publicPath}image/storage/new_file.png`" alt="">
               </a>
             </div>
             <span class="storage-name cs-ml-10" :title="item.name">{{item.name}}</span>
@@ -168,8 +166,9 @@ export default {
     list-style: none;
     padding: 0;
     margin: 0;
-    border: 1px solid $color-border-1;
-    border-right: 0;
+    border-style: solid;
+    border-color: $color-border-1;
+    border-width: 1px 0 0 1px;
     background-color: #fff;
   }
   .storage-list li {
@@ -181,7 +180,6 @@ export default {
     border-style: solid;
     border-color: $color-border-1;
     border-width: 0 1px 1px 0;
-    margin-bottom: -1px;
   }
   .storage-list>li:hover {
      background-color: $color-bg;
@@ -206,6 +204,8 @@ export default {
   .storage-list li dl dt .picture a img {
     max-width: 172px;
     max-height: 172px;
+    vertical-align: middle;
+    border: 0;
   }
   .storage-list li:after {
     content: "";
