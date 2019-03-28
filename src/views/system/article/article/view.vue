@@ -4,20 +4,21 @@
     parentPath="system-article-article"
     :scrollTop="scrollTop"
     @scroll="(move) => {this.scrollTop = move.y}">
-    <el-card
-      class="box-card"
-      shadow="never"
-      v-loading="loading">
-      <div
-        slot="header"
-        class="clearfix">
-        <h2>{{article.title}}</h2>
-        <span>最后编辑：{{article.update_time}}</span>
-        <span>来源：<a :href="article.source_url" target="_blank">{{article.source}}</a></span>
-        <span>游览量：{{article.page_views}}</span>
-      </div>
-      <div class="mce-content-body" v-html="article.content"></div>
-    </el-card>
+
+    <div class="cs-p">
+      <el-card
+        class="box-card"
+        shadow="never"
+        v-loading="loading">
+        <div slot="header" class="clearfix">
+          <h2>{{article.title}}</h2>
+          <span>最后编辑：{{article.update_time}}</span>
+          <span>来源：<a :href="article.source_url" target="_blank">{{article.source}}</a></span>
+          <span>游览量：{{article.page_views}}</span>
+        </div>
+        <div class="mce-content-body" v-html="article.content"></div>
+      </el-card>
+    </div>
   </cs-container>
 </template>
 

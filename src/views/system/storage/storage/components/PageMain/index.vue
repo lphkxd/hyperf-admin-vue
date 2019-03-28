@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="cs-p">
     <el-form
       :inline="true"
       size="small">
@@ -81,7 +81,7 @@
       </el-popover>
     </el-form>
 
-    <el-breadcrumb class="breadcrumb" separator-class="el-icon-arrow-right">
+    <el-breadcrumb class="breadcrumb cs-mb" separator-class="el-icon-arrow-right">
       <el-breadcrumb-item
         :to="{path: '/system/storage/storage'}">
         首页
@@ -99,7 +99,13 @@
         <dl>
           <dt>
             <div class="picture cs-m-15">
-              <a @click="() => {}"><img :src="item | getImageThumb" alt=""></a>
+              <a @click="() => {}">
+                <div class="folder">
+                  <img  v-if="item.type === 2" src="http://careyshop.oruei.com/api/v1/storage/method/get.storage.thumb/code/storage_lists?url=careyshop.oruei.com/uploads/files/20190328/afd93bf9addafde1e369a0fbcbdecba1.png?type=careyshop" alt="">
+                </div>
+                <img v-if="item.type === 0" :src="item.url | getImageThumb" alt="">
+                <img v-else-if="item.type === 1" :src="`${$publicPath}image/storage/new_file.png`" alt="">
+              </a>
             </div>
             <span class="storage-name cs-ml-10" :title="item.name">{{item.name}}</span>
             <cs-icon class="edit-name" name="edit"/>
@@ -120,7 +126,6 @@
 
 <script>
 import storage from '../mixins'
-import { getHelpRouter } from '@/api/index/help'
 
 export default {
   mixins: [storage],
@@ -148,15 +153,6 @@ export default {
       },
       immediate: true
     }
-  },
-  methods: {
-    // 获取帮助文档
-    getHelp() {
-      if (!this.helpContent) {
-        this.helpContent = '正在获取内容,请稍后...'
-        getHelpRouter(this.$route.path).then(res => { this.helpContent = res })
-      }
-    }
   }
 }
 </script>
@@ -171,6 +167,7 @@ export default {
     overflow: hidden;
     list-style: none;
     padding: 0;
+    margin: 0;
     border: 1px solid $color-border-1;
     border-right: 0;
     background-color: #fff;
@@ -187,7 +184,7 @@ export default {
     margin-bottom: -1px;
   }
   .storage-list>li:hover {
-     background-color: rgb(230, 230, 230);
+     background-color: $color-bg;
   }
   .storage-list li dl dt .picture {
     width: 172px;
@@ -229,9 +226,16 @@ export default {
     text-overflow:ellipsis;
     white-space:nowrap;
     overflow:hidden;
-    width:172px;
+    width:171px;
   }
   .storage-list .edit-name {
     color: $color-text-sub;
+  }
+  .storage-list .folder {
+    padding-top: 10px;
+    border: 1px dashed #BBB;
+    margin-left: 3px;
+    background-image: url(http://localhost:8080/image/storage/new_folder.png);
+    background-repeat: no-repeat;
   }
 </style>

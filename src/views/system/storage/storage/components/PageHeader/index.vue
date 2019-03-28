@@ -86,7 +86,7 @@ export default {
     return {
       form: {
         name: undefined,
-        order_type: 'asc',
+        order_type: 'desc',
         order_field: 'storage_id',
         storage_id: 0
       }

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="cs-p">
     <el-table
       :data="tableData"
       v-loading="loading"

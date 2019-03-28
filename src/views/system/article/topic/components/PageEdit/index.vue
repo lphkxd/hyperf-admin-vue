@@ -1,81 +1,83 @@
 <template>
-  <el-card
-    class="box-card"
-    shadow="never"
-    v-loading="loading">
-    <div slot="header" class="clearfix" style="text-align: center;">
-      <span>{{stateMap[state]}}</span>
-    </div>
+  <div class="cs-p">
+    <el-card
+      class="box-card"
+      shadow="never"
+      v-loading="loading">
+      <div slot="header" class="clearfix" style="text-align: center;">
+        <span>{{stateMap[state]}}</span>
+      </div>
 
-    <el-form
-      ref="form"
-      :model="currentForm"
-      :rules="rules"
-      label-width="80px">
+      <el-form
+        ref="form"
+        :model="currentForm"
+        :rules="rules"
+        label-width="80px">
 
-      <el-form-item
-        label="标题"
-        prop="title">
-        <el-input
-          v-model="currentForm.title"
-          placeholder="请输入专题标题"
-          clearable/>
-      </el-form-item>
+        <el-form-item
+          label="标题"
+          prop="title">
+          <el-input
+            v-model="currentForm.title"
+            placeholder="请输入专题标题"
+            clearable/>
+        </el-form-item>
 
-      <el-form-item
-        label="别名"
-        prop="alias">
-        <el-input
-          v-model="currentForm.alias"
-          placeholder="可输入专题别名"
-          clearable/>
-      </el-form-item>
+        <el-form-item
+          label="别名"
+          prop="alias">
+          <el-input
+            v-model="currentForm.alias"
+            placeholder="可输入专题别名"
+            clearable/>
+        </el-form-item>
 
-      <el-form-item
-        label="关键词"
-        prop="keywords">
-        <el-input
-          v-model="currentForm.keywords"
-          placeholder="可输入专题关键词"
-          clearable/>
-      </el-form-item>
+        <el-form-item
+          label="关键词"
+          prop="keywords">
+          <el-input
+            v-model="currentForm.keywords"
+            placeholder="可输入专题关键词"
+            clearable/>
+        </el-form-item>
 
-      <el-form-item
-        label="描述"
-        prop="description">
-        <el-input
-          v-model="currentForm.description"
-          placeholder="可输入专题描述"
-          type="textarea"
-          :rows="3"/>
-      </el-form-item>
+        <el-form-item
+          label="描述"
+          prop="description">
+          <el-input
+            v-model="currentForm.description"
+            placeholder="可输入专题描述"
+            type="textarea"
+            :rows="3"/>
+        </el-form-item>
 
-      <el-form-item
-        label="内容"
-        prop="content">
-        <cs-tinymce
-          ref="tinymce"
-          v-model="currentForm.content"
-          code="topic_content"/>
-      </el-form-item>
+        <el-form-item
+          label="内容"
+          prop="content">
+          <cs-tinymce
+            ref="tinymce"
+            v-model="currentForm.content"
+            code="topic_content"/>
+        </el-form-item>
 
-      <el-form-item
-        label="状态"
-        prop="status">
-        <el-switch
-          v-model="currentForm.status"
-          active-value="1"
-          inactive-value="0">
-        </el-switch>
-      </el-form-item>
+        <el-form-item
+          label="状态"
+          prop="status">
+          <el-switch
+            v-model="currentForm.status"
+            active-value="1"
+            inactive-value="0">
+          </el-switch>
+        </el-form-item>
 
-      <el-form-item size="small">
-        <el-button type="primary" :loading="dialogLoading" @click="handleConfirm">{{stateButton[state]}}</el-button>
-        <el-button @click="handleClose">取消</el-button>
-      </el-form-item>
+        <el-form-item size="small">
+          <el-button type="primary" :loading="dialogLoading" @click="handleConfirm">{{stateButton[state]}}</el-button>
+          <el-button @click="handleClose">取消</el-button>
+        </el-form-item>
 
-    </el-form>
-  </el-card>
+      </el-form>
+    </el-card>
+  </div>
 </template>
 
 <script>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="cs-p">
     <el-form
       :inline="true"
       size="small">
@@ -151,7 +151,6 @@
             type="text">重置密码</el-button>
         </template>
       </el-table-column>
-
     </el-table>
 
     <el-dialog

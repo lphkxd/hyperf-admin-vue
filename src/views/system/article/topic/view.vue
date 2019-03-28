@@ -4,19 +4,20 @@
     parentPath="system-article-topic"
     :scrollTop="scrollTop"
     @scroll="(move) => {this.scrollTop = move.y}">
-    <el-card
-      class="box-card"
-      shadow="never"
-      v-loading="loading">
-      <div
-        slot="header"
-        class="clearfix">
-        <h2>{{topic.title}}</h2>
-        <span>创建日期：{{topic.create_time}}</span>
-        <span>最后编辑：{{topic.update_time}}</span>
-      </div>
-      <div class="mce-content-body" v-html="topic.content"></div>
-    </el-card>
+
+    <div class="cs-p">
+      <el-card
+        class="box-card"
+        shadow="never"
+        v-loading="loading">
+        <div slot="header" class="clearfix">
+          <h2>{{topic.title}}</h2>
+          <span>创建日期：{{topic.create_time}}</span>
+          <span>最后编辑：{{topic.update_time}}</span>
+        </div>
+        <div class="mce-content-body" v-html="topic.content"></div>
+      </el-card>
+    </div>
   </cs-container>
 </template>
 

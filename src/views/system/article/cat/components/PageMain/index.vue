@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="cs-p">
     <el-form
       :inline="true"
       size="small">
