@@ -4,8 +4,23 @@ import { getHelpRouter } from '@/api/index/help'
 export default {
   filters: {
     // 获取图片缩略图
-    getImageThumb(url) {
-      return util.getImageCodeUrl(url, 'storage_lists')
+    getImageThumb(val) {
+      let imageUrl = null
+      switch (val.type) {
+        case 0:
+          imageUrl = util.getImageCodeUrl(val.url, 'storage_lists')
+          break
+
+        case 1:
+          imageUrl = 'image/storage/file.png'
+          break
+
+        case 2:
+          imageUrl = val.cover ? util.getImageCodeUrl(val.cover, 'storage_lists') : 'image/storage/folder.png'
+          break
+      }
+
+      return imageUrl
     }
   },
   methods: {

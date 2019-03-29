@@ -99,21 +99,54 @@
         <dl>
           <dt>
             <div class="picture cs-m-15">
-              <a>
-                <div v-if="item.type === 2" class="folder">
-                  <img src="http://careyshop.oruei.com/api/v1/storage/method/get.storage.thumb/code/storage_lists?url=careyshop.oruei.com/uploads/files/20190328/5eaff12abe23396740e365ea85539406.png?type=careyshop" alt="">
-                </div>
-              </a>
+              <a><img :src="item | getImageThumb" alt=""></a>
             </div>
             <span class="storage-name cs-ml-10" :title="item.name">{{item.name}}</span>
-            <cs-icon class="edit-name" name="edit"/>
+
+            <el-dropdown placement="bottom" show-timeout="50" size="small">
+              <cs-icon class="more" name="angle-double-down"/>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item>
+                  <cs-icon name="edit" class="more-icon"/>重命名
+                </el-dropdown-item>
+
+                <el-dropdown-item divided>
+                  <cs-icon name="cloud-upload" class="more-icon"/>替换上传
+                </el-dropdown-item>
+
+                <el-dropdown-item>
+                  <cs-icon name="image" class="more-icon"/>设为封面
+                </el-dropdown-item>
+
+                <el-dropdown-item divided>
+                  <cs-icon name="folder-open-o" class="more-icon"/>设为默认
+                </el-dropdown-item>
+
+                <el-dropdown-item>
+                  <cs-icon name="arrows" class="more-icon"/>转移目录
+                </el-dropdown-item>
+
+                <el-dropdown-item>
+                  <cs-icon name="trash-o" class="more-icon"/>删除文件
+                </el-dropdown-item>
+
+                <el-dropdown-item>
+                  <cs-icon name="refresh" class="more-icon"/>清除缓存
+                </el-dropdown-item>
+
+                <el-dropdown-item divided>
+                  <cs-icon name="external-link" class="cs-mr-10"/>复制外链
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
           </dt>
           <dd class="cs-ml-10">
             <p>
               <span>创建日期: {{item.create_time}}</span>
             </p>
-            <p v-if="item.type === 0">
-              <span>原图尺寸: {{`${item.pixel['width']},${item.pixel['height']}`}}</span>
+            <p>
+              <span v-if="item.type === 0">原图尺寸: {{`${item.pixel['width']},${item.pixel['height']}`}}</span>
+              <span v-else>文件类型: <cs-icon :name="item.type === 1 ? 'file-o' : 'folder-o'"/></span>
             </p>
           </dd>
         </dl>
@@ -184,9 +217,10 @@ export default {
   .storage-list>li:hover {
      background-color: $color-bg;
   }
+  .storage-list>li:hover .more {
+    display: inline-block;
+  }
   .storage-list li dl dt .picture {
-    width: 172px;
-    height: 172px;
     border: solid 1px #FAFAFA;
   }
   .storage-list li dl dt .covers a,
@@ -226,16 +260,18 @@ export default {
     text-overflow:ellipsis;
     white-space:nowrap;
     overflow:hidden;
-    width:171px;
+    width:170px;
+    height: 20px;
   }
-  .storage-list .edit-name {
-    color: $color-text-sub;
+  .storage-list .more {
+    width: 20px;
+    height: 15px;
+    color: $color-primary;
+    cursor: pointer;
+    display: none;
   }
-  .storage-list .folder {
-    padding-top: 10px;
-    border: 1px dashed #BBB;
-    margin-left: 3px;
-    background-image: url(http://localhost:8080/image/storage/new_folder.png);
-    background-repeat: no-repeat;
+  .more-icon {
+    width: 16px;
+    margin-right: 10px !important;
   }
 </style>

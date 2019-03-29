@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="cs-p">
     <!--表单开始-->
     <el-form
       :inline="true"
