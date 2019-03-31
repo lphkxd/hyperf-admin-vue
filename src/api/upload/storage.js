@@ -52,8 +52,9 @@ export function getStorageDirectoryDelect(order_type = 'asc', order_field = 'sto
 /**
  * 将资源目录标设为默认目录
  * @param {Number} storage_id
+ * @param {Number} is_default
  */
-export function setStorageDirectoryDefault(storage_id) {
+export function setStorageDirectoryDefault(storage_id, is_default) {
   return request({
     url: '/v1/storage',
     method: 'post',
@@ -61,7 +62,8 @@ export function setStorageDirectoryDefault(storage_id) {
       method: 'set.storage.directory.default'
     },
     data: {
-      storage_id
+      storage_id,
+      is_default
     }
   })
 }

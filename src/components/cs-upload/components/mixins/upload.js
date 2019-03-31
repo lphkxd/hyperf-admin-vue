@@ -1,5 +1,5 @@
 import { getUploadToken } from '@/api/upload/upload'
-import { delStorageList } from '@/api/upload/storage'
+import { delStorageList, getStorageDirectoryDelect } from '@/api/upload/storage'
 import util from '@/utils/util'
 
 export default {
@@ -17,6 +17,8 @@ export default {
       },
       immediate: true
     }
+  },
+  mounted() {
   },
   methods: {
     // 获取 Token
