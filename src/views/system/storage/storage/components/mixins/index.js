@@ -1,14 +1,13 @@
 import util from '@/utils/util'
-import { getHelpRouter } from '@/api/index/help'
 
 export default {
   filters: {
     // 获取图片缩略图
     getImageThumb(val) {
       let imageUrl = null
-      switch (val.type) {
+      switch (val['type']) {
         case 0:
-          imageUrl = util.getImageCodeUrl(val.url, 'storage_lists')
+          imageUrl = util.getImageCodeUrl(val['url'], 'storage_lists')
           break
 
         case 1:
@@ -16,7 +15,11 @@ export default {
           break
 
         case 2:
-          imageUrl = val.cover ? util.getImageCodeUrl(val.cover, 'storage_lists') : 'image/storage/folder.png'
+          if (val['cover']) {
+            imageUrl = util.getImageCodeUrl(val['cover'], 'storage_lists')
+          } else {
+            imageUrl = val['is_default'] ? 'image/storage/default.png' : 'image/storage/folder.png'
+          }
           break
       }
 
@@ -24,12 +27,30 @@ export default {
     }
   },
   methods: {
-    // 获取帮助文档
-    getHelp() {
-      if (!this.helpContent) {
-        this.helpContent = '正在获取内容,请稍后...'
-        getHelpRouter(this.$route.path).then(res => { this.helpContent = res })
+    // 打开资源
+    openStorage(index) {
+      // 当前资源对象
+      const storage = this.currentTableData[index]
+      switch (storage['type']) {
+        case 0:
+          this.$preview('//' + storage['url'])
+          break
+
+        case 1:
+          util.open(util.getDownloadUrl(storage, ''))
+          break
+
+        case 2:
+          this.switchFolder(storage['storage_id'])
+          break
+
+        default:
+          this.$message.warning('打开资源出现异常操作')
       }
+    },
+    // 切换目录
+    switchFolder(storageId) {
+      this.$emit('refresh', storageId, true)
     }
   }
 }

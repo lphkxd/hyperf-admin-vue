@@ -20,6 +20,8 @@
       <i class="el-icon-plus"></i>
       <div slot="tip" class="el-upload__tip">{{uploadTip}}大小不能超过 {{this.token['file_size']}}</div>
     </el-upload>
+
+    <template>资源目录占位</template>
   </div>
 </template>
 

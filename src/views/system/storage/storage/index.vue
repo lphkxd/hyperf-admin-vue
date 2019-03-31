@@ -60,9 +60,10 @@ export default {
   },
   methods: {
     // 刷新列表页面
-    handleRefresh() {
+    handleRefresh(storageId = null, isRestore = false) {
       this.$nextTick(() => {
-        this.$refs.header.handleFormSubmit()
+        this.$refs.header.form['storage_id'] = storageId || 0
+        this.$refs.header.handleFormSubmit(isRestore)
       })
     },
     // 分页变化改动

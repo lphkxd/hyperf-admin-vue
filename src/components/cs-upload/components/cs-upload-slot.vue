@@ -30,6 +30,10 @@
       </el-upload>
 
       <div slot="footer" class="dialog-footer">
+        <div style="float: left">
+          资源目录占位
+        </div>
+
         <el-button
           @click="handleClose"
           size="small">取消</el-button>
