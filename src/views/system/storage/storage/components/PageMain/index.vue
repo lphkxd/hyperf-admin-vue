@@ -83,7 +83,7 @@
 
     <el-breadcrumb class="breadcrumb cs-mb" separator-class="el-icon-arrow-right">
       <el-breadcrumb-item>
-        <a @click="switchFolder(0)">首页</a>
+        <a @click="switchFolder(0)">资源管理</a>
       </el-breadcrumb-item>
 
       <el-breadcrumb-item
