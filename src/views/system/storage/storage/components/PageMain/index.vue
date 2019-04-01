@@ -184,6 +184,7 @@ export default {
   watch: {
     tableData: {
       handler(val) {
+        this.checkList = []
         this.currentTableData = val
       },
       immediate: true

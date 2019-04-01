@@ -1,9 +1,7 @@
 <template>
   <div>
     <textarea class="tinymce-textarea" :id="tinymceId"></textarea>
-    <div style="display: none">
-      <cs-upload ref="upload" type="slot" @confirm="getUploadFileList"/>
-    </div>
+    <cs-upload ref="upload" type="slot" style="display: none" @confirm="getUploadFileList"/>
   </div>
 </template>
 

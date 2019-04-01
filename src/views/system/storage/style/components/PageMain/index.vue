@@ -534,16 +534,15 @@
                 <img :src="imageUrl | getPreviewUrl" class="image" title="点击查看原图" alt="">
               </a>
 
-              <div style="display: none">
-                <cs-upload
-                  ref="upload"
-                  type="slot"
-                  accept="image/*"
-                  :limit="1"
-                  :multiple="false"
-                  :module-name="uploadModule"
-                  @confirm="getUploadFileList"/>
-              </div>
+              <cs-upload
+                style="display: none"
+                ref="upload"
+                type="slot"
+                accept="image/*"
+                :limit="1"
+                :multiple="false"
+                :module-name="uploadModule"
+                @confirm="getUploadFileList"/>
 
               <div style="padding: 10px;">
                 <div class="bottom clearfix">
