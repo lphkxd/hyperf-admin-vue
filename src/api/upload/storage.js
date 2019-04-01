@@ -35,7 +35,7 @@ export function setStorageDirectoryItem(data) {
  * @param {String} order_type
  * @param {String} order_field
  */
-export function getStorageDirectoryDelect(order_type = 'asc', order_field = 'storage_id') {
+export function getStorageDirectorySelect(order_type = 'desc', order_field = 'storage_id') {
   return request({
     url: '/v1/storage',
     method: 'post',

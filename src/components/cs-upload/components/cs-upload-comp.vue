@@ -21,7 +21,14 @@
       <div slot="tip" class="el-upload__tip">{{uploadTip}}大小不能超过 {{this.token['file_size']}}</div>
     </el-upload>
 
-    <template>资源目录占位</template>
+    <el-cascader
+      v-model="parentId"
+      :options="parentData"
+      :props="parentProps"
+      change-on-select
+      filterable
+      style="width: 30%;">
+    </el-cascader>
   </div>
 </template>
 

@@ -1,5 +1,5 @@
 import { getUploadToken } from '@/api/upload/upload'
-import { delStorageList, getStorageDirectoryDelect } from '@/api/upload/storage'
+import { delStorageList, getStorageDirectorySelect } from '@/api/upload/storage'
 import util from '@/utils/util'
 
 export default {
@@ -7,7 +7,14 @@ export default {
     return {
       token: {},
       params: {},
-      uploadUrl: ''
+      uploadUrl: '',
+      parentId: [],
+      parentData: [],
+      parentProps: {
+        value: 'storage_id',
+        label: 'name',
+        children: 'children'
+      }
     }
   },
   watch: {
@@ -19,6 +26,30 @@ export default {
     }
   },
   mounted() {
+    getStorageDirectorySelect()
+      .then(res => {
+        this.parentData = res.data.list.length
+          ? util.formatDataToTree(res.data.list, 'storage_id')
+          : []
+
+        this.parentData.unshift({
+          storage_id: 0,
+          parent_id: 0,
+          name: '根目录'
+        })
+
+        let default_id = res.data.default
+        do {
+          let node = res.data.list.find(item => item.storage_id === default_id)
+          if (node) {
+            default_id = node.parent_id
+            this.parentId.unshift(node.storage_id)
+          } else {
+            default_id = 0
+            this.parentId = [0]
+          }
+        } while (default_id)
+      })
   },
   methods: {
     // 获取 Token
@@ -46,10 +77,10 @@ export default {
     handlePreview(file) {
       if (file.status === 'success') {
         let imgObj = new Image()
-        imgObj.src = file.url
+        imgObj['src'] = file.url
 
-        if (imgObj.fileSize > 0 || (imgObj.width > 0 && imgObj.height > 0)) {
-          this.$preview(imgObj.src)
+        if (imgObj['fileSize'] > 0 || (imgObj['width'] > 0 && imgObj['height'] > 0)) {
+          this.$preview(imgObj['src'])
           return
         }
       }
@@ -96,6 +127,10 @@ export default {
 
         if (value.name === 'x:filename') {
           this.params['x:filename'] = file.name
+        }
+
+        if (value.name === 'x:parent_id') {
+          this.params['x:parent_id'] = this.parentId.length ? this.parentId[this.parentId.length - 1] : 0
         }
 
         if (value.name === 'key') {

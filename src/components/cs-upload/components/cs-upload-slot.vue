@@ -31,7 +31,14 @@
 
       <div slot="footer" class="dialog-footer">
         <div style="float: left">
-          资源目录占位
+          <el-cascader
+            v-model="parentId"
+            :options="parentData"
+            :props="parentProps"
+            size="small"
+            change-on-select
+            filterable>
+          </el-cascader>
         </div>
 
         <el-button
