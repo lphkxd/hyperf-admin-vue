@@ -157,6 +157,7 @@
 </template>
 
 <script>
+import util from '@/utils/util'
 import storage from '../mixins'
 import { getHelpRouter } from '@/api/index/help'
 
@@ -194,6 +195,27 @@ export default {
       if (!this.helpContent) {
         this.helpContent = '正在获取内容,请稍后...'
         getHelpRouter(this.$route.path).then(res => { this.helpContent = res })
+      }
+    },
+    // 打开资源
+    openStorage(index) {
+      // 当前资源对象
+      const storage = this.currentTableData[index]
+      switch (storage['type']) {
+        case 0:
+          this.$preview('//' + storage['url'])
+          break
+
+        case 1:
+          util.open(util.getDownloadUrl(storage, ''))
+          break
+
+        case 2:
+          this.switchFolder(storage['storage_id'])
+          break
+
+        default:
+          this.$message.warning('打开资源出现异常操作')
       }
     }
   }

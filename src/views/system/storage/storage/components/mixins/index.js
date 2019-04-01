@@ -27,27 +27,6 @@ export default {
     }
   },
   methods: {
-    // 打开资源
-    openStorage(index) {
-      // 当前资源对象
-      const storage = this.currentTableData[index]
-      switch (storage['type']) {
-        case 0:
-          this.$preview('//' + storage['url'])
-          break
-
-        case 1:
-          util.open(util.getDownloadUrl(storage, ''))
-          break
-
-        case 2:
-          this.switchFolder(storage['storage_id'])
-          break
-
-        default:
-          this.$message.warning('打开资源出现异常操作')
-      }
-    },
     // 切换目录
     switchFolder(storageId) {
       this.$emit('refresh', storageId, true)
