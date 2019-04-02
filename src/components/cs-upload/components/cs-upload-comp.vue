@@ -98,6 +98,12 @@ export default {
       type: Array,
       required: false,
       default: () => []
+    },
+    // 是否指定资源目录
+    storageId: {
+      type: Number,
+      required: false,
+      default: null
     }
   }
 }

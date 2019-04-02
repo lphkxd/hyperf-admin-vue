@@ -15,7 +15,7 @@
 
           <el-button
             :disabled="loading"
-            @click="() => {}">
+            @click="$refs.upload.handleUploadDlg()">
             <cs-icon name="upload"/>
             上传
           </el-button>
@@ -26,21 +26,21 @@
         <el-button-group>
           <el-button
             :disabled="loading"
-            @click="() => {}">
+            @click="allCheckBox">
             <cs-icon name="check-square-o"/>
             全选
           </el-button>
 
           <el-button
             :disabled="loading"
-            @click="() => {}">
+            @click="reverseCheckBox">
             <cs-icon name="minus-square-o"/>
             反选
           </el-button>
 
           <el-button
             :disabled="loading"
-            @click="() => {}">
+            @click="cancelCheckBox">
             <cs-icon name="square-o"/>
             取消
           </el-button>
@@ -58,7 +58,7 @@
 
           <el-button
             :disabled="loading"
-            @click="() => {}">
+            @click="handleDelete(null)">
             <cs-icon name="trash-o"/>
             删除
           </el-button>
@@ -153,6 +153,13 @@
         </li>
       </ul>
     </el-checkbox-group>
+
+    <cs-upload
+      style="display: none"
+      ref="upload"
+      type="slot"
+      :storage-id="storageId"
+      @confirm="getUploadFileList"/>
   </div>
 </template>
 
@@ -160,9 +167,13 @@
 import util from '@/utils/util'
 import storage from '../mixins'
 import { getHelpRouter } from '@/api/index/help'
+import { delStorageList } from '@/api/upload/storage'
 
 export default {
   mixins: [storage],
+  components: {
+    'csUpload': () => import('@/components/cs-upload')
+  },
   props: {
     tableData: {
       default: () => []
@@ -172,6 +183,9 @@ export default {
     },
     loading: {
       default: false
+    },
+    storageId: {
+      default: 0
     }
   },
   data() {
@@ -218,6 +232,54 @@ export default {
         default:
           this.$message.warning('打开资源出现异常操作')
       }
+    },
+    // 资源上传成功后处理
+    getUploadFileList(files) {
+      const pos = this.currentTableData.findIndex(item => item.type === 2)
+      for (const value of files) {
+        if (value.status !== 'success') {
+          continue
+        }
+
+        const response = value.response
+        if (!response || response.status !== 200) {
+          continue
+        }
+
+        this.currentTableData.splice(pos + 1, 0, response.data[0])
+      }
+    },
+    // 批量删除
+    handleDelete(val) {
+      const storageId = val ? [val] : this.checkList
+      if (storageId.length === 0) {
+        this.$message.error('请选择要操作的数据')
+        return
+      }
+
+      this.$confirm('确定要执行该操作吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(() => {
+          delStorageList(storageId)
+            .then(() => {
+              for (let i = this.currentTableData.length - 1; i >= 0; i--) {
+                if (storageId.indexOf(this.currentTableData[i].storage_id) !== -1) {
+                  this.currentTableData.splice(i, 1)
+                }
+              }
+
+              if (this.currentTableData.length <= 0) {
+                this.$emit('refresh')
+              }
+
+              this.$message.success('操作成功')
+            })
+        })
+        .catch(() => {
+        })
     }
   }
 }

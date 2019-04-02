@@ -12,6 +12,7 @@
       :loading="loading"
       :table-data="table"
       :navi-data="navi"
+      :storage-id="storageId"
       @refresh="handleRefresh"/>
 
     <page-footer

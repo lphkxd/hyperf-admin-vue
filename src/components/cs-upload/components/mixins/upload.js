@@ -38,7 +38,7 @@ export default {
           name: '根目录'
         })
 
-        let default_id = res.data.default
+        let default_id = this.storageId !== null ? this.storageId : res.data.default
         do {
           let node = res.data.list.find(item => item.storage_id === default_id)
           if (node) {

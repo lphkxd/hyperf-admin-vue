@@ -30,6 +30,28 @@ export default {
     // 切换目录
     switchFolder(storageId) {
       this.$emit('refresh', storageId, true)
+    },
+    // 全部选择
+    allCheckBox() {
+      this.checkList = []
+      this.currentTableData.forEach(value => {
+        this.checkList.push(value.storage_id)
+      })
+    },
+    // 反向选择
+    reverseCheckBox() {
+      let checkList = []
+      this.currentTableData.forEach(value => {
+        if (!this.checkList.includes(value.storage_id)) {
+          checkList.push(value.storage_id)
+        }
+      })
+
+      this.checkList = checkList
+    },
+    // 取消选择
+    cancelCheckBox() {
+      this.checkList = []
     }
   }
 }
