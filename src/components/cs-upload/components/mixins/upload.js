@@ -23,33 +23,13 @@ export default {
         this.getToken(val)
       },
       immediate: true
+    },
+    storageId: {
+      handler() {
+        this.getDirectory()
+      },
+      immediate: true
     }
-  },
-  mounted() {
-    getStorageDirectorySelect()
-      .then(res => {
-        this.parentData = res.data.list.length
-          ? util.formatDataToTree(res.data.list, 'storage_id')
-          : []
-
-        this.parentData.unshift({
-          storage_id: 0,
-          parent_id: 0,
-          name: '根目录'
-        })
-
-        let default_id = this.storageId !== null ? this.storageId : res.data.default
-        do {
-          let node = res.data.list.find(item => item.storage_id === default_id)
-          if (node) {
-            default_id = node.parent_id
-            this.parentId.unshift(node.storage_id)
-          } else {
-            default_id = 0
-            this.parentId = [0]
-          }
-        } while (default_id)
-      })
   },
   methods: {
     // 获取 Token
@@ -203,6 +183,33 @@ export default {
           this.loading = false
         }
       }
+    },
+    // 获取可选目录
+    getDirectory() {
+      getStorageDirectorySelect()
+        .then(res => {
+          this.parentData = res.data.list.length
+            ? util.formatDataToTree(res.data.list, 'storage_id')
+            : []
+
+          this.parentData.unshift({
+            storage_id: 0,
+            parent_id: 0,
+            name: '根目录'
+          })
+
+          let default_id = this.storageId !== null ? this.storageId : res.data.default
+          do {
+            let node = res.data.list.find(item => item.storage_id === default_id)
+            if (node) {
+              default_id = node.parent_id
+              this.parentId.unshift(node.storage_id)
+            } else {
+              default_id = 0
+              this.parentId = [0]
+            }
+          } while (default_id)
+        })
     }
   }
 }

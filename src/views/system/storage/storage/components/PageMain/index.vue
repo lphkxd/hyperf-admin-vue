@@ -272,7 +272,8 @@ export default {
               }
 
               if (this.currentTableData.length <= 0) {
-                this.$emit('refresh')
+                // TODO:!!!资源编号必须是整数,而实际是数组.
+                this.$emit('refresh', storageId)
               }
 
               this.$message.success('操作成功')
