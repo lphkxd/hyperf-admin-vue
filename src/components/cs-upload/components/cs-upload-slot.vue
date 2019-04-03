@@ -32,6 +32,7 @@
       <div slot="footer" class="dialog-footer">
         <div style="float: left">
           <el-cascader
+            v-if="storageId === null"
             v-model="parentId"
             :options="parentData"
             :props="parentProps"

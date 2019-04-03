@@ -22,6 +22,7 @@
     </el-upload>
 
     <el-cascader
+      v-if="storageId === null"
       v-model="parentId"
       :options="parentData"
       :props="parentProps"

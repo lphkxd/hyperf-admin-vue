@@ -23,13 +23,10 @@ export default {
         this.getToken(val)
       },
       immediate: true
-    },
-    storageId: {
-      handler() {
-        this.getDirectory()
-      },
-      immediate: true
     }
+  },
+  mounted() {
+    this.getDirectory()
   },
   methods: {
     // 获取 Token
@@ -110,7 +107,12 @@ export default {
         }
 
         if (value.name === 'x:parent_id') {
-          this.params['x:parent_id'] = this.parentId.length ? this.parentId[this.parentId.length - 1] : 0
+          this.params['x:parent_id'] = 0
+          if (this.storageId !== null) {
+            this.params['x:parent_id'] = this.storageId
+          } else if (this.parentId.length) {
+            this.params['x:parent_id'] = this.parentId[this.parentId.length - 1]
+          }
         }
 
         if (value.name === 'key') {
@@ -184,8 +186,12 @@ export default {
         }
       }
     },
-    // 获取可选目录
+    // 获取可选目录(外部不传入storageId时启用)
     getDirectory() {
+      if (this.storageId !== null) {
+        return
+      }
+
       getStorageDirectorySelect()
         .then(res => {
           this.parentData = res.data.list.length
@@ -198,7 +204,7 @@ export default {
             name: '根目录'
           })
 
-          let default_id = this.storageId !== null ? this.storageId : res.data.default
+          let default_id = res.data.default
           do {
             let node = res.data.list.find(item => item.storage_id === default_id)
             if (node) {

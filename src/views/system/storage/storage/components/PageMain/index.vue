@@ -235,7 +235,13 @@ export default {
     },
     // 资源上传成功后处理
     getUploadFileList(files) {
-      const pos = this.currentTableData.findIndex(item => item.type === 2)
+      let pos = -1
+      this.currentTableData.forEach((value, index) => {
+        if (value.type === 2) {
+          pos = index
+        }
+      })
+
       for (const value of files) {
         if (value.status !== 'success') {
           continue
@@ -272,8 +278,7 @@ export default {
               }
 
               if (this.currentTableData.length <= 0) {
-                // TODO:!!!资源编号必须是整数,而实际是数组.
-                this.$emit('refresh', storageId)
+                this.$emit('refresh', this.storageId)
               }
 
               this.$message.success('操作成功')
