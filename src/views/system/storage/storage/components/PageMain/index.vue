@@ -8,7 +8,7 @@
         <el-button-group>
           <el-button
             :disabled="loading"
-            @click="() => {}">
+            @click="handleCreate">
             <cs-icon name="plus"/>
             新增目录
           </el-button>
@@ -51,7 +51,7 @@
         <el-button-group>
           <el-button
             :disabled="loading"
-            @click="() => {}">
+            @click="handleMove(null)">
             <cs-icon name="arrows"/>
             移动
           </el-button>
@@ -160,6 +160,79 @@
       type="slot"
       :storage-id="storageId"
       @confirm="getUploadFileList"/>
+
+    <el-dialog
+      :title="nameMap[nameStatus]"
+      :visible.sync="nameFormVisible"
+      :append-to-body="true"
+      width="600px">
+      <el-form
+        :model="nameForm"
+        :rules="rules"
+        ref="name"
+        label-width="80px">
+        <el-form-item
+          label="名称"
+          prop="name">
+          <el-input
+            v-model="nameForm.name"
+            placeholder="请输入目录名称"
+            clearable/>
+        </el-form-item>
+      </el-form>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button
+          @click="nameFormVisible = false"
+          size="small">取消</el-button>
+
+        <el-button
+          v-if="nameStatus === 'create'"
+          type="primary"
+          :loading="dialogLoading"
+          @click="create"
+          size="small">确定</el-button>
+
+        <el-button
+          v-else type="primary"
+          :loading="dialogLoading"
+          @click="() => {}"
+          size="small">修改</el-button>
+      </div>
+    </el-dialog>
+
+    <el-dialog
+      title="移动资源"
+      :visible.sync="moveFormVisible"
+      :append-to-body="true"
+      width="600px">
+
+      <el-tree
+        style="margin-top: -25px;"
+        node-key="storage_id"
+        :data="directoryList"
+        :props="directoryProps"
+        :highlight-current="true"
+        :default-expand-all="true"
+        ref="directory">
+        <span class="custom-tree-node" slot-scope="{node}">
+          <i class="fa fa-folder-o" style="width: 16px;"></i>
+          <span>{{node.label}}</span>
+        </span>
+      </el-tree>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button
+          @click="moveFormVisible = false"
+          size="small">取消</el-button>
+
+        <el-button
+          type="primary"
+          :loading="dialogLoading"
+          @click="moveStorage"
+          size="small">确定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -167,7 +240,12 @@
 import util from '@/utils/util'
 import storage from '../mixins'
 import { getHelpRouter } from '@/api/index/help'
-import { delStorageList } from '@/api/upload/storage'
+import {
+  delStorageList,
+  addStorageDirectoryItem,
+  getStorageDirectorySelect,
+  moveStorageList
+} from '@/api/upload/storage'
 
 export default {
   mixins: [storage],
@@ -192,7 +270,36 @@ export default {
     return {
       currentTableData: [],
       helpContent: '',
-      checkList: []
+      checkList: [],
+      dialogLoading: false,
+      nameForm: {},
+      nameFormVisible: false,
+      nameStatus: '',
+      nameMap: {
+        update: '重命名',
+        create: '新增目录'
+      },
+      moveFormVisible: false,
+      moveIdList: [],
+      directoryList: [],
+      directoryProps: {
+        label: 'name',
+        children: 'children'
+      },
+      rules: {
+        name: [
+          {
+            required: true,
+            message: '目录名称不能为空',
+            trigger: 'blur'
+          },
+          {
+            max: 255,
+            message: '长度不能大于 255 个字符',
+            trigger: 'blur'
+          }
+        ]
+      }
     }
   },
   watch: {
@@ -281,10 +388,106 @@ export default {
                 this.$emit('refresh', this.storageId)
               }
 
+              this.directoryList = []
               this.$message.success('操作成功')
             })
         })
         .catch(() => {
+        })
+    },
+    // 新建目录
+    handleCreate() {
+      this.nameForm = {
+        name: undefined,
+        parent_id: this.storageId
+      }
+
+      this.$nextTick(() => {
+        this.$refs.name.clearValidate()
+      })
+
+      this.dialogLoading = false
+      this.nameStatus = 'create'
+      this.nameFormVisible = true
+    },
+    // 请求创建目录
+    create() {
+      this.$refs.name.validate(valid => {
+        if (valid) {
+          this.dialogLoading = true
+          addStorageDirectoryItem(this.nameForm)
+            .then(res => {
+              this.currentTableData.unshift({
+                ...res.data
+              })
+
+              this.directoryList = []
+              this.nameFormVisible = false
+              this.$message.success('操作成功')
+            })
+            .catch(() => {
+              this.dialogLoading = false
+            })
+        }
+      })
+    },
+    // 获取可选择目录
+    getStorageDirectory() {
+      if (!this.directoryList.length) {
+        getStorageDirectorySelect()
+          .then(res => {
+            this.directoryList = res.data.list.length
+              ? util.formatDataToTree(res.data.list, 'storage_id')
+              : []
+
+            this.directoryList.unshift({
+              storage_id: 0,
+              parent_id: 0,
+              name: '根目录'
+            })
+          })
+      }
+    },
+    // 移动目录
+    handleMove(val) {
+      const storageId = val ? [val] : this.checkList
+      if (storageId.length === 0) {
+        this.$message.error('请选择要操作的数据')
+        return
+      }
+
+      this.getStorageDirectory()
+      this.moveIdList = storageId
+      this.dialogLoading = false
+      this.moveFormVisible = true
+    },
+    // 请求移动目录
+    moveStorage() {
+      const node = this.$refs.directory.getCurrentNode()
+      if (!node) {
+        this.$message.error('请选择需要移动到的目录')
+        return
+      }
+
+      this.dialogLoading = true
+      moveStorageList(this.moveIdList, node.storage_id)
+        .then(() => {
+          for (let i = this.currentTableData.length - 1; i >= 0; i--) {
+            if (this.moveIdList.indexOf(this.currentTableData[i].storage_id) !== -1) {
+              this.currentTableData.splice(i, 1)
+            }
+          }
+
+          if (this.currentTableData.length <= 0) {
+            this.$emit('refresh', this.storageId)
+          }
+
+          this.directoryList = []
+          this.moveFormVisible = false
+          this.$message.success('操作成功')
+        })
+        .catch(() => {
+          this.dialogLoading = false
         })
     }
   }
