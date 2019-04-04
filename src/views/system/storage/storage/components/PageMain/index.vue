@@ -471,10 +471,12 @@ export default {
 
       this.dialogLoading = true
       moveStorageList(this.moveIdList, node.storage_id)
-        .then(() => {
-          for (let i = this.currentTableData.length - 1; i >= 0; i--) {
-            if (this.moveIdList.indexOf(this.currentTableData[i].storage_id) !== -1) {
-              this.currentTableData.splice(i, 1)
+        .then(res => {
+          if (res.data.length) {
+            for (let i = this.currentTableData.length - 1; i >= 0; i--) {
+              if (res.data.indexOf(this.currentTableData[i].storage_id) !== -1) {
+                this.currentTableData.splice(i, 1)
+              }
             }
           }
 
@@ -482,6 +484,7 @@ export default {
             this.$emit('refresh', this.storageId)
           }
 
+          this.checkList = []
           this.directoryList = []
           this.moveFormVisible = false
           this.$message.success('操作成功')
