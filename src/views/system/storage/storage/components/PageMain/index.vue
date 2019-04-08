@@ -473,14 +473,6 @@ export default {
       moveStorageList(this.moveIdList, node.storage_id)
         .then(res => {
           if (res.data.length) {
-            for (let i = this.currentTableData.length - 1; i >= 0; i--) {
-              if (res.data.indexOf(this.currentTableData[i].storage_id) !== -1) {
-                this.currentTableData.splice(i, 1)
-              }
-            }
-          }
-
-          if (this.currentTableData.length <= 0) {
             this.$emit('refresh', this.storageId)
           }
 
