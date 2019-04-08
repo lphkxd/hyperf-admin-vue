@@ -12,7 +12,14 @@ export default {
       path: 'index',
       name: 'index',
       meta,
-      component: () => import('@/views/index')
+      component: () => import('@/views/index/index')
+    },
+    // 系统 前端日志
+    {
+      path: 'log',
+      name: 'log',
+      meta: { ...meta, cache: true, title: '调试日志' },
+      component: () => import('@/views/index/log')
     },
     // 刷新页面 必须保留
     {

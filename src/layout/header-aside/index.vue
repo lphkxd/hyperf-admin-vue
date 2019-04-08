@@ -28,7 +28,7 @@
         <!-- 顶栏右侧 -->
         <div class="cs-header-right" flex-box="0">
           <!-- 如果你只想在开发环境显示这个按钮请添加 v-if="$env === 'development'" -->
-          <cs-header-error-log v-if="$env === 'development'"/>
+          <cs-header-log v-if="$env === 'development'"/>
           <cs-header-search @click="handleSearchClick"/>
           <cs-header-fullscreen/>
           <cs-header-theme/>
@@ -91,7 +91,7 @@ import csHeaderSearch from './components/header-search'
 import csHeaderSize from './components/header-size'
 import csHeaderTheme from './components/header-theme'
 import csHeaderUser from './components/header-user'
-import csHeaderErrorLog from './components/header-error-log'
+import csHeaderLog from './components/header-log'
 import { mapState, mapGetters, mapActions } from 'vuex'
 import mixinSearch from './mixins/search'
 export default {
@@ -108,7 +108,7 @@ export default {
     csHeaderSize,
     csHeaderTheme,
     csHeaderUser,
-    csHeaderErrorLog
+    csHeaderLog
   },
   data() {
     return {

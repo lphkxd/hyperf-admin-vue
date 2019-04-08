@@ -18,10 +18,10 @@ function errorLog(err) {
     duration: 5 * 1000
   })
   // 添加到日志
-  store.dispatch('careyshop/log/add', {
+  store.dispatch('careyshop/log/push', {
     type: 'error',
-    err,
-    info: '数据请求异常'
+    info: '数据请求异常',
+    message: err.message
   })
   // 打印到控制台
   if (process.env.NODE_ENV === 'development') {
@@ -138,7 +138,7 @@ function setDefaultParams(config) {
   }
 
   // 业务参数数组不存在则需要创建
-  if (!config.data || config.data === undefined) {
+  if (!config.data) {
     config.data = {}
   }
 
