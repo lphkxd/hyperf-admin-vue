@@ -1,14 +1,14 @@
 <template>
-  <div>
+  <span>
     <el-popover
       ref="pop"
       v-model="pop"
       :placement="placement"
       width="300"
       trigger="click">
-      <div class="header cs-clearfix cs-mb-10" v-if="clearable">
+      <el-row type="flex" justify="end" class="cs-mb-10" v-if="clearable">
         <el-button type="danger" icon="el-icon-delete" size="mini" class="cs-fr" @click="selectIcon()">清空</el-button>
-      </div>
+      </el-row>
       <el-input
         v-model="searchText"
         :clearable="true"
@@ -54,7 +54,7 @@
       </template>
       {{value ? value : placeholder}}
     </el-button>
-  </div>
+  </span>
 </template>
 
 <script>
@@ -167,7 +167,7 @@ export default {
         text-align: center;
         background-color: $color-bg;
         border-radius: 4px;
-        margin: 10px 0px;
+        margin: 10px 0;
       }
       .class-row {
         .class-col {
@@ -179,7 +179,7 @@ export default {
             background-color: $color-bg;
             border-radius: 4px;
             font-size: 26px;
-            box-shadow: inset 0px 0px 0px 1px $color-border-1;
+            box-shadow: inset 0 0 0 1px $color-border-1;
           }
         }
       }
