@@ -103,38 +103,46 @@
                 <a @click="openStorage(index)"><img :src="item | getImageThumb" alt=""></a>
               </div>
               <span class="storage-name cs-ml-10" :title="item.name">{{item.name}}</span>
-              <el-dropdown placement="bottom" :show-timeout="50" size="small">
+              <el-dropdown
+                placement="bottom"
+                :show-timeout="50"
+                size="small"
+                @command="command => handleControlItemClick(command)">
                 <cs-icon class="more" name="angle-double-down"/>
                 <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item>
+                  <el-dropdown-item :command="{type: 'rename', index}">
                     <cs-icon name="edit" class="more-icon"/>重命名
                   </el-dropdown-item>
 
-                  <el-dropdown-item divided v-if="item.type !== 2">
+                  <el-dropdown-item divided v-if="item.type !== 2" :command="{type: 'replace', index}">
                     <cs-icon name="cloud-upload" class="more-icon"/>替换上传
                   </el-dropdown-item>
 
-                  <el-dropdown-item v-if="item.type === 0">
+                  <el-dropdown-item v-if="item.type === 0 && item.parent_id" :command="{type: 'cover', index}">
                     <cs-icon name="image" class="more-icon"/>设为封面
                   </el-dropdown-item>
 
-                  <el-dropdown-item v-if="item.type === 2">
+                  <el-dropdown-item v-if="item.type === 2" :command="{type: 'default', index}">
                     <cs-icon name="folder-open-o" class="more-icon"/>{{item.is_default ? '取消默认' : '设为默认'}}
                   </el-dropdown-item>
 
-                  <el-dropdown-item divided>
+                  <el-dropdown-item divided v-if="item.cover" :command="{type: 'clear_cover', index}">
+                    <cs-icon name="image" class="more-icon"/>取消封面
+                  </el-dropdown-item>
+
+                  <el-dropdown-item divided :command="{type: 'move', storage_id: item.storage_id}">
                     <cs-icon name="arrows" class="more-icon"/>转移目录
                   </el-dropdown-item>
 
-                  <el-dropdown-item>
+                  <el-dropdown-item :command="{type: 'delete', storage_id: item.storage_id}">
                     <cs-icon name="trash-o" class="more-icon"/>删除文件
                   </el-dropdown-item>
 
-                  <el-dropdown-item v-if="item.type === 0">
+                  <el-dropdown-item v-if="item.type === 0" :command="{type: 'refresh', index}">
                     <cs-icon name="refresh" class="more-icon"/>清除缓存
                   </el-dropdown-item>
 
-                  <el-dropdown-item divided v-if="item.type !== 2">
+                  <el-dropdown-item divided v-if="item.type !== 2" :command="{type: 'link', index}">
                     <cs-icon name="external-link" class="more-icon"/>复制外链
                   </el-dropdown-item>
                 </el-dropdown-menu>
@@ -142,7 +150,7 @@
             </dt>
             <dd class="cs-ml-10">
               <p>
-                <span>创建日期: {{item.create_time}}</span>
+                <span>创建日期: {{item['create_time']}}</span>
               </p>
               <p>
                 <span v-if="item.type === 0">原图尺寸: {{`${item.pixel['width']},${item.pixel['height']}`}}</span>
@@ -196,7 +204,7 @@
         <el-button
           v-else type="primary"
           :loading="dialogLoading"
-          @click="() => {}"
+          @click="rename"
           size="small">修改</el-button>
       </div>
     </el-dialog>
@@ -239,12 +247,16 @@
 <script>
 import util from '@/utils/util'
 import storage from '../mixins'
+import clipboard from 'clipboard-polyfill'
 import { getHelpRouter } from '@/api/index/help'
 import {
   delStorageList,
   addStorageDirectoryItem,
   getStorageDirectorySelect,
-  moveStorageList
+  moveStorageList,
+  renameStorageItem,
+  setStorageDirectoryDefault,
+  clearStorageThumb
 } from '@/api/upload/storage'
 
 export default {
@@ -318,6 +330,10 @@ export default {
         this.helpContent = '正在获取内容,请稍后...'
         getHelpRouter(this.$route.path).then(res => { this.helpContent = res })
       }
+    },
+    // 切换目录
+    switchFolder(storageId) {
+      this.$emit('refresh', storageId, true)
     },
     // 打开资源
     openStorage(index) {
@@ -484,6 +500,107 @@ export default {
         .catch(() => {
           this.dialogLoading = false
         })
+    },
+    handleRename(index) {
+      this.nameForm = {
+        name: this.currentTableData[index]['name'],
+        storage_id: this.currentTableData[index]['storage_id'],
+        index
+      }
+
+      this.$nextTick(() => {
+        this.$refs.name.clearValidate()
+      })
+
+      this.dialogLoading = false
+      this.nameStatus = 'update'
+      this.nameFormVisible = true
+    },
+    rename() {
+      this.$refs.name.validate(valid => {
+        if (valid) {
+          this.dialogLoading = true
+          renameStorageItem(this.nameForm.storage_id, this.nameForm.name)
+            .then(res => {
+              this.currentTableData[this.nameForm.index].name = res.data.name
+              this.directoryList = []
+              this.nameFormVisible = false
+              this.$message.success('操作成功')
+            })
+            .catch(() => {
+              this.dialogLoading = false
+            })
+        }
+      })
+    },
+    setDefault(index) {
+      const is_default = this.currentTableData[index].is_default ? 0 : 1
+      setStorageDirectoryDefault(this.currentTableData[index].storage_id, is_default)
+        .then(() => {
+          this.currentTableData.forEach((value, index) => {
+            if (value.type === 2) {
+              this.currentTableData[index].is_default = 0
+            }
+          })
+
+          this.currentTableData[index].is_default = is_default
+          this.$message.success('操作成功')
+        })
+    },
+    getLink(index) {
+      let link = ''
+      const storage = this.currentTableData[index]
+
+      switch (storage.type) {
+        case 0:
+          link = storage.url
+          break
+        case 1:
+          link = util.getDownloadUrl(storage, '')
+          break
+      }
+
+      clipboard.writeText(link)
+      this.$message.success('已复制链接到剪贴板')
+    },
+    handleRefresh(index) {
+      clearStorageThumb(this.currentTableData[index].storage_id)
+        .then(() => {
+          this.$message.success('操作成功')
+        })
+    },
+    // 资源操作
+    handleControlItemClick(command) {
+      switch (command.type) {
+        // 重命名
+        case 'rename':
+          this.handleRename(command.index)
+          break
+        // 设为默认
+        case 'default':
+          this.setDefault(command.index)
+          break
+        // 转移目录
+        case 'move':
+          this.handleMove(command.storage_id)
+          break
+        // 删除资源
+        case 'delete':
+          this.handleDelete(command.storage_id)
+          break
+        // 复制外链
+        case 'link':
+          this.getLink(command.index)
+          break
+        // 清除缓存
+        case 'refresh':
+          this.handleRefresh(command.index)
+          break
+        // 设为封面
+        default:
+          this.$message.error('无效的操作')
+          break
+      }
     }
   }
 }

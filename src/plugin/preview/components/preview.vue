@@ -3,7 +3,7 @@
     :visible.sync="dialogVisible"
     :append-to-body="true"
     @close="close">
-    <img v-if="dialogImageUrl" width="100%" :src="dialogImageUrl" alt="">
+    <img v-if="dialogImageUrl" class="image" :src="dialogImageUrl" alt="">
   </el-dialog>
 </template>
 
@@ -30,3 +30,11 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .image {
+    max-width: 100%;
+    margin: 0 auto;
+    display: block;
+  }
+</style>

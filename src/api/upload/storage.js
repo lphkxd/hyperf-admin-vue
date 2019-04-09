@@ -142,12 +142,12 @@ export function renameStorageItem(storage_id, name) {
  * 将图片资源设为目录封面
  * @param {Number} storage_id
  */
-export function coverStorageItem(storage_id) {
+export function setStorageCover(storage_id) {
   return request({
     url: '/v1/storage',
     method: 'post',
     params: {
-      method: 'cover.storage.item'
+      method: 'set.storage.cover'
     },
     data: {
       storage_id
@@ -156,20 +156,18 @@ export function coverStorageItem(storage_id) {
 }
 
 /**
- * 验证是否允许移动到指定目录
- * @param {Array} storage_id
- * @param {Number} parent_id
+ * 清除目录资源的封面
+ * @param {Number} storage_id
  */
-export function checkStorageMove(storage_id, parent_id) {
+export function clearStorageCover(storage_id) {
   return request({
     url: '/v1/storage',
     method: 'post',
     params: {
-      method: 'check.storage.move'
+      method: 'clear.storage.cover'
     },
     data: {
-      storage_id,
-      parent_id
+      storage_id
     }
   })
 }
@@ -252,6 +250,23 @@ export function delStorageList(storage_id) {
     method: 'post',
     params: {
       method: 'del.storage.list'
+    },
+    data: {
+      storage_id
+    }
+  })
+}
+
+/**
+ * 清除图片资源缓存
+ * @param {Number} storage_id
+ */
+export function clearStorageThumb(storage_id) {
+  return request({
+    url: '/v1/storage',
+    method: 'post',
+    params: {
+      method: 'clear.storage.thumb'
     },
     data: {
       storage_id

@@ -13,6 +13,7 @@
     "@babel/runtime": "^7.4.3",
     "axios": "^0.18.0",
     "better-scroll": "^1.15.1",
+    "clipboard-polyfill": "^2.8.0",
     "element-ui": "^2.7.2",
     "flex.css": "^1.1.7",
     "fuse.js": "^3.4.4",

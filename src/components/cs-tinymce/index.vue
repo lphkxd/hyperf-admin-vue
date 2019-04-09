@@ -210,6 +210,21 @@ export default {
       }
     },
     getStorageFileList(files) {
+      let insert = ''
+      for (const value of files) {
+        switch (value.type) {
+          case 0:
+            insert += `<img src="${util.getImageCodeUrl(value.url, this.code)}" alt="" />`
+            break
+          case 1:
+            insert += `<p><a href="${util.getDownloadUrl(value, this.code)}">附件：${value.name}</a></p>`
+            break
+        }
+      }
+
+      if (insert.length > 0 && this.handleEditor) {
+        this.handleEditor.insertContent(insert)
+      }
     }
   },
   destroyed() {

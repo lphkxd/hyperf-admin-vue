@@ -1,6 +1,11 @@
 import util from '@/utils/util'
 
 export default {
+  data() {
+    return {
+      isCheckDirectory: true
+    }
+  },
   filters: {
     // 获取图片缩略图
     getImageThumb(val) {
@@ -27,25 +32,33 @@ export default {
     }
   },
   methods: {
-    // 切换目录
-    switchFolder(storageId) {
-      this.$emit('refresh', storageId, true)
-    },
     // 全部选择
     allCheckBox() {
       this.checkList = []
-      this.currentTableData.forEach(value => {
+      for (const value of this.currentTableData) {
+        if (!this.isCheckDirectory) {
+          if (value.type === 2) {
+            continue
+          }
+        }
+
         this.checkList.push(value.storage_id)
-      })
+      }
     },
     // 反向选择
     reverseCheckBox() {
       let checkList = []
-      this.currentTableData.forEach(value => {
-        if (!this.checkList.includes(value.storage_id)) {
+      for (const value of this.currentTableData) {
+        if (!this.isCheckDirectory) {
+          if (value.type === 2) {
+            continue
+          }
+        }
+
+        if (this.checkList.indexOf(value.storage_id) === -1) {
           checkList.push(value.storage_id)
         }
-      })
+      }
 
       this.checkList = checkList
     },

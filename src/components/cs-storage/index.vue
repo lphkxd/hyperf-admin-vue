@@ -67,7 +67,7 @@
             <dt>
               <div class="picture cs-m-5">
                 <el-checkbox v-if="item.type !== 2" :label="item.storage_id" class="check">&nbsp;</el-checkbox>
-                <el-tooltip placement="bottom" :enterable="false" open-delay="500">
+                <el-tooltip placement="bottom" :enterable="false" :open-delay="500">
                   <div slot="content">
                     <span>资源名称：{{item.name}}</span><br/>
                     <span>创建日期：{{item.create_time}}</span><br/>
@@ -98,7 +98,7 @@
         size="small">取消</el-button>
       <el-button
         type="primary"
-        @click="() => {}"
+        @click="handleConfirm"
         size="small">确定</el-button>
     </div>
   </el-dialog>
@@ -114,15 +114,22 @@ export default {
   components: {
     'PageFooter': () => import('@/layout/header-aside/components/footer')
   },
+  props: {
+    // 确认按钮事件
+    confirm: {
+      type: Function
+    }
+  },
   data() {
     return {
       visible: false,
       naviData: [],
       checkList: [],
       currentTableData: [],
+      isCheckDirectory: false,
       form: {
+        name: '',
         storage_id: 0,
-        name: undefined,
         order_type: 'desc',
         order_field: 'storage_id'
       },
@@ -182,6 +189,18 @@ export default {
           this.page.total = res.data['total_result']
           this.currentTableData = res.data['total_result'] > 0 ? res.data['items'] : []
         })
+    },
+    handleConfirm() {
+      let data = []
+      for (const value of this.currentTableData) {
+        if (this.checkList.indexOf(value.storage_id) !== -1) {
+          data.push(value)
+        }
+      }
+
+      this.checkList = []
+      this.visible = false
+      this.$emit('confirm', data)
     }
   }
 }

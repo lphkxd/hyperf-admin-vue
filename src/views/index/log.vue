@@ -14,7 +14,8 @@
         <!-- 信息 -->
         <el-table-column
           prop="message"
-          label="Message">
+          label="Message"
+          min-width="200">
         </el-table-column>
         <!-- 触发页面 -->
         <el-table-column
