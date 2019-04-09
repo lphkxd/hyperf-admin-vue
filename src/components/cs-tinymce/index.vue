@@ -2,6 +2,7 @@
   <div>
     <textarea class="tinymce-textarea" :id="tinymceId"></textarea>
     <cs-upload ref="upload" type="slot" style="display: none" @confirm="getUploadFileList"/>
+    <cs-storage ref="storage" style="display: none" @confirm="getStorageFileList"/>
   </div>
 </template>
 
@@ -13,7 +14,8 @@ import { plugins, toolbar } from './config/config'
 export default {
   name: 'cs-tinymce',
   components: {
-    'csUpload': () => import('@/components/cs-upload')
+    'csUpload': () => import('@/components/cs-upload'),
+    'csStorage': () => import('@/components/cs-storage')
   },
   props: {
     // 外部v-model值
@@ -146,7 +148,7 @@ export default {
             tooltip: '从资源管理选取',
             icon: 'browse',
             onclick: () => {
-              this.$message.warning('组件正在制作中...')
+              self.$refs.storage.handleStorageDlg()
             }
           })
           editor.on(
@@ -206,6 +208,8 @@ export default {
       if (insert.length > 0 && this.handleEditor) {
         this.handleEditor.insertContent(insert)
       }
+    },
+    getStorageFileList(files) {
     }
   },
   destroyed() {
