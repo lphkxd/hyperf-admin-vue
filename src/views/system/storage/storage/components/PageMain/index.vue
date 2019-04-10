@@ -15,7 +15,7 @@
 
           <el-button
             :disabled="loading"
-            @click="$refs.upload.handleUploadDlg()">
+            @click="handleUpload">
             <cs-icon name="upload"/>
             上传
           </el-button>
@@ -166,6 +166,10 @@
       style="display: none"
       ref="upload"
       type="slot"
+      :upload-tip="uploadConfig.uploadTip"
+      :multiple="uploadConfig.multiple"
+      :accept="uploadConfig.accept"
+      :limit="uploadConfig.limit"
       :storage-id="storageId"
       @confirm="getUploadFileList"/>
 
@@ -256,7 +260,9 @@ import {
   moveStorageList,
   renameStorageItem,
   setStorageDirectoryDefault,
-  clearStorageThumb
+  clearStorageThumb,
+  setStorageCover,
+  clearStorageCover
 } from '@/api/upload/storage'
 
 export default {
@@ -280,6 +286,7 @@ export default {
   },
   data() {
     return {
+      uploadConfig: {},
       currentTableData: [],
       helpContent: '',
       checkList: [],
@@ -569,6 +576,20 @@ export default {
           this.$message.success('操作成功')
         })
     },
+    handleCover(index) {
+      setStorageCover(this.currentTableData[index].storage_id)
+        .then(() => {
+          this.$message.success('操作成功')
+        })
+    },
+    handleClearCover(index) {
+      const storage = this.currentTableData[index]
+      clearStorageCover(storage.storage_id)
+        .then(() => {
+          storage['cover'] = ''
+          this.$message.success('操作成功')
+        })
+    },
     // 资源操作
     handleControlItemClick(command) {
       switch (command.type) {
@@ -597,10 +618,47 @@ export default {
           this.handleRefresh(command.index)
           break
         // 设为封面
+        case 'cover':
+          this.handleCover(command.index)
+          break
+        // 取消封面
+        case 'clear_cover':
+          this.handleClearCover(command.index)
+          break
+        // 替换上传
+        case 'replace':
+          this.handleReplace(command.index)
+          break
         default:
           this.$message.error('无效的操作')
           break
       }
+    },
+    // 上传资源
+    handleUpload() {
+      this.uploadConfig = {
+        uploadTip: '请选择资源进行(支持拖拽)上传，',
+        multiple: true,
+        accept: '*/*',
+        limit: 0,
+        replace: false
+      }
+
+      this.$refs.upload.handleUploadDlg()
+    },
+    // 替换资源
+    handleReplace(index) {
+      const storage = this.currentTableData[index]
+      this.uploadConfig = {
+        uploadTip: '替换上传，资源类型必须相同(支持拖拽)，',
+        multiple: false,
+        accept: storage.mime,
+        limit: 1,
+        replace: index
+      }
+
+      this.$refs.upload.setReplaceId(storage.storage_id)
+      this.$refs.upload.handleUploadDlg()
     }
   }
 }

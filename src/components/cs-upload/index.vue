@@ -114,6 +114,9 @@ export default {
       if (this.type === 'slot') {
         this.$refs.upload.visible = true
       }
+    },
+    setReplaceId(val) {
+      this.$refs.upload.replaceId = val
     }
   }
 }

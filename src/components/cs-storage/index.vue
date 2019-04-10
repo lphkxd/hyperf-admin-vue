@@ -150,9 +150,7 @@ export default {
   methods: {
     handleStorageDlg() {
       this.visible = true
-      if (!this.currentTableData.length) {
-        this.handleSubmit()
-      }
+      this.handleSubmit()
     },
     switchDirectory(val) {
       this.form.storage_id = val || 0
@@ -179,13 +177,13 @@ export default {
       })
     },
     handleSubmit() {
+      this.checkList = []
       getStorageList({
         ...this.form,
         page_no: this.page.current,
         page_size: this.page.size
       })
         .then(res => {
-          this.checkList = []
           this.page.total = res.data['total_result']
           this.currentTableData = res.data['total_result'] > 0 ? res.data['items'] : []
         })
@@ -198,7 +196,6 @@ export default {
         }
       }
 
-      this.checkList = []
       this.visible = false
       this.$emit('confirm', data)
     }

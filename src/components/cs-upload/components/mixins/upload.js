@@ -1,4 +1,4 @@
-import { getUploadToken } from '@/api/upload/upload'
+import { getUploadToken, replaceUploadItem } from '@/api/upload/upload'
 import { delStorageList, getStorageDirectorySelect } from '@/api/upload/storage'
 import util from '@/utils/util'
 
@@ -18,7 +18,7 @@ export default {
     }
   },
   watch: {
-    moduleName: {
+    watchToken: {
       handler(val) {
         this.getToken(val)
       },
@@ -28,15 +28,32 @@ export default {
   mounted() {
     this.getDirectory()
   },
+  computed: {
+    watchToken() {
+      const { moduleName, replaceId } = this
+      return {
+        moduleName,
+        replaceId
+      }
+    }
+  },
   methods: {
     // 获取 Token
     getToken(val) {
       this.params = {}
-      getUploadToken(val)
-        .then(res => {
-          this.token = res.data ? res.data : {}
-          this.uploadUrl = this.token['token']['upload_url']['upload_url']
-        })
+      if (this.replaceId) {
+        replaceUploadItem(val['replaceId'])
+          .then(res => {
+            this.token = res.data ? res.data : {}
+            this.uploadUrl = this.token['token']['upload_url']['upload_url']
+          })
+      } else {
+        getUploadToken(val['moduleName'])
+          .then(res => {
+            this.token = res.data ? res.data : {}
+            this.uploadUrl = this.token['token']['upload_url']['upload_url']
+          })
+      }
     },
     // 删除资源
     handleRemove(file, fileList) {
@@ -97,27 +114,33 @@ export default {
           return
         }
 
-        // 填入请求接口返回的参数
+        // 填入接口返回的参数
         this.params[value.name] = this.token['token'].hasOwnProperty(value.name)
           ? this.token['token'][value.name]
           : value.default
 
-        if (value.name === 'x:filename') {
-          this.params['x:filename'] = file.name
-        }
-
-        if (value.name === 'x:parent_id') {
-          this.params['x:parent_id'] = 0
-          if (this.storageId !== null) {
-            this.params['x:parent_id'] = this.storageId
-          } else if (this.parentId.length) {
-            this.params['x:parent_id'] = this.parentId[this.parentId.length - 1]
+        /**
+         * 替换资源编号不存在时表示上传新资源
+         * 此时需要对部分请求参数做特殊处理,而替换资源时不需要做处理
+         */
+        if (!this.replaceId) {
+          if (value.name === 'x:filename') {
+            this.params['x:filename'] = file.name
           }
-        }
 
-        if (value.name === 'key') {
-          const fileName = util.guid()
-          this.params['key'] = `${this.token['token']['dir']}${fileName}.${suffix}`
+          if (value.name === 'x:parent_id') {
+            this.params['x:parent_id'] = 0
+            if (this.storageId !== null) {
+              this.params['x:parent_id'] = this.storageId
+            } else if (this.parentId.length) {
+              this.params['x:parent_id'] = this.parentId[this.parentId.length - 1]
+            }
+          }
+
+          if (value.name === 'key') {
+            const fileName = util.guid()
+            this.params['key'] = `${this.token['token']['dir']}${fileName}.${suffix}`
+          }
         }
       })
 
@@ -127,7 +150,7 @@ export default {
         this.params['appkey'] = process.env.VUE_APP_KEY
         this.params['timestamp'] = nowTime
         this.params['format'] = 'json'
-        this.params['method'] = 'add.upload.list'
+        this.params['method'] = !this.replaceId ? 'add.upload.list' : 'replace.upload.item'
         this.params['sign'] = util.getSign({ ...this.params })
       }
 

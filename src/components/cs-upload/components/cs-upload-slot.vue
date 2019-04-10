@@ -120,12 +120,14 @@ export default {
   },
   data() {
     return {
+      replaceId: 0,
       visible: false,
       loading: false
     }
   },
   methods: {
     handleClose() {
+      this.replaceId = 0
       this.visible = false
       this.loading = false
       this.$refs.upload && this.$refs.upload.clearFiles()
