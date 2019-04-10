@@ -529,8 +529,8 @@ export default {
     margin-right: 40px;
   }
   .image {
-    width: auto;
-    max-height: 100px;
+    max-width: 100%;
     margin: 0 auto;
+    display: block;
   }
 </style>

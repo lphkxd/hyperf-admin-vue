@@ -39,7 +39,7 @@
               placeholder="输入资源名称进行搜索"
               size="small"
               clearable>
-              <el-button slot="append" icon="el-icon-search" @click="handleSubmit"></el-button>
+              <el-button slot="append" icon="el-icon-search" @click="handleSearch"></el-button>
             </el-input>
           </el-form-item>
         </el-col>
@@ -198,6 +198,10 @@ export default {
 
       this.visible = false
       this.$emit('confirm', data)
+    },
+    handleSearch() {
+      this.page.current = 1
+      this.handleSubmit()
     }
   }
 }
