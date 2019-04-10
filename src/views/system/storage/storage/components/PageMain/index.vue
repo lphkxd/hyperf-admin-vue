@@ -366,11 +366,13 @@ export default {
     // 资源上传成功后处理
     getUploadFileList(files) {
       let pos = -1
-      this.currentTableData.forEach((value, index) => {
-        if (value.type === 2) {
-          pos = index
-        }
-      })
+      if (!this.uploadConfig.replace) {
+        this.currentTableData.forEach((value, index) => {
+          if (value.type === 2) {
+            pos = index
+          }
+        })
+      }
 
       for (const value of files) {
         if (value.status !== 'success') {
@@ -382,7 +384,11 @@ export default {
           continue
         }
 
-        this.currentTableData.splice(pos + 1, 0, response.data[0])
+        if (!this.uploadConfig.replace) {
+          this.currentTableData.splice(pos + 1, 0, response.data[0])
+        } else {
+          this.$set(this.currentTableData, this.uploadConfig.replace, response.data[0])
+        }
       }
     },
     // 批量删除
@@ -650,7 +656,7 @@ export default {
     handleReplace(index) {
       const storage = this.currentTableData[index]
       this.uploadConfig = {
-        uploadTip: '替换上传，资源类型必须相同(支持拖拽)，',
+        uploadTip: '替换上传，资源类型需要相同(支持拖拽)，',
         multiple: false,
         accept: storage.mime,
         limit: 1,

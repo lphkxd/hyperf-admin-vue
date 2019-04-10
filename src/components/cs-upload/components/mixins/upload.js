@@ -150,7 +150,7 @@ export default {
         this.params['appkey'] = process.env.VUE_APP_KEY
         this.params['timestamp'] = nowTime
         this.params['format'] = 'json'
-        this.params['method'] = !this.replaceId ? 'add.upload.list' : 'replace.upload.item'
+        this.params['method'] = 'add.upload.list'
         this.params['sign'] = util.getSign({ ...this.params })
       }
 
