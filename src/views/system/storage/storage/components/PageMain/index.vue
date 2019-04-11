@@ -4,9 +4,10 @@
       :inline="true"
       size="small">
 
-      <el-form-item>
+      <el-form-item v-if="auth.add || auth.upload">
         <el-button-group>
           <el-button
+            v-if="auth.add"
             :disabled="loading"
             @click="handleCreate">
             <cs-icon name="plus"/>
@@ -14,6 +15,7 @@
           </el-button>
 
           <el-button
+            v-if="auth.upload"
             :disabled="loading"
             @click="handleUpload">
             <cs-icon name="upload"/>
@@ -47,9 +49,10 @@
         </el-button-group>
       </el-form-item>
 
-      <el-form-item>
+      <el-form-item v-if="auth.move || auth.del">
         <el-button-group>
           <el-button
+            v-if="auth.move"
             :disabled="loading"
             @click="handleMove(null)">
             <cs-icon name="arrows"/>
@@ -57,6 +60,7 @@
           </el-button>
 
           <el-button
+            v-if="auth.del"
             :disabled="loading"
             @click="handleDelete(null)">
             <cs-icon name="trash-o"/>
@@ -94,7 +98,7 @@
     </el-breadcrumb>
 
     <el-checkbox-group v-model="checkList">
-      <ul class="storage-list">
+      <ul class="storage-list" v-loading="loading">
         <li v-for="(item, index) in currentTableData" :key="index">
           <dl>
             <dt>
@@ -110,39 +114,61 @@
                 @command="command => handleControlItemClick(command)">
                 <cs-icon class="more" name="angle-double-down"/>
                 <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item :command="{type: 'rename', index}">
+                  <el-dropdown-item
+                    v-if="auth.rename"
+                    :command="{type: 'rename', index}">
                     <cs-icon name="edit" class="more-icon"/>重命名
                   </el-dropdown-item>
 
-                  <el-dropdown-item divided v-if="item.type !== 2" :command="{type: 'replace', index}">
+                  <el-dropdown-item
+                    v-if="item.type !== 2 && auth.replace"
+                    :command="{type: 'replace', index}"
+                    divided>
                     <cs-icon name="cloud-upload" class="more-icon"/>替换上传
                   </el-dropdown-item>
 
-                  <el-dropdown-item v-if="item.type === 0 && item.parent_id" :command="{type: 'cover', index}">
+                  <el-dropdown-item
+                    v-if="item.type === 0 && item.parent_id && auth.cover"
+                    :command="{type: 'cover', index}">
                     <cs-icon name="image" class="more-icon"/>设为封面
                   </el-dropdown-item>
 
-                  <el-dropdown-item v-if="item.type === 2" :command="{type: 'default', index}">
+                  <el-dropdown-item
+                    v-if="item.type === 2 && auth.default"
+                    :command="{type: 'default', index}">
                     <cs-icon name="folder-open-o" class="more-icon"/>{{item.is_default ? '取消默认' : '设为默认'}}
                   </el-dropdown-item>
 
-                  <el-dropdown-item divided v-if="item.cover" :command="{type: 'clear_cover', index}">
+                  <el-dropdown-item
+                    v-if="item.cover && auth.clear_cover"
+                    :command="{type: 'clear_cover', index}"
+                    divided>
                     <cs-icon name="image" class="more-icon"/>取消封面
                   </el-dropdown-item>
 
-                  <el-dropdown-item divided :command="{type: 'move', storage_id: item.storage_id}">
+                  <el-dropdown-item
+                    v-if="auth.move"
+                    :command="{type: 'move', storage_id: item.storage_id}"
+                    divided>
                     <cs-icon name="arrows" class="more-icon"/>转移目录
                   </el-dropdown-item>
 
-                  <el-dropdown-item :command="{type: 'delete', storage_id: item.storage_id}">
-                    <cs-icon name="trash-o" class="more-icon"/>删除文件
+                  <el-dropdown-item
+                    v-if="auth.del"
+                    :command="{type: 'delete', storage_id: item.storage_id}">
+                    <cs-icon name="trash-o" class="more-icon"/>删除资源
                   </el-dropdown-item>
 
-                  <el-dropdown-item v-if="item.type === 0" :command="{type: 'refresh', index}">
+                  <el-dropdown-item
+                    v-if="item.type === 0 && auth.refresh"
+                    :command="{type: 'refresh', index}">
                     <cs-icon name="refresh" class="more-icon"/>清除缓存
                   </el-dropdown-item>
 
-                  <el-dropdown-item divided v-if="item.type !== 2" :command="{type: 'link', index}">
+                  <el-dropdown-item
+                    v-if="item.type !== 2 && auth.link"
+                    :command="{type: 'link', index}"
+                    divided>
                     <cs-icon name="external-link" class="more-icon"/>复制外链
                   </el-dropdown-item>
                 </el-dropdown-menu>
@@ -305,6 +331,19 @@ export default {
         label: 'name',
         children: 'children'
       },
+      auth: {
+        add: false,
+        upload: false,
+        rename: false,
+        replace: false,
+        cover: false,
+        clear_cover: false,
+        default: false,
+        move: false,
+        del: false,
+        refresh: false,
+        link: false
+      },
       rules: {
         name: [
           {
@@ -330,7 +369,24 @@ export default {
       immediate: true
     }
   },
+  mounted() {
+    this._validationAuth()
+  },
   methods: {
+    // 验证权限
+    _validationAuth() {
+      this.auth.add = this.$has('/system/storage/storage/add')
+      this.auth.upload = this.$has('/system/storage/storage/upload')
+      this.auth.rename = this.$has('/system/storage/storage/rename')
+      this.auth.replace = this.$has('/system/storage/storage/replace')
+      this.auth.cover = this.$has('/system/storage/storage/cover')
+      this.auth.clear_cover = this.$has('/system/storage/storage/clear_cover')
+      this.auth.default = this.$has('/system/storage/storage/default')
+      this.auth.move = this.$has('/system/storage/storage/move')
+      this.auth.del = this.$has('/system/storage/storage/del')
+      this.auth.refresh = this.$has('/system/storage/storage/refresh')
+      this.auth.link = this.$has('/system/storage/storage/link')
+    },
     // 获取帮助文档
     getHelp() {
       if (!this.helpContent) {

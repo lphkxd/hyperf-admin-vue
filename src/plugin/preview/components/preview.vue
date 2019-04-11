@@ -3,7 +3,9 @@
     :visible.sync="dialogVisible"
     :append-to-body="true"
     @close="close">
-    <img v-if="dialogImageUrl" class="image" :src="dialogImageUrl" alt="">
+    <a v-if="dialogImageUrl" :href="dialogImageUrl" target="_blank">
+      <img class="image" :src="dialogImageUrl" alt="">
+    </a>
   </el-dialog>
 </template>
 
