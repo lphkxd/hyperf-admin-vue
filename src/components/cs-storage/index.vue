@@ -67,16 +67,17 @@
             <dt>
               <div class="picture cs-m-5">
                 <el-checkbox v-if="item.type !== 2" :label="item.storage_id" class="check">&nbsp;</el-checkbox>
-                <el-tooltip placement="bottom" :enterable="false" :open-delay="500">
-                  <div slot="content">
-                    <span>资源名称：{{item.name}}</span><br/>
-                    <span>创建日期：{{item.create_time}}</span><br/>
-                    <span v-if="item.type === 0">原图尺寸：{{`${item.pixel['width']},${item.pixel['height']}`}}</span>
-                    <span v-else>文件类型：<cs-icon :name="item.type === 1 ? 'file-o' : 'folder-o'"/></span>
-                  </div>
-                  <a @click="handleOpen(index)"><img :src="item | getImageThumb" alt=""></a>
-                </el-tooltip>
+                <a @click="handleOpen(index)"><img :src="item | getImageThumb" alt=""></a>
               </div>
+              <el-tooltip placement="top" :enterable="false" :open-delay="600">
+                <div slot="content">
+                  <span>资源名称：{{item.name}}</span><br/>
+                  <span>创建日期：{{item.create_time}}</span><br/>
+                  <span v-if="item.type === 0">原图尺寸：{{`${item.pixel['width']},${item.pixel['height']}`}}</span>
+                  <span v-else>文件类型：<cs-icon :name="item.type === 1 ? 'file-o' : 'folder-o'"/></span>
+                </div>
+                <span class="storage-name cs-ml-5">{{item.name}}</span>
+              </el-tooltip>
             </dt>
           </dl>
         </li>
@@ -157,17 +158,8 @@ export default {
       this.handleSubmit()
     },
     handleOpen(key) {
-      const storage = this.currentTableData[key]
-      if (storage.type === 2) {
-        this.switchDirectory(storage.storage_id)
-        return
-      }
-
-      const pos = this.checkList.indexOf(storage.storage_id)
-      if (pos === -1) {
-        this.checkList.push(storage.storage_id)
-      } else {
-        this.checkList.splice(pos, 1)
+      if (this.currentTableData[key].type === 2) {
+        this.switchDirectory(this.currentTableData[key].storage_id)
       }
     },
     handlePaginationChange(val) {
@@ -201,6 +193,7 @@ export default {
     },
     handleSearch() {
       this.page.current = 1
+      this.form.storage_id = 0
       this.handleSubmit()
     }
   }
@@ -271,8 +264,19 @@ export default {
     color: $color-text-sub;
     transition: color .15s linear;
   }
+  .storage-list .storage-name {
+    color: $color-text-main;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    overflow:hidden;
+    font-size: 12px;
+    width: 82px;
+    height: 20px;
+  }
   .check {
     position: absolute;
-    margin-left: 2px;
+    margin: 0 0 0 2px;
+    width: 80px;
+    height: 80px;
   }
 </style>

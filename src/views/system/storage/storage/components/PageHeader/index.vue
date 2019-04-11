@@ -94,6 +94,9 @@ export default {
   },
   methods: {
     handleFormSubmit(isRestore = false) {
+      if (this.form.name) {
+        this.form.storage_id = 0
+      }
       this.$emit('submit', this.form, isRestore)
     },
     handleFormReset() {
