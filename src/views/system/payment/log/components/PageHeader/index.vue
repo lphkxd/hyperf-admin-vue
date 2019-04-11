@@ -63,11 +63,48 @@
 
     <el-form-item>
       <el-popover
-        width="388"
+        width="402"
         placement="bottom"
         trigger="click">
 
         <div class="more-filter">
+          <el-form-item label="支付流水号" prop="payment_no">
+            <el-input
+              v-model="form.payment_no"
+              clearable
+              placeholder="可输入支付流水号"
+              @keyup.enter.native="handleFormSubmit"
+              style="width: 320px;"/>
+          </el-form-item>
+
+          <el-form-item label="订单号" prop="order_no">
+            <el-input
+              v-model="form.order_no"
+              clearable
+              placeholder="可输入订单号"
+              @keyup.enter.native="handleFormSubmit"
+              style="width: 320px;"/>
+          </el-form-item>
+
+          <el-form-item label="交易号" prop="out_trade_no">
+            <el-input
+              v-model="form.out_trade_no"
+              clearable
+              placeholder="可输入交易号"
+              @keyup.enter.native="handleFormSubmit"
+              style="width: 320px;"/>
+          </el-form-item>
+
+          <el-form-item label="时间段" prop="time_period">
+            <el-date-picker
+              v-model="form.time_period"
+              type="datetimerange"
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              style="width: 320px;">
+            </el-date-picker>
+          </el-form-item>
         </div>
 
         <el-button
@@ -142,6 +179,6 @@ export default {
     margin-bottom: -18px;
   }
   .more-filter>>>label {
-    width: 54px;
+    width: 82px;
   }
 </style>
