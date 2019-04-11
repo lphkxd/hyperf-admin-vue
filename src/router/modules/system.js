@@ -95,6 +95,18 @@ export default {
       component: () => import('@/views/system/action/log')
     },
     {
+      path: 'action/payment',
+      name: `${pre}action-payment`,
+      meta: { ...meta, cache: true, title: '支付日志' },
+      component: () => import('@/views/system/payment/log')
+    },
+    {
+      path: 'action/transaction',
+      name: `${pre}action-transaction`,
+      meta: { ...meta, cache: true, title: '交易结算' },
+      component: () => import('@/views/system/transaction/log')
+    },
+    {
       path: 'ads/position',
       name: `${pre}ads-position`,
       meta: { ...meta, cache: true, title: '广告位置' },
