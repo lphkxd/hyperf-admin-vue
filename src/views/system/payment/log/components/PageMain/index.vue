@@ -83,7 +83,7 @@
         label="支付账号"
         prop="get_user">
         <template slot-scope="scope">
-          {{scope.row['get_user']['username']}}
+          {{scope.row.get_user.username}}
         </template>
       </el-table-column>
 
@@ -176,7 +176,6 @@ export default {
     getToPayment(val) {
       return val !== '' ? this.toPayment[val]['name'] : ''
     },
-    // 获取排序字段
     sortChange({ column, prop, order }) {
       let sort = {
         order_type: undefined,
