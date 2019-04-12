@@ -105,6 +105,18 @@
               style="width: 320px;">
             </el-date-picker>
           </el-form-item>
+
+          <el-form-item label="支付类型" prop="type">
+            <el-select
+              v-model="form.type"
+              clearable
+              placeholder="请选择"
+              style="width: 160px;"
+              value="">
+              <el-option label="充值" value="0"/>
+              <el-option label="订单" value="1"/>
+            </el-select>
+          </el-form-item>
         </div>
 
         <el-button
@@ -136,6 +148,7 @@ export default {
         out_trade_no: undefined,
         to_payment: undefined,
         status: undefined,
+        type: undefined,
         account: undefined,
         begin_time: undefined,
         end_time: undefined,
