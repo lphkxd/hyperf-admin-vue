@@ -155,6 +155,7 @@ export default {
       this.handleSubmit()
     },
     switchDirectory(val) {
+      this.form.name = null
       this.form.storage_id = val || 0
       this.handleSubmit()
     },

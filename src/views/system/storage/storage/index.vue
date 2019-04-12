@@ -13,7 +13,8 @@
       :table-data="table"
       :navi-data="navi"
       :storage-id="storageId"
-      @refresh="handleRefresh"/>
+      @refresh="handleRefresh"
+      @clearName="handleClearName"/>
 
     <page-footer
       slot="footer"
@@ -73,6 +74,10 @@ export default {
       this.$nextTick(() => {
         this.$refs.header.handleFormSubmit()
       })
+    },
+    // 清除搜索名称
+    handleClearName() {
+      this.$refs.header.form.name = null
     },
     // 查询请求
     handleSubmit(form, isRestore = false) {

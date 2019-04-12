@@ -19,7 +19,7 @@
       <el-button
         type="primary"
         :disabled="loading"
-        @click="handleFormSubmit(true)">
+        @click="handleSearch">
         <cs-icon name="search"/>
         查询
       </el-button>
@@ -94,13 +94,14 @@ export default {
   },
   methods: {
     handleFormSubmit(isRestore = false) {
-      if (this.form.name) {
-        this.form.storage_id = 0
-      }
       this.$emit('submit', this.form, isRestore)
     },
     handleFormReset() {
       this.$refs.form.resetFields()
+    },
+    handleSearch() {
+      this.form.storage_id = 0
+      this.handleFormSubmit(true)
     }
   }
 }

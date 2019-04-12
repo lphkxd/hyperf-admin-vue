@@ -10,12 +10,20 @@
       <el-table-column type="expand">
         <template slot-scope="props">
           <el-form label-position="left" inline class="table-expand">
+            <el-form-item label="交易编号">
+              <span>{{props.row.transaction_id}}</span>
+            </el-form-item>
+
             <el-form-item label="来源订单号">
               <span>{{props.row.source_no}}</span>
             </el-form-item>
 
             <el-form-item label="交易账号">
               <span>{{props.row.get_user.username}}</span>
+            </el-form-item>
+
+            <el-form-item label="交易昵称">
+              <span>{{props.row.get_user.nickname}}</span>
             </el-form-item>
 
             <el-form-item label="收支类型">
@@ -26,6 +34,45 @@
               </el-tag>
             </el-form-item>
 
+            <el-form-item label="收支金额">
+              <el-tag
+                :type="typeMap[props.row.type].type"
+                size="mini">
+                {{props.row.amount}}
+              </el-tag>
+            </el-form-item>
+
+            <el-form-item label="剩余余额">
+              <span>{{props.row.balance}}</span>
+            </el-form-item>
+
+            <el-form-item label="交易来源">
+              <span>{{getToPayment(props.row.to_payment)}}</span>
+            </el-form-item>
+
+            <el-form-item label="收支模型">
+              <span>{{moduleMap[props.row.module]}}</span>
+            </el-form-item>
+
+            <el-form-item label="购物卡卡号">
+              <span>{{props.row.card_number}}</span>
+            </el-form-item>
+
+            <el-form-item label="交易备注">
+              <span>{{props.row.remark}}</span>
+            </el-form-item>
+
+            <el-form-item label="操作原因">
+              <span>{{props.row.cause}}</span>
+            </el-form-item>
+
+            <el-form-item label="操作人">
+              <span>{{props.row.action}}</span>
+            </el-form-item>
+
+            <el-form-item label="创建日期">
+              <span>{{props.row.create_time}}</span>
+            </el-form-item>
           </el-form>
         </template>
       </el-table-column>
