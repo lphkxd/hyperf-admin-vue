@@ -137,7 +137,6 @@
         width="160"
         sortable="custom">
       </el-table-column>
-
     </el-table>
   </div>
 </template>
@@ -169,7 +168,11 @@ export default {
           symbol: '-'
         }
       },
-      moduleMap: { points: '积分', money: '余额', card: '购物卡' }
+      moduleMap: {
+        points: '积分',
+        money: '余额',
+        card: '购物卡'
+      }
     }
   },
   methods: {
