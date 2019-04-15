@@ -180,7 +180,7 @@ export default {
           if (res.data['total_result'] > this.totalResult) {
             this.$notify.info({
               title: '消息提示',
-              message: '您收到新的消息，请注意查收。',
+              message: '您有新的消息，请注意查收。',
               position: 'bottom-right'
             })
           }

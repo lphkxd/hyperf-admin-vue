@@ -82,7 +82,7 @@ export function getMessageItem(message_id) {
 }
 
 /**
- * 获取一条消息(后台)
+ * 获取消息列表(后台)
  * @param {Object} data
  */
 export function getMessageList(data) {
