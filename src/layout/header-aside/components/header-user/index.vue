@@ -1,18 +1,26 @@
 <template>
   <el-dropdown class="cs-mr">
-    <span class="btn-text">{{info.name ? `您好 ${info.name}` : '未登录'}}</span>
+    <span class="btn-text">
+      <el-badge :hidden="totalResult <= 0" :value="totalResult" :max="99">
+        {{info.name ? `您好 ${info.name}` : '未登录'}}
+      </el-badge>
+    </span>
     <el-dropdown-menu slot="dropdown">
       <el-dropdown-item @click.native="$open('/')">
         <cs-icon name="external-link-square" class="cs-mr-10"/>打开前台
       </el-dropdown-item>
-      <el-dropdown-item v-has="'/index/help/cache'" @click.native="clearCache">
+      <el-dropdown-item v-if="auth.cache" @click.native="clearCache">
         <cs-icon name="refresh" class="cs-mr-10"/>清空缓存
       </el-dropdown-item>
-      <el-dropdown-item v-has="'/index/help/optimize'" @click.native="systemOptimize">
+      <el-dropdown-item v-if="auth.optimize" @click.native="systemOptimize">
         <cs-icon name="magic" class="cs-mr-10"/>优化缓存
       </el-dropdown-item>
       <el-dropdown-item divided @click.native="handleCreate">
         <cs-icon name="keyboard-o" class="cs-mr-10"/>修改密码
+      </el-dropdown-item>
+      <el-dropdown-item v-if="auth.message" @click.native="handleMessage">
+        <cs-icon name="envelope-o" class="cs-mr-10"/>未读消息
+        <el-badge :is-dot="totalResult > 0"/>
       </el-dropdown-item>
       <el-dropdown-item divided @click.native="logOff">
         <cs-icon name="sign-out" class="cs-mr-10"/>退出账号
@@ -78,16 +86,24 @@
 import { mapState, mapActions } from 'vuex'
 import { clearCacheAll, setSystemOptimize } from '@/api/index'
 import { setAdminPassword } from '@/api/user/admin'
+import { getMessageUserUnread } from '@/api/message/message'
 
 export default {
   data() {
     return {
+      timer: null,
+      totalResult: 0,
       dialogVisible: false,
       dialogLoading: false,
       form: {
         password: '',
         passwordConfirm: '',
         passwordOld: ''
+      },
+      auth: {
+        cache: false,
+        optimize: false,
+        message: false
       },
       rules: {
         password: [
@@ -134,10 +150,44 @@ export default {
       'info'
     ])
   },
+  mounted() {
+    this._validationAuth()
+    this.getMessageUnread()
+    this.timer = setInterval(this.getMessageUnread, 1000 * 60 * 5)
+  },
   methods: {
     ...mapActions('careyshop/account', [
       'logout'
     ]),
+    /**
+     * 权限检测
+     */
+    _validationAuth() {
+      this.auth.cache = this.$has('/index/help/cache')
+      this.auth.optimize = this.$has('/index/help/optimize')
+      this.auth.message = this.$has('/system/message/my')
+    },
+    /**
+     * 获取未读消息数
+     */
+    getMessageUnread() {
+      if (!this.auth.message) {
+        return
+      }
+
+      getMessageUserUnread(null)
+        .then(res => {
+          if (res.data['total_result'] > this.totalResult) {
+            this.$notify.info({
+              title: '消息提示',
+              message: '您收到新的消息，请注意查收。',
+              position: 'bottom-right'
+            })
+          }
+
+          this.totalResult = res.data['total_result']
+        })
+    },
     /**
      * @description 登出
      */
@@ -206,6 +256,24 @@ export default {
             })
         }
       })
+    },
+    /**
+     * 打开未读消息
+     */
+    handleMessage() {
+      if (this.totalResult <= 0) {
+        this.$message.warning('消息已全部读取，没有剩余未读消息')
+        return
+      }
+
+      this.$router.push({
+        name: '/system/message/my'
+      })
+    }
+  },
+  beforeDestroy() {
+    if (this.timer) {
+      clearInterval(this.timer)
     }
   }
 }
