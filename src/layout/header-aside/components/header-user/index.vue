@@ -18,8 +18,8 @@
       <el-dropdown-item divided @click.native="handleCreate">
         <cs-icon name="keyboard-o" class="cs-mr-10"/>修改密码
       </el-dropdown-item>
-      <el-dropdown-item v-if="auth.message" @click.native="handleMessage">
-        <cs-icon name="envelope-o" class="cs-mr-10"/>未读消息
+      <el-dropdown-item v-if="auth.unread" @click.native="handleMessage">
+        <cs-icon name="envelope" class="cs-mr-10"/>未读消息
         <el-badge :is-dot="totalResult > 0"/>
       </el-dropdown-item>
       <el-dropdown-item divided @click.native="logOff">
@@ -103,7 +103,7 @@ export default {
       auth: {
         cache: false,
         optimize: false,
-        message: false
+        unread: false
       },
       rules: {
         password: [
@@ -165,13 +165,13 @@ export default {
     _validationAuth() {
       this.auth.cache = this.$has('/index/help/cache')
       this.auth.optimize = this.$has('/index/help/optimize')
-      this.auth.message = this.$has('/system/message/my')
+      this.auth.unread = this.$has('/system/message/unread')
     },
     /**
      * 获取未读消息数
      */
     getMessageUnread() {
-      if (!this.auth.message) {
+      if (!this.auth.unread) {
         return
       }
 
@@ -267,7 +267,7 @@ export default {
       }
 
       this.$router.push({
-        name: '/system/message/my'
+        name: 'system-message-my'
       })
     }
   },

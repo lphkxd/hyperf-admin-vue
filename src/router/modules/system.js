@@ -129,6 +129,18 @@ export default {
       name: `${pre}storage-storage`,
       meta: { ...meta, cache: true, title: '资源管理' },
       component: () => import('@/views/system/storage/storage')
+    },
+    {
+      path: 'message/my',
+      name: `${pre}message-my`,
+      meta: { ...meta, cache: true, title: '我的消息' },
+      component: () => import('@/views/system/message/my')
+    },
+    {
+      path: 'message/send',
+      name: `${pre}message-send`,
+      meta: { ...meta, cache: true, title: '发布消息' },
+      component: () => import('@/views/system/message/send')
     }
   ])('system-')
 }
