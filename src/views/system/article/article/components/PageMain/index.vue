@@ -109,7 +109,7 @@
               :key="index"
               :href="item.url"
               target="_blank">
-              <img class="image" :src="item.source | getPreviewUrl" align="center" alt="">
+              <img class="image" :src="item.source | getPreviewUrl" alt="">
             </a>
             <cs-icon slot="reference" name="image"/>
           </el-popover>
@@ -524,10 +524,6 @@ export default {
 </script>
 
 <style scoped>
-  .item {
-    margin-top: 10px;
-    margin-right: 40px;
-  }
   .image {
     max-width: 100%;
     margin: 0 auto;
