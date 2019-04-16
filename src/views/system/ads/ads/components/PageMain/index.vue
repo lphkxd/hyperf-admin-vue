@@ -411,7 +411,6 @@ import {
   setAdsItem
 } from '@/api/ads/ads'
 import { getHelpRouter } from '@/api/index/help'
-import util from '@/utils/util'
 
 export default {
   components: {
@@ -699,7 +698,7 @@ export default {
     // 打开链接地址
     handleView(index) {
       if (this.currentTableData[index].url) {
-        util.open(this.currentTableData[index].url)
+        this.$open(this.currentTableData[index].url)
         return
       }
 
@@ -833,8 +832,7 @@ export default {
                   get_ads_position: {
                     ...this.positionTable.find(item => item.ads_position_id === this.form.ads_position_id)
                   }
-                }
-              )
+                })
 
               this.dialogFormVisible = false
               this.$message.success('操作成功')

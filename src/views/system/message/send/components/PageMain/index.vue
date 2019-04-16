@@ -140,7 +140,7 @@
         <template slot-scope="scope">
           <el-button
             size="small"
-            @click="() => {}"
+            @click="handleView(scope.$index)"
             type="text">
             <el-tooltip
               v-if="scope.row.url"
@@ -178,7 +178,7 @@
       :title="textMap[dialogStatus]"
       :visible.sync="dialogFormVisible"
       :append-to-body="true"
-      width="750px">
+      width="760px">
       <el-form
         :model="form"
         :rules="rules"
@@ -228,6 +228,7 @@
               prop="member">
               <el-select
                 v-model="form.member"
+                :disabled="dialogStatus === 'update'"
                 placeholder="请选择"
                 style="width: 100%;"
                 value="">
@@ -294,7 +295,7 @@
         <el-button
           v-else type="primary"
           :loading="dialogLoading"
-          @click="updata(form.index)"
+          @click="updata"
           size="small">修改</el-button>
       </div>
     </el-dialog>
@@ -302,13 +303,13 @@
 </template>
 
 <script>
-import { getHelpRouter } from '@/api/index/help'
 import {
   addMessageItem,
   setMessageStatus,
   delMessageList,
   setMessageItem
 } from '@/api/message/message'
+import { getHelpRouter } from '@/api/index/help'
 
 export default {
   components: {
@@ -514,8 +515,8 @@ export default {
       })
     },
     // 正式发布
-    handleSubmit(val) {
-      let idList = this._getIdList(val)
+    handleSubmit(index) {
+      let idList = this._getIdList(index)
       if (idList.length === 0) {
         this.$message.error('请选择要操作的数据')
         return
@@ -545,8 +546,8 @@ export default {
         })
     },
     // 批量删除
-    handleDelete(val) {
-      let idList = this._getIdList(val)
+    handleDelete(index) {
+      let idList = this._getIdList(index)
       if (idList.length === 0) {
         this.$message.error('请选择要操作的数据')
         return
@@ -577,26 +578,61 @@ export default {
         })
     },
     // 弹出编辑对话框
-    handleUpdate(val) {
+    handleUpdate(index) {
       this.form = {
-        index: val,
-        ...this.currentTableData[val],
-        type: this.currentTableData[val].type.toString(),
-        member: this.currentTableData[val].member.toString(),
-        is_top: this.currentTableData[val].is_top.toString(),
-        status: this.currentTableData[val].status.toString()
+        ...this.currentTableData[index],
+        type: this.currentTableData[index].type.toString(),
+        member: this.currentTableData[index].member.toString(),
+        is_top: this.currentTableData[index].is_top.toString(),
+        status: this.currentTableData[index].status.toString()
       }
 
       this.$nextTick(() => {
         this.$refs.form.clearValidate()
       })
 
+      this.currentIndex = index
       this.dialogStatus = 'update'
       this.dialogLoading = false
       this.dialogFormVisible = true
     },
     // 请求编辑
-    updata(index) {
+    updata() {
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          this.dialogLoading = true
+          setMessageItem(this.form)
+            .then(res => {
+              this.$set(
+                this.currentTableData,
+                this.currentIndex,
+                {
+                  ...this.currentTableData[this.currentIndex],
+                  ...res.data
+                })
+
+              this.dialogFormVisible = false
+              this.$message.success('操作成功')
+            })
+            .catch(() => {
+              this.dialogLoading = false
+            })
+        }
+      })
+    },
+    // 预览消息
+    handleView(index) {
+      if (this.currentTableData[index].url) {
+        this.$open(this.currentTableData[index].url)
+        return
+      }
+
+      this.$router.push({
+        name: 'system-message-view',
+        params: {
+          message_id: this.currentTableData[index].message_id
+        }
+      })
     }
   }
 }

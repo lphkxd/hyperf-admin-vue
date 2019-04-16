@@ -1,4 +1,3 @@
-import util from '@/utils/util'
 import { frameInRoutes } from '@/router/routes'
 
 export default {
@@ -7,7 +6,7 @@ export default {
       if (!index || /^cs-menu-empty-\d+$/.test(index)) {
         this.$message.warning('临时菜单')
       } else if (/^https:\/\/|http:\/\//.test(index)) {
-        util.open(index)
+        this.$open(index)
       } else {
         this.getRouterAuthPath(index, indexPath)
       }
