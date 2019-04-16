@@ -13,6 +13,19 @@ export function getClientType() {
 }
 
 /**
+ * 获取成员组
+ * @returns {Promise<any>}
+ */
+export function getMember() {
+  return new Promise(resolve => {
+    resolve({
+      '1': '顾客人员',
+      '2': '管理人员'
+    })
+  })
+}
+
+/**
  * 获取消息类型
  * @returns {Promise<any>}
  */

@@ -278,7 +278,7 @@
           <cs-tinymce
             v-if="adsType === 1"
             v-model="content.code"
-            code="ads_content"
+            code="inside_content"
             :height="180"/>
 
           <el-alert

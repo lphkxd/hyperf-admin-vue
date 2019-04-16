@@ -327,7 +327,7 @@
           prop="content">
           <cs-tinymce
             v-model="content.code"
-            code="ads_content"
+            code="inside_content"
             :height="180"/>
         </el-form-item>
 

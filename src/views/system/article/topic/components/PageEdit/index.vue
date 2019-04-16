@@ -57,7 +57,7 @@
           <cs-tinymce
             ref="tinymce"
             v-model="currentForm.content"
-            code="topic_content"/>
+            code="inside_content"/>
         </el-form-item>
 
         <el-form-item

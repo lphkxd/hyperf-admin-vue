@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { getMessageType, getClientType } from '@/api/public'
+import { getMessageType, getMember } from '@/api/public'
 import { getMessageList } from '@/api/message/message'
 
 export default {
@@ -58,11 +58,10 @@ export default {
     }
   },
   mounted() {
-    Promise.all([getMessageType(), getClientType()])
+    Promise.all([getMessageType(), getMember()])
       .then(res => {
-        delete res[1][-1]
-        this.group = res[1]
         this.typeList = res[0]
+        this.group = res[1]
       })
       .then(() => {
         this.handleSubmit()
