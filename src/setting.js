@@ -60,7 +60,9 @@ export default {
         backgroundImage: 'image/theme/star/bg.jpg',
         preview: 'image/theme/star/preview@2x.png'
       }
-    ]
+    ],
+    // 默认主题
+    default: 'town'
   },
   // 是否默认开启页面切换动画
   transition: {
