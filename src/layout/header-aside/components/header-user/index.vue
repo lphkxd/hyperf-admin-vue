@@ -19,8 +19,8 @@
         <cs-icon name="keyboard-o" class="cs-mr-10"/>修改密码
       </el-dropdown-item>
       <el-dropdown-item v-if="auth.unread" @click.native="handleMessage">
-        <cs-icon name="envelope" class="cs-mr-10"/>未读消息
-        <el-badge :is-dot="totalResult > 0"/>
+        <cs-icon name="bell-o" class="cs-mr-10"/>未读消息
+        <el-badge :hidden="totalResult <= 0" :value="totalResult" :max="99"/>
       </el-dropdown-item>
       <el-dropdown-item divided @click.native="logOff">
         <cs-icon name="sign-out" class="cs-mr-10"/>退出账号
@@ -177,7 +177,7 @@ export default {
 
       getMessageUserUnread(null)
         .then(res => {
-          if (res.data['total_result'] > this.totalResult) {
+          if (res.data['total'] > this.totalResult) {
             this.$notify.info({
               title: '消息提示',
               message: '您有新的消息，请注意查收。',
@@ -185,7 +185,7 @@ export default {
             })
           }
 
-          this.totalResult = res.data['total_result']
+          this.totalResult = res.data['total']
         })
     },
     /**
@@ -267,7 +267,7 @@ export default {
       }
 
       this.$router.push({
-        name: 'system-message-my'
+        name: 'system-message-user'
       })
     }
   },

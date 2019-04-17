@@ -131,16 +131,23 @@ export default {
       component: () => import('@/views/system/storage/storage')
     },
     {
-      path: 'message/my',
-      name: `${pre}message-my`,
+      path: 'message/user',
+      name: `${pre}message-user`,
       meta: { ...meta, cache: true, title: '我的消息' },
-      component: () => import('@/views/system/message/my')
+      component: () => import('@/views/system/message/user')
     },
     {
       path: 'message/send',
       name: `${pre}message-send`,
       meta: { ...meta, cache: true, title: '发布消息' },
       component: () => import('@/views/system/message/send')
+    },
+    {
+      path: 'message/send/view/:message_id',
+      name: `${pre}message-send-view`,
+      props: true,
+      meta: { ...meta, title: '消息预览' },
+      component: () => import('@/views/system/message/send/view')
     }
   ])('system-')
 }

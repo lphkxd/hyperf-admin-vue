@@ -4,9 +4,10 @@
       :inline="true"
       size="small">
 
-      <el-form-item>
+      <el-form-item v-if="auth.add || auth.status">
         <el-button-group>
           <el-button
+            v-if="auth.add"
             :disabled="loading"
             @click="handleCreate">
             <cs-icon name="plus"/>
@@ -14,6 +15,7 @@
           </el-button>
 
           <el-button
+            v-if="auth.status"
             :disabled="loading"
             @click="handleSubmit(null)">
             <cs-icon name="send-o"/>
@@ -25,6 +27,7 @@
       <el-form-item>
         <el-button-group>
           <el-button
+            v-if="auth.del"
             :disabled="loading"
             @click="handleDelete(null)">
             <cs-icon name="trash-o"/>
@@ -139,6 +142,7 @@
         min-width="160">
         <template slot-scope="scope">
           <el-button
+            v-if="auth.view"
             size="small"
             @click="handleView(scope.$index)"
             type="text">
@@ -155,18 +159,19 @@
             {{scope.row.url ? '外链' : '预览'}}</el-button>
 
           <el-button
-            v-if="scope.row.status === 0"
+            v-if="auth.set && scope.row.status === 0"
             size="small"
             @click="handleUpdate(scope.$index)"
             type="text">编辑</el-button>
 
           <el-button
-            v-if="scope.row.status === 0"
+            v-if="auth.status && scope.row.status === 0"
             size="small"
             @click="handleSubmit(scope.$index)"
             type="text">发布</el-button>
 
           <el-button
+            v-if="auth.del"
             size="small"
             @click="handleDelete(scope.$index)"
             type="text">删除</el-button>
@@ -351,6 +356,13 @@ export default {
         is_top: undefined,
         status: undefined
       },
+      auth: {
+        add: false,
+        set: false,
+        del: false,
+        status: false,
+        view: false
+      },
       rules: {
         title: [
           {
@@ -428,8 +440,17 @@ export default {
     }
   },
   mounted() {
+    this._validationAuth()
   },
   methods: {
+    // 验证权限
+    _validationAuth() {
+      this.auth.add = this.$has('/system/message/send/add')
+      this.auth.set = this.$has('/system/message/send/set')
+      this.auth.del = this.$has('/system/message/send/del')
+      this.auth.status = this.$has('/system/message/send/status')
+      this.auth.view = this.$has('/system/message/send/view')
+    },
     // 获取列表中的编号
     _getIdList(val) {
       if (val === null) {
@@ -628,7 +649,7 @@ export default {
       }
 
       this.$router.push({
-        name: 'system-message-view',
+        name: 'system-message-send-view',
         params: {
           message_id: this.currentTableData[index].message_id
         }

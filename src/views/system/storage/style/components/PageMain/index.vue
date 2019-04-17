@@ -822,13 +822,17 @@ export default {
     }
   },
   mounted() {
-    this.auth.add = this.$has('/system/storage/style/add')
-    this.auth.set = this.$has('/system/storage/style/set')
-    this.auth.del = this.$has('/system/storage/style/del')
-    this.auth.enable = this.$has('/system/storage/style/enable')
-    this.auth.disable = this.$has('/system/storage/style/disable')
+    this._validationAuth()
   },
   methods: {
+    // 验证权限
+    _validationAuth() {
+      this.auth.add = this.$has('/system/storage/style/add')
+      this.auth.set = this.$has('/system/storage/style/set')
+      this.auth.del = this.$has('/system/storage/style/del')
+      this.auth.enable = this.$has('/system/storage/style/enable')
+      this.auth.disable = this.$has('/system/storage/style/disable')
+    },
     // 获取列表中的编号
     _getIdList(val) {
       if (val === null) {

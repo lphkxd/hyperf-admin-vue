@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="cs-p">
   </div>
 </template>
 

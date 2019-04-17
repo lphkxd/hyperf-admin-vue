@@ -288,18 +288,22 @@ export default {
     })
   },
   mounted() {
-    this.auth.add = this.$has('/system/article/article/add')
-    this.auth.del = this.$has('/system/article/article/del')
-    this.auth.set = this.$has('/system/article/article/set')
-    this.auth.top = this.$has('/system/article/article/top')
-    this.auth.remove_top = this.$has('/system/article/article/remove_top')
-    this.auth.enable = this.$has('/system/article/article/enable')
-    this.auth.disable = this.$has('/system/article/article/disable')
+    this._validationAuth()
   },
   methods: {
     ...mapActions('careyshop/update', [
       'updateChange'
     ]),
+    // 验证权限
+    _validationAuth() {
+      this.auth.add = this.$has('/system/article/article/add')
+      this.auth.del = this.$has('/system/article/article/del')
+      this.auth.set = this.$has('/system/article/article/set')
+      this.auth.top = this.$has('/system/article/article/top')
+      this.auth.remove_top = this.$has('/system/article/article/remove_top')
+      this.auth.enable = this.$has('/system/article/article/enable')
+      this.auth.disable = this.$has('/system/article/article/disable')
+    },
     // 获取列表中的文章编号
     _getArticleIdList(val) {
       if (val === null) {

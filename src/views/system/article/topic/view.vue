@@ -38,14 +38,12 @@ export default {
       loading: true
     }
   },
-  mounted() {
-    this.getTopicData()
-  },
   watch: {
     topic_id: {
       handler() {
         this.getTopicData()
-      }
+      },
+      immediate: true
     }
   },
   methods: {
@@ -92,7 +90,9 @@ export default {
 
 <style scoped>
   .mce-content-body {
-    padding: 0;
+    max-width: 980px;
+    margin-left: auto!important;
+    margin-right: auto!important;
   }
   .mce-content-body>>>html, body {
     font-family: inherit;

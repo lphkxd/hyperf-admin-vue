@@ -1,7 +1,7 @@
 <template>
   <cs-container
-    :model="article_id"
-    parentPath="system-article-article"
+    :model="message_id"
+    parentPath="system-message-send"
     :scrollTop="scrollTop"
     @scroll="(move) => {this.scrollTop = move.y}">
 
@@ -11,53 +11,54 @@
         shadow="never"
         v-loading="loading">
         <div slot="header" class="clearfix">
-          <h2>{{article.title}}</h2>
-          <span>最后编辑：{{article.update_time}}</span>
-          <span>来源：<a :href="article.source_url" target="_blank">{{article.source}}</a></span>
-          <span>游览量：{{article.page_views}}</span>
+          <h2>{{message.title}}</h2>
+          <span>最后编辑：{{message.update_time}}</span>
+          <span>游览量：{{message.page_views}}</span>
         </div>
-        <div class="mce-content-body" v-html="article.content"></div>
+        <div class="mce-content-body" v-html="message.content"></div>
       </el-card>
     </div>
   </cs-container>
 </template>
 
 <script>
-import { getArticleItem } from '@/api/article/article'
+import { getMessageItem } from '@/api/message/message'
 
 export default {
   props: {
-    article_id: {
+    message_id: {
       type: [String, Number],
       required: true
     }
   },
   data() {
     return {
-      article: {},
+      message: {},
       scrollTop: 0,
-      loading: true
+      loading: true,
+      type: {},
+      group: {}
     }
   },
   watch: {
-    article_id: {
+    message_id: {
       handler() {
-        this.getArticleData()
+        this.getMessageData()
       },
       immediate: true
     }
   },
   methods: {
-    resetArticleData() {
-      this.article = {}
+    resetMessageData() {
+      this.message = {}
     },
-    getArticleData() {
+    getMessageData() {
       this.loading = true
-      this.resetArticleData()
+      this.resetMessageData()
 
-      getArticleItem(this.article_id)
+      getMessageItem(this.message_id)
         .then(res => {
-          this.article = res.data
+          this.message = res.data
         })
         .finally(() => {
           this.loading = false
