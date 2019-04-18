@@ -47,7 +47,7 @@
         <el-button-group>
           <el-button
             :disabled="loading"
-            @click="$emit('refresh')">
+            @click="$emit('submit')">
             刷新
           </el-button>
         </el-button-group>
@@ -92,7 +92,6 @@ export default {
       form: {
         type: null,
         is_read: null
-        // TODO: 刷新存在问题
       }
     }
   },

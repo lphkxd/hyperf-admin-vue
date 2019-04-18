@@ -4,12 +4,12 @@
     @scroll="(move) => {this.scrollTop = move.y}">
 
     <page-main
+      ref="main"
       :loading="loading"
       :table-data="table"
       :unread-data="unread"
       :type-data="type"
       @sort="handleSort"
-      @refresh="handleRefresh"
       @submit="handleSubmit"/>
 
     <page-footer
@@ -39,11 +39,6 @@ export default {
       table: [],
       unread: {},
       type: [],
-      form: {
-        type: undefined,
-        is_read: undefined,
-        is_unread: 1
-      },
       page: {
         current: 1,
         size: 25,
@@ -79,12 +74,6 @@ export default {
       })
   },
   methods: {
-    // 刷新列表页面
-    handleRefresh() {
-      this.$nextTick(() => {
-        this.handleSubmit()
-      })
-    },
     // 分页变化改动
     handlePaginationChange(val) {
       this.page = val
@@ -100,20 +89,18 @@ export default {
       })
     },
     // 提交查询请求
-    handleSubmit(form, isRestore = false) {
+    handleSubmit(isRestore = false) {
       if (isRestore) {
         this.page.current = 1
       }
 
       this.loading = true
-      this.form = {
-        ...form,
-        is_unread: 1
-      }
+      const form = this.$refs.main ? this.$refs.main.form : {}
 
       getMessageUserList({
-        ...this.form,
+        ...form,
         ...this.order,
+        is_unread: 1,
         page_no: this.page.current,
         page_size: this.page.size
       })
