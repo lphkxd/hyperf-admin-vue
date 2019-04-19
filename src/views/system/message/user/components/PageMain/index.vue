@@ -62,16 +62,71 @@
       <el-tab-pane
         v-for="(item, index) in typeData"
         :key="index"
-        :label="item.name"
+        :label="item | getTabPaneName(unreadData)"
         :name="index.toString()">
-        {{item.name}}
+
+        <el-table
+          v-if="index.toString() === tabPane"
+          :data="currentTableData"
+          @selection-change="handleSelectionChange"
+          @sort-change="sortChange">
+
+          <el-table-column type="selection" width="55"/>
+
+          <el-table-column
+            align="center"
+            width="20">
+            <template slot-scope="scope">
+              <el-badge class="message-badge" :is-dot="!scope.row.is_read" type="primary"/>
+            </template>
+          </el-table-column>
+
+          <el-table-column
+            label="标题"
+            prop="title">
+            <template slot-scope="scope">
+              <span
+                @click="openMessage"
+                :class="`message-title ${scope.row.is_read ? 'read' : ''}`">
+                {{scope.row.title}}
+              </span>
+            </template>
+          </el-table-column>
+
+          <el-table-column
+            label="类型"
+            prop="type"
+            sortable="custom"
+            width="200">
+            <template slot-scope="scope">
+              {{typeList[scope.row.type]}}
+            </template>
+          </el-table-column>
+
+          <el-table-column
+            label="日期"
+            prop="create_time"
+            sortable="custom"
+            align="center"
+            width="200">
+          </el-table-column>
+        </el-table>
+
       </el-tab-pane>
     </el-tabs>
   </div>
 </template>
 
 <script>
+import { getMessageType } from '@/api/public'
+
 export default {
+  created() {
+    getMessageType()
+      .then(res => {
+        this.typeList = res
+      })
+  },
   props: {
     loading: {
       default: false
@@ -89,6 +144,9 @@ export default {
   data() {
     return {
       tabPane: 0,
+      typeList: {},
+      currentTableData: [],
+      multipleSelection: [],
       form: {
         type: null,
         is_read: null
@@ -96,10 +154,16 @@ export default {
     }
   },
   watch: {
+    tableData: {
+      handler(val) {
+        this.currentTableData = val
+      },
+      immediate: true
+    },
     form: {
       handler(val) {
         this.form = val
-        this.$emit('submit', this.form, true)
+        this.$emit('submit', true)
       },
       deep: true
     },
@@ -110,12 +174,57 @@ export default {
         }
 
         const tabType = this.typeData[index]
-        this.form.type = tabType.value !== 'all' ? tabType.value : null
+        this.form.type = tabType.value !== 'total' ? tabType.value : null
       }
+    }
+  },
+  filters: {
+    getTabPaneName(value, unread) {
+      if (!unread.hasOwnProperty(value.value) || unread[value.value] <= 0) {
+        return value.name
+      }
+
+      return value.name + `(${unread[value.value]})`
+    }
+  },
+  methods: {
+    // 选中数据项
+    handleSelectionChange(val) {
+      this.multipleSelection = val
+    },
+    // 获取排序字段
+    sortChange({ column, prop, order }) {
+      let sort = {
+        order_type: undefined,
+        order_field: undefined
+      }
+
+      if (column) {
+        sort.order_type = order === 'ascending' ? 'asc' : 'desc'
+        sort.order_field = prop
+      }
+
+      this.$emit('sort', sort)
+    },
+    // 打开消息
+    openMessage() {
+      console.log('okok')
     }
   }
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+  .message-badge {
+    display: inline-flex;
+  }
+  .message-title {
+    &:hover {
+      cursor: pointer;
+      text-decoration: underline;
+    }
+    &.read {
+      color: $color-text-sub;
+    }
+  }
 </style>

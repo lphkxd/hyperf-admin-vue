@@ -55,7 +55,7 @@ export default {
       .then(res => {
         this.type.unshift({
           name: '全部消息',
-          value: 'all'
+          value: 'total'
         })
 
         for (const index in res) {
