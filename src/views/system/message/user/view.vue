@@ -1,7 +1,7 @@
 <template>
   <cs-container
     :model="message_id"
-    parentPath="system-message-send"
+    parentPath="system-message-user"
     :scrollTop="scrollTop"
     @scroll="(move) => {this.scrollTop = move.y}">
 
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { getMessageItem } from '@/api/message/message'
+import { getMessageUserItem } from '@/api/message/message'
 
 export default {
   props: {
@@ -54,7 +54,7 @@ export default {
       this.loading = true
       this.resetMessageData()
 
-      getMessageItem(this.message_id)
+      getMessageUserItem(this.message_id)
         .then(res => {
           this.message = res.data
         })

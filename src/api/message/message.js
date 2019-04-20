@@ -150,7 +150,7 @@ export function getMessageUserUnread(type) {
  * @param {Array} message_id
  * @param {Number} type
  */
-export function setMessageUserRead(message_id, type) {
+export function setMessageUserRead(message_id, type = null) {
   return request({
     url: '/v1/message',
     method: 'post',
@@ -168,7 +168,7 @@ export function setMessageUserRead(message_id, type) {
  * 用户设置消息全部已读
  * @param {Number} type
  */
-export function setMessageUserAllread(type) {
+export function setMessageUserAllread(type = null) {
   return request({
     url: '/v1/message',
     method: 'post',
@@ -186,7 +186,7 @@ export function setMessageUserAllread(type) {
  * @param {Array} message_id
  * @param {Number} type
  */
-export function delMessageUserList(message_id, type) {
+export function delMessageUserList(message_id, type = null) {
   return request({
     url: '/v1/message',
     method: 'post',
@@ -204,7 +204,7 @@ export function delMessageUserList(message_id, type) {
  * 用户删除全部消息
  * @param {Number} type
  */
-export function delMessageUserAll(type) {
+export function delMessageUserAll(type = null) {
   return request({
     url: '/v1/message',
     method: 'post',

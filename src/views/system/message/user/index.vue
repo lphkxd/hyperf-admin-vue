@@ -10,6 +10,7 @@
       :unread-data="unread"
       :type-data="type"
       @sort="handleSort"
+      @minus="minusUnread"
       @submit="handleSubmit"/>
 
     <page-footer
@@ -89,9 +90,13 @@ export default {
       })
     },
     // 提交查询请求
-    handleSubmit(isRestore = false) {
+    handleSubmit(isRestore = false, isOrder = false) {
       if (isRestore) {
         this.page.current = 1
+      }
+
+      if (isOrder) {
+        this.order = { order_type: undefined, order_field: undefined }
       }
 
       this.loading = true
@@ -112,6 +117,15 @@ export default {
         .finally(() => {
           this.loading = false
         })
+    },
+    // 减少已读数
+    minusUnread(key, total) {
+      const newKey = ['total', key]
+      newKey.forEach(value => {
+        if (this.unread.hasOwnProperty(value)) {
+          this.unread[value] = (this.unread[value] - total) <= 0 ? 0 : this.unread[value] - total
+        }
+      })
     }
   }
 }

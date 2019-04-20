@@ -147,7 +147,7 @@ export function setArticleCatIndex(article_cat_id) {
     url: '/v1/article_cat',
     method: 'post',
     params: {
-      method: 'set.article.cat.index'
+      method: 'index'
     },
     data: {
       article_cat_id

@@ -194,7 +194,7 @@ export function setMenuIndex(menu_id) {
     url: '/v1/menu',
     method: 'post',
     params: {
-      method: 'set.menu.index'
+      method: 'index'
     },
     data: {
       menu_id

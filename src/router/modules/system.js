@@ -148,6 +148,19 @@ export default {
       props: true,
       meta: { ...meta, title: '消息预览' },
       component: () => import('@/views/system/message/send/view')
+    },
+    {
+      path: 'message/user/view/:message_id',
+      name: `${pre}message-user-view`,
+      props: true,
+      meta: { ...meta, title: '消息预览' },
+      component: () => import('@/views/system/message/user/view')
+    },
+    {
+      path: 'aide/support',
+      name: `${pre}aide-support`,
+      meta: { ...meta, cache: true, title: '客服人员' },
+      component: () => import('@/views/system/aide/support')
     }
   ])('system-')
 }

@@ -126,7 +126,7 @@ export function setAuthRuleIndex(rule_id) {
     url: '/v1/auth_rule',
     method: 'post',
     params: {
-      method: 'set.auth.rule.index'
+      method: 'index'
     },
     data: {
       rule_id
