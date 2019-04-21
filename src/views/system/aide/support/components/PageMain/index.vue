@@ -3,14 +3,13 @@
     <el-form
       :inline="true"
       size="small">
-
-      <el-form-item v-if="auth.add">
+      <el-form-item>
         <el-button-group>
           <el-button
             :disabled="loading"
             @click="handleCreate">
             <cs-icon name="plus"/>
-            新增用户组
+            新增客服
           </el-button>
         </el-button-group>
       </el-form-item>
@@ -18,19 +17,28 @@
       <el-form-item>
         <el-button-group>
           <el-button
-            v-if="auth.enable"
             :disabled="loading"
-            @click="handleState(1)">
+            @click="handleStatus(null, 1, true)">
             <cs-icon name="check"/>
             启用
           </el-button>
 
           <el-button
-            v-if="auth.disable"
             :disabled="loading"
-            @click="handleState(0)">
+            @click="handleStatus(null, 0, true)">
             <cs-icon name="close"/>
             禁用
+          </el-button>
+        </el-button-group>
+      </el-form-item>
+
+      <el-form-item>
+        <el-button-group>
+          <el-button
+            :disabled="loading"
+            @click="handleDelete(null)">
+            <cs-icon name="trash-o"/>
+            删除
           </el-button>
         </el-button-group>
       </el-form-item>
@@ -52,9 +60,9 @@
     </el-form>
 
     <el-table
-      :data="currentTableData"
       v-loading="loading"
-      :row-class-name="tableRowClassName"
+      :data="currentTableData"
+      stripe
       style="width: 100%;"
       @selection-change="handleSelectionChange"
       @sort-change="sortChange">
@@ -62,25 +70,21 @@
       <el-table-column type="selection" width="55"/>
 
       <el-table-column
-        label="名称"
-        prop="name"
-        sortable="custom"
-        :show-overflow-tooltip="true">
+        label="ID"
+        prop="support_id"
+        sortable="custom">
       </el-table-column>
 
       <el-table-column
-        label="描述"
-        prop="description"
-        min-width="150"
-        :show-overflow-tooltip="true">
+        label="昵称"
+        prop="nick_name"
+        sortable="custom">
       </el-table-column>
 
       <el-table-column
-        label="所属类型"
-        align="center">
-        <template slot-scope="scope">
-          {{scope.row.system ? '系统保留' : '用户添加'}}
-        </template>
+        label="组名称"
+        prop="type_name"
+        sortable="custom">
       </el-table-column>
 
       <el-table-column
@@ -90,14 +94,14 @@
         sortable="custom">
         <template slot-scope="scope">
           <el-input-number
-            v-if="auth.sort"
-            size="mini"
+            v-if="true"
             v-model="scope.row.sort"
-            @change="handleSort(scope.$index)"
             style="width: 88px;"
+            size="mini"
             controls-position="right"
             :min="0"
-            :max="255">
+            :max="255"
+            @change="handleSort(scope.$index)">
           </el-input-number>
           <span v-else>
             {{scope.row.sort}}
@@ -108,15 +112,15 @@
       <el-table-column
         label="状态"
         prop="status"
+        sortable="custom"
         align="center"
-        width="100"
-        sortable="custom">
+        width="100">
         <template slot-scope="scope">
           <el-tag
             size="mini"
             :type="statusMap[scope.row.status].type"
-            :style="auth.disable || auth.enable ? 'cursor: pointer;' : ''"
-            @click.native="switchStatus(scope.$index)">
+            style="cursor: pointer;"
+            @click.native="handleStatus(scope.$index)">
             {{statusMap[scope.row.status].text}}
           </el-tag>
         </template>
@@ -128,15 +132,13 @@
         min-width="100">
         <template slot-scope="scope">
           <el-button
-            v-if="auth.set"
-            size="small"
             @click="handleUpdate(scope.$index)"
+            size="small"
             type="text">编辑</el-button>
 
           <el-button
-            v-if="auth.del && !scope.row.system"
-            size="small"
             @click="handleDelete(scope.$index)"
+            size="small"
             type="text">删除</el-button>
         </template>
       </el-table-column>
@@ -153,22 +155,32 @@
         ref="form"
         label-width="80px">
         <el-form-item
-          label="名称"
-          prop="name">
+          label="昵称"
+          prop="nick_name">
           <el-input
-            v-model="form.name"
-            placeholder="请输入名称"
+            v-model="form.nick_name"
+            placeholder="请输入客服昵称"
             clearable/>
         </el-form-item>
 
         <el-form-item
-          label="描述"
-          prop="description">
+          label="组名称"
+          prop="type_name">
           <el-input
-            v-model="form.description"
-            placeholder="可输入描述"
+            v-model="form.type_name"
+            placeholder="请输入客服组名称"
+            clearable/>
+        </el-form-item>
+
+        <el-form-item
+          label="联系方式"
+          prop="code">
+          <el-input
+            v-model="form.code"
             type="textarea"
-            :rows="5"/>
+            :rows="5"
+            placeholder="请输入客服联系方式(自定义特征码)"
+            clearable/>
         </el-form-item>
 
         <el-form-item
@@ -209,7 +221,7 @@
         <el-button
           v-else type="primary"
           :loading="dialogLoading"
-          @click="update(form.index)"
+          @click="update"
           size="small">修改</el-button>
       </div>
     </el-dialog>
@@ -218,21 +230,18 @@
 
 <script>
 import {
-  addAuthGroupItem,
-  setAuthGroupItem,
-  delAuthGroupItem,
-  setAuthGroupSort,
-  setAuthGroupStatus
-} from '@/api/auth/group'
+  addSupportItem,
+  setSupportStatus
+} from '@/api/aide/support'
 import { getHelpRouter } from '@/api/index/help'
 
 export default {
   props: {
-    tableData: {
-      default: () => []
-    },
     loading: {
       default: false
+    },
+    tableData: {
+      default: () => []
     }
   },
   data() {
@@ -241,19 +250,13 @@ export default {
       multipleSelection: [],
       helpContent: '',
       auth: {
-        add: false,
-        del: false,
-        set: false,
-        enable: false,
-        disable: false,
-        sort: false
       },
       dialogLoading: false,
       dialogFormVisible: false,
       dialogStatus: '',
       textMap: {
-        update: '编辑用户组',
-        create: '新增用户组'
+        update: '编辑客服',
+        create: '新增客服'
       },
       statusMap: {
         0: {
@@ -270,29 +273,46 @@ export default {
         }
       },
       form: {
-        index: undefined,
-        name: undefined,
-        description: undefined,
+        nick_name: undefined,
+        type_name: undefined,
+        code: undefined,
         sort: undefined,
         status: undefined
       },
       rules: {
-        name: [
+        nick_name: [
           {
             required: true,
-            message: '名称不能为空',
+            message: '昵称不能为空',
             trigger: 'blur'
           },
           {
-            max: 32,
-            message: '长度不能大于 32 个字符',
+            max: 50,
+            message: '长度不能大于 50 个字符',
             trigger: 'blur'
           }
         ],
-        description: [
+        type_name: [
           {
-            max: 255,
-            message: '长度不能大于 255 个字符',
+            required: true,
+            message: '组名称不能为空',
+            trigger: 'blur'
+          },
+          {
+            max: 50,
+            message: '长度不能大于 50 个字符',
+            trigger: 'blur'
+          }
+        ],
+        code: [
+          {
+            required: true,
+            message: '联系方式不能为空',
+            trigger: 'blur'
+          },
+          {
+            max: 150,
+            message: '长度不能大于 150 个字符',
             trigger: 'blur'
           }
         ],
@@ -326,14 +346,25 @@ export default {
     this._validationAuth()
   },
   methods: {
+    // 获取列表中的编号
+    _getIdList(val) {
+      if (val === null) {
+        val = this.multipleSelection
+      }
+
+      let idList = []
+      if (Array.isArray(val)) {
+        val.forEach(value => {
+          idList.push(value.support_id)
+        })
+      } else {
+        idList.push(this.currentTableData[val].support_id)
+      }
+
+      return idList
+    },
     // 验证权限
     _validationAuth() {
-      this.auth.add = this.$has('/system/auth/group/add')
-      this.auth.del = this.$has('/system/auth/group/del')
-      this.auth.set = this.$has('/system/auth/group/set')
-      this.auth.enable = this.$has('/system/auth/group/enable')
-      this.auth.disable = this.$has('/system/auth/group/disable')
-      this.auth.sort = this.$has('/system/auth/group/sort')
     },
     // 获取帮助文档
     getHelp() {
@@ -360,24 +391,12 @@ export default {
 
       this.$emit('sort', sort)
     },
-    // 返回表格行颜色
-    tableRowClassName({ row, rowIndex }) {
-      if (row.system) {
-        return 'warning-row'
-      }
-
-      if (rowIndex % 2 !== 0) {
-        return 'spacer-row'
-      }
-
-      return ''
-    },
     // 弹出新建对话框
     handleCreate() {
       this.form = {
-        index: undefined,
-        name: '',
-        description: '',
+        nick_name: undefined,
+        type_name: undefined,
+        code: undefined,
         sort: 50,
         status: '1'
       }
@@ -390,16 +409,16 @@ export default {
       this.dialogLoading = false
       this.dialogFormVisible = true
     },
-    // 请求创建用户组
+    // 请求创建
     create() {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.dialogLoading = true
-          addAuthGroupItem(this.form)
-            .then(res => {
-              this.currentTableData.unshift(res.data)
+          addSupportItem(this.form)
+            .then(() => {
               this.dialogFormVisible = false
               this.$message.success('操作成功')
+              this.$emit('refresh')
             })
             .catch(() => {
               this.dialogLoading = false
@@ -408,142 +427,63 @@ export default {
       })
     },
     // 批量设置状态
-    handleState(state) {
-      let group_list = []
-      this.multipleSelection.forEach(value => {
-        group_list.push(value.group_id)
-      })
-
-      if (group_list.length === 0) {
+    handleStatus(val, status = 0, confirm = false) {
+      let support_id = this._getIdList(val)
+      if (support_id.length === 0) {
         this.$message.error('请选择要操作的数据')
         return
       }
 
-      this.$confirm('确定要执行该操作吗?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      })
-        .then(() => {
-          setAuthGroupStatus(group_list, state)
-            .then(() => {
-              this.currentTableData.forEach((value, index) => {
-                if (group_list.indexOf(value.group_id) !== -1) {
-                  this.$set(this.currentTableData, index, {
-                    ...value,
-                    status: state
-                  })
-                }
-              })
-
-              this.$message.success('操作成功')
+      function setStatus(support_id, status, vm) {
+        setSupportStatus(support_id, status)
+          .then(() => {
+            vm.currentTableData.forEach((value, index) => {
+              if (support_id.indexOf(value.support_id) !== -1) {
+                vm.$set(vm.currentTableData, index, {
+                  ...value,
+                  status
+                })
+              }
             })
-        })
-        .catch(() => {
-        })
-    },
-    // 弹出编辑对话框
-    handleUpdate(index) {
-      this.form = {
-        index: index,
-        group_id: this.currentTableData[index].group_id,
-        name: this.currentTableData[index].name,
-        description: this.currentTableData[index].description,
-        sort: this.currentTableData[index].sort,
-        status: this.currentTableData[index].status.toString()
-      }
 
-      this.$nextTick(() => {
-        this.$refs.form.clearValidate()
-      })
-
-      this.dialogStatus = 'update'
-      this.dialogLoading = false
-      this.dialogFormVisible = true
-    },
-    // 请求修改用户组
-    update(index) {
-      this.$refs.form.validate(valid => {
-        if (valid) {
-          this.dialogLoading = true
-          setAuthGroupItem(this.form)
-            .then(res => {
-              this.$set(this.currentTableData, index, {
-                ...this.currentTableData[index],
-                ...res.data
-              })
-
-              this.dialogFormVisible = false
-              this.$message.success('操作成功')
-            })
-            .catch(() => {
-              this.dialogLoading = false
-            })
-        }
-      })
-    },
-    // 请求删除用户组
-    handleDelete(index) {
-      this.$confirm('确定要执行该操作吗?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      })
-        .then(() => {
-          delAuthGroupItem(this.currentTableData[index].group_id)
-            .then(() => {
-              this.currentTableData.splice(index, 1)
-              this.$message.success('操作成功')
-            })
-        })
-        .catch(() => {
-        })
-    },
-    // 请求修改排序值
-    handleSort(index) {
-      setAuthGroupSort(
-        this.currentTableData[index].group_id,
-        this.currentTableData[index].sort
-      )
-    },
-    // 请求修改状态值
-    switchStatus(index) {
-      let oldData = this.currentTableData[index]
-      const newStatus = oldData.status ? 0 : 1
-
-      // 禁用权限检测
-      if (newStatus === 0 && !this.auth.disable) {
-        return
-      }
-
-      // 启用权限检测
-      if (newStatus === 1 && !this.auth.enable) {
-        return
-      }
-
-      this.$set(this.currentTableData, index, { ...oldData, status: 2 })
-      setAuthGroupStatus([oldData.group_id], newStatus)
-        .then(() => {
-          this.$message.success('操作成功')
-          this.$set(this.currentTableData, index, {
-            ...oldData,
-            status: newStatus
+            vm.$message.success('操作成功')
           })
+      }
+
+      if (!confirm) {
+        let oldData = this.currentTableData[val]
+        const newStatus = oldData.status ? 0 : 1
+
+        if (oldData.status > 1) {
+          return
+        }
+
+        // 禁用权限检测
+        // if (newStatus === 0 && !this.auth.disable) {
+        //   return
+        // }
+
+        // 启用权限检测
+        // if (newStatus === 1 && !this.auth.enable) {
+        //   return
+        // }
+
+        this.$set(this.currentTableData, val, { ...oldData, status: 2 })
+        setStatus(support_id, newStatus, this)
+        return
+      }
+
+      this.$confirm('确定要执行该操作吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(() => {
+          setStatus(support_id, status, this)
         })
         .catch(() => {
-          this.$set(this.currentTableData, index, oldData)
         })
     }
   }
 }
 </script>
-
-<style>
-  .el-table .warning-row {
-    background: oldlace;
-  }
-
-  .el-table .spacer-row {
-    background: #FAFAFA;
-  }
-</style>

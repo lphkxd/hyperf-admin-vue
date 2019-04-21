@@ -130,7 +130,8 @@
 
       <el-table-column
         label="操作"
-        align="center">
+        align="center"
+        min-width="160">
         <template slot-scope="scope">
           <el-button
             v-if="auth.set"
