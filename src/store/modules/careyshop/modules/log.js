@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import { get } from 'lodash'
 import util from '@/utils/util'
 
@@ -39,7 +40,7 @@ export default {
       commit('push', {
         message,
         type,
-        time: Date().toLocaleString(),
+        time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
         meta: {
           // 当前用户信息
           user: rootState.careyshop.user.info,

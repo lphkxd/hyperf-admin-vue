@@ -9,7 +9,7 @@
         <el-table-column
           prop="time"
           label="Time"
-          width="380">
+          min-width="140">
         </el-table-column>
         <!-- 信息 -->
         <el-table-column

@@ -161,6 +161,12 @@ export default {
       name: `${pre}aided-support`,
       meta: { ...meta, cache: true, title: '客服人员' },
       component: () => import('@/views/system/aided/support')
+    },
+    {
+      path: 'aided/friendlink',
+      name: `${pre}aided-friendlink`,
+      meta: { ...meta, cache: true, title: '友情链接' },
+      component: () => import('@/views/system/aided/friendlink')
     }
   ])('system-')
 }
