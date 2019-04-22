@@ -42,7 +42,7 @@ export function delSupportList(support_id) {
       method: 'del.support.list'
     },
     data: {
-      support_id: support_id
+      support_id
     }
   })
 }
@@ -59,7 +59,7 @@ export function getSupportItem(support_id) {
       method: 'get.support.item'
     },
     data: {
-      support_id: support_id
+      support_id
     }
   })
 }
@@ -92,7 +92,7 @@ export function setSupportStatus(support_id, status) {
       method: 'set.support.status'
     },
     data: {
-      support_id: support_id,
+      support_id,
       status
     }
   })

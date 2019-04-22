@@ -17,10 +17,10 @@
 </template>
 
 <script>
-import { getSupportList } from '@/api/aide/support'
+import { getSupportList } from '@/api/aided/support'
 
 export default {
-  name: 'system-aide-support',
+  name: 'system-aided-support',
   components: {
     'PageHeader': () => import('./components/PageHeader'),
     'PageMain': () => import('./components/PageMain')

@@ -42,7 +42,7 @@ export function delArticleList(article_id) {
       method: 'del.article.list'
     },
     data: {
-      article_id: article_id
+      article_id
     }
   })
 }
@@ -59,7 +59,7 @@ export function getArticleItem(article_id) {
       method: 'get.article.item'
     },
     data: {
-      article_id: article_id
+      article_id
     }
   })
 }
@@ -92,8 +92,8 @@ export function setArticleTop(article_id, is_top) {
       method: 'set.article.top'
     },
     data: {
-      article_id: article_id,
-      is_top: is_top
+      article_id,
+      is_top
     }
   })
 }
@@ -111,8 +111,8 @@ export function setArticleStatus(article_id, status) {
       method: 'set.article.status'
     },
     data: {
-      article_id: article_id,
-      status: status
+      article_id,
+      status
     }
   })
 }

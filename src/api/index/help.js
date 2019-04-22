@@ -19,7 +19,7 @@ export function getHelpRouter(router) {
         method: 'get.help.router'
       },
       data: {
-        router: router,
+        router,
         ver: '1.0.1',
         module: 'admin'
       }

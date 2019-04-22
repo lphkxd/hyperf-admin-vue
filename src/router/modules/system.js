@@ -157,10 +157,10 @@ export default {
       component: () => import('@/views/system/message/user/view')
     },
     {
-      path: 'aide/support',
-      name: `${pre}aide-support`,
+      path: 'aided/support',
+      name: `${pre}aided-support`,
       meta: { ...meta, cache: true, title: '客服人员' },
-      component: () => import('@/views/system/aide/support')
+      component: () => import('@/views/system/aided/support')
     }
   ])('system-')
 }

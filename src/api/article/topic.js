@@ -42,7 +42,7 @@ export function delTopicList(topic_id) {
       method: 'del.topic.list'
     },
     data: {
-      topic_id: topic_id
+      topic_id
     }
   })
 }
@@ -59,7 +59,7 @@ export function getTopicItem(topic_id) {
       method: 'get.topic.item'
     },
     data: {
-      topic_id: topic_id
+      topic_id
     }
   })
 }
@@ -92,8 +92,8 @@ export function setTopicStatus(topic_id, status) {
       method: 'set.topic.status'
     },
     data: {
-      topic_id: topic_id,
-      status: status
+      topic_id,
+      status
     }
   })
 }

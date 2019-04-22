@@ -42,7 +42,7 @@ export function delMessageList(message_id) {
       method: 'del.message.list'
     },
     data: {
-      message_id: message_id
+      message_id
     }
   })
 }
@@ -59,7 +59,7 @@ export function setMessageStatus(message_id) {
       method: 'set.message.status'
     },
     data: {
-      message_id: message_id
+      message_id
     }
   })
 }
@@ -76,7 +76,7 @@ export function getMessageItem(message_id) {
       method: 'get.message.item'
     },
     data: {
-      message_id: message_id
+      message_id
     }
   })
 }
@@ -108,7 +108,7 @@ export function getMessageUserItem(message_id) {
       method: 'get.message.user.item'
     },
     data: {
-      message_id: message_id
+      message_id
     }
   })
 }
@@ -140,7 +140,7 @@ export function getMessageUserUnread(type) {
       method: 'get.message.user.unread'
     },
     data: {
-      type: type
+      type
     }
   })
 }
@@ -158,8 +158,8 @@ export function setMessageUserRead(message_id, type = null) {
       method: 'set.message.user.read'
     },
     data: {
-      message_id: message_id,
-      type: type
+      message_id,
+      type
     }
   })
 }
@@ -176,7 +176,7 @@ export function setMessageUserAllread(type = null) {
       method: 'set.message.user.allread'
     },
     data: {
-      type: type
+      type
     }
   })
 }
@@ -194,8 +194,8 @@ export function delMessageUserList(message_id, type = null) {
       method: 'del.message.user.list'
     },
     data: {
-      message_id: message_id,
-      type: type
+      message_id,
+      type
     }
   })
 }
@@ -212,7 +212,7 @@ export function delMessageUserAll(type = null) {
       method: 'del.message.user.all'
     },
     data: {
-      type: type
+      type
     }
   })
 }

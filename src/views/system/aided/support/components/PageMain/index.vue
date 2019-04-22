@@ -234,7 +234,7 @@ import {
   delSupportList,
   setSupportSort,
   setSupportItem
-} from '@/api/aide/support'
+} from '@/api/aided/support'
 import { getHelpRouter } from '@/api/index/help'
 
 export default {
@@ -373,12 +373,12 @@ export default {
     },
     // 验证权限
     _validationAuth() {
-      this.auth.add = this.$has('/system/aide/support/add')
-      this.auth.set = this.$has('/system/aide/support/set')
-      this.auth.del = this.$has('/system/aide/support/del')
-      this.auth.sort = this.$has('/system/aide/support/sort')
-      this.auth.enable = this.$has('/system/aide/support/enable')
-      this.auth.disable = this.$has('/system/aide/support/disable')
+      this.auth.add = this.$has('/system/aided/support/add')
+      this.auth.set = this.$has('/system/aided/support/set')
+      this.auth.del = this.$has('/system/aided/support/del')
+      this.auth.sort = this.$has('/system/aided/support/sort')
+      this.auth.enable = this.$has('/system/aided/support/enable')
+      this.auth.disable = this.$has('/system/aided/support/disable')
     },
     // 获取帮助文档
     getHelp() {
