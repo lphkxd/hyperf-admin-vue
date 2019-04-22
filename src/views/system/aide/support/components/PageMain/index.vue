@@ -3,7 +3,7 @@
     <el-form
       :inline="true"
       size="small">
-      <el-form-item>
+      <el-form-item v-if="auth.add">
         <el-button-group>
           <el-button
             :disabled="loading"
@@ -14,9 +14,10 @@
         </el-button-group>
       </el-form-item>
 
-      <el-form-item>
+      <el-form-item v-if="auth.enable || auth.disable">
         <el-button-group>
           <el-button
+            v-if="auth.enable"
             :disabled="loading"
             @click="handleStatus(null, 1, true)">
             <cs-icon name="check"/>
@@ -24,6 +25,7 @@
           </el-button>
 
           <el-button
+            v-if="auth.disable"
             :disabled="loading"
             @click="handleStatus(null, 0, true)">
             <cs-icon name="close"/>
@@ -35,6 +37,7 @@
       <el-form-item>
         <el-button-group>
           <el-button
+            v-if="auth.del"
             :disabled="loading"
             @click="handleDelete(null)">
             <cs-icon name="trash-o"/>
@@ -70,12 +73,6 @@
       <el-table-column type="selection" width="55"/>
 
       <el-table-column
-        label="ID"
-        prop="support_id"
-        sortable="custom">
-      </el-table-column>
-
-      <el-table-column
         label="昵称"
         prop="nick_name"
         sortable="custom">
@@ -94,7 +91,7 @@
         sortable="custom">
         <template slot-scope="scope">
           <el-input-number
-            v-if="true"
+            v-if="auth.sort"
             v-model="scope.row.sort"
             style="width: 88px;"
             size="mini"
@@ -119,7 +116,7 @@
           <el-tag
             size="mini"
             :type="statusMap[scope.row.status].type"
-            style="cursor: pointer;"
+            :style="auth.enable || auth.disable ? 'cursor: pointer;' : ''"
             @click.native="handleStatus(scope.$index)">
             {{statusMap[scope.row.status].text}}
           </el-tag>
@@ -132,11 +129,13 @@
         min-width="100">
         <template slot-scope="scope">
           <el-button
+            v-if="auth.set"
             @click="handleUpdate(scope.$index)"
             size="small"
             type="text">编辑</el-button>
 
           <el-button
+            v-if="auth.del"
             @click="handleDelete(scope.$index)"
             size="small"
             type="text">删除</el-button>
@@ -231,7 +230,10 @@
 <script>
 import {
   addSupportItem,
-  setSupportStatus
+  setSupportStatus,
+  delSupportList,
+  setSupportSort,
+  setSupportItem
 } from '@/api/aide/support'
 import { getHelpRouter } from '@/api/index/help'
 
@@ -250,6 +252,12 @@ export default {
       multipleSelection: [],
       helpContent: '',
       auth: {
+        add: false,
+        set: false,
+        del: false,
+        sort: false,
+        enable: false,
+        disable: false
       },
       dialogLoading: false,
       dialogFormVisible: false,
@@ -365,6 +373,12 @@ export default {
     },
     // 验证权限
     _validationAuth() {
+      this.auth.add = this.$has('/system/aide/support/add')
+      this.auth.set = this.$has('/system/aide/support/set')
+      this.auth.del = this.$has('/system/aide/support/del')
+      this.auth.sort = this.$has('/system/aide/support/sort')
+      this.auth.enable = this.$has('/system/aide/support/enable')
+      this.auth.disable = this.$has('/system/aide/support/disable')
     },
     // 获取帮助文档
     getHelp() {
@@ -459,14 +473,14 @@ export default {
         }
 
         // 禁用权限检测
-        // if (newStatus === 0 && !this.auth.disable) {
-        //   return
-        // }
+        if (newStatus === 0 && !this.auth.disable) {
+          return
+        }
 
         // 启用权限检测
-        // if (newStatus === 1 && !this.auth.enable) {
-        //   return
-        // }
+        if (newStatus === 1 && !this.auth.enable) {
+          return
+        }
 
         this.$set(this.currentTableData, val, { ...oldData, status: 2 })
         setStatus(support_id, newStatus, this)
@@ -483,6 +497,86 @@ export default {
         })
         .catch(() => {
         })
+    },
+    // 批量删除
+    handleDelete(val) {
+      let support_id = this._getIdList(val)
+      if (support_id.length === 0) {
+        this.$message.error('请选择要操作的数据')
+        return
+      }
+
+      this.$confirm('确定要执行该操作吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(() => {
+          delSupportList(support_id)
+            .then(() => {
+              for (let i = this.currentTableData.length - 1; i >= 0; i--) {
+                if (support_id.indexOf(this.currentTableData[i].support_id) !== -1) {
+                  this.currentTableData.splice(i, 1)
+                }
+              }
+
+              this.$message.success('操作成功')
+            })
+        })
+        .catch(() => {
+        })
+    },
+    // 设置排序值
+    handleSort(index) {
+      setSupportSort(
+        this.currentTableData[index].support_id,
+        this.currentTableData[index].sort
+      )
+    },
+    // 编辑客服
+    handleUpdate(index) {
+      this.currentIndex = index
+      const data = this.currentTableData[index]
+
+      this.form = {
+        ...data,
+        status: data.status.toString()
+      }
+
+      if (this.$refs.form) {
+        this.$nextTick(() => {
+          this.$refs.form.clearValidate()
+        })
+      }
+
+      this.dialogStatus = 'update'
+      this.dialogLoading = false
+      this.dialogFormVisible = true
+    },
+    // 请求编辑
+    update() {
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          this.dialogLoading = true
+          setSupportItem(this.form)
+            .then(res => {
+              this.$set(
+                this.currentTableData,
+                this.currentIndex,
+                {
+                  ...this.currentTableData[this.currentIndex],
+                  ...res.data
+                })
+
+              this.dialogFormVisible = false
+              this.$message.success('操作成功')
+              this.$emit('refresh')
+            })
+            .catch(() => {
+              this.dialogLoading = false
+            })
+        }
+      })
     }
   }
 }

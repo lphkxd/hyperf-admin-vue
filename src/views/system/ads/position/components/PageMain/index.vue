@@ -358,7 +358,7 @@
         <el-button
           v-else type="primary"
           :loading="dialogLoading"
-          @click="handleUpdata"
+          @click="handleUpdate"
           size="small">修改</el-button>
       </div>
     </el-dialog>
@@ -755,7 +755,7 @@ export default {
       this.dialogFormVisible = true
     },
     // 请求编辑位置
-    handleUpdata() {
+    handleUpdate() {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.dialogLoading = true
