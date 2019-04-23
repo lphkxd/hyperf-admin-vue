@@ -9,7 +9,7 @@ export default {
     {
       path: 'admin/member',
       name: `${pre}admin-member`,
-      meta: { ...meta, cache: true, title: '管理成员' },
+      meta: { ...meta, cache: true, title: '管理人员' },
       component: () => import('@/views/system/admin/member')
     },
     {
