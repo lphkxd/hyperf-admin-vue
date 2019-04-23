@@ -9,6 +9,7 @@
     <el-form-item label="账号" prop="account">
       <el-input
         v-model="form.account"
+        prefix-icon="el-icon-search"
         clearable
         placeholder="可输入 账号/昵称"
         @keyup.enter.native="handleFormSubmit"
@@ -70,6 +71,7 @@
           <el-form-item label="操作人账号" prop="action">
             <el-input
               v-model="form.action"
+              prefix-icon="el-icon-search"
               clearable
               placeholder="可输入操作人账号"
               @keyup.enter.native="handleFormSubmit"
@@ -79,6 +81,7 @@
           <el-form-item label="来源订单号" prop="source_no">
             <el-input
               v-model="form.source_no"
+              prefix-icon="el-icon-search"
               clearable
               placeholder="可输入来源订单号"
               @keyup.enter.native="handleFormSubmit"
@@ -88,6 +91,7 @@
           <el-form-item label="购物卡卡号" prop="card_number">
             <el-input
               v-model="form.card_number"
+              prefix-icon="el-icon-search"
               clearable
               placeholder="可输入购物卡卡号"
               @keyup.enter.native="handleFormSubmit"

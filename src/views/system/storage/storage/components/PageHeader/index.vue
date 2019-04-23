@@ -9,6 +9,7 @@
     <el-form-item label="名称" prop="name">
       <el-input
         v-model="form.name"
+        prefix-icon="el-icon-search"
         clearable
         placeholder="资源名称"
         @keyup.enter.native="handleFormSubmit"

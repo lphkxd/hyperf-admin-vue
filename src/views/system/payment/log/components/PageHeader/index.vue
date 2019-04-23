@@ -9,6 +9,7 @@
     <el-form-item label="账号" prop="account">
       <el-input
         v-model="form.account"
+        prefix-icon="el-icon-search"
         clearable
         placeholder="可输入 账号/昵称"
         @keyup.enter.native="handleFormSubmit"
@@ -71,6 +72,7 @@
           <el-form-item label="支付流水号" prop="payment_no">
             <el-input
               v-model="form.payment_no"
+              prefix-icon="el-icon-search"
               clearable
               placeholder="可输入支付流水号"
               @keyup.enter.native="handleFormSubmit"
@@ -80,6 +82,7 @@
           <el-form-item label="订单号" prop="order_no">
             <el-input
               v-model="form.order_no"
+              prefix-icon="el-icon-search"
               clearable
               placeholder="可输入订单号"
               @keyup.enter.native="handleFormSubmit"
@@ -89,6 +92,7 @@
           <el-form-item label="交易号" prop="out_trade_no">
             <el-input
               v-model="form.out_trade_no"
+              prefix-icon="el-icon-search"
               clearable
               placeholder="可输入交易号"
               @keyup.enter.native="handleFormSubmit"

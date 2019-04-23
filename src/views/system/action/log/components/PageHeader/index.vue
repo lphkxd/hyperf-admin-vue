@@ -9,6 +9,7 @@
     <el-form-item label="账号" prop="username">
       <el-input
         v-model="form.username"
+        prefix-icon="el-icon-search"
         clearable
         placeholder="可输入账号"
         @keyup.enter.native="handleFormSubmit"
@@ -58,6 +59,7 @@
           <el-form-item label="路径" prop="path">
             <el-input
               v-model="form.path"
+              prefix-icon="el-icon-search"
               clearable
               placeholder="可输入路径"
               @keyup.enter.native="handleFormSubmit"

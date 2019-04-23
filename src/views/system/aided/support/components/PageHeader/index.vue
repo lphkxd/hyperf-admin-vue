@@ -9,6 +9,7 @@
     <el-form-item label="昵称" prop="nick_name">
       <el-input
         v-model="form.nick_name"
+        prefix-icon="el-icon-search"
         clearable
         placeholder="可输入客服昵称"
         @keyup.enter.native="handleFormSubmit"/>
@@ -17,6 +18,7 @@
     <el-form-item label="组名称" prop="type_name">
       <el-input
         v-model="form.type_name"
+        prefix-icon="el-icon-search"
         clearable
         placeholder="可输入客服组名称"
         @keyup.enter.native="handleFormSubmit"/>
@@ -38,7 +40,7 @@
       <el-button
         type="primary"
         :disabled="loading"
-        @click="handleFormSubmit(true)">
+        @click="handleFormSubmit">
         <cs-icon name="search"/>
         查询
       </el-button>

@@ -23,6 +23,7 @@
     <el-form-item label="标题" prop="title">
       <el-input
         v-model="form.title"
+        prefix-icon="el-icon-search"
         clearable
         placeholder="文章标题"
         @keyup.enter.native="handleFormSubmit"
@@ -32,6 +33,7 @@
     <el-form-item label="关键词" prop="keywords">
       <el-input
         v-model="form.keywords"
+        prefix-icon="el-icon-search"
         clearable
         placeholder="文章关键词"
         @keyup.enter.native="handleFormSubmit"

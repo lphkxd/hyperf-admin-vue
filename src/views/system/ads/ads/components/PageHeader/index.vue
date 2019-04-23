@@ -9,6 +9,7 @@
     <el-form-item label="名称" prop="name">
       <el-input
         v-model="form.name"
+        prefix-icon="el-icon-search"
         clearable
         placeholder="广告列表名称"
         @keyup.enter.native="handleFormSubmit"
@@ -18,6 +19,7 @@
     <el-form-item label="编码" prop="code">
       <el-input
         v-model="form.code"
+        prefix-icon="el-icon-search"
         clearable
         placeholder="广告列表编码"
         @keyup.enter.native="handleFormSubmit"

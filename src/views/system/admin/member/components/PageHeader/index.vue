@@ -9,6 +9,7 @@
     <el-form-item label="账号" prop="account">
       <el-input
         v-model="form.account"
+        prefix-icon="el-icon-search"
         clearable
         placeholder="可输入 账号/昵称"
         @keyup.enter.native="handleFormSubmit"

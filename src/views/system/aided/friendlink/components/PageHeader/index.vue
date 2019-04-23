@@ -8,6 +8,7 @@
     <el-form-item label="名称" prop="name">
       <el-input
         v-model="form.name"
+        prefix-icon="el-icon-search"
         clearable
         placeholder="可输入友情链接名称"
         @keyup.enter.native="handleFormSubmit"/>
@@ -29,7 +30,7 @@
       <el-button
         type="primary"
         :disabled="loading"
-        @click="handleFormSubmit(true)">
+        @click="handleFormSubmit">
         <cs-icon name="search"/>
         查询
       </el-button>

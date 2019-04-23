@@ -9,6 +9,7 @@
     <el-form-item label="标题" prop="title">
       <el-input
         v-model="form.title"
+        prefix-icon="el-icon-search"
         clearable
         placeholder="专题标题"
         @keyup.enter.native="handleFormSubmit"
@@ -18,6 +19,7 @@
     <el-form-item label="关键词" prop="keywords">
       <el-input
         v-model="form.keywords"
+        prefix-icon="el-icon-search"
         clearable
         placeholder="专题关键词"
         @keyup.enter.native="handleFormSubmit"
@@ -52,6 +54,7 @@
           <el-form-item label="别名" prop="title">
             <el-input
               v-model="form.alias"
+              prefix-icon="el-icon-search"
               clearable
               placeholder="专题别名"
               @keyup.enter.native="handleFormSubmit"
