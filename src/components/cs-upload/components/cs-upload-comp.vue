@@ -28,7 +28,7 @@
       :props="parentProps"
       change-on-select
       filterable
-      style="width: 30%;">
+      :style="`width: ${fileWidth}`">
     </el-cascader>
   </div>
 </template>
@@ -105,6 +105,12 @@ export default {
       type: Number,
       required: false,
       default: null
+    },
+    // 目录宽度
+    fileWidth: {
+      type: String,
+      required: false,
+      default: '30%'
     }
   }
 }

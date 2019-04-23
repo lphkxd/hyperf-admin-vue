@@ -3,7 +3,7 @@
     <el-form
       :inline="true"
       size="small">
-      <el-form-item>
+      <el-form-item v-if="auth.add">
         <el-button-group>
           <el-button
             :disabled="loading"
@@ -14,9 +14,10 @@
         </el-button-group>
       </el-form-item>
 
-      <el-form-item>
+      <el-form-item v-if="auth.enable || auth.disable">
         <el-button-group>
           <el-button
+            v-if="auth.enable"
             :disabled="loading"
             @click="handleStatus(null, 1, true)">
             <cs-icon name="check"/>
@@ -24,6 +25,7 @@
           </el-button>
 
           <el-button
+            v-if="auth.disable"
             :disabled="loading"
             @click="handleStatus(null, 0, true)">
             <cs-icon name="close"/>
@@ -35,6 +37,7 @@
       <el-form-item>
         <el-button-group>
           <el-button
+            v-if="auth.del"
             :disabled="loading"
             @click="handleDelete(null)">
             <cs-icon name="trash-o"/>
@@ -72,22 +75,37 @@
       <el-table-column
         label="名称"
         prop="name"
-        sortable="custom">
+        sortable="custom"
+        min-width="100">
       </el-table-column>
 
       <el-table-column
         label="Url"
-        prop="url">
+        prop="url"
+        min-width="150">
       </el-table-column>
 
       <el-table-column
         label="Logo"
-        prop="logo">
+        prop="logo"
+        align="center">
+        <template slot-scope="scope">
+          <el-popover
+            v-if="scope.row.logo.length"
+            placement="top"
+            trigger="hover">
+            <img class="image" :src="scope.row.logo[0].url" alt="">
+            <cs-icon slot="reference" name="image"/>
+          </el-popover>
+        </template>
       </el-table-column>
 
       <el-table-column
         label="打开方式"
         prop="target">
+        <template slot-scope="scope">
+          {{targetMap[scope.row.target].text}}
+        </template>
       </el-table-column>
 
       <el-table-column
@@ -97,7 +115,7 @@
         sortable="custom">
         <template slot-scope="scope">
           <el-input-number
-            v-if="true"
+            v-if="auth.sort"
             v-model="scope.row.sort"
             style="width: 88px;"
             size="mini"
@@ -135,11 +153,13 @@
         min-width="100">
         <template slot-scope="scope">
           <el-button
+            v-if="auth.set"
             @click="handleUpdate(scope.$index)"
             size="small"
             type="text">编辑</el-button>
 
           <el-button
+            v-if="auth.del"
             @click="handleDelete(scope.$index)"
             size="small"
             type="text">删除</el-button>
@@ -173,6 +193,26 @@
             v-model="form.url"
             placeholder="请输入友情链接Url"
             clearable/>
+        </el-form-item>
+
+        <el-form-item
+          v-if="dialogFormVisible"
+          label="Logo"
+          prop="logo">
+          <cs-upload
+            v-model="form.logo"
+            :fileList="imageFile"
+            v-bind:limit="1"
+            file-width="50%"/>
+        </el-form-item>
+
+        <el-form-item
+          label="打开方式"
+          prop="target">
+          <el-radio-group v-model="form.target">
+            <el-radio label="_self">当前窗口</el-radio>
+            <el-radio label="_blank">新窗口</el-radio>
+          </el-radio-group>
         </el-form-item>
 
         <el-form-item
@@ -222,11 +262,18 @@
 
 <script>
 import {
-  addFriendlinkItem
+  addFriendlinkItem,
+  setFriendlinkStatus,
+  delFriendlinkList,
+  setFriendlinkSort,
+  setFriendlinkItem
 } from '@/api/aided/friendlink'
 import { getHelpRouter } from '@/api/index/help'
 
 export default {
+  components: {
+    'csUpload': () => import('@/components/cs-upload')
+  },
   props: {
     loading: {
       default: false
@@ -237,6 +284,90 @@ export default {
   },
   data() {
     return {
+      imageFile: [],
+      currentTableData: [],
+      multipleSelection: [],
+      helpContent: '',
+      auth: {
+        add: false,
+        set: false,
+        del: false,
+        sort: false,
+        enable: false,
+        disable: false
+      },
+      dialogLoading: false,
+      dialogFormVisible: false,
+      dialogStatus: '',
+      textMap: {
+        update: '编辑客服',
+        create: '新增客服'
+      },
+      statusMap: {
+        0: {
+          text: '禁用',
+          type: 'danger'
+        },
+        1: {
+          text: '启用',
+          type: 'success'
+        },
+        2: {
+          text: '...',
+          type: 'info'
+        }
+      },
+      targetMap: {
+        _self: {
+          text: '当前窗口',
+          value: '_self'
+        },
+        _blank: {
+          text: '新窗口',
+          value: '_blank'
+        }
+      },
+      form: {
+        name: undefined,
+        url: undefined,
+        logo: undefined,
+        target: undefined,
+        sort: undefined,
+        status: undefined
+      },
+      rules: {
+        name: [
+          {
+            required: true,
+            message: '名称不能为空',
+            trigger: 'blur'
+          },
+          {
+            max: 50,
+            message: '长度不能大于 50 个字符',
+            trigger: 'blur'
+          }
+        ],
+        url: [
+          {
+            required: true,
+            message: 'Url不能为空',
+            trigger: 'blur'
+          },
+          {
+            max: 255,
+            message: '长度不能大于 255 个字符',
+            trigger: 'blur'
+          }
+        ],
+        sort: [
+          {
+            type: 'number',
+            message: '必须为数字值',
+            trigger: 'blur'
+          }
+        ]
+      }
     }
   },
   watch: {
@@ -251,6 +382,241 @@ export default {
     this._validationAuth()
   },
   methods: {
+    // 验证权限
+    _validationAuth() {
+      this.auth.add = this.$has('/system/aided/friendlink/add')
+      this.auth.set = this.$has('/system/aided/friendlink/set')
+      this.auth.del = this.$has('/system/aided/friendlink/del')
+      this.auth.sort = this.$has('/system/aided/friendlink/sort')
+      this.auth.enable = this.$has('/system/aided/friendlink/enable')
+      this.auth.disable = this.$has('/system/aided/friendlink/disable')
+    },
+    // 获取列表中的编号
+    _getIdList(val) {
+      if (val === null) {
+        val = this.multipleSelection
+      }
+
+      let idList = []
+      if (Array.isArray(val)) {
+        val.forEach(value => {
+          idList.push(value.friend_link_id)
+        })
+      } else {
+        idList.push(this.currentTableData[val].friend_link_id)
+      }
+
+      return idList
+    },
+    // 获取帮助文档
+    getHelp() {
+      if (!this.helpContent) {
+        this.helpContent = '正在获取内容,请稍后...'
+        getHelpRouter(this.$route.path).then(res => { this.helpContent = res })
+      }
+    },
+    // 选中数据项
+    handleSelectionChange(val) {
+      this.multipleSelection = val
+    },
+    // 获取排序字段
+    sortChange({ column, prop, order }) {
+      let sort = {
+        order_type: undefined,
+        order_field: undefined
+      }
+
+      if (column) {
+        sort.order_type = order === 'ascending' ? 'asc' : 'desc'
+        sort.order_field = prop
+      }
+
+      this.$emit('sort', sort)
+    },
+    // 弹出新建对话框
+    handleCreate() {
+      this.form = {
+        name: undefined,
+        url: undefined,
+        target: '_blank',
+        logo: [],
+        sort: 50,
+        status: '1'
+      }
+
+      this.$nextTick(() => {
+        this.$refs.form.clearValidate()
+      })
+
+      this.imageFile = []
+      this.dialogStatus = 'create'
+      this.dialogLoading = false
+      this.dialogFormVisible = true
+    },
+    // 请求创建
+    create() {
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          this.dialogLoading = true
+          addFriendlinkItem(this.form)
+            .then(() => {
+              this.dialogFormVisible = false
+              this.$message.success('操作成功')
+              this.$emit('refresh')
+            })
+            .catch(() => {
+              this.dialogLoading = false
+            })
+        }
+      })
+    },
+    // 批量设置状态
+    handleStatus(val, status = 0, confirm = false) {
+      let friend_link_id = this._getIdList(val)
+      if (friend_link_id.length === 0) {
+        this.$message.error('请选择要操作的数据')
+        return
+      }
+
+      function setStatus(friend_link_id, status, vm) {
+        setFriendlinkStatus(friend_link_id, status)
+          .then(() => {
+            vm.currentTableData.forEach((value, index) => {
+              if (friend_link_id.indexOf(value.friend_link_id) !== -1) {
+                vm.$set(vm.currentTableData, index, {
+                  ...value,
+                  status
+                })
+              }
+            })
+
+            vm.$message.success('操作成功')
+          })
+      }
+
+      if (!confirm) {
+        let oldData = this.currentTableData[val]
+        const newStatus = oldData.status ? 0 : 1
+
+        if (oldData.status > 1) {
+          return
+        }
+
+        // 禁用权限检测
+        if (newStatus === 0 && !this.auth.disable) {
+          return
+        }
+
+        // 启用权限检测
+        if (newStatus === 1 && !this.auth.enable) {
+          return
+        }
+
+        this.$set(this.currentTableData, val, { ...oldData, status: 2 })
+        setStatus(friend_link_id, newStatus, this)
+        return
+      }
+
+      this.$confirm('确定要执行该操作吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(() => {
+          setStatus(friend_link_id, status, this)
+        })
+        .catch(() => {
+        })
+    },
+    // 批量删除
+    handleDelete(val) {
+      let friend_link_id = this._getIdList(val)
+      if (friend_link_id.length === 0) {
+        this.$message.error('请选择要操作的数据')
+        return
+      }
+
+      this.$confirm('确定要执行该操作吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(() => {
+          delFriendlinkList(friend_link_id)
+            .then(() => {
+              for (let i = this.currentTableData.length - 1; i >= 0; i--) {
+                if (friend_link_id.indexOf(this.currentTableData[i].friend_link_id) !== -1) {
+                  this.currentTableData.splice(i, 1)
+                }
+              }
+
+              this.$message.success('操作成功')
+            })
+        })
+        .catch(() => {
+        })
+    },
+    // 设置排序值
+    handleSort(index) {
+      setFriendlinkSort(
+        this.currentTableData[index].friend_link_id,
+        this.currentTableData[index].sort
+      )
+    },
+    // 编辑链接
+    handleUpdate(index) {
+      this.currentIndex = index
+      const data = this.currentTableData[index]
+
+      this.form = {
+        ...data,
+        status: data.status.toString()
+      }
+
+      if (this.$refs.form) {
+        this.$nextTick(() => {
+          this.$refs.form.clearValidate()
+        })
+      }
+
+      this.imageFile = data.logo
+      this.dialogStatus = 'update'
+      this.dialogLoading = false
+      this.dialogFormVisible = true
+    },
+    // 请求编辑
+    update() {
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          this.dialogLoading = true
+          setFriendlinkItem(this.form)
+            .then(res => {
+              this.$set(
+                this.currentTableData,
+                this.currentIndex,
+                {
+                  ...this.currentTableData[this.currentIndex],
+                  ...res.data
+                })
+
+              this.dialogFormVisible = false
+              this.$message.success('操作成功')
+              this.$emit('refresh')
+            })
+            .catch(() => {
+              this.dialogLoading = false
+            })
+        }
+      })
+    }
   }
 }
 </script>
+
+<style scoped>
+  .image {
+    max-width: 100%;
+    margin: 0 auto;
+    display: block;
+  }
+</style>
