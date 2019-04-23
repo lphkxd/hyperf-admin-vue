@@ -429,10 +429,10 @@ export default {
         if (valid) {
           this.dialogLoading = true
           addSupportItem(this.form)
-            .then(() => {
+            .then(res => {
+              this.currentTableData.unshift(res.data)
               this.dialogFormVisible = false
               this.$message.success('操作成功')
-              this.$emit('refresh')
             })
             .catch(() => {
               this.dialogLoading = false
@@ -570,7 +570,6 @@ export default {
 
               this.dialogFormVisible = false
               this.$message.success('操作成功')
-              this.$emit('refresh')
             })
             .catch(() => {
               this.dialogLoading = false

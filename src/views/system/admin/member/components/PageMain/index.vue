@@ -131,7 +131,7 @@
       <el-table-column
         label="操作"
         align="center"
-        min-width="160">
+        min-width="140">
         <template slot-scope="scope">
           <el-button
             v-if="auth.set"
@@ -593,7 +593,7 @@ export default {
               this.$notify({
                 title: '消息提示',
                 dangerouslyUseHTMLString: true,
-                message: `账号 ${admin.username} 的密码已重置为：</br>${res.data.password}`,
+                message: `${admin.username} 的密码已重置为：</br>${res.data.password}`,
                 type: 'success',
                 position: 'bottom-right',
                 duration: 0
