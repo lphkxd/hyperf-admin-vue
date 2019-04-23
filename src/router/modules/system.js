@@ -167,6 +167,24 @@ export default {
       name: `${pre}aided-friendlink`,
       meta: { ...meta, cache: true, title: '友情链接' },
       component: () => import('@/views/system/aided/friendlink')
+    },
+    {
+      path: 'aided/app',
+      name: `${pre}aided-app`,
+      meta: { ...meta, cache: true, title: 'App应用' },
+      component: () => import('@/views/system/aided/app')
+    },
+    {
+      path: 'aided/app_install',
+      name: `${pre}aided-app_install`,
+      meta: { ...meta, cache: true, title: 'App安装包' },
+      component: () => import('@/views/system/aided/app_install')
+    },
+    {
+      path: 'aided/qrcode',
+      name: `${pre}aided-qrcode`,
+      meta: { ...meta, cache: true, title: '二维码' },
+      component: () => import('@/views/system/aided/qrcode')
     }
   ])('system-')
 }
