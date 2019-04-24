@@ -614,7 +614,7 @@ export default {
 
 <style scoped>
   .image {
-    max-width: 100%;
+    max-width: 150px;
     margin: 0 auto;
     display: block;
   }
