@@ -178,8 +178,7 @@
             v-model="form.code"
             type="textarea"
             :rows="5"
-            placeholder="请输入客服联系方式(自定义特征码)"
-            clearable/>
+            placeholder="请输入客服联系方式(自定义特征码)"/>
         </el-form-item>
 
         <el-form-item

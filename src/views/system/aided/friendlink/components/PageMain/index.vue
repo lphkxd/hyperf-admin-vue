@@ -94,7 +94,10 @@
             v-if="scope.row.logo.length"
             placement="top"
             trigger="hover">
-            <img class="image" :src="scope.row.logo[0].url" alt="">
+            <el-image
+              class="image"
+              :src="scope.row.logo[0].source | getPreviewUrl"
+              @click.native="$open(scope.row.logo[0].url)"/>
             <cs-icon slot="reference" name="image"/>
           </el-popover>
         </template>
@@ -268,6 +271,7 @@ import {
   setFriendlinkSort,
   setFriendlinkItem
 } from '@/api/aided/friendlink'
+import util from '@/utils/util'
 import { getHelpRouter } from '@/api/index/help'
 
 export default {
@@ -368,6 +372,11 @@ export default {
           }
         ]
       }
+    }
+  },
+  filters: {
+    getPreviewUrl(val) {
+      return util.getImageCodeUrl(val, 'link_image')
     }
   },
   watch: {
@@ -614,8 +623,9 @@ export default {
 
 <style scoped>
   .image {
-    max-width: 150px;
+    max-width: 100%;
     margin: 0 auto;
-    display: block;
+    display: table;
+    cursor: pointer;
   }
 </style>

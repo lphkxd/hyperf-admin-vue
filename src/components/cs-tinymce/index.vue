@@ -196,7 +196,7 @@ export default {
           const file = response.data[0]
           switch (file.type) {
             case 0:
-              insert += `<img src="${util.getImageCodeUrl(file.url, this.code)}" alt="" />`
+              insert += `<img src="${util.getImageCodeUrl(file.url, this.code)}" alt=""/>`
               break
             case 1:
               insert += `<p><a href="${util.getDownloadUrl(file, this.code)}">附件：${file.name}</a></p>`
@@ -214,7 +214,7 @@ export default {
       for (const value of files) {
         switch (value.type) {
           case 0:
-            insert += `<img src="${util.getImageCodeUrl(value.url, this.code)}" alt="" />`
+            insert += `<img src="${util.getImageCodeUrl(value.url, this.code)}" alt=""/>`
             break
           case 1:
             insert += `<p><a href="${util.getDownloadUrl(value, this.code)}">附件：${value.name}</a></p>`

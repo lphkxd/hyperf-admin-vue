@@ -84,7 +84,7 @@
             v-if="scope.row.description"
             :content="`描述：${scope.row.description}`"
             placement="top-start">
-            <cs-icon name="square-o"/>
+            <cs-icon name="sticky-note-o"/>
           </el-tooltip>
           {{scope.row.name}}
         </template>
@@ -205,7 +205,7 @@
             v-model="form.description"
             placeholder="可输入广告位置描述"
             type="textarea"
-            :rows="2"/>
+            :rows="3"/>
         </el-form-item>
 
         <el-row :gutter="20">

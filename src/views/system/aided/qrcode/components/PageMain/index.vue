@@ -74,7 +74,7 @@
             v-if="scope.row.logo"
             placement="top"
             trigger="hover">
-            <img class="image" :src="scope.row.logo" alt="">
+            <el-image class="image" :src="scope.row.logo"/>
             <cs-icon slot="reference" name="image"/>
           </el-popover>
         </template>
@@ -147,7 +147,7 @@
           <el-input
             v-model="form.text"
             type="textarea"
-            :rows="2"
+            :rows="3"
             placeholder="可输入二维码内容"
             clearable/>
         </el-form-item>
@@ -180,7 +180,7 @@
       </el-form>
 
       <el-divider>效果预览</el-divider>
-      <img class="qrcode-image" v-if="qrcodeImage" :src="qrcodeImage" alt="">
+      <el-image v-if="qrcodeImage" class="qrcode-image" :src="qrcodeImage"/>
 
       <div slot="footer" class="dialog-footer">
         <el-button
@@ -212,7 +212,7 @@
           <span>效果预览</span>
         </el-col>
         <el-col :span="20">
-          <img v-if="dialogQrcodeImage" :src="dialogQrcodeImage" alt="">
+          <el-image v-if="dialogQrcodeImage" :src="dialogQrcodeImage"/>
         </el-col>
       </el-row>
 
@@ -555,10 +555,10 @@ export default {
   .image {
     max-width: 150px;
     margin: 0 auto;
-    display: block;
+    display: table;
   }
   .qrcode-image {
     margin: 0 auto;
-    display: block;
+    display: table;
   }
 </style>

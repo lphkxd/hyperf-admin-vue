@@ -3,9 +3,9 @@
     :current-page="current"
     :page-size="size"
     :total="total"
-    :page-sizes="[10, 25, 50, 100, 250, 500]"
+    :page-sizes="sizes"
     :disabled="loading"
-    layout="total, sizes, prev, pager, next, jumper"
+    :layout="sizes.includes(size) ? layout : simple"
     style="margin: -10px;"
     @size-change="handleSizeChange"
     @current-change="handleCurrentChange">
@@ -26,6 +26,13 @@ export default {
     },
     loading: {
       default: false
+    }
+  },
+  data() {
+    return {
+      sizes: [10, 25, 50, 100, 250, 500],
+      layout: 'total, sizes, prev, pager, next, jumper',
+      simple: 'total, prev, pager, next, jumper'
     }
   },
   methods: {

@@ -181,7 +181,7 @@
         :rules="rules"
         ref="form"
         label-width="85px"
-        style="margin-top: -25px;">
+        style="margin-top: -35px;">
 
         <el-row :gutter="20">
           <el-col :span="13">
@@ -512,7 +512,7 @@
                 v-model="form.style"
                 placeholder="可输入第三方样式"
                 type="textarea"
-                :rows="2"/>
+                :rows="3"/>
             </el-form-item>
           </el-col>
 
@@ -530,8 +530,7 @@
                 v-if="imageUrl"
                 class="image"
                 :src="imageUrl | getPreviewUrl"
-                @click.native="$open(`//${imageUrl}`)">
-              </el-image>
+                @click.native="$open(`//${imageUrl}`)"/>
 
               <cs-upload
                 style="display: none"
@@ -579,11 +578,10 @@
               </el-alert>
 
               <el-image
-                v-if="imageUrl"
+                v-if="imageResult['url_prefix']"
                 class="image"
                 :src="imageResult['url_prefix']"
-                @click.native="$open(imageResult['url_prefix'])">
-              </el-image>
+                @click.native="$open(imageResult['url_prefix'])"/>
 
               <div style="padding: 10px;">
                 <div class="bottom clearfix">
@@ -1088,10 +1086,10 @@ export default {
       }
 
       const data = response.data[0]
-      this.imageUrl = data.url
       this.imageInfo = `大小: ${util.bytesFormatter(data.size)} `
       this.imageInfo += `宽: ${data['pixel']['width']} PX `
       this.imageInfo += `高: ${data['pixel']['height']} PX`
+      this.imageUrl = data.url
     },
     getThumbUrl() {
       if (!this.imageUrl) {

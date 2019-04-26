@@ -102,7 +102,7 @@
         <li v-for="(item, index) in currentTableData" :key="index">
           <dl>
             <dt>
-              <div class="picture cs-m-15">
+              <div class="picture cs-m-10">
                 <el-checkbox :label="item.storage_id" class="storage-check">&nbsp;</el-checkbox>
                 <el-image @click.native="openStorage(index)" lazy :src="item | getImageThumb" fit="scale-down"/>
               </div>
@@ -176,11 +176,11 @@
             </dt>
             <dd class="cs-ml-10">
               <p>
-                <span>创建日期: {{item['create_time']}}</span>
+                <span>日期：{{item['create_time']}}</span>
               </p>
               <p>
-                <span v-if="item.type === 0">原图尺寸: {{`${item.pixel['width']},${item.pixel['height']}`}}</span>
-                <span v-else>文件类型: <cs-icon :name="item.type === 1 ? 'file-o' : 'folder-o'"/></span>
+                <span v-if="item.type === 0">尺寸：{{`${item.pixel['width']},${item.pixel['height']}`}}</span>
+                <span v-else>类型：<cs-icon :name="item.type === 1 ? 'file-o' : 'folder-o'"/></span>
               </p>
             </dd>
           </dl>
@@ -750,8 +750,7 @@ export default {
   }
   .storage-list li {
     float: left;
-    width: 204px;
-    height: 298px;
+    height: 275px;
     font-size: 13px;
     opacity: 1;
     border-style: solid;
@@ -765,7 +764,7 @@ export default {
     display: inline-block;
   }
   .storage-list li dl dt .picture {
-    border: solid 1px #FAFAFA;
+    border: none;
   }
   .storage-list li dl dt .covers .el-image,
   .storage-list li dl dt .picture .el-image {
@@ -773,8 +772,8 @@ export default {
     text-align: center;
     vertical-align: middle;
     display: table-cell;
-    width: 172px;
-    height: 172px;
+    width: 158px;
+    height: 158px;
     overflow: hidden;
     cursor: pointer;
   }
@@ -797,8 +796,8 @@ export default {
     text-overflow:ellipsis;
     white-space:nowrap;
     overflow:hidden;
-    width:170px;
-    height: 21px;
+    width:148px;
+    height: 20px;
   }
   .storage-list .more {
     width: 20px;

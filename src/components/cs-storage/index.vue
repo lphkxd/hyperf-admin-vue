@@ -3,12 +3,12 @@
     title="资源选取"
     :visible.sync="visible"
     :append-to-body="true"
-    width="692px">
+    width="769px">
 
     <!-- 搜索框开始 -->
     <el-form :model="form" style="margin-top: -25px;" size="small">
       <el-row :gutter="20">
-        <el-col :span="9">
+        <el-col :span="8">
           <el-form-item>
             <el-button-group>
               <el-button
@@ -32,7 +32,7 @@
           </el-form-item>
         </el-col>
 
-        <el-col :span="15">
+        <el-col :span="16">
           <el-form-item prop="name">
             <el-input
               v-model="form.name"
@@ -71,10 +71,10 @@
               </div>
               <el-tooltip placement="top" :enterable="false" :open-delay="600">
                 <div slot="content">
-                  <span>资源名称：{{item.name}}</span><br/>
-                  <span>创建日期：{{item.create_time}}</span><br/>
-                  <span v-if="item.type === 0">原图尺寸：{{`${item.pixel['width']},${item.pixel['height']}`}}</span>
-                  <span v-else>文件类型：<cs-icon :name="item.type === 1 ? 'file-o' : 'folder-o'"/></span>
+                  <span>名称：{{item.name}}</span><br/>
+                  <span>日期：{{item.create_time}}</span><br/>
+                  <span v-if="item.type === 0">尺寸：{{`${item.pixel['width']},${item.pixel['height']}`}}</span>
+                  <span v-else>类型：<cs-icon :name="item.type === 1 ? 'file-o' : 'folder-o'"/></span>
                 </div>
                 <span class="storage-name cs-ml-5">{{item.name}}</span>
               </el-tooltip>
@@ -137,7 +137,7 @@ export default {
       },
       page: {
         current: 1,
-        size: 100,
+        size: 48,
         total: 0
       }
     }
@@ -234,7 +234,7 @@ export default {
     background-color: $color-bg;
   }
   .storage-list li dl dt .picture {
-    border: solid 1px #fafafa;
+    border: none;
   }
   .storage-list li dl dt .covers .el-image,
   .storage-list li dl dt .picture .el-image {
@@ -267,13 +267,13 @@ export default {
     white-space:nowrap;
     overflow:hidden;
     font-size: 12px;
-    width: 82px;
+    width: 80px;
     height: 20px;
   }
   .check {
     position: absolute;
     margin: 0 0 0 2px;
-    width: 80px;
+    width: 78px;
     height: 80px;
   }
 </style>

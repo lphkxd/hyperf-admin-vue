@@ -165,8 +165,7 @@
             v-model="form.url"
             type="textarea"
             :rows="3"
-            placeholder="请输入应用安装包协议地址"
-            clearable/>
+            placeholder="请输入应用安装包协议地址"/>
         </el-form-item>
       </el-form>
 
