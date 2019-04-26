@@ -3,8 +3,7 @@
     <el-form
       :inline="true"
       size="small">
-
-      <el-form-item>
+      <el-form-item v-if="auth.add">
         <el-button-group>
           <el-button
             :disabled="loading"
@@ -18,6 +17,7 @@
       <el-form-item>
         <el-button-group>
           <el-button
+            v-if="auth.del"
             :disabled="loading"
             @click="handleDelete(null)">
             <cs-icon name="trash-o"/>
@@ -93,16 +93,19 @@
         min-width="100">
         <template slot-scope="scope">
           <el-button
-            @click="() => {}"
+            v-if="auth.view"
+            @click="handleView(scope.$index)"
             size="small"
             type="text">详细</el-button>
 
           <el-button
+            v-if="auth.set"
             @click="handleUpdate(scope.$index)"
             size="small"
             type="text">编辑</el-button>
 
           <el-button
+            v-if="auth.del"
             @click="handleDelete(scope.$index)"
             size="small"
             type="text">删除</el-button>
@@ -202,6 +205,41 @@
           size="small">修改</el-button>
       </div>
     </el-dialog>
+
+    <el-dialog
+      title="二维码预览"
+      :visible.sync="dialogQrcodeVisible"
+      :append-to-body="true"
+      width="600px">
+      <el-row :gutter="20">
+        <el-col :span="4">
+          <span>效果预览</span>
+        </el-col>
+        <el-col :span="20">
+          <img v-if="dialogQrcodeImage" :src="dialogQrcodeImage" alt="">
+        </el-col>
+      </el-row>
+
+      <el-row :gutter="20">
+        <el-col :span="4">
+          <span>调用地址</span>
+        </el-col>
+        <el-col :span="20">
+          <span>{{dialogQrcodeImage}}</span>
+        </el-col>
+      </el-row>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button
+          @click="handleCopy"
+          size="small">复制调用地址</el-button>
+
+        <el-button
+          type="primary"
+          @click="dialogQrcodeVisible = false"
+          size="small">确定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -212,6 +250,7 @@ import {
   addQrcodeItem,
   setQrcodeItem
 } from '@/api/aided/qrcode'
+import clipboard from 'clipboard-polyfill'
 import { getHelpRouter } from '@/api/index/help'
 
 export default {
@@ -233,10 +272,17 @@ export default {
       currentTableData: [],
       multipleSelection: [],
       helpContent: '',
-      auth: {},
+      auth: {
+        add: false,
+        set: false,
+        del: false,
+        view: false
+      },
       dialogLoading: false,
       dialogFormVisible: false,
       dialogStatus: '',
+      dialogQrcodeVisible: false,
+      dialogQrcodeImage: '',
       textMap: {
         update: '编辑二维码',
         create: '新增二维码'
@@ -304,8 +350,15 @@ export default {
     changeQrcode: {
       handler() {
         this.$nextTick(() => {
-          this._getQrcodeImage(null)
+          this._getQrcodeImage()
         })
+      }
+    },
+    dialogQrcodeVisible: {
+      handler(val) {
+        if (val === false) {
+          this.dialogQrcodeImage = ''
+        }
       }
     }
   },
@@ -319,6 +372,10 @@ export default {
   methods: {
     // 验证权限
     _validationAuth() {
+      this.auth.add = this.$has('/system/aided/qrcode/add')
+      this.auth.set = this.$has('/system/aided/qrcode/set')
+      this.auth.del = this.$has('/system/aided/qrcode/del')
+      this.auth.view = this.$has('/system/aided/qrcode/view')
     },
     // 获取列表中的编号
     _getIdList(val) {
@@ -338,8 +395,8 @@ export default {
       return idList
     },
     // 获取二维码预览
-    _getQrcodeImage(val) {
-      let parm = val || `?text=${this.form.text}&size=${this.form.size}&logo=${this.form.logo}`
+    _getQrcodeImage() {
+      let parm = `?text=${this.form.text}&size=${this.form.size}&logo=${this.form.logo}`
       this.qrcodeImage = this.qrcodeUrl + encodeURI(parm)
     },
     // 获取上传文件
@@ -478,6 +535,21 @@ export default {
             })
         }
       })
+    },
+    // 查看预览
+    handleView(index) {
+      this.dialogQrcodeImage = this.qrcodeUrl + `?qrcode_id=${this.currentTableData[index].qrcode_id}`
+      this.dialogQrcodeVisible = true
+    },
+    // 复制调用地址
+    handleCopy() {
+      clipboard.writeText(this.dialogQrcodeImage)
+        .then(() => {
+          this.$message.success('已复制调用地址到剪贴板')
+        })
+        .catch(err => {
+          this.$message.error(err)
+        })
     }
   }
 }

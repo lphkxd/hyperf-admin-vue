@@ -631,7 +631,12 @@ export default {
       }
 
       clipboard.writeText(link)
-      this.$message.success('已复制链接到剪贴板')
+        .then(() => {
+          this.$message.success('已复制链接到剪贴板')
+        })
+        .catch(err => {
+          this.$message.error(err)
+        })
     },
     handleRefresh(index) {
       clearStorageThumb(this.currentTableData[index].storage_id)
