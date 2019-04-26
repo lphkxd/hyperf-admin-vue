@@ -169,6 +169,7 @@
                       v-model="form.cat_type"
                       :min="-128"
                       :max="127"
+                      style="width: 120px;"
                       controls-position="right"
                       label="可输入文章分类类型"/>
                   </el-form-item>
@@ -196,6 +197,7 @@
                       v-model="form.sort"
                       :min="0"
                       :max="255"
+                      style="width: 120px;"
                       controls-position="right"
                       label="可输入文章分类排序值"/>
                   </el-form-item>

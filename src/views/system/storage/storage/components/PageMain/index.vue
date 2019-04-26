@@ -104,7 +104,7 @@
             <dt>
               <div class="picture cs-m-15">
                 <el-checkbox :label="item.storage_id" class="storage-check">&nbsp;</el-checkbox>
-                <a @click="openStorage(index)"><img :src="item | getImageThumb" alt=""></a>
+                <el-image @click.native="openStorage(index)" lazy :src="item | getImageThumb" fit="scale-down"/>
               </div>
               <span class="storage-name cs-ml-10" :title="item.name">{{item.name}}</span>
               <el-dropdown
@@ -767,9 +767,9 @@ export default {
   .storage-list li dl dt .picture {
     border: solid 1px #FAFAFA;
   }
-  .storage-list li dl dt .covers a,
-  .storage-list li dl dt .picture a {
-    background-color: #fff;
+  .storage-list li dl dt .covers .el-image,
+  .storage-list li dl dt .picture .el-image {
+    background-color: #F5F7FA;
     text-align: center;
     vertical-align: middle;
     display: table-cell;
@@ -777,13 +777,6 @@ export default {
     height: 172px;
     overflow: hidden;
     cursor: pointer;
-  }
-  .storage-list li dl dt .covers a img,
-  .storage-list li dl dt .picture a img {
-    max-width: 172px;
-    max-height: 172px;
-    vertical-align: middle;
-    border: 0;
   }
   .storage-list li:after {
     content: "";
@@ -805,7 +798,7 @@ export default {
     white-space:nowrap;
     overflow:hidden;
     width:170px;
-    height: 20px;
+    height: 21px;
   }
   .storage-list .more {
     width: 20px;

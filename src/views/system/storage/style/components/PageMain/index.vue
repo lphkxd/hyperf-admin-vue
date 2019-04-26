@@ -180,12 +180,12 @@
         :model="form"
         :rules="rules"
         ref="form"
-        label-width="130px"
+        label-width="85px"
         style="margin-top: -25px;">
 
         <el-row :gutter="20">
-          <el-col :span="14">
-            <cs-line title="基础"></cs-line>
+          <el-col :span="13">
+            <el-divider>基础</el-divider>
 
             <el-form-item
               label="名称"
@@ -221,7 +221,17 @@
               </el-select>
             </el-form-item>
 
-            <cs-line title="图片"></cs-line>
+            <el-form-item
+              label="状态"
+              prop="status">
+              <el-switch
+                v-model="form.status"
+                active-value="1"
+                inactive-value="0">
+              </el-switch>
+            </el-form-item>
+
+            <el-divider>图片</el-divider>
 
             <template v-if="!form.style">
               <el-form-item
@@ -247,7 +257,7 @@
                 <el-tabs v-model="scaleTab">
                   <el-tab-pane label="Pc" name="Pc">
                     <el-row :gutter="5">
-                      <el-col :span="4">
+                      <el-col :span="5">
                         <span>
                           缩略
                           <el-tooltip :content="scaleHelp.help" placement="top">
@@ -256,7 +266,7 @@
                         </span>
                       </el-col>
 
-                      <el-col :span="20">
+                      <el-col :span="19">
                         <div v-if="form.resize === 'proportion'">
                           <el-slider
                             v-model="slider.pc"
@@ -294,7 +304,7 @@
                     </el-row>
 
                     <el-row :gutter="5">
-                      <el-col :span="4">
+                      <el-col :span="5">
                         <span>
                           裁剪
                           <el-tooltip :content="scaleHelp.help" placement="top">
@@ -303,7 +313,7 @@
                         </span>
                       </el-col>
 
-                      <el-col :span="20">
+                      <el-col :span="19">
                         <el-row :gutter="5">
                           <el-col :span="12">
                             <span>宽 </span>
@@ -331,7 +341,7 @@
                     </el-row>
 
                     <el-row :gutter="5">
-                      <el-col :span="4">
+                      <el-col :span="5">
                         <span>
                           顺序
                           <el-tooltip :content="scaleHelp.order" placement="top">
@@ -340,7 +350,7 @@
                         </span>
                       </el-col>
 
-                      <el-col :span="20">
+                      <el-col :span="19">
                         <el-radio-group v-model="scale.pc.order">
                           <el-radio :label="true">先缩后裁</el-radio>
                           <el-radio :label="false">先裁后缩</el-radio>
@@ -351,7 +361,7 @@
 
                   <el-tab-pane label="Mobile" name="Mobile">
                     <el-row :gutter="5">
-                      <el-col :span="4">
+                      <el-col :span="5">
                         <span>
                           缩略
                           <el-tooltip :content="scaleHelp.help" placement="top">
@@ -360,7 +370,7 @@
                         </span>
                       </el-col>
 
-                      <el-col :span="20">
+                      <el-col :span="19">
                         <div v-if="form.resize === 'proportion'">
                           <el-slider
                             v-model="slider.mobile"
@@ -398,7 +408,7 @@
                     </el-row>
 
                     <el-row :gutter="5">
-                      <el-col :span="4">
+                      <el-col :span="5">
                         <span>
                           裁剪
                           <el-tooltip :content="scaleHelp.help" placement="top">
@@ -407,7 +417,7 @@
                         </span>
                       </el-col>
 
-                      <el-col :span="20">
+                      <el-col :span="19">
                         <el-row :gutter="5">
                           <el-col :span="12">
                             <span>宽 </span>
@@ -435,7 +445,7 @@
                     </el-row>
 
                     <el-row :gutter="5">
-                      <el-col :span="4">
+                      <el-col :span="5">
                         <span>
                           顺序
                           <el-tooltip :content="scaleHelp.order" placement="top">
@@ -444,7 +454,7 @@
                         </span>
                       </el-col>
 
-                      <el-col :span="20">
+                      <el-col :span="19">
                         <el-radio-group v-model="scale.mobile.order">
                           <el-radio :label="true">先缩后裁</el-radio>
                           <el-radio :label="false">先裁后缩</el-radio>
@@ -493,7 +503,7 @@
               </el-form-item>
             </template>
 
-            <cs-line title="高级"></cs-line>
+            <el-divider>高级</el-divider>
 
             <el-form-item
               label="第三方样式"
@@ -504,21 +514,10 @@
                 type="textarea"
                 :rows="2"/>
             </el-form-item>
-
-            <cs-line title="设置"></cs-line>
-
-            <el-form-item
-              label="状态"
-              prop="status">
-              <el-switch
-                v-model="form.status"
-                active-value="1"
-                inactive-value="0">
-              </el-switch>
-            </el-form-item>
           </el-col>
 
-          <el-col :span="10">
+          <el-col :span="11">
+            <el-divider>效果预览</el-divider>
             <el-card :body-style="{padding: '0px'}" shadow="never">
               <el-alert
                 title="原始图片"
@@ -527,12 +526,12 @@
                 center>
               </el-alert>
 
-              <a
+              <el-image
                 v-if="imageUrl"
-                :href="`//${imageUrl}`"
-                target="_blank">
-                <img :src="imageUrl | getPreviewUrl" class="image" title="点击查看原图" alt="">
-              </a>
+                class="image"
+                :src="imageUrl | getPreviewUrl"
+                @click.native="$open(`//${imageUrl}`)">
+              </el-image>
 
               <cs-upload
                 style="display: none"
@@ -573,18 +572,18 @@
               shadow="never"
               style="margin-top: 20px;">
               <el-alert
-                :title="`效果预览 ${form.style || !form.resize ? '' : scaleTab}`"
+                :title="`实际结果 ${form.style || !form.resize ? '' : scaleTab}`"
                 :closable="false"
                 style="border-radius: 0"
                 center>
               </el-alert>
 
-              <a
+              <el-image
                 v-if="imageUrl"
-                :href="imageResult['url_prefix']"
-                target="_blank">
-                <img :src="imageResult['url_prefix']" class="image" title="点击查看原图" id="image" alt="">
-              </a>
+                class="image"
+                :src="imageResult['url_prefix']"
+                @click.native="$open(imageResult['url_prefix'])">
+              </el-image>
 
               <div style="padding: 10px;">
                 <div class="bottom clearfix">
@@ -683,7 +682,7 @@ export default {
   },
   filters: {
     getPreviewUrl(val) {
-      const style = '&size[]=300'
+      const style = '&size[]=350'
       return util.getImageStyleUrl(val, style)
     }
   },
@@ -1219,7 +1218,7 @@ export default {
 
 <style scoped>
   .proportion {
-    padding: 0 12px;
+    padding: 0 8px;
   }
   .size-input {
     width: 82%;
@@ -1227,7 +1226,8 @@ export default {
   .image {
     max-width: 100%;
     margin: 0 auto;
-    display: block;
+    display: table;
+    cursor: pointer;
   }
   .image-info {
     font-size: 13px;

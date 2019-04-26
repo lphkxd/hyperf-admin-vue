@@ -67,7 +67,7 @@
             <dt>
               <div class="picture cs-m-5">
                 <el-checkbox v-if="item.type !== 2" :label="item.storage_id" class="check">&nbsp;</el-checkbox>
-                <a @click="handleOpen(index)"><img :src="item | getImageThumb" alt=""></a>
+                <el-image @click.native="handleOpen(index)" lazy :src="item | getImageThumb" fit="scale-down"/>
               </div>
               <el-tooltip placement="top" :enterable="false" :open-delay="600">
                 <div slot="content">
@@ -236,9 +236,9 @@ export default {
   .storage-list li dl dt .picture {
     border: solid 1px #fafafa;
   }
-  .storage-list li dl dt .covers a,
-  .storage-list li dl dt .picture a {
-    background-color: #fff;
+  .storage-list li dl dt .covers .el-image,
+  .storage-list li dl dt .picture .el-image {
+    background-color: #F5F7FA;
     text-align: center;
     vertical-align: middle;
     display: table-cell;
@@ -246,13 +246,6 @@ export default {
     height: 80px;
     overflow: hidden;
     cursor: pointer;
-  }
-  .storage-list li dl dt .covers a img,
-  .storage-list li dl dt .picture a img {
-    max-width: 80px;
-    max-height: 80px;
-    vertical-align: middle;
-    border: 0;
   }
   .storage-list li:after {
     content: "";

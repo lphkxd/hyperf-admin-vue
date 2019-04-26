@@ -104,13 +104,12 @@
             v-if="scope.row.image.length"
             placement="right"
             trigger="hover">
-            <a
+            <el-image
               v-for="(item, index) in scope.row.image"
               :key="index"
-              :href="item.url"
-              target="_blank">
-              <img class="image" :src="item.source | getPreviewUrl" alt="">
-            </a>
+              :src="item.source | getPreviewUrl"
+              class="image"
+              @click.native="$open(item.url)"/>
             <cs-icon slot="reference" name="image"/>
           </el-popover>
           {{scope.row.title}}
@@ -531,6 +530,7 @@ export default {
   .image {
     max-width: 100%;
     margin: 0 auto;
-    display: block;
+    display: table;
+    cursor: pointer;
   }
 </style>

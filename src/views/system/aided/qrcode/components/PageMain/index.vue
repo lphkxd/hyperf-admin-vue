@@ -177,14 +177,10 @@
             label="可输入二维码图片尺寸"
             style="width: 120px;"/>
         </el-form-item>
-
-        <cs-line></cs-line>
-
-        <el-form-item
-          label="效果预览">
-          <img v-if="qrcodeImage" :src="qrcodeImage" alt="">
-        </el-form-item>
       </el-form>
+
+      <el-divider>效果预览</el-divider>
+      <img class="qrcode-image" v-if="qrcodeImage" :src="qrcodeImage" alt="">
 
       <div slot="footer" class="dialog-footer">
         <el-button
@@ -558,6 +554,10 @@ export default {
 <style scoped>
   .image {
     max-width: 150px;
+    margin: 0 auto;
+    display: block;
+  }
+  .qrcode-image {
     margin: 0 auto;
     display: block;
   }

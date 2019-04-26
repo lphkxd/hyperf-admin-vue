@@ -3,9 +3,10 @@
     :visible.sync="dialogVisible"
     :append-to-body="true"
     @close="close">
-    <a v-if="dialogImageUrl" :href="dialogImageUrl" target="_blank">
-      <img class="image" :src="dialogImageUrl" alt="">
-    </a>
+    <el-image
+      class="image"
+      @click.native="$open(dialogImageUrl)"
+      :src="dialogImageUrl"/>
   </el-dialog>
 </template>
 
@@ -37,6 +38,7 @@ export default {
   .image {
     max-width: 100%;
     margin: 0 auto;
-    display: block;
+    display: table;
+    cursor: pointer;
   }
 </style>

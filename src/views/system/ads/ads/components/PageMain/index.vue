@@ -353,6 +353,7 @@
                 v-model="form.sort"
                 :min="0"
                 :max="255"
+                style="width: 120px;"
                 controls-position="right"
                 label="可输入广告排序值"/>
             </el-form-item>
