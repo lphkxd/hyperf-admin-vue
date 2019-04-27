@@ -92,12 +92,15 @@
         <template slot-scope="scope">
           <el-popover
             v-if="scope.row.logo.length"
+            width="150"
             placement="top"
             trigger="hover">
-            <el-image
-              class="image"
-              :src="scope.row.logo[0].source | getPreviewUrl"
-              @click.native="$open(scope.row.logo[0].url)"/>
+            <div style="text-align: center;">
+              <el-image
+                class="image"
+                :src="scope.row.logo[0].source | getPreviewUrl"
+                @click.native="$open(scope.row.logo[0].url)"/>
+            </div>
             <cs-icon slot="reference" name="image"/>
           </el-popover>
         </template>
@@ -623,9 +626,7 @@ export default {
 
 <style scoped>
   .image {
-    max-width: 100%;
-    margin: 0 auto;
-    display: table;
+    vertical-align: middle;
     cursor: pointer;
   }
 </style>

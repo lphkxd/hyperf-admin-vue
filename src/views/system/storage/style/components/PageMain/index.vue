@@ -526,11 +526,13 @@
                 center>
               </el-alert>
 
-              <el-image
-                v-if="imageUrl"
-                class="image"
-                :src="imageUrl | getPreviewUrl"
-                @click.native="$open(`//${imageUrl}`)"/>
+              <div style="text-align: center;">
+                <el-image
+                  v-if="imageUrl"
+                  class="image"
+                  :src="imageUrl | getPreviewUrl"
+                  @click.native="$open(`//${imageUrl}`)"/>
+              </div>
 
               <cs-upload
                 style="display: none"
@@ -577,11 +579,13 @@
                 center>
               </el-alert>
 
-              <el-image
-                v-if="imageResult['url_prefix']"
-                class="image"
-                :src="imageResult['url_prefix']"
-                @click.native="$open(imageResult['url_prefix'])"/>
+              <div style="text-align: center;">
+                <el-image
+                  v-if="imageResult['url_prefix']"
+                  class="image"
+                  :src="imageResult['url_prefix']"
+                  @click.native="$open(imageResult['url_prefix'])"/>
+              </div>
 
               <div style="padding: 10px;">
                 <div class="bottom clearfix">
@@ -1222,9 +1226,7 @@ export default {
     width: 82%;
   }
   .image {
-    max-width: 100%;
-    margin: 0 auto;
-    display: table;
+    vertical-align: middle;
     cursor: pointer;
   }
   .image-info {

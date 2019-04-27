@@ -72,9 +72,12 @@
         <template slot-scope="scope">
           <el-popover
             v-if="scope.row.logo"
+            width="150"
             placement="top"
             trigger="hover">
-            <el-image class="image" :src="scope.row.logo"/>
+            <div style="text-align: center;">
+              <el-image class="image" :src="scope.row.logo" @click.native="$open(scope.row.logo)"/>
+            </div>
             <cs-icon slot="reference" name="image"/>
           </el-popover>
         </template>
@@ -148,7 +151,7 @@
             v-model="form.text"
             type="textarea"
             :rows="3"
-            placeholder="可输入二维码内容"
+            placeholder="请输入二维码内容"
             clearable/>
         </el-form-item>
 
@@ -180,7 +183,9 @@
       </el-form>
 
       <el-divider>效果预览</el-divider>
-      <el-image v-if="qrcodeImage" class="qrcode-image" :src="qrcodeImage"/>
+      <div v-if="form.text" style="text-align: center;">
+        <el-image v-if="qrcodeImage" :src="qrcodeImage"/>
+      </div>
 
       <div slot="footer" class="dialog-footer">
         <el-button
@@ -209,19 +214,37 @@
       width="600px">
       <el-row :gutter="20">
         <el-col :span="4">
-          <span>效果预览</span>
+          <p>效果预览</p>
         </el-col>
         <el-col :span="20">
-          <el-image v-if="dialogQrcodeImage" :src="dialogQrcodeImage"/>
+          <el-image v-if="qrcodeData.url" :src="qrcodeData.url"/>
         </el-col>
       </el-row>
 
       <el-row :gutter="20">
         <el-col :span="4">
-          <span>调用地址</span>
+          <p>名称</p>
         </el-col>
         <el-col :span="20">
-          <span>{{dialogQrcodeImage}}</span>
+          <p>{{qrcodeData.name}}</p>
+        </el-col>
+      </el-row>
+
+      <el-row :gutter="20">
+        <el-col :span="4">
+          <p>实际内容</p>
+        </el-col>
+        <el-col :span="20">
+          <p>{{qrcodeData.text}}</p>
+        </el-col>
+      </el-row>
+
+      <el-row :gutter="20">
+        <el-col :span="4">
+          <p>调用地址</p>
+        </el-col>
+        <el-col :span="20">
+          <p>{{qrcodeData.url}}</p>
         </el-col>
       </el-row>
 
@@ -278,7 +301,11 @@ export default {
       dialogFormVisible: false,
       dialogStatus: '',
       dialogQrcodeVisible: false,
-      dialogQrcodeImage: '',
+      qrcodeData: {
+        name: '',
+        text: '',
+        url: ''
+      },
       textMap: {
         update: '编辑二维码',
         create: '新增二维码'
@@ -303,6 +330,11 @@ export default {
           }
         ],
         text: [
+          {
+            required: true,
+            message: '内容不能为空',
+            trigger: 'blur'
+          },
           {
             max: 255,
             message: '内容不能大于 255 个字符',
@@ -353,7 +385,7 @@ export default {
     dialogQrcodeVisible: {
       handler(val) {
         if (val === false) {
-          this.dialogQrcodeImage = ''
+          this.qrcodeData.url = ''
         }
       }
     }
@@ -534,12 +566,18 @@ export default {
     },
     // 查看预览
     handleView(index) {
-      this.dialogQrcodeImage = this.qrcodeUrl + `?qrcode_id=${this.currentTableData[index].qrcode_id}`
+      const data = this.currentTableData[index]
+      this.qrcodeData = {
+        name: data.name,
+        text: data.text,
+        url: this.qrcodeUrl + `?qrcode_id=${data.qrcode_id}`
+      }
+
       this.dialogQrcodeVisible = true
     },
     // 复制调用地址
     handleCopy() {
-      clipboard.writeText(this.dialogQrcodeImage)
+      clipboard.writeText(this.qrcodeData.url)
         .then(() => {
           this.$message.success('已复制调用地址到剪贴板')
         })
@@ -553,12 +591,7 @@ export default {
 
 <style scoped>
   .image {
-    max-width: 150px;
-    margin: 0 auto;
-    display: table;
-  }
-  .qrcode-image {
-    margin: 0 auto;
-    display: table;
+    vertical-align: middle;
+    cursor: pointer;
   }
 </style>
