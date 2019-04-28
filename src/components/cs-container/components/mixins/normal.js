@@ -57,10 +57,13 @@ export default {
         const body = this.$refs.body
         const currentScroll = body.scrollTop
         if (currentScroll > 0) {
-          window.requestAnimationFrame(smoothscroll)
-          body.scrollTo(0, currentScroll - (currentScroll / 5))
+          if (typeof body.scrollTo === 'function') {
+            window.requestAnimationFrame(smoothscroll)
+            body.scrollTo(0, currentScroll - (currentScroll / 5))
+          }
         }
       }
+
       smoothscroll()
     }
   }

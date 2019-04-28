@@ -104,7 +104,11 @@
             <dt>
               <div class="picture cs-m-10">
                 <el-checkbox :label="item.storage_id" class="storage-check">&nbsp;</el-checkbox>
-                <el-image @click.native="openStorage(index)" lazy :src="item | getImageThumb" fit="scale-down"/>
+                <el-image
+                  id="view-image"
+                  :lazy="true"
+                  :src="item | getImageThumb"
+                  @click.native="openStorage(index)"/>
               </div>
               <span class="storage-name cs-ml-10" :title="item.name">{{item.name}}</span>
               <el-dropdown
@@ -797,7 +801,7 @@ export default {
     white-space:nowrap;
     overflow:hidden;
     width:148px;
-    height: 20px;
+    height: 21px;
   }
   .storage-list .more {
     width: 20px;
@@ -815,5 +819,14 @@ export default {
     margin: 3px 0 0 3px;
     width: 30px;
     height: 30px;
+  }
+</style>
+
+<style>
+  #view-image .el-image__inner {
+    width: auto;
+    height: auto;
+    max-width: 158px;
+    max-height: 158px;
   }
 </style>

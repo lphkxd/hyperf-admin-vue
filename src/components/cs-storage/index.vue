@@ -67,7 +67,11 @@
             <dt>
               <div class="picture cs-m-5">
                 <el-checkbox v-if="item.type !== 2" :label="item.storage_id" class="check">&nbsp;</el-checkbox>
-                <el-image @click.native="handleOpen(index)" lazy :src="item | getImageThumb" fit="scale-down"/>
+                <el-image
+                  id="component-image"
+                  :lazy="true"
+                  :src="item | getImageThumb"
+                  @click.native="handleOpen(index)"/>
               </div>
               <el-tooltip placement="top" :enterable="false" :open-delay="600">
                 <div slot="content">
@@ -275,5 +279,14 @@ export default {
     margin: 0 0 0 2px;
     width: 78px;
     height: 80px;
+  }
+</style>
+
+<style>
+  #component-image .el-image__inner {
+    width: auto;
+    height: auto;
+    max-width: 80px;
+    max-height: 80px;
   }
 </style>

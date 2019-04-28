@@ -7,6 +7,17 @@
     <div class="cs-layout-header-aside-mask"></div>
     <!-- 主体内容 -->
     <div class="cs-layout-header-aside-content" flex="dir:top">
+      <div>
+        <el-alert
+          v-if="isExperience"
+          title="为了实现较好的用户体验，建议您使用 Chrome 或 Firefox 游览器。"
+          style="border-radius: 0;"
+          type="warning"
+          effect="dark"
+          center
+          show-icon>
+        </el-alert>
+      </div>
       <!-- 顶栏 -->
       <div
         class="cs-theme-header"
@@ -115,7 +126,9 @@ export default {
       // [侧边栏宽度] 正常状态
       asideWidth: '200px',
       // [侧边栏宽度] 折叠状态
-      asideWidthCollapse: '65px'
+      asideWidthCollapse: '65px',
+      // 操作体验提醒
+      isExperience: false
     }
   },
   computed: {
@@ -123,7 +136,8 @@ export default {
       keepAlive: state => state.page.keepAlive,
       grayActive: state => state.gray.active,
       transitionActive: state => state.transition.active,
-      asideCollapse: state => state.menu.asideCollapse
+      asideCollapse: state => state.menu.asideCollapse,
+      uaData: state => state.ua.data
     }),
     ...mapGetters('careyshop', {
       themeActiveSetting: 'theme/activeSetting'
@@ -137,6 +151,12 @@ export default {
           backgroundImage: `url('${this.$publicPath}${this.themeActiveSetting.backgroundImage}')`
         } : {}
       }
+    }
+  },
+  created() {
+    const { engine } = this.uaData
+    if (engine.name && engine.name.toLowerCase() === 'trident') {
+      this.isExperience = true
     }
   },
   methods: {
