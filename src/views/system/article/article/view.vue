@@ -87,45 +87,42 @@ export default {
   .clearfix:after {
     clear: both
   }
-</style>
-
-<style scoped>
   .mce-content-body {
     max-width: 980px;
     margin-left: auto!important;
     margin-right: auto!important;
   }
-  .mce-content-body>>>html, body {
+  .mce-content-body /deep/ html, body {
     font-family: inherit;
     font-size: 14px;
     line-height: inherit;
   }
-  .mce-content-body>>>img {
+  .mce-content-body /deep/ img {
     max-width: 100%;
     display: block;
     height: auto;
   }
-  .mce-content-body>>>a {
+  .mce-content-body /deep/ a {
     text-decoration: none;
   }
-  .mce-content-body>>>iframe {
+  .mce-content-body /deep/ iframe {
     width: 100%;
   }
-  .mce-content-body>>>p {
+  .mce-content-body /deep/ p {
     line-height: 1.6;
   }
-  .mce-content-body>>>table {
+  .mce-content-body /deep/ table {
     word-wrap: break-word;
     word-break: break-all;
     max-width: 100%;
     border: none #999;
   }
-  .mce-content-body>>>.mce-object-iframe{
+  .mce-content-body /deep/ .mce-object-iframe{
     width: 100%;
     box-sizing: border-box;
     padding: 0;
   }
-  .mce-content-body>>>ul, ol{
+  .mce-content-body /deep/ ul, ol{
     list-style-position: inside;
   }
 </style>

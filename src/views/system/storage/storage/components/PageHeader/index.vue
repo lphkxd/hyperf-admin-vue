@@ -112,10 +112,10 @@ export default {
   .more-filter {
     margin-bottom: -18px;
   }
-  .more-filter>>>label {
+  .more-filter >>> label {
     width: 68px;
   }
-  .more-filter>>>input {
+  .more-filter >>> input {
     width: 160px;
   }
 </style>

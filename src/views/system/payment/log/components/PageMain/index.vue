@@ -197,7 +197,7 @@ export default {
   .table-expand {
     font-size: 0;
   }
-  .table-expand>>>label {
+  .table-expand >>> label {
     width: 90px;
     color: #99a9bf;
   }
