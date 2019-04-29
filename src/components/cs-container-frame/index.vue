@@ -11,17 +11,17 @@ export default {
     src: {
       type: String,
       required: false,
-      default: 'https://www.careyshop.cn/'
+      default: 'http://www.careyshop.cn/'
     }
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
   .cs-container-frame {
     position: absolute;
-    top: 0px;
-    left: 0px;
+    top: 0;
+    left: 0;
     height: 100%;
     width: 100%;
   }
