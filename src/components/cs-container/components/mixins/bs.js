@@ -11,8 +11,7 @@ export default {
   },
   data() {
     return {
-      BS: null,
-      csScroll: {}
+      BS: null
     }
   },
   mounted() {
@@ -36,10 +35,10 @@ export default {
 
       // 滚动时发出事件 并且统一返回的数据格式
       this.BS.on('scroll', ({ x, y }) => {
-        this.csScroll = {
+        this.$emit('scroll', {
           x: -x,
           y: -y
-        }
+        })
       })
     },
     scrollDestroy() {
@@ -51,18 +50,18 @@ export default {
       }
     },
     // 外部调用的方法 返回顶部
-    setScrollToTop() {
+    backToTop() {
       if (this.BS) {
-        this.BS.scrollTo(0, 0)
+        this.BS.scrollTo(this.BS.x, 0)
       }
     },
     // 手动触发滚动事件
     setScroll() {
       if (this.BS) {
-        this.csScroll = {
+        this.$emit('scroll', {
           x: -this.BS.x,
           y: -this.BS.y
-        }
+        })
       }
     }
   }
