@@ -15,7 +15,18 @@
 </template>
 
 <script>
+import normal from './mixins/normal'
+
 export default {
-  name: 'cs-container-card'
+  name: 'cs-container-card',
+  mixins: [normal],
+  mounted() {
+    // 增加滚动事件监听
+    this.addScrollListener()
+  },
+  beforeDestroy() {
+    // 移除滚动事件监听
+    this.removeScrollListener()
+  }
 }
 </script>

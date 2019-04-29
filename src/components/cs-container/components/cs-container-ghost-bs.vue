@@ -14,10 +14,9 @@
 
 <script>
 import bs from './mixins/bs'
+
 export default {
   name: 'cs-container-card-bs',
-  mixins: [
-    bs
-  ]
+  mixins: [bs]
 }
 </script>

@@ -13,7 +13,18 @@
 </template>
 
 <script>
+import normal from './mixins/normal'
+
 export default {
-  name: 'cs-container-ghost'
+  name: 'cs-container-ghost',
+  mixins: [normal],
+  mounted() {
+    // 增加滚动事件监听
+    this.addScrollListener()
+  },
+  beforeDestroy() {
+    // 移除滚动事件监听
+    this.removeScrollListener()
+  }
 }
 </script>
