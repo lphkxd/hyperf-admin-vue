@@ -1,9 +1,5 @@
 <template>
-  <cs-container
-    :scrollTop="scrollTop"
-    parentPath="system-article-article"
-    @scroll="(move) => {this.scrollTop = move.y}">
-
+  <cs-container>
     <page-edit
       state="update"
       :loading="loading"
@@ -11,7 +7,6 @@
       :catData="catData"
       :formData="formData">
     </page-edit>
-
   </cs-container>
 </template>
 
@@ -33,7 +28,6 @@ export default {
   },
   data() {
     return {
-      scrollTop: 0,
       // 加载状态
       loading: true,
       // 分类源数据

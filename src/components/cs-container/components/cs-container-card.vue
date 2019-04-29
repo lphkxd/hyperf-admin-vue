@@ -15,17 +15,7 @@
 </template>
 
 <script>
-import scroll from './mixins/normal'
 export default {
-  name: 'cs-container-card',
-  mixins: [scroll],
-  mounted() {
-    // 增加滚动事件监听
-    this.addScrollListener()
-  },
-  beforeDestroy() {
-    // 移除滚动事件监听
-    this.removeScrollListener()
-  }
+  name: 'cs-container-card'
 }
 </script>

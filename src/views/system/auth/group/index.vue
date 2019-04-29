@@ -1,7 +1,5 @@
 <template>
-  <cs-container
-    :scrollTop="scrollTop"
-    @scroll="(move) => {this.scrollTop = move.y}">
+  <cs-container>
     <page-header
       slot="header"
       :loading="loading"
@@ -26,7 +24,6 @@ export default {
   data() {
     return {
       table: [],
-      scrollTop: 0,
       loading: true,
       order: {
         order_type: undefined,

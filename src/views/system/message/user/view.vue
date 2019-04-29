@@ -1,10 +1,5 @@
 <template>
-  <cs-container
-    :model="message_id"
-    parentPath="system-message-user"
-    :scrollTop="scrollTop"
-    @scroll="(move) => {this.scrollTop = move.y}">
-
+  <cs-container>
     <div class="cs-p">
       <el-card
         class="box-card"
@@ -34,7 +29,6 @@ export default {
   data() {
     return {
       message: {},
-      scrollTop: 0,
       loading: true
     }
   },

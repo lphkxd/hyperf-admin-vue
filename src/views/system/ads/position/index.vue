@@ -1,7 +1,5 @@
 <template>
-  <cs-container
-    :scrollTop="scrollTop"
-    @scroll="(move) => {this.scrollTop = move.y}">
+  <cs-container>
     <page-header
       slot="header"
       :platform-table="platformTable"
@@ -42,7 +40,6 @@ export default {
     return {
       table: [],
       platformTable: [],
-      scrollTop: 0,
       loading: true,
       page: {
         current: 1,

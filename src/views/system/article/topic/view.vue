@@ -1,10 +1,5 @@
 <template>
-  <cs-container
-    :model="topic_id"
-    parentPath="system-article-topic"
-    :scrollTop="scrollTop"
-    @scroll="(move) => {this.scrollTop = move.y}">
-
+  <cs-container>
     <div class="cs-p">
       <el-card
         class="box-card"
@@ -34,7 +29,6 @@ export default {
   data() {
     return {
       topic: {},
-      scrollTop: 0,
       loading: true
     }
   },
