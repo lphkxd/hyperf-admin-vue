@@ -61,7 +61,7 @@
     <el-tabs
       v-model="tabPane"
       v-loading="loading"
-      class="tab-box cs-p">
+      class="tab-box">
       <el-tab-pane
         v-for="(item, index) in typeData"
         :key="index"
@@ -377,6 +377,7 @@ export default {
     }
   }
   .tab-box {
+    padding: 5px 20px 10px 20px;
     background-color: #FFF;
   }
 </style>
