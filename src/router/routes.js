@@ -1,12 +1,14 @@
 import index from './modules/index'
 import system from './modules/system'
+import setting from './modules/setting'
 
 /**
  * 在主框架内显示
  */
 const frameIn = [
   index,
-  system
+  system,
+  setting
 ]
 
 /**
