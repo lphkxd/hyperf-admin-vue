@@ -377,7 +377,7 @@ export default {
     }
   }
   .tab-box {
-    padding: 5px 20px 10px 20px;
+    padding: 5px;
     background-color: #FFF;
   }
 </style>

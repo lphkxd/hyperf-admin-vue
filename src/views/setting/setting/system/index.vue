@@ -1,13 +1,47 @@
 <template>
   <cs-container :is-back-to-top="true">
-    <el-card class="box-card cs-m" shadow="never">
-      <el-tabs v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane label="用户管理" name="first">用户管理</el-tab-pane>
-        <el-tab-pane label="配置管理" name="second">配置管理</el-tab-pane>
-        <el-tab-pane label="角色管理" name="third">角色管理</el-tab-pane>
-        <el-tab-pane label="定时任务补偿" name="fourth">定时任务补偿</el-tab-pane>
+    <div class="cs-p">
+      <el-tabs
+        class="tab-box"
+        v-model="activeName"
+        @tab-click="handleClick">
+        <el-tab-pane
+          label="系统配置"
+          name="system_info">
+          系统配置
+        </el-tab-pane>
+
+        <el-tab-pane
+          label="购物系统"
+          name="system_shopping">
+          购物系统
+        </el-tab-pane>
+
+        <el-tab-pane
+          label="售后服务"
+          name="service">
+          售后服务
+        </el-tab-pane>
+
+        <el-tab-pane
+          label="支付页面"
+          name="payment">
+          支付页面
+        </el-tab-pane>
+
+        <el-tab-pane
+          label="配送轨迹"
+          name="delivery_dist">
+          配送轨迹
+        </el-tab-pane>
+
+        <el-tab-pane
+          label="上传配置"
+          name="upload">
+          上传配置
+        </el-tab-pane>
       </el-tabs>
-    </el-card>
+    </div>
   </cs-container>
 </template>
 
@@ -16,20 +50,19 @@ export default {
   name: 'setting-setting-system',
   data() {
     return {
-      activeName: 'second'
+      activeName: 'system_info'
     }
   },
   methods: {
-    handleClick(tab, event) {
-      console.log(tab, event)
+    handleClick() {
     }
   }
 }
 </script>
 
 <style scoped>
-  .box-card {
-    border-radius: 0;
-    border: 1px solid #DCDFE6;
+  .tab-box {
+    padding: 5px;
+    background-color: #FFF;
   }
 </style>
