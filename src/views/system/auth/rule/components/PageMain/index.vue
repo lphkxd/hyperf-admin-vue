@@ -734,5 +734,6 @@ export default {
   }
   .box-card {
     border-radius: 0;
+    border: 1px solid $color-border-1;
   }
 </style>

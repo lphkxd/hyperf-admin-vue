@@ -61,8 +61,7 @@
     <el-tabs
       v-model="tabPane"
       v-loading="loading"
-      type="border-card"
-      style="box-shadow: 0 0;">
+      class="tab-box cs-p">
       <el-tab-pane
         v-for="(item, index) in typeData"
         :key="index"
@@ -119,7 +118,6 @@
             width="200">
           </el-table-column>
         </el-table>
-
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -377,5 +375,8 @@ export default {
     &.read {
       color: $color-text-placehoder;
     }
+  }
+  .tab-box {
+    background-color: #FFF;
   }
 </style>

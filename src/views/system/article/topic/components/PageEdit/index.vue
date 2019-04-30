@@ -267,5 +267,6 @@ export default {
   }
   .box-card {
     border-radius: 0;
+    border: 1px solid #DCDFE6;
   }
 </style>
