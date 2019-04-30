@@ -1,5 +1,5 @@
 <template>
-  <cs-container>
+  <cs-container :is-back-to-top="true" parent-path="system-article-topic">
     <page-edit
       state="create"
       :loading="loading">

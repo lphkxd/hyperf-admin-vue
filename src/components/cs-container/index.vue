@@ -81,56 +81,7 @@ export default {
   activated() {
     // 恢复滚动位置
     if (!this.betterScroll) {
-      this.scrollTo(this.csScroll.x, this.csScroll.y)
-    }
-  },
-  methods: {
-    // 返回顶部
-    scrollToTop() {
-      this.$refs.component.backToTop()
-      // 如果开启了 better scroll 还需要手动触发一遍 scroll 事件
-      if (this.$refs.component.BS) {
-        this.$refs.component.setScroll()
-      }
-    },
-    // 用法同原生方法 scrollBy
-    scrollBy(x = 0, y = 0) {
-      if (this.betterScroll) {
-        const bs = this.$refs.component.BS
-        if (bs) {
-          bs.scrollBy(-x, -y)
-          // 手动触发一遍 scroll 事件
-          this.$refs.component.setScroll()
-        }
-      } else {
-        this.$refs.component.$refs.body.scrollBy(x, y)
-      }
-    },
-    // 用法同原生方法 scrollTo
-    scrollTo(x = 0, y = 0) {
-      if (this.betterScroll) {
-        const bs = this.$refs.component.BS
-        if (bs) {
-          bs.scrollTo(-x, -y)
-          // 手动触发一遍 scroll 事件
-          this.$refs.component.setScroll()
-        }
-      } else {
-        this.$refs.component.$refs.body.scrollTo(x, y)
-      }
-    },
-    // 用法同原生方法 scrollTop
-    scrollTop(top = 0) {
-      if (this.betterScroll) {
-        const bs = this.$refs.component.BS
-        if (bs) {
-          bs.scrollTo(bs.x, -top)
-          // 手动触发一遍 scroll 事件
-          this.$refs.component.setScroll()
-        }
-      } else {
-        this.$refs.component.$refs.body.scrollTop = top
-      }
+      this.$refs.component.scrollTo(this.csScroll.x, this.csScroll.y)
     }
   }
 }

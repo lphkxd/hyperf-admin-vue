@@ -5,8 +5,18 @@
       content="返回顶部"
       placement="top"
       :open-delay="1000">
-      <div class="cs-floating top" @click="$parent.scrollToTop()">
+      <div class="cs-floating top" @click="$parent.$refs.component.backToTop()">
         <cs-icon name="angle-double-up"/>
+      </div>
+    </el-tooltip>
+
+    <el-tooltip
+      v-if="parentPath"
+      content="返回上级"
+      placement="top"
+      :open-delay="1000">
+      <div class="cs-floating parent" @click="$router.push({name: parentPath})">
+        <cs-icon name="angle-double-left"/>
       </div>
     </el-tooltip>
   </div>
@@ -23,11 +33,6 @@ export default {
     parentPath: {
       type: String,
       default: null
-    }
-  },
-  methods: {
-    test() {
-      // console.log(this.$parent.$refs.component.backToTop())
     }
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <cs-container>
+  <cs-container :is-back-to-top="true">
     <page-header
       slot="header"
       :loading="loading"

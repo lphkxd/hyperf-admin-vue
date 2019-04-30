@@ -49,19 +49,26 @@ export default {
         this.BS = null
       }
     },
-    // 外部调用的方法 返回顶部
-    backToTop() {
-      if (this.BS) {
-        this.BS.scrollTo(this.BS.x, 0)
-      }
-    },
-    // 手动触发滚动事件
+    // 向父组件提交当前数据
     setScroll() {
       if (this.BS) {
         this.$emit('scroll', {
           x: -this.BS.x,
           y: -this.BS.y
         })
+      }
+    },
+    // scrollTo
+    scrollTo(x = 0, y = 0) {
+      if (this.BS) {
+        this.BS.scrollTo(-x, -y, 300)
+        this.setScroll()
+      }
+    },
+    // 返回顶部
+    backToTop() {
+      if (this.BS) {
+        this.scrollTo(this.BS.x)
       }
     }
   }
