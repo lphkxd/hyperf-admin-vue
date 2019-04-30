@@ -21,7 +21,7 @@
         <el-col :span="10">
           <div class="login-code">
             <span class="login-code-img" @click="refreshCode" v-if="code.type === 'text'">{{code.value}}</span>
-            <img :src="code.src" class="login-code-img" @click="refreshCode" v-else/>
+            <img v-else :src="code.src" class="login-code-img" @click="refreshCode" alt=""/>
           </div>
         </el-col>
       </el-row>

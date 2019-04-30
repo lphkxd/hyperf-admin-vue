@@ -22,8 +22,8 @@ const router = new VueRouter({
  */
 router.beforeEach((to, from, next) => {
   NProgress.start()
-  const token = util.cookies.get('token')
 
+  const token = util.cookies.get('token')
   if (token) {
     store.commit('careyshop/search/set', false)
   }
