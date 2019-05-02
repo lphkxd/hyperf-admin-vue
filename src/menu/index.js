@@ -1,10 +1,10 @@
 import util from '@/utils/util'
 
 // 菜单 顶栏
-export const menuHeader = []
+// export const menuHeader = []
 
 // 菜单 侧边栏
-export const menuAside = []
+// export const menuAside = []
 
 /**
  * 将数据源处理为菜单树

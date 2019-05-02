@@ -5,6 +5,7 @@
       :unique-opened="true"
       :collapse-transition="false"
       :default-active="active"
+      :default-openeds="openeds"
       ref="menu"
       @select="handleMenuSelect">
       <template v-for="(menu, menuIndex) in menuAside">
@@ -20,7 +21,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
+import { mapState } from 'vuex'
 import menuMixin from '../mixin/menu'
 import csLayoutMainMenuItem from '../components/menu-item'
 import csLayoutMainMenuSub from '../components/menu-sub'
@@ -40,6 +41,8 @@ export default {
       active: '',
       asideHeight: 300,
       menuAside: [],
+      openeds: [],
+      matched: null,
       BS: null
     }
   },
@@ -57,16 +60,25 @@ export default {
         this.scrollInit()
       }, 500)
     },
-    // 监听路由 控制侧边栏激活状态
-    '$route.matched': {
-      handler(val) {
-        const _side = this.aside.filter(menu => menu.path === val[0].path)
-        this.menuAside = _side.length === 1 ? _side[0].children : []
+    // 监听路由 改变侧边菜单栏
+    '$route': {
+      handler({ matched, fullPath }) {
+        // 路由父级发生变化时菜单数据将发生改变
+        if (matched.length > 0 && matched[0].path !== this.matched) {
+          const _side = this.aside.find(menu => menu.path === matched[0].path)
+          this.menuAside = _side.children || []
+          this.matched = matched[0].path
+        }
 
-        this.active = val[val.length - 1].path
+        // 切换菜单时调整被激活菜单
+        const path = fullPath.slice(0, fullPath.lastIndexOf('/'))
+        const openeds = this.menuAside.findIndex(menu => menu.path === path)
+        this.openeds = openeds !== -1 ? [path] : []
+
+        this.active = fullPath
         this.$nextTick(() => {
           if (this.aside.length > 0 && this.$refs.menu) {
-            this.$refs.menu.activeIndex = this.active
+            this.$refs.menu.activeIndex = fullPath
           }
         })
       },
@@ -80,9 +92,6 @@ export default {
     this.scrollDestroy()
   },
   methods: {
-    ...mapMutations('careyshop/menu', [
-      'asideSet'
-    ]),
     scrollInit() {
       this.BS = new BScroll(this.$el, {
         mouseWheel: true,

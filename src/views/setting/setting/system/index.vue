@@ -62,7 +62,7 @@ export default {
 
 <style scoped>
   .tab-box {
-    padding: 5px;
+    padding: 5px 10px;
     background-color: #FFF;
   }
 </style>
