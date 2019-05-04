@@ -4,16 +4,16 @@
       <el-tabs
         class="tab-box"
         v-model="activeName"
-        @tab-click="handleClick">
+        v-loading="loading">
         <el-tab-pane
           label="系统配置"
-          name="system_info">
-          系统配置
+          name="systemInfo">
+          <system-info ref="systemInfo"></system-info>
         </el-tab-pane>
 
         <el-tab-pane
           label="购物系统"
-          name="system_shopping">
+          name="systemShopping">
           购物系统
         </el-tab-pane>
 
@@ -31,7 +31,7 @@
 
         <el-tab-pane
           label="配送轨迹"
-          name="delivery_dist">
+          name="deliveryDist">
           配送轨迹
         </el-tab-pane>
 
@@ -46,15 +46,39 @@
 </template>
 
 <script>
+import systemInfo from './components/system-info'
+
 export default {
   name: 'setting-setting-system',
+  components: {
+    'system-info': systemInfo
+  },
   data() {
     return {
-      activeName: 'system_info'
+      loading: false,
+      activeName: 'systemInfo'
     }
   },
+  watch: {
+    activeName: {
+      handler() {
+        this.systemInit()
+      }
+    }
+  },
+  mounted() {
+    this.systemInit()
+  },
   methods: {
-    handleClick() {
+    systemInit() {
+      this.loading = true
+      this.$refs[this.activeName].getFormData()
+        .then(res => {
+          this.$refs[this.activeName].setFormData(res.data)
+        })
+        .finally(() => {
+          this.loading = false
+        })
     }
   }
 }
