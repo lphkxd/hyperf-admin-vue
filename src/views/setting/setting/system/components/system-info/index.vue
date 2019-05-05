@@ -263,19 +263,6 @@
         :rows="8"/>
     </el-form-item>
 
-    <el-form-item
-      :label="form.withdraw_fee.description"
-      prop="withdraw_fee">
-      <el-input-number
-        v-model="form.withdraw_fee.value"
-        controls-position="right"
-        style="width: 120px;"
-        :precision="2"
-        :step="0.1"
-        :min="0"
-        :max="100"/>
-    </el-form-item>
-
     <el-form-item size="small">
       <el-button
         type="primary"
