@@ -207,14 +207,55 @@
         clearable/>
     </el-form-item>
 
-    <el-form-item
-      :label="form.platform.description"
-      prop="platform">
-    </el-form-item>
+    <el-divider>定义平台</el-divider>
 
     <el-form-item
-      :label="form.allow_origin.description"
-      prop="allow_origin">
+      v-for="(platform, index) in platforms"
+      :label="`${form.platform.description}${index}`"
+      :key="`platform_${index}`">
+
+      <el-input
+        class="dynamic-platform-key"
+        v-model="platforms[index].key"
+        placeholder="序列值"
+        clearable/>
+
+      <el-input
+        class="dynamic-platform-value"
+        v-model="platforms[index].value"
+        placeholder="平台名称"
+        clearable/>
+
+      <el-button
+        v-if="platforms.length > 1"
+        type="text"
+        @click.prevent="removePlatform(platform)">删除</el-button>
+    </el-form-item>
+
+    <el-form-item size="small">
+      <el-button @click="() => {}">新增平台</el-button>
+    </el-form-item>
+
+    <el-divider>跨域访问</el-divider>
+
+    <el-form-item
+      v-for="(domain, index) in domains"
+      :label="`${form.allow_origin.description}${index}`"
+      :key="`domain_${index}`">
+      <el-input
+        class="dynamic-domain"
+        v-model="domains[index]"
+        placeholder="域名地址(* 表示全部域名)"
+        clearable/>
+
+      <el-button
+        v-if="domains.length > 1"
+        type="text"
+        @click.prevent="domains.splice(index, 1)">删除</el-button>
+    </el-form-item>
+
+    <el-form-item size="small">
+      <el-button @click="domains.push('')">新增域名</el-button>
     </el-form-item>
 
     <el-divider>其他设置</el-divider>
@@ -284,7 +325,9 @@ export default {
     return {
       loading: false,
       form: null,
-      rules: {}
+      rules: {},
+      domains: [],
+      platforms: []
     }
   },
   filters: {
@@ -315,13 +358,31 @@ export default {
     // 设置配置数据
     setFormData(val) {
       this.form = val
+      this.platforms = []
+      this.domains = [...this.form.allow_origin.value]
+
+      this.form.platform.value.forEach((value, index) => {
+        this.platforms.push({
+          'key': index,
+          'value': value
+        })
+      })
+
+      if (!this.domains.length) {
+        this.domains = ['']
+      }
+
+      if (!this.platforms.length) {
+        this.platforms = [{ 'key': 0, 'value': '' }]
+      }
     },
     // 确定修改
     handleFormSubmit() {
       this.$refs.form.validate(valid => {
         if (valid) {
-          this.loading = true
+          // this.loading = true
           console.log(this.form)
+          console.log(this.domains)
         }
       })
     }
@@ -335,5 +396,17 @@ export default {
   }
   .popover-image >>> img {
     vertical-align: middle;
+  }
+  .dynamic-domain {
+    margin-right: 10px;
+    width: 320px;
+  }
+  .dynamic-platform-key {
+    margin-right: 10px;
+    width: 120px;
+  }
+  .dynamic-platform-value {
+    margin-right: 10px;
+    width: 200px;
   }
 </style>
