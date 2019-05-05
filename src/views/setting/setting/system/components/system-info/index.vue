@@ -60,10 +60,21 @@
         v-model="form.logo.value"
         :placeholder="form.logo.description"
         clearable>
+        <template slot="prepend" v-if="form.logo.value">
+          <el-popover
+            width="150"
+            placement="top"
+            trigger="hover">
+            <div class="popover-image">
+              <el-image :src="form.logo.value | getPreviewUrl"/>
+            </div>
+            <cs-icon slot="reference" name="image"/>
+          </el-popover>
+        </template>
         <el-button
           slot="append"
-          @click="$refs.upload.handleUploadDlg()"
-          icon="el-icon-upload"></el-button>
+          @click="$refs.upload.handleUploadDlg('logo')"
+          icon="el-icon-upload"/>
       </el-input>
     </el-form-item>
 
@@ -94,10 +105,21 @@
         v-model="form.miitbeian_ico.value"
         :placeholder="form.miitbeian_ico.description"
         clearable>
+        <template slot="prepend" v-if="form.miitbeian_ico.value">
+          <el-popover
+            width="150"
+            placement="top"
+            trigger="hover">
+            <div class="popover-image">
+              <el-image :src="form.miitbeian_ico.value | getPreviewUrl"/>
+            </div>
+            <cs-icon slot="reference" name="image"/>
+          </el-popover>
+        </template>
         <el-button
           slot="append"
-          @click="$refs.upload.handleUploadDlg()"
-          icon="el-icon-upload"></el-button>
+          @click="$refs.upload.handleUploadDlg('miitbeian_ico')"
+          icon="el-icon-upload"/>
       </el-input>
     </el-form-item>
 
@@ -126,10 +148,21 @@
         v-model="form.beian_ico.value"
         :placeholder="form.beian_ico.description"
         clearable>
+        <template slot="prepend" v-if="form.beian_ico.value">
+          <el-popover
+            width="150"
+            placement="top"
+            trigger="hover">
+            <div class="popover-image">
+              <el-image :src="form.beian_ico.value | getPreviewUrl"/>
+            </div>
+            <cs-icon slot="reference" name="image"/>
+          </el-popover>
+        </template>
         <el-button
           slot="append"
-          @click="$refs.upload.handleUploadDlg()"
-          icon="el-icon-upload"></el-button>
+          @click="$refs.upload.handleUploadDlg('beian_ico')"
+          icon="el-icon-upload"/>
       </el-input>
     </el-form-item>
 
@@ -174,19 +207,17 @@
         clearable/>
     </el-form-item>
 
-    <el-divider>其他设置</el-divider>
+    <el-form-item
+      :label="form.platform.description"
+      prop="platform">
+    </el-form-item>
 
     <el-form-item
-      :label="form.withdraw_fee.description"
-      prop="withdraw_fee">
-      <el-input-number
-        v-model="form.withdraw_fee.value"
-        controls-position="right"
-        :precision="2"
-        :step="0.1"
-        :min="0"
-        :max="100"/>
+      :label="form.allow_origin.description"
+      prop="allow_origin">
     </el-form-item>
+
+    <el-divider>其他设置</el-divider>
 
     <el-form-item
       :label="form.weixin_url.description"
@@ -204,9 +235,20 @@
         v-model="form.qrcode_logo.value"
         :placeholder="form.qrcode_logo.description"
         clearable>
+        <template slot="prepend" v-if="form.qrcode_logo.value">
+          <el-popover
+            width="150"
+            placement="top"
+            trigger="hover">
+            <div class="popover-image">
+              <el-image :src="form.qrcode_logo.value | getPreviewUrl"/>
+            </div>
+            <cs-icon slot="reference" name="image"/>
+          </el-popover>
+        </template>
         <el-button
           slot="append"
-          @click="$refs.upload.handleUploadDlg()"
+          @click="$refs.upload.handleUploadDlg('qrcode_logo')"
           icon="el-icon-upload"></el-button>
       </el-input>
     </el-form-item>
@@ -221,16 +263,31 @@
         :rows="8"/>
     </el-form-item>
 
+    <el-form-item
+      :label="form.withdraw_fee.description"
+      prop="withdraw_fee">
+      <el-input-number
+        v-model="form.withdraw_fee.value"
+        controls-position="right"
+        style="width: 120px;"
+        :precision="2"
+        :step="0.1"
+        :min="0"
+        :max="100"/>
+    </el-form-item>
+
     <el-form-item size="small">
-      <el-button type="primary" :loading="loading" @click="() => {}">保存</el-button>
-      <el-button @click="() => {}">重置</el-button>
+      <el-button
+        type="primary"
+        :loading="loading"
+        @click="handleFormSubmit">保存</el-button>
     </el-form-item>
   </el-form>
 </template>
 
 <script>
 import util from '@/utils/util'
-import { getSettingList } from '@/api/config/setting'
+import { getSettingList, setSystemList } from '@/api/config/setting'
 
 export default {
   components: {
@@ -245,20 +302,24 @@ export default {
   },
   filters: {
     getPreviewUrl(val) {
-      return util.getImageCodeUrl(val, 'link_image')
+      return util.getImageCodeUrl(val)
     }
   },
   methods: {
     // 获取上传文件
-    _getUploadFileList(files) {
+    _getUploadFileList(files, source) {
       const response = files[0].response
       if (!response || response.status !== 200) {
         return
       }
 
-      this.form.logo.value = document.location.protocol
-      this.form.logo.value += '//'
-      this.form.logo.value += response.data[0].url
+      this.form[source].value = ''
+      if (source === 'qrcode_logo') {
+        this.form[source].value += document.location.protocol
+        this.form[source].value += '//'
+      }
+
+      this.form[source].value += response.data[0].url
     },
     // 获取配置信息
     getFormData() {
@@ -267,7 +328,25 @@ export default {
     // 设置配置数据
     setFormData(val) {
       this.form = val
+    },
+    // 确定修改
+    handleFormSubmit() {
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          this.loading = true
+          console.log(this.form)
+        }
+      })
     }
   }
 }
 </script>
+
+<style scoped>
+  .popover-image {
+    text-align: center;
+  }
+  .popover-image >>> img {
+    vertical-align: middle;
+  }
+</style>

@@ -167,7 +167,7 @@ util.getSign = function(params) {
  * @param code
  * @returns {string}
  */
-util.getImageCodeUrl = function(url, code) {
+util.getImageCodeUrl = function(url, code = '') {
   let data = process.env.VUE_APP_BASE_API
   data += '/v1/storage/method/get.storage.thumb/code/' + code
   data += '?url=' + encodeURI(url)

@@ -37,7 +37,7 @@ export function getSettingList(module, code = '') {
 }
 
 /**
- * 获取某个模块的设置
+ * 设置配送轨迹
  * @param {Object} data
  */
 export function setDeliveryDistList(data) {

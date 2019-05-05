@@ -25,7 +25,8 @@ export default {
   },
   data() {
     return {
-      fileList: []
+      fileList: [],
+      source: ''
     }
   },
   computed: {
@@ -80,7 +81,7 @@ export default {
             },
             'confirm': () => {
               if (this.type === 'slot') {
-                this.$emit('confirm', this.fileList)
+                this.$emit('confirm', this.fileList, this.source)
                 this.fileList = []
               }
             }
@@ -110,9 +111,10 @@ export default {
 
       return data
     },
-    handleUploadDlg() {
+    handleUploadDlg(source = '') {
       if (this.type === 'slot') {
         this.$refs.upload.visible = true
+        this.source = source
       }
     },
     setReplaceId(val) {

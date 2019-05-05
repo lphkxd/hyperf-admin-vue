@@ -1,7 +1,7 @@
 <template>
   <el-dialog :visible.sync="dialogVisible" :append-to-body="true" @close="close">
-    <div style="text-align: center;">
-      <el-image class="image" :src="dialogImageUrl" @click.native="$open(dialogImageUrl)"/>
+    <div class="image">
+      <el-image :src="dialogImageUrl" @click.native="$open(dialogImageUrl)"/>
     </div>
   </el-dialog>
 </template>
@@ -32,6 +32,9 @@ export default {
 
 <style scoped>
   .image {
+    text-align: center;
+  }
+  .image >>> img {
     vertical-align: middle;
     cursor: pointer;
   }

@@ -526,10 +526,9 @@
                 center>
               </el-alert>
 
-              <div style="text-align: center;">
+              <div class="image">
                 <el-image
                   v-if="imageUrl"
-                  class="image"
                   :src="imageUrl | getPreviewUrl"
                   @click.native="$open(`//${imageUrl}`)"/>
               </div>
@@ -579,10 +578,9 @@
                 center>
               </el-alert>
 
-              <div style="text-align: center;">
+              <div class="image">
                 <el-image
                   v-if="imageResult['url_prefix']"
-                  class="image"
                   :src="imageResult['url_prefix']"
                   @click.native="$open(imageResult['url_prefix'])"/>
               </div>
@@ -1226,6 +1224,9 @@ export default {
     width: 82%;
   }
   .image {
+    text-align: center;
+  }
+  .image >>> img {
     vertical-align: middle;
     cursor: pointer;
   }

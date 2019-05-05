@@ -75,8 +75,8 @@
             width="150"
             placement="top"
             trigger="hover">
-            <div style="text-align: center;">
-              <el-image class="image" :src="scope.row.logo" @click.native="$open(scope.row.logo)"/>
+            <div class="popover-image">
+              <el-image :src="scope.row.logo" @click.native="$open(scope.row.logo)"/>
             </div>
             <cs-icon slot="reference" name="image"/>
           </el-popover>
@@ -590,7 +590,10 @@ export default {
 </script>
 
 <style scoped>
-  .image {
+  .popover-image {
+    text-align: center;
+  }
+  .popover-image >>> img {
     vertical-align: middle;
     cursor: pointer;
   }
