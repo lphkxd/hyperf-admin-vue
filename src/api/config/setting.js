@@ -13,7 +13,9 @@ function getRequest(data, method) {
     params: {
       method: method
     },
-    data
+    data: {
+      data
+    }
   })
 }
 

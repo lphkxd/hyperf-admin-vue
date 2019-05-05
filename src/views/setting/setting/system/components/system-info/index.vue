@@ -1,9 +1,7 @@
 <template>
   <el-form
     v-if="form"
-    ref="form"
     :model="form"
-    :rules="rules"
     label-width="auto">
     <cs-upload
       style="display: none"
@@ -228,34 +226,36 @@
 
       <el-button
         v-if="platforms.length > 1"
+        size="small"
         type="text"
-        @click.prevent="removePlatform(platform)">删除</el-button>
+        @click.prevent="platforms.splice(index, 1)">删除</el-button>
     </el-form-item>
 
     <el-form-item size="small">
-      <el-button @click="() => {}">新增平台</el-button>
+      <el-button @click="platforms.push({'key': null, 'value': ''})">新增平台</el-button>
     </el-form-item>
 
     <el-divider>跨域访问</el-divider>
 
     <el-form-item
-      v-for="(domain, index) in domains"
+      v-for="(domain, index) in form.allow_origin.value"
       :label="`${form.allow_origin.description}${index}`"
       :key="`domain_${index}`">
       <el-input
         class="dynamic-domain"
-        v-model="domains[index]"
+        v-model="form.allow_origin.value[index]"
         placeholder="域名地址(* 表示全部域名)"
         clearable/>
 
       <el-button
-        v-if="domains.length > 1"
+        v-if="form.allow_origin.value.length > 1"
+        size="small"
         type="text"
-        @click.prevent="domains.splice(index, 1)">删除</el-button>
+        @click.prevent="form.allow_origin.value.splice(index, 1)">删除</el-button>
     </el-form-item>
 
     <el-form-item size="small">
-      <el-button @click="domains.push('')">新增域名</el-button>
+      <el-button @click="form.allow_origin.value.push('')">新增域名</el-button>
     </el-form-item>
 
     <el-divider>其他设置</el-divider>
@@ -325,8 +325,6 @@ export default {
     return {
       loading: false,
       form: null,
-      rules: {},
-      domains: [],
       platforms: []
     }
   },
@@ -359,32 +357,48 @@ export default {
     setFormData(val) {
       this.form = val
       this.platforms = []
-      this.domains = [...this.form.allow_origin.value]
 
-      this.form.platform.value.forEach((value, index) => {
-        this.platforms.push({
-          'key': index,
-          'value': value
-        })
-      })
+      for (const key in this.form.platform.value) {
+        if (this.form.platform.value.hasOwnProperty(key)) {
+          this.platforms.push({
+            'key': key,
+            'value': this.form.platform.value[key]
+          })
+        }
+      }
 
-      if (!this.domains.length) {
-        this.domains = ['']
+      if (!this.form.allow_origin.value.length) {
+        this.form.allow_origin.value = ['']
       }
 
       if (!this.platforms.length) {
-        this.platforms = [{ 'key': 0, 'value': '' }]
+        this.platforms = [{ 'key': null, 'value': '' }]
       }
     },
     // 确定修改
     handleFormSubmit() {
-      this.$refs.form.validate(valid => {
-        if (valid) {
-          // this.loading = true
-          console.log(this.form)
-          console.log(this.domains)
+      let data = {}
+      for (const index in this.form) {
+        if (this.form.hasOwnProperty(index)) {
+          data[index] = this.form[index].value
         }
-      })
+      }
+
+      let platform = {}
+      for (const item of this.platforms) {
+        platform[item.key] = item.value
+      }
+
+      data['platform'] = JSON.stringify(platform)
+      this.loading = true
+
+      setSystemList(data)
+        .then(() => {
+          this.$message.success('操作成功')
+        })
+        .finally(() => {
+          this.loading = false
+        })
     }
   }
 }
@@ -407,6 +421,6 @@ export default {
   }
   .dynamic-platform-value {
     margin-right: 10px;
-    width: 200px;
+    width: 190px;
   }
 </style>
