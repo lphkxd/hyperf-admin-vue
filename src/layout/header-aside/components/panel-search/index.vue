@@ -168,6 +168,9 @@ export default {
      */
     handleEsc() {
       this.closeSuggestion()
+      this.searchText = ''
+      this.results = []
+
       this.$nextTick(() => {
         this.$emit('close')
       })
