@@ -27,7 +27,7 @@
       v-if="resultsList.length > 0"
       class="panel-search__results-group"
       flex-box="1">
-      <el-card>
+      <el-card style="border-radius: 0;">
         <div class="panel-search__results-group-inner">
           <cs-panel-search-item
             v-for="(item, index) in resultsList"
