@@ -1,7 +1,7 @@
 <template>
   <div class="panel-search" flex="dir:top">
     <div class="panel-search__input-group" flex-box="0" flex="dir:top main:center cross:center" @click.self="handlePanelClick">
-      <img :src="`${$publicPath}image/theme/${themeActiveSetting.name}/logo/all.png`" class="panel-search__logo">
+      <img :src="`${$publicPath}image/theme/${themeActiveSetting.name}/logo/all.png`" class="panel-search__logo" alt="">
       <el-autocomplete
         class="panel-search__input"
         ref="input"
@@ -195,7 +195,7 @@ export default {
         color: $color-text-placehoder;
         .panel-search__key {
           padding: 1px 5px;
-          margin: 0px 2px;
+          margin: 0 2px;
           border-radius: 2px;
           background-color: $color-text-normal;
           color: $color-bg;

@@ -2,6 +2,11 @@ import { frameInRoutes } from '@/router/routes'
 
 export default {
   methods: {
+    /**
+     * 触发选中的菜单
+     * @param index     选中菜单项的 index
+     * @param indexPath 选中菜单项的 index path
+     */
     handleMenuSelect(index, indexPath) {
       if (!index || /^cs-menu-empty-\d+$/.test(index)) {
         this.$message.warning('临时菜单')
@@ -11,6 +16,11 @@ export default {
         this.getRouterAuthPath(index, indexPath)
       }
     },
+    /**
+     * 触发菜单点击后进行权限过滤
+     * @param index     选中菜单项的 index
+     * @param indexPath 选中菜单项的 index path
+     */
     getRouterAuthPath(index, indexPath) {
       // 子级路由直接访问
       if (indexPath.length > 1 || index === '/index') {
