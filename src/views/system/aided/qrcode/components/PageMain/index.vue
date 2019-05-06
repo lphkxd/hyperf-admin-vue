@@ -177,7 +177,6 @@
             controls-position="right"
             :min="1"
             :max="10"
-            label="可输入二维码图片尺寸"
             style="width: 120px;"/>
         </el-form-item>
       </el-form>

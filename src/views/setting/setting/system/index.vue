@@ -7,38 +7,38 @@
         v-loading="loading">
         <el-tab-pane
           label="系统配置"
-          name="systemInfo">
-          <system-info ref="systemInfo"></system-info>
+          name="system_info">
+          <system-info ref="system_info"/>
         </el-tab-pane>
 
         <el-tab-pane
           label="购物系统"
-          name="systemShopping">
-          购物系统
+          name="system_shopping">
+          <system-shopping ref="system_shopping"/>
         </el-tab-pane>
 
         <el-tab-pane
           label="售后服务"
           name="service">
-          售后服务
+          <service ref="service"/>
         </el-tab-pane>
 
         <el-tab-pane
           label="支付页面"
           name="payment">
-          支付页面
+          <payment ref="payment"/>
         </el-tab-pane>
 
         <el-tab-pane
           label="配送轨迹"
-          name="deliveryDist">
-          配送轨迹
+          name="delivery_dist">
+          <delivery-dist ref="delivery_dist"/>
         </el-tab-pane>
 
         <el-tab-pane
           label="上传配置"
           name="upload">
-          上传配置
+          <upload ref="upload"/>
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -46,17 +46,28 @@
 </template>
 
 <script>
+import { getSettingList } from '@/api/config/setting'
 import systemInfo from './components/system-info'
+import systemShopping from './components/system-shopping'
+import service from './components/service'
+import payment from './components/payment'
+import deliveryDist from './components/delivery-dist'
+import upload from './components/upload'
 
 export default {
   name: 'setting-setting-system',
   components: {
-    'system-info': systemInfo
+    'system-info': systemInfo,
+    'system-shopping': systemShopping,
+    'service': service,
+    'payment': payment,
+    'delivery-dist': deliveryDist,
+    'upload': upload
   },
   data() {
     return {
       loading: false,
-      activeName: 'systemInfo'
+      activeName: 'system_info'
     }
   },
   watch: {
@@ -72,7 +83,7 @@ export default {
   methods: {
     systemInit() {
       this.loading = true
-      this.$refs[this.activeName].getFormData()
+      getSettingList(this.activeName)
         .then(res => {
           this.$refs[this.activeName].setFormData(res.data)
         })

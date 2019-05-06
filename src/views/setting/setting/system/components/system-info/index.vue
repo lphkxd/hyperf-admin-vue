@@ -315,7 +315,7 @@
 
 <script>
 import util from '@/utils/util'
-import { getSettingList, setSystemList } from '@/api/config/setting'
+import { setSystemList } from '@/api/config/setting'
 
 export default {
   components: {
@@ -348,10 +348,6 @@ export default {
       }
 
       this.form[source].value += response.data[0].url
-    },
-    // 获取配置信息
-    getFormData() {
-      return getSettingList('system_info')
     },
     // 设置配置数据
     setFormData(val) {
@@ -389,8 +385,8 @@ export default {
         platform[item.key] = item.value
       }
 
-      data['platform'] = JSON.stringify(platform)
       this.loading = true
+      data['platform'] = JSON.stringify(platform)
 
       setSystemList(data)
         .then(() => {

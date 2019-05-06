@@ -179,7 +179,6 @@
             controls-position="right"
             :min="0"
             :max="255"
-            label="可输入排序值"
             style="width: 120px;"/>
         </el-form-item>
 

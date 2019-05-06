@@ -22,7 +22,6 @@
         v-model="form.level"
         controls-position="right"
         :min="0"
-        label="可输入文章分类深度值"
         style="width: 100px;"/>
     </el-form-item>
 
