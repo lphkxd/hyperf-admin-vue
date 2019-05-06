@@ -5,14 +5,12 @@
       :inline="true"
       size="small">
       <el-form-item v-if="auth.add">
-        <el-button-group>
-          <el-button
-            :disabled="loading"
-            @click="handleCreate('create')">
-            <cs-icon name="plus"/>
-            新增权限
-          </el-button>
-        </el-button-group>
+        <el-button
+          :disabled="loading"
+          @click="handleCreate('create')">
+          <cs-icon name="plus"/>
+          新增权限
+        </el-button>
       </el-form-item>
 
       <el-form-item v-if="auth.enable || auth.disable">

@@ -4,24 +4,13 @@
       :inline="true"
       size="small">
 
-      <el-form-item v-if="auth.add || auth.status">
-        <el-button-group>
-          <el-button
-            v-if="auth.add"
-            :disabled="loading"
-            @click="handleCreate">
-            <cs-icon name="plus"/>
-            新增消息
-          </el-button>
-
-          <el-button
-            v-if="auth.status"
-            :disabled="loading"
-            @click="handleSubmit(null)">
-            <cs-icon name="send-o"/>
-            正式发布
-          </el-button>
-        </el-button-group>
+      <el-form-item v-if="auth.add">
+        <el-button
+          :disabled="loading"
+          @click="handleCreate">
+          <cs-icon name="plus"/>
+          新增消息
+        </el-button>
       </el-form-item>
 
       <el-form-item>
