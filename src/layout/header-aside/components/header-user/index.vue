@@ -1,7 +1,7 @@
 <template>
   <el-dropdown class="cs-mr">
     <span class="btn-text">
-      <el-badge :hidden="totalResult <= 0" :value="totalResult" :max="99">
+      <el-badge :hidden="!unreadMessage" :value="unreadMessage" :max="99">
         {{info.name ? `您好 ${info.name}` : '未登录'}}
       </el-badge>
     </span>
@@ -20,7 +20,7 @@
       </el-dropdown-item>
       <el-dropdown-item v-if="auth.unread" @click.native="handleMessage">
         <cs-icon name="bell-o" class="cs-mr-10"/>未读消息
-        <el-badge :hidden="totalResult <= 0" :value="totalResult" :max="99"/>
+        <el-badge :hidden="!unreadMessage" :value="unreadMessage" :max="99"/>
       </el-dropdown-item>
       <el-dropdown-item divided @click.native="logOff">
         <cs-icon name="sign-out" class="cs-mr-10"/>退出账号
@@ -92,7 +92,6 @@ export default {
   data() {
     return {
       timer: null,
-      totalResult: 0,
       dialogVisible: false,
       dialogLoading: false,
       form: {
@@ -147,7 +146,8 @@ export default {
   },
   computed: {
     ...mapState('careyshop/user', [
-      'info'
+      'info',
+      'unreadMessage'
     ])
   },
   mounted() {
@@ -177,7 +177,7 @@ export default {
 
       getMessageUserUnread(null)
         .then(res => {
-          if (res.data['total'] > this.totalResult) {
+          if (res.data['total'] > this.unreadMessage) {
             this.$notify.info({
               title: '消息提示',
               message: '您有新的消息，请注意查收。',
@@ -185,7 +185,7 @@ export default {
             })
           }
 
-          this.totalResult = res.data['total']
+          this.$store.commit('careyshop/user/setMessage', res.data['total'])
         })
     },
     /**
@@ -261,10 +261,10 @@ export default {
      * 打开未读消息
      */
     handleMessage() {
-      if (this.totalResult <= 0) {
-        this.$message.warning('消息已全部读取，没有剩余未读消息')
-        return
-      }
+      // if (!this.unreadMessage) {
+      //   this.$message.warning('消息已全部读取，没有剩余未读消息')
+      //   return
+      // }
 
       this.$router.push({
         name: 'system-message-user'

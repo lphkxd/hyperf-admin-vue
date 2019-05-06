@@ -47,6 +47,13 @@ export default {
       }
     }
   },
+  watch: {
+    'unread.total': {
+      handler(val) {
+        this.$store.commit('careyshop/user/setMessage', val)
+      }
+    }
+  },
   mounted() {
     getMessageType()
       .then(res => {

@@ -2,7 +2,9 @@ export default {
   namespaced: true,
   state: {
     // 用户信息
-    info: {}
+    info: {},
+    // 未读消息数
+    unreadMessage: 0
   },
   actions: {
     /**
@@ -45,6 +47,16 @@ export default {
         // end
         resolve()
       })
+    }
+  },
+  mutations: {
+    /**
+     * @description 设置未读消息数
+     * @param {Object} state vuex state
+     * @param {Number} count data
+     */
+    setMessage(state, count) {
+      state.unreadMessage = count
     }
   }
 }
