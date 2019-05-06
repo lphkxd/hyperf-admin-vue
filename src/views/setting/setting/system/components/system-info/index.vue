@@ -244,7 +244,7 @@
       <el-input
         class="dynamic-domain"
         v-model="form.allow_origin.value[index]"
-        placeholder="域名地址(* 表示全部域名)"
+        placeholder="域名地址( * 表示全部域名)"
         clearable/>
 
       <el-button
