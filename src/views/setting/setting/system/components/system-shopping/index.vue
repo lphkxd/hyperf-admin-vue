@@ -2,7 +2,7 @@
   <el-form
     v-if="form"
     :model="form"
-    label-width="auto">
+    label-width="200px">
     <el-form-item
       :label="form.integral.description"
       prop="integral">
@@ -11,6 +11,7 @@
         :placeholder="form.integral.description"
         controls-position="right"
         :min="0"/>
+      <div class="help-block" v-html="form.integral.help_text"></div>
     </el-form-item>
 
     <el-form-item
@@ -24,6 +25,7 @@
         :step="0.1"
         :min="0"
         :max="100"/>
+      <div class="help-block" v-html="form.withdraw_fee.help_text"></div>
     </el-form-item>
 
     <el-form-item
@@ -37,6 +39,7 @@
         :step="0.1"
         :min="0"
         :max="100"/>
+      <div class="help-block" v-html="form.invoice.help_text"></div>
     </el-form-item>
 
     <el-form-item
@@ -47,6 +50,7 @@
         :placeholder="form.timeout.description"
         controls-position="right"
         :min="0"/>
+      <div class="help-block" v-html="form.timeout.help_text"></div>
     </el-form-item>
 
     <el-form-item
@@ -57,6 +61,7 @@
         :placeholder="form.complete.description"
         controls-position="right"
         :min="0"/>
+      <div class="help-block" v-html="form.complete.help_text"></div>
     </el-form-item>
 
     <el-form-item
@@ -67,6 +72,7 @@
         :placeholder="form.spacer.description"
         style="width: 180px;"
         clearable/>
+      <div class="help-block" v-html="form.spacer.help_text"></div>
     </el-form-item>
 
     <el-form-item
@@ -77,6 +83,7 @@
         :active-value="1"
         :inactive-value="0">
       </el-switch>
+      <div class="help-block" v-html="form.is_country.help_text"></div>
     </el-form-item>
 
     <el-form-item size="small">

@@ -2,7 +2,7 @@
   <el-form
     v-if="form"
     :model="form"
-    label-width="auto">
+    label-width="200px">
     <el-form-item
       :label="form.address.description"
       prop="address">
@@ -10,6 +10,7 @@
         v-model="form.address.value"
         :placeholder="form.address.description"
         clearable/>
+      <div class="help-block" v-html="form.address.help_text"></div>
     </el-form-item>
 
     <el-form-item
@@ -19,6 +20,7 @@
         v-model="form.consignee.value"
         :placeholder="form.consignee.description"
         clearable/>
+      <div class="help-block" v-html="form.consignee.help_text"></div>
     </el-form-item>
 
     <el-form-item
@@ -28,6 +30,7 @@
         v-model="form.zipcode.value"
         :placeholder="form.zipcode.description"
         clearable/>
+      <div class="help-block" v-html="form.zipcode.help_text"></div>
     </el-form-item>
 
     <el-form-item
@@ -37,6 +40,7 @@
         v-model="form.mobile.value"
         :placeholder="form.mobile.description"
         clearable/>
+      <div class="help-block" v-html="form.mobile.help_text"></div>
     </el-form-item>
 
     <el-form-item
@@ -47,6 +51,7 @@
         :placeholder="form.days.description"
         controls-position="right"
         :min="0"/>
+      <div class="help-block" v-html="form.days.help_text"></div>
     </el-form-item>
 
     <el-form-item size="small">

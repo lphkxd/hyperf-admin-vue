@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="max-width: 60%">
     <el-tag
       v-for="(item, index) in currentValue"
       :key="index"

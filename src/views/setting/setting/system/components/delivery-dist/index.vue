@@ -2,7 +2,7 @@
   <el-form
     v-if="form"
     :model="form"
-    label-width="auto">
+    label-width="200px">
     <el-form-item
       :label="form.api_id.description"
       prop="api_id">
@@ -10,6 +10,7 @@
         v-model="form.api_id.value"
         :placeholder="form.api_id.description"
         clearable/>
+      <div class="help-block" v-html="form.api_id.help_text"></div>
     </el-form-item>
 
     <el-form-item
@@ -19,6 +20,7 @@
         v-model="form.api_key.value"
         :placeholder="form.api_key.description"
         clearable/>
+      <div class="help-block" v-html="form.api_key.help_text"></div>
     </el-form-item>
 
     <el-form-item
@@ -29,6 +31,7 @@
         :active-value="1"
         :inactive-value="0">
       </el-switch>
+      <div class="help-block" v-html="form.is_sub.help_text"></div>
     </el-form-item>
 
     <el-form-item size="small">

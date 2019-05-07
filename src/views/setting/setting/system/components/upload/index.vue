@@ -2,7 +2,7 @@
   <el-form
     v-if="form"
     :model="form"
-    label-width="auto">
+    label-width="200px">
     <el-divider>基础设置</el-divider>
 
     <el-form-item
@@ -15,6 +15,7 @@
           :key="index"
           :label="item.module">{{item.name}}</el-radio>
       </el-radio-group>
+      <div class="help-block" v-html="form.default.help_text"></div>
     </el-form-item>
 
     <el-form-item
@@ -24,18 +25,21 @@
         v-model="form.oss.value"
         :placeholder="form.oss.description"
         clearable/>
+      <div class="help-block" v-html="form.oss.help_text"></div>
     </el-form-item>
 
     <el-form-item
       :label="form.image_ext.description"
       prop="image_ext">
       <cs-tab-edit v-model="imageExt" type="info"/>
+      <div class="help-block" v-html="form.image_ext.help_text"></div>
     </el-form-item>
 
     <el-form-item
       :label="form.file_ext.description"
       prop="file_ext">
       <cs-tab-edit v-model="fileExt" type="info"/>
+      <div class="help-block" v-html="form.file_ext.help_text"></div>
     </el-form-item>
 
     <el-form-item
@@ -49,6 +53,7 @@
         value="">
         <el-option v-for="value of fileSize" :key="value" :value="value"/>
       </el-select>
+      <div class="help-block" v-html="form.file_size.help_text"></div>
     </el-form-item>
 
     <el-divider>CareyShop(本地上传)</el-divider>
@@ -60,6 +65,7 @@
         v-model="form.careyshop_url.value"
         :placeholder="form.careyshop_url.description"
         clearable/>
+      <div class="help-block" v-html="form.careyshop_url.help_text"></div>
     </el-form-item>
 
     <el-divider>七牛云 KODO</el-divider>
@@ -71,6 +77,7 @@
         v-model="form.qiniu_access_key.value"
         :placeholder="form.qiniu_access_key.description"
         clearable/>
+      <div class="help-block" v-html="form.qiniu_access_key.help_text"></div>
     </el-form-item>
 
     <el-form-item
@@ -80,6 +87,7 @@
         v-model="form.qiniu_secret_key.value"
         :placeholder="form.qiniu_secret_key.description"
         clearable/>
+      <div class="help-block" v-html="form.qiniu_secret_key.help_text"></div>
     </el-form-item>
 
     <el-form-item
@@ -89,6 +97,7 @@
         v-model="form.qiniu_bucket.value"
         :placeholder="form.qiniu_bucket.description"
         clearable/>
+      <div class="help-block" v-html="form.qiniu_bucket.help_text"></div>
     </el-form-item>
 
     <el-form-item
@@ -98,6 +107,7 @@
         v-model="form.qiniu_url.value"
         :placeholder="form.qiniu_url.description"
         clearable/>
+      <div class="help-block" v-html="form.qiniu_url.help_text"></div>
     </el-form-item>
 
     <el-divider>阿里云 OSS</el-divider>
@@ -109,6 +119,7 @@
         v-model="form.aliyun_access_key.value"
         :placeholder="form.aliyun_access_key.description"
         clearable/>
+      <div class="help-block" v-html="form.aliyun_access_key.help_text"></div>
     </el-form-item>
 
     <el-form-item
@@ -118,6 +129,7 @@
         v-model="form.aliyun_secret_key.value"
         :placeholder="form.aliyun_secret_key.description"
         clearable/>
+      <div class="help-block" v-html="form.aliyun_secret_key.help_text"></div>
     </el-form-item>
 
     <el-form-item
@@ -127,6 +139,7 @@
         v-model="form.aliyun_bucket.value"
         :placeholder="form.aliyun_bucket.description"
         clearable/>
+      <div class="help-block" v-html="form.aliyun_bucket.help_text"></div>
     </el-form-item>
 
     <el-form-item
@@ -136,6 +149,7 @@
         v-model="form.aliyun_url.value"
         :placeholder="form.aliyun_url.description"
         clearable/>
+      <div class="help-block" v-html="form.aliyun_url.help_text"></div>
     </el-form-item>
 
     <el-form-item
@@ -145,6 +159,7 @@
         v-model="form.aliyun_endpoint.value"
         :placeholder="form.aliyun_endpoint.description"
         clearable/>
+      <div class="help-block" v-html="form.aliyun_endpoint.help_text"></div>
     </el-form-item>
 
     <el-form-item
@@ -154,6 +169,7 @@
         v-model="form.aliyun_rolearn.value"
         :placeholder="form.aliyun_rolearn.description"
         clearable/>
+      <div class="help-block" v-html="form.aliyun_rolearn.help_text"></div>
     </el-form-item>
 
     <el-form-item size="small">

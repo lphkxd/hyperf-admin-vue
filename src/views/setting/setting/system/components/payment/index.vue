@@ -2,7 +2,7 @@
   <el-form
     v-if="form"
     :model="form"
-    label-width="auto">
+    label-width="200px">
     <el-form-item
       :label="form.success.description"
       prop="success">
@@ -10,6 +10,7 @@
         v-model="form.success.value"
         :placeholder="form.success.description"
         clearable/>
+      <div class="help-block" v-html="form.success.help_text"></div>
     </el-form-item>
 
     <el-form-item
@@ -19,6 +20,7 @@
         v-model="form.error.value"
         :placeholder="form.error.description"
         clearable/>
+      <div class="help-block" v-html="form.error.help_text"></div>
     </el-form-item>
 
     <el-form-item size="small">

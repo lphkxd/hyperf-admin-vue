@@ -2,7 +2,7 @@
   <el-form
     v-if="form"
     :model="form"
-    label-width="auto">
+    label-width="200px">
     <cs-upload
       style="display: none"
       ref="upload"
@@ -41,6 +41,7 @@
         v-model="form.keywords.value"
         :placeholder="form.keywords.description"
         clearable/>
+      <div class="help-block" v-html="form.keywords.help_text"></div>
     </el-form-item>
 
     <el-form-item
@@ -51,6 +52,7 @@
         :placeholder="form.description.description"
         type="textarea"
         :rows="5"/>
+      <div class="help-block" v-html="form.description.help_text"></div>
     </el-form-item>
 
     <el-form-item
@@ -76,6 +78,7 @@
           @click="$refs.upload.handleUploadDlg('logo')"
           icon="el-icon-upload"/>
       </el-input>
+      <div class="help-block" v-html="form.logo.help_text"></div>
     </el-form-item>
 
     <el-divider>备案许可</el-divider>
@@ -87,6 +90,7 @@
         v-model="form.miitbeian.value"
         :placeholder="form.miitbeian.description"
         clearable/>
+      <div class="help-block" v-html="form.miitbeian.help_text"></div>
     </el-form-item>
 
     <el-form-item
@@ -96,6 +100,7 @@
         v-model="form.miitbeian_url.value"
         :placeholder="form.miitbeian_url.description"
         clearable/>
+      <div class="help-block" v-html="form.miitbeian_url.help_text"></div>
     </el-form-item>
 
     <el-form-item
@@ -121,6 +126,7 @@
           @click="$refs.upload.handleUploadDlg('miitbeian_ico')"
           icon="el-icon-upload"/>
       </el-input>
+      <div class="help-block" v-html="form.miitbeian_ico.help_text"></div>
     </el-form-item>
 
     <el-form-item
@@ -130,6 +136,7 @@
         v-model="form.beian.value"
         :placeholder="form.beian.description"
         clearable/>
+      <div class="help-block" v-html="form.beian.help_text"></div>
     </el-form-item>
 
     <el-form-item
@@ -139,6 +146,7 @@
         v-model="form.beian_url.value"
         :placeholder="form.beian_url.description"
         clearable/>
+      <div class="help-block" v-html="form.beian_url.help_text"></div>
     </el-form-item>
 
     <el-form-item
@@ -164,6 +172,7 @@
           @click="$refs.upload.handleUploadDlg('beian_ico')"
           icon="el-icon-upload"/>
       </el-input>
+      <div class="help-block" v-html="form.beian_ico.help_text"></div>
     </el-form-item>
 
     <el-divider>状态设置</el-divider>
@@ -176,6 +185,7 @@
         :active-value="1"
         :inactive-value="0">
       </el-switch>
+      <div class="help-block" v-html="form.open_index.help_text"></div>
     </el-form-item>
 
     <el-form-item
@@ -186,6 +196,7 @@
         :active-value="1"
         :inactive-value="0">
       </el-switch>
+      <div class="help-block" v-html="form.open_mobile.help_text"></div>
     </el-form-item>
 
     <el-form-item
@@ -196,6 +207,7 @@
         :active-value="1"
         :inactive-value="0">
       </el-switch>
+      <div class="help-block" v-html="form.open_api.help_text"></div>
     </el-form-item>
 
     <el-form-item
@@ -205,6 +217,7 @@
         v-model="form.close_reason.value"
         :placeholder="form.close_reason.description"
         clearable/>
+      <div class="help-block" v-html="form.close_reason.help_text"></div>
     </el-form-item>
 
     <el-divider>定义平台</el-divider>
@@ -235,6 +248,7 @@
 
     <el-form-item size="small">
       <el-button @click="platforms.push({'key': null, 'value': ''})">新增平台</el-button>
+      <div class="help-block" v-html="form.platform.help_text"></div>
     </el-form-item>
 
     <el-divider>跨域访问</el-divider>
@@ -258,6 +272,7 @@
 
     <el-form-item size="small">
       <el-button @click="form.allow_origin.value.push('')">新增域名</el-button>
+      <div class="help-block" v-html="form.allow_origin.help_text"></div>
     </el-form-item>
 
     <el-divider>其他设置</el-divider>
@@ -269,6 +284,7 @@
         v-model="form.weixin_url.value"
         :placeholder="form.weixin_url.description"
         clearable/>
+      <div class="help-block" v-html="form.weixin_url.help_text"></div>
     </el-form-item>
 
     <el-form-item
@@ -283,6 +299,7 @@
           @click="$refs.upload.handleUploadDlg('qrcode_logo')"
           icon="el-icon-upload"></el-button>
       </el-input>
+      <div class="help-block" v-html="form.qrcode_logo.help_text"></div>
     </el-form-item>
 
     <el-form-item
@@ -293,6 +310,7 @@
         :placeholder="form.third_count.description"
         type="textarea"
         :rows="8"/>
+      <div class="help-block" v-html="form.third_count.help_text"></div>
     </el-form-item>
 
     <el-form-item size="small">

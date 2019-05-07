@@ -103,5 +103,7 @@ export default {
   .tab-box /deep/ .help-block {
     color: $color-info;
     font-size: 12px;
+    line-height: 2;
+    margin-bottom: -12px;
   }
 </style>
