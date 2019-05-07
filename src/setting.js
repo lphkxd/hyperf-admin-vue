@@ -62,7 +62,7 @@ export default {
       }
     ],
     // 默认主题
-    default: 'careyshop'
+    default: 'town'
   },
   // 是否默认开启页面切换动画
   transition: {
