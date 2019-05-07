@@ -20,3 +20,10 @@
 .el-tabs__item:focus.is-active.is-focus:not(:active) {
   box-shadow: none !important;
 }
+
+button, input, select, textarea {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit
+}

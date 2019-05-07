@@ -21,6 +21,7 @@
         v-model="form.name.value"
         :placeholder="form.name.description"
         clearable/>
+      <div class="help-block" v-html="form.name.help_text"></div>
     </el-form-item>
 
     <el-form-item
@@ -30,6 +31,7 @@
         v-model="form.title.value"
         :placeholder="form.title.description"
         clearable/>
+      <div class="help-block" v-html="form.title.help_text"></div>
     </el-form-item>
 
     <el-form-item
@@ -244,7 +246,7 @@
       <el-input
         class="dynamic-domain"
         v-model="form.allow_origin.value[index]"
-        placeholder="域名地址( * 表示全部域名)"
+        placeholder="域名地址"
         clearable/>
 
       <el-button
@@ -276,17 +278,6 @@
         v-model="form.qrcode_logo.value"
         :placeholder="form.qrcode_logo.description"
         clearable>
-        <template slot="prepend" v-if="form.qrcode_logo.value">
-          <el-popover
-            width="150"
-            placement="top"
-            trigger="hover">
-            <div class="popover-image">
-              <el-image :src="form.qrcode_logo.value | getPreviewUrl"/>
-            </div>
-            <cs-icon slot="reference" name="image"/>
-          </el-popover>
-        </template>
         <el-button
           slot="append"
           @click="$refs.upload.handleUploadDlg('qrcode_logo')"

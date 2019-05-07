@@ -29,29 +29,26 @@
     <el-form-item
       :label="form.image_ext.description"
       prop="image_ext">
-      <el-input
-        v-model="form.image_ext.value"
-        :placeholder="form.image_ext.description"
-        clearable/>
+      <cs-tab-edit v-model="imageExt" type="info"/>
     </el-form-item>
 
     <el-form-item
       :label="form.file_ext.description"
       prop="file_ext">
-      <el-input
-        v-model="form.file_ext.value"
-        :placeholder="form.file_ext.description"
-        clearable/>
+      <cs-tab-edit v-model="fileExt" type="info"/>
     </el-form-item>
 
     <el-form-item
       :label="form.file_size.description"
       prop="file_size">
-      <el-input
+      <el-select
         v-model="form.file_size.value"
-        :placeholder="form.file_size.description"
-        style="width: 160px;"
-        clearable/>
+        placeholder="请选择"
+        style="width: 180px;"
+        clearable
+        value="">
+        <el-option v-for="value of fileSize" :key="value" :value="value"/>
+      </el-select>
     </el-form-item>
 
     <el-divider>CareyShop(本地上传)</el-divider>
@@ -173,11 +170,17 @@ import { setUploadList } from '@/api/config/setting'
 import { getUploadModule } from '@/api/upload/upload'
 
 export default {
+  components: {
+    'csTabEdit': () => import('@/components/cs-tab-edit')
+  },
   data() {
     return {
-      loading: false,
       form: null,
-      uploadTable: []
+      loading: false,
+      uploadTable: [],
+      imageExt: [],
+      fileExt: [],
+      fileSize: ['1M', '2M', '3M', '5M', '10M', '50M', '100M']
     }
   },
   mounted() {
@@ -190,6 +193,8 @@ export default {
     // 设置配置数据
     setFormData(val) {
       this.form = val
+      this.imageExt = val.image_ext.value ? val.image_ext.value.split(',') : []
+      this.fileExt = val.file_ext.value ? val.file_ext.value.split(',') : []
     },
     // 确定修改
     handleFormSubmit() {
@@ -201,6 +206,9 @@ export default {
       }
 
       this.loading = true
+      data['image_ext'] = this.imageExt.join(',')
+      data['file_ext'] = this.fileExt.join(',')
+
       setUploadList(data)
         .then(() => {
           this.$message.success('操作成功')

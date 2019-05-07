@@ -95,9 +95,13 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   .tab-box {
     padding: 5px 10px;
     background-color: #FFF;
+  }
+  .tab-box /deep/ .help-block {
+    color: $color-info;
+    font-size: 12px;
   }
 </style>

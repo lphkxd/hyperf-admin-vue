@@ -26,9 +26,7 @@
         </el-tabs>
       </div>
     </div>
-    <div
-      class="cs-multiple-page-control-btn"
-      flex-box="0">
+    <div class="cs-multiple-page-control-btn" flex-box="0">
       <el-dropdown
         size="default"
         split-button
