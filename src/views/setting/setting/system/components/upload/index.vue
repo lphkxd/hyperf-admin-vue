@@ -49,7 +49,6 @@
         v-model="form.file_size.value"
         placeholder="请选择"
         style="width: 180px;"
-        clearable
         value="">
         <el-option v-for="value of fileSize" :key="value" :value="value"/>
       </el-select>
@@ -71,7 +70,7 @@
     <el-divider>七牛云 KODO</el-divider>
 
     <el-form-item
-      :label="form.qiniu_access_key.code"
+      :label="form.qiniu_access_key.description"
       prop="qiniu_access_key">
       <el-input
         v-model="form.qiniu_access_key.value"
@@ -81,7 +80,7 @@
     </el-form-item>
 
     <el-form-item
-      :label="form.qiniu_secret_key.code"
+      :label="form.qiniu_secret_key.description"
       prop="qiniu_secret_key">
       <el-input
         v-model="form.qiniu_secret_key.value"
@@ -91,7 +90,7 @@
     </el-form-item>
 
     <el-form-item
-      :label="form.qiniu_bucket.code"
+      :label="form.qiniu_bucket.description"
       prop="qiniu_bucket">
       <el-input
         v-model="form.qiniu_bucket.value"
@@ -101,7 +100,7 @@
     </el-form-item>
 
     <el-form-item
-      :label="form.qiniu_url.code"
+      :label="form.qiniu_url.description"
       prop="qiniu_url">
       <el-input
         v-model="form.qiniu_url.value"
@@ -113,7 +112,7 @@
     <el-divider>阿里云 OSS</el-divider>
 
     <el-form-item
-      :label="form.aliyun_access_key.code"
+      :label="form.aliyun_access_key.description"
       prop="aliyun_access_key">
       <el-input
         v-model="form.aliyun_access_key.value"
@@ -123,7 +122,7 @@
     </el-form-item>
 
     <el-form-item
-      :label="form.aliyun_secret_key.code"
+      :label="form.aliyun_secret_key.description"
       prop="aliyun_secret_key">
       <el-input
         v-model="form.aliyun_secret_key.value"
@@ -133,7 +132,7 @@
     </el-form-item>
 
     <el-form-item
-      :label="form.aliyun_bucket.code"
+      :label="form.aliyun_bucket.description"
       prop="aliyun_bucket">
       <el-input
         v-model="form.aliyun_bucket.value"
@@ -143,7 +142,7 @@
     </el-form-item>
 
     <el-form-item
-      :label="form.aliyun_url.code"
+      :label="form.aliyun_url.description"
       prop="aliyun_url">
       <el-input
         v-model="form.aliyun_url.value"
@@ -153,7 +152,7 @@
     </el-form-item>
 
     <el-form-item
-      :label="form.aliyun_endpoint.code"
+      :label="form.aliyun_endpoint.description"
       prop="aliyun_endpoint">
       <el-input
         v-model="form.aliyun_endpoint.value"
@@ -163,7 +162,7 @@
     </el-form-item>
 
     <el-form-item
-      :label="form.aliyun_rolearn.code"
+      :label="form.aliyun_rolearn.description"
       prop="aliyun_rolearn">
       <el-input
         v-model="form.aliyun_rolearn.value"

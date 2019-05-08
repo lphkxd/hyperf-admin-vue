@@ -89,7 +89,7 @@ export default {
       }
 
       const fielMaxSize = util.stringToByte(this.token['file_size'])
-      if (file.size > fielMaxSize) {
+      if (fielMaxSize > 0 && file.size > fielMaxSize) {
         this.$message.error(`上传资源大小不能超过 ${this.token['file_size']}`)
         return false
       }

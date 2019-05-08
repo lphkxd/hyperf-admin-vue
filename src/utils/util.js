@@ -107,6 +107,10 @@ util.stringToByte = function(val) {
   const exp = '(^[0-9\\.]+)(\\w+)'
   const result = val.match(exp)
 
+  if (!result) {
+    return 0
+  }
+
   const size = result[1]
   const suffix = result[2].toLocaleUpperCase()
 
