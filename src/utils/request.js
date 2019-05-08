@@ -65,8 +65,12 @@ service.interceptors.response.use(
   error => {
     if (error.response) {
       error.message = error.response.data.message
+      if (error.response.status === 401) {
+        reAuthorize()
+      }
     }
-    error.response.status === 401 ? reAuthorize() : errorLog(error)
+
+    errorLog(error)
     return Promise.reject(error.response ? error.response.data : error)
   }
 )

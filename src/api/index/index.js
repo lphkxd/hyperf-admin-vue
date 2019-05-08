@@ -25,3 +25,20 @@ export function setSystemOptimize() {
     }
   })
 }
+
+/**
+ * 批量调用
+ * @param {Array} data
+ */
+export function batchRequests(data) {
+  return request({
+    url: '/batch',
+    method: 'post',
+    params: {
+      method: null
+    },
+    data: {
+      batch: data
+    }
+  })
+}
