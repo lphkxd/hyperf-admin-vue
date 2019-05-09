@@ -1,14 +1,13 @@
 <template>
-  <div>
-  </div>
+  <cs-container :is-back-to-top="true">
+  </cs-container>
 </template>
 
 <script>
 export default {
-  name: 'index'
+  name: 'system-index'
 }
 </script>
 
 <style scoped>
-
 </style>

@@ -28,7 +28,7 @@ export default {
         return
       }
 
-      // 顶级路由导航到子级路由
+      // 查找顶级路由下是否存在子路由
       let router = null
       for (const value of frameInRoutes) {
         if (value.path === index) {
@@ -37,7 +37,13 @@ export default {
         }
       }
 
-      // 判断子级路由是否有权限
+      // 不存在子路由,则直接进入
+      if (!router) {
+        this.$router.push({ path: index })
+        return
+      }
+
+      // 存在子路由,则判断子级路由是否有权限
       for (const value of router) {
         const newPath = index + '/' + value.path
         if (this.$has(newPath)) {
