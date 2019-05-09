@@ -116,7 +116,9 @@ export default {
     focus() {
       this.input = ''
       setTimeout(() => {
-        this.$refs.input.focus()
+        if (this.$refs.input) {
+          this.$refs.input.focus()
+        }
         // 还原
         this.searchText = ''
         this.results = []
@@ -126,27 +128,23 @@ export default {
      * @description 接收用户在列表中选择项目的事件
      */
     handleResultsGroupItemClick(path) {
-      // 如果用户选择的就是当前页面 就直接关闭搜索面板
-      if (path === this.$route.path) {
-        this.handleEsc()
-        return
+      if (path !== this.$route.path) {
+        this.handleMenuSelect(path)
       }
-      // 用户选择的是其它页面
-      this.handleMenuSelect(path)
+
+      this.handleEsc()
     },
     /**
      * @description 接收用户在下拉菜单中选中事件
      */
     handleSelect({ path }) {
-      // 如果用户选择的就是当前页面 就直接关闭搜索面板
-      if (path === this.$route.path) {
-        this.handleEsc()
-        return
+      if (path !== this.$route.path) {
+        this.$nextTick(() => {
+          this.handleMenuSelect(path)
+        })
       }
-      // 用户选择的是其它页面
-      this.$nextTick(() => {
-        this.handleMenuSelect(path)
-      })
+
+      this.handleEsc()
     },
     /**
      * @description 关闭输入框的下拉菜单
@@ -182,6 +180,7 @@ export default {
 <style lang="scss" scoped>
   .panel-search {
     margin: 20px;
+    width: 100%;
     .panel-search__input-group {
       height: 240px;
       .panel-search__logo {

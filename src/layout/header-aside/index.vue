@@ -64,7 +64,7 @@
         <div class="cs-theme-container-main" flex-box="1" flex>
           <!-- 搜索 -->
           <transition name="fade-scale">
-            <div v-show="searchActive" class="cs-theme-container-main-layer" flex="dir:top">
+            <div v-show="searchActive" class="cs-theme-container-main-layer" flex>
               <cs-panel-search
                 ref="panelSearch"
                 @close="searchPanelClose"/>

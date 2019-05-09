@@ -7,6 +7,12 @@ export default {
   component: layoutHeaderAside,
   children: (pre => [
     {
+      path: 'index',
+      name: `${pre}index`,
+      meta: { ...meta, cache: true, title: '系统首页' },
+      component: () => import('@/views/system/index')
+    },
+    {
       path: 'admin/member',
       name: `${pre}admin-member`,
       meta: { ...meta, cache: true, title: '管理人员' },
