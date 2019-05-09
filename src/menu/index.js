@@ -22,7 +22,8 @@ function getMenuData(arr) {
     let arrElem = {
       path: value.url,
       title: value.name,
-      icon: value.icon
+      icon: value.icon,
+      remark: value.remark
     }
 
     if (value.parent_id === 0) {
