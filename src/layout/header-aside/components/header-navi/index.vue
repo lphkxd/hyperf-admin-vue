@@ -128,6 +128,8 @@ export default {
     .cs-navi__info {
       p {
         margin: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
       .cs-navi__sub_title {
         color: $color-text-main;
@@ -138,8 +140,6 @@ export default {
       .cs-navi__desc {
         font-size: 12px;
         height: 23px;
-        overflow: hidden;
-        text-overflow: ellipsis;
       }
     }
   }
