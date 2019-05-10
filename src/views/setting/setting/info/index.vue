@@ -5,33 +5,80 @@
       class="form-box cs-m"
       label-width="150px"
       label-position="left">
-      <el-form-item :label="version.name">
+      <el-form-item class="action" :label="version.name">
         <span>{{version.value}}</span>
+        <el-button
+          class="form-button active"
+          type="text"
+          size="small"
+          @click="copyData(version.value)">复制</el-button>
       </el-form-item>
 
-      <el-form-item :label="admin.name">
+      <el-form-item class="action" :label="admin.name">
         <span>{{admin.value}}</span>
+        <el-button
+          class="form-button active"
+          type="text"
+          size="small"
+          @click="copyData(admin.value)">复制</el-button>
       </el-form-item>
 
-      <el-form-item :label="delivery.name">
+      <el-form-item class="action" :label="delivery.name">
         <span>{{delivery.value}}</span>
+        <el-button
+          class="form-button active"
+          type="text"
+          size="small"
+          @click="copyData(delivery.value)">复制</el-button>
       </el-form-item>
 
-      <el-form-item :label="qrcode.name">
+      <el-form-item class="action" :label="qrcode.name">
         <span>{{qrcode.value}}</span>
+        <el-button
+          class="form-button active"
+          type="text"
+          size="small"
+          @click="copyData(qrcode.value)">复制</el-button>
       </el-form-item>
 
-      <el-form-item :label="alipay.notify.name">
+      <el-form-item class="action" :label="alipay.notify.name">
         <span>{{alipay.notify.value}}</span>
+        <el-button
+          class="form-button active"
+          type="text"
+          size="small"
+          @click="copyData(alipay.notify.value)">复制</el-button>
       </el-form-item>
 
-      <el-form-item :label="alipay.return.name">
+      <el-form-item class="action" :label="alipay.return.name">
         <span>{{alipay.return.value}}</span>
+        <el-button
+          class="form-button active"
+          type="text"
+          size="small"
+          @click="copyData(alipay.return.value)">复制</el-button>
       </el-form-item>
 
-      <el-form-item label="微信回调">
-        <p>{{weixin.notify.name}} {{weixin.notify.value}}</p>
-        <p>{{weixin.return.name}} {{weixin.return.value}}</p>
+      <el-form-item class="action" :label="weixin.notify.name">
+        <span>{{weixin.notify.value}}</span>
+        <el-button
+          class="form-button active"
+          type="text"
+          size="small"
+          @click="copyData(weixin.notify.value)">复制</el-button>
+      </el-form-item>
+
+      <el-form-item class="action" :label="weixin.return.name">
+        <span>{{weixin.return.value}}</span>
+        <el-button
+          class="form-button active"
+          type="text"
+          size="small"
+          @click="copyData(weixin.return.value)">复制</el-button>
+      </el-form-item>
+
+      <el-form-item size="small">
+        <el-button @click="getInfoData('操作成功')">刷新</el-button>
       </el-form-item>
     </el-form>
   </cs-container>
@@ -39,6 +86,7 @@
 
 <script>
 import { batchRequests } from '@/api/index'
+import * as clipboard from 'clipboard-polyfill'
 
 export default {
   name: 'setting-setting-info',
@@ -53,7 +101,7 @@ export default {
         value: process.env.VUE_APP_VERSION
       },
       delivery: {
-        name: '配送回调URL',
+        name: '快递鸟推送回调URL',
         value: ''
       },
       qrcode: {
@@ -62,21 +110,21 @@ export default {
       },
       alipay: {
         notify: {
-          name: '支付宝异步(notify)URL',
+          name: '支付宝异步URL',
           value: ''
         },
         return: {
-          name: '支付宝同步(return)URL',
+          name: '支付宝同步URL',
           value: ''
         }
       },
       weixin: {
         notify: {
-          name: '微信异步(notify)URL',
+          name: '微信异步URL',
           value: ''
         },
         return: {
-          name: '微信同步(return)URL',
+          name: '微信同步URL',
           value: ''
         }
       },
@@ -84,77 +132,108 @@ export default {
     }
   },
   mounted() {
-    let data = [
-      {
-        version: 'v1',
-        controller: 'index',
-        method: 'get.system.version'
-      },
-      {
-        version: 'v1',
-        controller: 'delivery_dist',
-        method: 'get.delivery.dist.callback'
-      },
-      {
-        version: 'v1',
-        controller: 'qrcode',
-        method: 'get.qrcode.callurl'
-      },
-      {
-        version: 'v1',
-        controller: 'payment',
-        method: 'get.payment.notify',
-        to_payment: 2
-      },
-      {
-        version: 'v1',
-        controller: 'payment',
-        method: 'get.payment.return',
-        to_payment: 2
-      },
-      {
-        version: 'v1',
-        controller: 'payment',
-        method: 'get.payment.notify',
-        to_payment: 3
-      },
-      {
-        version: 'v1',
-        controller: 'payment',
-        method: 'get.payment.return',
-        to_payment: 3
-      }
-    ]
+    this.getInfoData()
+  },
+  methods: {
+    getInfoData(message = null) {
+      let data = [
+        {
+          version: 'v1',
+          controller: 'index',
+          method: 'get.system.version'
+        },
+        {
+          version: 'v1',
+          controller: 'delivery_dist',
+          method: 'get.delivery.dist.callback'
+        },
+        {
+          version: 'v1',
+          controller: 'qrcode',
+          method: 'get.qrcode.callurl'
+        },
+        {
+          version: 'v1',
+          controller: 'payment',
+          method: 'get.payment.notify',
+          to_payment: 2
+        },
+        {
+          version: 'v1',
+          controller: 'payment',
+          method: 'get.payment.return',
+          to_payment: 2
+        },
+        {
+          version: 'v1',
+          controller: 'payment',
+          method: 'get.payment.notify',
+          to_payment: 3
+        },
+        {
+          version: 'v1',
+          controller: 'payment',
+          method: 'get.payment.return',
+          to_payment: 3
+        }
+      ]
 
-    this.loading = true
-    batchRequests(data)
-      .then(res => {
-        res.data.forEach(value => {
-          console.log(value)
-          if (value.status === 200) {
-            switch (value.method) {
-              case 'get.system.version':
-                this.version.value = value.data.version
-                break
+      this.loading = true
+      batchRequests(data)
+        .then(res => {
+          res.data.forEach(value => {
+            if (value.status === 200) {
+              switch (value.method) {
+                case 'get.system.version':
+                  this.version.value = value.data.version
+                  break
 
-              case 'get.delivery.dist.callback':
-                this.delivery.value = value.data.callback_url
-                break
+                case 'get.delivery.dist.callback':
+                  this.delivery.value = value.data.callback_url
+                  break
 
-              case 'get.qrcode.callurl':
-                this.qrcode.value = value.data.call_url
-                break
+                case 'get.qrcode.callurl':
+                  this.qrcode.value = value.data.call_url
+                  break
 
-              case 'get.payment.notify':
-                if (value.data.to_payment) {
-                }
+                case 'get.payment.notify':
+                  if (value.data.to_payment === 2) {
+                    this.alipay.notify.value = value.data.notify_url
+                  }
+                  if (value.data.to_payment === 3) {
+                    this.weixin.notify.value = value.data.notify_url
+                  }
+                  break
+
+                case 'get.payment.return':
+                  if (value.data.to_payment === 2) {
+                    this.alipay.return.value = value.data.return_url
+                  }
+                  if (value.data.to_payment === 3) {
+                    this.weixin.return.value = value.data.return_url
+                  }
+                  break
+              }
             }
+          })
+
+          if (message) {
+            this.$message.success(message)
           }
         })
-      })
-      .finally(() => {
-        this.loading = false
-      })
+        .finally(() => {
+          this.loading = false
+        })
+    },
+    copyData(val) {
+      clipboard.writeText(val)
+        .then(() => {
+          this.$message.success('已复制到剪贴板')
+        })
+        .catch(err => {
+          this.$message.error(err)
+        })
+    }
   }
 }
 </script>
@@ -163,5 +242,14 @@ export default {
   .form-box {
     padding: 20px;
     background-color: #FFF;
+  }
+  .form-button {
+    padding-left: 5px;
+  }
+  .active {
+    display: none;
+  }
+  .action:hover .active{
+    display: inline;
   }
 </style>

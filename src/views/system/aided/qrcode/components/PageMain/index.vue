@@ -266,7 +266,7 @@ import {
   addQrcodeItem,
   setQrcodeItem
 } from '@/api/aided/qrcode'
-import clipboard from 'clipboard-polyfill'
+import * as clipboard from 'clipboard-polyfill'
 import { getHelpRouter } from '@/api/index/help'
 
 export default {

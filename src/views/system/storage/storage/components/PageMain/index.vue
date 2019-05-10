@@ -277,8 +277,8 @@
 <script>
 import util from '@/utils/util'
 import storage from '../mixins'
-import clipboard from 'clipboard-polyfill'
 import { getHelpRouter } from '@/api/index/help'
+import * as clipboard from 'clipboard-polyfill'
 import {
   delStorageList,
   addStorageDirectoryItem,
