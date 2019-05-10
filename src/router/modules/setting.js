@@ -7,6 +7,12 @@ export default {
   component: layoutHeaderAside,
   children: (pre => [
     {
+      path: 'index',
+      name: `${pre}index`,
+      meta: { ...meta, cache: true, title: '设置首页' },
+      component: () => import('@/views/setting/index')
+    },
+    {
       path: 'setting/system',
       name: `${pre}setting-system`,
       meta: { ...meta, cache: true, title: '系统配置' },

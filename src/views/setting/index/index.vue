@@ -6,13 +6,13 @@
 
 <script>
 export default {
-  name: 'system-index',
+  name: 'setting-index',
   components: {
     'PageNavi': () => import('@/layout/header-aside/components/header-navi')
   },
   data() {
     return {
-      root: '/system'
+      root: '/setting'
     }
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <div style="max-width: 60%">
     <el-tag
-      v-for="(item, index) in currentValue"
+      v-for="(item, index) in value"
       :key="index"
       :type="type"
       :disable-transitions="disableTransitions"
@@ -67,22 +67,15 @@ export default {
   },
   data() {
     return {
-      currentValue: [],
       inputValue: '',
       inputVisible: false
     }
   },
-  watch: {
-    value: {
-      handler(val) {
-        this.currentValue = val
-      },
-      immediate: true
-    }
-  },
   methods: {
     handleClose(index) {
-      this.currentValue.splice(index, 1)
+      let data = this.value
+      data.splice(index, 1)
+      this.$emit('input', data)
     },
     showInput() {
       this.inputVisible = true
@@ -93,7 +86,9 @@ export default {
     handleInputConfirm() {
       let inputValue = this.inputValue
       if (inputValue) {
-        this.currentValue.push(inputValue)
+        let data = this.value
+        data.push(inputValue)
+        this.$emit('input', data)
       }
 
       this.inputVisible = false

@@ -44,11 +44,11 @@
 <script>
 import Fuse from 'fuse.js'
 import { mapState, mapGetters } from 'vuex'
-import mixin from '../mixin/menu'
+import menuMixin from '../mixin/menu'
 
 export default {
   mixins: [
-    mixin
+    menuMixin
   ],
   components: {
     'cs-panel-search-item': () => import('./components/panel-search-item')
