@@ -3,6 +3,7 @@ import request from '@/utils/request'
 /**
  * 添加一个广告位置
  * @param {Object} data
+ * @returns {AxiosPromise}
  */
 export function addAdsPositionItem(data) {
   return request({
@@ -18,6 +19,7 @@ export function addAdsPositionItem(data) {
 /**
  * 编辑一个广告位置
  * @param {Object} data
+ * @returns {AxiosPromise}
  */
 export function setAdsPositionItem(data) {
   return request({
@@ -34,6 +36,7 @@ export function setAdsPositionItem(data) {
  * 批量删除广告位置(支持检测是否存在关联广告)
  * @param {Array} position_id
  * @param {Number} not_empty
+ * @returns {AxiosPromise}
  */
 export function delAdsPositionList(position_id, not_empty = 0) {
   return request({
@@ -53,6 +56,7 @@ export function delAdsPositionList(position_id, not_empty = 0) {
  * 批量设置广告位置状态
  * @param {Array} position_id
  * @param {Number} status
+ * @returns {AxiosPromise}
  */
 export function setAdsPositionStatus(position_id, status) {
   return request({
@@ -71,6 +75,7 @@ export function setAdsPositionStatus(position_id, status) {
 /**
  * 获取一个广告位置
  * @param {Number} position_id
+ * @returns {AxiosPromise}
  */
 export function getAdsPositionItem(position_id) {
   return request({
@@ -88,6 +93,7 @@ export function getAdsPositionItem(position_id) {
 /**
  * 获取广告位置列表
  * @param {Object} data
+ * @returns {AxiosPromise}
  */
 export function getAdsPositionList(data) {
   return request({
@@ -103,6 +109,7 @@ export function getAdsPositionList(data) {
 /**
  * 获取广告位置选择列表
  * @param {Object} data
+ * @returns {AxiosPromise}
  */
 export function getAdsPositionSelect(data) {
   return request({

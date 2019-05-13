@@ -3,6 +3,7 @@ import request from '@/utils/request'
 /**
  * 获取支付配置列表
  * @param {Object} data
+ * @returns {AxiosPromise}
  */
 export function getPaymentList(data) {
   return request({

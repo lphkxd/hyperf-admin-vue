@@ -3,6 +3,7 @@ import request from '@/utils/request'
 /**
  * 添加一名客服
  * @param {Object} data
+ * @returns {AxiosPromise}
  */
 export function addSupportItem(data) {
   return request({
@@ -18,6 +19,7 @@ export function addSupportItem(data) {
 /**
  * 编辑一名客服
  * @param {Object} data
+ * @returns {AxiosPromise}
  */
 export function setSupportItem(data) {
   return request({
@@ -33,6 +35,7 @@ export function setSupportItem(data) {
 /**
  * 批量删除客服
  * @param {Array} support_id
+ * @returns {AxiosPromise}
  */
 export function delSupportList(support_id) {
   return request({
@@ -50,6 +53,7 @@ export function delSupportList(support_id) {
 /**
  * 获取一名客服
  * @param {Number} support_id
+ * @returns {AxiosPromise}
  */
 export function getSupportItem(support_id) {
   return request({
@@ -67,6 +71,7 @@ export function getSupportItem(support_id) {
 /**
  * 获取客服列表
  * @param {Object} data
+ * @returns {AxiosPromise}
  */
 export function getSupportList(data) {
   return request({
@@ -83,6 +88,7 @@ export function getSupportList(data) {
  * 批量设置客服状态
  * @param {Array} support_id
  * @param {Number} status
+ * @returns {AxiosPromise}
  */
 export function setSupportStatus(support_id, status) {
   return request({
@@ -102,6 +108,7 @@ export function setSupportStatus(support_id, status) {
  * 设置客服排序
  * @param {Number} support_id
  * @param {Number} sort
+ * @returns {AxiosPromise}
  */
 export function setSupportSort(support_id, sort) {
   return request({

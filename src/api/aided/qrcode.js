@@ -2,6 +2,7 @@ import request from '@/utils/request'
 
 /**
  * 获取二维码调用地址
+ * @returns {AxiosPromise}
  */
 export function getQrcodeCallurl() {
   return request({
@@ -16,6 +17,7 @@ export function getQrcodeCallurl() {
 /**
  * 添加一个二维码
  * @param {Object} data
+ * @returns {AxiosPromise}
  */
 export function addQrcodeItem(data) {
   return request({
@@ -31,6 +33,7 @@ export function addQrcodeItem(data) {
 /**
  * 编辑一个二维码
  * @param {Object} data
+ * @returns {AxiosPromise}
  */
 export function setQrcodeItem(data) {
   return request({
@@ -46,6 +49,7 @@ export function setQrcodeItem(data) {
 /**
  * 获取一个二维码
  * @param {Number} qrcode_id
+ * @returns {AxiosPromise}
  */
 export function getQrcodeConfig(qrcode_id) {
   return request({
@@ -63,6 +67,7 @@ export function getQrcodeConfig(qrcode_id) {
 /**
  * 获取二维码列表
  * @param {Object} data
+ * @returns {AxiosPromise}
  */
 export function getQrcodeList(data) {
   return request({
@@ -78,6 +83,7 @@ export function getQrcodeList(data) {
 /**
  * 批量删除二维码
  * @param {Array} qrcode_id
+ * @returns {AxiosPromise}
  */
 export function delQrcodeList(qrcode_id) {
   return request({

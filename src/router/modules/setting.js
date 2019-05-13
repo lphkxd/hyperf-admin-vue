@@ -23,6 +23,12 @@ export default {
       name: `${pre}setting-info`,
       meta: { ...meta, cache: true, title: '系统信息' },
       component: () => import('@/views/setting/setting/info')
+    },
+    {
+      path: 'setting/navi',
+      name: `${pre}setting-navi`,
+      meta: { ...meta, cache: true, title: '前台导航' },
+      component: () => import('@/views/setting/setting/navi')
     }
   ])('setting-')
 }

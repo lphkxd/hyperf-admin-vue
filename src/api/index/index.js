@@ -2,6 +2,7 @@ import request from '@/utils/request'
 
 /**
  * 清空所有缓存
+ * @returns {AxiosPromise}
  */
 export function clearCacheAll() {
   return request({
@@ -15,6 +16,7 @@ export function clearCacheAll() {
 
 /**
  * 调整最优状态(服务端为正式环境有效)
+ * @returns {AxiosPromise}
  */
 export function setSystemOptimize() {
   return request({
@@ -29,6 +31,7 @@ export function setSystemOptimize() {
 /**
  * 批量调用
  * @param {Array} data
+ * @returns {AxiosPromise}
  */
 export function batchRequests(data) {
   return request({

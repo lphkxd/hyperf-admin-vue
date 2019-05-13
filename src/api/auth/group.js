@@ -3,6 +3,7 @@ import request from '@/utils/request'
 /**
  * 添加一个用户组
  * @param {Object} data
+ * @returns {AxiosPromise}
  */
 export function addAuthGroupItem(data) {
   return request({
@@ -18,6 +19,7 @@ export function addAuthGroupItem(data) {
 /**
  * 编辑一个用户组
  * @param {Object} data
+ * @returns {AxiosPromise}
  */
 export function setAuthGroupItem(data) {
   return request({
@@ -33,6 +35,7 @@ export function setAuthGroupItem(data) {
 /**
  * 获取一个用户组
  * @param {Number} group_id
+ * @returns {AxiosPromise}
  */
 export function getAuthGroupItem(group_id) {
   return request({
@@ -50,6 +53,7 @@ export function getAuthGroupItem(group_id) {
 /**
  * 删除一个用户组
  * @param {Number} group_id
+ * @returns {AxiosPromise}
  */
 export function delAuthGroupItem(group_id) {
   return request({
@@ -67,6 +71,7 @@ export function delAuthGroupItem(group_id) {
 /**
  * 获取用户组列表
  * @param {Object} data
+ * @returns {AxiosPromise}
  */
 export function getAuthGroupList(data) {
   return request({
@@ -83,6 +88,7 @@ export function getAuthGroupList(data) {
  * 批量设置用户组状态
  * @param {Array} group_id
  * @param {Number} status
+ * @returns {AxiosPromise}
  */
 export function setAuthGroupStatus(group_id, status) {
   return request({
@@ -102,6 +108,7 @@ export function setAuthGroupStatus(group_id, status) {
  * 设置用户组排序值
  * @param {Number} group_id
  * @param {Number} sort
+ * @returns {AxiosPromise}
  */
 export function setAuthGroupSort(group_id, sort) {
   return request({

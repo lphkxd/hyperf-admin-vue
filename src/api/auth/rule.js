@@ -3,6 +3,7 @@ import request from '@/utils/request'
 /**
  * 添加一条规则
  * @param {Object} data
+ * @returns {AxiosPromise}
  */
 export function addAuthRuleItem(data) {
   return request({
@@ -18,6 +19,7 @@ export function addAuthRuleItem(data) {
 /**
  * 获取一条规则
  * @param {Number} rule_id
+ * @returns {AxiosPromise}
  */
 export function getAuthRuleItem(rule_id) {
   return request({
@@ -35,6 +37,7 @@ export function getAuthRuleItem(rule_id) {
 /**
  * 编辑一条规则
  * @param {Object} data
+ * @returns {AxiosPromise}
  */
 export function setAuthRuleItem(data) {
   return request({
@@ -50,6 +53,7 @@ export function setAuthRuleItem(data) {
 /**
  * 批量删除规则
  * @param {Array} rule_id
+ * @returns {AxiosPromise}
  */
 export function delAuthRuleList(rule_id) {
   return request({
@@ -67,6 +71,7 @@ export function delAuthRuleList(rule_id) {
 /**
  * 获取规则列表
  * @param {Object} data
+ * @returns {AxiosPromise}
  */
 export function getAuthRuleList(data) {
   return request({
@@ -83,6 +88,7 @@ export function getAuthRuleList(data) {
  * 批量设置规则状态
  * @param {Array} rule_id
  * @param {Number} status
+ * @returns {AxiosPromise}
  */
 export function setAuthRuleStatus(rule_id, status) {
   return request({
@@ -102,6 +108,7 @@ export function setAuthRuleStatus(rule_id, status) {
  * 设置规则排序
  * @param {Number} rule_id
  * @param {Number} sort
+ * @returns {AxiosPromise}
  */
 export function setAuthRuleSort(rule_id, sort) {
   return request({
@@ -120,6 +127,7 @@ export function setAuthRuleSort(rule_id, sort) {
 /**
  * 根据编号自动设置排序值
  * @param {Array} rule_id
+ * @returns {AxiosPromise}
  */
 export function setAuthRuleIndex(rule_id) {
   return request({

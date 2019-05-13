@@ -3,6 +3,7 @@ import request from '@/utils/request'
 /**
  * 添加一个专题
  * @param {Object} data
+ * @returns {AxiosPromise}
  */
 export function addTopicItem(data) {
   return request({
@@ -18,6 +19,7 @@ export function addTopicItem(data) {
 /**
  * 编辑一个专题
  * @param {Object} data
+ * @returns {AxiosPromise}
  */
 export function setTopicItem(data) {
   return request({
@@ -33,6 +35,7 @@ export function setTopicItem(data) {
 /**
  * 批量删除专题
  * @param {Array} topic_id
+ * @returns {AxiosPromise}
  */
 export function delTopicList(topic_id) {
   return request({
@@ -50,6 +53,7 @@ export function delTopicList(topic_id) {
 /**
  * 获取一个专题
  * @param {Number} topic_id
+ * @returns {AxiosPromise}
  */
 export function getTopicItem(topic_id) {
   return request({
@@ -67,6 +71,7 @@ export function getTopicItem(topic_id) {
 /**
  * 获取专题列表
  * @param {Object} data
+ * @returns {AxiosPromise}
  */
 export function getTopicList(data) {
   return request({
@@ -83,6 +88,7 @@ export function getTopicList(data) {
  * 批量设置专题是否显示
  * @param {Array} topic_id
  * @param {Number} status
+ * @returns {AxiosPromise}
  */
 export function setTopicStatus(topic_id, status) {
   return request({

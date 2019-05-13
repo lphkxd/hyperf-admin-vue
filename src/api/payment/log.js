@@ -3,6 +3,7 @@ import request from '@/utils/request'
 /**
  * 获取一笔充值记录
  * @param {Object} data
+ * @returns {AxiosPromise}
  */
 export function getPaymentLogItem(data) {
   return request({
@@ -18,6 +19,7 @@ export function getPaymentLogItem(data) {
 /**
  * 获取充值记录列表
  * @param {Object} data
+ * @returns {AxiosPromise}
  */
 export function getPaymentLogList(data) {
   return request({

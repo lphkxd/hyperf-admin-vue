@@ -3,6 +3,7 @@ import request from '@/utils/request'
 /**
  * 添加一个应用安装包
  * @param {Object} data
+ * @returns {AxiosPromise}
  */
 export function addAppInstallItem(data) {
   return request({
@@ -18,6 +19,7 @@ export function addAppInstallItem(data) {
 /**
  * 编辑一个应用安装包
  * @param {Object} data
+ * @returns {AxiosPromise}
  */
 export function setAppInstallItem(data) {
   return request({
@@ -33,6 +35,7 @@ export function setAppInstallItem(data) {
 /**
  * 获取一个应用安装包
  * @param {Number} app_install_id
+ * @returns {AxiosPromise}
  */
 export function getAppInstallItem(app_install_id) {
   return request({
@@ -50,6 +53,7 @@ export function getAppInstallItem(app_install_id) {
 /**
  * 批量删除应用安装包
  * @param {Array} app_install_id
+ * @returns {AxiosPromise}
  */
 export function delAppInstallList(app_install_id) {
   return request({
@@ -67,6 +71,7 @@ export function delAppInstallList(app_install_id) {
 /**
  * 获取应用安装包列表
  * @param {Object} data
+ * @returns {AxiosPromise}
  */
 export function getAppInstallList(data) {
   return request({
@@ -83,6 +88,7 @@ export function getAppInstallList(data) {
  * 根据请求获取一个应用安装包
  * @param {String} user_agent
  * @param {String} ver
+ * @returns {AxiosPromise}
  */
 export function queryAppInstallUpdated(user_agent, ver) {
   return request({
@@ -100,6 +106,7 @@ export function queryAppInstallUpdated(user_agent, ver) {
 
 /**
  * 根据请求获取一个应用安装包
+ * @returns {AxiosPromise}
  */
 export function requestAppInstallItem() {
   return request({

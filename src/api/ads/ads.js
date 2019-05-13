@@ -3,6 +3,7 @@ import request from '@/utils/request'
 /**
  * 添加一个广告
  * @param {Object} data
+ * @returns {AxiosPromise}
  */
 export function addAdsItem(data) {
   return request({
@@ -18,6 +19,7 @@ export function addAdsItem(data) {
 /**
  * 编辑一个广告
  * @param {Object} data
+ * @returns {AxiosPromise}
  */
 export function setAdsItem(data) {
   return request({
@@ -34,6 +36,7 @@ export function setAdsItem(data) {
  * 设置广告排序
  * @param {Number} ads_id
  * @param {Number} sort
+ * @returns {AxiosPromise}
  */
 export function setAdsSort(ads_id, sort) {
   return request({
@@ -52,6 +55,7 @@ export function setAdsSort(ads_id, sort) {
 /**
  * 批量删除广告
  * @param {Array} ads_id
+ * @returns {AxiosPromise}
  */
 export function delAdsList(ads_id) {
   return request({
@@ -70,6 +74,7 @@ export function delAdsList(ads_id) {
  * 批量设置是否显示
  * @param {Array} ads_id
  * @param {Number} status
+ * @returns {AxiosPromise}
  */
 export function setAdsStatus(ads_id, status) {
   return request({
@@ -88,6 +93,7 @@ export function setAdsStatus(ads_id, status) {
 /**
  * 获取一个广告
  * @param {Number} ads_id
+ * @returns {AxiosPromise}
  */
 export function getAdsItem(ads_id) {
   return request({
@@ -105,6 +111,7 @@ export function getAdsItem(ads_id) {
 /**
  * 获取广告列表
  * @param {Object} data
+ * @returns {AxiosPromise}
  */
 export function getAdsList(data) {
   return request({
