@@ -2,22 +2,23 @@
   <cs-container :is-back-to-top="true">
     <page-header
       slot="header"
-      ref="header"
       :loading="loading"
-      @submit="handleSubmit"/>
+      @submit="handleSubmit"
+      ref="header"/>
 
     <page-main
       :loading="loading"
       :table-data="table"
+      @sort="handleSort"
       @refresh="handleRefresh"/>
   </cs-container>
 </template>
 
 <script>
-import { getAppList } from '@/api/aided/app'
+import { getNavigationList } from '@/api/config/navi'
 
 export default {
-  name: 'system-aided-app',
+  name: 'setting-setting-navi',
   components: {
     'PageHeader': () => import('./components/PageHeader'),
     'PageMain': () => import('./components/PageMain')
@@ -25,7 +26,11 @@ export default {
   data() {
     return {
       loading: true,
-      table: []
+      table: [],
+      order: {
+        order_type: undefined,
+        order_field: undefined
+      }
     }
   },
   mounted() {
@@ -38,10 +43,20 @@ export default {
         this.$refs.header.handleFormSubmit()
       })
     },
-    // 提交查询
+    // 排序刷新
+    handleSort(val) {
+      this.order = val
+      this.$nextTick(() => {
+        this.$refs.header.handleFormSubmit()
+      })
+    },
+    // 提交确认
     handleSubmit(form) {
       this.loading = true
-      getAppList({ ...form })
+      getNavigationList({
+        ...form,
+        ...this.order
+      })
         .then(res => {
           this.table = res.data || []
         })

@@ -43,7 +43,7 @@ export default {
         ...this.order
       })
         .then(res => {
-          this.table = res.data.length ? res.data : []
+          this.table = res.data || []
         })
         .finally(() => {
           this.loading = false
