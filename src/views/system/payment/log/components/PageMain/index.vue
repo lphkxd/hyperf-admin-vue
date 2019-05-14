@@ -4,7 +4,6 @@
       v-loading="loading"
       :data="tableData"
       stripe
-      style="width: 100%"
       @sort-change="sortChange">
 
       <el-table-column type="expand">

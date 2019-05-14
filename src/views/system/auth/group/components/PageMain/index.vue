@@ -53,7 +53,6 @@
       :data="currentTableData"
       v-loading="loading"
       :row-class-name="tableRowClassName"
-      style="width: 100%;"
       @selection-change="handleSelectionChange"
       @sort-change="sortChange">
 

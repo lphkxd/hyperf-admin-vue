@@ -3,7 +3,6 @@
     <div class="cs-p">
       <el-table
         :data="log"
-        style="width: 100%"
         stripe>
         <!-- 时间 -->
         <el-table-column

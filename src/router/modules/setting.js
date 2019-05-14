@@ -29,6 +29,12 @@ export default {
       name: `${pre}setting-navi`,
       meta: { ...meta, cache: true, title: '前台导航' },
       component: () => import('@/views/setting/setting/navi')
+    },
+    {
+      path: 'payment/payment',
+      name: `${pre}payment-payment`,
+      meta: { ...meta, cache: true, title: '支付配置' },
+      component: () => import('@/views/setting/payment/payment')
     }
   ])('setting-')
 }

@@ -65,7 +65,6 @@
       v-loading="loading"
       :data="currentTableData"
       stripe
-      style="width: 100%;"
       @selection-change="handleSelectionChange">
 
       <el-table-column type="selection" width="55"/>

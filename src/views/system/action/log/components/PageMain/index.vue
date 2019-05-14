@@ -4,11 +4,10 @@
       :data="tableData"
       v-loading="loading"
       stripe
-      style="width: 100%;"
       @sort-change="sortChange">
       <el-table-column
         label="编号"
-        min-width="50"
+        min-width="60"
         prop="action_log_id"
         sortable="custom">
       </el-table-column>

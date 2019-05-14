@@ -85,7 +85,6 @@
       :data="currentTableData"
       v-loading="loading"
       stripe
-      style="width: 100%;"
       @selection-change="handleSelectionChange"
       @sort-change="sortChange">
 
