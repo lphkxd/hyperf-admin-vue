@@ -125,11 +125,11 @@
         :model="updateForm"
         ref="updateForm"
         label-width="80px">
-        <el-form-item label="支付名称">
+        <el-form-item label="名称">
           <el-input v-model="updateForm.name" disabled/>
         </el-form-item>
 
-        <el-form-item v-if="updateFormVisible" label="支付图片">
+        <el-form-item v-if="updateFormVisible" label="图片">
           <cs-upload
             v-model="updateForm.image"
             :fileList="imageFile"
@@ -137,7 +137,42 @@
             file-width="60%"/>
         </el-form-item>
 
-        <el-form-item label="支付类型">
+        <el-form-item label="类型">
+          <el-row>
+            <el-col :span="12">
+              <span class="cs-pr-10">是否用于财务充值</span>
+              <el-switch
+                v-model="updateForm.is_deposit"
+                active-value="1"
+                inactive-value="0"/>
+            </el-col>
+
+            <el-col :span="12">
+              <span class="cs-pr-10">是否用于账号充值</span>
+              <el-switch
+                v-model="updateForm.is_inpour"
+                active-value="1"
+                inactive-value="0"/>
+            </el-col>
+          </el-row>
+
+          <el-row>
+            <el-col :span="12">
+              <span class="cs-pr-10">是否用于订单支付</span>
+              <el-switch
+                v-model="updateForm.is_payment"
+                active-value="1"
+                inactive-value="0"/>
+            </el-col>
+
+            <el-col :span="12">
+              <span class="cs-pr-10">是否支持原路退款</span>
+              <el-switch
+                v-model="updateForm.is_refund"
+                active-value="1"
+                inactive-value="0"/>
+            </el-col>
+          </el-row>
         </el-form-item>
 
         <el-form-item label="排序值">
@@ -152,8 +187,8 @@
         <el-form-item label="状态">
           <el-switch
             v-model="updateForm.status"
-            :active-value="1"
-            :inactive-value="0">
+            active-value="1"
+            inactive-value="0">
           </el-switch>
         </el-form-item>
       </el-form>
@@ -283,7 +318,12 @@ export default {
       const data = this.currentTableData[index]
 
       this.updateForm = {
-        ...data
+        ...data,
+        is_deposit: data.is_deposit.toString(),
+        is_inpour: data.is_inpour.toString(),
+        is_payment: data.is_payment.toString(),
+        is_refund: data.is_refund.toString(),
+        status: data.status.toString()
       }
 
       if (this.$refs.updateForm) {
