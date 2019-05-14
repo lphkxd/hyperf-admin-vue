@@ -25,18 +25,12 @@
             </el-form-item>
 
             <el-form-item label="支付图片">
-              <el-popover
-                v-if="props.row.image.length"
-                width="150"
-                placement="top"
-                trigger="hover">
-                <div class="popover-image">
-                  <el-image
-                    :src="props.row.image[0].source | getPreviewUrl"
-                    @click.native="$open(props.row.image[0].url)"/>
-                </div>
-                <cs-icon slot="reference" name="image"/>
-              </el-popover>
+              <div class="popover-image">
+                <el-image
+                  v-if="props.row.image.length"
+                  :src="props.row.image[0].source | getPreviewUrl"
+                  @click.native="$open(props.row.image[0].url)"/>
+              </div>
             </el-form-item>
           </el-form>
         </template>
@@ -121,16 +115,19 @@
       :visible.sync="updateFormVisible"
       :append-to-body="true"
       width="600px">
-      <el-form
-        :model="updateForm"
-        ref="updateForm"
-        label-width="80px">
+      <el-form label-width="80px">
         <el-form-item label="名称">
           <el-input v-model="updateForm.name" disabled/>
         </el-form-item>
 
-        <el-form-item v-if="updateFormVisible" label="图片">
+        <el-form-item label="图片">
+          <el-button
+            v-show="!showImage"
+            type="text"
+            @click="showImage = true">显示控件 <cs-icon name="angle-double-down"/></el-button>
+
           <cs-upload
+            v-if="updateFormVisible && showImage"
             v-model="updateForm.image"
             :fileList="imageFile"
             v-bind:limit="1"
@@ -138,41 +135,33 @@
         </el-form-item>
 
         <el-form-item label="类型">
-          <el-row>
-            <el-col :span="12">
-              <span class="cs-pr-10">是否用于财务充值</span>
-              <el-switch
-                v-model="updateForm.is_deposit"
-                active-value="1"
-                inactive-value="0"/>
-            </el-col>
+          <el-checkbox
+            v-model="updateForm.is_deposit"
+            :true-label="1"
+            :false-label="0">
+            是否用于财务充值
+          </el-checkbox>
 
-            <el-col :span="12">
-              <span class="cs-pr-10">是否用于账号充值</span>
-              <el-switch
-                v-model="updateForm.is_inpour"
-                active-value="1"
-                inactive-value="0"/>
-            </el-col>
-          </el-row>
+          <el-checkbox
+            v-model="updateForm.is_inpour"
+            :true-label="1"
+            :false-label="0">
+            是否用于账号充值
+          </el-checkbox>
 
-          <el-row>
-            <el-col :span="12">
-              <span class="cs-pr-10">是否用于订单支付</span>
-              <el-switch
-                v-model="updateForm.is_payment"
-                active-value="1"
-                inactive-value="0"/>
-            </el-col>
+          <el-checkbox
+            v-model="updateForm.is_payment"
+            :true-label="1"
+            :false-label="0">
+            是否用于订单支付
+          </el-checkbox>
 
-            <el-col :span="12">
-              <span class="cs-pr-10">是否支持原路退款</span>
-              <el-switch
-                v-model="updateForm.is_refund"
-                active-value="1"
-                inactive-value="0"/>
-            </el-col>
-          </el-row>
+          <el-checkbox
+            v-model="updateForm.is_refund"
+            :true-label="1"
+            :false-label="0">
+            是否支持原路退款
+          </el-checkbox>
         </el-form-item>
 
         <el-form-item label="排序值">
@@ -187,8 +176,8 @@
         <el-form-item label="状态">
           <el-switch
             v-model="updateForm.status"
-            active-value="1"
-            inactive-value="0">
+            :active-value="1"
+            :inactive-value="0">
           </el-switch>
         </el-form-item>
       </el-form>
@@ -205,14 +194,47 @@
           size="small">修改</el-button>
       </div>
     </el-dialog>
+
+    <el-dialog
+      title="参数配置"
+      :visible.sync="configFormVisible"
+      :append-to-body="true"
+      width="600px">
+      <el-form label-width="110px">
+        <el-form-item
+          v-for="(item, index) in configForm"
+          :key="index"
+          :label="item.name">
+          <el-input
+            v-model="item.value"
+            :placeholder="item.name"
+            clearable/>
+          <div class="help-block" v-html="item.remark"></div>
+        </el-form-item>
+      </el-form>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button
+          @click="configFormVisible = false"
+          size="small">取消</el-button>
+
+        <el-button
+          type="primary"
+          :loading="configLoading"
+          @click="config"
+          size="small">修改</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import {
   setPaymentSort,
-  setPaymentStatus
+  setPaymentStatus,
+  setPaymentItem
 } from '@/api/payment/payment'
+import { cloneDeep } from 'lodash'
 import util from '@/utils/util'
 
 export default {
@@ -230,9 +252,12 @@ export default {
   data() {
     return {
       imageFile: [],
+      showImage: false,
       currentTableData: [],
       updateLoading: false,
       updateFormVisible: false,
+      configLoading: false,
+      configFormVisible: false,
       auth: {},
       updateForm: {},
       configForm: {},
@@ -315,26 +340,44 @@ export default {
     // 编辑支付
     handleUpdate(index) {
       this.currentIndex = index
-      const data = this.currentTableData[index]
-
-      this.updateForm = {
-        ...data,
-        is_deposit: data.is_deposit.toString(),
-        is_inpour: data.is_inpour.toString(),
-        is_payment: data.is_payment.toString(),
-        is_refund: data.is_refund.toString(),
-        status: data.status.toString()
-      }
-
-      if (this.$refs.updateForm) {
-        this.$nextTick(() => {
-          this.$refs.updateForm.clearValidate()
-        })
-      }
-
-      this.imageFile = data.image
+      this.updateForm = { ...this.currentTableData[index] }
+      this.imageFile = cloneDeep(this.updateForm.image)
+      this.showImage = false
       this.updateLoading = false
       this.updateFormVisible = true
+    },
+    // 请求编辑
+    update() {
+      this.updateLoading = true
+      delete this.updateForm['setting']
+
+      setPaymentItem(this.updateForm)
+        .then(res => {
+          this.$set(
+            this.currentTableData,
+            this.currentIndex,
+            {
+              ...this.currentTableData[this.currentIndex],
+              ...res.data
+            })
+
+          this.updateFormVisible = false
+          this.$message.success('操作成功')
+        })
+        .catch(() => {
+          this.updateLoading = false
+        })
+    },
+    // 参数配置
+    handleConfig(index) {
+      this.currentIndex = index
+      this.configForm = cloneDeep(this.currentTableData[index].setting)
+      this.configLoading = false
+      this.configFormVisible = true
+    },
+    // 请求配置
+    config() {
+      console.log(this.configForm)
     }
   }
 }
@@ -359,5 +402,11 @@ export default {
   .popover-image >>> img {
     vertical-align: middle;
     cursor: pointer;
+  }
+  .help-block {
+    color: #909399;
+    font-size: 12px;
+    line-height: 2;
+    margin-bottom: -12px;
   }
 </style>
