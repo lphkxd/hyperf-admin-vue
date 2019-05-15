@@ -30,6 +30,12 @@
         </el-tab-pane>
 
         <el-tab-pane
+          label="配送优惠"
+          name="delivery">
+          <delivery ref="delivery"/>
+        </el-tab-pane>
+
+        <el-tab-pane
           label="配送轨迹"
           name="delivery_dist">
           <delivery-dist ref="delivery_dist"/>
@@ -51,6 +57,7 @@ import systemInfo from './components/system-info'
 import systemShopping from './components/system-shopping'
 import service from './components/service'
 import payment from './components/payment'
+import delivery from './components/delivery'
 import deliveryDist from './components/delivery-dist'
 import upload from './components/upload'
 
@@ -61,6 +68,7 @@ export default {
     'system-shopping': systemShopping,
     'service': service,
     'payment': payment,
+    'delivery': delivery,
     'delivery-dist': deliveryDist,
     'upload': upload
   },
