@@ -31,10 +31,10 @@ export default {
       component: () => import('@/views/setting/setting/navi')
     },
     {
-      path: 'payment/payment',
-      name: `${pre}payment-payment`,
+      path: 'payment/config',
+      name: `${pre}payment-config`,
       meta: { ...meta, cache: true, title: '支付配置' },
-      component: () => import('@/views/setting/payment/payment')
+      component: () => import('@/views/setting/payment')
     }
   ])('setting-')
 }

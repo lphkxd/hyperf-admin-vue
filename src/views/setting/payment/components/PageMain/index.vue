@@ -4,7 +4,6 @@
       v-loading="loading"
       :data="tableData"
       stripe>
-
       <el-table-column type="expand">
         <template slot-scope="props">
           <el-form label-position="left" inline class="table-expand">
@@ -309,11 +308,11 @@ export default {
   methods: {
     // 验证权限
     _validationAuth() {
-      this.auth.set = this.$has('/setting/payment/payment/set')
-      this.auth.setting = this.$has('/setting/payment/payment/setting')
-      this.auth.sort = this.$has('/setting/payment/payment/sort')
-      this.auth.enable = this.$has('/setting/payment/payment/enable')
-      this.auth.disable = this.$has('/setting/payment/payment/disable')
+      this.auth.set = this.$has('/setting/payment/config/set')
+      this.auth.setting = this.$has('/setting/payment/config/setting')
+      this.auth.sort = this.$has('/setting/payment/config/sort')
+      this.auth.enable = this.$has('/setting/payment/config/enable')
+      this.auth.disable = this.$has('/setting/payment/config/disable')
     },
     // 设置排序值
     handleSort(index) {

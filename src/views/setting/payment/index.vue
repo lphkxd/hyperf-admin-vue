@@ -17,7 +17,7 @@
 import { getPaymentList } from '@/api/payment/payment'
 
 export default {
-  name: 'setting-payment-payment',
+  name: 'setting-payment-config',
   components: {
     'PageHeader': () => import('./components/PageHeader'),
     'PageMain': () => import('./components/PageMain')
