@@ -60,7 +60,7 @@
         align="center">
         <template slot-scope="scope">
           <el-input-number
-            v-if="true"
+            v-if="auth.sort"
             v-model="scope.row.sort"
             style="width: 88px;"
             size="mini"
@@ -84,7 +84,7 @@
           <el-tag
             size="mini"
             :type="statusMap[scope.row.status].type"
-            style="cursor: pointer;"
+            :style="auth.enable || auth.disable ? 'cursor: pointer;' : ''"
             @click.native="handleStatus(scope.$index)">
             {{statusMap[scope.row.status].text}}
           </el-tag>
@@ -97,12 +97,13 @@
         min-width="100">
         <template slot-scope="scope">
           <el-button
+            v-if="auth.set"
             @click="handleUpdate(scope.$index)"
             size="small"
             type="text">编辑</el-button>
 
           <el-button
-            v-if="Object.keys(scope.row.setting).length"
+            v-if="auth.setting && Object.keys(scope.row.setting).length"
             @click="handleConfig(scope.$index)"
             size="small"
             type="text">参数配置</el-button>
@@ -117,7 +118,7 @@
       width="600px">
       <el-form label-width="80px">
         <el-form-item label="名称">
-          <el-input v-model="updateForm.name" disabled/>
+          <el-tag type="info">{{updateForm.name}}</el-tag>
         </el-form-item>
 
         <el-form-item label="图片">
@@ -135,33 +136,35 @@
         </el-form-item>
 
         <el-form-item label="类型">
-          <el-checkbox
-            v-model="updateForm.is_deposit"
-            :true-label="1"
-            :false-label="0">
-            是否用于财务充值
-          </el-checkbox>
+          <div style="width: 300px">
+            <el-checkbox
+              v-model="updateForm.is_deposit"
+              :true-label="1"
+              :false-label="0">
+              用于财务充值
+            </el-checkbox>
 
-          <el-checkbox
-            v-model="updateForm.is_inpour"
-            :true-label="1"
-            :false-label="0">
-            是否用于账号充值
-          </el-checkbox>
+            <el-checkbox
+              v-model="updateForm.is_inpour"
+              :true-label="1"
+              :false-label="0">
+              用于账号充值
+            </el-checkbox>
 
-          <el-checkbox
-            v-model="updateForm.is_payment"
-            :true-label="1"
-            :false-label="0">
-            是否用于订单支付
-          </el-checkbox>
+            <el-checkbox
+              v-model="updateForm.is_payment"
+              :true-label="1"
+              :false-label="0">
+              用于订单支付
+            </el-checkbox>
 
-          <el-checkbox
-            v-model="updateForm.is_refund"
-            :true-label="1"
-            :false-label="0">
-            是否支持原路退款
-          </el-checkbox>
+            <el-checkbox
+              v-model="updateForm.is_refund"
+              :true-label="1"
+              :false-label="0">
+              支持原路退款
+            </el-checkbox>
+          </div>
         </el-form-item>
 
         <el-form-item label="排序值">
@@ -258,7 +261,13 @@ export default {
       updateFormVisible: false,
       configLoading: false,
       configFormVisible: false,
-      auth: {},
+      auth: {
+        set: false,
+        setting: false,
+        sort: false,
+        enable: false,
+        disable: false
+      },
       updateForm: {},
       configForm: {},
       isMap: {
@@ -300,6 +309,11 @@ export default {
   methods: {
     // 验证权限
     _validationAuth() {
+      this.auth.set = this.$has('/setting/payment/payment/set')
+      this.auth.setting = this.$has('/setting/payment/payment/setting')
+      this.auth.sort = this.$has('/setting/payment/payment/sort')
+      this.auth.enable = this.$has('/setting/payment/payment/enable')
+      this.auth.disable = this.$has('/setting/payment/payment/disable')
     },
     // 设置排序值
     handleSort(index) {
@@ -317,15 +331,15 @@ export default {
         return
       }
 
-      // // 禁用权限检测
-      // if (newStatus === 0 && !this.auth.disable) {
-      //   return
-      // }
-      //
-      // // 启用权限检测
-      // if (newStatus === 1 && !this.auth.enable) {
-      //   return
-      // }
+      // 禁用权限检测
+      if (newStatus === 0 && !this.auth.disable) {
+        return
+      }
+
+      // 启用权限检测
+      if (newStatus === 1 && !this.auth.enable) {
+        return
+      }
 
       this.$set(this.currentTableData, index, { ...oldData, status: 2 })
       setPaymentStatus([oldData.payment_id], newStatus)
@@ -377,7 +391,28 @@ export default {
     },
     // 请求配置
     config() {
-      console.log(this.configForm)
+      const index = this.currentIndex
+      this.configLoading = true
+
+      setPaymentItem({
+        payment_id: this.currentTableData[index].payment_id,
+        setting: this.configForm
+      })
+        .then(res => {
+          this.$set(
+            this.currentTableData,
+            index,
+            {
+              ...this.currentTableData[index],
+              ...res.data
+            })
+
+          this.configFormVisible = false
+          this.$message.success('操作成功')
+        })
+        .catch(() => {
+          this.configLoading = false
+        })
     }
   }
 }
@@ -398,6 +433,7 @@ export default {
   }
   .popover-image {
     text-align: center;
+    max-width: 150px;
   }
   .popover-image >>> img {
     vertical-align: middle;
