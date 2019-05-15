@@ -89,3 +89,19 @@ export function setPaymentStatus(payment_id, status) {
     }
   })
 }
+
+/**
+ * 财务对账号进行资金调整
+ * @param {Object} data
+ * @returns {AxiosPromise}
+ */
+export function setPaymentFinance(data) {
+  return request({
+    url: '/v1/payment',
+    method: 'post',
+    params: {
+      method: 'set.payment.finance'
+    },
+    data
+  })
+}
