@@ -71,42 +71,34 @@ export function getRegionItem(region_id, region_all = 0) {
 }
 
 /**
- * 获取指定Id下的子节点(不包含本身)
- * @param {Number} region_id
- * @param {Number} region_all
+ * 获取指定Id下的子节点
+ * @param {Object} data
  * @returns {AxiosPromise}
  */
-export function getRegionList(region_id, region_all = 0) {
+export function getRegionList(data) {
   return request({
     url: '/v1/region',
     method: 'post',
     params: {
       method: 'get.region.list'
     },
-    data: {
-      region_id,
-      region_all
-    }
+    data
   })
 }
 
 /**
- * 获取指定Id下的所有子节点(包含本身)
- * @param {Array} region_id
- * @param {Number} region_all
+ * 获取指定Id下的所有子节点
+ * @param {Object} data
  * @returns {AxiosPromise}
  */
-export function getRegionSonList(region_id, region_all = 0) {
+export function getRegionSonList(data) {
   return request({
     url: '/v1/region',
     method: 'post',
     params: {
       method: 'get.region.son.list'
     },
-    data: {
-      region_id,
-      region_all
-    }
+    data
   })
 }
 

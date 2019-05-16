@@ -589,7 +589,10 @@ export default {
       this.treeLoading = true
       getMenuList({ module: val })
         .then(res => {
-          this.menuData = res.data.length ? util.formatDataToTree(res.data) : []
+          this.menuData = res.data.length
+            ? util.formatDataToTree(res.data)
+            : []
+
           if (this.formStatus === 'update' && res.data.length) {
             if (!this.menuAuth.length && !this.logAuth.length) {
               return

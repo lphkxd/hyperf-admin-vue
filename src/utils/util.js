@@ -60,12 +60,18 @@ util.md5 = function(str) {
  * 将任意对象转化为树
  * @param data
  * @param key
+ * @param pidKey
  * @param pid
  * @returns {Array}
  */
-util.formatDataToTree = function(data, key = 'menu_id', pid = 'parent_id') {
+util.formatDataToTree = function(data, key = 'menu_id', pidKey = [], pid = 'parent_id',) {
   let map = {}
   data.forEach(value => {
+    // 子级暂变为父级时需要将"pid"暂时设为顶级
+    if (pidKey.length && pidKey.includes(value[key])) {
+      value[pid] = 0
+    }
+
     map[value[key]] = { ...value }
   })
 
@@ -77,6 +83,9 @@ util.formatDataToTree = function(data, key = 'menu_id', pid = 'parent_id') {
 
     // 对应索引
     const index = data[id][key]
+    if (!map.hasOwnProperty(index)) {
+      continue
+    }
 
     // 子节点压入
     if (map[index][pid]) {
