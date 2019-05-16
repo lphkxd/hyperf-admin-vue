@@ -131,6 +131,24 @@ export function setRegionSort(region_id, sort) {
 }
 
 /**
+ * 根据编号自动排序
+ * @param {Number} region_id
+ * @returns {AxiosPromise}
+ */
+export function setRegionIndex(region_id) {
+  return request({
+    url: '/v1/region',
+    method: 'post',
+    params: {
+      method: 'set.region.index'
+    },
+    data: {
+      region_id
+    }
+  })
+}
+
+/**
  * 根据区域编号获取区域名称
  * @param {Array} region_id
  * @returns {AxiosPromise}
