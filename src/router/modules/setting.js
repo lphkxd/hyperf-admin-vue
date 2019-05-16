@@ -15,7 +15,7 @@ export default {
     {
       path: 'setting/system',
       name: `${pre}setting-system`,
-      meta: { ...meta, cache: true, title: '系统配置' },
+      meta: { ...meta, cache: true, title: '系统设置' },
       component: () => import('@/views/setting/setting/system')
     },
     {
@@ -35,6 +35,12 @@ export default {
       name: `${pre}payment-config`,
       meta: { ...meta, cache: true, title: '支付配置' },
       component: () => import('@/views/setting/payment')
+    },
+    {
+      path: 'logistics/region',
+      name: `${pre}logistics-region`,
+      meta: { ...meta, cache: true, title: '区域管理' },
+      component: () => import('@/views/setting/logistics/region')
     }
   ])('setting-')
 }
