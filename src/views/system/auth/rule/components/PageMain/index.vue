@@ -481,6 +481,7 @@ export default {
                 this.$refs.tree.setCheckedKeys([])
               }
 
+              this.handleCreate('create')
               this.$message.success('操作成功')
             })
         })
