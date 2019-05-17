@@ -174,97 +174,96 @@
               @click="update">修改</el-button>
           </div>
 
-          <div>
-            <el-form
-              :model="form"
-              :rules="rules"
-              ref="form"
-              label-width="80px">
-              <el-form-item
-                label="名称"
-                prop="name">
-                <el-input
-                  v-model="form.name"
-                  placeholder="请输入权限名称"
-                  clearable/>
-              </el-form-item>
+          <el-form
+            :model="form"
+            :rules="rules"
+            ref="form"
+            label-width="80px">
+            <el-form-item
+              label="名称"
+              prop="name">
+              <el-input
+                v-model="form.name"
+                placeholder="请输入权限名称"
+                clearable/>
+            </el-form-item>
 
-              <el-row :gutter="20">
-                <el-col :span="12">
-                  <el-form-item
-                    label="模块"
-                    prop="module">
-                    <el-select
-                      v-model="form.module"
-                      placeholder="请选择"
-                      style="width: 100%;"
-                      value="">
-                      <el-option
-                        v-for="(item, index) in module"
-                        :key="index"
-                        :label="item"
-                        :value="index"/>
-                    </el-select>
-                  </el-form-item>
-                </el-col>
+            <el-row :gutter="20">
+              <el-col :span="12">
+                <el-form-item
+                  label="模块"
+                  prop="module">
+                  <el-select
+                    v-model="form.module"
+                    placeholder="请选择"
+                    style="width: 100%;"
+                    value="">
+                    <el-option
+                      v-for="(item, index) in module"
+                      :key="index"
+                      :label="item"
+                      :value="index"/>
+                  </el-select>
+                </el-form-item>
+              </el-col>
 
-                <el-col :span="12">
-                  <el-form-item
-                    label="用户组"
-                    prop="group_id">
-                    <el-select
-                      v-model="form.group_id"
-                      placeholder="请选择"
-                      style="width: 100%;"
-                      value="">
-                      <el-option
-                        v-for="item in group"
-                        :key="item.group_id"
-                        :label="item.name"
-                        :value="item.group_id"/>
-                    </el-select>
-                  </el-form-item>
-                </el-col>
-              </el-row>
+              <el-col :span="12">
+                <el-form-item
+                  label="用户组"
+                  prop="group_id">
+                  <el-select
+                    v-model="form.group_id"
+                    placeholder="请选择"
+                    style="width: 100%;"
+                    value="">
+                    <el-option
+                      v-for="item in group"
+                      :key="item.group_id"
+                      :label="item.name"
+                      :value="item.group_id"/>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+            </el-row>
 
-              <el-row :gutter="20">
-                <el-col :span="12">
-                  <el-form-item
-                    label="排序"
-                    prop="sort">
-                    <el-input-number
-                      v-model="form.sort"
-                      :min="0"
-                      :max="255"
-                      style="width: 120px;"
-                      controls-position="right"/>
-                  </el-form-item>
-                </el-col>
+            <el-row :gutter="20">
+              <el-col :span="12">
+                <el-form-item
+                  label="排序"
+                  prop="sort">
+                  <el-input-number
+                    v-model="form.sort"
+                    :min="0"
+                    :max="255"
+                    style="width: 120px;"
+                    controls-position="right"/>
+                </el-form-item>
+              </el-col>
 
-                <el-col :span="12">
-                  <el-form-item
-                    label="状态"
-                    prop="status">
-                    <el-switch
-                      v-model="form.status"
-                      active-value="1"
-                      inactive-value="0">
-                    </el-switch>
-                  </el-form-item>
-                </el-col>
-              </el-row>
-            </el-form>
+              <el-col :span="12">
+                <el-form-item
+                  label="状态"
+                  prop="status">
+                  <el-switch
+                    v-model="form.status"
+                    active-value="1"
+                    inactive-value="0">
+                  </el-switch>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
 
-            <div v-loading="treeLoading">
-              <el-collapse>
-                <el-collapse-item title="菜单权限">
-                  <el-tree
-                    node-key="menu_id"
-                    :data="menuData"
-                    :props="treeProps"
-                    :default-checked-keys="form.menu_auth"
-                    show-checkbox
-                    ref="menuTree">
+          <div v-loading="treeLoading">
+            <el-collapse>
+              <el-collapse-item title="菜单权限">
+                <el-tree
+                  node-key="menu_id"
+                  :data="menuData"
+                  :props="treeProps"
+                  :default-checked-keys="form.menu_auth"
+                  show-checkbox
+                  ref="menuTree">
                     <span class="custom-tree-node" slot-scope="{ node, data }">
                       <span :class="`brother-showing ${!data.status ? 'status-tree' : ''}`">
                         <i v-if="data.icon" :class="`fa fa-${data.icon}`" style="width: 16px;"></i>
@@ -276,17 +275,17 @@
                         </i>
                       </span>
                     </span>
-                  </el-tree>
-                </el-collapse-item>
+                </el-tree>
+              </el-collapse-item>
 
-                <el-collapse-item v-if="form.module === 'api'" title="记录权限">
-                  <el-tree
-                    node-key="menu_id"
-                    :data="menuData"
-                    :props="treeProps"
-                    :default-checked-keys="form.log_auth"
-                    show-checkbox
-                    ref="logTree">
+              <el-collapse-item v-if="form.module === 'api'" title="记录权限">
+                <el-tree
+                  node-key="menu_id"
+                  :data="menuData"
+                  :props="treeProps"
+                  :default-checked-keys="form.log_auth"
+                  show-checkbox
+                  ref="logTree">
                     <span class="custom-tree-node" slot-scope="{ node, data }">
                       <span :class="`brother-showing ${!data.status ? 'status-tree' : ''}`">
                         <i v-if="data.icon" :class="`fa fa-${data.icon}`" style="width: 16px;"></i>
@@ -298,11 +297,9 @@
                         </i>
                       </span>
                     </span>
-                  </el-tree>
-                </el-collapse-item>
-              </el-collapse>
-            </div>
-
+                </el-tree>
+              </el-collapse-item>
+            </el-collapse>
           </div>
         </el-card>
       </el-col>

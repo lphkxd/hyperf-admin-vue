@@ -33,7 +33,7 @@ export function setRegionItem(data) {
 }
 
 /**
- * 编辑一个区域
+ * 批量删除区域
  * @param {Array} region_id
  * @returns {AxiosPromise}
  */
@@ -75,7 +75,7 @@ export function getRegionItem(region_id, region_all = 0) {
  * @param {Object} data
  * @returns {AxiosPromise}
  */
-export function getRegionList(data) {
+export function getRegionList(data = null) {
   return request({
     url: '/v1/region',
     method: 'post',
@@ -91,7 +91,7 @@ export function getRegionList(data) {
  * @param {Object} data
  * @returns {AxiosPromise}
  */
-export function getRegionSonList(data) {
+export function getRegionSonList(data = null) {
   return request({
     url: '/v1/region',
     method: 'post',

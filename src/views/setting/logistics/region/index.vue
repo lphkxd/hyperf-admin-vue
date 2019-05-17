@@ -1,11 +1,5 @@
 <template>
   <cs-container :is-back-to-top="true">
-    <page-header
-      slot="header"
-      :loading="loading"
-      @submit="handleSubmit"
-      ref="header"/>
-
     <page-main
       :tree-data="tree"
       :loading="loading"
@@ -21,7 +15,6 @@ import { getRegionSonList } from '@/api/logistics/region'
 export default {
   name: 'setting-logistics-region',
   components: {
-    'PageHeader': () => import('./components/PageHeader'),
     'PageMain': () => import('./components/PageMain')
   },
   data() {
@@ -37,17 +30,23 @@ export default {
     // 重新载入页面
     handleRefresh() {
       this.$nextTick(() => {
-        this.$refs.header.handleFormSubmit()
+        this.handleSubmit()
       })
     },
     // 提交查询请求
-    handleSubmit(form) {
+    handleSubmit() {
       this.loading = true
-      getRegionSonList({ ...form })
+      getRegionSonList()
         .then(res => {
           this.tree = res.data.length
             ? util.formatDataToTree(res.data, 'region_id')
             : []
+
+          if (this.$refs.main) {
+            this.$refs.main.filterText = ''
+            this.$refs.main.resetForm()
+            this.$refs.main.resetElements()
+          }
         })
         .finally(() => {
           this.loading = false
