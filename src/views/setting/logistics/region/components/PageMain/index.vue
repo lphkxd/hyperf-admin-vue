@@ -17,16 +17,16 @@
         <el-button-group>
           <el-button
             :disabled="loading"
-            @click="$emit('refresh')">
-            <cs-icon name="refresh"/>
-            刷新
+            @click="removeList">
+            <cs-icon name="trash-o"/>
+            删除
           </el-button>
 
           <el-button
             :disabled="loading"
-            @click="() => {}">
-            <cs-icon name="trash-o"/>
-            删除
+            @click="$emit('refresh')">
+            <cs-icon name="refresh"/>
+            刷新
           </el-button>
         </el-button-group>
       </el-form-item>
@@ -77,6 +77,7 @@
           :allow-drop="allowDrop"
           draggable
           show-checkbox
+          @node-expand="nodeExpand"
           ref="tree">
           <span class="custom-tree-node action" slot-scope="{ node, data }">
             <span class="brother-showing">
@@ -95,7 +96,7 @@
               <el-button
                 type="text"
                 size="mini"
-                @click.stop="() => {}">
+                @click.stop="() => remove([data.region_id])">
                 删除
               </el-button>
             </span>
@@ -115,14 +116,14 @@
               type="text"
               :loading="formLoading"
               style="float: right; padding: 3px 0"
-              @click="() => {}">确定</el-button>
+              @click="create">确定</el-button>
 
             <el-button
               v-else-if="formStatus === 'update'"
               type="text"
               :loading="formLoading"
               style="float: right; padding: 3px 0"
-              @click="() => {}">修改</el-button>
+              @click="update">修改</el-button>
           </div>
 
           <el-form
@@ -180,6 +181,11 @@
 </template>
 
 <script>
+import {
+  addRegionItem,
+  delRegionList,
+  setRegionItem
+} from '@/api/logistics/region'
 import { getHelpRouter } from '@/api/index/help'
 
 export default {
@@ -228,13 +234,6 @@ export default {
         sort: 50
       },
       rules: {
-        parent_id: [
-          {
-            required: true,
-            message: '上级区域不能为空',
-            trigger: 'blur'
-          }
-        ],
         region_name: [
           {
             required: true,
@@ -339,6 +338,81 @@ export default {
     handleAppend(key) {
       this.handleCreate('create', key)
       this.form.parent_id = this._getParentId(key)
+    },
+    // 新增
+    create() {
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          this.formLoading = true
+          const { parent_id } = this.form
+
+          addRegionItem({
+            ...this.form,
+            'parent_id': parent_id.length > 0 ? parent_id[parent_id.length - 1] : 0
+          })
+            .then(res => {
+              this.expanded = [res.data.parent_id || res.data.region_id]
+              this.$emit('refresh')
+              this.$message.success('操作成功')
+            })
+            .catch(() => {
+              this.formLoading = false
+            })
+        }
+      })
+    },
+    // 编辑
+    update() {
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          this.formLoading = true
+          delete this.form['parent_id']
+
+          setRegionItem({ ...this.form })
+            .then(() => {
+              this.$emit('refresh')
+              this.$message.success('操作成功')
+            })
+            .catch(() => {
+              this.formLoading = false
+            })
+        }
+      })
+    },
+    // 删除
+    remove(key) {
+      if (!key || !key.length) {
+        this.$message.error('请选择要操作的数据')
+        return
+      }
+
+      this.$confirm('确定要执行该操作吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(() => {
+          delRegionList(key)
+            .then(() => {
+              key.forEach(value => {
+                this.$refs.tree.remove(value)
+              })
+
+              this.$refs.tree.setCheckedKeys([])
+              this.handleCreate('create')
+              this.$message.success('操作成功')
+            })
+        })
+        .catch(() => {
+        })
+    },
+    // 批量删除
+    removeList() {
+      this.remove(this.$refs.tree.getCheckedKeys())
+    },
+    // 节点被展开时触发
+    nodeExpand(data) {
+      this.expanded = [data.region_id]
     },
     // 判断节点是否能被拖动
     allowDrag(draggingNode) {
