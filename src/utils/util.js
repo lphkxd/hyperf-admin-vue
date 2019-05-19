@@ -60,15 +60,15 @@ util.md5 = function(str) {
  * 将任意对象转化为树
  * @param data
  * @param key
- * @param pidKey
  * @param pid
+ * @param parent
  * @returns {Array}
  */
-util.formatDataToTree = function(data, key = 'menu_id', pidKey = [], pid = 'parent_id',) {
+util.formatDataToTree = function(data, key = 'menu_id', pid = 'parent_id', parent = {}) {
   let map = {}
   data.forEach(value => {
     // 子级暂变为父级时需要将"pid"暂时设为顶级
-    if (pidKey.length && pidKey.includes(value[key])) {
+    if (parent.length && parent.value.includes(value[parent.key])) {
       value[pid] = 0
     }
 

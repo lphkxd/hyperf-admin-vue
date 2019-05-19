@@ -36,12 +36,13 @@ export default {
     // 提交查询请求
     handleSubmit() {
       this.loading = true
-      getRegionSonList()
+      getRegionSonList({ region_id: 1 }) // 默认只获取中国区域
         .then(res => {
           this.tree = res.data.length
-            ? util.formatDataToTree(res.data, 'region_id')
+            ? util.formatDataToTree(res.data, 'region_id', 'parent_id', { key: 'parent_id', value: [1] })
             : []
 
+          console.log(this.tree)
           if (this.$refs.main) {
             this.$refs.main.filterText = ''
             this.$refs.main.resetForm()
