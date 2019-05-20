@@ -4,7 +4,7 @@
     <el-form
       :inline="true"
       size="small">
-      <el-form-item>
+      <el-form-item v-if="auth.add">
         <el-button
           :disabled="loading"
           @click="handleCreate('create')">
@@ -16,6 +16,7 @@
       <el-form-item>
         <el-button-group>
           <el-button
+            v-if="auth.del"
             :disabled="loading"
             @click="removeList">
             <cs-icon name="trash-o"/>
@@ -24,7 +25,7 @@
 
           <el-button
             :disabled="loading"
-            @click="$emit('refresh')">
+            @click="refresh">
             <cs-icon name="refresh"/>
             刷新
           </el-button>
@@ -77,16 +78,16 @@
           :allow-drop="allowDrop"
           draggable
           show-checkbox
-          @node-expand="nodeExpand"
           ref="tree">
           <span class="custom-tree-node action" slot-scope="{ node, data }">
             <span class="brother-showing">
-              <i class="fa fa-align-justify move-tree" style="width: 16px;"></i>
+              <i v-if="auth.move" class="fa fa-align-justify move-tree" style="width: 16px;"></i>
               {{node.label}}
             </span>
 
             <span class="active">
               <el-button
+                v-if="auth.add"
                 type="text"
                 size="mini"
                 @click.stop="() => handleAppend(data.region_id)">
@@ -94,6 +95,7 @@
               </el-button>
 
               <el-button
+                v-if="auth.del"
                 type="text"
                 size="mini"
                 @click.stop="() => remove([data.region_id])">
@@ -106,20 +108,20 @@
 
       <el-col :span="14">
         <el-card
+          v-if="auth.add || auth.set"
           class="box-card"
           shadow="never">
-
           <div slot="header">
             <span>{{textMap[formStatus]}}</span>
             <el-button
-              v-if="formStatus === 'create'"
+              v-if="formStatus === 'create' && auth.add"
               type="text"
               :loading="formLoading"
               style="float: right; padding: 3px 0"
               @click="create">确定</el-button>
 
             <el-button
-              v-else-if="formStatus === 'update'"
+              v-else-if="formStatus === 'update' && auth.set"
               type="text"
               :loading="formLoading"
               style="float: right; padding: 3px 0"
@@ -184,7 +186,8 @@
 import {
   addRegionItem,
   delRegionList,
-  setRegionItem
+  setRegionItem,
+  setRegionIndex
 } from '@/api/logistics/region'
 import { getHelpRouter } from '@/api/index/help'
 
@@ -201,7 +204,7 @@ export default {
     return {
       filterText: '',
       helpContent: '',
-      expanded: [1],
+      expanded: [],
       treeLoading: false,
       treeProps: {
         label: 'region_name',
@@ -267,6 +270,10 @@ export default {
   methods: {
     // 验证权限
     _validationAuth() {
+      this.auth.add = this.$has('/setting/logistics/region/add')
+      this.auth.set = this.$has('/setting/logistics/region/set')
+      this.auth.del = this.$has('/setting/logistics/region/del')
+      this.auth.move = this.$has('/setting/logistics/region/move')
     },
     // 根据父ID获取所有上级编号
     _getParentId(parent_id) {
@@ -302,7 +309,8 @@ export default {
     // 重置表单
     resetForm() {
       this.form = {
-        parent_id: [],
+        // 默认指定中国区域
+        parent_id: [1],
         region_name: '',
         sort: 50
       }
@@ -318,8 +326,17 @@ export default {
       this.formStatus = val
       this.formLoading = false
     },
+    // 刷新
+    refresh() {
+      this.expanded = []
+      this.$emit('refresh')
+    },
     // 点击树节点事件
     handleNodeClick(data) {
+      if (!this.auth.add && !this.auth.set) {
+        return
+      }
+
       this.resetForm()
       this.resetElements('update')
 
@@ -369,7 +386,8 @@ export default {
           delete this.form['parent_id']
 
           setRegionItem({ ...this.form })
-            .then(() => {
+            .then(res => {
+              this.expanded = [res.data.parent_id || res.data.region_id]
               this.$emit('refresh')
               this.$message.success('操作成功')
             })
@@ -410,17 +428,13 @@ export default {
     removeList() {
       this.remove(this.$refs.tree.getCheckedKeys())
     },
-    // 节点被展开时触发
-    nodeExpand(data) {
-      this.expanded = [data.region_id]
-    },
     // 判断节点是否能被拖动
-    allowDrag(draggingNode) {
-      return false
+    allowDrag() {
+      return this.auth.move
     },
     // 拖拽时判定目标节点能否被放置
     allowDrop(draggingNode, dropNode, type) {
-      return false
+      return !(draggingNode.parent !== dropNode.parent || type === 'inner')
     },
     /**
      * 拖拽成功后操作
@@ -428,6 +442,16 @@ export default {
      * @param dropNode      结束拖拽时最后进入的节点
      */
     handleDrop(draggingNode, dropNode) {
+      let regionList = []
+      dropNode.parent.childNodes.forEach((value, index) => {
+        regionList.push(value.key)
+        value.data.sort = index + 1
+      })
+
+      setRegionIndex(regionList)
+        .catch(() => {
+          this.$emit('refresh')
+        })
     }
   }
 }

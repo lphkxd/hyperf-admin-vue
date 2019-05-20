@@ -38,11 +38,11 @@ export default {
       this.loading = true
       getRegionSonList({ region_id: 1 }) // 默认只获取中国区域
         .then(res => {
+          const setParent = { key: 'parent_id', value: [1] }
           this.tree = res.data.length
-            ? util.formatDataToTree(res.data, 'region_id', 'parent_id', { key: 'parent_id', value: [1] })
+            ? util.formatDataToTree(res.data, 'region_id', 'parent_id', setParent)
             : []
 
-          console.log(this.tree)
           if (this.$refs.main) {
             this.$refs.main.filterText = ''
             this.$refs.main.resetForm()

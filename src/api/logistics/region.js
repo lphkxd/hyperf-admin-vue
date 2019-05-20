@@ -124,7 +124,7 @@ export function setRegionSort(region_id, sort) {
 
 /**
  * 根据编号自动排序
- * @param {Number} region_id
+ * @param {Array} region_id
  * @returns {AxiosPromise}
  */
 export function setRegionIndex(region_id) {

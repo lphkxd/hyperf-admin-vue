@@ -66,9 +66,10 @@ util.md5 = function(str) {
  */
 util.formatDataToTree = function(data, key = 'menu_id', pid = 'parent_id', parent = {}) {
   let map = {}
+  const isSetParent = Object.keys(parent).length > 0
+
   data.forEach(value => {
-    // 子级暂变为父级时需要将"pid"暂时设为顶级
-    if (parent.length && parent.value.includes(value[parent.key])) {
+    if (isSetParent && parent.value.includes(value[parent.key])) {
       value[pid] = 0
     }
 
