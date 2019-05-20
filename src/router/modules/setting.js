@@ -41,6 +41,12 @@ export default {
       name: `${pre}logistics-region`,
       meta: { ...meta, cache: true, title: '区域管理' },
       component: () => import('@/views/setting/logistics/region')
+    },
+    {
+      path: 'logistics/company',
+      name: `${pre}logistics-company`,
+      meta: { ...meta, cache: true, title: '快递公司' },
+      component: () => import('@/views/setting/logistics/company')
     }
   ])('setting-')
 }
