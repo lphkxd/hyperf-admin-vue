@@ -3,7 +3,7 @@
     <el-form
       :inline="true"
       size="small">
-      <el-form-item>
+      <el-form-item v-if="auth.add">
         <el-button
           :disabled="loading"
           @click="handleCreate">
@@ -15,6 +15,7 @@
       <el-form-item>
         <el-button-group>
           <el-button
+            v-if="auth.del"
             :disabled="loading"
             @click="handleDelete(null)">
             <cs-icon name="trash-o"/>
@@ -52,7 +53,7 @@
         label="#"
         prop="delivery_item_id"
         sortable="custom"
-        min-width="20">
+        min-width="30">
       </el-table-column>
 
       <el-table-column
@@ -89,17 +90,25 @@
       <el-table-column
         label="操作"
         align="center"
-        min-width="100">
+        min-width="120">
         <template slot-scope="scope">
           <el-button
+            v-if="auth.set"
             @click="handleUpdate(scope.$index)"
             size="small"
             type="text">编辑</el-button>
 
           <el-button
+            v-if="auth.del"
             @click="handleDelete(scope.$index)"
             size="small"
             type="text">删除</el-button>
+
+          <el-button
+            v-if="auth.copy && scope.row.type !== 0"
+            @click="copyToHot(scope.row.delivery_item_id)"
+            size="small"
+            type="text">复制为热门</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -130,7 +139,7 @@
               prop="phonetic">
               <el-input
                 v-model="form.phonetic"
-                placeholder="不填写将由系统自动识别"
+                placeholder="新增时不填写将自动识别"
                 clearable/>
             </el-form-item>
           </el-col>
@@ -189,7 +198,10 @@
 
 <script>
 import {
-  addDeliveryCompanyItem
+  addDeliveryCompanyItem,
+  delDeliveryCompanyList,
+  setDeliveryCompanyItem,
+  copyDeliveryCompanyHot
 } from '@/api/logistics/company'
 import { getHelpRouter } from '@/api/index/help'
 
@@ -291,6 +303,10 @@ export default {
   methods: {
     // 验证权限
     _validationAuth() {
+      this.auth.add = this.$has('/setting/logistics/company/add')
+      this.auth.set = this.$has('/setting/logistics/company/set')
+      this.auth.del = this.$has('/setting/logistics/company/del')
+      this.auth.copy = this.$has('/setting/logistics/company/copy')
     },
     // 获取列表中的编号
     _getIdList(val) {
@@ -367,6 +383,86 @@ export default {
             })
         }
       })
+    },
+    // 批量删除
+    handleDelete(val) {
+      let company_id = this._getIdList(val)
+      if (company_id.length === 0) {
+        this.$message.error('请选择要操作的数据')
+        return
+      }
+
+      this.$confirm('确定要执行该操作吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(() => {
+          delDeliveryCompanyList(company_id)
+            .then(() => {
+              for (let i = this.currentTableData.length - 1; i >= 0; i--) {
+                if (company_id.indexOf(this.currentTableData[i].delivery_item_id) !== -1) {
+                  this.currentTableData.splice(i, 1)
+                }
+              }
+
+              this.$message.success('操作成功')
+            })
+        })
+        .catch(() => {
+        })
+    },
+    // 编辑公司
+    handleUpdate(index) {
+      this.currentIndex = index
+      const data = this.currentTableData[index]
+
+      this.form = {
+        ...data,
+        type: data.type.toString()
+      }
+
+      if (this.$refs.form) {
+        this.$nextTick(() => {
+          this.$refs.form.clearValidate()
+        })
+      }
+
+      this.dialogStatus = 'update'
+      this.dialogLoading = false
+      this.dialogFormVisible = true
+    },
+    // 请求编辑
+    update() {
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          this.dialogLoading = true
+          setDeliveryCompanyItem(this.form)
+            .then(res => {
+              this.$set(
+                this.currentTableData,
+                this.currentIndex,
+                {
+                  ...this.currentTableData[this.currentIndex],
+                  ...res.data
+                })
+
+              this.dialogFormVisible = false
+              this.$message.success('操作成功')
+            })
+            .catch(() => {
+              this.dialogLoading = false
+            })
+        }
+      })
+    },
+    // 复制为热门
+    copyToHot(id) {
+      copyDeliveryCompanyHot(id)
+        .then(res => {
+          this.currentTableData.unshift(res.data)
+          this.$message.success('操作成功')
+        })
     }
   }
 }
