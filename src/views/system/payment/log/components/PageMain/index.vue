@@ -131,7 +131,6 @@
         width="160"
         sortable="custom">
       </el-table-column>
-
     </el-table>
   </div>
 </template>

@@ -145,7 +145,10 @@ export default {
   watch: {
     'form.storage_id': {
       handler(val) {
-        getStorageNavi(val).then(res => { this.naviData = res.data })
+        getStorageNavi(val)
+          .then(res => {
+            this.naviData = res.data
+          })
       }
     }
   },

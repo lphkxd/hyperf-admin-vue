@@ -53,7 +53,10 @@ export default {
   watch: {
     storageId: {
       handler(val) {
-        getStorageNavi(val).then(res => { this.navi = res.data })
+        getStorageNavi(val)
+          .then(res => {
+            this.navi = res.data
+          })
       }
     }
   },
