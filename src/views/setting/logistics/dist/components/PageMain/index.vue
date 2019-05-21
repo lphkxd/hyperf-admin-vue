@@ -6,7 +6,7 @@
       <el-form-item>
         <el-button
           :disabled="loading"
-          @click="() => {}"
+          @click="handleTrace"
           type="warning"
           plain>
           <cs-icon name="map-marker"/>
@@ -111,6 +111,52 @@
       :visible.sync="traceFormVisible"
       :append-to-body="true"
       width="600px">
+      <el-form
+        :model="traceForm"
+        :rules="rules"
+        ref="form"
+        label-width="80px">
+        <el-form-item
+          label="快递公司"
+          prop="delivery_code">
+          <el-select
+            v-model="traceForm.delivery_code"
+            placeholder="请选择快递公司，试试搜索：顺丰 或 s"
+            style="width: 100%;"
+            clearable
+            filterable
+            value="">
+            <el-option
+              v-for="(item, index) in companyList"
+              :key="index"
+              :label="`${item.phonetic} ${item.name}`"
+              :value="item.code">
+              <span>{{item.name}}</span>
+            </el-option>
+          </el-select>
+        </el-form-item>
+
+        <el-form-item
+          label="选择类型"
+          prop="type">
+          <el-radio-group v-model="traceType">
+            <el-radio :label="0">热门</el-radio>
+            <el-radio :label="1">国内</el-radio>
+            <el-radio :label="2">国外</el-radio>
+            <el-radio :label="3">转运</el-radio>
+          </el-radio-group>
+        </el-form-item>
+
+        <el-form-item
+          label="快递单号"
+          prop="logistic_code">
+          <el-input
+            v-model="traceForm.logistic_code"
+            placeholder="请输入快递单号"
+            style="width: 260px;"
+            clearable/>
+        </el-form-item>
+      </el-form>
     </el-dialog>
   </div>
 </template>
@@ -137,11 +183,14 @@ export default {
       helpContent: '',
       companyList: [],
       traceType: 0,
+      traceData: [],
       traceLoading: false,
       traceFormVisible: false,
       traceForm: {
         delivery_code: undefined,
         logistic_code: undefined
+      },
+      rules: {
       }
     }
   },
@@ -168,7 +217,8 @@ export default {
       handler(val) {
         getDeliveryCompanySelect(val)
           .then(res => {
-            this.companyList = res.data.length ? res.data : []
+            this.companyList = res.data.length > 0 ? res.data : []
+            this.traceForm.delivery_code = undefined
           })
       },
       immediate: true
@@ -195,6 +245,22 @@ export default {
       }
 
       this.$emit('sort', sort)
+    },
+    // 即时查询
+    handleTrace() {
+      this.traceForm = {
+        delivery_code: '',
+        logistic_code: ''
+      }
+
+      this.$nextTick(() => {
+        this.$refs.form.clearValidate()
+      })
+
+      this.traceType = 0
+      this.traceData = []
+      this.traceLoading = false
+      this.traceFormVisible = true
     }
   }
 }

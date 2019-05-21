@@ -139,7 +139,7 @@
               prop="phonetic">
               <el-input
                 v-model="form.phonetic"
-                placeholder="新增时不填写将自动识别"
+                placeholder="新增不填写将自动识别"
                 clearable/>
             </el-form-item>
           </el-col>
