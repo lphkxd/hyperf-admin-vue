@@ -7,7 +7,7 @@
         <el-button
           :disabled="loading"
           @click="handleTrace"
-          type="warning"
+          type="primary"
           plain>
           <cs-icon name="map-marker"/>
           即时查询
@@ -37,7 +37,7 @@
       stripe>
       <el-table-column type="expand">
         <template slot-scope="props">
-          <el-form label-position="left" inline class="table-expand">
+          <el-form label-position="left" inline>
             <el-timeline v-if="Object.keys(props.row['trace']).length > 0">
               <el-timeline-item
                 v-for="(activity, index) in props.row['trace']"
@@ -125,26 +125,16 @@
             style="width: 100%;"
             clearable
             filterable
+            :filter-method="filterDelivery"
+            @visible-change="handleVisibleChange"
             value="">
             <el-option
-              v-for="(item, index) in companyList"
-              :key="index"
-              :label="`${item.phonetic} ${item.name}`"
+              v-for="item in companyList"
+              :key="item.delivery_item_id"
+              :label="item.name"
               :value="item.code">
-              <span>{{item.name}}</span>
             </el-option>
           </el-select>
-        </el-form-item>
-
-        <el-form-item
-          label="选择类型"
-          prop="type">
-          <el-radio-group v-model="traceType">
-            <el-radio :label="0">热门</el-radio>
-            <el-radio :label="1">国内</el-radio>
-            <el-radio :label="2">国外</el-radio>
-            <el-radio :label="3">转运</el-radio>
-          </el-radio-group>
         </el-form-item>
 
         <el-form-item
@@ -156,7 +146,28 @@
             style="width: 260px;"
             clearable/>
         </el-form-item>
+
+        <el-form-item>
+          <el-button
+            type="primary"
+            :loading="traceLoading"
+            @click="trace"
+            size="small">查询</el-button>
+        </el-form-item>
       </el-form>
+
+      <div v-if="traceData.length">
+        <el-divider>物流轨迹</el-divider>
+        <el-timeline>
+          <el-timeline-item
+            v-for="(trace, index) in traceData"
+            :key="index"
+            :timestamp="trace.accept_time"
+            type="primary">
+            {{trace.accept_station}}
+          </el-timeline-item>
+        </el-timeline>
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -182,7 +193,7 @@ export default {
     return {
       helpContent: '',
       companyList: [],
-      traceType: 0,
+      companyCopy: [],
       traceData: [],
       traceLoading: false,
       traceFormVisible: false,
@@ -191,6 +202,25 @@ export default {
         logistic_code: undefined
       },
       rules: {
+        delivery_code: [
+          {
+            required: true,
+            message: '至少选择一项',
+            trigger: 'change'
+          }
+        ],
+        logistic_code: [
+          {
+            required: true,
+            message: '快递单号不能为空',
+            trigger: 'blur'
+          },
+          {
+            max: 50,
+            message: '长度不能大于 50 个字符',
+            trigger: 'blur'
+          }
+        ]
       }
     }
   },
@@ -212,17 +242,12 @@ export default {
       return `${name} / ${nick}`
     }
   },
-  watch: {
-    traceType: {
-      handler(val) {
-        getDeliveryCompanySelect(val)
-          .then(res => {
-            this.companyList = res.data.length > 0 ? res.data : []
-            this.traceForm.delivery_code = undefined
-          })
-      },
-      immediate: true
-    }
+  mounted() {
+    getDeliveryCompanySelect()
+      .then(res => {
+        this.companyList = res.data.length > 0 ? res.data : []
+        this.companyCopy = this.companyList
+      })
   },
   methods: {
     // 获取帮助文档
@@ -246,7 +271,27 @@ export default {
 
       this.$emit('sort', sort)
     },
-    // 即时查询
+    // 下拉框显示或隐藏触发
+    handleVisibleChange(visible) {
+      if (!visible) {
+        setTimeout(() => {
+          this.companyList = this.companyCopy
+        }, 500)
+      }
+    },
+    // 过滤快递公司
+    filterDelivery(val) {
+      if (val) {
+        this.companyList = this.companyCopy.filter(item => {
+          if (!!~item.name.indexOf(val) || !!~item.phonetic.toLowerCase().indexOf(val.toLowerCase())) {
+            return true
+          }
+        })
+      } else {
+        this.companyList = this.companyCopy
+      }
+    },
+    // 即时查询对话框
     handleTrace() {
       this.traceForm = {
         delivery_code: '',
@@ -257,30 +302,33 @@ export default {
         this.$refs.form.clearValidate()
       })
 
-      this.traceType = 0
       this.traceData = []
       this.traceLoading = false
       this.traceFormVisible = true
+    },
+    // 即时查询
+    trace() {
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          this.traceData = []
+          this.traceLoading = true
+
+          getDeliveryDistTrace(this.traceForm)
+            .then(res => {
+              this.traceData = res.data['trace']
+            })
+            .finally(() => {
+              this.traceLoading = false
+            })
+        }
+      })
     }
   }
 }
 </script>
 
 <style scoped>
-  .table-expand {
-    font-size: 0;
-  }
-  .table-expand >>> label {
-    width: 90px;
-    color: #99a9bf;
-  }
-  .table-expand .el-form-item {
-    margin-right: 0;
-    margin-bottom: 0;
-    width: 50%;
-  }
   .not-trace {
-    font-size: 14px;
     color: #99a9bf;
     text-align: center;
   }

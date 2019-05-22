@@ -1,6 +1,6 @@
 {
   "name": "careyshop-admin",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve --open",
@@ -10,7 +10,7 @@
     "inspect": "vue-cli-service inspect --mode production --verbose"
   },
   "dependencies": {
-    "@babel/runtime": "^7.4.4",
+    "@babel/runtime": "^7.4.5",
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
     "better-scroll": "^1.15.2",
