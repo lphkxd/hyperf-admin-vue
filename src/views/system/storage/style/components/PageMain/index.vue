@@ -530,21 +530,21 @@
                   @click.native="$open(`//${imageUrl}`)"/>
               </div>
 
-              <cs-upload
-                style="display: none"
-                ref="upload"
-                type="slot"
-                accept="image/*"
-                :limit="1"
-                :multiple="false"
-                :module-name="uploadModule"
-                @confirm="getUploadFileList"/>
-
               <div style="padding: 10px;">
                 <div class="bottom clearfix">
                   <span class="image-info">{{imageInfo}}</span>
                 </div>
-                <el-button type="text" class="button" @click="$refs.upload.handleUploadDlg()">上传原图</el-button>
+
+                <cs-upload
+                  type="slot"
+                  accept="image/*"
+                  :limit="1"
+                  :multiple="false"
+                  :module-name="uploadModule"
+                  @confirm="getUploadFileList">
+                  <el-button type="text" class="button" slot="control">上传原图</el-button>
+                </cs-upload>
+
                 <el-popover
                   placement="top"
                   trigger="click">

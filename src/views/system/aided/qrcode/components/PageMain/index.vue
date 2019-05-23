@@ -113,15 +113,6 @@
       </el-table-column>
     </el-table>
 
-    <cs-upload
-      style="display: none"
-      ref="upload"
-      type="slot"
-      accept="image/*"
-      :limit="1"
-      :multiple="false"
-      @confirm="_getUploadFileList"/>
-
     <el-dialog
       :title="textMap[dialogStatus]"
       :visible.sync="dialogFormVisible"
@@ -159,10 +150,15 @@
             v-model="form.logo"
             placeholder="可输入二维码Logo链接"
             clearable>
-            <el-button
+            <cs-upload
               slot="append"
-              @click="$refs.upload.handleUploadDlg()"
-              icon="el-icon-upload"></el-button>
+              type="slot"
+              accept="image/*"
+              :limit="1"
+              :multiple="false"
+              @confirm="_getUploadFileList">
+              <el-button slot="control" icon="el-icon-upload"></el-button>
+            </cs-upload>
           </el-input>
         </el-form-item>
 

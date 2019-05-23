@@ -229,13 +229,13 @@
 
       <el-input
         class="dynamic-platform-key"
-        v-model="platforms[index].key"
+        v-model="platform.key"
         placeholder="序列值"
         clearable/>
 
       <el-input
         class="dynamic-platform-value"
-        v-model="platforms[index].value"
+        v-model="platform.value"
         placeholder="平台名称"
         clearable/>
 

@@ -143,6 +143,5 @@ export default {
 <style scoped>
   .upload-control {
     width: auto;
-    display: inline-block !important;
   }
 </style>
