@@ -52,7 +52,9 @@
                 placement="top"
                 trigger="hover">
                 <div class="popover-image">
-                  <el-image :src="currentForm.image | getPreviewUrl" @click.native="$open(currentForm.image)"/>
+                  <el-image
+                    :src="currentForm.image | getPreviewUrl"
+                    @click.native="$preview(currentForm.image)"/>
                 </div>
                 <cs-icon slot="reference" name="image"/>
               </el-popover>

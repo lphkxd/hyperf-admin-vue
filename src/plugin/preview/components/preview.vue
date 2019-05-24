@@ -17,6 +17,11 @@ export default {
   },
   methods: {
     showImagePreview(imageUrl = '') {
+      const reg = /^((https|http|ftp|rtsp|mms)?:\/\/)[^\s]+/
+      if (!reg.test(imageUrl)) {
+        imageUrl = document.location.protocol + '//' + imageUrl
+      }
+
       this.$nextTick(() => {
         this.dialogVisible = true
         this.dialogImageUrl = imageUrl

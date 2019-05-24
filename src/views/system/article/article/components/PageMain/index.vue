@@ -103,7 +103,9 @@
             placement="right"
             trigger="hover">
             <div class="popover-image">
-              <el-image :src="scope.row.image | getPreviewUrl" @click.native="$open(scope.row.image)"/>
+              <el-image
+                :src="scope.row.image | getPreviewUrl"
+                @click.native="$preview(scope.row.image)"/>
             </div>
             <cs-icon slot="reference" name="image"/>
           </el-popover>

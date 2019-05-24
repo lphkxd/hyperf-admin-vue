@@ -25,7 +25,9 @@
 
             <el-form-item label="支付图片">
               <div v-if="props.row.image" class="popover-image">
-                <el-image :src="props.row.image | getPreviewUrl" @click.native="$open(props.row.image)"/>
+                <el-image
+                  :src="props.row.image | getPreviewUrl"
+                  @click.native="$preview(props.row.image)"/>
               </div>
             </el-form-item>
           </el-form>
@@ -129,7 +131,9 @@
                 placement="top"
                 trigger="hover">
                 <div class="popover-image">
-                  <el-image :src="updateForm.image | getPreviewUrl" @click.native="$open(updateForm.image)"/>
+                  <el-image
+                    :src="updateForm.image | getPreviewUrl"
+                    @click.native="$preview(updateForm.image)"/>
                 </div>
                 <cs-icon slot="reference" name="image"/>
               </el-popover>

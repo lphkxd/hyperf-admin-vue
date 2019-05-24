@@ -93,7 +93,7 @@
             placement="top"
             trigger="hover">
             <div class="popover-image">
-              <el-image :src="scope.row.logo | getPreviewUrl" @click.native="$open(scope.row.logo)"/>
+              <el-image :src="scope.row.logo | getPreviewUrl" @click.native="$preview(scope.row.logo)"/>
             </div>
             <cs-icon slot="reference" name="image"/>
           </el-popover>
@@ -209,7 +209,9 @@
                 placement="top"
                 trigger="hover">
                 <div class="popover-image">
-                  <el-image :src="form.logo | getPreviewUrl" @click.native="$open(form.logo)"/>
+                  <el-image
+                    :src="form.logo | getPreviewUrl"
+                    @click.native="$preview(form.logo)"/>
                 </div>
                 <cs-icon slot="reference" name="image"/>
               </el-popover>

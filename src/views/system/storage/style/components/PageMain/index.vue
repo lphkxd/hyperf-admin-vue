@@ -527,7 +527,7 @@
                 <el-image
                   v-if="imageUrl"
                   :src="imageUrl | getPreviewUrl"
-                  @click.native="$open(`//${imageUrl}`)"/>
+                  @click.native="$open(imageUrl)"/>
               </div>
 
               <div style="padding: 10px;">
