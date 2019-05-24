@@ -114,7 +114,7 @@
       width="600px">
       <el-form label-width="80px">
         <el-form-item label="名称">
-          <el-tag type="info">{{updateForm.name}}</el-tag>
+          <el-input v-model="updateForm.name" :disabled="true"/>
         </el-form-item>
 
         <el-form-item label="图片">
