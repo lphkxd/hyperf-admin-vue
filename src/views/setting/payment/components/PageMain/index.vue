@@ -24,11 +24,8 @@
             </el-form-item>
 
             <el-form-item label="支付图片">
-              <div class="popover-image">
-                <el-image
-                  v-if="props.row.image.length"
-                  :src="props.row.image[0].source | getPreviewUrl"
-                  @click.native="$open(props.row.image[0].url)"/>
+              <div v-if="props.row.image" class="popover-image">
+                <el-image :src="props.row.image | getPreviewUrl" @click.native="$open(props.row.image)"/>
               </div>
             </el-form-item>
           </el-form>
@@ -121,17 +118,31 @@
         </el-form-item>
 
         <el-form-item label="图片">
-          <el-button
-            v-show="!showImage"
-            type="text"
-            @click="showImage = true">显示控件 <cs-icon name="angle-double-down"/></el-button>
-
-          <cs-upload
-            v-if="updateFormVisible && showImage"
+          <el-input
             v-model="updateForm.image"
-            :fileList="imageFile"
-            v-bind:limit="1"
-            file-width="60%"/>
+            placeholder="可输入支付图片"
+            clearable>
+            <template slot="prepend" v-if="updateForm.image">
+              <el-popover
+                width="150"
+                placement="top"
+                trigger="hover">
+                <div class="popover-image">
+                  <el-image :src="updateForm.image | getPreviewUrl" @click.native="$open(updateForm.image)"/>
+                </div>
+                <cs-icon slot="reference" name="image"/>
+              </el-popover>
+            </template>
+            <cs-upload
+              slot="append"
+              type="slot"
+              accept="image/*"
+              :limit="1"
+              :multiple="false"
+              @confirm="_getUploadFileList">
+              <el-button slot="control"><cs-icon name="upload"/></el-button>
+            </cs-upload>
+          </el-input>
         </el-form-item>
 
         <el-form-item label="类型">
@@ -253,8 +264,6 @@ export default {
   },
   data() {
     return {
-      imageFile: [],
-      showImage: false,
       currentTableData: [],
       updateLoading: false,
       updateFormVisible: false,
@@ -314,6 +323,15 @@ export default {
       this.auth.enable = this.$has('/setting/payment/config/enable')
       this.auth.disable = this.$has('/setting/payment/config/disable')
     },
+    // 获取上传文件
+    _getUploadFileList(files) {
+      const response = files[0].response
+      if (!response || response.status !== 200) {
+        return
+      }
+
+      this.updateForm.image = response.data[0].url
+    },
     // 设置排序值
     handleSort(index) {
       setPaymentSort(
@@ -354,8 +372,6 @@ export default {
     handleUpdate(index) {
       this.currentIndex = index
       this.updateForm = { ...this.currentTableData[index] }
-      this.imageFile = cloneDeep(this.updateForm.image)
-      this.showImage = false
       this.updateLoading = false
       this.updateFormVisible = true
     },
