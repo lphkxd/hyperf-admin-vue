@@ -75,8 +75,9 @@
         </template>
         <el-button
           slot="append"
-          @click="$refs.upload.handleUploadDlg('logo')"
-          icon="el-icon-upload"/>
+          @click="$refs.upload.handleUploadDlg('logo')">
+          <cs-icon name="upload"/>
+        </el-button>
       </el-input>
       <div class="help-block" v-html="form.logo.help_text"></div>
     </el-form-item>
@@ -123,8 +124,9 @@
         </template>
         <el-button
           slot="append"
-          @click="$refs.upload.handleUploadDlg('miitbeian_ico')"
-          icon="el-icon-upload"/>
+          @click="$refs.upload.handleUploadDlg('miitbeian_ico')">
+          <cs-icon name="upload"/>
+        </el-button>
       </el-input>
       <div class="help-block" v-html="form.miitbeian_ico.help_text"></div>
     </el-form-item>
@@ -169,8 +171,9 @@
         </template>
         <el-button
           slot="append"
-          @click="$refs.upload.handleUploadDlg('beian_ico')"
-          icon="el-icon-upload"/>
+          @click="$refs.upload.handleUploadDlg('beian_ico')">
+          <cs-icon name="upload"/>
+        </el-button>
       </el-input>
       <div class="help-block" v-html="form.beian_ico.help_text"></div>
     </el-form-item>
@@ -296,8 +299,9 @@
         clearable>
         <el-button
           slot="append"
-          @click="$refs.upload.handleUploadDlg('qrcode_logo')"
-          icon="el-icon-upload"></el-button>
+          @click="$refs.upload.handleUploadDlg('qrcode_logo')">
+          <cs-icon name="upload"/>
+        </el-button>
       </el-input>
       <div class="help-block" v-html="form.qrcode_logo.help_text"></div>
     </el-form-item>

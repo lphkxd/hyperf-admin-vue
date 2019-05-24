@@ -220,7 +220,7 @@
               :limit="1"
               :multiple="false"
               @confirm="_getUploadFileList">
-              <cs-icon slot="control" name="upload"/>
+              <el-button slot="control"><cs-icon name="upload"/></el-button>
             </cs-upload>
           </el-input>
         </el-form-item>
