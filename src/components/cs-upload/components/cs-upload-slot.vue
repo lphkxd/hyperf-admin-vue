@@ -144,4 +144,7 @@ export default {
   .upload-control {
     width: auto;
   }
+  .upload-control:hover {
+    cursor: pointer;
+  }
 </style>
