@@ -157,7 +157,7 @@
               :limit="1"
               :multiple="false"
               @confirm="_getUploadFileList">
-              <el-button slot="control" icon="el-icon-upload"></el-button>
+              <el-button slot="control" icon="el-icon-upload"/>
             </cs-upload>
           </el-input>
         </el-form-item>

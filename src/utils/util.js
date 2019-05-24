@@ -21,6 +21,11 @@ util.title = function(titleText) {
  * @param {String} url 地址
  */
 util.open = function(url) {
+  const reg = /^((https|http|ftp|rtsp|mms)?:\/\/)[^\s]+/
+  if (!reg.test(url)) {
+    url = document.location.protocol + '//' + url
+  }
+
   let a = document.createElement('a')
   a.setAttribute('href', url)
   a.setAttribute('target', '_blank')
