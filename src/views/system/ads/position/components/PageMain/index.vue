@@ -418,11 +418,11 @@ export default {
       typeMap: {
         0: {
           text: '图片',
-          type: 'image'
+          type: 'file-image-o'
         },
         1: {
           text: '代码',
-          type: 'code'
+          type: 'file-code-o'
         }
       },
       statusMap: {

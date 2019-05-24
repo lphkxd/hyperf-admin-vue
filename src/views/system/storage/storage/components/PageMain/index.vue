@@ -405,7 +405,7 @@ export default {
       const storage = this.currentTableData[index]
       switch (storage['type']) {
         case 0:
-          this.$preview('//' + storage['url'])
+          this.$preview(storage['url'])
           break
 
         case 1:

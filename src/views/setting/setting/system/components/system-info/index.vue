@@ -69,7 +69,9 @@
             placement="top"
             trigger="hover">
             <div class="popover-image">
-              <el-image :src="form.logo.value | getPreviewUrl"/>
+              <el-image
+                :src="form.logo.value | getPreviewUrl"
+                @click.native="$preview(form.logo.value)"/>
             </div>
             <cs-icon slot="reference" name="image"/>
           </el-popover>
@@ -119,7 +121,9 @@
             placement="top"
             trigger="hover">
             <div class="popover-image">
-              <el-image :src="form.miitbeian_ico.value | getPreviewUrl"/>
+              <el-image
+                :src="form.miitbeian_ico.value | getPreviewUrl"
+                @click.native="$preview(form.miitbeian_ico.value)"/>
             </div>
             <cs-icon slot="reference" name="image"/>
           </el-popover>
@@ -167,7 +171,9 @@
             placement="top"
             trigger="hover">
             <div class="popover-image">
-              <el-image :src="form.beian_ico.value | getPreviewUrl"/>
+              <el-image
+                :src="form.beian_ico.value | getPreviewUrl"
+                @click.native="$preview(form.beian_ico.value)"/>
             </div>
             <cs-icon slot="reference" name="image"/>
           </el-popover>
@@ -422,6 +428,7 @@ export default {
   }
   .popover-image >>> img {
     vertical-align: middle;
+    cursor: pointer;
   }
   .dynamic-domain {
     margin-right: 10px;
