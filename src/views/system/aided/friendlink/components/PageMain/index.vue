@@ -88,14 +88,12 @@
         align="center">
         <template slot-scope="scope">
           <el-popover
-            v-if="scope.row.logo.length"
+            v-if="scope.row.logo"
             width="150"
             placement="top"
             trigger="hover">
             <div class="popover-image">
-              <el-image
-                :src="scope.row.logo[0].source | getPreviewUrl"
-                @click.native="$open(scope.row.logo[0].url)"/>
+              <el-image :src="scope.row.logo | getPreviewUrl" @click.native="$open(scope.row.logo)"/>
             </div>
             <cs-icon slot="reference" name="image"/>
           </el-popover>
@@ -198,14 +196,33 @@
         </el-form-item>
 
         <el-form-item
-          v-if="dialogFormVisible"
           label="Logo"
           prop="logo">
-          <cs-upload
+          <el-input
             v-model="form.logo"
-            :fileList="imageFile"
-            v-bind:limit="1"
-            file-width="50%"/>
+            placeholder="可输入友情链接Logo"
+            clearable>
+            <template slot="prepend" v-if="form.logo">
+              <el-popover
+                width="150"
+                placement="top"
+                trigger="hover">
+                <div class="popover-image">
+                  <el-image :src="form.logo | getPreviewUrl" @click.native="$open(form.logo)"/>
+                </div>
+                <cs-icon slot="reference" name="image"/>
+              </el-popover>
+            </template>
+            <cs-upload
+              slot="append"
+              type="slot"
+              accept="image/*"
+              :limit="1"
+              :multiple="false"
+              @confirm="_getUploadFileList">
+              <cs-icon slot="control" name="upload"/>
+            </cs-upload>
+          </el-input>
         </el-form-item>
 
         <el-form-item
@@ -286,7 +303,6 @@ export default {
   },
   data() {
     return {
-      imageFile: [],
       currentTableData: [],
       multipleSelection: [],
       helpContent: '',
@@ -415,6 +431,15 @@ export default {
 
       return idList
     },
+    // 获取上传文件
+    _getUploadFileList(files) {
+      const response = files[0].response
+      if (!response || response.status !== 200) {
+        return
+      }
+
+      this.form.logo = response.data[0].url
+    },
     // 获取帮助文档
     getHelp() {
       if (!this.helpContent) {
@@ -446,7 +471,7 @@ export default {
         name: undefined,
         url: undefined,
         target: '_blank',
-        logo: [],
+        logo: '',
         sort: 50,
         status: '1'
       }
@@ -455,7 +480,6 @@ export default {
         this.$refs.form.clearValidate()
       })
 
-      this.imageFile = []
       this.dialogStatus = 'create'
       this.dialogLoading = false
       this.dialogFormVisible = true
@@ -586,7 +610,6 @@ export default {
         })
       }
 
-      this.imageFile = data.logo
       this.dialogStatus = 'update'
       this.dialogLoading = false
       this.dialogFormVisible = true
