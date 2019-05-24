@@ -122,8 +122,9 @@
             v-model="updateForm.image"
             placeholder="可输入支付图片"
             clearable>
-            <template slot="prepend" v-if="updateForm.image">
+            <template slot="prepend">
               <el-popover
+                v-if="updateForm.image"
                 width="150"
                 placement="top"
                 trigger="hover">

@@ -41,10 +41,32 @@
         <el-form-item
           label="封面"
           prop="image">
-          <cs-upload
+          <el-input
             v-model="currentForm.image"
-            :fileList="imageFile"
-            v-bind:limit="1"/>
+            placeholder="可输入文章图片"
+            clearable>
+            <template slot="prepend">
+              <el-popover
+                v-if="currentForm.image"
+                width="150"
+                placement="top"
+                trigger="hover">
+                <div class="popover-image">
+                  <el-image :src="currentForm.image | getPreviewUrl" @click.native="$open(currentForm.image)"/>
+                </div>
+                <cs-icon slot="reference" name="image"/>
+              </el-popover>
+            </template>
+            <cs-upload
+              slot="append"
+              type="slot"
+              accept="image/*"
+              :limit="1"
+              :multiple="false"
+              @confirm="_getUploadFileList">
+              <el-button slot="control"><cs-icon name="upload"/></el-button>
+            </cs-upload>
+          </el-input>
         </el-form-item>
 
         <el-form-item
@@ -144,6 +166,7 @@
 <script>
 import { mapActions } from 'vuex'
 import { addArticleItem, setArticleItem } from '@/api/article/article'
+import util from '@/utils/util'
 
 export default {
   components: {
@@ -185,7 +208,6 @@ export default {
   data() {
     return {
       dialogLoading: false,
-      imageFile: [],
       stateMap: {
         create: '新增文章',
         update: '编辑文章'
@@ -202,7 +224,7 @@ export default {
       currentForm: {
         title: '',
         article_cat_id: [],
-        image: [],
+        image: '',
         keywords: '',
         description: '',
         content: '',
@@ -278,13 +300,17 @@ export default {
       }
     }
   },
+  filters: {
+    getPreviewUrl(val) {
+      return util.getImageCodeUrl(val, 'article_lists')
+    }
+  },
   watch: {
     formData: {
       handler(val) {
         if (this.state === 'update') {
           // 更新数据
           this.currentForm = val
-          this.imageFile = val.image || []
 
           // 更新富文本
           if (this.$refs.tinymce) {
@@ -310,6 +336,15 @@ export default {
     ...mapActions('careyshop/update', [
       'updateData'
     ]),
+    // 获取上传文件
+    _getUploadFileList(files) {
+      const response = files[0].response
+      if (!response || response.status !== 200) {
+        return
+      }
+
+      this.currentForm.image = response.data[0].url
+    },
     // 关闭当前窗口
     handleClose() {
       this.close({
@@ -397,5 +432,12 @@ export default {
   .box-card {
     border-radius: 0;
     border: 1px solid #DCDFE6;
+  }
+  .popover-image {
+    text-align: center;
+  }
+  .popover-image >>> img {
+    vertical-align: middle;
+    cursor: pointer;
   }
 </style>

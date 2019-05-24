@@ -98,14 +98,12 @@
         :show-overflow-tooltip="true">
         <template slot-scope="scope">
           <el-popover
-            v-if="scope.row.image.length"
+            v-if="scope.row.image"
             width="150"
             placement="right"
             trigger="hover">
             <div class="popover-image">
-              <el-image
-                :src="scope.row.image[0].source | getPreviewUrl"
-                @click.native="$open(scope.row.image[0].url)"/>
+              <el-image :src="scope.row.image | getPreviewUrl" @click.native="$open(scope.row.image)"/>
             </div>
             <cs-icon slot="reference" name="image"/>
           </el-popover>

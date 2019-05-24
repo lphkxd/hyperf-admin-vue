@@ -202,8 +202,9 @@
             v-model="form.logo"
             placeholder="可输入友情链接Logo"
             clearable>
-            <template slot="prepend" v-if="form.logo">
+            <template slot="prepend">
               <el-popover
+                v-if="form.logo"
                 width="150"
                 placement="top"
                 trigger="hover">

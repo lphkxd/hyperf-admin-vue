@@ -62,8 +62,9 @@
         v-model="form.logo.value"
         :placeholder="form.logo.description"
         clearable>
-        <template slot="prepend" v-if="form.logo.value">
+        <template slot="prepend">
           <el-popover
+            v-if="form.logo.value"
             width="150"
             placement="top"
             trigger="hover">
@@ -111,8 +112,9 @@
         v-model="form.miitbeian_ico.value"
         :placeholder="form.miitbeian_ico.description"
         clearable>
-        <template slot="prepend" v-if="form.miitbeian_ico.value">
+        <template slot="prepend">
           <el-popover
+            v-if="form.miitbeian_ico.value"
             width="150"
             placement="top"
             trigger="hover">
@@ -158,8 +160,9 @@
         v-model="form.beian_ico.value"
         :placeholder="form.beian_ico.description"
         clearable>
-        <template slot="prepend" v-if="form.beian_ico.value">
+        <template slot="prepend">
           <el-popover
+            v-if="form.beian_ico.value"
             width="150"
             placement="top"
             trigger="hover">
