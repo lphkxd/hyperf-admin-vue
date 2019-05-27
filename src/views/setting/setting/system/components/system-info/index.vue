@@ -358,6 +358,10 @@ export default {
   methods: {
     // 获取上传文件
     _getUploadFileList(files, source) {
+      if (!files.length) {
+        return
+      }
+
       const response = files[0].response
       if (!response || response.status !== 200) {
         return

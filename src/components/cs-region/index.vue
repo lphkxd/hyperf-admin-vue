@@ -11,21 +11,15 @@ export default {
       required: false,
       default: () => []
     },
-    // 确认按钮事件
-    confirm: {
-      type: Function
-    },
-    // 加载类型
+    // // 确认按钮事件
+    // confirm: {
+    //   type: Function
+    // },
+    // 插槽类型
     type: {
       type: String,
       required: false,
       default: 'all'
-    }
-  },
-  data() {
-    return {
-      loading: true,
-      visible: false
     }
   },
   computed: {
@@ -47,7 +41,7 @@ export default {
     // 默认插槽
     const slots = [this.$slots.default]
 
-    // 控制插槽
+    // 自定义插槽
     if (this.$slots.control) {
       slots.push(h('template', { slot: 'control' }, [this.$slots.control]))
     }
