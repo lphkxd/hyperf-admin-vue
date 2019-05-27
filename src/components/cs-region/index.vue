@@ -11,10 +11,6 @@ export default {
       required: false,
       default: () => []
     },
-    // // 确认按钮事件
-    // confirm: {
-    //   type: Function
-    // },
     // 插槽类型
     type: {
       type: String,
@@ -64,16 +60,17 @@ export default {
       [
         h(this.component, {
           ref: 'region',
-          props: this.$attrs,
+          props: {
+            checkedKeys: this.value
+          },
           on: {
-            'confirm': () => {
+            'confirm': res => {
+              this.$emit('input', res)
             }
           }
         }, slots)
       ]
     )
-  },
-  methods: {
   }
 }
 </script>
