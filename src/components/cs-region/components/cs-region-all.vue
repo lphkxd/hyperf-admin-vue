@@ -88,8 +88,6 @@ export default {
       if (this.$refs.tree) {
         this.$emit('confirm', this.$refs.tree.getCheckedKeys())
       }
-
-      this.visible = false
     }
   }
 }

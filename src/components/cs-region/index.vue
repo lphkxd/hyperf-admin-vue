@@ -66,6 +66,7 @@ export default {
           on: {
             'confirm': res => {
               this.$emit('input', res)
+              this.$refs.region.visible = false
             }
           }
         }, slots)

@@ -68,7 +68,12 @@
     <el-form-item
       :label="form.number_exclude.description"
       prop="number_exclude">
-      <el-button size="small"><cs-icon name="truck"/> 编辑区域</el-button>
+      <cs-region
+        v-model="form.number_exclude.value"
+        type="all">
+        <el-button size="small" slot="control">
+          <cs-icon name="truck"/> 编辑区域</el-button>
+      </cs-region>
       <div class="help-block" v-html="form.number_exclude.help_text"></div>
     </el-form-item>
 
@@ -114,7 +119,12 @@
     <el-form-item
       :label="form.dec_exclude.description"
       prop="dec_exclude">
-      <el-button size="small"><cs-icon name="truck"/> 编辑区域</el-button>
+      <cs-region
+        v-model="form.dec_exclude.value"
+        type="all">
+        <el-button size="small" slot="control">
+          <cs-icon name="truck"/> 编辑区域</el-button>
+      </cs-region>
       <div class="help-block" v-html="form.dec_exclude.help_text"></div>
     </el-form-item>
 
