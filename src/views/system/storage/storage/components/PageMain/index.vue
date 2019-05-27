@@ -197,7 +197,7 @@
       :accept="uploadConfig.accept"
       :limit="uploadConfig.limit"
       :storage-id="storageId"
-      @confirm="getUploadFileList"/>
+      @confirm="_getUploadFileList"/>
 
     <el-dialog
       :title="nameMap[nameStatus]"
@@ -387,6 +387,34 @@ export default {
       this.auth.refresh = this.$has('/system/storage/storage/refresh')
       this.auth.link = this.$has('/system/storage/storage/link')
     },
+    // 资源上传成功后处理
+    _getUploadFileList(files) {
+      let pos = -1
+      if (!this.uploadConfig.replace) {
+        this.currentTableData.forEach((value, index) => {
+          if (value.type === 2) {
+            pos = index
+          }
+        })
+      }
+
+      for (const value of files) {
+        if (value.status !== 'success') {
+          continue
+        }
+
+        const response = value.response
+        if (!response || response.status !== 200) {
+          continue
+        }
+
+        if (!this.uploadConfig.replace) {
+          this.currentTableData.splice(pos + 1, 0, response.data[0])
+        } else {
+          this.$set(this.currentTableData, this.uploadConfig.replace, response.data[0])
+        }
+      }
+    },
     // 获取帮助文档
     getHelp() {
       if (!this.helpContent) {
@@ -418,34 +446,6 @@ export default {
 
         default:
           this.$message.warning('打开资源出现异常操作')
-      }
-    },
-    // 资源上传成功后处理
-    getUploadFileList(files) {
-      let pos = -1
-      if (!this.uploadConfig.replace) {
-        this.currentTableData.forEach((value, index) => {
-          if (value.type === 2) {
-            pos = index
-          }
-        })
-      }
-
-      for (const value of files) {
-        if (value.status !== 'success') {
-          continue
-        }
-
-        const response = value.response
-        if (!response || response.status !== 200) {
-          continue
-        }
-
-        if (!this.uploadConfig.replace) {
-          this.currentTableData.splice(pos + 1, 0, response.data[0])
-        } else {
-          this.$set(this.currentTableData, this.uploadConfig.replace, response.data[0])
-        }
       }
     },
     // 批量删除

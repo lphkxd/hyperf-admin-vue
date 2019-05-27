@@ -340,6 +340,10 @@ export default {
     ]),
     // 获取上传文件
     _getUploadFileList(files) {
+      if (!files.length) {
+        return
+      }
+
       const response = files[0].response
       if (!response || response.status !== 200) {
         return

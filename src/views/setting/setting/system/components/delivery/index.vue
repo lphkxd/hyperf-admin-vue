@@ -32,7 +32,12 @@
     <el-form-item
       :label="form.money_exclude.description"
       prop="money_exclude">
-      <el-button size="small"><cs-icon name="truck"/> 编辑区域</el-button>
+      <cs-region
+        v-model="form.money_exclude.value"
+        type="all">
+        <el-button size="small" slot="control">
+          <cs-icon name="truck"/> 编辑区域</el-button>
+      </cs-region>
       <div class="help-block" v-html="form.money_exclude.help_text"></div>
     </el-form-item>
 
@@ -126,6 +131,9 @@
 import { setDeliveryList } from '@/api/config/setting'
 
 export default {
+  components: {
+    'csRegion': () => import('@/components/cs-region')
+  },
   data() {
     return {
       loading: false,

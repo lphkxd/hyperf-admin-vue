@@ -541,7 +541,7 @@
                   :limit="1"
                   :multiple="false"
                   :module-name="uploadModule"
-                  @confirm="getUploadFileList">
+                  @confirm="_getUploadFileList">
                   <el-button type="text" class="button" slot="control">上传原图</el-button>
                 </cs-upload>
 
@@ -846,6 +846,23 @@ export default {
 
       return idList
     },
+    // 资源上传成功后处理
+    _getUploadFileList(files) {
+      if (!files.length) {
+        return
+      }
+
+      const response = files[0].response
+      if (!response || response.status !== 200) {
+        return
+      }
+
+      const data = response.data[0]
+      this.imageInfo = `大小: ${util.bytesFormatter(data.size)} `
+      this.imageInfo += `宽: ${data['pixel']['width']} PX `
+      this.imageInfo += `高: ${data['pixel']['height']} PX`
+      this.imageUrl = data.url
+    },
     // 获取帮助文档
     getHelp() {
       if (!this.helpContent) {
@@ -1077,18 +1094,6 @@ export default {
           }
         }
       })
-    },
-    getUploadFileList(files) {
-      const response = files[0].response
-      if (!response || response.status !== 200) {
-        return
-      }
-
-      const data = response.data[0]
-      this.imageInfo = `大小: ${util.bytesFormatter(data.size)} `
-      this.imageInfo += `宽: ${data['pixel']['width']} PX `
-      this.imageInfo += `高: ${data['pixel']['height']} PX`
-      this.imageUrl = data.url
     },
     getThumbUrl() {
       if (!this.imageUrl) {

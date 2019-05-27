@@ -1,8 +1,8 @@
 <template>
   <div>
     <textarea class="tinymce-textarea" :id="tinymceId"></textarea>
-    <cs-upload ref="upload" type="slot" style="display: none" @confirm="getUploadFileList"/>
-    <cs-storage ref="storage" style="display: none" @confirm="getStorageFileList"/>
+    <cs-upload ref="upload" type="slot" style="display: none" @confirm="_getUploadFileList"/>
+    <cs-storage ref="storage" style="display: none" @confirm="_getStorageFileList"/>
   </div>
 </template>
 
@@ -180,7 +180,7 @@ export default {
     getContent() {
       return this.handleEditor.getContent()
     },
-    getUploadFileList(files) {
+    _getUploadFileList(files) {
       let insert = ''
       for (const value of files) {
         if (value.status !== 'success') {
@@ -209,7 +209,7 @@ export default {
         this.handleEditor.insertContent(insert)
       }
     },
-    getStorageFileList(files) {
+    _getStorageFileList(files) {
       let insert = ''
       for (const value of files) {
         switch (value.type) {
