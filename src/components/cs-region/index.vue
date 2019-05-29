@@ -61,7 +61,8 @@ export default {
         h(this.component, {
           ref: 'region',
           props: {
-            checkedKeys: this.value
+            checkedKeys: this.value,
+            ...this.$attrs
           },
           on: {
             'confirm': res => {
