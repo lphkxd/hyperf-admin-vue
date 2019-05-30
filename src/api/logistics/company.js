@@ -125,6 +125,24 @@ export function getDeliveryCompanySelect(type = null) {
 }
 
 /**
+ * 根据快递单号识别快递公司
+ * @param {String} code
+ * @returns {AxiosPromise}
+ */
+export function getDeliveryCompanyRecognise(code) {
+  return request({
+    url: '/v1/delivery_dist',
+    method: 'post',
+    params: {
+      method: 'get.delivery.company.recognise'
+    },
+    data: {
+      code
+    }
+  })
+}
+
+/**
  * 复制一个快递公司为「热门类型」
  * @param {Number} delivery_item_id
  * @returns {AxiosPromise}

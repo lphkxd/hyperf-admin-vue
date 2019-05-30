@@ -117,34 +117,47 @@
         ref="form"
         label-width="80px">
         <el-form-item
-          label="快递公司"
-          prop="delivery_code">
-          <el-select
-            v-model="traceForm.delivery_code"
-            placeholder="请选择快递公司，试试搜索：顺丰 或 s"
-            style="width: 100%;"
-            clearable
-            filterable
-            :filter-method="filterDelivery"
-            @visible-change="handleVisibleChange"
-            value="">
-            <el-option
-              v-for="item in companyList"
-              :key="item.delivery_item_id"
-              :label="item.name"
-              :value="item.code">
-            </el-option>
-          </el-select>
-        </el-form-item>
-
-        <el-form-item
           label="快递单号"
           prop="logistic_code">
           <el-input
             v-model="traceForm.logistic_code"
             placeholder="请输入快递单号"
-            style="width: 260px;"
             clearable/>
+        </el-form-item>
+
+        <el-form-item
+          label="快递公司"
+          prop="delivery_code">
+
+          <el-row>
+            <el-col :span="20">
+              <el-select
+                v-model="traceForm.delivery_code"
+                placeholder="请选择快递公司，试试搜索：顺丰 或 s"
+                style="width: 100%;"
+                clearable
+                filterable
+                :filter-method="filterDelivery"
+                @visible-change="handleVisibleChange"
+                value="">
+                <el-option
+                  v-for="item in companyList"
+                  :key="item.delivery_item_id"
+                  :label="item.name"
+                  :value="item.code">
+                </el-option>
+              </el-select>
+            </el-col>
+
+            <el-col :span="4">
+              <el-button
+                :loading="companyLoading"
+                class="cs-ml-10"
+                type="text"
+                size="mini"
+                @click="getDeliveryCompany">手动获取</el-button>
+            </el-col>
+          </el-row>
         </el-form-item>
 
         <el-form-item>
@@ -199,6 +212,7 @@ export default {
       helpContent: '',
       companyList: [],
       companyCopy: [],
+      companyLoading: false,
       traceData: null,
       traceLoading: false,
       traceFormVisible: false,
@@ -229,6 +243,8 @@ export default {
       }
     }
   },
+  watch: {
+  },
   filters: {
     getStateType(val) {
       switch (val) {
@@ -246,13 +262,6 @@ export default {
 
       return `${name} / ${nick}`
     }
-  },
-  mounted() {
-    getDeliveryCompanySelect()
-      .then(res => {
-        this.companyList = res.data.length > 0 ? res.data : []
-        this.companyCopy = this.companyList
-      })
   },
   methods: {
     // 获取帮助文档
@@ -275,6 +284,20 @@ export default {
       }
 
       this.$emit('sort', sort)
+    },
+    // 手动获取快递公司列表
+    getDeliveryCompany() {
+      this.companyLoading = true
+      this.traceForm.delivery_code = ''
+
+      getDeliveryCompanySelect()
+        .then(res => {
+          this.companyList = res.data.length > 0 ? res.data : []
+          this.companyCopy = this.companyList
+        })
+        .finally(() => {
+          this.companyLoading = false
+        })
     },
     // 下拉框显示或隐藏触发
     handleVisibleChange(visible) {
