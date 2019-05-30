@@ -3,6 +3,7 @@
     <el-tag
       v-for="(item, index) in value"
       :key="index"
+      :effect="effect"
       :type="type"
       :disable-transitions="disableTransitions"
       :hit="hit"
@@ -48,6 +49,11 @@ export default {
     type: {
       type: String,
       default: ''
+    },
+    // 主题风格
+    effect: {
+      type: String,
+      default: 'light'
     },
     // 是否禁用渐变动画
     disableTransitions: {

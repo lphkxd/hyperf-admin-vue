@@ -31,14 +31,14 @@
     <el-form-item
       :label="form.image_ext.description"
       prop="image_ext">
-      <cs-tab-edit v-model="imageExt" type="info"/>
+      <cs-tab-edit v-model="imageExt" type="info" effect="plain"/>
       <div class="help-block" v-html="form.image_ext.help_text"></div>
     </el-form-item>
 
     <el-form-item
       :label="form.file_ext.description"
       prop="file_ext">
-      <cs-tab-edit v-model="fileExt" type="info"/>
+      <cs-tab-edit v-model="fileExt" type="info" effect="plain"/>
       <div class="help-block" v-html="form.file_ext.help_text"></div>
     </el-form-item>
 
