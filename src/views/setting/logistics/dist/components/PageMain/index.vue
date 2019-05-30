@@ -156,9 +156,10 @@
         </el-form-item>
       </el-form>
 
-      <div v-if="traceData.length">
+      <div v-if="traceData !== null">
         <el-divider>物流轨迹</el-divider>
-        <el-timeline>
+
+        <el-timeline v-if="traceData.length">
           <el-timeline-item
             v-for="(trace, index) in traceData"
             :key="index"
@@ -167,6 +168,10 @@
             {{trace.accept_station}}
           </el-timeline-item>
         </el-timeline>
+
+        <div v-else class="not-trace">
+          <span>暂无轨迹</span>
+        </div>
       </div>
     </el-dialog>
   </div>
@@ -194,7 +199,7 @@ export default {
       helpContent: '',
       companyList: [],
       companyCopy: [],
-      traceData: [],
+      traceData: null,
       traceLoading: false,
       traceFormVisible: false,
       traceForm: {
@@ -302,7 +307,7 @@ export default {
         this.$refs.form.clearValidate()
       })
 
-      this.traceData = []
+      this.traceData = null
       this.traceLoading = false
       this.traceFormVisible = true
     },
@@ -310,7 +315,7 @@ export default {
     trace() {
       this.$refs.form.validate(valid => {
         if (valid) {
-          this.traceData = []
+          this.traceData = null
           this.traceLoading = true
 
           getDeliveryDistTrace(this.traceForm)

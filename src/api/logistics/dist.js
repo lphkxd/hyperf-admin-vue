@@ -65,6 +65,24 @@ export function getDeliveryDistTrace(data) {
 }
 
 /**
+ * 根据快递单号识别面单公司
+ * @param {Object} code
+ * @returns {AxiosPromise}
+ */
+export function getDeliveryDistRecognise(code) {
+  return request({
+    url: '/v1/delivery_dist',
+    method: 'post',
+    params: {
+      method: 'get.delivery.dist.recognise'
+    },
+    data: {
+      logistic_code: code
+    }
+  })
+}
+
+/**
  * 获取配送回调URL接口
  * @returns {AxiosPromise}
  */
