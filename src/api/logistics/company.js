@@ -131,7 +131,7 @@ export function getDeliveryCompanySelect(type = null) {
  */
 export function getDeliveryCompanyRecognise(code) {
   return request({
-    url: '/v1/delivery_dist',
+    url: '/v1/delivery_item',
     method: 'post',
     params: {
       method: 'get.delivery.company.recognise'

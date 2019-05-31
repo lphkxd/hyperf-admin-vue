@@ -111,61 +111,57 @@
       :visible.sync="traceFormVisible"
       :append-to-body="true"
       width="600px">
-      <el-form
-        :model="traceForm"
-        :rules="rules"
-        ref="form"
-        label-width="80px">
+      <el-form label-width="80px">
         <el-form-item
           label="快递单号"
           prop="logistic_code">
-          <el-input
+          <el-autocomplete
             v-model="traceForm.logistic_code"
+            :fetch-suggestions="querySearchAsync"
+            class="input-with-select"
+            style="width: 100%;"
             placeholder="请输入快递单号"
-            clearable/>
+            clearable>
+            <el-select
+              v-model="traceType"
+              style="width: 105px;"
+              slot="prepend"
+              placeholder="请选择"
+              @change="getDeliveryCompany"
+              value="">
+              <el-option label="智能识别" :value="0"></el-option>
+              <el-option label="手动获取" :value="1"></el-option>
+            </el-select>
+
+            <el-button
+              slot="append"
+              icon="el-icon-search"
+              :loading="traceLoading"
+              @click="trace"/>
+          </el-autocomplete>
         </el-form-item>
 
         <el-form-item
+          v-show="traceType"
           label="快递公司"
           prop="delivery_code">
-
-          <el-row>
-            <el-col :span="20">
-              <el-select
-                v-model="traceForm.delivery_code"
-                placeholder="请选择快递公司，试试搜索：顺丰 或 s"
-                style="width: 100%;"
-                clearable
-                filterable
-                :filter-method="filterDelivery"
-                @visible-change="handleVisibleChange"
-                value="">
-                <el-option
-                  v-for="item in companyList"
-                  :key="item.delivery_item_id"
-                  :label="item.name"
-                  :value="item.code">
-                </el-option>
-              </el-select>
-            </el-col>
-
-            <el-col :span="4">
-              <el-button
-                :loading="companyLoading"
-                class="cs-ml-10"
-                type="text"
-                size="mini"
-                @click="getDeliveryCompany">手动获取</el-button>
-            </el-col>
-          </el-row>
-        </el-form-item>
-
-        <el-form-item>
-          <el-button
-            type="primary"
-            :loading="traceLoading"
-            @click="trace"
-            size="small">查询</el-button>
+          <el-select
+            v-model="traceForm.delivery_code"
+            placeholder="请选择快递公司，试试搜索：顺丰 或 s"
+            style="width: 100%;"
+            clearable
+            filterable
+            :filter-method="filterDelivery"
+            @visible-change="handleVisibleChange"
+            ref="deliverySelect"
+            value="">
+            <el-option
+              v-for="item in companyList"
+              :key="item.delivery_item_id"
+              :label="item.name"
+              :value="item.code">
+            </el-option>
+          </el-select>
         </el-form-item>
       </el-form>
 
@@ -191,9 +187,9 @@
 </template>
 
 <script>
-import { getDeliveryDistTrace } from '@/api/logistics/dist'
-import { getDeliveryCompanySelect } from '@/api/logistics/company'
 import { getHelpRouter } from '@/api/index/help'
+import { getDeliveryDistTrace } from '@/api/logistics/dist'
+import { getDeliveryCompanySelect, getDeliveryCompanyRecognise } from '@/api/logistics/company'
 
 export default {
   props: {
@@ -212,38 +208,15 @@ export default {
       helpContent: '',
       companyList: [],
       companyCopy: [],
-      companyLoading: false,
+      traceType: 0,
       traceData: null,
       traceLoading: false,
       traceFormVisible: false,
       traceForm: {
         delivery_code: undefined,
         logistic_code: undefined
-      },
-      rules: {
-        delivery_code: [
-          {
-            required: true,
-            message: '至少选择一项',
-            trigger: 'change'
-          }
-        ],
-        logistic_code: [
-          {
-            required: true,
-            message: '快递单号不能为空',
-            trigger: 'blur'
-          },
-          {
-            max: 50,
-            message: '长度不能大于 50 个字符',
-            trigger: 'blur'
-          }
-        ]
       }
     }
-  },
-  watch: {
   },
   filters: {
     getStateType(val) {
@@ -286,17 +259,16 @@ export default {
       this.$emit('sort', sort)
     },
     // 手动获取快递公司列表
-    getDeliveryCompany() {
-      this.companyLoading = true
-      this.traceForm.delivery_code = ''
+    getDeliveryCompany(value) {
+      this.traceData = null
+      if (!value || this.companyList.length > 0) {
+        return
+      }
 
       getDeliveryCompanySelect()
         .then(res => {
           this.companyList = res.data.length > 0 ? res.data : []
           this.companyCopy = this.companyList
-        })
-        .finally(() => {
-          this.companyLoading = false
         })
     },
     // 下拉框显示或隐藏触发
@@ -321,35 +293,46 @@ export default {
     },
     // 即时查询对话框
     handleTrace() {
-      this.traceForm = {
-        delivery_code: '',
-        logistic_code: ''
-      }
-
-      this.$nextTick(() => {
-        this.$refs.form.clearValidate()
-      })
-
+      this.traceForm = { delivery_code: '', logistic_code: '' }
+      this.traceType = 0
       this.traceData = null
       this.traceLoading = false
       this.traceFormVisible = true
     },
     // 即时查询
     trace() {
-      this.$refs.form.validate(valid => {
-        if (valid) {
-          this.traceData = null
-          this.traceLoading = true
+      this.traceData = null
+      this.traceLoading = true
 
-          getDeliveryDistTrace(this.traceForm)
-            .then(res => {
-              this.traceData = res.data['trace']
-            })
-            .finally(() => {
-              this.traceLoading = false
-            })
-        }
-      })
+      getDeliveryDistTrace(this.traceForm)
+        .then(res => {
+          this.traceData = res.data['trace']
+        })
+        .finally(() => {
+          this.traceLoading = false
+        })
+    },
+    // 根据面单查询快递公司
+    querySearchAsync(queryString, cb) {
+      let data = []
+      if (!queryString.length || this.traceType) {
+        cb(data)
+        return
+      }
+
+      getDeliveryCompanyRecognise(queryString)
+        .then(res => {
+          data = [
+            { 'value': '三全鲜食（北新泾店）', 'address': '长宁区新渔路144号' }
+          ]
+          // res.data.forEach(value => {
+          //   data.push({
+          //   })
+          // })
+        })
+        .finally(() => {
+          cb(data)
+        })
     }
   }
 }
@@ -359,5 +342,8 @@ export default {
   .not-trace {
     color: #99a9bf;
     text-align: center;
+  }
+  .input-with-select >>> .el-input-group__prepend {
+    background-color: #fff;
   }
 </style>
