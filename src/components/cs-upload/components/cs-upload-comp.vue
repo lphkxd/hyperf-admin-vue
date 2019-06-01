@@ -26,7 +26,6 @@
       v-model="parentId"
       :options="parentData"
       :props="parentProps"
-      change-on-select
       filterable
       :style="`width: ${fileWidth}`">
     </el-cascader>

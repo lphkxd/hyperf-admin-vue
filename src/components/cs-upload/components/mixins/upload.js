@@ -13,7 +13,8 @@ export default {
       parentProps: {
         value: 'storage_id',
         label: 'name',
-        children: 'children'
+        children: 'children',
+        checkStrictly: true
       }
     }
   },

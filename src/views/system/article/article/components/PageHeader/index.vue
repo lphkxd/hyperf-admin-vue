@@ -11,7 +11,6 @@
         v-model="form.article_cat_id"
         :options="catData"
         :props="cascaderProps"
-        change-on-select
         filterable
         clearable
         :show-all-levels="false"
@@ -115,7 +114,8 @@ export default {
       cascaderProps: {
         value: 'article_cat_id',
         label: 'cat_name',
-        children: 'children'
+        children: 'children',
+        checkStrictly: true
       },
       form: {
         article_cat_id: undefined,

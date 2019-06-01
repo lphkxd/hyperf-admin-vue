@@ -111,16 +111,21 @@
       :visible.sync="traceFormVisible"
       :append-to-body="true"
       width="600px">
-      <el-form label-width="80px">
+      <el-form
+        label-width="80px"
+        v-loading="traceLoading">
         <el-form-item
           label="快递单号"
           prop="logistic_code">
           <el-autocomplete
+            v-if="traceFormVisible"
             v-model="traceForm.logistic_code"
             :fetch-suggestions="querySearchAsync"
+            @select="handleSelect"
             class="input-with-select"
             style="width: 100%;"
             placeholder="请输入快递单号"
+            ref="logisticCode"
             clearable>
             <el-select
               v-model="traceType"
@@ -133,11 +138,16 @@
               <el-option label="手动获取" :value="1"></el-option>
             </el-select>
 
+            <template slot-scope="{item}">
+              <span>{{item.value}} {{item.name}}</span>
+            </template>
+
             <el-button
+              v-if="traceType"
               slot="append"
               icon="el-icon-search"
-              :loading="traceLoading"
-              @click="trace"/>
+              @click="trace">
+            </el-button>
           </el-autocomplete>
         </el-form-item>
 
@@ -152,8 +162,8 @@
             clearable
             filterable
             :filter-method="filterDelivery"
+            @change="handleChange"
             @visible-change="handleVisibleChange"
-            ref="deliverySelect"
             value="">
             <el-option
               v-for="item in companyList"
@@ -168,7 +178,7 @@
       <div v-if="traceData !== null">
         <el-divider>物流轨迹</el-divider>
 
-        <el-timeline v-if="traceData.length">
+        <el-timeline v-if="traceData.length > 0">
           <el-timeline-item
             v-for="(trace, index) in traceData"
             :key="index"
@@ -262,6 +272,7 @@ export default {
     getDeliveryCompany(value) {
       this.traceData = null
       if (!value || this.companyList.length > 0) {
+        this.$refs.logisticCode.focus()
         return
       }
 
@@ -270,6 +281,13 @@ export default {
           this.companyList = res.data.length > 0 ? res.data : []
           this.companyCopy = this.companyList
         })
+    },
+    // 快递公司值发生变化
+    handleChange(value) {
+      if (this.traceForm.logistic_code.length > 5) {
+        this.traceForm.delivery_code = value
+        this.trace()
+      }
     },
     // 下拉框显示或隐藏触发
     handleVisibleChange(visible) {
@@ -299,6 +317,11 @@ export default {
       this.traceLoading = false
       this.traceFormVisible = true
     },
+    // 选择框触发
+    handleSelect(item) {
+      this.traceForm = { delivery_code: item.code, logistic_code: item.value }
+      this.trace()
+    },
     // 即时查询
     trace() {
       this.traceData = null
@@ -315,20 +338,22 @@ export default {
     // 根据面单查询快递公司
     querySearchAsync(queryString, cb) {
       let data = []
-      if (!queryString.length || this.traceType) {
+      this.traceData = null
+
+      if (queryString.length < 5 || this.traceType) {
         cb(data)
         return
       }
 
       getDeliveryCompanyRecognise(queryString)
         .then(res => {
-          data = [
-            { 'value': '三全鲜食（北新泾店）', 'address': '长宁区新渔路144号' }
-          ]
-          // res.data.forEach(value => {
-          //   data.push({
-          //   })
-          // })
+          res.data.shippers.forEach(value => {
+            data.push({
+              'value': queryString,
+              'name': value.shipper_name,
+              'code': value.shipper_code
+            })
+          })
         })
         .finally(() => {
           cb(data)

@@ -37,7 +37,6 @@
             :options="parentData"
             :props="parentProps"
             size="small"
-            change-on-select
             filterable>
           </el-cascader>
         </div>

@@ -32,7 +32,6 @@
             :props="cascaderProps"
             filterable
             clearable
-            change-on-select
             style="width: 100%;"
             placeholder="请选择文章分类 试试搜索：首页">
           </el-cascader>
@@ -221,7 +220,8 @@ export default {
       cascaderProps: {
         value: 'article_cat_id',
         label: 'cat_name',
-        children: 'children'
+        children: 'children',
+        checkStrictly: true
       },
       currentForm: {
         title: '',

@@ -147,7 +147,6 @@
                 v-model="form.parent_id"
                 :options="treeData"
                 :props="cascaderProps"
-                change-on-select
                 filterable
                 clearable
                 style="width: 100%;"
@@ -329,7 +328,8 @@ export default {
       cascaderProps: {
         value: 'menu_id',
         label: 'name',
-        children: 'children'
+        children: 'children',
+        checkStrictly: true
       },
       auth: {
         add: false,

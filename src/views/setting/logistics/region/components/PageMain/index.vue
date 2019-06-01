@@ -141,7 +141,6 @@
                 :disabled="formStatus === 'update'"
                 :options="treeData"
                 :props="cascaderProps"
-                change-on-select
                 filterable
                 clearable
                 style="width: 100%;"
@@ -213,7 +212,8 @@ export default {
       cascaderProps: {
         value: 'region_id',
         label: 'region_name',
-        children: 'children'
+        children: 'children',
+        checkStrictly: true
       },
       formStatus: 'create',
       formLoading: false,
