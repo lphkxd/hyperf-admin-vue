@@ -63,9 +63,9 @@
     <el-table
       v-loading="loading"
       :data="currentTableData"
-      stripe
       @selection-change="handleSelectionChange"
-      @sort-change="sortChange">
+      @sort-change="sortChange"
+      stripe>
 
       <el-table-column type="selection" width="55"/>
 
