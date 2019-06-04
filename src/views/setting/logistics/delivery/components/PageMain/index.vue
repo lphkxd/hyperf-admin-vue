@@ -972,8 +972,8 @@ export default {
       this.$router.push({
         name: 'setting-logistics-delivery-area',
         params: {
-          name: data.get_delivery_item.name,
-          delivery_id: data.delivery_id
+          delivery_id: data.delivery_id,
+          delivery_item_id: data.delivery_item_id
         }
       })
     }

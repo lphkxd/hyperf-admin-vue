@@ -61,7 +61,7 @@ export default {
       component: () => import('@/views/setting/logistics/delivery')
     },
     {
-      path: 'logistics/delivery/area/:delivery_id',
+      path: 'logistics/delivery/area/:delivery_id/:delivery_item_id',
       name: `${pre}logistics-delivery-area`,
       props: true,
       meta: { ...meta, cache: true, title: '配送区域' },
