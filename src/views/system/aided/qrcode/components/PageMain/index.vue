@@ -139,10 +139,9 @@
           prop="text">
           <el-input
             v-model="form.text"
-            type="textarea"
-            :rows="3"
             placeholder="请输入二维码内容"
-            clearable/>
+            type="textarea"
+            :rows="3"/>
         </el-form-item>
 
         <el-form-item

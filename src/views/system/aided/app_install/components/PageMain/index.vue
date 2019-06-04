@@ -160,9 +160,9 @@
           prop="url">
           <el-input
             v-model="form.url"
+            placeholder="请输入应用安装包协议地址"
             type="textarea"
-            :rows="3"
-            placeholder="请输入应用安装包协议地址"/>
+            :rows="3"/>
         </el-form-item>
       </el-form>
 

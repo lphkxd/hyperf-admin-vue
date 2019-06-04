@@ -173,9 +173,9 @@
           prop="code">
           <el-input
             v-model="form.code"
+            placeholder="请输入客服联系方式(自定义特征码)"
             type="textarea"
-            :rows="5"
-            placeholder="请输入客服联系方式(自定义特征码)"/>
+            :rows="5"/>
         </el-form-item>
 
         <el-form-item
