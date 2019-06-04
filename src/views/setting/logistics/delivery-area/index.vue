@@ -1,5 +1,8 @@
 <template>
-
+  <div>
+    {{$route.params.name}}<br>
+    {{$route.params.delivery_id}}
+  </div>
 </template>
 
 <script>
