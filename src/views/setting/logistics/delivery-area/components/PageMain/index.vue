@@ -53,38 +53,44 @@
       <el-table-column
         label="名称"
         prop="name"
-        min-width="150">
+        min-width="200">
       </el-table-column>
 
       <el-table-column label="运费" align="center">
         <el-table-column
           label="首重运费"
-          prop="first_weight_price">
+          prop="first_weight_price"
+          width="120">
         </el-table-column>
 
         <el-table-column
           label="续重运费"
-          prop="second_weight_price">
+          prop="second_weight_price"
+          width="120">
         </el-table-column>
 
         <el-table-column
           label="首件运费"
-          prop="first_item_price">
+          prop="first_item_price"
+          width="120">
         </el-table-column>
 
         <el-table-column
           label="续件运费"
-          prop="second_item_price">
+          prop="second_item_price"
+          width="120">
         </el-table-column>
 
         <el-table-column
           label="首体积运费"
-          prop="first_volume_price">
+          prop="first_volume_price"
+          width="120">
         </el-table-column>
 
         <el-table-column
           label="续体积运费"
-          prop="second_volume_price">
+          prop="second_volume_price"
+          width="120">
         </el-table-column>
       </el-table-column>
 
@@ -116,12 +122,15 @@
 </template>
 
 <script>
+import {
+  delDeliveryAreaList
+} from '@/api/logistics/area'
 import { getHelpRouter } from '@/api/index/help'
 
 export default {
-  components: {
-    'csRegion': () => import('@/components/cs-region')
-  },
+  // components: {
+  //   'csRegion': () => import('@/components/cs-region')
+  // },
   props: {
     loading: {
       default: false
@@ -155,6 +164,23 @@ export default {
     // 选中数据项
     handleSelectionChange(val) {
       this.multipleSelection = val
+    },
+    // 删除选择项
+    handleDelete(index) {
+      this.$confirm('确定要执行该操作吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(() => {
+          delDeliveryAreaList([this.currentTableData[index].delivery_area_id])
+            .then(() => {
+              this.currentTableData.splice(index, 1)
+              this.$message.success('操作成功')
+            })
+        })
+        .catch(() => {
+        })
     }
   }
 }
@@ -167,5 +193,9 @@ export default {
   .table-expand >>> label {
     width: auto;
     color: #99a9bf;
+  }
+  .table-expand .el-form-item {
+    margin-right: 0;
+    margin-bottom: 0;
   }
 </style>
