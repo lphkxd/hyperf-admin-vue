@@ -44,8 +44,7 @@
       <el-table-column
         label="请求参数"
         align="center"
-        width="80"
-        :show-overflow-tooltip="true">
+        width="80">
         <template slot-scope="scope">
           <el-tag
             size="mini"
@@ -60,8 +59,7 @@
       <el-table-column
         label="处理结果"
         align="center"
-        width="80"
-        :show-overflow-tooltip="true">
+        width="80">
         <template slot-scope="scope">
           <el-tag
             size="mini"

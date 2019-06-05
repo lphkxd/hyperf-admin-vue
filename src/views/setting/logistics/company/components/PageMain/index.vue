@@ -50,10 +50,10 @@
       <el-table-column type="selection" width="55"/>
 
       <el-table-column
-        label="#"
+        label="编号"
         prop="delivery_item_id"
         sortable="custom"
-        min-width="30">
+        min-width="60">
       </el-table-column>
 
       <el-table-column

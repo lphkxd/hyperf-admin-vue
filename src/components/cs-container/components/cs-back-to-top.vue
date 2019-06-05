@@ -55,6 +55,7 @@ export default {
     line-height: 25px;
     text-align: center;
     transition: all .3s;
+    z-index: 9999;
     @extend %unable-select;
     &:hover {
       background-color: rgba($color-text-normal, .9);

@@ -21,7 +21,7 @@ export default {
     'PageMain': () => import('./components/PageMain')
   },
   computed: {
-    change() {
+    changeData() {
       const { delivery_id, delivery_item_id } = this.$route.params
       return {
         delivery_id,
@@ -29,14 +29,46 @@ export default {
       }
     }
   },
+  watch: {
+    changeData: {
+      handler(val) {
+        this.getAreaData(val)
+      },
+      immediate: true
+    }
+  },
   data() {
     return {
-      // 加载状态
-      loading: true,
-      // 头部标题
       title: '',
-      // 表格数据
-      table: []
+      table: [],
+      loading: true
+    }
+  },
+  methods: {
+    getAreaData(val) {
+      this.$nextTick(() => {
+        this.title = ''
+        this.table = []
+        this.loading = true
+      })
+
+      // 父级数据列表会变更,所以子级页面使用动态获取
+      Promise.all([
+        getDeliveryCompanyItem(val.delivery_item_id),
+        getDeliveryAreaList({ delivery_id: val.delivery_id })
+      ])
+        .then(res => {
+          if (res[0].data) {
+            this.title = res[0].data.name
+          }
+
+          if (res[1].data) {
+            this.table = res[1].data
+          }
+        })
+        .finally(() => {
+          this.loading = false
+        })
     }
   }
 }
