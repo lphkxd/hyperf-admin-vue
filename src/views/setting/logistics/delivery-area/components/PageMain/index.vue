@@ -512,7 +512,7 @@ export default {
       this.currentIndex = index
       const data = this.currentTableData[index]
 
-      this.region = data.region
+      this.region = [...data.region]
       this.$refs.area.handleRegionDlg(data.delivery_area_id)
     },
     // 区域组件返回确定操作
