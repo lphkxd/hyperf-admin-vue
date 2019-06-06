@@ -4,12 +4,15 @@
       :inline="true"
       size="small">
       <el-form-item>
-        <el-button
-          :disabled="loading"
-          @click="() => {}">
-          <cs-icon name="plus"/>
-          新增区域
-        </el-button>
+        <el-button-group>
+          <el-button
+            v-if="auth.add"
+            :disabled="loading"
+            @click="handleCreate">
+            <cs-icon name="plus"/>
+            新增区域
+          </el-button>
+        </el-button-group>
       </el-form-item>
 
       <el-popover
@@ -31,7 +34,6 @@
     <el-table
       v-loading="loading"
       :data="currentTableData"
-      @selection-change="handleSelectionChange"
       stripe>
       <el-table-column type="expand">
         <template slot-scope="props">
@@ -59,38 +61,32 @@
       <el-table-column label="运费" align="center">
         <el-table-column
           label="首重运费"
-          prop="first_weight_price"
-          width="120">
+          prop="first_weight_price">
         </el-table-column>
 
         <el-table-column
           label="续重运费"
-          prop="second_weight_price"
-          width="120">
+          prop="second_weight_price">
         </el-table-column>
 
         <el-table-column
           label="首件运费"
-          prop="first_item_price"
-          width="120">
+          prop="first_item_price">
         </el-table-column>
 
         <el-table-column
           label="续件运费"
-          prop="second_item_price"
-          width="120">
+          prop="second_item_price">
         </el-table-column>
 
         <el-table-column
           label="首体积运费"
-          prop="first_volume_price"
-          width="120">
+          prop="first_volume_price">
         </el-table-column>
 
         <el-table-column
           label="续体积运费"
-          prop="second_volume_price"
-          width="120">
+          prop="second_volume_price">
         </el-table-column>
       </el-table-column>
 
@@ -102,35 +98,163 @@
           v-if="scope.row.delivery_area_id"
           slot-scope="scope">
           <el-button
+            v-if="auth.set"
             @click="handleUpdate(scope.$index)"
             size="small"
             type="text">编辑</el-button>
 
           <el-button
+            v-if="auth.del"
             @click="handleDelete(scope.$index)"
             size="small"
             type="text">删除</el-button>
 
           <el-button
+            v-if="auth.region"
             @click="handleArea(scope.$index)"
             size="small"
-            type="text">区域管理</el-button>
+            type="text">所辖区域</el-button>
         </template>
       </el-table-column>
     </el-table>
+
+    <el-dialog
+      :title="textMap[dialogStatus]"
+      :visible.sync="dialogFormVisible"
+      :append-to-body="true"
+      width="600px">
+      <el-form
+        :model="form"
+        :rules="rules"
+        ref="form"
+        label-width="95px">
+        <el-form-item
+          label="名称"
+          prop="name">
+          <el-input
+            v-model="form.name"
+            placeholder="请输入配送区域名称"
+            clearable/>
+        </el-form-item>
+
+        <el-row>
+          <el-col :span="12">
+            <el-form-item
+              label="首重运费"
+              prop="first_weight_price">
+              <el-input-number
+                v-model="form.first_weight_price"
+                controls-position="right"
+                :precision="2"
+                :min="0"/>
+            </el-form-item>
+          </el-col>
+
+          <el-col :span="12">
+            <el-form-item
+              label="续重运费"
+              prop="second_weight_price">
+              <el-input-number
+                v-model="form.second_weight_price"
+                controls-position="right"
+                :precision="2"
+                :min="0"/>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-row>
+          <el-col :span="12">
+            <el-form-item
+              label="首件运费"
+              prop="first_item_price">
+              <el-input-number
+                v-model="form.first_item_price"
+                controls-position="right"
+                :precision="2"
+                :min="0"/>
+            </el-form-item>
+          </el-col>
+
+          <el-col :span="12">
+            <el-form-item
+              label="续件运费"
+              prop="second_item_price">
+              <el-input-number
+                v-model="form.second_item_price"
+                controls-position="right"
+                :precision="2"
+                :min="0"/>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-row>
+          <el-col :span="12">
+            <el-form-item
+              label="首体积运费"
+              prop="first_volume_price">
+              <el-input-number
+                v-model="form.first_volume_price"
+                controls-position="right"
+                :precision="2"
+                :min="0"/>
+            </el-form-item>
+          </el-col>
+
+          <el-col :span="12">
+            <el-form-item
+              label="续体积运费"
+              prop="second_volume_price">
+              <el-input-number
+                v-model="form.second_volume_price"
+                controls-position="right"
+                :precision="2"
+                :min="0"/>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button
+          @click="dialogFormVisible = false"
+          size="small">取消</el-button>
+
+        <el-button
+          v-if="dialogStatus === 'create'"
+          type="primary"
+          :loading="dialogLoading"
+          @click="create"
+          size="small">确定</el-button>
+
+        <el-button
+          v-else type="primary"
+          :loading="dialogLoading"
+          @click="update"
+          size="small">修改</el-button>
+      </div>
+    </el-dialog>
+
+    <cs-region
+      v-model="region"
+      @confirm="handleRegion"
+      ref="area"/>
   </div>
 </template>
 
 <script>
 import {
-  delDeliveryAreaList
+  delDeliveryAreaList,
+  addDeliveryAreaItem,
+  setDeliveryAreaItem
 } from '@/api/logistics/area'
 import { getHelpRouter } from '@/api/index/help'
 
 export default {
-  // components: {
-  //   'csRegion': () => import('@/components/cs-region')
-  // },
+  components: {
+    'cs-region': () => import('./components/cs-region')
+  },
   props: {
     loading: {
       default: false
@@ -141,9 +265,117 @@ export default {
   },
   data() {
     return {
+      helpContent: '',
+      region: [],
       currentTableData: [],
-      multipleSelection: [],
-      helpContent: ''
+      auth: {
+        add: false,
+        set: false,
+        del: false,
+        region: false
+      },
+      dialogLoading: false,
+      dialogFormVisible: false,
+      dialogStatus: '',
+      textMap: {
+        update: '编辑区域',
+        create: '新增区域'
+      },
+      form: {
+        name: undefined,
+        first_weight_price: undefined,
+        second_weight_price: undefined,
+        first_item_price: undefined,
+        second_item_price: undefined,
+        first_volume_price: undefined,
+        second_volume_price: undefined
+      },
+      rules: {
+        name: [
+          {
+            required: true,
+            message: '名称不能为空',
+            trigger: 'blur'
+          },
+          {
+            max: 50,
+            message: '长度不能大于 50 个字符',
+            trigger: 'blur'
+          }
+        ],
+        first_weight_price: [
+          {
+            required: true,
+            message: '首重运费不能为空',
+            trigger: 'blur'
+          },
+          {
+            type: 'number',
+            message: '必须为数字值',
+            trigger: 'blur'
+          }
+        ],
+        second_weight_price: [
+          {
+            required: true,
+            message: '续重运费不能为空',
+            trigger: 'blur'
+          },
+          {
+            type: 'number',
+            message: '必须为数字值',
+            trigger: 'blur'
+          }
+        ],
+        first_item_price: [
+          {
+            required: true,
+            message: '首件运费不能为空',
+            trigger: 'blur'
+          },
+          {
+            type: 'number',
+            message: '必须为数字值',
+            trigger: 'blur'
+          }
+        ],
+        second_item_price: [
+          {
+            required: true,
+            message: '续件运费不能为空',
+            trigger: 'blur'
+          },
+          {
+            type: 'number',
+            message: '必须为数字值',
+            trigger: 'blur'
+          }
+        ],
+        first_volume_price: [
+          {
+            required: true,
+            message: '首体积运费不能为空',
+            trigger: 'blur'
+          },
+          {
+            type: 'number',
+            message: '必须为数字值',
+            trigger: 'blur'
+          }
+        ],
+        second_volume_price: [
+          {
+            required: true,
+            message: '续体积运费不能为空',
+            trigger: 'blur'
+          },
+          {
+            type: 'number',
+            message: '必须为数字值',
+            trigger: 'blur'
+          }
+        ]
+      }
     }
   },
   watch: {
@@ -153,17 +385,23 @@ export default {
       }
     }
   },
+  mounted() {
+    this._validationAuth()
+  },
   methods: {
+    // 验证权限
+    _validationAuth() {
+      this.auth.add = this.$has('/setting/logistics/delivery/area/add')
+      this.auth.set = this.$has('/setting/logistics/delivery/area/set')
+      this.auth.del = this.$has('/setting/logistics/delivery/area/del')
+      this.auth.region = this.$has('/setting/logistics/delivery/area/region')
+    },
     // 获取帮助文档
     getHelp() {
       if (!this.helpContent) {
         this.helpContent = '正在获取内容,请稍后...'
         getHelpRouter(this.$route.path).then(res => { this.helpContent = res })
       }
-    },
-    // 选中数据项
-    handleSelectionChange(val) {
-      this.multipleSelection = val
     },
     // 删除选择项
     handleDelete(index) {
@@ -180,6 +418,111 @@ export default {
             })
         })
         .catch(() => {
+        })
+    },
+    // 弹出新建对话框
+    handleCreate() {
+      this.form = {
+        name: undefined,
+        first_weight_price: 0,
+        second_weight_price: 0,
+        first_item_price: 0,
+        second_item_price: 0,
+        first_volume_price: 0,
+        second_volume_price: 0
+      }
+
+      this.$nextTick(() => {
+        this.$refs.form.clearValidate()
+      })
+
+      this.dialogStatus = 'create'
+      this.dialogLoading = false
+      this.dialogFormVisible = true
+    },
+    // 请求创建
+    create() {
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          this.dialogLoading = true
+          this.form.region = []
+
+          addDeliveryAreaItem({
+            ...this.form,
+            delivery_id: this.$route.params.delivery_id
+          })
+            .then(res => {
+              this.currentTableData.push(res.data)
+              this.dialogFormVisible = false
+              this.$message.success('操作成功')
+            })
+            .catch(() => {
+              this.dialogLoading = false
+            })
+        }
+      })
+    },
+    // 编辑对话框
+    handleUpdate(index) {
+      this.currentIndex = index
+      this.form = { ...this.currentTableData[index] }
+
+      if (this.$refs.form) {
+        this.$nextTick(() => {
+          this.$refs.form.clearValidate()
+        })
+      }
+
+      this.dialogStatus = 'update'
+      this.dialogLoading = false
+      this.dialogFormVisible = true
+    },
+    // 请求编辑
+    update() {
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          delete this.form.region
+          this.dialogLoading = true
+
+          setDeliveryAreaItem(this.form)
+            .then(res => {
+              this.$set(
+                this.currentTableData,
+                this.currentIndex,
+                {
+                  ...this.currentTableData[this.currentIndex],
+                  ...res.data
+                })
+
+              this.dialogFormVisible = false
+              this.$message.success('操作成功')
+            })
+            .catch(() => {
+              this.dialogLoading = false
+            })
+        }
+      })
+    },
+    // 区域管理
+    handleArea(index) {
+      if (!this.$refs.area) {
+        return
+      }
+
+      this.currentIndex = index
+      const data = this.currentTableData[index]
+
+      this.region = data.region
+      this.$refs.area.handleRegionDlg(data.delivery_area_id)
+    },
+    // 区域组件返回确定操作
+    handleRegion(val) {
+      this.$set(
+        this.currentTableData,
+        this.currentIndex,
+        {
+          ...this.currentTableData[this.currentIndex],
+          region: val
         })
     }
   }
