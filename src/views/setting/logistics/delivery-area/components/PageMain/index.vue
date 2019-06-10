@@ -33,8 +33,7 @@
 
     <el-table
       v-loading="loading"
-      :data="currentTableData"
-      stripe>
+      :data="currentTableData">
       <el-table-column type="expand">
         <template slot-scope="props">
           <el-form label-position="left" inline class="table-expand">
@@ -55,45 +54,51 @@
       <el-table-column
         label="名称"
         prop="name"
-        min-width="200">
+        min-width="160">
       </el-table-column>
 
       <el-table-column label="运费" align="center">
         <el-table-column
           label="首重运费"
-          prop="first_weight_price">
+          prop="first_weight_price"
+          width="120">
         </el-table-column>
 
         <el-table-column
           label="续重运费"
-          prop="second_weight_price">
+          prop="second_weight_price"
+          width="120">
         </el-table-column>
 
         <el-table-column
           label="首件运费"
-          prop="first_item_price">
+          prop="first_item_price"
+          width="120">
         </el-table-column>
 
         <el-table-column
           label="续件运费"
-          prop="second_item_price">
+          prop="second_item_price"
+          width="120">
         </el-table-column>
 
         <el-table-column
           label="首体积运费"
-          prop="first_volume_price">
+          prop="first_volume_price"
+          width="120">
         </el-table-column>
 
         <el-table-column
           label="续体积运费"
-          prop="second_volume_price">
+          prop="second_volume_price"
+          width="120">
         </el-table-column>
       </el-table-column>
 
       <el-table-column
         label="操作"
         align="center"
-        min-width="140">
+        min-width="150">
         <template
           v-if="scope.row.delivery_area_id"
           slot-scope="scope">

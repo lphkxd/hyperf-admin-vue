@@ -22,7 +22,7 @@
       </div>
 
       <el-divider>区域选择</el-divider>
-      <div style="height: 300px; overflow: auto;">
+      <div class="tree-scroll">
         <el-tree
           v-if="visible"
           v-loading="treeLoading"
@@ -149,6 +149,11 @@ export default {
 </script>
 
 <style scoped>
+  .tree-scroll {
+    max-height: 250px;
+    overflow: auto;
+    padding-bottom: 1px;
+  }
   .region-tag {
     margin: 0 10px 10px 0;
   }

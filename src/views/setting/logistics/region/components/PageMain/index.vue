@@ -63,22 +63,22 @@
     <!--内容开始-->
     <el-row :gutter="20">
       <el-col :span="10">
-        <el-tree
-          v-loading="loading"
-          node-key="region_id"
-          :data="treeData"
-          :props="treeProps"
-          :filter-node-method="filterNode"
-          :highlight-current="true"
-          :expand-on-click-node="false"
-          :default-expanded-keys="expanded"
-          @node-click="handleNodeClick"
-          @node-drop="handleDrop"
-          :allow-drag="allowDrag"
-          :allow-drop="allowDrop"
-          draggable
-          show-checkbox
-          ref="tree">
+        <div class="tree-scroll">
+          <el-tree
+              v-loading="loading"
+              node-key="region_id"
+              :data="treeData"
+              :props="treeProps"
+              :filter-node-method="filterNode"
+              :highlight-current="true"
+              :default-expanded-keys="expanded"
+              @node-click="handleNodeClick"
+              @node-drop="handleDrop"
+              :allow-drag="allowDrag"
+              :allow-drop="allowDrop"
+              draggable
+              show-checkbox
+              ref="tree">
           <span class="custom-tree-node action" slot-scope="{ node, data }">
             <span class="brother-showing">
               <i v-if="auth.move" class="fa fa-align-justify move-tree" style="width: 16px;"></i>
@@ -87,23 +87,24 @@
 
             <span class="active">
               <el-button
-                v-if="auth.add"
-                type="text"
-                size="mini"
-                @click.stop="() => handleAppend(data.region_id)">
+                  v-if="auth.add"
+                  type="text"
+                  size="mini"
+                  @click.stop="() => handleAppend(data.region_id)">
                 新增
               </el-button>
 
               <el-button
-                v-if="auth.del"
-                type="text"
-                size="mini"
-                @click.stop="() => remove([data.region_id])">
+                  v-if="auth.del"
+                  type="text"
+                  size="mini"
+                  @click.stop="() => remove([data.region_id])">
                 删除
               </el-button>
             </span>
           </span>
-        </el-tree>
+          </el-tree>
+        </div>
       </el-col>
 
       <el-col :span="14">
@@ -458,6 +459,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .tree-scroll {
+    max-height: 520px;
+    overflow: auto;
+    padding-bottom: 1px;
+  }
   .custom-tree-node {
     flex: 1;
     display: flex;

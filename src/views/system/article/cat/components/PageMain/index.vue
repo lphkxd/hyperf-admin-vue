@@ -58,22 +58,22 @@
 
     <el-row :gutter="20">
       <el-col :span="10">
-        <el-tree
-          v-if="hackReset"
-          v-loading="loading"
-          node-key="article_cat_id"
-          :data="treeData"
-          :props="treeProps"
-          :filter-node-method="filterNode"
-          :highlight-current="true"
-          :expand-on-click-node="false"
-          :default-expand-all="isExpandAll"
-          :default-expanded-keys="expanded"
-          :allow-drag="allowDrag"
-          @node-click="handleNodeClick"
-          @node-drop="handleDrop"
-          draggable
-          ref="tree">
+        <div class="tree-scroll">
+          <el-tree
+              v-if="hackReset"
+              v-loading="loading"
+              node-key="article_cat_id"
+              :data="treeData"
+              :props="treeProps"
+              :filter-node-method="filterNode"
+              :highlight-current="true"
+              :default-expand-all="isExpandAll"
+              :default-expanded-keys="expanded"
+              :allow-drag="allowDrag"
+              @node-click="handleNodeClick"
+              @node-drop="handleDrop"
+              draggable
+              ref="tree">
           <span class="custom-tree-node action" slot-scope="{ node, data }">
             <span class="brother-showing">
               <i v-if="auth.move" class="fa fa-align-justify move-tree cs-mr-10"></i>
@@ -84,23 +84,24 @@
 
             <span class="active">
               <el-button
-                v-if="auth.add"
-                type="text"
-                size="mini"
-                @click.stop="() => handleAppend(data.article_cat_id)">
+                  v-if="auth.add"
+                  type="text"
+                  size="mini"
+                  @click.stop="() => handleAppend(data.article_cat_id)">
                 新增
               </el-button>
 
               <el-button
-                v-if="auth.del"
-                type="text"
-                size="mini"
-                @click.stop="() => remove(data.article_cat_id)">
+                  v-if="auth.del"
+                  type="text"
+                  size="mini"
+                  @click.stop="() => remove(data.article_cat_id)">
                 删除
               </el-button>
             </span>
           </span>
-        </el-tree>
+          </el-tree>
+        </div>
       </el-col>
 
       <el-col :span="14">
@@ -557,6 +558,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .tree-scroll {
+    max-height: 460px;
+    overflow: auto;
+    padding-bottom: 1px;
+  }
   .custom-tree-node {
     flex: 1;
     display: flex;
