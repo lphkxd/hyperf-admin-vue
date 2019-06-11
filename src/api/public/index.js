@@ -39,3 +39,21 @@ export function getMessageType() {
     })
   })
 }
+
+/**
+ * 消息通知类型
+ * @returns {Promise<any>}
+ */
+export function getNoticeType() {
+  return new Promise(resolve => {
+    resolve({
+      '0': '通用验证',
+      '1': '注册成功',
+      '2': '充值成功',
+      '3': '确认订单',
+      '4': '付款成功',
+      '5': '下单成功',
+      '6': '订单发货'
+    })
+  })
+}
