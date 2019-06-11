@@ -13,7 +13,7 @@
         :clearable="true"
         @keydown.esc.native="handleEsc"
         @select="handleSelect">
-        <cs-panel-search-item slot-scope="{ item }" :item="item"/>
+        <cs-panel-search-item slot-scope="{item}" :item="item"/>
       </el-autocomplete>
       <div class="panel-search__tip">
         您可以使用按键

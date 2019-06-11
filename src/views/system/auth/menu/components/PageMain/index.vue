@@ -58,23 +58,23 @@
 
     <el-row :gutter="20">
       <el-col :span="10">
-        <div class="tree-scroll">
-          <el-tree
-              v-if="hackReset"
-              v-loading="loading"
-              node-key="menu_id"
-              :data="treeData"
-              :props="treeProps"
-              :filter-node-method="filterNode"
-              :highlight-current="true"
-              :default-expand-all="isExpandAll"
-              :default-expanded-keys="expanded"
-              :allow-drag="allowDrag"
-              @node-click="handleNodeClick"
-              @node-drop="handleDrop"
-              draggable
-              ref="tree">
-          <span class="custom-tree-node action" slot-scope="{ node, data }">
+        <el-tree
+          v-if="hackReset"
+          v-loading="loading"
+          class="tree-scroll"
+          node-key="menu_id"
+          :data="treeData"
+          :props="treeProps"
+          :filter-node-method="filterNode"
+          :highlight-current="true"
+          :default-expand-all="isExpandAll"
+          :default-expanded-keys="expanded"
+          :allow-drag="allowDrag"
+          @node-click="handleNodeClick"
+          @node-drop="handleDrop"
+          draggable
+          ref="tree">
+          <span class="custom-tree-node action" slot-scope="{node, data}">
             <span :class="`brother-showing ${!data.status ? 'status-tree' : ''}`">
               <i v-if="auth.move" class="fa fa-align-justify move-tree cs-mr-10"></i>
               <i v-if="data.icon" :class="`fa fa-${data.icon}`" style="width: 16px;"></i>
@@ -85,32 +85,31 @@
 
             <span class="active">
               <el-button
-                  v-if="auth.add"
-                  type="text"
-                  size="mini"
-                  @click.stop="() => handleAppend(data.menu_id)">
+                v-if="auth.add"
+                type="text"
+                size="mini"
+                @click.stop="() => handleAppend(data.menu_id)">
                 新增
               </el-button>
 
               <el-button
-                  v-if="auth.status"
-                  type="text"
-                  size="mini"
-                  @click.stop="() => enable(data.menu_id, data.status)">
+                v-if="auth.status"
+                type="text"
+                size="mini"
+                @click.stop="() => enable(data.menu_id, data.status)">
                 {{data.status ? '禁用' : '启用'}}
               </el-button>
 
               <el-button
-                  v-if="auth.del"
-                  type="text"
-                  size="mini"
-                  @click.stop="() => remove(data.menu_id)">
+                v-if="auth.del"
+                type="text"
+                size="mini"
+                @click.stop="() => remove(data.menu_id)">
                 删除
               </el-button>
             </span>
           </span>
-          </el-tree>
-        </div>
+        </el-tree>
       </el-col>
 
       <el-col :span="14">
@@ -678,7 +677,7 @@ export default {
 
 <style lang="scss" scoped>
   .tree-scroll {
-    max-height: 460px;
+    max-height: 640px;
     overflow: auto;
     padding-bottom: 1px;
   }

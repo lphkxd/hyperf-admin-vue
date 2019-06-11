@@ -92,25 +92,25 @@
     <!--实际内容开始-->
     <el-row :gutter="20">
       <el-col :span="10">
-        <div class="tree-scroll">
-          <el-tree
-              v-if="hackReset"
-              v-loading="loading"
-              node-key="rule_id"
-              :data="treeData"
-              :props="treeProps"
-              :filter-node-method="filterNode"
-              :highlight-current="true"
-              :default-expand-all="isExpandAll"
-              :default-expanded-keys="expanded"
-              @node-click="handleNodeClick"
-              @node-drop="handleDrop"
-              :allow-drag="allowDrag"
-              :allow-drop="allowDrop"
-              draggable
-              show-checkbox
-              ref="tree">
-          <span class="custom-tree-node action" slot-scope="{ node, data }">
+        <el-tree
+          v-if="hackReset"
+          v-loading="loading"
+          class="tree-scroll"
+          node-key="rule_id"
+          :data="treeData"
+          :props="treeProps"
+          :filter-node-method="filterNode"
+          :highlight-current="true"
+          :default-expand-all="isExpandAll"
+          :default-expanded-keys="expanded"
+          @node-click="handleNodeClick"
+          @node-drop="handleDrop"
+          :allow-drag="allowDrag"
+          :allow-drop="allowDrop"
+          draggable
+          show-checkbox
+          ref="tree">
+          <span class="custom-tree-node action" slot-scope="{node, data}">
             <span :class="`brother-showing ${!data.status ? 'status-tree' : ''}`">
               <i v-if="!data.system && auth.move" class="fa fa-align-justify move-tree cs-mr-10"></i>
               <i v-if="data.children" class="fa fa-folder-o"></i>
@@ -118,39 +118,35 @@
               {{node.label}}
             </span>
 
-            <span
-                v-if="!data.system"
-                class="active">
+            <span v-if="!data.system" class="active">
               <el-button
-                  v-if="auth.disable || auth.enable"
-                  type="text"
-                  size="mini"
-                  @click.stop="() => setStatusItem(data.rule_id, data.status)">
+                v-if="auth.disable || auth.enable"
+                type="text"
+                size="mini"
+                @click.stop="() => setStatusItem(data.rule_id, data.status)">
                 {{data.status ? '禁用' : '启用'}}
               </el-button>
+
               <el-button
-                  v-if="auth.del"
-                  type="text"
-                  size="mini"
-                  @click.stop="() => remove([data.rule_id], false)">
+                v-if="auth.del"
+                type="text"
+                size="mini"
+                @click.stop="() => remove([data.rule_id], false)">
                 删除
               </el-button>
             </span>
 
-            <span
-                v-else
-                class="active">
+            <span v-else class="active">
               <el-button
-                  v-if="auth.add"
-                  type="text"
-                  size="mini"
-                  @click.stop="() => handleCreate('create', node.key)">
+                v-if="auth.add"
+                type="text"
+                size="mini"
+                @click.stop="() => handleCreate('create', node.key)">
                 新增
               </el-button>
             </span>
           </span>
-          </el-tree>
-        </div>
+        </el-tree>
       </el-col>
 
       <el-col :span="14">
@@ -265,7 +261,7 @@
                   :default-checked-keys="form.menu_auth"
                   show-checkbox
                   ref="menuTree">
-                    <span class="custom-tree-node" slot-scope="{ node, data }">
+                    <span class="custom-tree-node" slot-scope="{node, data}">
                       <span :class="`brother-showing ${!data.status ? 'status-tree' : ''}`">
                         <i v-if="data.icon" :class="`fa fa-${data.icon}`" style="width: 16px;"></i>
                         <i v-else-if="data.children" class="fa fa-folder-o" style="width: 16px;"></i>
@@ -287,7 +283,7 @@
                   :default-checked-keys="form.log_auth"
                   show-checkbox
                   ref="logTree">
-                    <span class="custom-tree-node" slot-scope="{ node, data }">
+                    <span class="custom-tree-node" slot-scope="{node, data}">
                       <span :class="`brother-showing ${!data.status ? 'status-tree' : ''}`">
                         <i v-if="data.icon" :class="`fa fa-${data.icon}`" style="width: 16px;"></i>
                         <i v-else-if="data.children" class="fa fa-folder-o" style="width: 16px;"></i>

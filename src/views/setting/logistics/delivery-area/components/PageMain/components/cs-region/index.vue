@@ -22,15 +22,15 @@
       </div>
 
       <el-divider>区域选择</el-divider>
-      <div class="tree-scroll">
-        <el-tree
-          v-if="visible"
-          v-loading="treeLoading"
-          node-key="region_id"
-          :props="treeProps"
-          :load="loadNode"
-          lazy>
-          <span class="custom-tree-node action" slot-scope="{ node, data }">
+      <el-tree
+        v-if="visible"
+        v-loading="treeLoading"
+        class="tree-scroll"
+        node-key="region_id"
+        :props="treeProps"
+        :load="loadNode"
+        lazy>
+          <span class="custom-tree-node action" slot-scope="{node, data}">
             <span>{{node.label}}</span>
 
             <span class="active">
@@ -41,8 +41,7 @@
                 icon="el-icon-plus">加入到所辖区域</el-button>
             </span>
           </span>
-        </el-tree>
-      </div>
+      </el-tree>
     </div>
 
     <div slot="footer" class="dialog-footer">
@@ -150,7 +149,7 @@ export default {
 
 <style scoped>
   .tree-scroll {
-    max-height: 250px;
+    height: 250px;
     overflow: auto;
     padding-bottom: 1px;
   }
