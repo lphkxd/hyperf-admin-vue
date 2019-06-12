@@ -264,6 +264,7 @@ import {
 } from '@/api/aided/qrcode'
 import * as clipboard from 'clipboard-polyfill'
 import { getHelpRouter } from '@/api/index/help'
+import { debounce } from 'lodash'
 
 export default {
   components: {
@@ -416,10 +417,14 @@ export default {
       return idList
     },
     // 获取二维码预览
-    _getQrcodeImage() {
+    _getQrcodeImage: debounce(function() {
+      if (!this.form.text) {
+        return
+      }
+
       let parm = `?text=${this.form.text}&size=${this.form.size}&logo=${this.form.logo}`
       this.qrcodeImage = this.qrcodeUrl + encodeURI(parm)
-    },
+    }, 500),
     // 获取上传文件
     _getUploadFileList(files) {
       if (!files.length) {

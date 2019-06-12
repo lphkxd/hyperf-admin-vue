@@ -628,6 +628,7 @@ import { getHelpRouter } from '@/api/index/help'
 import { getUploadModule } from '@/api/upload/upload'
 import { getStorageThumbUrl, getStorageThumbInfo } from '@/api/upload/storage'
 import util from '@/utils/util'
+import { debounce } from 'lodash'
 
 export default {
   components: {
@@ -1095,7 +1096,7 @@ export default {
         }
       })
     },
-    getThumbUrl() {
+    getThumbUrl: debounce(function() {
       if (!this.imageUrl) {
         return
       }
@@ -1142,7 +1143,7 @@ export default {
         .finally(() => {
           this.imageLoading = false
         })
-    },
+    }, 300),
     // 编辑样式
     updata(index) {
       this.currentIndex = index

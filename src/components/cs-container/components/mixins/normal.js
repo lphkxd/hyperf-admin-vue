@@ -21,7 +21,7 @@ export default {
     addScrollListener() {
       // mounted 生命周期内调用这个方法的时候会进入这里的判断
       if (typeof this.handleScroll !== 'function') {
-        this.handleScroll = handleMaker.call(this, 10)
+        this.handleScroll = handleMaker.call(this, 300)
       }
 
       // 添加监听
