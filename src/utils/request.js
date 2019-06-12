@@ -34,7 +34,7 @@ function errorLog(err) {
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API, // api的base_url
   timeout: 30000, // request timeout
-  headers: { 'Content-Type': 'application/json; charset=utf-8' }
+  headers: { 'Content-Type': 'text/plain; charset=utf-8' }
 })
 
 // 请求拦截器
