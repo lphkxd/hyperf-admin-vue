@@ -208,14 +208,17 @@
         :model="nameForm"
         :rules="rules"
         ref="name"
-        label-width="80px">
+        label-width="80px"
+        @submit.native.prevent>
         <el-form-item
           label="名称"
           prop="name">
           <el-input
             v-model="nameForm.name"
             placeholder="请输入目录名称"
-            clearable/>
+            @keyup.enter.native="nameStatus === 'create' ? create() : rename()"
+            clearable
+            ref="input"/>
         </el-form-item>
       </el-form>
 
@@ -490,6 +493,7 @@ export default {
 
       this.$nextTick(() => {
         this.$refs.name.clearValidate()
+        this.$refs.input.focus()
       })
 
       this.dialogLoading = false
@@ -580,6 +584,7 @@ export default {
 
       this.$nextTick(() => {
         this.$refs.name.clearValidate()
+        this.$refs.input.select()
       })
 
       this.dialogLoading = false

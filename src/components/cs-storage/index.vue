@@ -6,7 +6,7 @@
     width="769px">
 
     <!-- 搜索框开始 -->
-    <el-form :model="form" style="margin-top: -25px;" size="small">
+    <el-form :model="form" style="margin-top: -25px;" size="small" @submit.native.prevent>
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item>
@@ -37,6 +37,7 @@
             <el-input
               v-model="form.name"
               placeholder="输入资源名称进行搜索"
+              @keyup.enter.native="handleSearch"
               size="small"
               clearable>
               <el-button slot="append" icon="el-icon-search" @click="handleSearch"></el-button>
@@ -278,6 +279,7 @@ export default {
     margin: 0 0 0 2px;
     width: 78px;
     height: 80px;
+    z-index: 9;
   }
   .el-image /deep/ .el-image__inner {
     width: auto;
