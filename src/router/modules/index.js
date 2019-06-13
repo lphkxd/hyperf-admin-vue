@@ -21,14 +21,6 @@ export default {
       meta: { ...meta, cache: true, title: '调试日志' },
       component: () => import('@/views/index/log')
     },
-    // 内嵌页
-    {
-      path: 'cloud',
-      name: 'cloud',
-      props: true,
-      meta: { ...meta, cache: true, title: '云端' },
-      component: () => import('@/views/index/cloud')
-    },
     // 刷新页面 必须保留
     {
       path: 'refresh',
