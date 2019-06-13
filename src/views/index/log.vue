@@ -72,6 +72,7 @@ import { mapState } from 'vuex'
 import { get } from 'lodash'
 
 export default {
+  name: 'log',
   computed: {
     ...mapState('careyshop/log', [
       'log'

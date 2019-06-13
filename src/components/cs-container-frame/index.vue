@@ -11,7 +11,7 @@ export default {
     src: {
       type: String,
       required: false,
-      default: 'http://www.careyshop.cn/'
+      default: 'http://cloud.careyshop.cn'
     }
   }
 }
