@@ -32,8 +32,11 @@ function errorLog(err) {
 
 // 创建一个axios实例
 const service = axios.create({
-  baseURL: process.env.VUE_APP_BASE_API, // api的base_url
-  timeout: 30000, // request timeout
+  // api的base_url
+  baseURL: process.env.VUE_APP_BASE_API,
+  // request timeout
+  timeout: 30000,
+  // 使用简单请求,复杂请求(多一次OPTIONS请求)可用 application/json
   headers: { 'Content-Type': 'text/plain; charset=utf-8' }
 })
 

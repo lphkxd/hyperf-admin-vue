@@ -15,6 +15,7 @@ export function getHelpRouter(router) {
        */
       url: host + '/v1/help',
       method: 'post',
+      headers: { 'Content-Type': 'text/plain; charset=utf-8' },
       params: {
         method: 'get.help.router'
       },
