@@ -66,6 +66,12 @@ export default {
       props: true,
       meta: { ...meta, title: '配送区域' },
       component: () => import('@/views/setting/logistics/delivery-area')
+    },
+    {
+      path: 'notice/template',
+      name: `${pre}notice-template`,
+      meta: { ...meta, cache: true, title: '消息模板' },
+      component: () => import('@/views/setting/notice/template')
     }
   ])('setting-')
 }
