@@ -21,6 +21,24 @@
         </el-button-group>
       </el-form-item>
 
+      <el-form-item>
+        <el-button-group>
+          <el-button
+            :disabled="loading"
+            @click="handleStatus(null, 1, true)">
+            <cs-icon name="check"/>
+            启用
+          </el-button>
+
+          <el-button
+            :disabled="loading"
+            @click="handleStatus(null, 0, true)">
+            <cs-icon name="close"/>
+            禁用
+          </el-button>
+        </el-button-group>
+      </el-form-item>
+
       <el-popover
         style="float: right"
         placement="bottom-end"
@@ -36,6 +54,61 @@
         </el-button>
       </el-popover>
     </el-form>
+
+    <el-tabs
+      :value="tplCode"
+      v-loading="loading"
+      @tab-click="handleClick"
+      class="tab-box">
+      <el-tab-pane
+        v-for="(item, index) in tplType"
+        :key="index"
+        :label="item"
+        :name="index">
+
+        <el-table
+          v-if="index.toString() === tplCode"
+          :data="currentTableData"
+          @selection-change="handleSelectionChange">
+
+          <el-table-column type="selection" width="55"/>
+
+          <el-table-column
+            label="名称"
+            prop="name"
+            min-width="500">
+          </el-table-column>
+
+          <el-table-column
+            label="状态"
+            prop="status"
+            align="center"
+            width="100">
+            <template slot-scope="scope">
+              <el-tag
+                size="mini"
+                :type="statusMap[scope.row.status].type"
+                style="cursor: pointer;"
+                @click.native="handleStatus(scope.$index)">
+                {{statusMap[scope.row.status].text}}
+              </el-tag>
+            </template>
+          </el-table-column>
+
+          <el-table-column
+            label="操作"
+            align="center"
+            min-width="100">
+            <template slot-scope="scope">
+              <el-button
+                @click="handleUpdate(scope.$index)"
+                size="small"
+                type="text">编辑模板</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-tab-pane>
+    </el-tabs>
 
     <el-dialog
       title="短信配置"
@@ -89,12 +162,169 @@
           size="small">修改</el-button>
       </div>
     </el-dialog>
+
+    <el-dialog
+      title="邮件配置"
+      :visible.sync="emailVisible"
+      :append-to-body="true"
+      width="600px">
+      <el-form
+        v-loading="emailLoading"
+        :model="emailForm"
+        :rules="emailRules"
+        label-width="140px"
+        ref="emailForm">
+        <el-form-item
+          label="SMTP服务器"
+          prop="email_host">
+          <el-input
+            v-model="emailForm.email_host"
+            placeholder="SMTP服务器"
+            clearable/>
+        </el-form-item>
+
+        <el-form-item
+          label="SMTP端口"
+          prop="email_port">
+          <el-input
+            v-model="emailForm.email_port"
+            placeholder="SMTP端口"
+            clearable/>
+        </el-form-item>
+
+        <el-form-item
+          label="发信人邮箱地址"
+          prop="email_addr">
+          <el-input
+            v-model="emailForm.email_addr"
+            placeholder="发信人邮箱地址"
+            clearable/>
+        </el-form-item>
+
+        <el-form-item
+          label="SMTP用户名"
+          prop="email_id">
+          <el-input
+            v-model="emailForm.email_id"
+            placeholder="SMTP身份验证用户名"
+            clearable/>
+        </el-form-item>
+
+        <el-form-item
+          label="SMTP密码"
+          prop="email_pass">
+          <el-input
+            v-model="emailForm.email_pass"
+            placeholder="SMTP身份验证码"
+            clearable/>
+        </el-form-item>
+
+        <el-form-item
+          label="使用安全链接"
+          prop="email_ssl">
+          <el-switch
+            v-model="smsForm.email_ssl"
+            active-value="1"
+            inactive-value="0">
+          </el-switch>
+        </el-form-item>
+
+        <el-form-item
+          label="启用状态"
+          prop="status">
+          <el-switch
+            v-model="smsForm.status"
+            active-value="1"
+            inactive-value="0">
+          </el-switch>
+        </el-form-item>
+      </el-form>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button
+          @click="emailVisible = false"
+          size="small">取消</el-button>
+
+        <el-button
+          type="primary"
+          :loading="emailButton"
+          @click="saveEmailData"
+          size="small">修改</el-button>
+      </div>
+    </el-dialog>
+
+    <el-dialog
+      :title="`编辑 ${tplType[tplForm.code]}`"
+      :visible.sync="tplVisible"
+      :append-to-body="true"
+      width="600px">
+      <el-form
+        v-loading="tplLoading"
+        :model="tplForm"
+        :rules="tplRules"
+        label-width="90px"
+        ref="tplForm">
+        <el-form-item
+          v-if="tplForm.code === 'sms'"
+          label="模板编号"
+          prop="sms_code">
+          <el-input
+            v-model="tplForm.sms_code"
+            placeholder="阿里云短信模板编号"
+            clearable/>
+        </el-form-item>
+
+        <el-form-item
+          v-if="tplForm.code === 'sms'"
+          label="短信签名"
+          prop="sms_sign">
+          <el-input
+            v-model="tplForm.sms_sign"
+            placeholder="阿里云短信签名"
+            clearable/>
+        </el-form-item>
+
+        <el-form-item
+          v-if="tplForm.code === 'email'"
+          label="系统标题"
+          prop="title">
+          <el-input
+            v-model="tplForm.title"
+            placeholder="通知系统标题"
+            clearable/>
+        </el-form-item>
+
+        <el-form-item
+          label="系统模板"
+          prop="template">
+          <el-input
+            v-if="tplForm.code === 'sms'"
+            v-model="tplForm.template"
+            type="textarea"
+            placeholder="通知系统模板"
+            :rows="5"/>
+        </el-form-item>
+      </el-form>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button
+          @click="tplVisible = false"
+          size="small">取消</el-button>
+
+        <el-button
+          type="primary"
+          :loading="tplButton"
+          @click="() => {}"
+          size="small">修改</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import { getHelpRouter } from '@/api/index/help'
 import { getNoticeItem, setNoticeItem } from '@/api/notice/notice'
+import { setNoticeTplStatus } from '@/api/notice/template'
 
 export default {
   props: {
@@ -114,6 +344,24 @@ export default {
       multipleSelection: [],
       helpContent: '',
       auth: {},
+      tplType: {
+        'sms': '短信模板',
+        'email': '邮件模板'
+      },
+      statusMap: {
+        0: {
+          text: '禁用',
+          type: 'danger'
+        },
+        1: {
+          text: '启用',
+          type: 'success'
+        },
+        2: {
+          text: '...',
+          type: 'info'
+        }
+      },
       smsVisible: false,
       smsLoading: false,
       smsButton: false,
@@ -151,8 +399,82 @@ export default {
       emailVisible: false,
       emailLoading: false,
       emailButton: false,
-      emailForm: {},
-      emailRules: {}
+      emailForm: {
+        email_host: undefined,
+        email_port: undefined,
+        email_addr: undefined,
+        email_id: undefined,
+        email_pass: undefined,
+        email_ssl: '0',
+        status: '1'
+      },
+      emailRules: {
+        email_host: [
+          {
+            required: true,
+            message: 'SMTP服务器不能为空',
+            trigger: 'blur'
+          },
+          {
+            max: 255,
+            message: '长度不能大于 255 个字符',
+            trigger: 'blur'
+          }
+        ],
+        email_port: [
+          {
+            required: true,
+            message: 'SMTP端口不能为空',
+            trigger: 'blur'
+          },
+          {
+            max: 255,
+            message: '长度不能大于 255 个字符',
+            trigger: 'blur'
+          }
+        ],
+        email_addr: [
+          {
+            required: true,
+            message: '发信人邮箱地址不能为空',
+            trigger: 'blur'
+          },
+          {
+            max: 255,
+            message: '长度不能大于 255 个字符',
+            trigger: 'blur'
+          }
+        ],
+        email_id: [
+          {
+            required: true,
+            message: 'SMTP身份验证用户名不能为空',
+            trigger: 'blur'
+          },
+          {
+            max: 255,
+            message: '长度不能大于 255 个字符',
+            trigger: 'blur'
+          }
+        ],
+        email_pass: [
+          {
+            required: true,
+            message: 'SMTP身份验证码不能为空',
+            trigger: 'blur'
+          },
+          {
+            max: 255,
+            message: '长度不能大于 255 个字符',
+            trigger: 'blur'
+          }
+        ]
+      },
+      tplVisible: false,
+      tplLoading: false,
+      tplButton: false,
+      tplForm: {},
+      tplRules: {}
     }
   },
   watch: {
@@ -164,12 +486,33 @@ export default {
     }
   },
   methods: {
+    // 获取列表中的编号
+    _getIdList(val) {
+      if (val === null) {
+        val = this.multipleSelection
+      }
+
+      let idList = []
+      if (Array.isArray(val)) {
+        val.forEach(value => {
+          idList.push(value.notice_tpl_id)
+        })
+      } else {
+        idList.push(this.currentTableData[val].notice_tpl_id)
+      }
+
+      return idList
+    },
     // 获取帮助文档
     getHelp() {
       if (!this.helpContent) {
         this.helpContent = '正在获取内容,请稍后...'
         getHelpRouter(this.$route.path).then(res => { this.helpContent = res })
       }
+    },
+    // 选中数据项
+    handleSelectionChange(val) {
+      this.multipleSelection = val
     },
     // 打开短信配置对话框
     handleOpenSms() {
@@ -223,7 +566,143 @@ export default {
     },
     // 打开邮件配置对话框
     handleOpenEmail() {
+      this.emailForm = {
+        email_host: undefined,
+        email_port: undefined,
+        email_addr: undefined,
+        email_id: undefined,
+        email_pass: undefined,
+        email_ssl: '0',
+        status: '1'
+      }
+
+      if (this.$refs.emailForm) {
+        this.$nextTick(() => {
+          this.$refs.emailForm.clearValidate()
+        })
+      }
+
+      this.emailButton = false
+      this.emailVisible = true
+      this.emailLoading = true
+
+      getNoticeItem('email')
+        .then(res => {
+          const data = res.data.value
+          for (const key in data) {
+            if (data.hasOwnProperty(key)) {
+              this.emailForm[key] = data[key].value
+            }
+          }
+        })
+        .finally(() => {
+          this.emailLoading = false
+        })
+    },
+    // 请求保存邮件配置
+    saveEmailData() {
+      this.$refs.emailForm.validate(valid => {
+        if (valid) {
+          this.emailButton = true
+          setNoticeItem({
+            code: 'email',
+            ...this.emailForm
+          })
+            .then(() => {
+              this.emailVisible = false
+              this.$message.success('操作成功')
+            })
+            .catch(() => {
+              this.emailButton = false
+            })
+        }
+      })
+    },
+    // 点击选项卡时触发
+    handleClick(tab) {
+      this.multipleSelection = []
+      this.$emit('update:tplCode', tab.name)
+    },
+    // 批量设置状态
+    handleStatus(val, status = 0, confirm = false) {
+      let notice_tpl_id = this._getIdList(val)
+      if (notice_tpl_id.length === 0) {
+        this.$message.error('请选择要操作的数据')
+        return
+      }
+
+      function setStatus(notice_tpl_id, status, vm) {
+        setNoticeTplStatus(notice_tpl_id, status)
+          .then(() => {
+            vm.currentTableData.forEach((value, index) => {
+              if (notice_tpl_id.indexOf(value.notice_tpl_id) !== -1) {
+                vm.$set(vm.currentTableData, index, {
+                  ...value,
+                  status
+                })
+              }
+            })
+
+            vm.$message.success('操作成功')
+          })
+      }
+
+      if (!confirm) {
+        let oldData = this.currentTableData[val]
+        const newStatus = oldData.status ? 0 : 1
+
+        if (oldData.status > 1) {
+          return
+        }
+
+        // // 禁用权限检测
+        // if (newStatus === 0 && !this.auth.disable) {
+        //   return
+        // }
+        //
+        // // 启用权限检测
+        // if (newStatus === 1 && !this.auth.enable) {
+        //   return
+        // }
+
+        this.$set(this.currentTableData, val, { ...oldData, status: 2 })
+        setStatus(notice_tpl_id, newStatus, this)
+        return
+      }
+
+      this.$confirm('确定要执行该操作吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(() => {
+          setStatus(notice_tpl_id, status, this)
+        })
+        .catch(() => {
+        })
+    },
+    // 打开编辑对话框
+    handleUpdate(index) {
+      const data = this.currentTableData[index]
+      this.tplForm = { ...data }
+
+      if (this.$refs.tplForm) {
+        this.$nextTick(() => {
+          this.$refs.tplForm.clearValidate()
+        })
+      }
+
+      this.tplButton = false
+      this.tplVisible = true
+      this.tplLoading = false
     }
   }
 }
 </script>
+
+<style scoped>
+  .tab-box {
+    padding: 5px 10px;
+    background-color: #FFF;
+  }
+</style>
