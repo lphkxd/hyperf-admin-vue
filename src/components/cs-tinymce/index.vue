@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="width: 99.75%;">
     <textarea class="tinymce-textarea" :id="tinymceId"></textarea>
     <cs-upload ref="upload" type="slot" style="display: none" @confirm="_getUploadFileList"/>
     <cs-storage ref="storage" style="display: none" @confirm="_getStorageFileList"/>

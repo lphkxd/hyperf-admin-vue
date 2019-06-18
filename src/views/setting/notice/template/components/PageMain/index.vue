@@ -257,7 +257,7 @@
       :title="`编辑 ${tplType[tplForm.code]}`"
       :visible.sync="tplVisible"
       :append-to-body="true"
-      width="600px">
+      width="760px">
       <el-form
         v-loading="tplLoading"
         :model="tplForm"
@@ -291,18 +291,39 @@
           <el-input
             v-model="tplForm.title"
             placeholder="通知系统标题"
+            maxlength="200"
+            show-word-limit
             clearable/>
         </el-form-item>
 
         <el-form-item
           label="系统模板"
           prop="template">
+          <div class="cs-mb-10">
+            <el-tag
+              v-for="(item, index) in tplForm.get_notice_item"
+              :key="index"
+              :disable-transitions="true"
+              class="cs-mr-10"
+              style="cursor: pointer;"
+              effect="plain">
+              {{item.item_name}}
+            </el-tag>
+          </div>
+
           <el-input
             v-if="tplForm.code === 'sms'"
             v-model="tplForm.template"
             type="textarea"
             placeholder="通知系统模板"
+            show-word-limit
+            maxlength="500"
             :rows="5"/>
+
+          <cs-tinymce
+              v-else-if="tplVisible"
+              v-model="tplForm.template"
+              :height="180"/>
         </el-form-item>
       </el-form>
 
@@ -327,6 +348,9 @@ import { getNoticeItem, setNoticeItem } from '@/api/notice/notice'
 import { setNoticeTplStatus } from '@/api/notice/template'
 
 export default {
+  components: {
+    'csTinymce': () => import('@/components/cs-tinymce')
+  },
   props: {
     loading: {
       default: false
