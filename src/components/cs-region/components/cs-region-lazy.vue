@@ -5,7 +5,8 @@
     <el-dialog
       width="600px"
       :visible.sync="visible"
-      :append-to-body="true">
+      :append-to-body="true"
+      :close-on-click-modal="false">
 
       <el-tree
         v-if="visible"

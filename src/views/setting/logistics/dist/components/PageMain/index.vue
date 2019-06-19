@@ -112,6 +112,7 @@
       title="即时查询"
       :visible.sync="traceFormVisible"
       :append-to-body="true"
+      :close-on-click-modal="false"
       width="600px">
       <el-form
         label-width="80px"

@@ -217,6 +217,7 @@
       :title="textMap[dialogStatus]"
       :visible.sync="dialogFormVisible"
       :append-to-body="true"
+      :close-on-click-modal="false"
       @open="handleOpenSelect"
       width="600px">
       <el-form
@@ -818,7 +819,8 @@ export default {
       this.$confirm('确定要执行该操作吗?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        type: 'warning'
+        type: 'warning',
+        closeOnClickModal: false
       })
         .then(() => {
           setStatus(delivery_id, status, this)
@@ -837,7 +839,8 @@ export default {
       this.$confirm('确定要执行该操作吗?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        type: 'warning'
+        type: 'warning',
+        closeOnClickModal: false
       })
         .then(() => {
           delDeliveryList(delivery_id)

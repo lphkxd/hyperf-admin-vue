@@ -590,7 +590,8 @@ export default {
       this.$confirm('确定要执行该操作吗?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        type: 'warning'
+        type: 'warning',
+        closeOnClickModal: false
       })
         .then(() => {
           delMenuItem(key)
@@ -608,7 +609,8 @@ export default {
       this.$confirm('状态的切换会影响上下级菜单，是否确认操作?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        type: 'warning'
+        type: 'warning',
+        closeOnClickModal: false
       })
         .then(() => {
           setMenuStatus(key, val ? 0 : 1)

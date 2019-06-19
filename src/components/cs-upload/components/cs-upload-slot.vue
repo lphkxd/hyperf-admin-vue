@@ -5,6 +5,7 @@
       width="400px"
       :visible.sync="visible"
       :append-to-body="true"
+      :close-on-click-modal="false"
       @close="handleClose">
 
       <el-upload

@@ -113,6 +113,7 @@
       title="编辑支付"
       :visible.sync="updateFormVisible"
       :append-to-body="true"
+      :close-on-click-modal="false"
       width="600px">
       <el-form label-width="80px">
         <el-form-item label="名称">
@@ -217,6 +218,7 @@
       title="参数配置"
       :visible.sync="configFormVisible"
       :append-to-body="true"
+      :close-on-click-modal="false"
       width="600px">
       <el-form label-width="110px">
         <el-form-item

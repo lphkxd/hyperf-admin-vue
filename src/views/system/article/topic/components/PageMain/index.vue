@@ -303,7 +303,8 @@ export default {
       this.$confirm('确定要执行该操作吗?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        type: 'warning'
+        type: 'warning',
+        closeOnClickModal: false
       })
         .then(() => {
           setStatus(topic_id, status, this)
@@ -322,7 +323,8 @@ export default {
       this.$confirm('确定要执行该操作吗?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        type: 'warning'
+        type: 'warning',
+        closeOnClickModal: false
       })
         .then(() => {
           delTopicList(topic_id)

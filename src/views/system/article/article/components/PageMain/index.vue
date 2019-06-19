@@ -392,7 +392,8 @@ export default {
       this.$confirm('确定要执行该操作吗?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        type: 'warning'
+        type: 'warning',
+        closeOnClickModal: false
       })
         .then(() => {
           setStatus(article_id, status, this)
@@ -450,7 +451,8 @@ export default {
       this.$confirm('确定要执行该操作吗?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        type: 'warning'
+        type: 'warning',
+        closeOnClickModal: false
       })
         .then(() => {
           setTop(article_id, is_top, this)
@@ -469,7 +471,8 @@ export default {
       this.$confirm('确定要执行该操作吗?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        type: 'warning'
+        type: 'warning',
+        closeOnClickModal: false
       })
         .then(() => {
           delArticleList(article_id)

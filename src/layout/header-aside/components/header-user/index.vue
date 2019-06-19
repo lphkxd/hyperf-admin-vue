@@ -30,7 +30,8 @@
       title="修改密码"
       width="600px"
       :visible.sync="dialogVisible"
-      :append-to-body="true">
+      :append-to-body="true"
+      :close-on-click-modal="false">
       <el-form
         :model="form"
         :rules="rules"

@@ -3,6 +3,7 @@
     title="资源选取"
     :visible.sync="visible"
     :append-to-body="true"
+    :close-on-click-modal="false"
     width="769px">
 
     <!-- 搜索框开始 -->

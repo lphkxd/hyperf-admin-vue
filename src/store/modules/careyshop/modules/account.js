@@ -76,7 +76,8 @@ export default {
       vm.$confirm('确定要执行注销操作吗?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        type: 'warning'
+        type: 'warning',
+        closeOnClickModal: false
       })
         .then(() => {
           vm.$loading({

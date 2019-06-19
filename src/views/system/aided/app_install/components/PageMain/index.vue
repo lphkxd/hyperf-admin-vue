@@ -122,6 +122,7 @@
       :title="textMap[dialogStatus]"
       :visible.sync="dialogFormVisible"
       :append-to-body="true"
+      :close-on-click-modal="false"
       width="600px">
       <el-form
         :model="form"
@@ -389,7 +390,8 @@ export default {
       this.$confirm('确定要执行该操作吗?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        type: 'warning'
+        type: 'warning',
+        closeOnClickModal: false
       })
         .then(() => {
           delAppInstallList(app_install_id)

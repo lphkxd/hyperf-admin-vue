@@ -134,6 +134,7 @@
       :title="textMap[dialogStatus]"
       :visible.sync="dialogFormVisible"
       :append-to-body="true"
+      :close-on-click-modal="false"
       width="600px">
       <el-form
         :model="form"
@@ -394,7 +395,8 @@ export default {
       this.$confirm('确定要执行该操作吗?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        type: 'warning'
+        type: 'warning',
+        closeOnClickModal: false
       })
         .then(() => {
           setStatus(app_id, status, this)
@@ -413,7 +415,8 @@ export default {
       this.$confirm('确定要执行该操作吗?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        type: 'warning'
+        type: 'warning',
+        closeOnClickModal: false
       })
         .then(() => {
           delAppList(app_id)
@@ -480,7 +483,8 @@ export default {
       this.$confirm(`确定要重置 ${data.app_name} 的密钥吗?`, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        type: 'warning'
+        type: 'warning',
+        closeOnClickModal: false
       })
         .then(() => {
           replaceAppSecret(data.app_id)

@@ -119,6 +119,7 @@
       title="短信配置"
       :visible.sync="smsVisible"
       :append-to-body="true"
+      :close-on-click-modal="false"
       width="600px">
       <el-form
         v-loading="smsLoading"
@@ -172,6 +173,7 @@
       title="邮件配置"
       :visible.sync="emailVisible"
       :append-to-body="true"
+      :close-on-click-modal="false"
       width="600px">
       <el-form
         v-loading="emailLoading"
@@ -262,6 +264,7 @@
       :title="`编辑 ${tplType[tplForm.code]}`"
       :visible.sync="tplVisible"
       :append-to-body="true"
+      :close-on-click-modal="false"
       width="760px">
       <el-form
         v-loading="tplLoading"
@@ -766,7 +769,8 @@ export default {
       this.$confirm('确定要执行该操作吗?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        type: 'warning'
+        type: 'warning',
+        closeOnClickModal: false
       })
         .then(() => {
           setStatus(notice_tpl_id, status, this)

@@ -2,6 +2,7 @@
   <el-dialog
     :visible.sync="visible"
     :append-to-body="true"
+    :close-on-click-modal="false"
     width="600px">
     <div style="margin-top: -25px;">
       <el-divider>所辖区域</el-divider>

@@ -106,6 +106,7 @@
       :title="jsonMap[dialogStatus]"
       :visible.sync="dialogFormVisible"
       :append-to-body="true"
+      :close-on-click-modal="false"
       width="600px">
       <cs-highlight :code="dialogJson" style="margin-top: -25px;"/>
     </el-dialog>

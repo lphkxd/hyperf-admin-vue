@@ -1,5 +1,9 @@
 <template>
-  <el-dialog :visible.sync="dialogVisible" :append-to-body="true" @close="close">
+  <el-dialog
+    :visible.sync="dialogVisible"
+    :append-to-body="true"
+    :close-on-click-modal="false"
+    @close="close">
     <div class="image">
       <el-image :src="dialogImageUrl" @click.native="$open(dialogImageUrl)"/>
     </div>

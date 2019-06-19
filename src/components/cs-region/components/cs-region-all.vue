@@ -15,6 +15,7 @@
         :data="treeData"
         :props="treeProps"
         :default-checked-keys="checkedKeys"
+        :close-on-click-modal="false"
         show-checkbox
         ref="tree"/>
 
