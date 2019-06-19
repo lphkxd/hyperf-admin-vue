@@ -1,6 +1,7 @@
 import index from './modules/index'
 import system from './modules/system'
 import setting from './modules/setting'
+import member from './modules/member'
 
 /**
  * 在主框架内显示
@@ -8,7 +9,8 @@ import setting from './modules/setting'
 const frameIn = [
   index,
   system,
-  setting
+  setting,
+  member
 ]
 
 /**
