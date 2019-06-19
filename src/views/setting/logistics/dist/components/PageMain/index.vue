@@ -5,6 +5,7 @@
       size="small">
       <el-form-item>
         <el-button
+          v-has="'/setting/logistics/dist/trace'"
           :disabled="loading"
           @click="handleTrace"
           type="primary"
@@ -23,6 +24,7 @@
         @show="getHelp">
         <div class="popover-content" v-html="helpContent"></div>
         <el-button
+          style="margin-bottom: 19px;"
           size="small"
           slot="reference">
           <cs-icon name="question"/>

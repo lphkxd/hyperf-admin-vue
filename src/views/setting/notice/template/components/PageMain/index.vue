@@ -6,6 +6,7 @@
       <el-form-item>
         <el-button-group>
           <el-button
+            v-if="auth.sms_setting"
             :disabled="loading"
             @click="handleOpenSms">
             <cs-icon name="commenting-o"/>
@@ -13,6 +14,7 @@
           </el-button>
 
           <el-button
+            v-if="auth.email_setting"
             :disabled="loading"
             @click="handleOpenEmail">
             <cs-icon name="envelope-o"/>
@@ -24,6 +26,7 @@
       <el-form-item>
         <el-button-group>
           <el-button
+            v-if="auth.enable"
             :disabled="loading"
             @click="handleStatus(null, 1, true)">
             <cs-icon name="check"/>
@@ -31,6 +34,7 @@
           </el-button>
 
           <el-button
+            v-if="auth.disable"
             :disabled="loading"
             @click="handleStatus(null, 0, true)">
             <cs-icon name="close"/>
@@ -88,7 +92,7 @@
               <el-tag
                 size="mini"
                 :type="statusMap[scope.row.status].type"
-                style="cursor: pointer;"
+                :style="auth.enable || auth.disable ? 'cursor: pointer;' : ''"
                 @click.native="handleStatus(scope.$index)">
                 {{statusMap[scope.row.status].text}}
               </el-tag>
@@ -101,6 +105,7 @@
             min-width="100">
             <template slot-scope="scope">
               <el-button
+                v-if="auth.tpl"
                 @click="handleUpdate(scope.$index)"
                 size="small"
                 type="text">编辑模板</el-button>
@@ -306,7 +311,8 @@
               :disable-transitions="true"
               class="cs-mr-10"
               style="cursor: pointer;"
-              effect="plain">
+              effect="plain"
+              @click="insertVariables(item.item_name)">
               {{item.item_name}}
             </el-tag>
           </div>
@@ -316,14 +322,21 @@
             v-model="tplForm.template"
             type="textarea"
             placeholder="通知系统模板"
+            :autosize="{minRows: 5}"
             show-word-limit
             maxlength="500"
-            :rows="5"/>
+            ref="textarea"/>
 
           <cs-tinymce
-              v-else-if="tplVisible"
-              v-model="tplForm.template"
-              :height="180"/>
+            v-else-if="tplVisible"
+            v-model="tplForm.template"
+            :height="180"
+            ref="tinymce"/>
+
+          <el-button
+            v-if="tplForm.code === 'sms'"
+            type="text"
+            @click="copyAliyunSms">复制阿里云短信模板</el-button>
         </el-form-item>
       </el-form>
 
@@ -335,7 +348,7 @@
         <el-button
           type="primary"
           :loading="tplButton"
-          @click="() => {}"
+          @click="saveTplData"
           size="small">修改</el-button>
       </div>
     </el-dialog>
@@ -343,9 +356,10 @@
 </template>
 
 <script>
+import * as clipboard from 'clipboard-polyfill'
 import { getHelpRouter } from '@/api/index/help'
 import { getNoticeItem, setNoticeItem } from '@/api/notice/notice'
-import { setNoticeTplStatus } from '@/api/notice/template'
+import { setNoticeTplItem, setNoticeTplStatus } from '@/api/notice/template'
 
 export default {
   components: {
@@ -367,7 +381,13 @@ export default {
       currentTableData: [],
       multipleSelection: [],
       helpContent: '',
-      auth: {},
+      auth: {
+        sms_setting: false,
+        email_setting: false,
+        enable: false,
+        disable: false,
+        tpl: false
+      },
       tplType: {
         'sms': '短信模板',
         'email': '邮件模板'
@@ -498,7 +518,45 @@ export default {
       tplLoading: false,
       tplButton: false,
       tplForm: {},
-      tplRules: {}
+      tplRules: {
+        sms_code: [
+          {
+            required: true,
+            message: '阿里云短信模板编号不能为空',
+            trigger: 'blur'
+          },
+          {
+            max: 20,
+            message: '长度不能大于 20 个字符',
+            trigger: 'blur'
+          }
+        ],
+        sms_sign: [
+          {
+            required: true,
+            message: '阿里云短信签名不能为空',
+            trigger: 'blur'
+          },
+          {
+            min: 2,
+            max: 12,
+            message: '长度在 2 到 12 个字符',
+            trigger: 'blur'
+          }
+        ],
+        title: [
+          {
+            required: true,
+            message: '通知系统标题不能为空',
+            trigger: 'blur'
+          },
+          {
+            max: 200,
+            message: '长度不能大于 200 个字符',
+            trigger: 'blur'
+          }
+        ]
+      }
     }
   },
   watch: {
@@ -509,7 +567,18 @@ export default {
       immediate: true
     }
   },
+  mounted() {
+    this._validationAuth()
+  },
   methods: {
+    // 验证权限
+    _validationAuth() {
+      this.auth.sms_setting = this.$has('/setting/notice/template/sms_setting')
+      this.auth.email_setting = this.$has('/setting/notice/template/email_setting')
+      this.auth.enable = this.$has('/setting/notice/template/enable')
+      this.auth.disable = this.$has('/setting/notice/template/disable')
+      this.auth.tpl = this.$has('/setting/notice/template/tpl')
+    },
     // 获取列表中的编号
     _getIdList(val) {
       if (val === null) {
@@ -679,15 +748,15 @@ export default {
           return
         }
 
-        // // 禁用权限检测
-        // if (newStatus === 0 && !this.auth.disable) {
-        //   return
-        // }
-        //
-        // // 启用权限检测
-        // if (newStatus === 1 && !this.auth.enable) {
-        //   return
-        // }
+        // 禁用权限检测
+        if (newStatus === 0 && !this.auth.disable) {
+          return
+        }
+
+        // 启用权限检测
+        if (newStatus === 1 && !this.auth.enable) {
+          return
+        }
 
         this.$set(this.currentTableData, val, { ...oldData, status: 2 })
         setStatus(notice_tpl_id, newStatus, this)
@@ -707,8 +776,13 @@ export default {
     },
     // 打开编辑对话框
     handleUpdate(index) {
+      this.currentIndex = index
       const data = this.currentTableData[index]
-      this.tplForm = { ...data }
+
+      this.tplForm = {
+        ...data,
+        sms_sign: data.code === 'sms' ? data.title : null
+      }
 
       if (this.$refs.tplForm) {
         this.$nextTick(() => {
@@ -719,6 +793,73 @@ export default {
       this.tplButton = false
       this.tplVisible = true
       this.tplLoading = false
+    },
+    // 请求保存模板
+    saveTplData() {
+      this.$refs.tplForm.validate(valid => {
+        if (valid) {
+          this.tplButton = true
+          setNoticeTplItem(this.tplForm)
+            .then(res => {
+              this.$set(
+                this.currentTableData,
+                this.currentIndex,
+                {
+                  ...this.currentTableData[this.currentIndex],
+                  ...res.data
+                })
+
+              this.tplVisible = false
+              this.$message.success('操作成功')
+            })
+            .catch(() => {
+              this.tplButton = false
+            })
+        }
+      })
+    },
+    // 复制阿里云短信模板
+    copyAliyunSms() {
+      let template = this.tplForm.template
+      const notice = this.tplForm.get_notice_item
+
+      notice.forEach(value => {
+        const regexp = new RegExp(value.item_name, 'g')
+        template = template.replace(regexp, `\${${value.replace_name}}`)
+      })
+
+      clipboard.writeText(template)
+        .then(() => {
+          this.$message.success('已复制阿里云短信模板到剪贴板')
+        })
+        .catch(err => {
+          this.$message.error(err)
+        })
+    },
+    // 插入变量
+    insertVariables(val) {
+      if (this.tplForm.code === 'email') {
+        if (this.$refs.tinymce) {
+          this.$refs.tinymce.handleEditor.insertContent(val)
+        }
+      }
+
+      if (this.tplForm.code === 'sms') {
+        if (this.$refs.textarea) {
+          this.$refs.textarea.focus()
+          const obj = this.$refs.textarea.$el.children[0]
+
+          if (typeof obj.selectionStart === 'number' && typeof obj.selectionEnd === 'number') {
+            const startPos = obj.selectionStart
+            const endPos = obj.selectionEnd
+            const tmpStr = this.tplForm.template
+
+            this.tplForm.template = tmpStr.substring(0, startPos) + val + tmpStr.substring(endPos, tmpStr.length)
+          } else {
+            this.tplForm.template += val
+          }
+        }
+      }
     }
   }
 }
