@@ -17,6 +17,12 @@ export default {
       name: `${pre}user-level`,
       meta: { ...meta, cache: true, title: '账号等级' },
       component: () => import('@/views/member/user/level')
+    },
+    {
+      path: 'withdraw/list',
+      name: `${pre}withdraw-list`,
+      meta: { ...meta, cache: true, title: '提现列表' },
+      component: () => import('@/views/member/withdraw/list')
     }
   ])('member-')
 }
