@@ -161,7 +161,7 @@ import {
   addUserLevelItem,
   delUserLevelList,
   setUserLevelItem
-} from '@/api/member/level'
+} from '@/api/user/level'
 
 export default {
   props: {

@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { getUserLevelList } from '@/api/member/level'
+import { getUserLevelList } from '@/api/user/level'
 
 export default {
   name: 'member-user-level',
