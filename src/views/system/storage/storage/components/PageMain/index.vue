@@ -4,7 +4,7 @@
       :inline="true"
       size="small">
 
-      <el-form-item v-if="auth.add || auth.upload">
+      <el-form-item>
         <el-button-group>
           <el-button
             v-if="auth.add"
@@ -49,7 +49,7 @@
         </el-button-group>
       </el-form-item>
 
-      <el-form-item v-if="auth.move || auth.del">
+      <el-form-item>
         <el-button-group>
           <el-button
             v-if="auth.move"
@@ -69,20 +69,10 @@
         </el-button-group>
       </el-form-item>
 
-      <el-popover
-        style="float: right"
-        placement="bottom-end"
-        width="400"
-        trigger="hover"
-        title="提示"
-        @show="getHelp">
-        <div class="popover-content" v-html="helpContent"></div>
-        <el-button
-          size="small"
-          slot="reference">
-          <cs-icon name="question"/>
-        </el-button>
-      </el-popover>
+      <cs-help
+        :router="$route.path"
+        style="padding-bottom: 19px;">
+      </cs-help>
     </el-form>
 
     <el-breadcrumb class="breadcrumb cs-mb" separator-class="el-icon-arrow-right">
@@ -282,7 +272,6 @@
 <script>
 import util from '@/utils/util'
 import storage from '../mixins'
-import { getHelpRouter } from '@/api/index/help'
 import * as clipboard from 'clipboard-polyfill'
 import {
   delStorageList,
@@ -319,7 +308,6 @@ export default {
     return {
       uploadConfig: {},
       currentTableData: [],
-      helpContent: '',
       checkList: [],
       dialogLoading: false,
       nameForm: {},
@@ -418,13 +406,6 @@ export default {
         } else {
           this.$set(this.currentTableData, this.uploadConfig.replace, response.data[0])
         }
-      }
-    },
-    // 获取帮助文档
-    getHelp() {
-      if (!this.helpContent) {
-        this.helpContent = '正在获取内容,请稍后...'
-        getHelpRouter(this.$route.path).then(res => { this.helpContent = res })
       }
     },
     // 切换目录

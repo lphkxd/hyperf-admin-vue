@@ -13,7 +13,7 @@
         </el-button>
       </el-form-item>
 
-      <el-form-item v-if="auth.enable || auth.disable">
+      <el-form-item>
         <el-button-group>
           <el-button
             v-if="auth.enable"
@@ -33,32 +33,19 @@
         </el-button-group>
       </el-form-item>
 
-      <el-form-item>
-        <el-button-group>
-          <el-button
-            v-if="auth.del"
-            :disabled="loading"
-            @click="handleDelete(null)">
-            <cs-icon name="trash-o"/>
-            删除
-          </el-button>
-        </el-button-group>
+      <el-form-item v-if="auth.del">
+        <el-button
+          :disabled="loading"
+          @click="handleDelete(null)">
+          <cs-icon name="trash-o"/>
+          删除
+        </el-button>
       </el-form-item>
 
-      <el-popover
-        style="float: right"
-        placement="bottom-end"
-        width="400"
-        trigger="hover"
-        title="提示"
-        @show="getHelp">
-        <div class="popover-content" v-html="helpContent"></div>
-        <el-button
-          size="small"
-          slot="reference">
-          <cs-icon name="question"/>
-        </el-button>
-      </el-popover>
+      <cs-help
+        :router="$route.path"
+        style="padding-bottom: 19px;">
+      </cs-help>
     </el-form>
 
     <el-table
@@ -141,7 +128,6 @@
 
 <script>
 import { mapActions } from 'vuex'
-import { getHelpRouter } from '@/api/index/help'
 import { delTopicList, setTopicStatus } from '@/api/article/topic'
 
 export default {
@@ -157,7 +143,6 @@ export default {
     return {
       currentTableData: [],
       multipleSelection: [],
-      helpContent: '',
       auth: {
         add: false,
         del: false,
@@ -227,13 +212,6 @@ export default {
       }
 
       return idList
-    },
-    // 获取帮助文档
-    getHelp() {
-      if (!this.helpContent) {
-        this.helpContent = '正在获取内容,请稍后...'
-        getHelpRouter(this.$route.path).then(res => { this.helpContent = res })
-      }
     },
     // 选中数据项
     handleSelectionChange(val) {

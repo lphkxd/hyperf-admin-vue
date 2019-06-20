@@ -40,20 +40,10 @@
         </el-input>
       </el-form-item>
 
-      <el-popover
-        style="float: right"
-        placement="bottom-end"
-        width="400"
-        trigger="hover"
-        title="提示"
-        @show="getHelp">
-        <div class="popover-content" v-html="helpContent"></div>
-        <el-button
-          size="small"
-          slot="reference">
-          <cs-icon name="question"/>
-        </el-button>
-      </el-popover>
+      <cs-help
+        :router="$route.path"
+        style="padding-bottom: 19px;">
+      </cs-help>
     </el-form>
 
     <el-row :gutter="20">
@@ -230,7 +220,6 @@ import {
   delArticleCatList,
   setArticleCatIndex
 } from '@/api/article/cat'
-import { getHelpRouter } from '@/api/index/help'
 
 export default {
   props: {
@@ -243,7 +232,6 @@ export default {
   },
   data() {
     return {
-      helpContent: '',
       filterText: '',
       hackReset: true,
       isExpandAll: false,
@@ -362,13 +350,6 @@ export default {
       }
 
       return id_list
-    },
-    // 获取帮助文档
-    getHelp() {
-      if (!this.helpContent) {
-        this.helpContent = '正在获取内容,请稍后...'
-        getHelpRouter(this.$route.path).then(res => { this.helpContent = res })
-      }
     },
     // 展开或收起节点
     checkedNodes(isExpand) {

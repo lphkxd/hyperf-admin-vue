@@ -3,13 +3,12 @@
     <el-form
       :inline="true"
       size="small">
-
       <el-form-item v-if="auth.add">
         <el-button
           :disabled="loading"
           @click="handleCreate">
           <cs-icon name="plus"/>
-          新增安装包
+          新增等级
         </el-button>
       </el-form-item>
 
@@ -29,66 +28,38 @@
     </el-form>
 
     <el-table
-      :data="currentTableData"
       v-loading="loading"
-      stripe
+      :data="currentTableData"
       @selection-change="handleSelectionChange"
-      @sort-change="sortChange">
+      stripe>
 
       <el-table-column type="selection" width="55"/>
 
       <el-table-column
         label="名称"
-        prop="name"
-        sortable="custom"
-        :show-overflow-tooltip="true">
+        prop="name">
       </el-table-column>
 
       <el-table-column
-        label="标识"
-        prop="user_agent"
-        :show-overflow-tooltip="true">
+        label="消费金额"
+        prop="amount">
       </el-table-column>
 
       <el-table-column
-        label="版本号"
-        prop="ver"
-        width="75">
+        label="折扣(%)"
+        prop="discount">
       </el-table-column>
 
       <el-table-column
-        label="协议地址"
-        prop="url"
-        min-width="90"
-        :show-overflow-tooltip="true">
-      </el-table-column>
-
-      <el-table-column
-        label="访问次数"
-        prop="count"
-        width="80">
-      </el-table-column>
-
-      <el-table-column
-        label="创建日期"
-        prop="create_time"
-        align="center"
-        width="160"
-        sortable="custom">
-      </el-table-column>
-
-      <el-table-column
-        label="最后更新"
-        prop="update_time"
-        align="center"
-        width="160"
-        sortable="custom">
+        label="描述"
+        prop="description"
+        min-width="220">
       </el-table-column>
 
       <el-table-column
         label="操作"
         align="center"
-        min-width="90">
+        min-width="100">
         <template slot-scope="scope">
           <el-button
             v-if="auth.set"
@@ -121,36 +92,45 @@
           prop="name">
           <el-input
             v-model="form.name"
-            placeholder="请输入应用安装包名称"
+            placeholder="请输入等级名称"
             clearable/>
         </el-form-item>
 
-        <el-form-item
-          label="标识"
-          prop="user_agent">
-          <el-input
-            v-model="form.user_agent"
-            placeholder="请输入系统标识"
-            clearable/>
-        </el-form-item>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item
+              label="消费金额"
+              prop="amount">
+              <el-input-number
+                v-model="form.amount"
+                controls-position="right"
+                :precision="2"
+                :min="0"/>
+            </el-form-item>
+          </el-col>
+
+          <el-col :span="12">
+            <el-form-item
+              label="折扣(%)"
+              prop="discount">
+              <el-input-number
+                v-model="form.discount"
+                controls-position="right"
+                :min="0"
+                :max="100"/>
+            </el-form-item>
+          </el-col>
+        </el-row>
 
         <el-form-item
-          label="版本号"
-          prop="ver">
+          label="描述"
+          prop="description">
           <el-input
-            v-model="form.ver"
-            placeholder="请输入应用安装包版本号"
-            clearable/>
-        </el-form-item>
-
-        <el-form-item
-          label="协议地址"
-          prop="url">
-          <el-input
-            v-model="form.url"
-            placeholder="请输入应用安装包协议地址"
+            v-model="form.description"
+            placeholder="可输入等级描述"
             type="textarea"
-            :rows="3"/>
+            :rows="3">
+          </el-input>
         </el-form-item>
       </el-form>
 
@@ -178,10 +158,10 @@
 
 <script>
 import {
-  addAppInstallItem,
-  setAppInstallItem,
-  delAppInstallList
-} from '@/api/aided/app_install'
+  addUserLevelItem,
+  delUserLevelList,
+  setUserLevelItem
+} from '@/api/member/level'
 
 export default {
   props: {
@@ -205,14 +185,14 @@ export default {
       dialogFormVisible: false,
       dialogStatus: '',
       textMap: {
-        update: '编辑安装包',
-        create: '新增安装包'
+        update: '编辑等级',
+        create: '新增等级'
       },
       form: {
         name: undefined,
-        user_agent: undefined,
-        ver: undefined,
-        url: undefined
+        amount: undefined,
+        discount: undefined,
+        description: undefined
       },
       rules: {
         name: [
@@ -222,44 +202,29 @@ export default {
             trigger: 'blur'
           },
           {
-            max: 32,
-            message: '长度不能大于 32 个字符',
+            max: 30,
+            message: '长度不能大于 30 个字符',
             trigger: 'blur'
           }
         ],
-        user_agent: [
+        amount: [
           {
             required: true,
-            message: '标识不能为空',
-            trigger: 'blur'
-          },
-          {
-            max: 64,
-            message: '长度不能大于 64 个字符',
+            message: '消费金额不能为空',
             trigger: 'blur'
           }
         ],
-        ver: [
+        discount: [
           {
             required: true,
-            message: '版本号不能为空',
-            trigger: 'blur'
-          },
-          {
-            max: 16,
-            message: '长度不能大于 16 个字符',
+            message: '折扣不能为空',
             trigger: 'blur'
           }
         ],
-        url: [
+        description: [
           {
-            required: true,
-            message: '协议地址不能为空',
-            trigger: 'blur'
-          },
-          {
-            max: 255,
-            message: '长度不能大于 255 个字符',
+            max: 200,
+            message: '长度不能大于 200 个字符',
             trigger: 'blur'
           }
         ]
@@ -280,9 +245,9 @@ export default {
   methods: {
     // 验证权限
     _validationAuth() {
-      this.auth.add = this.$has('/system/aided/app_install/add')
-      this.auth.set = this.$has('/system/aided/app_install/set')
-      this.auth.del = this.$has('/system/aided/app_install/del')
+      this.auth.add = this.$has('/member/user/level/add')
+      this.auth.set = this.$has('/member/user/level/set')
+      this.auth.del = this.$has('/member/user/level/del')
     },
     // 获取列表中的编号
     _getIdList(val) {
@@ -293,10 +258,10 @@ export default {
       let idList = []
       if (Array.isArray(val)) {
         val.forEach(value => {
-          idList.push(value.app_install_id)
+          idList.push(value.user_level_id)
         })
       } else {
-        idList.push(this.currentTableData[val].app_install_id)
+        idList.push(this.currentTableData[val].user_level_id)
       }
 
       return idList
@@ -305,27 +270,42 @@ export default {
     handleSelectionChange(val) {
       this.multipleSelection = val
     },
-    // 获取排序字段
-    sortChange({ column, prop, order }) {
-      let sort = {
-        order_type: undefined,
-        order_field: undefined
+    // 批量删除
+    handleDelete(val) {
+      let user_level_id = this._getIdList(val)
+      if (user_level_id.length === 0) {
+        this.$message.error('请选择要操作的数据')
+        return
       }
 
-      if (column) {
-        sort.order_type = order === 'ascending' ? 'asc' : 'desc'
-        sort.order_field = prop
-      }
+      this.$confirm('确定要执行该操作吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+        closeOnClickModal: false
+      })
+        .then(() => {
+          delUserLevelList(user_level_id)
+            .then(() => {
+              for (let i = this.currentTableData.length - 1; i >= 0; i--) {
+                if (user_level_id.indexOf(this.currentTableData[i].user_level_id) !== -1) {
+                  this.currentTableData.splice(i, 1)
+                }
+              }
 
-      this.$emit('sort', sort)
+              this.$message.success('操作成功')
+            })
+        })
+        .catch(() => {
+        })
     },
     // 弹出新建对话框
     handleCreate() {
       this.form = {
-        name: undefined,
-        user_agent: undefined,
-        ver: undefined,
-        url: undefined
+        name: '',
+        amount: 0,
+        discount: 0,
+        description: ''
       }
 
       this.$nextTick(() => {
@@ -341,13 +321,9 @@ export default {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.dialogLoading = true
-          addAppInstallItem(this.form)
+          addUserLevelItem(this.form)
             .then(res => {
-              this.currentTableData.unshift({
-                ...res.data,
-                count: 0
-              })
-
+              this.currentTableData.push(res.data)
               this.dialogFormVisible = false
               this.$message.success('操作成功')
             })
@@ -357,36 +333,7 @@ export default {
         }
       })
     },
-    // 批量删除
-    handleDelete(val) {
-      let app_install_id = this._getIdList(val)
-      if (app_install_id.length === 0) {
-        this.$message.error('请选择要操作的数据')
-        return
-      }
-
-      this.$confirm('确定要执行该操作吗?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning',
-        closeOnClickModal: false
-      })
-        .then(() => {
-          delAppInstallList(app_install_id)
-            .then(() => {
-              for (let i = this.currentTableData.length - 1; i >= 0; i--) {
-                if (app_install_id.indexOf(this.currentTableData[i].app_install_id) !== -1) {
-                  this.currentTableData.splice(i, 1)
-                }
-              }
-
-              this.$message.success('操作成功')
-            })
-        })
-        .catch(() => {
-        })
-    },
-    // 编辑安装包
+    // 弹出编辑对话框
     handleUpdate(index) {
       this.currentIndex = index
       this.form = { ...this.currentTableData[index] }
@@ -406,7 +353,7 @@ export default {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.dialogLoading = true
-          setAppInstallItem(this.form)
+          setUserLevelItem(this.form)
             .then(res => {
               this.$set(
                 this.currentTableData,

@@ -13,7 +13,7 @@
         </el-button>
       </el-form-item>
 
-      <el-form-item v-if="auth.enable || auth.disable">
+      <el-form-item>
         <el-button-group>
           <el-button
             v-if="auth.enable"
@@ -51,14 +51,12 @@
       </el-form-item>
 
       <el-form-item v-if="auth.del">
-        <el-button-group>
-          <el-button
-            :disabled="loading"
-            @click="removeList">
-            <cs-icon name="trash-o"/>
-            删除
-          </el-button>
-        </el-button-group>
+        <el-button
+          :disabled="loading"
+          @click="removeList">
+          <cs-icon name="trash-o"/>
+          删除
+        </el-button>
       </el-form-item>
 
       <el-form-item label="过滤">
@@ -72,20 +70,10 @@
         </el-input>
       </el-form-item>
 
-      <el-popover
-        style="float: right"
-        placement="bottom-end"
-        width="400"
-        trigger="hover"
-        title="提示"
-        @show="getHelp">
-        <div class="popover-content" v-html="helpContent"></div>
-        <el-button
-          size="small"
-          slot="reference">
-          <cs-icon name="question"/>
-        </el-button>
-      </el-popover>
+      <cs-help
+        :router="$route.path"
+        style="padding-bottom: 19px;">
+      </cs-help>
     </el-form>
     <!--表单结束-->
 
@@ -313,9 +301,8 @@ import {
   addAuthRuleItem,
   setAuthRuleItem
 } from '@/api/auth/rule'
-import { getHelpRouter } from '@/api/index/help'
-import { getMenuList } from '@/api/auth/menu'
 import util from '@/utils/util'
+import { getMenuList } from '@/api/auth/menu'
 
 export default {
   props: {
@@ -337,7 +324,6 @@ export default {
       hackReset: true,
       isExpandAll: true,
       expanded: [],
-      helpContent: '',
       filterText: '',
       treeLoading: false,
       treeProps: {
@@ -430,13 +416,6 @@ export default {
       this.auth.enable = this.$has('/system/auth/rule/enable')
       this.auth.disable = this.$has('/system/auth/rule/disable')
       this.auth.move = this.$has('/system/auth/rule/move')
-    },
-    // 获取帮助文档
-    getHelp() {
-      if (!this.helpContent) {
-        this.helpContent = '正在获取内容,请稍后...'
-        getHelpRouter(this.$route.path).then(res => { this.helpContent = res })
-      }
     },
     // 过滤节点
     filterNode(value, data) {

@@ -3,9 +3,8 @@
     <el-form
       :inline="true"
       size="small">
-      <el-form-item>
+      <el-form-item v-has="'/setting/logistics/dist/trace'">
         <el-button
-          v-has="'/setting/logistics/dist/trace'"
           :disabled="loading"
           @click="handleTrace"
           type="primary"
@@ -15,21 +14,10 @@
         </el-button>
       </el-form-item>
 
-      <el-popover
-        style="float: right"
-        placement="bottom-end"
-        width="400"
-        trigger="hover"
-        title="提示"
-        @show="getHelp">
-        <div class="popover-content" v-html="helpContent"></div>
-        <el-button
-          style="margin-bottom: 19px;"
-          size="small"
-          slot="reference">
-          <cs-icon name="question"/>
-        </el-button>
-      </el-popover>
+      <cs-help
+        :router="$route.path"
+        style="padding-bottom: 19px;">
+      </cs-help>
     </el-form>
 
     <el-table
@@ -200,7 +188,6 @@
 </template>
 
 <script>
-import { getHelpRouter } from '@/api/index/help'
 import { getDeliveryDistTrace } from '@/api/logistics/dist'
 import { getDeliveryCompanySelect, getDeliveryCompanyRecognise } from '@/api/logistics/company'
 
@@ -218,7 +205,6 @@ export default {
   },
   data() {
     return {
-      helpContent: '',
       companyList: [],
       companyCopy: [],
       traceType: 0,
@@ -250,13 +236,6 @@ export default {
     }
   },
   methods: {
-    // 获取帮助文档
-    getHelp() {
-      if (!this.helpContent) {
-        this.helpContent = '正在获取内容,请稍后...'
-        getHelpRouter(this.$route.path).then(res => { this.helpContent = res })
-      }
-    },
     // 排序变更
     sortChange({ column, prop, order }) {
       let sort = {

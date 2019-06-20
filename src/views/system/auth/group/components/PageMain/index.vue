@@ -33,20 +33,10 @@
         </el-button-group>
       </el-form-item>
 
-      <el-popover
-        style="float: right"
-        placement="bottom-end"
-        width="400"
-        trigger="hover"
-        title="提示"
-        @show="getHelp">
-        <div class="popover-content" v-html="helpContent"></div>
-        <el-button
-          size="small"
-          slot="reference">
-          <cs-icon name="question"/>
-        </el-button>
-      </el-popover>
+      <cs-help
+        :router="$route.path"
+        style="padding-bottom: 19px;">
+      </cs-help>
     </el-form>
 
     <el-table
@@ -221,7 +211,6 @@ import {
   setAuthGroupSort,
   setAuthGroupStatus
 } from '@/api/auth/group'
-import { getHelpRouter } from '@/api/index/help'
 
 export default {
   props: {
@@ -236,7 +225,6 @@ export default {
     return {
       currentTableData: [],
       multipleSelection: [],
-      helpContent: '',
       auth: {
         add: false,
         del: false,
@@ -331,13 +319,6 @@ export default {
       this.auth.enable = this.$has('/system/auth/group/enable')
       this.auth.disable = this.$has('/system/auth/group/disable')
       this.auth.sort = this.$has('/system/auth/group/sort')
-    },
-    // 获取帮助文档
-    getHelp() {
-      if (!this.helpContent) {
-        this.helpContent = '正在获取内容,请稍后...'
-        getHelpRouter(this.$route.path).then(res => { this.helpContent = res })
-      }
     },
     // 选中数据项
     handleSelectionChange(val) {

@@ -3,32 +3,19 @@
     <el-form
       :inline="true"
       size="small">
-      <el-form-item>
-        <el-button-group>
-          <el-button
-            v-if="auth.add"
-            :disabled="loading"
-            @click="handleCreate">
-            <cs-icon name="plus"/>
-            新增区域
-          </el-button>
-        </el-button-group>
+      <el-form-item v-if="auth.add">
+        <el-button
+          :disabled="loading"
+          @click="handleCreate">
+          <cs-icon name="plus"/>
+          新增区域
+        </el-button>
       </el-form-item>
 
-      <el-popover
-        style="float: right"
-        placement="bottom-end"
-        width="400"
-        trigger="hover"
-        title="提示"
-        @show="getHelp">
-        <div class="popover-content" v-html="helpContent"></div>
-        <el-button
-          size="small"
-          slot="reference">
-          <cs-icon name="question"/>
-        </el-button>
-      </el-popover>
+      <cs-help
+        :router="$route.path"
+        style="padding-bottom: 19px;">
+      </cs-help>
     </el-form>
 
     <el-table
@@ -255,7 +242,6 @@ import {
   addDeliveryAreaItem,
   setDeliveryAreaItem
 } from '@/api/logistics/area'
-import { getHelpRouter } from '@/api/index/help'
 
 export default {
   components: {
@@ -271,7 +257,6 @@ export default {
   },
   data() {
     return {
-      helpContent: '',
       region: [],
       currentTableData: [],
       auth: {
@@ -401,13 +386,6 @@ export default {
       this.auth.set = this.$has('/setting/logistics/delivery/area/set')
       this.auth.del = this.$has('/setting/logistics/delivery/area/del')
       this.auth.region = this.$has('/setting/logistics/delivery/area/region')
-    },
-    // 获取帮助文档
-    getHelp() {
-      if (!this.helpContent) {
-        this.helpContent = '正在获取内容,请稍后...'
-        getHelpRouter(this.$route.path).then(res => { this.helpContent = res })
-      }
     },
     // 删除选择项
     handleDelete(index) {
