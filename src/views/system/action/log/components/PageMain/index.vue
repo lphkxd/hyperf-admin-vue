@@ -3,8 +3,8 @@
     <el-table
       :data="tableData"
       v-loading="loading"
-      stripe
-      @sort-change="sortChange">
+      @sort-change="sortChange"
+      stripe>
       <el-table-column
         label="编号"
         min-width="60"
@@ -149,7 +149,7 @@ export default {
         order_field: undefined
       }
 
-      if (column) {
+      if (column && order) {
         sort.order_type = order === 'ascending' ? 'asc' : 'desc'
         sort.order_field = prop
       }

@@ -30,9 +30,9 @@
     <el-table
       :data="currentTableData"
       v-loading="loading"
-      stripe
       @selection-change="handleSelectionChange"
-      @sort-change="sortChange">
+      @sort-change="sortChange"
+      stripe>
 
       <el-table-column type="selection" width="55"/>
 
@@ -436,7 +436,7 @@ export default {
         order_field: undefined
       }
 
-      if (column) {
+      if (column && order) {
         sort.order_type = order === 'ascending' ? 'asc' : 'desc'
         sort.order_field = prop
       }

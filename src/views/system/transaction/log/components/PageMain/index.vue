@@ -3,8 +3,8 @@
     <el-table
       v-loading="loading"
       :data="tableData"
-      stripe
-      @sort-change="sortChange">
+      @sort-change="sortChange"
+      stripe>
 
       <el-table-column type="expand">
         <template slot-scope="props">
@@ -184,7 +184,7 @@ export default {
         order_field: undefined
       }
 
-      if (column) {
+      if (column && order) {
         sort.order_type = order === 'ascending' ? 'asc' : 'desc'
         sort.order_field = prop
       }

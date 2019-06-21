@@ -18,6 +18,7 @@ import pluginLog from '@/plugin/log'
 import pluginOpen from '@/plugin/open'
 import pluginHas from '@/plugin/has'
 import pluginPreview from '@/plugin/preview'
+import pluginPrint from '@/plugin/print'
 
 export default {
   async install(Vue, options) {
@@ -38,5 +39,6 @@ export default {
     Vue.use(pluginOpen)
     Vue.use(pluginHas)
     Vue.use(pluginPreview)
+    Vue.use(pluginPrint)
   }
 }
