@@ -82,8 +82,8 @@
       <div style="margin-top: -25px;"></div>
 
       <div v-if="infoVisible" ref="print">
-        <el-divider>提现单据</el-divider>
         <table style="width: 100%;">
+          <caption><p style="background-color: #f8f8f9">提现单据</p></caption>
           <tr>
             <td><b>提现单号：</b>{{infoForm.withdraw_no}}</td>
             <td><b>账号/昵称：</b>{{infoForm.get_user.username}} / {{infoForm.get_user.nickname}}</td>
@@ -93,8 +93,12 @@
           </tr>
         </table>
 
-        <el-divider>收款明细</el-divider>
-        <table>
+        <table style="width: 100%;">
+          <colgroup>
+            <col style="width: 20%;">
+            <col style="width: 80%;">
+          </colgroup>
+          <caption><p style="background-color: #f8f8f9">收款明细</p></caption>
           <tr><td>收款人姓名：</td><td>{{infoForm.name}}</td></tr>
           <tr><td>收款人手机：</td><td>{{infoForm.mobile}}</td></tr>
           <tr><td>收款账户：</td><td>{{infoForm.bank_name}}</td></tr>
@@ -105,8 +109,8 @@
           <tr><td>合计金额：</td><td>{{infoForm.amount}}</td></tr>
         </table>
 
-        <el-divider></el-divider>
         <table style="width: 100%;">
+          <caption><p style="background-color: #f8f8f9">其他内容</p></caption>
           <tbody>
           <tr>
             <td>状态：{{statusMap[infoForm.status].text}}</td>
@@ -125,11 +129,13 @@
       </div>
 
       <div slot="footer" class="dialog-footer">
-        <el-button
-          @click="$print($refs.print)"
-          size="small">
-          <cs-icon name="print"/>
-          打印</el-button>
+        <div style="float: left">
+          <el-button
+            @click="$print($refs.print)"
+            size="small">
+            <cs-icon name="print"/>
+            打印</el-button>
+        </div>
 
         <el-button
           type="primary"
