@@ -287,8 +287,15 @@ export default {
       }
 
       if (status === 3 || status === 4) {
-        let message = status === 3 ? '请填写备注信息' : '请填写拒绝原因'
-        this.$prompt(message, '备注', {
+        let title = '备注'
+        let message = '请填写备注信息'
+
+        if (status === 4) {
+          title = '拒绝'
+          message = '请填写拒绝原因'
+        }
+
+        this.$prompt(message, title, {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           inputPattern: /\S/,
