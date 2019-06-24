@@ -77,11 +77,10 @@
       :visible.sync="infoVisible"
       :append-to-body="true"
       :close-on-click-modal="false"
-      width="600px">
+      width="600px"
+      ref="print">
 
-      <div style="margin-top: -25px;"></div>
-
-      <div v-if="infoVisible" ref="print">
+      <div v-if="infoVisible" style="margin-top: -25px;">
         <table style="width: 100%;">
           <caption><p style="background-color: #f8f8f9">提现单据</p></caption>
           <tr>
@@ -95,8 +94,8 @@
 
         <table style="width: 100%;">
           <colgroup>
-            <col style="width: 20%;">
-            <col style="width: 80%;">
+            <col style="width: 15%;">
+            <col style="width: 75%;">
           </colgroup>
           <caption><p style="background-color: #f8f8f9">收款明细</p></caption>
           <tr><td>收款人姓名：</td><td>{{infoForm.name}}</td></tr>
@@ -113,7 +112,14 @@
           <caption><p style="background-color: #f8f8f9">其他内容</p></caption>
           <tbody>
           <tr>
-            <td>状态：{{statusMap[infoForm.status].text}}</td>
+            <td>
+              <span>状态：</span>
+              <el-tag
+                :type="statusMap[infoForm.status].type"
+                size="mini">
+                {{statusMap[infoForm.status].text}}
+              </el-tag>
+            </td>
             <td rowspan="2">
               <el-image
                 v-if="qrcodeUrl"
@@ -128,7 +134,7 @@
         </table>
       </div>
 
-      <div slot="footer" class="dialog-footer">
+      <div slot="footer" class="dialog-footer no-print">
         <div style="float: left">
           <el-button
             @click="$print($refs.print)"
@@ -136,6 +142,23 @@
             <cs-icon name="print"/>
             打印</el-button>
         </div>
+
+        <el-button
+          v-if="infoForm.status === 0 && auth.process"
+          @click="handleStatus(1)"
+          size="small">处理提现</el-button>
+
+        <el-button
+          v-if="infoForm.status === 1 && auth.complete"
+          type="success"
+          @click="handleStatus(3)"
+          size="small">完成提现</el-button>
+
+        <el-button
+          v-if="infoForm.status === 1 && auth.refuse"
+          type="danger"
+          @click="handleStatus(4)"
+          size="small">拒绝提现</el-button>
 
         <el-button
           type="primary"
@@ -147,6 +170,11 @@
 </template>
 
 <script>
+import {
+  completeWithdrawItem,
+  processWithdrawItem,
+  refuseWithdrawItem
+} from '@/api/user/withdraw'
 import { getQrcodeCallurl } from '@/api/aided/qrcode'
 
 export default {
@@ -170,6 +198,11 @@ export default {
     return {
       infoForm: {},
       infoVisible: false,
+      auth: {
+        process: false,
+        complete: false,
+        refuse: false
+      },
       currentTableData: [],
       qrcodeUrl: '',
       statusMap: {
@@ -197,12 +230,19 @@ export default {
     }
   },
   mounted() {
+    this._validationAuth()
     getQrcodeCallurl()
       .then(res => {
         this.qrcodeUrl = res.data['call_url']
       })
   },
   methods: {
+    // 验证权限
+    _validationAuth() {
+      this.auth.process = this.$has('/member/withdraw/list/process')
+      this.auth.complete = this.$has('/member/withdraw/list/complete')
+      this.auth.refuse = this.$has('/member/withdraw/list/refuse')
+    },
     // 获取排序字段
     sortChange({ column, prop, order }) {
       let sort = {
@@ -219,8 +259,63 @@ export default {
     },
     // 弹出提单详细对话框
     handleWithdraw(index) {
+      this.currentIndex = index
       this.infoForm = this.currentTableData[index]
       this.infoVisible = true
+    },
+    // 处理单据状态 1:处理 3:完成 4:拒绝
+    handleStatus(status) {
+      // 当前选中数据
+      let data = this.currentTableData[this.currentIndex]
+
+      if (status === 1) {
+        this.$confirm('确定要执行该操作吗?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+          closeOnClickModal: false
+        })
+          .then(() => {
+            processWithdrawItem(data.withdraw_no)
+              .then(() => {
+                data.status = status
+                this.$message.success('操作成功')
+              })
+          })
+          .catch(() => {
+          })
+      }
+
+      if (status === 3 || status === 4) {
+        let message = status === 3 ? '请填写备注信息' : '请填写拒绝原因'
+        this.$prompt(message, '备注', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          inputPattern: /\S/,
+          inputErrorMessage: message
+        })
+          .then(({ value }) => {
+            if (status === 3) {
+              completeWithdrawItem(data.withdraw_no, value)
+                .then(() => {
+                  data.status = status
+                  data.remark = value
+                  this.$message.success('操作成功')
+                })
+            }
+
+            if (status === 4) {
+              refuseWithdrawItem(data.withdraw_no, value)
+                .then(() => {
+                  data.status = status
+                  data.remark = value
+                  this.$message.success('操作成功')
+                })
+            }
+          })
+          .catch(() => {
+          })
+      }
     }
   }
 }

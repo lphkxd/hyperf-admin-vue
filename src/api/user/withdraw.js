@@ -44,7 +44,7 @@ export function processWithdrawItem(withdraw_no) {
     url: '/v1/withdraw',
     method: 'post',
     params: {
-      method: 'get.withdraw.list'
+      method: 'process.withdraw.item'
     },
     data: {
       withdraw_no
