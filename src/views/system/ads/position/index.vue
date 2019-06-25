@@ -21,7 +21,6 @@
       :size="page.size"
       :total="page.total"
       @change="handlePaginationChange"/>
-
   </cs-container>
 </template>
 

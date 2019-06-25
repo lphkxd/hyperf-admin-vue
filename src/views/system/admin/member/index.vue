@@ -6,12 +6,14 @@
       :loading="loading"
       @submit="handleSubmit"
       ref="header"/>
+
     <page-main
       :table-data="table"
       :loading="loading"
       :group="group"
       @sort="handleSort"
       @refresh="handleRefresh"/>
+
     <page-footer
       slot="footer"
       :current="page.current"

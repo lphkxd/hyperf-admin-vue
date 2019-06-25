@@ -575,6 +575,7 @@ export default {
 <style scoped>
   .popover-image {
     text-align: center;
+    line-height: 0;
   }
   .popover-image >>> img {
     vertical-align: middle;
