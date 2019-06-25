@@ -466,6 +466,9 @@ export default {
     vertical-align: middle;
     cursor: pointer;
   }
+  .el-image >>> .el-image__error {
+    line-height: 1.4;
+  }
   .help-block {
     color: #909399;
     font-size: 12px;

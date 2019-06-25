@@ -641,4 +641,7 @@ export default {
     vertical-align: middle;
     cursor: pointer;
   }
+  .el-image >>> .el-image__error {
+    line-height: 1.4;
+  }
 </style>

@@ -54,6 +54,82 @@
 
       <el-table-column type="selection" width="55"/>
 
+      <el-table-column type="expand">
+        <template slot-scope="props">
+          <el-form
+            label-position="left"
+            class="table-expand">
+            <el-form-item label="账号">
+              <span>{{props.row.username}}</span>
+            </el-form-item>
+
+            <el-form-item label="昵称">
+              <span>{{props.row.nickname}}</span>
+            </el-form-item>
+
+            <el-form-item label="手机号">
+              <span v-if="props.row.mobile">
+                {{props.row.mobile}}
+                <el-tag
+                  :type="legalizeMap[props.row.is_mobile].type"
+                  size="mini">
+                  {{legalizeMap[props.row.is_mobile].text}}
+                </el-tag>
+              </span>
+            </el-form-item>
+
+            <el-form-item label="邮箱">
+              <span v-if="props.row.email">
+                {{props.row.email}}
+                <el-tag
+                  :type="legalizeMap[props.row.is_email].type"
+                  size="mini">
+                  {{legalizeMap[props.row.is_email].text}}
+                </el-tag>
+              </span>
+            </el-form-item>
+
+            <el-form-item label="账号等级">
+              <span>{{props.row.get_user_level.name}}</span>
+            </el-form-item>
+
+            <el-form-item label="用户组">
+              <span>{{props.row.get_auth_group.name}}</span>
+            </el-form-item>
+
+            <el-form-item label="性别">
+              <span>{{sexMap[props.row.sex]}}</span>
+            </el-form-item>
+
+            <el-form-item label="生日">
+              <span>{{props.row.birthday}}</span>
+            </el-form-item>
+
+            <el-divider></el-divider>
+
+            <el-form-item label="创建日期">
+              <span>{{props.row.create_time}}</span>
+            </el-form-item>
+
+            <el-form-item label="最后登陆">
+              <span>{{props.row.last_login}}</span>
+            </el-form-item>
+
+            <el-form-item label="登陆IP">
+              <span>{{props.row.last_ip}}</span>
+            </el-form-item>
+
+            <el-form-item label="状态">
+              <el-tag
+                :type="statusMap[props.row.status].type"
+                size="mini">
+                {{statusMap[props.row.status].text}}
+              </el-tag>
+            </el-form-item>
+          </el-form>
+        </template>
+      </el-table-column>
+
       <el-table-column
         label="账号"
         prop="username"
@@ -94,7 +170,7 @@
         label="账号等级"
         prop="user_level_id"
         sortable="custom"
-        :show-overflow-tooltip="true">
+        min-width="100">
         <template slot-scope="scope">
           {{scope.row.get_user_level.name}}
         </template>
@@ -103,24 +179,17 @@
       <el-table-column
         label="性别"
         prop="sex"
-        align="center"
-        width="50">
+        width="70">
         <template slot-scope="scope">
           {{sexMap[scope.row.sex]}}
         </template>
       </el-table-column>
 
       <el-table-column
-        label="登陆IP"
-        prop="last_ip"
-        width="150">
-      </el-table-column>
-
-      <el-table-column
         label="最后登陆"
         prop="last_login"
         align="center"
-        width="150">
+        width="160">
       </el-table-column>
 
       <el-table-column
@@ -155,10 +224,22 @@
             @click="() => {}"
             type="text">删除</el-button>
 
-          <el-button
+          <el-dropdown
             size="small"
-            @click="() => {}"
-            type="text">更多操作</el-button>
+            :show-timeout="50">
+            <el-button
+              class="cs-ml-10"
+              size="small"
+              type="text">更多操作</el-button>
+
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item>修改密码</el-dropdown-item>
+              <el-dropdown-item>提现账户</el-dropdown-item>
+              <el-dropdown-item>收货地址</el-dropdown-item>
+              <el-dropdown-item>账户资金</el-dropdown-item>
+              <el-dropdown-item>调整资金</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
         </template>
       </el-table-column>
     </el-table>
@@ -210,6 +291,16 @@ export default {
         0: '保密',
         1: '男',
         2: '女'
+      },
+      legalizeMap: {
+        0: {
+          text: '未认证',
+          type: 'warning'
+        },
+        1: {
+          text: '已认证',
+          type: ''
+        }
       },
       form: {
       },
@@ -280,5 +371,21 @@ export default {
   .popover-image >>> img {
     vertical-align: middle;
     cursor: pointer;
+  }
+  .el-image >>> .el-image__error {
+    line-height: 1.4;
+  }
+  .table-expand {
+    font-size: 0;
+    /*height: 350px;*/
+    /*overflow: auto;*/
+  }
+  .table-expand >>> label {
+    width: 90px;
+    color: #99a9bf;
+  }
+  .table-expand .el-form-item {
+    margin-right: 0;
+    margin-bottom: 0;
   }
 </style>
