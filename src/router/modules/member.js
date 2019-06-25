@@ -13,6 +13,12 @@ export default {
       component: () => import('@/views/member/index')
     },
     {
+      path: 'user/client',
+      name: `${pre}user-client`,
+      meta: { ...meta, cache: true, title: '会员账号' },
+      component: () => import('@/views/member/user/client')
+    },
+    {
       path: 'user/level',
       name: `${pre}user-level`,
       meta: { ...meta, cache: true, title: '账号等级' },

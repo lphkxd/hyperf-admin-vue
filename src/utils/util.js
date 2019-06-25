@@ -21,6 +21,10 @@ util.title = function(titleText) {
  * @param {String} url 地址
  */
 util.open = function(url) {
+  if (url === '/') {
+    url = document.location.origin
+  }
+
   const reg = /^((https|http|ftp|rtsp|mms)?:\/\/)[^\s]+/
   if (!reg.test(url)) {
     url = document.location.protocol + '//' + url
