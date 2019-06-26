@@ -84,10 +84,7 @@
 
       <el-table-column
         label="交易账号"
-        prop="get_user">
-        <template slot-scope="scope">
-          {{scope.row.get_user.username}}
-        </template>
+        prop="get_user.username">
       </el-table-column>
 
       <el-table-column

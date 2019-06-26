@@ -6,7 +6,7 @@
       <el-form-item>
         <el-button
           :disabled="loading"
-          @click="() => {}">
+          @click="handleCreate">
           <cs-icon name="plus"/>
           新增账号
         </el-button>
@@ -177,19 +177,22 @@
       </el-table-column>
 
       <el-table-column
+        label="用户组"
+        prop="group_id"
+        sortable="custom"
+        min-width="100">
+        <template slot-scope="scope">
+          {{scope.row.get_auth_group.name}}
+        </template>
+      </el-table-column>
+
+      <el-table-column
         label="性别"
         prop="sex"
         width="70">
         <template slot-scope="scope">
           {{sexMap[scope.row.sex]}}
         </template>
-      </el-table-column>
-
-      <el-table-column
-        label="最后登陆"
-        prop="last_login"
-        align="center"
-        width="160">
       </el-table-column>
 
       <el-table-column
@@ -216,7 +219,7 @@
         <template slot-scope="scope">
           <el-button
             size="small"
-            @click="() => {}"
+            @click="handleUpdate(scope.$index)"
             type="text">编辑</el-button>
 
           <el-button
@@ -233,7 +236,7 @@
               type="text">更多操作</el-button>
 
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>修改密码</el-dropdown-item>
+              <el-dropdown-item>重置密码</el-dropdown-item>
               <el-dropdown-item>提现账户</el-dropdown-item>
               <el-dropdown-item>收货地址</el-dropdown-item>
               <el-dropdown-item>账户资金</el-dropdown-item>
@@ -243,14 +246,180 @@
         </template>
       </el-table-column>
     </el-table>
+
+    <el-dialog
+      :title="textMap[dialogStatus]"
+      :visible.sync="dialogFormVisible"
+      :append-to-body="true"
+      :close-on-click-modal="false"
+      width="600px">
+      <el-form
+        :model="form"
+        :rules="rules"
+        ref="form"
+        label-width="80px">
+        <el-form-item
+          label="账号"
+          prop="username">
+          <el-input
+            v-model="form.username"
+            :disabled="dialogStatus !== 'create'"
+            placeholder="请输入账号"
+            clearable/>
+        </el-form-item>
+
+        <div v-if="dialogStatus === 'create'">
+          <el-form-item
+            label="密码"
+            prop="password">
+            <el-input
+              type="password"
+              v-model="form.password"
+              placeholder="请输入密码"
+              clearable/>
+          </el-form-item>
+
+          <el-form-item
+            label="确认密码"
+            prop="password_confirm">
+            <el-input
+              type="password"
+              v-model="form.password_confirm"
+              placeholder="请再次输入密码"
+              clearable/>
+          </el-form-item>
+        </div>
+
+        <el-form-item
+          label="昵称"
+          prop="nickname">
+          <el-input
+            v-model="form.nickname"
+            placeholder="可输入昵称"
+            clearable/>
+        </el-form-item>
+
+        <el-form-item
+          label="头像"
+          prop="head_pic">
+          <el-input
+            v-model="form.head_pic"
+            placeholder="可输入头像图片"
+            clearable>
+            <template slot="prepend">
+              <el-popover
+                v-if="form.head_pic"
+                width="150"
+                placement="top"
+                trigger="hover">
+                <div class="popover-image">
+                  <el-image
+                    :src="form.head_pic | getPreviewUrl"
+                    @click.native="$preview(form.head_pic)"/>
+                </div>
+                <cs-icon slot="reference" name="user-circle"/>
+              </el-popover>
+            </template>
+            <cs-upload
+              slot="append"
+              type="slot"
+              accept="image/*"
+              :limit="1"
+              :multiple="false"
+              @confirm="_getUploadFileList">
+              <el-button slot="control"><cs-icon name="upload"/></el-button>
+            </cs-upload>
+          </el-input>
+        </el-form-item>
+
+        <el-form-item
+          v-if="dialogStatus === 'create'"
+          label="手机号"
+          prop="mobile">
+          <el-input
+            v-model="form.mobile"
+            placeholder="请输入手机号"
+            clearable/>
+        </el-form-item>
+
+        <el-form-item
+          v-if="dialogStatus === 'create'"
+          label="邮箱"
+          prop="email">
+          <el-input
+            v-model="form.email"
+            placeholder="可输入邮箱地址"
+            clearable/>
+        </el-form-item>
+
+        <el-form-item
+          label="用户组"
+          prop="group_id">
+          <el-select
+            v-model="form.group_id"
+            placeholder="请选择"
+            value="">
+            <el-option
+              v-for="item in group"
+              :key="item.group_id"
+              :label="item.name"
+              :value="item.group_id"/>
+          </el-select>
+        </el-form-item>
+
+        <el-form-item
+          label="生日"
+          prop="birthday">
+          <el-date-picker
+            v-model="form.birthday"
+            type="date"
+            value-format="yyyy-MM-dd"
+            placeholder="可选择出生日期"
+            clearable/>
+        </el-form-item>
+
+        <el-form-item
+          label="性别"
+          prop="sex">
+          <el-radio-group
+            v-model="form.sex">
+            <el-radio :label="0">保密</el-radio>
+            <el-radio :label="1">男</el-radio>
+            <el-radio :label="2">女</el-radio>
+          </el-radio-group>
+        </el-form-item>
+      </el-form>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button
+          @click="dialogFormVisible = false"
+          size="small">取消</el-button>
+
+        <el-button
+          v-if="dialogStatus === 'create'"
+          type="primary"
+          :loading="dialogLoading"
+          @click="create"
+          size="small">确定</el-button>
+
+        <el-button
+          v-else type="primary"
+          :loading="dialogLoading"
+          @click="update"
+          size="small">修改</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import util from '@/utils/util'
-import { delUserList, setUserStatus } from '@/api/user/client'
+import { addUserItem, delUserList, setUserStatus } from '@/api/user/client'
 
 export default {
+  components: {
+    'csUpload': () => import('@/components/cs-upload')
+  },
   props: {
     loading: {
       default: false
@@ -304,8 +473,96 @@ export default {
         }
       },
       form: {
+        username: undefined,
+        password: undefined,
+        password_confirm: undefined,
+        group_id: undefined,
+        mobile: undefined,
+        email: undefined,
+        nickname: undefined,
+        head_pic: undefined,
+        sex: undefined,
+        birthday: undefined
       },
       rules: {
+        username: [
+          {
+            required: true,
+            message: '账号不能为空',
+            trigger: 'blur'
+          },
+          {
+            min: 4,
+            max: 20,
+            message: '长度在 4 到 20 个字符',
+            trigger: 'blur'
+          }
+        ],
+        password: [
+          {
+            required: true,
+            message: '密码不能为空',
+            trigger: 'blur'
+          },
+          {
+            min: 6,
+            message: '长度不能少于 6 个字符',
+            trigger: 'blur'
+          }
+        ],
+        password_confirm: [
+          {
+            required: true,
+            message: '确认密码不能为空',
+            trigger: 'blur'
+          },
+          {
+            min: 6,
+            message: '长度不能少于 6 个字符',
+            trigger: 'blur'
+          }
+        ],
+        group_id: [
+          {
+            required: true,
+            message: '至少选择一项',
+            trigger: 'change'
+          }
+        ],
+        mobile: [
+          {
+            required: true,
+            message: '手机号不能为空',
+            trigger: 'blur'
+          },
+          {
+            min: 7,
+            max: 15,
+            message: '长度在 7 到 15 个字符',
+            trigger: 'blur'
+          }
+        ],
+        email: [
+          {
+            max: 60,
+            message: '长度不能大于 60 个字符',
+            trigger: 'blur'
+          }
+        ],
+        nickname: [
+          {
+            max: 50,
+            message: '长度不能大于 50 个字符',
+            trigger: 'blur'
+          }
+        ],
+        head_pic: [
+          {
+            max: 512,
+            message: '长度不能大于 512 个字符',
+            trigger: 'blur'
+          }
+        ]
       }
     }
   },
@@ -345,6 +602,19 @@ export default {
       }
 
       return idList
+    },
+    // 获取上传文件
+    _getUploadFileList(files) {
+      if (!files.length) {
+        return
+      }
+
+      const response = files[0].response
+      if (!response || response.status !== 200) {
+        return
+      }
+
+      this.form.head_pic = response.data[0].url
     },
     // 选中数据项
     handleSelectionChange(val) {
@@ -451,6 +721,50 @@ export default {
         })
         .catch(() => {
         })
+    },
+    // 弹出新建对话框
+    handleCreate() {
+      this.form = {
+        username: undefined,
+        password: undefined,
+        password_confirm: undefined,
+        group_id: undefined,
+        mobile: undefined,
+        email: undefined,
+        nickname: undefined,
+        head_pic: undefined,
+        sex: 0,
+        birthday: null
+      }
+
+      this.$nextTick(() => {
+        this.$refs.form.clearValidate()
+      })
+
+      this.dialogStatus = 'create'
+      this.dialogLoading = false
+      this.dialogFormVisible = true
+    },
+    // 请求创建
+    create() {
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          this.dialogLoading = true
+          if (!this.form.birthday) {
+            delete this.form.birthday
+          }
+
+          addUserItem(this.form)
+            .then(() => {
+              this.dialogFormVisible = false
+              this.$message.success('操作成功')
+              this.$emit('refresh')
+            })
+            .catch(() => {
+              this.dialogLoading = false
+            })
+        }
+      })
     }
   }
 }
