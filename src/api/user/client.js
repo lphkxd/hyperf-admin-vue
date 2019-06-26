@@ -130,7 +130,7 @@ export function setUserPassword(client_id, password, password_confirm) {
 
 /**
  * 批量删除账号
- * @param {Number} client_id
+ * @param {Array} client_id
  * @returns {AxiosPromise}
  */
 export function delUserList(client_id) {

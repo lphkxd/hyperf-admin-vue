@@ -16,14 +16,14 @@
         <el-button-group>
           <el-button
             :disabled="loading"
-            @click="() => {}">
+            @click="handleStatus(null, 1, true)">
             <cs-icon name="check"/>
             启用
           </el-button>
 
           <el-button
             :disabled="loading"
-            @click="() => {}">
+            @click="handleStatus(null, 0, true)">
             <cs-icon name="close"/>
             禁用
           </el-button>
@@ -33,7 +33,7 @@
       <el-form-item>
         <el-button
           :disabled="loading"
-          @click="() => {}">
+          @click="handleDelete(null)">
           <cs-icon name="trash-o"/>
           删除
         </el-button>
@@ -203,7 +203,7 @@
             size="mini"
             :type="statusMap[scope.row.status].type"
             style="cursor: pointer;"
-            @click.native="switchStatus(scope.$index)">
+            @click.native="handleStatus(scope.$index)">
             {{statusMap[scope.row.status].text}}
           </el-tag>
         </template>
@@ -221,7 +221,7 @@
 
           <el-button
             size="small"
-            @click="() => {}"
+            @click="handleDelete(scope.$index)"
             type="text">删除</el-button>
 
           <el-dropdown
@@ -248,6 +248,7 @@
 
 <script>
 import util from '@/utils/util'
+import { delUserList, setUserStatus } from '@/api/user/client'
 
 export default {
   props: {
@@ -329,17 +330,21 @@ export default {
     _validationAuth() {
     },
     // 获取列表中的编号
-    _getClientIdList(val) {
-      let clients = []
-      if (Array.isArray(val)) {
-        val.forEach(value => {
-          clients.push(value.user_id)
-        })
-      } else {
-        clients.push(this.currentTableData[val].user_id)
+    _getIdList(val) {
+      if (val === null) {
+        val = this.multipleSelection
       }
 
-      return clients
+      let idList = []
+      if (Array.isArray(val)) {
+        val.forEach(value => {
+          idList.push(value.user_id)
+        })
+      } else {
+        idList.push(this.currentTableData[val].user_id)
+      }
+
+      return idList
     },
     // 选中数据项
     handleSelectionChange(val) {
@@ -358,6 +363,94 @@ export default {
       }
 
       this.$emit('sort', sort)
+    },
+    // 批量设置状态
+    handleStatus(val, status = 0, confirm = false) {
+      let clients = this._getIdList(val)
+      if (clients.length === 0) {
+        this.$message.error('请选择要操作的数据')
+        return
+      }
+
+      function setStatus(clients, status, vm) {
+        setUserStatus(clients, status)
+          .then(() => {
+            vm.currentTableData.forEach((value, index) => {
+              if (clients.indexOf(value.user_id) !== -1) {
+                vm.$set(vm.currentTableData, index, {
+                  ...value,
+                  status
+                })
+              }
+            })
+
+            vm.$message.success('操作成功')
+          })
+      }
+
+      if (!confirm) {
+        let oldData = this.currentTableData[val]
+        const newStatus = oldData.status ? 0 : 1
+
+        if (oldData.status > 1) {
+          return
+        }
+
+        // // 禁用权限检测
+        // if (newStatus === 0 && !this.auth.disable) {
+        //   return
+        // }
+        //
+        // // 启用权限检测
+        // if (newStatus === 1 && !this.auth.enable) {
+        //   return
+        // }
+
+        this.$set(this.currentTableData, val, { ...oldData, status: 2 })
+        setStatus(clients, newStatus, this)
+        return
+      }
+
+      this.$confirm('确定要执行该操作吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+        closeOnClickModal: false
+      })
+        .then(() => {
+          setStatus(clients, status, this)
+        })
+        .catch(() => {
+        })
+    },
+    // 批量删除
+    handleDelete(val) {
+      let clients = this._getIdList(val)
+      if (clients.length === 0) {
+        this.$message.error('请选择要操作的数据')
+        return
+      }
+
+      this.$confirm('确定要执行该操作吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+        closeOnClickModal: false
+      })
+        .then(() => {
+          delUserList(clients)
+            .then(() => {
+              for (let i = this.currentTableData.length - 1; i >= 0; i--) {
+                if (clients.indexOf(this.currentTableData[i].user_id) !== -1) {
+                  this.currentTableData.splice(i, 1)
+                }
+              }
+
+              this.$message.success('操作成功')
+            })
+        })
+        .catch(() => {
+        })
     }
   }
 }
