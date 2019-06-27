@@ -529,6 +529,11 @@ export default {
         ...data,
         status: data.status.toString()
       }
+
+      // 处理el-select项不存在的bug
+      if (!this.group.hasOwnProperty(this.form.group_id)) {
+        this.form.group_id = undefined
+      }
     },
     // 判断节点是否能被拖动
     allowDrag(draggingNode) {

@@ -527,9 +527,11 @@ export default {
         this.form.group_id = undefined
       }
 
-      this.$nextTick(() => {
-        this.$refs.form.clearValidate()
-      })
+      if (this.$refs.form) {
+        this.$nextTick(() => {
+          this.$refs.form.clearValidate()
+        })
+      }
 
       this.dialogStatus = 'update'
       this.dialogLoading = false

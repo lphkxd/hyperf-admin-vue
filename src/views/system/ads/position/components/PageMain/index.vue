@@ -712,6 +712,11 @@ export default {
         status: data.status.toString()
       }
 
+      // 处理el-select项不存在的bug
+      if (!this.platformTable.hasOwnProperty(this.form.platform)) {
+        this.form.platform = undefined
+      }
+
       if (this.$refs.form) {
         this.$nextTick(() => {
           this.$refs.form.clearValidate()

@@ -775,6 +775,11 @@ export default {
         status: data.status.toString()
       }
 
+      // 处理el-select项不存在的bug
+      if (!this.positionTable.find(item => item.ads_position_id === this.form.ads_position_id)) {
+        this.form.ads_position_id = undefined
+      }
+
       if (this.$refs.form) {
         this.$nextTick(() => {
           this.$refs.form.clearValidate()

@@ -910,6 +910,11 @@ export default {
       this.currentIndex = index
       this.form = { ...this.currentTableData[index] }
 
+      // 处理el-select项不存在的bug
+      if (!this.dialogCompany.find(item => item.delivery_item_id === this.form.delivery_item_id)) {
+        this.form.delivery_item_id = undefined
+      }
+
       if (this.$refs.form) {
         this.$nextTick(() => {
           this.$refs.form.clearValidate()
