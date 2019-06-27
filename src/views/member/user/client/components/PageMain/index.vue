@@ -236,11 +236,11 @@
               type="text">更多操作</el-button>
 
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item @click.native="reset(scope.$index)">重置密码</el-dropdown-item>
-              <el-dropdown-item>提现账户</el-dropdown-item>
-              <el-dropdown-item>收货地址</el-dropdown-item>
-              <el-dropdown-item>账户资金</el-dropdown-item>
-              <el-dropdown-item>调整资金</el-dropdown-item>
+              <el-dropdown-item @click.native="handleReset(scope.$index)">重置密码</el-dropdown-item>
+              <el-dropdown-item @click.native="handleWithdraw(scope.row.user_id)">提现账户</el-dropdown-item>
+              <el-dropdown-item @click.native="handleAddress(scope.row.user_id)">收货地址</el-dropdown-item>
+              <el-dropdown-item @click.native="handleMoney(scope.$index)">账户资金</el-dropdown-item>
+              <el-dropdown-item @click.native="handleFinance(scope.row.user_id)">调整资金</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </template>
@@ -409,6 +409,59 @@
           size="small">修改</el-button>
       </div>
     </el-dialog>
+
+    <el-dialog
+      title="调整资金"
+      :visible.sync="financeVisible"
+      :append-to-body="true"
+      :close-on-click-modal="false"
+      @open="getPaymentSelect"
+      width="600px">
+      <el-form
+        style="margin-top: -25px;"
+        :model="financeForm"
+        :rules="financeRules"
+        ref="finance"
+        label-width="90px">
+        <el-divider content-position="left">负数减少，正数增加</el-divider>
+        <el-form-item
+          label="金额"
+          prop="money">
+        </el-form-item>
+
+        <el-form-item
+          label="积分"
+          prop="points">
+        </el-form-item>
+
+        <el-form-item
+          label="支付方式"
+          prop="to_payment">
+        </el-form-item>
+
+        <el-form-item
+          label="来源订单号"
+          prop="source_no">
+        </el-form-item>
+
+        <el-form-item
+          label="操作原因"
+          prop="cause">
+        </el-form-item>
+      </el-form>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button
+          @click="financeVisible = false"
+          size="small">取消</el-button>
+
+        <el-button
+          type="primary"
+          :loading="financeLoading"
+          @click="() => {}"
+          size="small">修改</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -420,7 +473,10 @@ import {
   setUserPassword,
   setUserStatus
 } from '@/api/user/client'
+import dayjs from 'dayjs'
 import util from '@/utils/util'
+import { getUserMoneyInfo } from '@/api/user/money'
+import { getPaymentList } from '@/api/payment/payment'
 
 export default {
   components: {
@@ -569,6 +625,19 @@ export default {
             trigger: 'blur'
           }
         ]
+      },
+      toPayment: {},
+      financeLoading: false,
+      financeVisible: false,
+      financeForm: {
+        client_id: undefined,
+        money: undefined,
+        points: undefined,
+        to_payment: undefined,
+        source_no: undefined,
+        cause: undefined
+      },
+      financeRules: {
       }
     }
   },
@@ -830,7 +899,7 @@ export default {
       })
     },
     // 重置密码
-    reset(index) {
+    handleReset(index) {
       const data = this.currentTableData[index]
       this.$confirm(`确定要重置 ${data.username} 的密码吗?`, '提示', {
         confirmButtonText: '确定',
@@ -844,7 +913,7 @@ export default {
           setUserPassword(data.user_id, newPass, newPass)
             .then(() => {
               this.$notify({
-                title: '消息提示',
+                title: '重置密码',
                 dangerouslyUseHTMLString: true,
                 message: `${data.username} 的密码已重置为：</br>${newPass}`,
                 type: 'success',
@@ -855,6 +924,73 @@ export default {
         })
         .catch(() => {
         })
+    },
+    // 提现账户
+    handleWithdraw(user_id) {
+      this.$router.push({
+        name: 'member-withdraw-user',
+        params: {
+          client_id: user_id
+        }
+      })
+    },
+    // 收货地址
+    handleAddress(user_id) {
+      this.$router.push({
+        name: 'member-user-address',
+        params: {
+          client_id: user_id
+        }
+      })
+    },
+    // 账户资金
+    handleMoney(index) {
+      getUserMoneyInfo(this.currentTableData[index].user_id)
+        .then(res => {
+          this.$notify({
+            title: '账户资金',
+            dangerouslyUseHTMLString: true,
+            message: `
+              <p>${this.currentTableData[index].username} 的账户资金</p>
+              <p>查询时间：${dayjs().format('YYYY-MM-DD HH:mm:ss')}</p></br>
+              <p>累计消费：${res.data.total_money || 0}</p>
+              <p>可用余额：${res.data.balance || 0}</p>
+              <p>锁定余额：${res.data.lock_balance || 0}</p>
+              <p>账号积分：${res.data.points || 0}</p>
+              <p>锁定积分：${res.data.lock_points || 0}</p>
+            `,
+            type: 'success',
+            position: 'bottom-right',
+            duration: 0
+          })
+        })
+    },
+    // 获取支付方式列表
+    getPaymentSelect() {
+      if (!this.toPayment.length) {
+        getPaymentList({ is_select: 1 })
+          .then(res => {
+            this.toPayment = res.data
+          })
+      }
+    },
+    // 调整资金
+    handleFinance(user_id) {
+      this.financeForm = {
+        client_id: user_id,
+        money: 0,
+        points: 0,
+        to_payment: undefined,
+        source_no: undefined,
+        cause: undefined
+      }
+
+      this.$nextTick(() => {
+        this.$refs.finance.clearValidate()
+      })
+
+      this.financeLoading = false
+      this.financeVisible = true
     }
   }
 }

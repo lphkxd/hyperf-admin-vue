@@ -476,7 +476,7 @@ export default {
                 })
 
               this.$notify({
-                title: '消息提示',
+                title: '重置密钥',
                 dangerouslyUseHTMLString: true,
                 message: `${data.app_name} 的密钥已重置为：</br>${res.data.app_secret}`,
                 type: 'success',

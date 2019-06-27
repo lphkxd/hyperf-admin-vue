@@ -572,7 +572,7 @@ export default {
           resetAdminItem(admin.admin_id)
             .then(res => {
               this.$notify({
-                title: '消息提示',
+                title: '重置密码',
                 dangerouslyUseHTMLString: true,
                 message: `${admin.username} 的密码已重置为：</br>${res.data.password}`,
                 type: 'success',
