@@ -236,7 +236,7 @@
               type="text">更多操作</el-button>
 
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>重置密码</el-dropdown-item>
+              <el-dropdown-item @click.native="reset(scope.$index)">重置密码</el-dropdown-item>
               <el-dropdown-item>提现账户</el-dropdown-item>
               <el-dropdown-item>收货地址</el-dropdown-item>
               <el-dropdown-item>账户资金</el-dropdown-item>
@@ -413,8 +413,14 @@
 </template>
 
 <script>
+import {
+  addUserItem,
+  delUserList,
+  setUserItem,
+  setUserPassword,
+  setUserStatus
+} from '@/api/user/client'
 import util from '@/utils/util'
-import { addUserItem, delUserList, setUserStatus } from '@/api/user/client'
 
 export default {
   components: {
@@ -765,6 +771,90 @@ export default {
             })
         }
       })
+    },
+    // 编辑对话框
+    handleUpdate(index) {
+      this.currentIndex = index
+      const data = this.currentTableData[index]
+
+      this.form = {
+        client_id: data.user_id,
+        username: data.username,
+        nickname: data.nickname,
+        head_pic: data.head_pic,
+        group_id: data.group_id,
+        birthday: data.birthday,
+        sex: data.sex
+      }
+
+      // 处理el-select项不存在的bug
+      if (!this.group.find(item => item.group_id === this.form.group_id)) {
+        this.form.group_id = undefined
+      }
+
+      if (this.$refs.form) {
+        this.$nextTick(() => {
+          this.$refs.form.clearValidate()
+        })
+      }
+
+      this.dialogStatus = 'update'
+      this.dialogLoading = false
+      this.dialogFormVisible = true
+    },
+    // 请求编辑
+    update() {
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          this.dialogLoading = true
+          setUserItem(this.form)
+            .then(res => {
+              this.$set(
+                this.currentTableData,
+                this.currentIndex,
+                {
+                  ...this.currentTableData[this.currentIndex],
+                  ...res.data,
+                  get_auth_group: {
+                    ...this.group.find(item => item.group_id === this.form.group_id)
+                  }
+                })
+
+              this.dialogFormVisible = false
+              this.$message.success('操作成功')
+            })
+            .catch(() => {
+              this.dialogLoading = false
+            })
+        }
+      })
+    },
+    // 重置密码
+    reset(index) {
+      const data = this.currentTableData[index]
+      this.$confirm(`确定要重置 ${data.username} 的密码吗?`, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+        closeOnClickModal: false
+      })
+        .then(() => {
+          // 生成随机密码
+          const newPass = util.randomLenNum(6)
+          setUserPassword(data.user_id, newPass, newPass)
+            .then(() => {
+              this.$notify({
+                title: '消息提示',
+                dangerouslyUseHTMLString: true,
+                message: `${data.username} 的密码已重置为：</br>${newPass}`,
+                type: 'success',
+                position: 'bottom-right',
+                duration: 0
+              })
+            })
+        })
+        .catch(() => {
+        })
     }
   }
 }
