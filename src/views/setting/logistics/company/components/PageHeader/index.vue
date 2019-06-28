@@ -9,28 +9,28 @@
       <el-input
         v-model="form.name"
         prefix-icon="el-icon-search"
-        clearable
         placeholder="快递公司名称"
         @keyup.enter.native="handleFormSubmit"
-        style="width: 200px;"/>
+        style="width: 200px;"
+        clearable/>
     </el-form-item>
 
     <el-form-item label="编码" prop="code">
       <el-input
         v-model="form.code"
         prefix-icon="el-icon-search"
-        clearable
         placeholder="快递公司编码"
         @keyup.enter.native="handleFormSubmit"
-        style="width: 140px;"/>
+        style="width: 140px;"
+        clearable/>
     </el-form-item>
 
     <el-form-item label="类型" prop="type">
       <el-select
         v-model="form.type"
-        clearable
         placeholder="请选择"
         style="width: 120px;"
+        clearable
         value="">
         <el-option
           v-for="(item, index) in companyType"
@@ -43,9 +43,9 @@
     <el-form-item label="获取已删" prop="company_all">
       <el-select
         v-model="form.company_all"
-        clearable
         placeholder="请选择"
         style="width: 120px;"
+        clearable
         value="">
         <el-option label="是" value="1"/>
         <el-option label="否" value="0"/>

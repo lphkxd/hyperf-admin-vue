@@ -9,17 +9,17 @@
       <el-input
         v-model="form.name"
         prefix-icon="el-icon-search"
-        clearable
         placeholder="可输入二维码名称"
-        @keyup.enter.native="handleFormSubmit"/>
+        @keyup.enter.native="handleFormSubmit"
+        clearable/>
     </el-form-item>
 
     <el-form-item label="尺寸" prop="size">
       <el-select
         v-model="form.size"
-        clearable
         placeholder="请选择"
         style="width: 120px;"
+        clearable
         value="">
         <el-option
           v-for="index in 10"

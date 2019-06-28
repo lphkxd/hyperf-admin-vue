@@ -150,11 +150,11 @@
             v-model="traceForm.delivery_code"
             placeholder="请选择快递公司，试试搜索：顺丰 或 s"
             style="width: 100%;"
-            clearable
             filterable
             :filter-method="filterDelivery"
             @change="handleChange"
             @visible-change="handleVisibleChange"
+            clearable
             value="">
             <el-option
               v-for="item in companyList"

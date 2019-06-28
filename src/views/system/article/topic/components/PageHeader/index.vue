@@ -10,20 +10,20 @@
       <el-input
         v-model="form.title"
         prefix-icon="el-icon-search"
-        clearable
         placeholder="专题标题"
         @keyup.enter.native="handleFormSubmit"
-        style="width: 200px;"/>
+        style="width: 200px;"
+        clearable/>
     </el-form-item>
 
     <el-form-item label="关键词" prop="keywords">
       <el-input
         v-model="form.keywords"
         prefix-icon="el-icon-search"
-        clearable
         placeholder="专题关键词"
         @keyup.enter.native="handleFormSubmit"
-        style="width: 140px;"/>
+        style="width: 140px;"
+        clearable/>
     </el-form-item>
 
     <el-form-item>
@@ -55,17 +55,17 @@
             <el-input
               v-model="form.alias"
               prefix-icon="el-icon-search"
-              clearable
               placeholder="专题别名"
               @keyup.enter.native="handleFormSubmit"
-              style="width: 160px;"/>
+              style="width: 160px;"
+              clearable/>
           </el-form-item>
 
           <el-form-item label="状态" prop="status">
             <el-select
               v-model="form.status"
-              clearable
               placeholder="请选择"
+              clearable
               value="">
               <el-option label="启用" value="1"/>
               <el-option label="禁用" value="0"/>

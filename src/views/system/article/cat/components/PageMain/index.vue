@@ -34,9 +34,9 @@
           v-model="filterText"
           :disabled="loading"
           placeholder="输入关键字进行过滤"
-          clearable
           prefix-icon="el-icon-search"
-          style="width: 180px;">
+          style="width: 180px;"
+          clearable>
         </el-input>
       </el-form-item>
 
@@ -126,12 +126,12 @@
               prop="parent_id">
               <el-cascader
                 v-model="form.parent_id"
+                placeholder="不选择表示顶层分类 试试搜索：首页"
                 :options="treeData"
                 :props="cascaderProps"
-                filterable
-                clearable
                 style="width: 100%;"
-                placeholder="不选择表示顶层分类 试试搜索：首页">
+                filterable
+                clearable>
               </el-cascader>
             </el-form-item>
 

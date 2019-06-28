@@ -217,9 +217,9 @@
           prop="delivery_item_id">
           <el-select
             v-model="form.delivery_item_id"
-            clearable
             placeholder="请选择"
             style="width: 100%;"
+            clearable
             value="">
             <el-option
               v-for="item in dialogCompany"

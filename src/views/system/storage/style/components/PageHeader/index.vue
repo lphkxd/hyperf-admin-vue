@@ -10,28 +10,28 @@
       <el-input
         v-model="form.name"
         prefix-icon="el-icon-search"
-        clearable
         placeholder="资源样式名称"
         @keyup.enter.native="handleFormSubmit"
-        style="width: 200px;"/>
+        style="width: 200px;"
+        clearable/>
     </el-form-item>
 
     <el-form-item label="编码" prop="code">
       <el-input
         v-model="form.code"
         prefix-icon="el-icon-search"
-        clearable
         placeholder="资源样式编码"
         @keyup.enter.native="handleFormSubmit"
-        style="width: 140px;"/>
+        style="width: 140px;"
+        clearable/>
     </el-form-item>
 
     <el-form-item label="平台" prop="platform">
       <el-select
         v-model="form.platform"
-        clearable
         placeholder="请选择"
         style="width: 120px;"
+        clearable
         value="">
         <el-option
           v-for="(item, index) in platformTable"
@@ -44,9 +44,9 @@
     <el-form-item label="状态" prop="status">
       <el-select
         v-model="form.status"
-        clearable
         placeholder="请选择"
         style="width: 120px;"
+        clearable
         value="">
         <el-option label="启用" value="1"/>
         <el-option label="禁用" value="0"/>

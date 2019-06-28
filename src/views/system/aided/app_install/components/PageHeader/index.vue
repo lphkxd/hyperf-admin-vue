@@ -9,18 +9,18 @@
       <el-input
         v-model="form.name"
         prefix-icon="el-icon-search"
-        clearable
         placeholder="可输入应用安装包名称"
-        @keyup.enter.native="handleFormSubmit"/>
+        @keyup.enter.native="handleFormSubmit"
+        clearable/>
     </el-form-item>
 
     <el-form-item label="系统标识" prop="user_agent">
       <el-input
         v-model="form.user_agent"
         prefix-icon="el-icon-search"
-        clearable
         placeholder="可输入系统标识"
-        @keyup.enter.native="handleFormSubmit"/>
+        @keyup.enter.native="handleFormSubmit"
+        clearable/>
     </el-form-item>
 
     <el-form-item>

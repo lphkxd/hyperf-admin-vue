@@ -9,13 +9,13 @@
     <el-form-item label="分类" prop="article_cat_id">
       <el-cascader
         v-model="form.article_cat_id"
+        placeholder="试试搜索：分类"
         :options="catData"
         :props="cascaderProps"
-        filterable
-        clearable
         :show-all-levels="false"
         style="width: 140px;"
-        placeholder="试试搜索：分类">
+        filterable
+        clearable>
       </el-cascader>
     </el-form-item>
 
@@ -23,20 +23,20 @@
       <el-input
         v-model="form.title"
         prefix-icon="el-icon-search"
-        clearable
         placeholder="文章标题"
         @keyup.enter.native="handleFormSubmit"
-        style="width: 200px;"/>
+        style="width: 200px;"
+        clearable/>
     </el-form-item>
 
     <el-form-item label="关键词" prop="keywords">
       <el-input
         v-model="form.keywords"
         prefix-icon="el-icon-search"
-        clearable
         placeholder="文章关键词"
         @keyup.enter.native="handleFormSubmit"
-        style="width: 140px;"/>
+        style="width: 140px;"
+        clearable/>
     </el-form-item>
 
     <el-form-item>
@@ -67,8 +67,8 @@
           <el-form-item label="置顶" prop="is_top">
             <el-select
               v-model="form.is_top"
-              clearable
               placeholder="请选择"
+              clearable
               value="">
               <el-option label="置顶" value="1"/>
               <el-option label="普通" value="0"/>
@@ -78,8 +78,8 @@
           <el-form-item label="状态" prop="status">
             <el-select
               v-model="form.status"
-              clearable
               placeholder="请选择"
+              clearable
               value="">
               <el-option label="启用" value="1"/>
               <el-option label="禁用" value="0"/>

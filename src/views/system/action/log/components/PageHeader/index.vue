@@ -10,18 +10,18 @@
       <el-input
         v-model="form.username"
         prefix-icon="el-icon-search"
-        clearable
         placeholder="可输入账号"
         @keyup.enter.native="handleFormSubmit"
-        style="width: 200px;"/>
+        style="width: 200px;"
+        clearable/>
     </el-form-item>
 
     <el-form-item label="账号类型" prop="client_type">
       <el-select
         v-model="form.client_type"
-        clearable
         placeholder="请选择"
         style="width: 120px;"
+        clearable
         value="">
         <el-option
           v-for="(item, index) in group"
@@ -60,10 +60,10 @@
             <el-input
               v-model="form.path"
               prefix-icon="el-icon-search"
-              clearable
               placeholder="可输入路径"
               @keyup.enter.native="handleFormSubmit"
-              style="width: 320px;"/>
+              style="width: 320px;"
+              clearable/>
           </el-form-item>
 
           <el-form-item label="时间段" prop="time_period">

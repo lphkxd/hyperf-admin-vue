@@ -8,9 +8,9 @@
     <el-form-item label="导航属性" prop="is_navi">
       <el-select
         v-model="form.is_navi"
-        clearable
         placeholder="请选择"
         style="width: 120px;"
+        clearable
         value="">
         <el-option label="可见" value="1"/>
         <el-option label="隐藏" value="0"/>

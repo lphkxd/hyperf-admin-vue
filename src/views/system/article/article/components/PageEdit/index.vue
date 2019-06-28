@@ -28,12 +28,12 @@
           prop="article_cat_id">
           <el-cascader
             v-model="currentForm.article_cat_id"
+            placeholder="请选择文章分类 试试搜索：首页"
             :options="catData"
             :props="cascaderProps"
-            filterable
-            clearable
             style="width: 100%;"
-            placeholder="请选择文章分类 试试搜索：首页">
+            filterable
+            clearable>
           </el-cascader>
         </el-form-item>
 

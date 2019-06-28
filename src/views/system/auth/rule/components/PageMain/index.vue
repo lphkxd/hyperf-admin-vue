@@ -64,9 +64,9 @@
           v-model="filterText"
           :disabled="loading"
           placeholder="输入关键字进行过滤"
-          clearable
           prefix-icon="el-icon-search"
-          style="width: 180px;">
+          style="width: 180px;"
+          clearable>
         </el-input>
       </el-form-item>
 

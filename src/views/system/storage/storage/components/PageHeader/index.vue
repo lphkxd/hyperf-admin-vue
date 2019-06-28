@@ -10,10 +10,10 @@
       <el-input
         v-model="form.name"
         prefix-icon="el-icon-search"
-        clearable
         placeholder="资源名称"
         @keyup.enter.native="handleFormSubmit"
-        style="width: 200px;"/>
+        style="width: 200px;"
+        clearable/>
     </el-form-item>
 
     <el-form-item>

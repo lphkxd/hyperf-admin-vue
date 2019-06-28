@@ -149,9 +149,9 @@
           prop="type">
           <el-select
             v-model="form.type"
-            clearable
             placeholder="请选择"
             style="width: 150px;"
+            clearable
             value="">
             <el-option
               v-for="(item, index) in companyType"

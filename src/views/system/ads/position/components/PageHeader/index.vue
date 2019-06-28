@@ -10,28 +10,28 @@
       <el-input
         v-model="form.name"
         prefix-icon="el-icon-search"
-        clearable
         placeholder="广告位置名称"
         @keyup.enter.native="handleFormSubmit"
-        style="width: 200px;"/>
+        style="width: 200px;"
+        clearable/>
     </el-form-item>
 
     <el-form-item label="编码" prop="code">
       <el-input
         v-model="form.code"
         prefix-icon="el-icon-search"
-        clearable
         placeholder="广告位置编码"
         @keyup.enter.native="handleFormSubmit"
-        style="width: 140px;"/>
+        style="width: 140px;"
+        clearable/>
     </el-form-item>
 
     <el-form-item label="类型" prop="type">
       <el-select
         v-model="form.type"
-        clearable
         placeholder="请选择"
         style="width: 120px;"
+        clearable
         value="">
         <el-option label="图片" value="0"/>
         <el-option label="代码" value="1"/>
@@ -66,8 +66,8 @@
           <el-form-item label="平台" prop="platform">
             <el-select
               v-model="form.platform"
-              clearable
               placeholder="请选择"
+              clearable
               value="">
               <el-option
                 v-for="(item, index) in platformTable"
@@ -80,8 +80,8 @@
           <el-form-item label="展示方式" prop="display">
             <el-select
               v-model="form.display"
-              clearable
               placeholder="请选择"
+              clearable
               value="">
               <el-option label="多个广告" value="0"/>
               <el-option label="单个广告" value="1"/>
@@ -93,8 +93,8 @@
           <el-form-item label="状态" prop="status">
             <el-select
               v-model="form.status"
-              clearable
               placeholder="请选择"
+              clearable
               value="">
               <el-option label="启用" value="1"/>
               <el-option label="禁用" value="0"/>

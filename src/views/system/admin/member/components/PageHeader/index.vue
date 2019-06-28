@@ -10,18 +10,18 @@
       <el-input
         v-model="form.account"
         prefix-icon="el-icon-search"
-        clearable
         placeholder="可输入 账号/昵称"
         @keyup.enter.native="handleFormSubmit"
-        style="width: 200px;"/>
+        style="width: 200px;"
+        clearable/>
     </el-form-item>
 
     <el-form-item label="用户组" prop="group_id">
       <el-select
         v-model="form.group_id"
-        clearable
         placeholder="请选择"
         style="width: 120px;"
+        clearable
         value="">
         <el-option
           v-for="item in group"
@@ -34,9 +34,9 @@
     <el-form-item label="状态" prop="status">
       <el-select
         v-model="form.status"
-        clearable
         placeholder="请选择"
         style="width: 120px;"
+        clearable
         value="">
         <el-option label="启用" value="1"/>
         <el-option label="禁用" value="0"/>

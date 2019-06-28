@@ -208,8 +208,8 @@
             v-model="nameForm.name"
             placeholder="请输入目录名称"
             @keyup.enter.native="nameStatus === 'create' ? create() : rename()"
-            clearable
-            ref="input"/>
+            ref="input"
+            clearable/>
         </el-form-item>
       </el-form>
 

@@ -9,28 +9,28 @@
       <el-input
         v-model="form.withdraw_no"
         prefix-icon="el-icon-search"
-        clearable
         placeholder="提现单号"
         @keyup.enter.native="handleFormSubmit"
-        style="width: 230px;"/>
+        style="width: 230px;"
+        clearable/>
     </el-form-item>
 
     <el-form-item label="账号" prop="account">
       <el-input
         v-model="form.account"
         prefix-icon="el-icon-search"
-        clearable
         placeholder="可输入 账号/昵称"
         @keyup.enter.native="handleFormSubmit"
-        style="width: 170px;"/>
+        style="width: 170px;"
+        clearable/>
     </el-form-item>
 
     <el-form-item label="状态" prop="status">
       <el-select
         v-model="form.status"
-        clearable
         placeholder="请选择"
         style="width: 120px;"
+        clearable
         value="">
         <el-option label="待处理" value="0"/>
         <el-option label="处理中" value="1"/>

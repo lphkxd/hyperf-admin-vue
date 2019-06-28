@@ -10,18 +10,18 @@
       <el-input
         v-model="form.account"
         prefix-icon="el-icon-search"
-        clearable
         placeholder="可输入 账号/昵称"
         @keyup.enter.native="handleFormSubmit"
-        style="width: 200px;"/>
+        style="width: 200px;"
+        clearable/>
     </el-form-item>
 
     <el-form-item label="支付方式" prop="to_payment">
       <el-select
         v-model="form.to_payment"
-        clearable
         placeholder="请选择"
         style="width: 120px;"
+        clearable
         value="">
         <el-option
           v-for="(item, index) in toPayment"
@@ -34,9 +34,9 @@
     <el-form-item label="状态" prop="status">
       <el-select
         v-model="form.status"
-        clearable
         placeholder="请选择"
         style="width: 120px;"
+        clearable
         value="">
         <el-option label="待付款" value="0"/>
         <el-option label="已完成" value="1"/>
@@ -73,30 +73,30 @@
             <el-input
               v-model="form.payment_no"
               prefix-icon="el-icon-search"
-              clearable
               placeholder="可输入支付流水号"
               @keyup.enter.native="handleFormSubmit"
-              style="width: 320px;"/>
+              style="width: 320px;"
+              clearable/>
           </el-form-item>
 
           <el-form-item label="订单号" prop="order_no">
             <el-input
               v-model="form.order_no"
               prefix-icon="el-icon-search"
-              clearable
               placeholder="可输入订单号"
               @keyup.enter.native="handleFormSubmit"
-              style="width: 320px;"/>
+              style="width: 320px;"
+              clearable/>
           </el-form-item>
 
           <el-form-item label="交易号" prop="out_trade_no">
             <el-input
               v-model="form.out_trade_no"
               prefix-icon="el-icon-search"
-              clearable
               placeholder="可输入交易号"
               @keyup.enter.native="handleFormSubmit"
-              style="width: 320px;"/>
+              style="width: 320px;"
+              clearable/>
           </el-form-item>
 
           <el-form-item label="时间段" prop="time_period">
@@ -113,9 +113,9 @@
           <el-form-item label="支付类型" prop="type">
             <el-select
               v-model="form.type"
-              clearable
               placeholder="请选择"
               style="width: 160px;"
+              clearable
               value="">
               <el-option label="充值" value="0"/>
               <el-option label="订单" value="1"/>

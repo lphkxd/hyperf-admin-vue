@@ -9,17 +9,17 @@
       <el-input
         v-model="form.app_name"
         prefix-icon="el-icon-search"
-        clearable
         placeholder="可输入应用名称"
-        @keyup.enter.native="handleFormSubmit"/>
+        @keyup.enter.native="handleFormSubmit"
+        clearable/>
     </el-form-item>
 
     <el-form-item label="状态" prop="status">
       <el-select
         v-model="form.status"
-        clearable
         placeholder="请选择"
         style="width: 120px;"
+        clearable
         value="">
         <el-option label="启用" value="1"/>
         <el-option label="禁用" value="0"/>

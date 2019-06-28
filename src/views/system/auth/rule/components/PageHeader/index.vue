@@ -9,9 +9,9 @@
     <el-form-item label="模块" prop="module">
       <el-select
         v-model="form.module"
-        clearable
         placeholder="请选择"
         style="width: 120px;"
+        clearable
         value="">
         <el-option
           v-for="(item, index) in module"
@@ -24,9 +24,9 @@
     <el-form-item label="用户组" prop="group_id">
       <el-select
         v-model="form.group_id"
-        clearable
         placeholder="请选择"
         style="width: 120px;"
+        clearable
         value="">
         <el-option
           v-for="item in group"
@@ -39,9 +39,9 @@
     <el-form-item label="状态" prop="status">
       <el-select
         v-model="form.status"
-        clearable
         placeholder="请选择"
         style="width: 120px;"
+        clearable
         value="">
         <el-option label="启用" value="1"/>
         <el-option label="禁用" value="0"/>

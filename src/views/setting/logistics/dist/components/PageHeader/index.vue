@@ -9,28 +9,28 @@
       <el-input
         v-model="form.order_code"
         prefix-icon="el-icon-search"
-        clearable
         placeholder="订单号、售后单号等"
         @keyup.enter.native="handleFormSubmit"
-        style="width: 170px;"/>
+        style="width: 170px;"
+        clearable/>
     </el-form-item>
 
     <el-form-item label="快递单号" prop="logistic_code">
       <el-input
         v-model="form.logistic_code"
         prefix-icon="el-icon-search"
-        clearable
         placeholder="可输入快递单号"
         @keyup.enter.native="handleFormSubmit"
-        style="width: 150px;"/>
+        style="width: 150px;"
+        clearable/>
     </el-form-item>
 
     <el-form-item label="状态" prop="state">
       <el-select
         v-model="form.state"
-        clearable
         placeholder="请选择"
         style="width: 130px;"
+        clearable
         value="">
         <el-option
           v-for="(item, index) in traceState"
@@ -68,10 +68,10 @@
             <el-input
               v-model="form.account"
               prefix-icon="el-icon-search"
-              clearable
               placeholder="可输入 账号/昵称"
               @keyup.enter.native="handleFormSubmit"
-              style="width: 220px;"/>
+              style="width: 220px;"
+              clearable/>
           </el-form-item>
 
           <el-form-item label="超时配送(天)" prop="timeout">
@@ -84,9 +84,9 @@
           <el-form-item label="是否订阅" prop="is_sub">
             <el-select
               v-model="form.is_sub"
-              clearable
               placeholder="请选择"
               style="width: 130px;"
+              clearable
               value="">
               <el-option label="是" value="1"/>
               <el-option label="否" value="0"/>

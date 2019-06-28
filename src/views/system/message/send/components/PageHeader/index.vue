@@ -10,18 +10,18 @@
       <el-input
         v-model="form.title"
         prefix-icon="el-icon-search"
-        clearable
         placeholder="消息标题"
         @keyup.enter.native="handleFormSubmit"
-        style="width: 200px;"/>
+        style="width: 200px;"
+        clearable/>
     </el-form-item>
 
     <el-form-item label="成员组" prop="member">
       <el-select
         v-model="form.member"
-        clearable
         placeholder="请选择"
         style="width: 120px;"
+        clearable
         value="">
         <el-option
           v-for="(item, index) in groupData"
@@ -34,9 +34,9 @@
     <el-form-item label="状态" prop="status">
       <el-select
         v-model="form.status"
-        clearable
         placeholder="请选择"
         style="width: 120px;"
+        clearable
         value="">
         <el-option label="草稿件" value="0"/>
         <el-option label="已发布" value="1"/>
@@ -71,8 +71,8 @@
           <el-form-item label="置顶" prop="is_top">
             <el-select
               v-model="form.is_top"
-              clearable
               placeholder="请选择"
+              clearable
               value="">
               <el-option label="置顶" value="1"/>
               <el-option label="普通" value="0"/>
@@ -82,8 +82,8 @@
           <el-form-item label="类型" prop="type">
             <el-select
               v-model="form.type"
-              clearable
               placeholder="请选择"
+              clearable
               value="">
               <el-option
                 v-for="(item, index) in typeData"
