@@ -249,7 +249,8 @@
 
               <el-dropdown-item
                 v-if="auth.withdraw"
-                @click.native="handleWithdraw(scope.row.user_id)">
+                @click.native="handleWithdraw(scope.row.user_id)"
+                divided>
                 提现账户
               </el-dropdown-item>
 
@@ -261,7 +262,8 @@
 
               <el-dropdown-item
                 v-if="auth.money"
-                @click.native="handleMoney(scope.$index)">
+                @click.native="handleMoney(scope.$index)"
+                divided>
                 账户资金
               </el-dropdown-item>
 
@@ -447,30 +449,10 @@
       @open="getPaymentSelect"
       width="600px">
       <el-form
-        style="margin-top: -25px;"
         :model="financeForm"
         :rules="financeRules"
         ref="finance"
         label-width="90px">
-        <el-divider content-position="left">负数减少，正数增加</el-divider>
-        <el-form-item
-          label="金额"
-          prop="money">
-          <el-input-number
-            v-model="financeForm.money"
-            placeholder="可输入调整金额"
-            controls-position="right"
-            :precision="2"/>
-        </el-form-item>
-
-        <el-form-item
-          label="积分"
-          prop="points">
-          <el-input-number
-            v-model="financeForm.points"
-            placeholder="可输入调整积分"
-            controls-position="right"/>
-        </el-form-item>
 
         <el-form-item
           label="支付方式"
@@ -479,6 +461,7 @@
             v-model="financeForm.to_payment"
             placeholder="请选择"
             clearable
+            style="width: 100%;"
             value="">
             <el-option
               v-for="(item, index) in toPayment"
@@ -487,6 +470,41 @@
               :value="item.code"/>
           </el-select>
         </el-form-item>
+
+        <el-row>
+          <el-col :span="12">
+            <el-form-item
+              label="金额"
+              prop="money">
+              <el-input-number
+                v-model="financeForm.money"
+                placeholder="可输入调整金额"
+                controls-position="right"
+                style="width: 90%;"
+                :precision="2"/>
+
+              <el-tooltip content="正数增加，负数减少" placement="top">
+                <cs-icon name="question" class="cs-pl-5"/>
+              </el-tooltip>
+            </el-form-item>
+          </el-col>
+
+          <el-col :span="12">
+            <el-form-item
+              label="积分"
+              prop="points">
+              <el-input-number
+                v-model="financeForm.points"
+                placeholder="可输入调整积分"
+                controls-position="right"
+                style="width: 90%;"/>
+
+              <el-tooltip content="正数增加，负数减少" placement="top">
+                <cs-icon name="question" class="cs-ml-5"/>
+              </el-tooltip>
+            </el-form-item>
+          </el-col>
+        </el-row>
 
         <el-form-item
           label="来源订单号"
