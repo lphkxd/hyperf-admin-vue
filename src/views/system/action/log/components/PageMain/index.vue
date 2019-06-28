@@ -6,13 +6,6 @@
       @sort-change="sortChange"
       stripe>
       <el-table-column
-        label="编号"
-        min-width="60"
-        prop="action_log_id"
-        sortable="custom">
-      </el-table-column>
-
-      <el-table-column
         label="账号"
         prop="username"
         sortable="custom"
@@ -99,7 +92,6 @@
         width="160"
         sortable="custom">
       </el-table-column>
-
     </el-table>
 
     <el-dialog
