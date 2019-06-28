@@ -268,7 +268,6 @@
               prop="remark">
               <el-input
                 v-model="form.remark"
-                maxlength="255"
                 placeholder="可输入菜单备注"
                 type="textarea"
                 :rows="3"/>

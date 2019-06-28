@@ -90,7 +90,8 @@
       <el-table-column
         label="收支金额"
         prop="type"
-        sortable="custom">
+        sortable="custom"
+        min-width="90">
         <template slot-scope="scope">
           <el-tag
             :type="typeMap[scope.row.type].type"
@@ -119,6 +120,12 @@
         <template slot-scope="scope">
           {{moduleMap[scope.row.module]}}
         </template>
+      </el-table-column>
+
+      <el-table-column
+        label="交易备注"
+        prop="remark"
+        :show-overflow-tooltip="true">
       </el-table-column>
 
       <el-table-column

@@ -3,7 +3,7 @@
     <el-form
       :inline="true"
       size="small">
-      <el-form-item>
+      <el-form-item v-if="auth.add">
         <el-button
           :disabled="loading"
           @click="handleCreate">
@@ -15,6 +15,7 @@
       <el-form-item>
         <el-button-group>
           <el-button
+            v-if="auth.enable"
             :disabled="loading"
             @click="handleStatus(null, 1, true)">
             <cs-icon name="check"/>
@@ -22,6 +23,7 @@
           </el-button>
 
           <el-button
+            v-if="auth.disable"
             :disabled="loading"
             @click="handleStatus(null, 0, true)">
             <cs-icon name="close"/>
@@ -30,7 +32,7 @@
         </el-button-group>
       </el-form-item>
 
-      <el-form-item>
+      <el-form-item v-if="auth.del">
         <el-button
           :disabled="loading"
           @click="handleDelete(null)">
@@ -205,7 +207,7 @@
           <el-tag
             size="mini"
             :type="statusMap[scope.row.status].type"
-            style="cursor: pointer;"
+            :style="auth.disable || auth.enable ? 'cursor: pointer;' : ''"
             @click.native="handleStatus(scope.$index)">
             {{statusMap[scope.row.status].text}}
           </el-tag>
@@ -218,29 +220,56 @@
         min-width="140">
         <template slot-scope="scope">
           <el-button
+            v-if="auth.set"
             size="small"
             @click="handleUpdate(scope.$index)"
             type="text">编辑</el-button>
 
           <el-button
+            v-if="auth.del"
             size="small"
             @click="handleDelete(scope.$index)"
             type="text">删除</el-button>
 
           <el-dropdown
-            size="small"
-            :show-timeout="50">
+            v-if="auth.more"
+            :show-timeout="50"
+            size="small">
             <el-button
               class="cs-ml-10"
               size="small"
               type="text">更多操作</el-button>
 
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item @click.native="handleReset(scope.$index)">重置密码</el-dropdown-item>
-              <el-dropdown-item @click.native="handleWithdraw(scope.row.user_id)">提现账户</el-dropdown-item>
-              <el-dropdown-item @click.native="handleAddress(scope.row.user_id)">收货地址</el-dropdown-item>
-              <el-dropdown-item @click.native="handleMoney(scope.$index)">账户资金</el-dropdown-item>
-              <el-dropdown-item @click.native="handleFinance(scope.row.user_id)">调整资金</el-dropdown-item>
+              <el-dropdown-item
+                v-if="auth.reset"
+                @click.native="handleReset(scope.$index)">
+                重置密码
+              </el-dropdown-item>
+
+              <el-dropdown-item
+                v-if="auth.withdraw"
+                @click.native="handleWithdraw(scope.row.user_id)">
+                提现账户
+              </el-dropdown-item>
+
+              <el-dropdown-item
+                v-if="auth.address"
+                @click.native="handleAddress(scope.row.user_id)">
+                收货地址
+              </el-dropdown-item>
+
+              <el-dropdown-item
+                v-if="auth.money"
+                @click.native="handleMoney(scope.$index)">
+                账户资金
+              </el-dropdown-item>
+
+              <el-dropdown-item
+                v-if="auth.finance"
+                @click.native="handleFinance(scope.row.user_id)">
+                调整资金
+              </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </template>
@@ -427,26 +456,59 @@
         <el-form-item
           label="金额"
           prop="money">
+          <el-input-number
+            v-model="financeForm.money"
+            placeholder="可输入调整金额"
+            controls-position="right"
+            :precision="2"/>
         </el-form-item>
 
         <el-form-item
           label="积分"
           prop="points">
+          <el-input-number
+            v-model="financeForm.points"
+            placeholder="可输入调整积分"
+            controls-position="right"
+            :precision="2"/>
         </el-form-item>
 
         <el-form-item
           label="支付方式"
           prop="to_payment">
+          <el-select
+            v-model="financeForm.to_payment"
+            placeholder="请选择"
+            clearable
+            value="">
+            <el-option
+              v-for="(item, index) in toPayment"
+              :key="index"
+              :label="item.name"
+              :value="item.code"/>
+          </el-select>
         </el-form-item>
 
         <el-form-item
           label="来源订单号"
           prop="source_no">
+          <el-input
+            v-model="financeForm.source_no"
+            placeholder="可输入来源订单号"
+            clearable/>
         </el-form-item>
 
         <el-form-item
           label="操作原因"
           prop="cause">
+          <el-input
+            v-model="financeForm.cause"
+            placeholder="请输入操作原因"
+            type="textarea"
+            :autosize="{minRows: 3}"
+            show-word-limit
+            maxlength="255">
+          </el-input>
         </el-form-item>
       </el-form>
 
@@ -458,7 +520,7 @@
         <el-button
           type="primary"
           :loading="financeLoading"
-          @click="() => {}"
+          @click="finance"
           size="small">修改</el-button>
       </div>
     </el-dialog>
@@ -476,7 +538,7 @@ import {
 import dayjs from 'dayjs'
 import util from '@/utils/util'
 import { getUserMoneyInfo } from '@/api/user/money'
-import { getPaymentList } from '@/api/payment/payment'
+import { getPaymentList, setPaymentFinance } from '@/api/payment/payment'
 
 export default {
   components: {
@@ -497,7 +559,19 @@ export default {
     return {
       currentTableData: [],
       multipleSelection: [],
-      auth: {},
+      auth: {
+        add: false,
+        set: false,
+        del: false,
+        enable: false,
+        disable: false,
+        more: false,
+        reset: false,
+        withdraw: false,
+        address: false,
+        money: false,
+        finance: false
+      },
       dialogLoading: false,
       dialogFormVisible: false,
       dialogStatus: '',
@@ -638,6 +712,32 @@ export default {
         cause: undefined
       },
       financeRules: {
+        to_payment: [
+          {
+            required: true,
+            message: '至少选择一项',
+            trigger: 'change'
+          }
+        ],
+        source_no: [
+          {
+            max: 100,
+            message: '长度不能大于 100 个字符',
+            trigger: 'blur'
+          }
+        ],
+        cause: [
+          {
+            required: true,
+            message: '操作原因不能为空',
+            trigger: 'blur'
+          },
+          {
+            max: 255,
+            message: '长度不能大于 255 个字符',
+            trigger: 'blur'
+          }
+        ]
       }
     }
   },
@@ -660,6 +760,17 @@ export default {
   methods: {
     // 验证权限
     _validationAuth() {
+      this.auth.add = this.$has('/member/user/client/add')
+      this.auth.set = this.$has('/member/user/client/set')
+      this.auth.del = this.$has('/member/user/client/del')
+      this.auth.enable = this.$has('/member/user/client/enable')
+      this.auth.disable = this.$has('/member/user/client/disable')
+      this.auth.more = this.$has('/member/user/client/more')
+      this.auth.reset = this.$has('/member/user/client/reset')
+      this.auth.withdraw = this.$has('/member/user/client/withdraw')
+      this.auth.address = this.$has('/member/user/client/address')
+      this.auth.money = this.$has('/member/user/client/money')
+      this.auth.finance = this.$has('/member/user/client/finance')
     },
     // 获取列表中的编号
     _getIdList(val) {
@@ -741,15 +852,15 @@ export default {
           return
         }
 
-        // // 禁用权限检测
-        // if (newStatus === 0 && !this.auth.disable) {
-        //   return
-        // }
-        //
-        // // 启用权限检测
-        // if (newStatus === 1 && !this.auth.enable) {
-        //   return
-        // }
+        // 禁用权限检测
+        if (newStatus === 0 && !this.auth.disable) {
+          return
+        }
+
+        // 启用权限检测
+        if (newStatus === 1 && !this.auth.enable) {
+          return
+        }
 
         this.$set(this.currentTableData, val, { ...oldData, status: 2 })
         setStatus(clients, newStatus, this)
@@ -968,7 +1079,7 @@ export default {
     // 获取支付方式列表
     getPaymentSelect() {
       if (!this.toPayment.length) {
-        getPaymentList({ is_select: 1 })
+        getPaymentList({ is_select: 1, type: 'deposit' })
           .then(res => {
             this.toPayment = res.data
           })
@@ -991,6 +1102,22 @@ export default {
 
       this.financeLoading = false
       this.financeVisible = true
+    },
+    // 请求调整金额
+    finance() {
+      this.$refs.finance.validate(valid => {
+        if (valid) {
+          this.financeLoading = true
+          setPaymentFinance(this.financeForm)
+            .then(() => {
+              this.financeVisible = false
+              this.$message.success('操作成功')
+            })
+            .catch(() => {
+              this.financeLoading = false
+            })
+        }
+      })
     }
   }
 }
