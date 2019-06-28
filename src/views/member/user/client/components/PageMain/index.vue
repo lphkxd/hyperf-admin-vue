@@ -469,8 +469,7 @@
           <el-input-number
             v-model="financeForm.points"
             placeholder="可输入调整积分"
-            controls-position="right"
-            :precision="2"/>
+            controls-position="right"/>
         </el-form-item>
 
         <el-form-item
@@ -1039,7 +1038,7 @@ export default {
     // 提现账户
     handleWithdraw(user_id) {
       this.$router.push({
-        name: 'member-withdraw-user',
+        name: 'member-user-withdraw',
         params: {
           client_id: user_id
         }

@@ -30,9 +30,13 @@ export default {
     Vue.prototype.$publicPath = process.env.BASE_URL
     // 当前版本
     Vue.prototype.$version = process.env.VUE_APP_VERSION
+    // 构建时间
+    Vue.prototype.$buildTime = process.env.VUE_APP_BUILD_TIME
+
+    // Element
+    Vue.use(ElementUI)
 
     // 插件
-    Vue.use(ElementUI)
     Vue.use(pluginAxios)
     Vue.use(pluginError)
     Vue.use(pluginLog)

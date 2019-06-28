@@ -5,6 +5,7 @@
     </div>
     <p class="cs-page-cover__title">{{title}} {{$version}}</p>
     <p class="cs-page-cover__sub-title cs-mt-0">{{subTitle}}</p>
+    <p class="cs-page-cover__build-time">构建时间 {{$buildTime}}</p>
     <slot name="footer"/>
   </div>
 </template>
@@ -44,6 +45,13 @@ export default {
   }
   .cs-page-cover__sub-title {
     color: $color-text-sub;
+  }
+  .cs-page-cover__build-time {
+    margin: 0;
+    margin-bottom: 10px;
+    font-size: 12px;
+    line-height: 12px;
+    color: $color-text-placehoder;
   }
 }
 </style>

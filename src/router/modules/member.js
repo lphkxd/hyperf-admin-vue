@@ -19,6 +19,20 @@ export default {
       component: () => import('@/views/member/user/client')
     },
     {
+      path: 'user/withdraw/:client_id',
+      name: `${pre}user-withdraw`,
+      props: true,
+      meta: { ...meta, title: '提现账户' },
+      component: () => import('@/views/member/user/withdraw')
+    },
+    {
+      path: 'user/address/:client_id',
+      name: `${pre}user-address`,
+      props: true,
+      meta: { ...meta, title: '收货地址' },
+      component: () => import('@/views/member/user/address')
+    },
+    {
       path: 'user/level',
       name: `${pre}user-level`,
       meta: { ...meta, cache: true, title: '账号等级' },

@@ -19,7 +19,7 @@ export default {
       path: 'log',
       name: 'log',
       meta: { ...meta, cache: true, title: '调试日志' },
-      component: () => import('@/views/index/log')
+      component: () => import('@/views/public/log')
     },
     // 刷新页面 必须保留
     {
