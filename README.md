@@ -20,9 +20,9 @@ CareyShop 整体的架构理念为前后端分离，这样更容易创建出私�
 ### 网站地址
 官方网站：[https://www.careyshop.cn](https://www.careyshop.cn "CareyShop官方网站")
 
-后台演示：[https://demo.careyshop.cn/admin/](https://demo.careyshop.cn/admin/ "后台演示地址")
+后端框架：[https://github.com/dnyz520/careyshop/](https://github.com/dnyz520/careyshop/ "后端框架")
 
-API沙盒：[https://demo.careyshop.cn/api/](https://demo.careyshop.cn/api/ "API沙盒")
+后台演示：[https://demo.careyshop.cn/admin/](https://demo.careyshop.cn/admin/ "后台演示地址")
 
 ### 文档中心
 [https://doc.careyshop.cn](https://doc.careyshop.cn "CareyShop文档中心")
@@ -59,9 +59,6 @@ npm run lint
 # 单元测试
 npm run test:unit
 ```
-
-### 后端系统
-本项目后端框架系统由 CareyShop 支持，https://github.com/dnyz520/careyshop
 
 ### 前端支持
 <a href="https://github.com/d2-projects/d2-admin" target="_blank"><img src="https://raw.githubusercontent.com/FairyEver/d2-admin/master/doc/image/d2-admin@2x.png" width="200"></a>
