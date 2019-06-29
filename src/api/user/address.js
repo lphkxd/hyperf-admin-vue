@@ -91,7 +91,7 @@ export function setUserAddressItem(data) {
 /**
  * 批量删除收货地址
  * @param {Number} client_id
- * @param {Number} user_address_id
+ * @param {Array} user_address_id
  * @returns {AxiosPromise}
  */
 export function delUserAddressList(client_id, user_address_id) {

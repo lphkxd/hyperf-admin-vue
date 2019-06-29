@@ -1,7 +1,7 @@
 <template>
   <el-page-header @back="goBack">
     <template slot="content">
-      <span>{{title ? `${title} 配送区域` : ''}}</span>
+      <span>{{username ? `${username} 收货地址` : ''}}</span>
     </template>
   </el-page-header>
 </template>
@@ -9,7 +9,7 @@
 <script>
 export default {
   props: {
-    title: {
+    username: {
       type: String,
       required: false,
       default: ''
@@ -18,7 +18,7 @@ export default {
   methods: {
     goBack() {
       this.$router.push({
-        name: 'setting-logistics-delivery'
+        name: 'member-user-client'
       })
     }
   }

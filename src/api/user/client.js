@@ -165,6 +165,24 @@ export function getUserItem(client_id) {
 }
 
 /**
+ * 获取一个账号的简易信息
+ * @param {Number} client_id
+ * @returns {AxiosPromise}
+ */
+export function getUserInfo(client_id) {
+  return request({
+    url: '/v1/user',
+    method: 'post',
+    params: {
+      method: 'get.user.info'
+    },
+    data: {
+      client_id
+    }
+  })
+}
+
+/**
  * 获取账号列表
  * @param {Object} data
  * @returns {AxiosPromise}
