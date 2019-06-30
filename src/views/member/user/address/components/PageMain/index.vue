@@ -212,12 +212,6 @@ export default {
   data() {
     return {
       currentTableData: [],
-      auth: {
-        add: false,
-        set: false,
-        del: false,
-        default: false
-      },
       dialogLoading: false,
       dialogFormVisible: false,
       dialogStatus: '',
