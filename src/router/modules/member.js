@@ -48,7 +48,7 @@ export default {
       path: 'ask/list',
       name: `${pre}ask-list`,
       meta: { ...meta, cache: true, title: '问答列表' },
-      component: () => import('@/views/member/ask')
+      component: () => import('@/views/member/ask/list')
     }
   ])('member-')
 }
