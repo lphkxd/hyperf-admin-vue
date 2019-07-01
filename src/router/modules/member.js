@@ -43,6 +43,12 @@ export default {
       name: `${pre}withdraw-list`,
       meta: { ...meta, cache: true, title: '提现列表' },
       component: () => import('@/views/member/withdraw/list')
+    },
+    {
+      path: 'ask/list',
+      name: `${pre}ask-list`,
+      meta: { ...meta, cache: true, title: '问答列表' },
+      component: () => import('@/views/member/ask')
     }
   ])('member-')
 }

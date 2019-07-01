@@ -64,10 +64,11 @@ export default {
     '$route': {
       handler({ matched, fullPath }) {
         // 路由父级发生变化时菜单数据将发生改变
-        if (matched.length > 0 && matched[0].path !== this.matched) {
-          const _side = this.aside.find(menu => menu.path === matched[0].path)
-          this.menuAside = _side.children || []
-          this.matched = matched[0].path
+        const pathRoute = matched[0].path ? matched[0].path : matched[1].path
+        if (matched.length > 0 && pathRoute !== this.matched) {
+          const _side = this.aside.find(menu => menu.path === pathRoute)
+          this.menuAside = _side && _side.children ? _side.children : []
+          this.matched = pathRoute
         }
 
         // 切换菜单时调整被激活菜单
