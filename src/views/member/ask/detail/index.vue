@@ -1,7 +1,6 @@
 <template>
   <cs-container :is-back-to-top="true" parent-path="member-ask-list">
     <page-main
-      state="update"
       :loading="loading"
       :table-data="table">
     </page-main>
@@ -15,12 +14,6 @@ export default {
   name: 'member-ask-detail',
   components: {
     'PageMain': () => import('./components/PageMain')
-  },
-  props: {
-    ask_id: {
-      type: [Number, String],
-      required: true
-    }
   },
   data() {
     return {
@@ -54,8 +47,7 @@ export default {
     getInitData() {
       return {
         type: null,
-        status: null,
-        get_user: { username: '' }
+        status: null
       }
     },
     switchData(id) {
