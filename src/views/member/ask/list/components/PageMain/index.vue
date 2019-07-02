@@ -91,6 +91,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import { delAskItem } from '@/api/user/ask'
 
 export default {
@@ -132,10 +133,20 @@ export default {
       immediate: true
     }
   },
+  activated() {
+    this.updateChange({
+      name: 'member-ask-list',
+      source: this.currentTableData,
+      key: 'ask_id'
+    })
+  },
   mounted() {
     this._validationAuth()
   },
   methods: {
+    ...mapActions('careyshop/update', [
+      'updateChange'
+    ]),
     // 验证权限
     _validationAuth() {
       this.auth.del = this.$has('/member/ask/list/del')

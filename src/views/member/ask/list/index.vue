@@ -25,6 +25,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import { getAskList } from '@/api/user/ask'
 
 export default {
@@ -59,6 +60,9 @@ export default {
     this.handleSubmit()
   },
   methods: {
+    ...mapActions('careyshop/update', [
+      'updateData'
+    ]),
     // 刷新列表页面
     handleRefresh() {
       this.$nextTick(() => {
@@ -93,6 +97,7 @@ export default {
         page_size: this.page.size
       })
         .then(res => {
+          this.updateData({ type: 'clear', name: 'member-ask-list' })
           this.page.total = res.data.total_result
           this.table = res.data.total_result > 0 ? res.data.items : []
         })

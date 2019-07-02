@@ -49,6 +49,13 @@ export default {
       name: `${pre}ask-list`,
       meta: { ...meta, cache: true, title: '问答列表' },
       component: () => import('@/views/member/ask/list')
+    },
+    {
+      path: 'ask/detail/:ask_id',
+      name: `${pre}ask-detail`,
+      props: true,
+      meta: { ...meta, cache: true, title: '问答明细' },
+      component: () => import('@/views/member/ask/detail')
     }
   ])('member-')
 }

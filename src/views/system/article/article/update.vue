@@ -79,6 +79,7 @@ export default {
 
       // 否则从服务器上获取数据(未加工原始数据)
       this.$nextTick(() => {
+        this.formData = {}
         this.loading = true
       })
 
