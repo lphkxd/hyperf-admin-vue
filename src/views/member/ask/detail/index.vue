@@ -2,12 +2,14 @@
   <cs-container :is-back-to-top="true" parent-path="member-ask-list">
     <page-main
       :loading="loading"
-      :table-data="table">
+      :table-data="table"
+      @reply="addReply">
     </page-main>
   </cs-container>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import { getAskItem } from '@/api/user/ask'
 
 export default {
@@ -43,7 +45,9 @@ export default {
     }
   },
   methods: {
-    // 数据初始化
+    ...mapActions('careyshop/update', [
+      'updateData'
+    ]),
     getInitData() {
       return {
         type: null,
@@ -73,6 +77,19 @@ export default {
             this.loading = false
           })
         })
+    },
+    addReply(id, data) {
+      this.tableBuffer[id].status = 1
+      this.tableBuffer[id].get_items.push({ ...data })
+
+      this.updateData({
+        type: 'set',
+        name: 'member-ask-list',
+        srcId: id,
+        data: {
+          status: 1
+        }
+      })
     }
   }
 }

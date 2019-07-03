@@ -13,7 +13,7 @@
       </el-table-column>
 
       <el-table-column
-        label="问题内容"
+        label="主题"
         prop="title"
         min-width="300"
         :show-overflow-tooltip="true">
@@ -48,7 +48,7 @@
 
       <el-table-column
         label="创建日期"
-        prop="ask_time"
+        prop="create_time"
         sortable="custom"
         width="160">
       </el-table-column>
