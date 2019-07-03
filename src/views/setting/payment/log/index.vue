@@ -26,10 +26,10 @@
 
 <script>
 import { getPaymentList } from '@/api/payment/payment'
-import { getTransactionList } from '@/api/transaction/log'
+import { getPaymentLogList } from '@/api/payment/log'
 
 export default {
-  name: 'system-action-transaction',
+  name: 'setting-payment-log',
   components: {
     'PageHeader': () => import('./components/PageHeader'),
     'PageMain': () => import('./components/PageMain'),
@@ -90,7 +90,7 @@ export default {
       }
 
       this.loading = true
-      getTransactionList({
+      getPaymentLogList({
         ...form,
         ...this.order,
         page_no: this.page.current,

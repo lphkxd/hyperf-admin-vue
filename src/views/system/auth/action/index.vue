@@ -26,10 +26,10 @@
 
 <script>
 import { getClientType } from '@/api/public'
-import { getActionLogList } from '@/api/action/log'
+import { getActionLogList } from '@/api/auth/action'
 
 export default {
-  name: 'system-action-log',
+  name: 'system-auth-action',
   components: {
     'PageHeader': () => import('./components/PageHeader'),
     'PageMain': () => import('./components/PageMain'),

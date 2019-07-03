@@ -34,7 +34,13 @@ export default {
       path: 'payment/config',
       name: `${pre}payment-config`,
       meta: { ...meta, cache: true, title: '支付配置' },
-      component: () => import('@/views/setting/payment')
+      component: () => import('@/views/setting/payment/config')
+    },
+    {
+      path: 'payment/log',
+      name: `${pre}payment-log`,
+      meta: { ...meta, cache: true, title: '支付日志' },
+      component: () => import('@/views/setting/payment/log')
     },
     {
       path: 'logistics/region',

@@ -37,6 +37,12 @@ export default {
       component: () => import('@/views/system/auth/menu')
     },
     {
+      path: 'auth/action',
+      name: `${pre}auth-action`,
+      meta: { ...meta, cache: true, title: '操作日志' },
+      component: () => import('@/views/system/auth/action')
+    },
+    {
       path: 'article/cat',
       name: `${pre}article-cat`,
       meta: { ...meta, cache: true, title: '文章分类' },
@@ -93,24 +99,6 @@ export default {
       props: true,
       meta: { ...meta, cache: true, title: '编辑专题' },
       component: () => import('@/views/system/article/topic/update')
-    },
-    {
-      path: 'action/log',
-      name: `${pre}action-log`,
-      meta: { ...meta, cache: true, title: '操作日志' },
-      component: () => import('@/views/system/action/log')
-    },
-    {
-      path: 'action/payment',
-      name: `${pre}action-payment`,
-      meta: { ...meta, cache: true, title: '支付日志' },
-      component: () => import('@/views/system/payment/log')
-    },
-    {
-      path: 'action/transaction',
-      name: `${pre}action-transaction`,
-      meta: { ...meta, cache: true, title: '交易结算' },
-      component: () => import('@/views/system/transaction/log')
     },
     {
       path: 'ads/position',

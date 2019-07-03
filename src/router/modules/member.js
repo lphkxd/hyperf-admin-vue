@@ -39,6 +39,12 @@ export default {
       component: () => import('@/views/member/user/level')
     },
     {
+      path: 'user/transaction',
+      name: `${pre}user-transaction`,
+      meta: { ...meta, cache: true, title: '交易结算' },
+      component: () => import('@/views/member/user/transaction')
+    },
+    {
       path: 'withdraw/list',
       name: `${pre}withdraw-list`,
       meta: { ...meta, cache: true, title: '提现列表' },
