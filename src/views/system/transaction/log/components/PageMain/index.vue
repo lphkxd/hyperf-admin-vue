@@ -91,7 +91,7 @@
         label="收支金额"
         prop="type"
         sortable="custom"
-        min-width="90">
+        min-width="100">
         <template slot-scope="scope">
           <el-tag
             :type="typeMap[scope.row.type].type"
