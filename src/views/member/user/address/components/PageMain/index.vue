@@ -23,7 +23,8 @@
       :data="currentTableData">
       <el-table-column
         label="收货人"
-        prop="consignee">
+        prop="consignee"
+        width="100">
       </el-table-column>
 
       <el-table-column
@@ -47,12 +48,14 @@
 
       <el-table-column
         label="手机"
-        prop="mobile">
+        prop="mobile"
+        width="120">
       </el-table-column>
 
       <el-table-column
         label="电话"
-        prop="tel">
+        prop="tel"
+        width="120">
       </el-table-column>
 
       <el-table-column
