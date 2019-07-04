@@ -2,6 +2,9 @@ import index from './modules/index'
 import system from './modules/system'
 import setting from './modules/setting'
 import member from './modules/member'
+import promotion from './modules/promotion'
+import order from './modules/order'
+import goods from './modules/goods'
 
 /**
  * 在主框架内显示
@@ -10,7 +13,10 @@ const frameIn = [
   index,
   system,
   setting,
-  member
+  member,
+  promotion,
+  order,
+  goods
 ]
 
 /**
