@@ -3,7 +3,8 @@
     <!--表单开始-->
     <el-form
       :inline="true"
-      size="small">
+      size="small"
+      @submit.native.prevent>
       <el-form-item v-if="auth.add">
         <el-button
           :disabled="loading"
