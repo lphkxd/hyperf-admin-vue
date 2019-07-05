@@ -14,7 +14,8 @@
       </el-form-item>
 
       <el-form-item>
-        <el-radio-group v-model="isFullName">
+        <el-radio-group
+          v-model="isFullName">
           <el-radio-button
             :disabled="loading"
             :label="true">
@@ -67,12 +68,21 @@
       </el-form-item>
 
       <el-form-item>
-        <el-button
-          :disabled="loading"
-          @click="() => {}">
-          <cs-icon name="trash-o"/>
-          删除
-        </el-button>
+        <el-button-group>
+          <el-button
+            :disabled="loading"
+            @click="() => {}">
+            <cs-icon name="trash-o"/>
+            删除
+          </el-button>
+
+          <el-button
+            :disabled="loading"
+            @click="() => {}">
+            <cs-icon name="refresh"/>
+            刷新
+          </el-button>
+        </el-button-group>
       </el-form-item>
 
       <el-form-item label="过滤">
@@ -106,12 +116,11 @@
           :draggable="true"
           ref="tree">
           <span class="custom-tree-node action" slot-scope="{node, data}">
-            <span :class="`brother-showing ${!data.status ? 'status-tree' : ''}`">
+            <span class="brother-showing" :class="{'status-tree': !data.status}">
               <i class="fa fa-align-justify move-tree cs-mr-10"></i>
-              <i v-if="data.children" :class="`fa fa-folder-${node.expanded ? 'open-' : ''}o`"></i>
+              <i v-if="data.children" :class="`fa fa-folder-${node.expanded ? 'open-o' : 'o'}`"></i>
               <i v-else class="fa fa-file-o"></i>
               {{isFullName ? node.label : data.alias}}
-              {{data.goods_total}}
             </span>
 
             <span class="active">
@@ -141,7 +150,10 @@
       </el-col>
 
       <el-col :span="14">
-        right
+        <el-card
+          class="box-card"
+          shadow="never">
+        </el-card>
       </el-col>
     </el-row>
   </div>
@@ -200,9 +212,9 @@ export default {
     justify-content: space-between;
     font-size: 14px;
     padding-right: 8px;
-    i {
-      width: 16px;
-    }
+  }
+  .brother-showing i {
+    width: 16px;
   }
   .active {
     display: none;

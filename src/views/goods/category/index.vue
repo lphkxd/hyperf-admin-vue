@@ -1,11 +1,5 @@
 <template>
   <cs-container :is-back-to-top="true">
-    <page-header
-      slot="header"
-      :loading="loading"
-      @submit="handleSubmit"
-      ref="header"/>
-
     <page-main
       :tree-data="tree"
       :loading="loading"
@@ -21,7 +15,6 @@ import { getGoodsCategoryList } from '@/api/goods/category'
 export default {
   name: 'goods-setting-category',
   components: {
-    'PageHeader': () => import('./components/PageHeader'),
     'PageMain': () => import('./components/PageMain')
   },
   data() {
@@ -37,13 +30,13 @@ export default {
     // 重新载入页面
     handleRefresh() {
       this.$nextTick(() => {
-        this.$refs.header.handleFormSubmit()
+        this.handleSubmit()
       })
     },
     // 提交查询请求
-    handleSubmit(form) {
+    handleSubmit() {
       this.loading = true
-      getGoodsCategoryList(form)
+      getGoodsCategoryList(null)
         .then(res => {
           this.tree = res.data.length
             ? util.formatDataToTree(res.data, 'goods_category_id')

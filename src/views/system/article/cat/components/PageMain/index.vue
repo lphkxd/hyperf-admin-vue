@@ -68,8 +68,8 @@
           <span class="custom-tree-node action" slot-scope="{node, data}">
             <span class="brother-showing">
               <i v-if="auth.move" class="fa fa-align-justify move-tree cs-mr-10"></i>
-              <i v-if="data.children" class="fa fa-folder-o" style="width: 16px;"></i>
-              <i v-else class="fa fa-file-o" style="width: 16px;"></i>
+              <i v-if="data.children" :class="`fa fa-folder-${node.expanded ? 'open-o' : 'o'}`"></i>
+              <i v-else class="fa fa-file-o"></i>
               {{node.label}}
             </span>
 
@@ -552,6 +552,9 @@ export default {
     justify-content: space-between;
     font-size: 14px;
     padding-right: 8px;
+  }
+  .brother-showing i {
+    width: 16px;
   }
   .active {
     display: none;

@@ -248,9 +248,12 @@
         :highlight-current="true"
         :default-expand-all="true"
         ref="directory">
-        <span class="custom-tree-node" slot-scope="{node}">
-          <i class="fa fa-folder-o" style="width: 16px;"></i>
-          <span>{{node.label}}</span>
+        <span slot-scope="{node, data}">
+          <span class="brother-showing">
+            <i v-if="data.children" :class="`fa fa-folder-${node.expanded ? 'open-o' : 'o'}`"></i>
+            <i v-else class="fa fa-folder-o"></i>
+            {{node.label}}
+          </span>
         </span>
       </el-tree>
 
@@ -810,5 +813,8 @@ export default {
     height: auto;
     max-width: 158px;
     max-height: 158px;
+  }
+  .brother-showing i {
+    width: 16px;
   }
 </style>
