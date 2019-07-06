@@ -80,10 +80,9 @@
 
     <!--实际内容开始-->
     <el-row :gutter="20">
-      <el-col :span="10">
+      <el-col :span="10" v-loading="loading">
         <el-tree
           v-if="hackReset"
-          v-loading="loading"
           class="tree-scroll"
           node-key="rule_id"
           :data="treeData"

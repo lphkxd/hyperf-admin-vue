@@ -48,10 +48,9 @@
     </el-form>
 
     <el-row :gutter="20">
-      <el-col :span="10">
+      <el-col :span="10" v-loading="loading">
         <el-tree
           v-if="hackReset"
-          v-loading="loading"
           class="tree-scroll"
           node-key="menu_id"
           :data="treeData"

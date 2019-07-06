@@ -103,9 +103,8 @@
     </el-form>
 
     <el-row :gutter="20">
-      <el-col :span="10">
+      <el-col :span="10" v-loading="loading">
         <el-tree
-          v-loading="loading"
           class="tree-scroll"
           node-key="goods_category_id"
           :data="treeData"
@@ -197,11 +196,30 @@ export default {
     },
     // 批量设置规则状态
     setStatusList(val) {
+      this.enable(this.$refs.tree.getCheckedKeys(true), val)
     },
     // 快捷设置规则状态
     setStatusItem(key, val) {
-      console.log(key)
-      // this.enable([key], val ? 0 : 1, false)
+      this.enable([key], val ? 0 : 1, false)
+    },
+    // 启用或禁用
+    enable(key, val, checked = true) {
+      if (!key || !key.length) {
+        this.$message.error('请选择要操作的数据')
+        return
+      }
+
+      this.$confirm('确定要执行该操作吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+        closeOnClickModal: false
+      })
+        .then(() => {
+          console.log(key)
+        })
+        .catch(() => {
+        })
     }
   }
 }
