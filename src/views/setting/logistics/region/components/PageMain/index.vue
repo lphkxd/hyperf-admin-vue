@@ -10,7 +10,7 @@
           :disabled="loading"
           @click="handleCreate('create')">
           <cs-icon name="plus"/>
-          新增区域
+          新增顶层区域
         </el-button>
       </el-form-item>
 
@@ -81,7 +81,7 @@
                 v-if="auth.add"
                 type="text"
                 size="mini"
-                @click.stop="() => handleAppend(data.region_id)">
+                @click.stop="handleAppend(data.region_id)">
                 新增
               </el-button>
 
@@ -89,7 +89,7 @@
                 v-if="auth.del"
                 type="text"
                 size="mini"
-                @click.stop="() => remove([data.region_id])">
+                @click.stop="remove([data.region_id])">
                 删除
               </el-button>
             </span>
@@ -328,14 +328,18 @@ export default {
       }
     },
     // 新增菜单表单初始化
-    handleCreate(status, key = null) {
+    handleCreate(status) {
       this.resetForm()
       this.resetElements(status)
-      this.$refs.tree.setCurrentKey(key)
+
+      if (this.$refs.tree.getCurrentKey()) {
+        this.$refs.tree.setCurrentKey(null)
+      }
     },
     // 追加菜单
     handleAppend(key) {
-      this.handleCreate('create', key)
+      this.handleCreate('create')
+      this.$refs.tree.setCurrentKey(key)
       this.form.parent_id = this._getParentId(key)
     },
     // 新增

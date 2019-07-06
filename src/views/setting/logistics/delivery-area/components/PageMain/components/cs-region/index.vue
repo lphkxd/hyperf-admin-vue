@@ -38,7 +38,7 @@
               <el-button
                 type="text"
                 size="mini"
-                @click.stop="() => addRegion(data)"
+                @click.stop="addRegion(data)"
                 icon="el-icon-plus">加入到所辖区域</el-button>
             </span>
           </span>

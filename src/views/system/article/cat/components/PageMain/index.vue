@@ -78,7 +78,7 @@
                 v-if="auth.add"
                 type="text"
                 size="mini"
-                @click.stop="() => handleAppend(data.article_cat_id)">
+                @click.stop="handleAppend(data.article_cat_id)">
                 新增
               </el-button>
 
@@ -86,7 +86,7 @@
                 v-if="auth.del"
                 type="text"
                 size="mini"
-                @click.stop="() => remove(data.article_cat_id)">
+                @click.stop="remove(data.article_cat_id)">
                 删除
               </el-button>
             </span>
@@ -387,14 +387,18 @@ export default {
       this.formLoading = false
     },
     // 新增分类表单初始化
-    handleCreate(status, key = null) {
+    handleCreate(status) {
       this.resetForm()
       this.resetElements(status)
-      this.$refs.tree.setCurrentKey(key)
+
+      if (this.$refs.tree.getCurrentKey()) {
+        this.$refs.tree.setCurrentKey(null)
+      }
     },
     // 追加分类
     handleAppend(key) {
-      this.handleCreate('create', key)
+      this.handleCreate('create')
+      this.$refs.tree.setCurrentKey(key)
       this.form.parent_id = this._getParentId(key)
     },
     // 点击树节点事件

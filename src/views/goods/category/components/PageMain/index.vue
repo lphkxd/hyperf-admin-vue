@@ -36,14 +36,14 @@
         <el-button-group>
           <el-button
             :disabled="loading"
-            @click="() => {}">
+            @click="setStatusList(1)">
             <cs-icon name="check"/>
             启用
           </el-button>
 
           <el-button
             :disabled="loading"
-            @click="() => {}">
+            @click="setStatusList(0)">
             <cs-icon name="close"/>
             禁用
           </el-button>
@@ -134,7 +134,7 @@
               <el-button
                 type="text"
                 size="mini"
-                @click.stop="() => {}">
+                @click.stop="setStatusItem(data.rule_id, data.status)">
                 {{data.status ? '禁用' : '启用'}}
               </el-button>
 
@@ -194,6 +194,14 @@ export default {
     filterNode(value, data) {
       if (!value) { return true }
       return data.name.indexOf(value) !== -1
+    },
+    // 批量设置规则状态
+    setStatusList(val) {
+    },
+    // 快捷设置规则状态
+    setStatusItem(key, val) {
+      console.log(key)
+      // this.enable([key], val ? 0 : 1, false)
     }
   }
 }

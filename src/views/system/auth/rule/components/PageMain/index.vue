@@ -10,7 +10,7 @@
           :disabled="loading"
           @click="handleCreate('create')">
           <cs-icon name="plus"/>
-          新增权限
+          新增顶层权限
         </el-button>
       </el-form-item>
 
@@ -112,7 +112,7 @@
                 v-if="auth.disable || auth.enable"
                 type="text"
                 size="mini"
-                @click.stop="() => setStatusItem(data.rule_id, data.status)">
+                @click.stop="setStatusItem(data.rule_id, data.status)">
                 {{data.status ? '禁用' : '启用'}}
               </el-button>
 
@@ -120,7 +120,7 @@
                 v-if="auth.del"
                 type="text"
                 size="mini"
-                @click.stop="() => remove([data.rule_id], false)">
+                @click.stop="remove([data.rule_id], false)">
                 删除
               </el-button>
             </span>
@@ -130,7 +130,7 @@
                 v-if="auth.add"
                 type="text"
                 size="mini"
-                @click.stop="() => handleCreate('create', node.key)">
+                @click.stop="handleCreate('create', node.key)">
                 新增
               </el-button>
             </span>
