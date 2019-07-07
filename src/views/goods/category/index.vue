@@ -42,11 +42,11 @@ export default {
             ? util.formatDataToTree(res.data, 'goods_category_id')
             : []
 
-          // if (this.$refs.main) {
-          //   this.$refs.main.filterText = ''
-          //   this.$refs.main.resetForm()
-          //   this.$refs.main.resetElements()
-          // }
+          if (this.$refs.main) {
+            this.$refs.main.filterText = ''
+            this.$refs.main.resetForm()
+            this.$refs.main.resetElements()
+          }
         })
         .finally(() => {
           this.loading = false

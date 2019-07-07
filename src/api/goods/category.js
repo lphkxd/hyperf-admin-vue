@@ -177,3 +177,21 @@ export function setGoodsCategoryNavi(goods_category_id, is_navi) {
     }
   })
 }
+
+/**
+ * 根据编号自动排序
+ * @param {Array} goods_category_id
+ * @returns {AxiosPromise}
+ */
+export function setGoodsCategoryIndex(goods_category_id) {
+  return request({
+    url: '/v1/goods_category',
+    method: 'post',
+    params: {
+      method: 'set.goods.category.index'
+    },
+    data: {
+      goods_category_id
+    }
+  })
+}

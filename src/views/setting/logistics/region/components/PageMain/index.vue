@@ -192,7 +192,6 @@ export default {
     return {
       filterText: '',
       expanded: [],
-      treeLoading: false,
       treeProps: {
         label: 'region_name',
         children: 'children'
