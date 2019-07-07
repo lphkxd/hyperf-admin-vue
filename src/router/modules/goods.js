@@ -17,6 +17,12 @@ export default {
       name: `${pre}setting-category`,
       meta: { ...meta, cache: true, title: '商品分类' },
       component: () => import('@/views/goods/category')
+    },
+    {
+      path: 'setting/brand',
+      name: `${pre}setting-brand`,
+      meta: { ...meta, cache: true, title: '商品品牌' },
+      component: () => import('@/views/goods/brand')
     }
   ])('goods-')
 }
