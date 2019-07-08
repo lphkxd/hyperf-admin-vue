@@ -3,7 +3,7 @@
     <el-form
       :inline="true"
       size="small">
-      <el-form-item>
+      <el-form-item v-if="auth.add">
         <el-button
           :disabled="loading"
           @click="handleCreate">
@@ -15,6 +15,7 @@
       <el-form-item>
         <el-button-group>
           <el-button
+            v-if="auth.enable"
             :disabled="loading"
             @click="handleStatus(null, 1, true)">
             <cs-icon name="check"/>
@@ -22,6 +23,7 @@
           </el-button>
 
           <el-button
+            v-if="auth.disable"
             :disabled="loading"
             @click="handleStatus(null, 0, true)">
             <cs-icon name="close"/>
@@ -30,7 +32,7 @@
         </el-button-group>
       </el-form-item>
 
-      <el-form-item>
+      <el-form-item v-if="auth.del">
         <el-button
           :disabled="loading"
           @click="handleDelete(null)">
@@ -123,7 +125,7 @@
           <el-tag
             size="mini"
             :type="statusMap[scope.row.status].type"
-            style="cursor: pointer;"
+            :style="auth.enable || auth.disable ? 'cursor: pointer;' : ''"
             @click.native="handleStatus(scope.$index)">
             {{statusMap[scope.row.status].text}}
           </el-tag>
@@ -136,7 +138,7 @@
         min-width="140">
         <template slot-scope="scope">
           <el-button
-            v-if="scope.row.url"
+            v-if="scope.row.url && auth.url"
             @click="handleView(scope.$index)"
             size="small"
             type="text">
@@ -151,11 +153,13 @@
           </el-button>
 
           <el-button
+            v-if="auth.set"
             @click="handleUpdate(scope.$index)"
             size="small"
             type="text">编辑</el-button>
 
           <el-button
+            v-if="auth.del"
             @click="handleDelete(scope.$index)"
             size="small"
             type="text">删除</el-button>
@@ -319,7 +323,7 @@
 <script>
 import {
   addBrandItem,
-  delBrandList,
+  delBrandList, setBrandItem,
   setBrandSort,
   setBrandStatus
 } from '@/api/goods/brand'
@@ -349,7 +353,8 @@ export default {
         add: false,
         set: false,
         del: false,
-        sort: true,
+        sort: false,
+        url: false,
         enable: false,
         disable: false
       },
@@ -471,6 +476,13 @@ export default {
   methods: {
     // 验证权限
     _validationAuth() {
+      this.auth.add = this.$has('/goods/setting/brand/add')
+      this.auth.set = this.$has('/goods/setting/brand/set')
+      this.auth.del = this.$has('/goods/setting/brand/del')
+      this.auth.sort = this.$has('/goods/setting/brand/sort')
+      this.auth.url = this.$has('/goods/setting/brand/url')
+      this.auth.enable = this.$has('/goods/setting/brand/enable')
+      this.auth.disable = this.$has('/goods/setting/brand/disable')
     },
     // 获取列表中的编号
     _getIdList(val) {
@@ -522,8 +534,13 @@ export default {
     },
     // 获取品牌分类编号
     getBrandCatId() {
-      const { goods_category_id } = this.form
-      return goods_category_id.length > 0 ? goods_category_id[goods_category_id.length - 1] : 0
+      const catId = this.form.goods_category_id
+
+      if (!Array.isArray(catId)) {
+        return catId
+      }
+
+      return catId.length > 0 ? catId[catId.length - 1] : 0
     },
     // 弹出新建对话框
     handleCreate() {
@@ -576,7 +593,7 @@ export default {
     // 弹出编辑对话框
     handleUpdate(index) {
       this.currentIndex = index
-      this.form = this.currentTableData[index]
+      this.form = { ...this.currentTableData[index] }
 
       if (this.$refs.form) {
         this.$nextTick(() => {
@@ -590,6 +607,33 @@ export default {
     },
     // 请求编辑
     update() {
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          this.dialogLoading = true
+          const catId = this.getBrandCatId()
+
+          Promise.all([
+            setBrandItem({ ...this.form, goods_category_id: catId }),
+            getGoodsCategoryItem(catId)
+          ])
+            .then(res => {
+              this.$set(
+                this.currentTableData,
+                this.currentIndex,
+                {
+                  ...this.currentTableData[this.currentIndex],
+                  ...res[0].data,
+                  category_name: res[1].data.name
+                })
+
+              this.dialogFormVisible = false
+              this.$message.success('操作成功')
+            })
+            .catch(() => {
+              this.dialogLoading = false
+            })
+        }
+      })
     },
     // 批量设置状态
     handleStatus(val, status = 0, confirm = false) {
@@ -623,15 +667,15 @@ export default {
           return
         }
 
-        // // 禁用权限检测
-        // if (newStatus === 0 && !this.auth.disable) {
-        //   return
-        // }
-        //
-        // // 启用权限检测
-        // if (newStatus === 1 && !this.auth.enable) {
-        //   return
-        // }
+        // 禁用权限检测
+        if (newStatus === 0 && !this.auth.disable) {
+          return
+        }
+
+        // 启用权限检测
+        if (newStatus === 1 && !this.auth.enable) {
+          return
+        }
 
         this.$set(this.currentTableData, val, { ...oldData, status: 2 })
         setStatus(brand_id, newStatus, this)
