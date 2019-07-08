@@ -41,32 +41,10 @@ export default {
     }
   },
   methods: {
-    getCatParentId(id, catId = []) {
-      for (const key in this.catList) {
-        if (!this.catList.hasOwnProperty(key)) {
-          continue
-        }
-
-        if (this.catList[key].article_cat_id === id) {
-          catId.unshift(id)
-
-          if (this.catList[key].parent_id) {
-            this.getCatParentId(this.catList[key].parent_id, catId)
-          }
-
-          break
-        }
-      }
-
-      return catId
-    },
     setArticleData(data) {
       // 数据类型转为字符型
       data.is_top = data.is_top.toString()
       data.status = data.status.toString()
-
-      // 分类处理
-      data.article_cat_id = this.getCatParentId(data.article_cat_id)
 
       return data
     },

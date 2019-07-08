@@ -528,25 +528,6 @@ export default {
       this.auth.disable = this.$has('/goods/setting/category/disable')
       this.auth.move = this.$has('/goods/setting/category/move')
     },
-    // 根据父ID获取所有上级编号
-    _getParentId(parent_id) {
-      let id_list = []
-      let node = this.$refs.tree.getNode(parent_id)
-
-      while (node) {
-        if (node.key) {
-          id_list.unshift(node.key)
-        }
-
-        if (!node.parent) {
-          break
-        }
-
-        node = node.parent
-      }
-
-      return id_list
-    },
     // 获取上传文件
     _getUploadFileList(files) {
       if (!files.length) {
@@ -559,6 +540,16 @@ export default {
       }
 
       this.form.category_pic = response.data[0].url
+    },
+    // 获取上级编号
+    _getParentId() {
+      const treeId = this.form.parent_id
+
+      if (!Array.isArray(treeId)) {
+        return treeId
+      }
+
+      return treeId.length > 0 ? treeId[treeId.length - 1] : 0
     },
     // 重置表单
     resetForm() {
@@ -677,11 +668,9 @@ export default {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.formLoading = true
-          const { parent_id } = this.form
-
           addGoodsCategoryItem({
             ...this.form,
-            'parent_id': parent_id.length > 0 ? parent_id[parent_id.length - 1] : 0
+            'parent_id': this._getParentId()
           })
             .then(res => {
               this.expanded = [res.data.parent_id || res.data.goods_category_id]
@@ -698,7 +687,7 @@ export default {
     handleAppend(key) {
       this.handleCreate('create')
       this.$refs.tree.setCurrentKey(key)
-      this.form.parent_id = this._getParentId(key)
+      this.form.parent_id = key
     },
     // 点击树节点事件
     handleNodeClick(data) {
@@ -708,22 +697,16 @@ export default {
 
       this.resetForm()
       this.resetElements('update')
-
-      this.form = {
-        ...data,
-        parent_id: this._getParentId(data.parent_id)
-      }
+      this.form = { ...data }
     },
     // 编辑
     update() {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.formLoading = true
-          const { parent_id } = this.form
-
           setGoodsCategoryItem({
             ...this.form,
-            'parent_id': parent_id.length > 0 ? parent_id[parent_id.length - 1] : 0
+            'parent_id': this._getParentId()
           })
             .then(res => {
               this.expanded = [res.data.parent_id || res.data.goods_category_id]

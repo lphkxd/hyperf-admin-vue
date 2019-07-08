@@ -501,6 +501,16 @@ export default {
 
       return idList
     },
+    // 获取上级编号
+    _getParentId() {
+      const catId = this.form.goods_category_id
+
+      if (!Array.isArray(catId)) {
+        return catId
+      }
+
+      return catId.length > 0 ? catId[catId.length - 1] : 0
+    },
     // 获取上传文件
     _getUploadFileList(files) {
       if (!files.length) {
@@ -532,16 +542,6 @@ export default {
 
       this.$emit('sort', sort)
     },
-    // 获取品牌分类编号
-    getBrandCatId() {
-      const catId = this.form.goods_category_id
-
-      if (!Array.isArray(catId)) {
-        return catId
-      }
-
-      return catId.length > 0 ? catId[catId.length - 1] : 0
-    },
     // 弹出新建对话框
     handleCreate() {
       this.form = {
@@ -569,7 +569,7 @@ export default {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.dialogLoading = true
-          const catId = this.getBrandCatId()
+          const catId = this._getParentId()
 
           Promise.all([
             addBrandItem({ ...this.form, goods_category_id: catId }),
@@ -610,7 +610,7 @@ export default {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.dialogLoading = true
-          const catId = this.getBrandCatId()
+          const catId = this._getParentId()
 
           Promise.all([
             setBrandItem({ ...this.form, goods_category_id: catId }),

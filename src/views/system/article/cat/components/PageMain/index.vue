@@ -327,29 +327,20 @@ export default {
       this.auth.del = this.$has('/system/article/cat/del')
       this.auth.move = this.$has('/system/article/cat/move')
     },
+    // 获取上级编号
+    _getParentId() {
+      const treeId = this.form.parent_id
+
+      if (!Array.isArray(treeId)) {
+        return treeId
+      }
+
+      return treeId.length > 0 ? treeId[treeId.length - 1] : 0
+    },
     // 过滤分类
     filterNode(value, data) {
       if (!value) { return true }
       return data.cat_name.indexOf(value) !== -1
-    },
-    // 根据父ID获取所有上级编号
-    _getParentId(parent_id) {
-      let id_list = []
-      let node = this.$refs.tree.getNode(parent_id)
-
-      while (node) {
-        if (node.key) {
-          id_list.unshift(node.key)
-        }
-
-        if (!node.parent) {
-          break
-        }
-
-        node = node.parent
-      }
-
-      return id_list
     },
     // 展开或收起节点
     checkedNodes(isExpand) {
@@ -398,7 +389,7 @@ export default {
     handleAppend(key) {
       this.handleCreate('create')
       this.$refs.tree.setCurrentKey(key)
-      this.form.parent_id = this._getParentId(key)
+      this.form.parent_id = key
     },
     // 点击树节点事件
     handleNodeClick(data) {
@@ -411,7 +402,6 @@ export default {
 
       this.form = {
         ...data,
-        parent_id: this._getParentId(data.parent_id),
         is_navi: data.is_navi.toString()
       }
     },
@@ -420,11 +410,9 @@ export default {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.formLoading = true
-          const { parent_id } = this.form
-
           addArticleCatItem({
             ...this.form,
-            'parent_id': parent_id.length > 0 ? parent_id[parent_id.length - 1] : 0
+            'parent_id': this._getParentId()
           })
             .then(res => {
               if (!this.isExpandAll) {
@@ -445,11 +433,9 @@ export default {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.formLoading = true
-          const { parent_id } = this.form
-
           setArticleCatItem({
             ...this.form,
-            'parent_id': parent_id.length > 0 ? parent_id[parent_id.length - 1] : 0
+            'parent_id': this._getParentId()
           })
             .then(res => {
               if (!this.isExpandAll) {

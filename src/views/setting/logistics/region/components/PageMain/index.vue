@@ -262,24 +262,15 @@ export default {
       this.auth.del = this.$has('/setting/logistics/region/del')
       this.auth.move = this.$has('/setting/logistics/region/move')
     },
-    // 根据父ID获取所有上级编号
-    _getParentId(parent_id) {
-      let id_list = []
-      let node = this.$refs.tree.getNode(parent_id)
+    // 获取上级编号
+    _getParentId() {
+      const treeId = this.form.parent_id
 
-      while (node) {
-        if (node.key) {
-          id_list.unshift(node.key)
-        }
-
-        if (!node.parent) {
-          break
-        }
-
-        node = node.parent
+      if (!Array.isArray(treeId)) {
+        return treeId
       }
 
-      return id_list
+      return treeId.length > 0 ? treeId[treeId.length - 1] : 0
     },
     // 过滤节点
     filterNode(value, data) {
@@ -319,11 +310,7 @@ export default {
 
       this.resetForm()
       this.resetElements('update')
-
-      this.form = {
-        ...data,
-        parent_id: this._getParentId(data.parent_id)
-      }
+      this.form = { ...data }
     },
     // 新增菜单表单初始化
     handleCreate(status) {
@@ -338,18 +325,16 @@ export default {
     handleAppend(key) {
       this.handleCreate('create')
       this.$refs.tree.setCurrentKey(key)
-      this.form.parent_id = this._getParentId(key)
+      this.form.parent_id = key
     },
     // 新增
     create() {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.formLoading = true
-          const { parent_id } = this.form
-
           addRegionItem({
             ...this.form,
-            'parent_id': parent_id.length > 0 ? parent_id[parent_id.length - 1] : 0
+            'parent_id': this._getParentId()
           })
             .then(res => {
               this.expanded = [res.data.parent_id || res.data.region_id]

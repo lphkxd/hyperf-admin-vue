@@ -367,8 +367,13 @@ export default {
       })
     },
     getArticleCatId() {
-      const { article_cat_id } = this.currentForm
-      return article_cat_id.length > 0 ? article_cat_id[article_cat_id.length - 1] : 0
+      const treeId = this.currentForm.article_cat_id
+
+      if (!Array.isArray(treeId)) {
+        return treeId
+      }
+
+      return treeId.length > 0 ? treeId[treeId.length - 1] : 0
     },
     // 新增文章
     handleCreate() {

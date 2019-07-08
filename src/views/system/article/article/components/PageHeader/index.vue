@@ -13,7 +13,7 @@
         :options="catData"
         :props="cascaderProps"
         :show-all-levels="false"
-        style="width: 140px;"
+        style="width: 180px;"
         filterable
         clearable>
       </el-cascader>

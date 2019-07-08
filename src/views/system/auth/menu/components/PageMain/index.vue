@@ -425,29 +425,20 @@ export default {
       this.auth.status = this.$has('/system/auth/menu/status')
       this.auth.move = this.$has('/system/auth/menu/move')
     },
+    // 获取上级编号
+    _getParentId() {
+      const treeId = this.form.parent_id
+
+      if (!Array.isArray(treeId)) {
+        return treeId
+      }
+
+      return treeId.length > 0 ? treeId[treeId.length - 1] : 0
+    },
     // 过滤菜单
     filterNode(value, data) {
       if (!value) { return true }
       return data.name.indexOf(value) !== -1
-    },
-    // 根据父ID获取所有上级编号
-    _getParentId(parent_id) {
-      let id_list = []
-      let node = this.$refs.tree.getNode(parent_id)
-
-      while (node) {
-        if (node.key) {
-          id_list.unshift(node.key)
-        }
-
-        if (!node.parent) {
-          break
-        }
-
-        node = node.parent
-      }
-
-      return id_list
     },
     // 展开或收起节点
     checkedNodes(isExpand) {
@@ -498,7 +489,6 @@ export default {
 
       this.form = {
         ...data,
-        parent_id: this._getParentId(data.parent_id),
         type: data.type.toString(),
         is_navi: data.is_navi.toString()
       }
@@ -516,18 +506,16 @@ export default {
     handleAppend(key) {
       this.handleCreate('create')
       this.$refs.tree.setCurrentKey(key)
-      this.form.parent_id = this._getParentId(key)
+      this.form.parent_id = key
     },
     // 新增菜单
     create() {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.formLoading = true
-          const { parent_id } = this.form
-
           addMenuItem({
             ...this.form,
-            'parent_id': parent_id.length > 0 ? parent_id[parent_id.length - 1] : 0,
+            'parent_id': this._getParentId(),
             'module': this.module
           })
             .then(res => {
@@ -549,11 +537,9 @@ export default {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.formLoading = true
-          const { parent_id } = this.form
-
           setMenuItem({
             ...this.form,
-            'parent_id': parent_id.length > 0 ? parent_id[parent_id.length - 1] : 0
+            'parent_id': this._getParentId()
           })
             .then(res => {
               if (!this.isExpandAll) {
