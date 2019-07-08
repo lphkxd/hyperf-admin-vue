@@ -7,7 +7,7 @@
     style="margin-bottom: -18px;">
     <el-form-item label="所属分类" prop="goods_category_id">
       <el-cascader
-        v-model="form.goods_category_id"
+        v-model="catId"
         placeholder="可选择所属商品分类 试试搜索：手机"
         :options="catData"
         :props="catProps"
@@ -71,8 +71,8 @@ export default {
   },
   data() {
     return {
+      catId: [],
       form: {
-        goods_category_id: [],
         name: undefined,
         status: undefined
       },
@@ -86,14 +86,13 @@ export default {
   },
   methods: {
     handleFormSubmit(isRestore = false) {
-      // const { goods_category_id } = this.form
-      // this.form.goods_category_id = goods_category_id.length > 0
-      //   ? goods_category_id[goods_category_id.length - 1]
-      //   : []
+      const length = this.catId.length
+      this.form.goods_category_id = length > 0 ? this.catId[length - 1] : null
 
       this.$emit('submit', this.form, isRestore)
     },
     handleFormReset() {
+      this.catId = []
       this.$refs.form.resetFields()
     }
   }

@@ -72,21 +72,17 @@ export function setBrandStatus(brand_id, status) {
 
 /**
  * 验证品牌名称是否唯一
- * @param {String} name
- * @param {Number} exclude_id
+ * @param {Object} data
  * @returns {AxiosPromise}
  */
-export function uniqueBrandName(name, exclude_id) {
+export function uniqueBrandName(data) {
   return request({
     url: '/v1/brand',
     method: 'post',
     params: {
       method: 'unique.brand.name'
     },
-    data: {
-      name,
-      exclude_id
-    }
+    data
   })
 }
 
