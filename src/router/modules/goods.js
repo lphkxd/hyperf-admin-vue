@@ -23,6 +23,12 @@ export default {
       name: `${pre}setting-brand`,
       meta: { ...meta, cache: true, title: '商品品牌' },
       component: () => import('@/views/goods/brand')
+    },
+    {
+      path: 'setting/type',
+      name: `${pre}setting-type`,
+      meta: { ...meta, cache: true, title: '商品模型' },
+      component: () => import('@/views/goods/type')
     }
   ])('goods-')
 }

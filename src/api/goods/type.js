@@ -20,21 +20,17 @@ export function addGoodsTypeItem(type_name) {
 
 /**
  * 编辑一个商品模型
- * @param {Number} goods_type_id
- * @param {String} type_name
+ * @param {Object} data
  * @returns {AxiosPromise}
  */
-export function setGoodsTypeItem(goods_type_id, type_name) {
+export function setGoodsTypeItem(data) {
   return request({
     url: '/v1/goods_type',
     method: 'post',
     params: {
       method: 'set.goods.type.item'
     },
-    data: {
-      goods_type_id,
-      type_name
-    }
+    data
   })
 }
 
