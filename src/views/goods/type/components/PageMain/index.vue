@@ -235,12 +235,10 @@ export default {
       this.currentIndex = index
       this.form = { ...this.currentTableData[index] }
 
-      if (this.$refs.form) {
-        this.$nextTick(() => {
-          this.$refs.form.clearValidate()
-          this.$refs.input.select()
-        })
-      }
+      this.$nextTick(() => {
+        this.$refs.form.clearValidate()
+        this.$refs.input.select()
+      })
 
       this.dialogStatus = 'update'
       this.dialogLoading = false
