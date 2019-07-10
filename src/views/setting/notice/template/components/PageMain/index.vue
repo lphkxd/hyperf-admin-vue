@@ -599,11 +599,9 @@ export default {
         status: '1'
       }
 
-      if (this.$refs.smsForm) {
-        this.$nextTick(() => {
-          this.$refs.smsForm.clearValidate()
-        })
-      }
+      this.$nextTick(() => {
+        this.$refs.smsForm.clearValidate()
+      })
 
       this.smsButton = false
       this.smsVisible = true
@@ -653,11 +651,9 @@ export default {
         status: '1'
       }
 
-      if (this.$refs.emailForm) {
-        this.$nextTick(() => {
-          this.$refs.emailForm.clearValidate()
-        })
-      }
+      this.$nextTick(() => {
+        this.$refs.emailForm.clearValidate()
+      })
 
       this.emailButton = false
       this.emailVisible = true
@@ -769,11 +765,9 @@ export default {
         sms_sign: data.code === 'sms' ? data.title : null
       }
 
-      if (this.$refs.tplForm) {
-        this.$nextTick(() => {
-          this.$refs.tplForm.clearValidate()
-        })
-      }
+      this.$nextTick(() => {
+        this.$refs.tplForm.clearValidate()
+      })
 
       this.tplButton = false
       this.tplVisible = true

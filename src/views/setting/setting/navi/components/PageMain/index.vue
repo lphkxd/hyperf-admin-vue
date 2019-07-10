@@ -518,11 +518,9 @@ export default {
         status: data.status.toString()
       }
 
-      if (this.$refs.form) {
-        this.$nextTick(() => {
-          this.$refs.form.clearValidate()
-        })
-      }
+      this.$nextTick(() => {
+        this.$refs.form.clearValidate()
+      })
 
       this.dialogStatus = 'update'
       this.dialogLoading = false

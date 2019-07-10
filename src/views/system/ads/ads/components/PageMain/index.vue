@@ -780,11 +780,9 @@ export default {
         this.form.ads_position_id = undefined
       }
 
-      if (this.$refs.form) {
-        this.$nextTick(() => {
-          this.$refs.form.clearValidate()
-        })
-      }
+      this.$nextTick(() => {
+        this.$refs.form.clearValidate()
+      })
 
       // 初始化组件数据
       this.content = { image: [], code: '' }

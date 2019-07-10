@@ -165,11 +165,9 @@ export default {
             this.form = this.formBuffer[val]
           }
 
-          if (this.$refs.form) {
-            this.$nextTick(() => {
-              this.$refs.form.clearValidate()
-            })
-          }
+          this.$nextTick(() => {
+            this.$refs.form.clearValidate()
+          })
         }
       }
     }

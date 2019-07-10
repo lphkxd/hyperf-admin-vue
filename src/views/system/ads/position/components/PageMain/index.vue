@@ -717,11 +717,9 @@ export default {
         this.form.platform = undefined
       }
 
-      if (this.$refs.form) {
-        this.$nextTick(() => {
-          this.$refs.form.clearValidate()
-        })
-      }
+      this.$nextTick(() => {
+        this.$refs.form.clearValidate()
+      })
 
       // 初始化组件数据
       this.content = { image: [], code: '' }

@@ -186,11 +186,9 @@ export default {
           }
 
           // 清除表单验证
-          if (this.$refs.form) {
-            this.$nextTick(() => {
-              this.$refs.form.clearValidate()
-            })
-          }
+          this.$nextTick(() => {
+            this.$refs.form.clearValidate()
+          })
         }
       }
     }

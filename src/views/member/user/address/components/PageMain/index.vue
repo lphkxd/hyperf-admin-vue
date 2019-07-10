@@ -436,11 +436,9 @@ export default {
         this.form.district || 0
       ]
 
-      if (this.$refs.form) {
-        this.$nextTick(() => {
-          this.$refs.form.clearValidate()
-        })
-      }
+      this.$nextTick(() => {
+        this.$refs.form.clearValidate()
+      })
 
       this.dialogStatus = 'update'
       this.dialogLoading = false

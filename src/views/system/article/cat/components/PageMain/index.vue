@@ -368,9 +368,7 @@ export default {
     // 重置元素
     resetElements(val = 'create') {
       this.$nextTick(() => {
-        if (this.$refs.form) {
-          this.$refs.form.clearValidate()
-        }
+        this.$refs.form.clearValidate()
       })
 
       this.formStatus = val

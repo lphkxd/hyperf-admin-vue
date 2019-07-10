@@ -1191,11 +1191,9 @@ export default {
         this.form.platform = undefined
       }
 
-      if (this.$refs.form) {
-        this.$nextTick(() => {
-          this.$refs.form.clearValidate()
-        })
-      }
+      this.$nextTick(() => {
+        this.$refs.form.clearValidate()
+      })
 
       this.dialogStatus = 'update'
       this.dialogLoading = false
