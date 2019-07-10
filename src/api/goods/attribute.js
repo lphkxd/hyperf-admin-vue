@@ -121,6 +121,22 @@ export function getGoodsAttributeItem(goods_attribute_id) {
 }
 
 /**
+ * 获取商品属性列表(可翻页)
+ * @param {Object} data
+ * @returns {AxiosPromise}
+ */
+export function getGoodsAttributePage(data) {
+  return request({
+    url: '/v1/goods_attribute',
+    method: 'post',
+    params: {
+      method: 'get.goods.attribute.page'
+    },
+    data
+  })
+}
+
+/**
  * 获取商品属性列表
  * @param {Number} goods_type_id
  * @param {Number} attribute_all
