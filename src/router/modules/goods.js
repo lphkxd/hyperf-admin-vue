@@ -29,6 +29,13 @@ export default {
       name: `${pre}setting-type`,
       meta: { ...meta, cache: true, title: '商品模型' },
       component: () => import('@/views/goods/type')
+    },
+    {
+      path: 'setting/spec',
+      name: `${pre}setting-spec`,
+      props: true,
+      meta: { ...meta, cache: true, title: '商品规格' },
+      component: () => import('@/views/goods/spec')
     }
   ])('goods-')
 }

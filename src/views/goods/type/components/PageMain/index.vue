@@ -42,16 +42,16 @@
         width="280">
         <template slot-scope="scope">
           <el-button
-            v-if="auth.attribute"
-            @click="handleAttribute(scope.row.goods_type_id)"
-            size="small"
-            type="text">属性列表</el-button>
-
-          <el-button
             v-if="auth.spec"
             @click="handleSpec(scope.row.goods_type_id)"
             size="small"
             type="text">规格列表</el-button>
+
+          <el-button
+            v-if="auth.attribute"
+            @click="handleAttribute(scope.row.goods_type_id)"
+            size="small"
+            type="text">属性列表</el-button>
 
           <el-button
             v-if="auth.set"

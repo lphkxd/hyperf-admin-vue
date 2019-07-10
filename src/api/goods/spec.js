@@ -51,6 +51,22 @@ export function getGoodsSpecItem(spec_id) {
 }
 
 /**
+ * 获取商品规格列表(可翻页)
+ * @param {Object} data
+ * @returns {AxiosPromise}
+ */
+export function getGoodsSpecPage(data) {
+  return request({
+    url: '/v1/spec',
+    method: 'post',
+    params: {
+      method: 'get.goods.spec.page'
+    },
+    data
+  })
+}
+
+/**
  * 获取商品规格列表
  * @param {Number} goods_type_id
  * @returns {AxiosPromise}
