@@ -108,14 +108,16 @@ export function getGoodsTypeList(data) {
 
 /**
  * 获取商品模型选择列表
+ * @param {Object} data
  * @returns {AxiosPromise}
  */
-export function getGoodsTypeSelect() {
+export function getGoodsTypeSelect(data) {
   return request({
     url: '/v1/goods_type',
     method: 'post',
     params: {
       method: 'get.goods.type.select'
-    }
+    },
+    data
   })
 }
