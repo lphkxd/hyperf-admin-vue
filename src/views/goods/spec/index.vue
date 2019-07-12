@@ -3,6 +3,7 @@
     <page-header
       slot="header"
       :loading="loading"
+      :type-id="goods_type_id"
       :type-data="typeList"
       @submit="handleSubmit"
       ref="header"/>
@@ -36,11 +37,9 @@ export default {
     'PageFooter': () => import('@/layout/header-aside/components/footer')
   },
   props: {
-    // 路由传值
     goods_type_id: {
-      type: [Number, String],
-      required: false,
-      default: null
+      type: [String, Number],
+      required: false
     }
   },
   data() {
@@ -57,14 +56,6 @@ export default {
         order_type: undefined,
         order_field: undefined
       }
-    }
-  },
-  watch: {
-    goods_type_id: {
-      handler(val) {
-        console.log(val)
-      },
-      immediate: true
     }
   },
   mounted() {

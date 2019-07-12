@@ -8,7 +8,9 @@
     style="margin-bottom: -18px;">
     <el-form-item label="所属模型" prop="goods_type_id">
       <el-select
+        v-show="typeData.length > 0"
         v-model="form.goods_type_id"
+        @clear="form.goods_type_id = undefined"
         placeholder="请选择"
         clearable
         value="">
@@ -24,7 +26,7 @@
       <el-button
         type="primary"
         :disabled="loading"
-        @click="handleFormSubmit(true)">
+        @click="handleSubmit">
         <cs-icon name="search"/>
         查询
       </el-button>
@@ -46,23 +48,43 @@ export default {
     loading: {
       default: false
     },
+    typeId: {
+      default: undefined
+    },
     typeData: {
       default: () => []
     }
   },
   data() {
     return {
-      form: {
-        goods_type_id: undefined
-      }
+      currentId: null,
+      form: { goods_type_id: undefined }
+    }
+  },
+  watch: {
+    typeId: {
+      handler(val) {
+        if (this.currentId !== val) {
+          this.form.goods_type_id = val
+          this.currentId = val
+          // this.$route.params.goods_type_id = val
+          // this.handleFormSubmit(true)
+        }
+      },
+      immediate: true
     }
   },
   methods: {
+    handleSubmit() {
+      // this.$route.params.goods_type_id = this.form.goods_type_id
+      // this.handleFormSubmit(true)
+    },
     handleFormSubmit(isRestore = false) {
-      this.$emit('submit', this.form, isRestore)
+      // this.currentId = this.form.goods_type_id
+      // this.$emit('submit', this.form, isRestore)
     },
     handleFormReset() {
-      this.$refs.form.resetFields()
+      // this.form.goods_type_id = undefined
     }
   }
 }
