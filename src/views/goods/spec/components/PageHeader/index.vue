@@ -64,27 +64,21 @@ export default {
   watch: {
     typeId: {
       handler(val) {
-        if (this.currentId !== val) {
-          this.form.goods_type_id = val
-          this.currentId = val
-          // this.$route.params.goods_type_id = val
-          // this.handleFormSubmit(true)
-        }
+        this.form.goods_type_id = val
+        this.handleFormSubmit(true)
       },
       immediate: true
     }
   },
   methods: {
     handleSubmit() {
-      // this.$route.params.goods_type_id = this.form.goods_type_id
-      // this.handleFormSubmit(true)
+      this.$route.params.goods_type_id = this.form.goods_type_id
     },
     handleFormSubmit(isRestore = false) {
-      // this.currentId = this.form.goods_type_id
-      // this.$emit('submit', this.form, isRestore)
+      this.$emit('submit', this.form, isRestore)
     },
     handleFormReset() {
-      // this.form.goods_type_id = undefined
+      this.form.goods_type_id = undefined
     }
   }
 }
