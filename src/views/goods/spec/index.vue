@@ -3,7 +3,6 @@
     <page-header
       slot="header"
       :loading="loading"
-      :type-id="goods_type_id"
       :type-data="typeList"
       @submit="handleSubmit"
       ref="header"/>
@@ -35,12 +34,6 @@ export default {
     'PageHeader': () => import('./components/PageHeader'),
     'PageMain': () => import('./components/PageMain'),
     'PageFooter': () => import('@/layout/header-aside/components/footer')
-  },
-  props: {
-    goods_type_id: {
-      type: [String, Number],
-      required: false
-    }
   },
   data() {
     return {

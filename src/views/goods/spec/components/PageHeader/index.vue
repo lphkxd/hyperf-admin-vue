@@ -26,7 +26,7 @@
       <el-button
         type="primary"
         :disabled="loading"
-        @click="handleSubmit">
+        @click="handleFormSubmit(true)">
         <cs-icon name="search"/>
         查询
       </el-button>
@@ -48,32 +48,18 @@ export default {
     loading: {
       default: false
     },
-    typeId: {
-      default: undefined
-    },
     typeData: {
       default: () => []
     }
   },
   data() {
     return {
-      currentId: null,
-      form: { goods_type_id: undefined }
-    }
-  },
-  watch: {
-    typeId: {
-      handler(val) {
-        this.form.goods_type_id = val
-        this.handleFormSubmit(true)
-      },
-      immediate: true
+      form: {
+        goods_type_id: undefined
+      }
     }
   },
   methods: {
-    handleSubmit() {
-      this.$route.params.goods_type_id = this.form.goods_type_id
-    },
     handleFormSubmit(isRestore = false) {
       this.$emit('submit', this.form, isRestore)
     },
