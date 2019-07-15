@@ -10,7 +10,7 @@
       <el-select
         v-show="typeData.length > 0"
         v-model="form.goods_type_id"
-        @clear="form.goods_type_id = undefined"
+        @clear="form.goods_type_id = null"
         placeholder="请选择"
         clearable
         value="">
@@ -48,6 +48,9 @@ export default {
     loading: {
       default: false
     },
+    typeId: {
+      default: null
+    },
     typeData: {
       default: () => []
     }
@@ -59,12 +62,23 @@ export default {
       }
     }
   },
+  watch: {
+    typeId: {
+      handler(val) {
+        if (this.form.goods_type_id !== val) {
+          this.form.goods_type_id = val
+          this.handleFormSubmit(true)
+        }
+      },
+      immediate: true
+    }
+  },
   methods: {
     handleFormSubmit(isRestore = false) {
       this.$emit('submit', this.form, isRestore)
     },
     handleFormReset() {
-      this.form.goods_type_id = undefined
+      this.form.goods_type_id = null
     }
   }
 }

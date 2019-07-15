@@ -3,6 +3,7 @@
     <page-header
       slot="header"
       :loading="loading"
+      :type-id="typeId"
       :type-data="typeList"
       @submit="handleSubmit"
       ref="header"/>
@@ -39,6 +40,7 @@ export default {
     return {
       table: [],
       loading: true,
+      typeId: undefined,
       typeList: [],
       page: {
         current: 1,
@@ -50,6 +52,12 @@ export default {
         order_field: undefined
       }
     }
+  },
+  // 第一次进入或从其他组件对应路由进入时触发
+  beforeRouteEnter(to, from, next) {
+    next(instance => {
+      instance.typeId = to.params.goods_type_id
+    })
   },
   mounted() {
     getGoodsTypeSelect({ order_type: 'asc' })
@@ -85,6 +93,8 @@ export default {
       }
 
       this.loading = true
+      this.typeId = form ? form.goods_type_id : undefined
+
       getGoodsSpecPage({
         ...form,
         ...this.order,
