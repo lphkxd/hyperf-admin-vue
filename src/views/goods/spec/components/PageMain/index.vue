@@ -51,13 +51,22 @@
       v-loading="loading"
       :data="currentTableData"
       @selection-change="handleSelectionChange"
+      @sort-change="sortChange"
       stripe>
 
       <el-table-column type="selection" width="55"/>
 
       <el-table-column
+        label="编号"
+        prop="spec_id"
+        sortable="custom"
+        width="160">
+      </el-table-column>
+
+      <el-table-column
         label="名称"
-        prop="name">
+        prop="name"
+        sortable="custom">
       </el-table-column>
 
       <el-table-column
@@ -69,7 +78,7 @@
         label="规格项"
         prop="spec_item"
         :show-overflow-tooltip="true"
-        min-width="220">
+        min-width="200">
         <template slot-scope="scope">
           {{scope.row.spec_item | getSpecItem}}
         </template>
@@ -78,6 +87,7 @@
       <el-table-column
         label="排序值"
         prop="sort"
+        sortable="custom"
         align="center"
         min-width="100">
         <template slot-scope="scope">
@@ -100,6 +110,7 @@
       <el-table-column
         label="是否检索"
         prop="spec_index"
+        sortable="custom"
         align="center"
         width="100">
         <template slot-scope="scope">
@@ -366,6 +377,20 @@ export default {
       }
 
       return idList
+    },
+    // 获取排序字段
+    sortChange({ column, prop, order }) {
+      let sort = {
+        order_type: undefined,
+        order_field: undefined
+      }
+
+      if (column && order) {
+        sort.order_type = order === 'ascending' ? 'asc' : 'desc'
+        sort.order_field = prop
+      }
+
+      this.$emit('sort', sort)
     },
     // 选中数据项
     handleSelectionChange(val) {

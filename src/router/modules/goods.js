@@ -36,6 +36,13 @@ export default {
       props: true,
       meta: { ...meta, title: '商品规格' },
       component: () => import('@/views/goods/spec')
+    },
+    {
+      path: 'setting/attribute',
+      name: `${pre}setting-attribute`,
+      props: true,
+      meta: { ...meta, title: '商品属性' },
+      component: () => import('@/views/goods/attribute')
     }
   ])('goods-')
 }
