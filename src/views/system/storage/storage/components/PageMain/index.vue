@@ -492,7 +492,7 @@ export default {
       this.$refs.name.validate(valid => {
         if (valid) {
           this.dialogLoading = true
-          addStorageDirectoryItem(this.nameForm)
+          addStorageDirectoryItem({ ...this.nameForm })
             .then(res => {
               this.currentTableData.unshift({
                 ...res.data

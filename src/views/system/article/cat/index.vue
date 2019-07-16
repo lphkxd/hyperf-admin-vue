@@ -43,7 +43,7 @@ export default {
     // 提交查询请求
     handleSubmit(form) {
       this.loading = true
-      getArticleCatList(form)
+      getArticleCatList({ ...form })
         .then(res => {
           this.tree = res.data.length
             ? util.formatDataToTree(res.data, 'article_cat_id')

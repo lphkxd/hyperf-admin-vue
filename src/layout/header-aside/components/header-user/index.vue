@@ -247,7 +247,7 @@ export default {
             password_confirm: this.form.passwordConfirm
           }
 
-          setAdminPassword(request)
+          setAdminPassword({ ...request })
             .then(() => {
               this.dialogVisible = false
               this.$message.success('密码修改成功')

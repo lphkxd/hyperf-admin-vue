@@ -311,7 +311,7 @@ export default {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.dialogLoading = true
-          addAppItem(this.form)
+          addAppItem({ ...this.form })
             .then(res => {
               this.currentTableData.unshift(res.data)
               this.dialogFormVisible = false
@@ -434,7 +434,7 @@ export default {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.dialogLoading = true
-          setAppItem(this.form)
+          setAppItem({ ...this.form })
             .then(res => {
               this.$set(
                 this.currentTableData,

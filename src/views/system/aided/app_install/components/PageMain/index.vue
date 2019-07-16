@@ -341,7 +341,7 @@ export default {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.dialogLoading = true
-          addAppInstallItem(this.form)
+          addAppInstallItem({ ...this.form })
             .then(res => {
               this.currentTableData.unshift({
                 ...res.data,
@@ -404,7 +404,7 @@ export default {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.dialogLoading = true
-          setAppInstallItem(this.form)
+          setAppInstallItem({ ...this.form })
             .then(res => {
               this.$set(
                 this.currentTableData,

@@ -45,7 +45,7 @@ export default {
     // 提交查询请求
     handleSubmit(form) {
       this.loading = true
-      getMenuList(form)
+      getMenuList({ ...form })
         .then(res => {
           this.module = form.module
           this.tree = res.data.length

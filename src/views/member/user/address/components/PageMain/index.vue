@@ -406,7 +406,7 @@ export default {
           })
 
           this.dialogLoading = true
-          addUserAddressItem(this.form)
+          addUserAddressItem({ ...this.form })
             .then(res => {
               if (this.form.is_default === 1) {
                 this.$emit('update:addressId', res.data.user_address_id)
@@ -464,7 +464,7 @@ export default {
           })
 
           this.dialogLoading = true
-          setUserAddressItem(this.form)
+          setUserAddressItem({ ...this.form })
             .then(res => {
               if (this.form.is_default === 1) {
                 this.$emit('update:addressId', res.data.user_address_id)

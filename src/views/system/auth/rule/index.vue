@@ -62,7 +62,7 @@ export default {
     // 提交查询请求
     handleSubmit(form) {
       this.loading = true
-      getAuthRuleList(form)
+      getAuthRuleList({ ...form })
         .then(res => {
           this.tree = []
           let mapModule = []

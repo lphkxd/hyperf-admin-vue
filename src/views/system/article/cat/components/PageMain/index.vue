@@ -503,7 +503,7 @@ export default {
         })
       }
 
-      setArticleCatItem(setCat)
+      setArticleCatItem({ ...setCat })
         .then(res => {
           draggingNode.data.parent_id = res.data.parent_id
         })

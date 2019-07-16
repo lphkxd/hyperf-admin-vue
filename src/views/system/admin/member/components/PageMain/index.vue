@@ -493,7 +493,7 @@ export default {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.dialogLoading = true
-          addAdminItem(this.form)
+          addAdminItem({ ...this.form })
             .then(res => {
               this.currentTableData.unshift({
                 ...res.data,
@@ -540,7 +540,7 @@ export default {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.dialogLoading = true
-          setAdminItem(this.form)
+          setAdminItem({ ...this.form })
             .then(res => {
               this.$set(this.currentTableData, index, {
                 ...this.currentTableData[index],

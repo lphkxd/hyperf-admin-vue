@@ -321,7 +321,7 @@ export default {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.dialogLoading = true
-          addUserLevelItem(this.form)
+          addUserLevelItem({ ...this.form })
             .then(res => {
               this.currentTableData.push(res.data)
               this.dialogFormVisible = false
@@ -351,7 +351,7 @@ export default {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.dialogLoading = true
-          setUserLevelItem(this.form)
+          setUserLevelItem({ ...this.form })
             .then(res => {
               this.$set(
                 this.currentTableData,

@@ -486,7 +486,7 @@ export default {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.dialogLoading = true
-          addMessageItem(this.form)
+          addMessageItem({ ...this.form })
             .then(res => {
               this.currentTableData.unshift({
                 ...res.data,
@@ -591,7 +591,7 @@ export default {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.dialogLoading = true
-          setMessageItem(this.form)
+          setMessageItem({ ...this.form })
             .then(res => {
               this.$set(
                 this.currentTableData,

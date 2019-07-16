@@ -778,7 +778,7 @@ export default {
       this.$refs.tplForm.validate(valid => {
         if (valid) {
           this.tplButton = true
-          setNoticeTplItem(this.tplForm)
+          setNoticeTplItem({ ...this.tplForm })
             .then(res => {
               this.$set(
                 this.currentTableData,

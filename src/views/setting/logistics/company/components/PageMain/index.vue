@@ -351,7 +351,7 @@ export default {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.dialogLoading = true
-          addDeliveryCompanyItem(this.form)
+          addDeliveryCompanyItem({ ...this.form })
             .then(res => {
               this.currentTableData.unshift(res.data)
               this.dialogFormVisible = false
@@ -415,7 +415,7 @@ export default {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.dialogLoading = true
-          setDeliveryCompanyItem(this.form)
+          setDeliveryCompanyItem({ ...this.form })
             .then(res => {
               this.$set(
                 this.currentTableData,

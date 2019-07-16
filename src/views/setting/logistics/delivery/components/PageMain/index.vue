@@ -876,7 +876,7 @@ export default {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.dialogLoading = true
-          addDeliveryItem(this.form)
+          addDeliveryItem({ ...this.form })
             .then(res => {
               this.currentTableData.unshift({
                 ...res.data,
@@ -930,7 +930,7 @@ export default {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.dialogLoading = true
-          setDeliveryItem(this.form)
+          setDeliveryItem({ ...this.form })
             .then(res => {
               this.$set(
                 this.currentTableData,

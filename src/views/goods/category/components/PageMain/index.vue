@@ -749,7 +749,7 @@ export default {
         })
       }
 
-      setGoodsCategoryItem(setCat)
+      setGoodsCategoryItem({ ...setCat })
         .then(res => {
           draggingNode.data.parent_id = res.data.parent_id
         })

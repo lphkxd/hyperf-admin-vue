@@ -622,7 +622,7 @@ export default {
         })
       }
 
-      setMenuItem(setMenu)
+      setMenuItem({ ...setMenu })
         .then(res => {
           draggingNode.data.parent_id = res.data.parent_id
         })

@@ -277,7 +277,7 @@ export default {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.dialogLoading = true
-          addWithdrawUserItem(this.form)
+          addWithdrawUserItem({ ...this.form })
             .then(res => {
               this.currentTableData.push(res.data)
               this.dialogFormVisible = false
@@ -310,7 +310,7 @@ export default {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.dialogLoading = true
-          setWithdrawUserItem(this.form)
+          setWithdrawUserItem({ ...this.form })
             .then(res => {
               this.$set(
                 this.currentTableData,

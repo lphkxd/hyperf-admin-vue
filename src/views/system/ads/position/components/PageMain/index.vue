@@ -688,7 +688,7 @@ export default {
           this.form.color = this.form.color || ''
           this.form.content = this.getFormContent()
 
-          addAdsPositionItem(this.form)
+          addAdsPositionItem({ ...this.form })
             .then(res => {
               this.currentTableData.unshift(res.data)
               this.dialogFormVisible = false
@@ -743,7 +743,7 @@ export default {
           this.form.color = this.form.color || ''
           this.form.content = this.getFormContent()
 
-          setAdsPositionItem(this.form)
+          setAdsPositionItem({ ...this.form })
             .then(res => {
               this.$set(this.currentTableData, this.currentIndex, res.data)
               this.dialogFormVisible = false

@@ -402,7 +402,7 @@ export default {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.dialogLoading = true
-          addSupportItem(this.form)
+          addSupportItem({ ...this.form })
             .then(res => {
               this.currentTableData.unshift(res.data)
               this.dialogFormVisible = false
@@ -532,7 +532,7 @@ export default {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.dialogLoading = true
-          setSupportItem(this.form)
+          setSupportItem({ ...this.form })
             .then(res => {
               this.$set(
                 this.currentTableData,

@@ -467,7 +467,7 @@ export default {
           delete this.form.region
           this.dialogLoading = true
 
-          setDeliveryAreaItem(this.form)
+          setDeliveryAreaItem({ ...this.form })
             .then(res => {
               this.$set(
                 this.currentTableData,

@@ -957,7 +957,7 @@ export default {
             delete this.form.birthday
           }
 
-          addUserItem(this.form)
+          addUserItem({ ...this.form })
             .then(() => {
               this.dialogFormVisible = false
               this.$message.success('操作成功')
@@ -1002,7 +1002,7 @@ export default {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.dialogLoading = true
-          setUserItem(this.form)
+          setUserItem({ ...this.form })
             .then(res => {
               this.$set(
                 this.currentTableData,
