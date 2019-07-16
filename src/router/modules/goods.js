@@ -34,7 +34,7 @@ export default {
       path: 'setting/spec',
       name: `${pre}setting-spec`,
       props: true,
-      meta: { ...meta, cache: true, title: '商品规格' },
+      meta: { ...meta, title: '商品规格' },
       component: () => import('@/views/goods/spec')
     }
   ])('goods-')

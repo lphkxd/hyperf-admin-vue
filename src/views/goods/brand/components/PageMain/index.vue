@@ -176,8 +176,8 @@
       <el-form
         :model="form"
         :rules="rules"
-        ref="form"
-        label-width="80px">
+        label-width="80px"
+        ref="form">
         <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item

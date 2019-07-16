@@ -8,9 +8,7 @@
     style="margin-bottom: -18px;">
     <el-form-item label="所属模型" prop="goods_type_id">
       <el-select
-        v-show="typeData.length > 0"
         v-model="form.goods_type_id"
-        @clear="form.goods_type_id = null"
         placeholder="请选择"
         clearable
         value="">
@@ -65,10 +63,7 @@ export default {
   watch: {
     typeId: {
       handler(val) {
-        if (this.form.goods_type_id !== val) {
-          this.form.goods_type_id = val
-          this.handleFormSubmit(true)
-        }
+        this.form.goods_type_id = val
       },
       immediate: true
     }
@@ -78,7 +73,7 @@ export default {
       this.$emit('submit', this.form, isRestore)
     },
     handleFormReset() {
-      this.form.goods_type_id = null
+      this.form.goods_type_id = undefined
     }
   }
 }

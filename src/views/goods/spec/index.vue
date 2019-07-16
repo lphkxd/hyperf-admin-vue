@@ -3,7 +3,7 @@
     <page-header
       slot="header"
       :loading="loading"
-      :type-id="typeId"
+      :type-id="goods_type_id"
       :type-data="typeList"
       @submit="handleSubmit"
       ref="header"/>
@@ -36,11 +36,16 @@ export default {
     'PageMain': () => import('./components/PageMain'),
     'PageFooter': () => import('@/layout/header-aside/components/footer')
   },
+  props: {
+    goods_type_id: {
+      type: [String, Number],
+      required: false
+    }
+  },
   data() {
     return {
       table: [],
       loading: true,
-      typeId: undefined,
       typeList: [],
       page: {
         current: 1,
@@ -53,16 +58,11 @@ export default {
       }
     }
   },
-  // 第一次进入或从其他组件对应路由进入时触发
-  beforeRouteEnter(to, from, next) {
-    next(instance => {
-      instance.typeId = to.params.goods_type_id
-    })
-  },
   mounted() {
     getGoodsTypeSelect({ order_type: 'asc' })
       .then(res => {
         this.typeList = res.data.length > 0 ? res.data : []
+        this.handleSubmit({ goods_type_id: this.goods_type_id }, true)
       })
   },
   methods: {
@@ -93,8 +93,6 @@ export default {
       }
 
       this.loading = true
-      this.typeId = form ? form.goods_type_id : undefined
-
       getGoodsSpecPage({
         ...form,
         ...this.order,
