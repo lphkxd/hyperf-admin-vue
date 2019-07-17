@@ -60,27 +60,89 @@
       @selection-change="handleSelectionChange"
       @sort-change="sortChange">
 
-      <el-table-column type="selection" width="55"/>
+      <el-table-column type="selection" width="35"/>
 
       <el-table-column
         label="编号"
         prop="goods_attribute_id"
         sortable="custom"
-        width="160">
+        width="130">
+      </el-table-column>
+
+      <el-table-column
+        width="35"
+        align="right">
+        <template slot-scope="scope">
+          <cs-icon
+            v-if="scope.row.is_important"
+            class="important"
+            name="star"/>
+        </template>
       </el-table-column>
 
       <el-table-column
         label="名称"
         prop="attr_name"
-        sortable="custom">
+        sortable="custom"
+        min-width="140">
+        <template slot-scope="scope">
+          <el-popover
+            v-if="scope.row.icon"
+            width="150"
+            placement="top"
+            trigger="hover">
+            <div class="popover-image">
+              <el-image
+                :src="scope.row.icon | getPreviewUrl"
+                @click.native="$preview(scope.row.icon)"/>
+            </div>
+            <cs-icon class="cs-mr-5" slot="reference" name="image"/>
+          </el-popover>
+
+          <el-tooltip
+            v-if="scope.row.description"
+            :content="`描述：${scope.row.description}`"
+            placement="top">
+            <span>{{scope.row.attr_name}}</span>
+          </el-tooltip>
+
+          <span v-else>{{scope.row.attr_name}}</span>
+        </template>
       </el-table-column>
 
       <el-table-column
         label="所属模型"
         prop="goods_type_id"
-        sortable="custom">
+        sortable="custom"
+        :show-overflow-tooltip="true"
+        min-width="120">
         <template slot-scope="scope">
           {{typeData[scope.row.goods_type_id]}}
+        </template>
+      </el-table-column>
+
+      <el-table-column
+        label="检索方式"
+        width="100">
+        <template slot-scope="scope">
+          {{indexMap[scope.row.attr_index]}}
+        </template>
+      </el-table-column>
+
+      <el-table-column
+        label="录入方式"
+        width="100">
+        <template slot-scope="scope">
+          {{inputMap[scope.row.attr_input_type]}}
+        </template>
+      </el-table-column>
+
+      <el-table-column
+        label="可选值"
+        :show-overflow-tooltip="true"
+        min-width="160">
+        <template slot-scope="scope">
+          {{scope.row.attr_values | getAttrValue}}
         </template>
       </el-table-column>
 
@@ -99,7 +161,7 @@
             controls-position="right"
             :min="0"
             :max="255"
-            @change="handleSort(scope.$index)">
+            @change="() => {}">
           </el-input-number>
           <span v-else>
             {{scope.row.sort}}
@@ -107,11 +169,41 @@
         </template>
       </el-table-column>
 
+      <el-table-column
+        label="操作"
+        align="center"
+        min-width="160">
+        <template slot-scope="scope">
+          <el-button
+            v-if="!scope.row.parent_id"
+            @click="() => {}"
+            size="small"
+            type="text">新增子属性</el-button>
+
+          <el-button
+            v-if="scope.row.parent_id"
+            @click="() => {}"
+            size="small"
+            type="text">{{importantMap[scope.row.is_important]}}</el-button>
+
+          <el-button
+            @click="() => {}"
+            size="small"
+            type="text">编辑</el-button>
+
+          <el-button
+            @click="() => {}"
+            size="small"
+            type="text">删除</el-button>
+        </template>
+      </el-table-column>
     </el-table>
   </div>
 </template>
 
 <script>
+import util from '@/utils/util'
+
 export default {
   props: {
     loading: {
@@ -140,6 +232,10 @@ export default {
         0: '手工填写',
         1: '单选',
         2: '多选'
+      },
+      importantMap: {
+        0: '设为核心',
+        1: '取消核心'
       }
     }
   },
@@ -149,6 +245,16 @@ export default {
         this.currentTableData = val
       },
       immediate: true
+    }
+  },
+  filters: {
+    getAttrValue(value) {
+      if (value) {
+        return value.join(',')
+      }
+    },
+    getPreviewUrl(val) {
+      return util.getImageCodeUrl(val, 'goods_attribute')
     }
   },
   mounted() {
@@ -196,3 +302,20 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .popover-image {
+    text-align: center;
+    line-height: 0;
+  }
+  .popover-image >>> img {
+    vertical-align: middle;
+    cursor: pointer;
+  }
+  .el-image >>> .el-image__error {
+    line-height: 1.4;
+  }
+  .important {
+    color: #E6A23C;
+  }
+</style>
