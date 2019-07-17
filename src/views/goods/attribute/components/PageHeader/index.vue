@@ -15,8 +15,8 @@
         <el-option
           v-for="(item, index) in typeData"
           :key="index"
-          :label="item.type_name"
-          :value="item.goods_type_id"/>
+          :label="item"
+          :value="index"/>
       </el-select>
     </el-form-item>
 
@@ -50,7 +50,7 @@ export default {
       default: null
     },
     typeData: {
-      default: () => []
+      default: () => {}
     }
   },
   data() {

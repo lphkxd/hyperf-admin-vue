@@ -46,7 +46,7 @@ export default {
     return {
       table: [],
       loading: true,
-      typeList: [],
+      typeList: {},
       page: {
         current: 1,
         size: 25,
@@ -61,7 +61,10 @@ export default {
   mounted() {
     getGoodsTypeSelect({ order_type: 'asc' })
       .then(res => {
-        this.typeList = res.data.length > 0 ? res.data : []
+        res.data.forEach(item => {
+          this.typeList[item.goods_type_id] = item.type_name
+        })
+
         this.handleSubmit({ goods_type_id: this.goods_type_id }, true)
       })
   },

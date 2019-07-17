@@ -91,11 +91,11 @@
               <el-tooltip v-if="scope.row.url" placement="top" :content="`外部链接：${scope.row.url}`">
                 <cs-icon name="link"/>
               </el-tooltip>
-              <span
-                @click="openMessage(scope.$index)"
-                :class="`message-title ${scope.row.is_read ? 'read' : ''}`">
+              <el-link
+                :type="scope.row.is_read ? 'info' : ''"
+                @click="openMessage(scope.$index)">
                 {{scope.row.title}}
-              </span>
+              </el-link>
               <el-badge v-if="scope.row.is_top" value="Top"/>
             </template>
           </el-table-column>
@@ -367,18 +367,9 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
   .message-badge {
     display: inline-flex;
-  }
-  .message-title {
-    &:hover {
-      cursor: pointer;
-      text-decoration: underline;
-    }
-    &.read {
-      color: $color-text-placehoder;
-    }
   }
   .tab-box {
     padding: 5px 10px;

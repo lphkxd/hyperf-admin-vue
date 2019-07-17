@@ -21,8 +21,7 @@
     <el-table
       v-loading="loading"
       :data="currentTableData"
-      @sort-change="sortChange"
-      stripe>
+      @sort-change="sortChange">
       <el-table-column
         label="编号"
         prop="goods_type_id"

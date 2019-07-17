@@ -21,7 +21,6 @@
           <el-link
             v-if="auth.detail"
             type="primary"
-            :underline="false"
             @click="openAskDetail(scope.row.ask_id)">
             {{scope.row.title}}
           </el-link>

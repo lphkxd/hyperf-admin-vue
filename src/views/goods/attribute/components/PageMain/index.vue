@@ -58,8 +58,7 @@
       row-key="goods_attribute_id"
       :tree-props="{children: 'get_attribute'}"
       @selection-change="handleSelectionChange"
-      @sort-change="sortChange"
-      stripe>
+      @sort-change="sortChange">
 
       <el-table-column type="selection" width="55"/>
 
@@ -76,6 +75,38 @@
         sortable="custom">
       </el-table-column>
 
+      <el-table-column
+        label="所属模型"
+        prop="goods_type_id"
+        sortable="custom">
+        <template slot-scope="scope">
+          {{typeData[scope.row.goods_type_id]}}
+        </template>
+      </el-table-column>
+
+      <el-table-column
+        label="排序值"
+        prop="sort"
+        sortable="custom"
+        align="center"
+        min-width="100">
+        <template slot-scope="scope">
+          <el-input-number
+            v-if="auth.sort"
+            v-model="scope.row.sort"
+            style="width: 88px;"
+            size="mini"
+            controls-position="right"
+            :min="0"
+            :max="255"
+            @change="handleSort(scope.$index)">
+          </el-input-number>
+          <span v-else>
+            {{scope.row.sort}}
+          </span>
+        </template>
+      </el-table-column>
+
     </el-table>
   </div>
 </template>
@@ -87,7 +118,7 @@ export default {
       default: false
     },
     typeData: {
-      default: () => []
+      default: () => {}
     },
     tableData: {
       default: () => []
@@ -98,6 +129,17 @@ export default {
       currentTableData: [],
       multipleSelection: [],
       auth: {
+        sort: true
+      },
+      indexMap: {
+        0: '不检索',
+        1: '关键字',
+        2: '范围'
+      },
+      inputMap: {
+        0: '手工填写',
+        1: '单选',
+        2: '多选'
       }
     }
   },
