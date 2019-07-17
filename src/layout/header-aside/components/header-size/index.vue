@@ -59,6 +59,7 @@ export default {
     }),
     handleChange(value) {
       this.sizeSet(value)
+      this.$message.success('操作成功')
     },
     iconName(name) {
       return name === this.value ? 'dot-circle-o' : 'circle-o'

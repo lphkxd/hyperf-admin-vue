@@ -50,9 +50,17 @@ router.beforeEach((to, from, next) => {
   }
 })
 
-router.afterEach(to => {
+router.afterEach(async to => {
   // 进度条
   NProgress.done()
+  // 等待数据加载
+  await new Promise(resolve => {
+    const timer = setInterval(() => {
+      if (store.state.careyshop.page.openedLoaded) {
+        resolve(clearInterval(timer))
+      }
+    }, 10)
+  })
   // 多页控制 打开新的页面
   store.dispatch('careyshop/page/open', to)
   // 更改标题

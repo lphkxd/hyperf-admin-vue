@@ -38,7 +38,11 @@ export default {
     handleSearchClick() {
       this.searchToggle()
       if (this.searchActive) {
-        this.$refs.panelSearch.focus()
+        setTimeout(() => {
+          if (this.$refs.panelSearch) {
+            this.$refs.panelSearch.focus()
+          }
+        }, 500)
       }
     },
     /**
@@ -47,7 +51,11 @@ export default {
     searchPanelOpen() {
       if (!this.searchActive) {
         this.searchSet(true)
-        this.$refs.panelSearch.focus()
+        setTimeout(() => {
+          if (this.$refs.panelSearch) {
+            this.$refs.panelSearch.focus()
+          }
+        }, 500)
       }
     },
     // 关闭搜索面板
