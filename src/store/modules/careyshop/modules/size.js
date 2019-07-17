@@ -1,3 +1,6 @@
+import Vue from 'vue'
+import router from '@/router'
+
 export default {
   namespaced: true,
   state: {
@@ -5,6 +8,35 @@ export default {
     value: '' // medium small mini
   },
   actions: {
+    /**
+     * @description 将当前的设置应用到 element
+     * @param state vuex state
+     * @param commit
+     * @param {Boolean} refresh 是否在设置之后刷新页面
+     */
+    apply({ state, commit }, refresh) {
+      Vue.prototype.$ELEMENT.size = state.value
+      if (refresh) {
+        commit('careyshop/page/keepAliveClean', null, { root: true })
+        router.replace('/refresh')
+      }
+    },
+    /**
+     * @description 确认已经加载组件尺寸设置
+     */
+    isLoaded({ state }) {
+      if (state.value) {
+        return Promise.resolve()
+      }
+
+      return new Promise(resolve => {
+        const timer = setInterval(() => {
+          if (state.value) {
+            resolve(clearInterval(timer))
+          }
+        }, 10)
+      })
+    },
     /**
      * @description 设置尺寸
      * @param state vuex state
@@ -16,6 +48,8 @@ export default {
       return new Promise(async resolve => {
         // store 赋值
         state.value = size
+        // 应用
+        dispatch('apply', true)
         // 持久化
         await dispatch('careyshop/db/set', {
           dbName: 'sys',
@@ -42,6 +76,8 @@ export default {
           defaultValue: 'default',
           user: true
         }, { root: true })
+        // 应用
+        dispatch('apply')
         // end
         resolve()
       })

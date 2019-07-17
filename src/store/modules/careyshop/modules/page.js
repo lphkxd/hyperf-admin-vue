@@ -12,7 +12,7 @@ export default {
     pool: [],
     // 当前显示的多页面列表
     opened: setting.page.opened,
-    // 标记已经加载多标签页数据
+    // 已经加载多标签页数据
     openedLoaded: false,
     // 当前页面
     current: '',
@@ -20,6 +20,19 @@ export default {
     keepAlive: []
   },
   actions: {
+    /**
+     * @description 确认已经加载多标签页数据
+     */
+    isLoaded({ state }) {
+      if (state.value) return Promise.resolve()
+      return new Promise(resolve => {
+        const timer = setInterval(() => {
+          if (state.openedLoaded) {
+            resolve(clearInterval(timer))
+          }
+        }, 10)
+      })
+    },
     /**
      * @description 从持久化数据载入分页列表
      * @param state vuex state
