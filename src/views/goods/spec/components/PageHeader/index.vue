@@ -8,6 +8,7 @@
     style="margin-bottom: -18px;">
     <el-form-item label="所属模型" prop="goods_type_id">
       <el-select
+        v-show="typeData.length"
         v-model="form.goods_type_id"
         placeholder="请选择"
         clearable

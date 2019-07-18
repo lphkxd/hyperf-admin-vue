@@ -8,6 +8,7 @@
     style="margin-bottom: -18px;">
     <el-form-item label="所属模型" prop="goods_type_id">
       <el-select
+        v-show="Object.keys(typeData).length > 0"
         v-model="form.goods_type_id"
         placeholder="请选择"
         clearable
@@ -63,7 +64,7 @@ export default {
   watch: {
     typeId: {
       handler(val) {
-        this.form.goods_type_id = val
+        this.form.goods_type_id = val ? val.toString() : null
       },
       immediate: true
     }

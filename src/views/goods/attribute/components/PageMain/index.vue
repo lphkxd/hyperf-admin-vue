@@ -3,16 +3,16 @@
     <el-form
       :inline="true"
       size="small">
-      <el-form-item>
+      <el-form-item v-if="auth.add">
         <el-button
           :disabled="loading"
-          @click="handleCreate(0)">
+          @click="handleCreate(null)">
           <cs-icon name="plus"/>
           新增主属性
         </el-button>
       </el-form-item>
 
-      <el-form-item>
+      <el-form-item v-if="auth.search">
         <el-button-group>
           <el-button
             :disabled="loading"
@@ -37,7 +37,7 @@
         </el-button-group>
       </el-form-item>
 
-      <el-form-item>
+      <el-form-item v-if="auth.del">
         <el-button
           :disabled="loading"
           @click="handleDelete(null)">
@@ -71,21 +71,7 @@
       </el-table-column>
 
       <el-table-column
-        width="35"
-        align="right">
-        <template slot-scope="scope">
-          <cs-icon
-            v-if="scope.row.is_important"
-            class="important"
-            name="star"/>
-        </template>
-      </el-table-column>
-
-      <el-table-column
-        label="名称"
-        prop="attr_name"
-        sortable="custom"
-        min-width="140">
+        width="55">
         <template slot-scope="scope">
           <el-popover
             v-if="scope.row.icon"
@@ -100,14 +86,31 @@
             <cs-icon class="cs-mr-5" slot="reference" name="image"/>
           </el-popover>
 
+          <cs-icon
+            v-if="scope.row.is_important"
+            class="attribute-important"
+            name="star"/>
+        </template>
+      </el-table-column>
+
+      <el-table-column
+        label="名称"
+        prop="attr_name"
+        sortable="custom"
+        min-width="140">
+        <template slot-scope="scope">
           <el-tooltip
             v-if="scope.row.description"
             :content="`描述：${scope.row.description}`"
             placement="top">
-            <span>{{scope.row.attr_name}}</span>
+            <span>
+              {{scope.row.attr_name}}
+            </span>
           </el-tooltip>
 
-          <span v-else>{{scope.row.attr_name}}</span>
+          <span v-else>
+            {{scope.row.attr_name}}
+          </span>
         </template>
       </el-table-column>
 
@@ -118,13 +121,13 @@
         :show-overflow-tooltip="true"
         min-width="120">
         <template slot-scope="scope">
-          {{typeData[scope.row.goods_type_id]}}
+          <span v-if="!scope.row.parent_id">{{typeData[scope.row.goods_type_id]}}</span>
         </template>
       </el-table-column>
 
       <el-table-column
         label="检索方式"
-        width="100">
+        width="90">
         <template slot-scope="scope">
           {{indexMap[scope.row.attr_index]}}
         </template>
@@ -132,7 +135,7 @@
 
       <el-table-column
         label="录入方式"
-        width="100">
+        width="90">
         <template slot-scope="scope">
           {{inputMap[scope.row.attr_input_type]}}
         </template>
@@ -176,23 +179,25 @@
         min-width="160">
         <template slot-scope="scope">
           <el-button
-            v-if="!scope.row.parent_id"
-            @click="handleCreate(scope.row.goods_attribute_id)"
+            v-if="!scope.row.parent_id && auth.add_son"
+            @click="handleCreate(scope.row)"
             size="small"
             type="text">新增子属性</el-button>
 
           <el-button
-            v-if="scope.row.parent_id"
+            v-if="scope.row.parent_id && auth.important"
             @click="handleImportant(scope.row)"
             size="small"
             type="text">{{importantMap[scope.row.is_important]}}</el-button>
 
           <el-button
-            @click="() => {}"
+            v-if="auth.set"
+            @click="handleUpdate(scope.row)"
             size="small"
             type="text">编辑</el-button>
 
           <el-button
+            v-if="auth.del"
             @click="handleDelete(scope.row.goods_attribute_id)"
             size="small"
             type="text">删除</el-button>
@@ -231,6 +236,7 @@
         </el-form-item>
 
         <el-form-item
+          v-if="!form.parent_id"
           label="所属模型"
           prop="goods_type_id">
           <el-select
@@ -352,7 +358,7 @@
         <el-button
           v-else type="primary"
           :loading="dialogLoading"
-          @click="() => {}"
+          @click="update"
           size="small">修改</el-button>
       </div>
     </el-dialog>
@@ -362,8 +368,12 @@
 <script>
 import util from '@/utils/util'
 import {
+  addGoodsAttributeBodyItem,
+  addGoodsAttributeItem,
   delGoodsAttributeList,
+  setGoodsAttributeBodyItem,
   setGoodsAttributeImportant,
+  setGoodsAttributeItem,
   setGoodsAttributeKey,
   setGoodsAttributeSort
 } from '@/api/goods/attribute'
@@ -388,7 +398,14 @@ export default {
       currentTableData: [],
       multipleSelection: [],
       auth: {
-        sort: true
+        add: false,
+        add_son: false,
+        set: false,
+        del: false,
+        important: false,
+        not_important: false,
+        sort: false,
+        search: false
       },
       indexMap: {
         0: '不检索',
@@ -500,6 +517,13 @@ export default {
   methods: {
     // 验证权限
     _validationAuth() {
+      this.auth.add = this.$has('/goods/setting/attribute/add')
+      this.auth.add_son = this.$has('/goods/setting/attribute/add_son')
+      this.auth.set = this.$has('/goods/setting/attribute/set')
+      this.auth.del = this.$has('/goods/setting/attribute/del')
+      this.auth.important = this.$has('/goods/setting/attribute/important')
+      this.auth.sort = this.$has('/goods/setting/attribute/sort')
+      this.auth.search = this.$has('/goods/setting/attribute/search')
     },
     // 获取列表中的编号
     _getIdList(val) {
@@ -635,14 +659,14 @@ export default {
       setGoodsAttributeSort(val.goods_attribute_id, val.sort)
     },
     // 弹出创建对话框
-    handleCreate(parentId) {
+    handleCreate(item) {
       this.form = {
         attr_name: '',
         description: '',
         icon: '',
-        goods_type_id: null,
+        goods_type_id: item ? item.goods_type_id : null,
         sort: 50,
-        parent_id: parentId || undefined,
+        parent_id: item ? item.goods_attribute_id : 0,
         attr_index: '1',
         attr_input_type: '1',
         attr_values: '',
@@ -653,7 +677,7 @@ export default {
         this.$refs.form.clearValidate()
       })
 
-      this.dialogStatus = !parentId ? 'create' : 'sonCreate'
+      this.dialogStatus = !item ? 'create' : 'sonCreate'
       this.dialogLoading = false
       this.dialogFormVisible = true
     },
@@ -661,6 +685,115 @@ export default {
     create() {
       this.$refs.form.validate(valid => {
         if (valid) {
+          this.dialogLoading = true
+          const data = this.currentTableData
+
+          if (this.dialogStatus === 'create') {
+            addGoodsAttributeBodyItem({ ...this.form })
+              .then(res => {
+                data.unshift({ ...res.data, get_attribute: [] })
+                this.dialogFormVisible = false
+                this.$message.success('操作成功')
+              })
+              .catch(() => {
+                this.dialogLoading = false
+              })
+          } else {
+            addGoodsAttributeItem({
+              ...this.form,
+              attr_values: this.form.attr_values.trim().split('\n')
+            })
+              .then(res => {
+                const sonData = data.find(item => item.goods_attribute_id === res.data.parent_id)
+                sonData.get_attribute.push({ ...res.data })
+
+                this.dialogFormVisible = false
+                this.$message.success('操作成功')
+              })
+              .catch(() => {
+                this.dialogLoading = false
+              })
+          }
+        }
+      })
+    },
+    // 弹出编辑对话框
+    handleUpdate(val) {
+      if (!val.parent_id) {
+        this.form = {
+          ...val,
+          goods_type_id: val.goods_type_id.toString()
+        }
+      } else {
+        this.form = {
+          ...val,
+          attr_index: val.attr_index.toString(),
+          attr_input_type: val.attr_input_type.toString(),
+          attr_values: val.attr_values.join('\n')
+        }
+      }
+
+      this.$nextTick(() => {
+        this.$refs.form.clearValidate()
+      })
+
+      this.currentData = val
+      this.dialogStatus = !val.parent_id ? 'update' : 'sonUpdate'
+      this.dialogLoading = false
+      this.dialogFormVisible = true
+    },
+    // 请求编辑
+    update() {
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          this.dialogLoading = true
+          if (this.dialogStatus === 'update') {
+            setGoodsAttributeBodyItem({ ...this.form })
+              .then(res => {
+                const pos = this.currentTableData.findIndex(item => {
+                  return item.goods_attribute_id === this.currentData.goods_attribute_id
+                })
+
+                this.$set(this.currentTableData, pos, {
+                  ...this.currentData,
+                  ...res.data
+                })
+
+                this.dialogFormVisible = false
+                this.$refs.multipleTable.clearSelection()
+                this.$message.success('操作成功')
+              })
+              .catch(() => {
+                this.dialogLoading = false
+              })
+          } else {
+            setGoodsAttributeItem({
+              ...this.form,
+              attr_values: this.form.attr_values.trim().split('\n')
+            })
+              .then(res => {
+                const pos = this.currentTableData.findIndex(item => {
+                  return item.goods_attribute_id === this.currentData.parent_id
+                })
+
+                const sonData = this.currentTableData[pos].get_attribute
+                const sonIndex = sonData.findIndex(item => {
+                  return item.goods_attribute_id === this.currentData.goods_attribute_id
+                })
+
+                this.$set(sonData, sonIndex, {
+                  ...this.currentData,
+                  ...res.data
+                })
+
+                this.dialogFormVisible = false
+                this.$refs.multipleTable.clearSelection()
+                this.$message.success('操作成功')
+              })
+              .catch(() => {
+                this.dialogLoading = false
+              })
+          }
         }
       })
     }
@@ -680,7 +813,7 @@ export default {
   .el-image >>> .el-image__error {
     line-height: 1.4;
   }
-  .important {
+  .attribute-important {
     color: #E6A23C;
   }
 </style>

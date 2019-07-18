@@ -420,7 +420,7 @@ export default {
           this.dialogLoading = true
           addGoodsSpecItem({
             ...this.form,
-            spec_item: this.form.spec_item.split('\n')
+            spec_item: this.form.spec_item.trim().split('\n')
           })
             .then(res => {
               this.currentTableData.unshift({
