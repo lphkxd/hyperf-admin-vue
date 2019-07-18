@@ -6,7 +6,7 @@
       <el-form-item>
         <el-button
           :disabled="loading"
-          @click="() => {}">
+          @click="handleCreate(0)">
           <cs-icon name="plus"/>
           新增主属性
         </el-button>
@@ -16,21 +16,21 @@
         <el-button-group>
           <el-button
             :disabled="loading"
-            @click="() => {}">
+            @click="handleIndex(0)">
             <cs-icon name="ban"/>
             不检索
           </el-button>
 
           <el-button
             :disabled="loading"
-            @click="() => {}">
+            @click="handleIndex(1)">
             <cs-icon name="bookmark-o"/>
             关键字
           </el-button>
 
           <el-button
             :disabled="loading"
-            @click="() => {}">
+            @click="handleIndex(2)">
             <cs-icon name="circle-o-notch"/>
             范围
           </el-button>
@@ -40,7 +40,7 @@
       <el-form-item>
         <el-button
           :disabled="loading"
-          @click="() => {}">
+          @click="handleDelete(null)">
           <cs-icon name="trash-o"/>
           删除
         </el-button>
@@ -58,7 +58,8 @@
       row-key="goods_attribute_id"
       :tree-props="{children: 'get_attribute'}"
       @selection-change="handleSelectionChange"
-      @sort-change="sortChange">
+      @sort-change="sortChange"
+      ref="multipleTable">
 
       <el-table-column type="selection" width="35"/>
 
@@ -161,7 +162,7 @@
             controls-position="right"
             :min="0"
             :max="255"
-            @change="() => {}">
+            @change="handleSort(scope.row)">
           </el-input-number>
           <span v-else>
             {{scope.row.sort}}
@@ -176,13 +177,13 @@
         <template slot-scope="scope">
           <el-button
             v-if="!scope.row.parent_id"
-            @click="() => {}"
+            @click="handleCreate(scope.row.goods_attribute_id)"
             size="small"
             type="text">新增子属性</el-button>
 
           <el-button
             v-if="scope.row.parent_id"
-            @click="() => {}"
+            @click="handleImportant(scope.row)"
             size="small"
             type="text">{{importantMap[scope.row.is_important]}}</el-button>
 
@@ -192,19 +193,185 @@
             type="text">编辑</el-button>
 
           <el-button
-            @click="() => {}"
+            @click="handleDelete(scope.row.goods_attribute_id)"
             size="small"
             type="text">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
+
+    <el-dialog
+      :title="textMap[dialogStatus]"
+      :visible.sync="dialogFormVisible"
+      :append-to-body="true"
+      :close-on-click-modal="false"
+      width="600px">
+      <el-form
+        :model="form"
+        :rules="rules"
+        label-width="80px"
+        ref="form">
+        <el-form-item
+          label="名称"
+          prop="attr_name">
+          <el-input
+            v-model="form.attr_name"
+            placeholder="请输入商品属性名称"
+            clearable/>
+        </el-form-item>
+
+        <el-form-item
+          label="描述"
+          prop="description">
+          <el-input
+            v-model="form.description"
+            placeholder="可输入商品属性描述"
+            type="textarea"
+            :rows="3"/>
+        </el-form-item>
+
+        <el-form-item
+          label="所属模型"
+          prop="goods_type_id">
+          <el-select
+            v-model="form.goods_type_id"
+            placeholder="请选择所属商品模型"
+            style="width: 100%;"
+            clearable
+            value="">
+            <el-option
+              v-for="(item, index) in typeData"
+              :key="index"
+              :label="item"
+              :value="index"/>
+          </el-select>
+        </el-form-item>
+
+        <el-form-item
+          label="图标"
+          prop="icon">
+          <el-input
+            v-model="form.icon"
+            placeholder="可输入商品属性图标(图片)"
+            clearable>
+            <template slot="prepend">
+              <el-popover
+                v-if="form.icon"
+                width="150"
+                placement="top"
+                trigger="hover">
+                <div class="popover-image">
+                  <el-image
+                    :src="form.icon | getPreviewUrl"
+                    @click.native="$preview(form.icon)"/>
+                </div>
+                <cs-icon slot="reference" name="image"/>
+              </el-popover>
+            </template>
+            <cs-upload
+              slot="append"
+              type="slot"
+              accept="image/*"
+              :limit="1"
+              :multiple="false"
+              @confirm="_getUploadFileList">
+              <el-button slot="control"><cs-icon name="upload"/></el-button>
+            </cs-upload>
+          </el-input>
+        </el-form-item>
+
+        <div v-if="form.parent_id">
+          <el-form-item
+            label="检索方式"
+            prop="attr_index">
+            <el-radio-group v-model="form.attr_index">
+              <el-radio
+                v-for="(item, index) in indexMap"
+                :key="index"
+                :label="index">{{item}}</el-radio>
+            </el-radio-group>
+          </el-form-item>
+
+          <el-form-item
+            label="录入方式"
+            prop="attr_input_type">
+            <el-radio-group v-model="form.attr_input_type">
+              <el-radio
+                v-for="(item, index) in inputMap"
+                :key="index"
+                :label="index">{{item}}</el-radio>
+            </el-radio-group>
+          </el-form-item>
+
+          <el-form-item
+            label="可选值"
+            prop="attr_values">
+            <el-input
+              v-model="form.attr_values"
+              placeholder="请输入商品属性可选值，一行一个，手工填写可不填"
+              type="textarea"
+              :rows="5"/>
+          </el-form-item>
+        </div>
+
+        <el-form-item
+          label="排序值"
+          prop="sort">
+          <el-input-number
+            v-model="form.sort"
+            controls-position="right"
+            :min="0"
+            :max="255"
+            style="width: 120px;"/>
+        </el-form-item>
+
+        <el-form-item
+          v-if="form.parent_id"
+          label="是否核心"
+          prop="is_important">
+          <el-switch
+            v-model="form.is_important"
+            :active-value="1"
+            :inactive-value="0">
+          </el-switch>
+        </el-form-item>
+      </el-form>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button
+          @click="dialogFormVisible = false"
+          size="small">取消</el-button>
+
+        <el-button
+          v-if="dialogStatus === 'create' || dialogStatus === 'sonCreate'"
+          type="primary"
+          :loading="dialogLoading"
+          @click="create"
+          size="small">确定</el-button>
+
+        <el-button
+          v-else type="primary"
+          :loading="dialogLoading"
+          @click="() => {}"
+          size="small">修改</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import util from '@/utils/util'
+import {
+  delGoodsAttributeList,
+  setGoodsAttributeImportant,
+  setGoodsAttributeKey,
+  setGoodsAttributeSort
+} from '@/api/goods/attribute'
 
 export default {
+  components: {
+    'csUpload': () => import('@/components/cs-upload')
+  },
   props: {
     loading: {
       default: false
@@ -236,6 +403,76 @@ export default {
       importantMap: {
         0: '设为核心',
         1: '取消核心'
+      },
+      dialogLoading: false,
+      dialogFormVisible: false,
+      dialogStatus: '',
+      textMap: {
+        update: '编辑主属性',
+        create: '新增主属性',
+        sonUpdate: '编辑子属性',
+        sonCreate: '新增子属性'
+      },
+      form: {
+        attr_name: undefined,
+        description: undefined,
+        icon: undefined,
+        goods_type_id: undefined,
+        sort: undefined,
+        parent_id: undefined,
+        attr_index: undefined,
+        attr_input_type: undefined,
+        attr_values: undefined,
+        is_important: undefined
+      },
+      rules: {
+        attr_name: [
+          {
+            required: true,
+            message: '名称不能为空',
+            trigger: 'blur'
+          },
+          {
+            max: 60,
+            message: '长度不能大于 60 个字符',
+            trigger: 'blur'
+          }
+        ],
+        description: [
+          {
+            max: 255,
+            message: '长度不能大于 255 个字符',
+            trigger: 'blur'
+          }
+        ],
+        icon: [
+          {
+            max: 512,
+            message: '长度不能大于 512 个字符',
+            trigger: 'blur'
+          }
+        ],
+        goods_type_id: [
+          {
+            required: true,
+            message: '至少选择一项',
+            trigger: 'change'
+          }
+        ],
+        sort: [
+          {
+            type: 'number',
+            message: '必须为数字值',
+            trigger: 'blur'
+          }
+        ],
+        attr_input_type: [
+          {
+            required: true,
+            message: '至少选择一项',
+            trigger: 'change'
+          }
+        ]
       }
     }
   },
@@ -281,6 +518,19 @@ export default {
 
       return idList
     },
+    // 获取上传文件
+    _getUploadFileList(files) {
+      if (!files.length) {
+        return
+      }
+
+      const response = files[0].response
+      if (!response || response.status !== 200) {
+        return
+      }
+
+      this.form.icon = response.data[0].url
+    },
     // 获取排序字段
     sortChange({ column, prop, order }) {
       let sort = {
@@ -298,6 +548,121 @@ export default {
     // 选中数据项
     handleSelectionChange(val) {
       this.multipleSelection = val
+    },
+    // 批量设置检索
+    handleIndex(val) {
+      let attr_id = this._getIdList(null)
+      if (attr_id.length === 0) {
+        this.$message.error('请选择要操作的数据')
+        return
+      }
+
+      this.$confirm('确定要执行该操作吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+        closeOnClickModal: false
+      })
+        .then(() => {
+          setGoodsAttributeKey(attr_id, val)
+            .then(() => {
+              this.multipleSelection.forEach(value => {
+                if (value.parent_id) {
+                  value.attr_index = val
+                }
+              })
+
+              this.$refs.multipleTable.clearSelection()
+              this.$message.success('操作成功')
+            })
+        })
+        .catch(() => {
+        })
+    },
+    // 批量删除
+    handleDelete(val) {
+      // 值不存在表示多选,否则表示单选操作
+      let attr_id = val ? [val] : this._getIdList(val)
+      if (attr_id.length === 0) {
+        this.$message.error('请选择要操作的数据')
+        return
+      }
+
+      this.$confirm('确定要执行该操作吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+        closeOnClickModal: false
+      })
+        .then(() => {
+          delGoodsAttributeList(attr_id)
+            .then(() => {
+              const data = this.currentTableData
+              for (let i = data.length - 1; i >= 0; i--) {
+                if (attr_id.indexOf(data[i].goods_attribute_id) !== -1) {
+                  data.splice(i, 1)
+                  continue
+                }
+
+                const sonData = data[i]['get_attribute']
+                if (sonData.length > 0) {
+                  for (let n = sonData.length - 1; n >= 0; n--) {
+                    if (attr_id.indexOf(sonData[n].goods_attribute_id) !== -1) {
+                      sonData.splice(n, 1)
+                    }
+                  }
+                }
+              }
+
+              this.$refs.multipleTable.clearSelection()
+              this.$message.success('操作成功')
+            })
+        })
+        .catch(() => {
+        })
+    },
+    // 设置是否为核心
+    handleImportant(val) {
+      const isImportant = val.is_important ? 0 : 1
+      setGoodsAttributeImportant([val.goods_attribute_id], isImportant)
+        .then(() => {
+          val.is_important = isImportant
+          this.$message.success('操作成功')
+        })
+    },
+    // 设置排序值
+    handleSort(val) {
+      setGoodsAttributeSort(val.goods_attribute_id, val.sort)
+    },
+    // 弹出创建对话框
+    handleCreate(parentId) {
+      this.form = {
+        attr_name: '',
+        description: '',
+        icon: '',
+        goods_type_id: null,
+        sort: 50,
+        parent_id: parentId || undefined,
+        attr_index: '1',
+        attr_input_type: '1',
+        attr_values: '',
+        is_important: 1
+      }
+
+      this.$nextTick(() => {
+        this.$refs.form.clearValidate()
+      })
+
+      this.dialogStatus = !parentId ? 'create' : 'sonCreate'
+      this.dialogLoading = false
+      this.dialogFormVisible = true
+    },
+    // 请求创建
+    create() {
+      this.$refs.form.validate(valid => {
+        if (valid) {
+        }
+      })
     }
   }
 }

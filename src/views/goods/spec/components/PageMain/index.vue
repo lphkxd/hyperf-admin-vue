@@ -311,7 +311,7 @@ export default {
         goods_type_id: [
           {
             required: true,
-            message: '所属模型不能为空',
+            message: '至少选择一项',
             trigger: 'change'
           }
         ],
