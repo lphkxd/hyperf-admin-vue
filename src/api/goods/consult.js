@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 /**
  * 批量删除商品咨询
- * @param {Number} goods_consult_id
+ * @param {Array} goods_consult_id
  * @returns {AxiosPromise}
  */
 export function delGoodsConsultList(goods_consult_id) {
@@ -20,7 +20,7 @@ export function delGoodsConsultList(goods_consult_id) {
 
 /**
  * 批量设置是否前台显示
- * @param {Number} goods_consult_id
+ * @param {Array} goods_consult_id
  * @param {Number} is_show
  * @returns {AxiosPromise}
  */

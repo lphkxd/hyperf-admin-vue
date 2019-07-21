@@ -114,11 +114,11 @@ export default {
       },
       statusMap: {
         0: {
-          text: '待回答',
+          text: '待回复',
           type: 'warning'
         },
         1: {
-          text: '已回答',
+          text: '已回复',
           type: 'success'
         }
       }

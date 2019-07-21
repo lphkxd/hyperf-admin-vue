@@ -43,6 +43,12 @@ export default {
       props: true,
       meta: { ...meta, title: '商品属性' },
       component: () => import('@/views/goods/attribute')
+    },
+    {
+      path: 'opinion/consult',
+      name: `${pre}opinion-consult`,
+      meta: { ...meta, cache: true, title: '商品咨询' },
+      component: () => import('@/views/goods/consult')
     }
   ])('goods-')
 }

@@ -15,9 +15,9 @@
         clearable/>
     </el-form-item>
 
-    <el-form-item label="类型" prop="ask_type">
+    <el-form-item label="类型" prop="type">
       <el-select
-        v-model="form.ask_type"
+        v-model="form.type"
         placeholder="请选择"
         style="width: 120px;"
         clearable
@@ -59,6 +59,44 @@
         重置
       </el-button>
     </el-form-item>
+
+    <el-form-item>
+      <el-popover
+        width="240"
+        placement="bottom"
+        trigger="click">
+
+        <div class="more-filter">
+          <el-form-item label="搜索" prop="content">
+            <el-input
+              v-model="form.content"
+              prefix-icon="el-icon-search"
+              placeholder="可输入关键词搜索咨询"
+              @keyup.enter.native="handleFormSubmit"
+              style="width: 200px;"
+              clearable/>
+          </el-form-item>
+
+          <el-form-item label="前台" prop="is_show">
+            <el-select
+              v-model="form.is_show"
+              placeholder="请选择"
+              clearable
+              value="">
+              <el-option label="隐藏" value="0"/>
+              <el-option label="显示" value="1"/>
+            </el-select>
+          </el-form-item>
+        </div>
+
+        <el-button
+          slot="reference"
+          type="text">
+          更多筛选
+          <cs-icon name="angle-down"/>
+        </el-button>
+      </el-popover>
+    </el-form-item>
   </el-form>
 </template>
 
@@ -75,9 +113,11 @@ export default {
   data() {
     return {
       form: {
-        account: undefined,
-        ask_type: undefined,
-        status: undefined
+        content: undefined,
+        is_show: undefined,
+        type: undefined,
+        status: undefined,
+        account: undefined
       }
     }
   },
@@ -91,3 +131,15 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .more-filter {
+    margin-bottom: -18px;
+  }
+  .more-filter >>> label {
+    width: auto;
+  }
+  .more-filter >>> input {
+    width: 200px;
+  }
+</style>

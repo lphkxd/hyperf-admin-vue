@@ -19,7 +19,7 @@ export function delAskItem(ask_id) {
 }
 
 /**
- * 回答一个提问
+ * 回复一个提问
  * @param {Number} ask_id
  * @param {string} answer
  * @returns {AxiosPromise}

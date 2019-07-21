@@ -33,7 +33,7 @@
       @selection-change="handleSelectionChange"
       stripe>
 
-      <el-table-column type="selection" width="55"/>
+      <el-table-column type="selection" width="35"/>
 
       <el-table-column
         label="名称"
