@@ -90,8 +90,10 @@
       </el-table-column>
 
       <el-table-column
-        label="提交账号"
-        prop="get_user.username">
+        label="提交账号">
+        <template slot-scope="scope">
+          {{scope.row.get_user.username || '游客'}}
+        </template>
       </el-table-column>
 
       <el-table-column
@@ -217,7 +219,7 @@ export default {
   },
   activated() {
     this.updateChange({
-      name: 'goods-opinion-consult',
+      name: 'goods-consult-list',
       source: this.currentTableData,
       key: 'goods_consult_id'
     })
@@ -364,7 +366,7 @@ export default {
       this.$router.push({
         name: 'goods-consult-detail',
         params: {
-          consult_id
+          goods_consult_id: consult_id
         }
       })
     }

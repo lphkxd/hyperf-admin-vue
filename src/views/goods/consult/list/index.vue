@@ -29,7 +29,7 @@ import { mapActions } from 'vuex'
 import { getGoodsConsultList } from '@/api/goods/consult'
 
 export default {
-  name: 'goods-opinion-consult',
+  name: 'goods-consult-list',
   components: {
     'PageHeader': () => import('./components/PageHeader'),
     'PageMain': () => import('./components/PageMain'),
@@ -40,10 +40,10 @@ export default {
       table: [],
       loading: true,
       typeList: {
-        1: '商品咨询',
-        2: '支付',
-        3: '配送',
-        4: '售后'
+        0: '商品咨询',
+        1: '支付',
+        2: '配送',
+        3: '售后'
       },
       page: {
         current: 1,
@@ -97,7 +97,7 @@ export default {
         page_size: this.page.size
       })
         .then(res => {
-          this.updateData({ type: 'clear', name: 'goods-opinion-consult' })
+          this.updateData({ type: 'clear', name: 'goods-consult-list' })
           this.page.total = res.data.total_result
           this.table = res.data.total_result > 0 ? res.data.items : []
         })
