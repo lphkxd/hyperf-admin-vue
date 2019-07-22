@@ -231,10 +231,10 @@ export default {
     ]),
     // 验证权限
     _validationAuth() {
-      this.auth.show = this.$has('/goods/opinion/consult/show')
-      this.auth.hide = this.$has('/goods/opinion/consult/hide')
-      this.auth.del = this.$has('/goods/opinion/consult/del')
-      this.auth.detail = this.$has('/goods/opinion/consult/detail')
+      this.auth.show = this.$has('/goods/consult/list/show')
+      this.auth.hide = this.$has('/goods/consult/list/hide')
+      this.auth.del = this.$has('/goods/consult/list/del')
+      this.auth.detail = this.$has('/goods/consult/list/detail')
     },
     // 获取列表中的编号
     _getIdList(val) {
@@ -362,7 +362,7 @@ export default {
     // 打开咨询明细
     openConsultDetail(consult_id) {
       this.$router.push({
-        name: 'goods-opinion-detail',
+        name: 'goods-consult-detail',
         params: {
           consult_id
         }

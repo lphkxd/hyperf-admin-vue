@@ -45,10 +45,17 @@ export default {
       component: () => import('@/views/goods/attribute')
     },
     {
-      path: 'opinion/consult',
-      name: `${pre}opinion-consult`,
+      path: 'consult/list',
+      name: `${pre}consult-list`,
       meta: { ...meta, cache: true, title: '商品咨询' },
-      component: () => import('@/views/goods/consult')
+      component: () => import('@/views/goods/consult/list')
+    },
+    {
+      path: 'consult/detail/:goods_consult_id',
+      name: `${pre}consult-detail`,
+      props: true,
+      meta: { ...meta, cache: true, title: '咨询明细' },
+      component: () => import('@/views/goods/consult/detail')
     }
   ])('goods-')
 }
