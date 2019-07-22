@@ -5,13 +5,25 @@
       shadow="never"
       v-loading="loading">
       <div slot="header" class="box-card-header">
-        <el-row>
+        <el-row class="cs-mb-10">
+          <el-col :span="18">
+            <span class="text-explode">关联商品：</span>
+            <span>{{tableData.get_goods.name}}</span>
+          </el-col>
+
           <el-col :span="6">
+            <span class="text-explode">创建日期：</span>
+            <span>{{tableData.create_time}}</span>
+          </el-col>
+        </el-row>
+
+        <el-row>
+          <el-col :span="9">
             <span class="text-explode">编号：</span>
             <span>{{tableData.goods_consult_id}}</span>
           </el-col>
 
-          <el-col :span="6">
+          <el-col :span="9">
             <span class="text-explode">类型：</span>
             <span>{{tableData.type !== null ? typeList[tableData.type] : ''}}</span>
           </el-col>
@@ -24,11 +36,6 @@
               size="mini">
               {{statusMap[tableData.status].text}}
             </el-tag>
-          </el-col>
-
-          <el-col :span="6">
-            <span class="text-explode">创建日期：</span>
-            <span>{{tableData.create_time}}</span>
           </el-col>
         </el-row>
       </div>

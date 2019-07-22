@@ -51,7 +51,8 @@ export default {
     getInitData() {
       return {
         type: null,
-        status: null
+        status: null,
+        get_goods: { name: null }
       }
     },
     switchData(id) {
