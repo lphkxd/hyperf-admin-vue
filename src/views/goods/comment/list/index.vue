@@ -3,14 +3,12 @@
     <page-header
       slot="header"
       :loading="loading"
-      :type-list="typeList"
       @submit="handleSubmit"
       ref="header"/>
 
     <page-main
       :table-data="table"
       :loading="loading"
-      :type-list="typeList"
       @sort="handleSort"
       @refresh="handleRefresh"/>
 
@@ -26,10 +24,10 @@
 
 <script>
 import { mapActions } from 'vuex'
-import { getGoodsConsultList } from '@/api/goods/consult'
+import { getGoodsCommentList } from '@/api/goods/comment'
 
 export default {
-  name: 'goods-opinion-consult',
+  name: 'goods-opinion-comment',
   components: {
     'PageHeader': () => import('./components/PageHeader'),
     'PageMain': () => import('./components/PageMain'),
@@ -39,12 +37,6 @@ export default {
     return {
       table: [],
       loading: true,
-      typeList: {
-        0: '商品咨询',
-        1: '支付',
-        2: '配送',
-        3: '售后'
-      },
       page: {
         current: 1,
         size: 25,
@@ -90,14 +82,14 @@ export default {
       }
 
       this.loading = true
-      getGoodsConsultList({
+      getGoodsCommentList({
         ...form,
         ...this.order,
         page_no: this.page.current,
         page_size: this.page.size
       })
         .then(res => {
-          this.updateData({ type: 'clear', name: 'goods-opinion-consult' })
+          this.updateData({ type: 'clear', name: 'goods-opinion-comment' })
           this.page.total = res.data.total_result
           this.table = res.data.total_result > 0 ? res.data.items : []
         })

@@ -45,19 +45,19 @@
           v-for="(item, index) in tableData.get_answer"
           :key="index"
           :timestamp="item.create_time"
-          :type="item.type === 1 ? 'primary' : 'danger'"
+          :type="item.is_client ? 'primary' : 'danger'"
           placement="top">
           <el-card shadow="never">
             <div class="user-icon">
               <el-avatar
-                v-if="item.type === 1 && tableData.get_user.head_pic"
+                v-if="item.is_client && tableData.get_user.head_pic"
                 size="medium"
                 :src="tableData.get_user.head_pic | getPreviewUrl">
                 <img src="image/avatar/user.png" alt=""/>
               </el-avatar>
 
               <el-avatar
-                v-else-if="item.type === 1"
+                v-else-if="item.is_client"
                 size="medium"
                 src="image/avatar/user.png">
               </el-avatar>
@@ -70,7 +70,7 @@
 
             <div class="problem">
               <div class="consult-content cs-pb-10">{{item.content}}</div>
-              <div v-if="item.type === 1" class="user-name">{{tableData.get_user.username || '游客'}}</div>
+              <div v-if="item.is_client" class="user-name">{{tableData.get_user.username || '游客'}}</div>
               <div v-else class="user-name">客服人员</div>
             </div>
           </el-card>
@@ -78,7 +78,7 @@
       </el-timeline>
 
       <el-form
-        v-has="'/goods/consult/list/detail'"
+        v-has="'/goods/opinion/consult/detail'"
         :model="form"
         :rules="rules"
         ref="form"

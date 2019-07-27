@@ -1,5 +1,5 @@
 <template>
-  <cs-container :is-back-to-top="true" parent-path="goods-consult-list">
+  <cs-container :is-back-to-top="true" parent-path="goods-opinion-consult">
     <page-main
       :loading="loading"
       :table-data="table"
@@ -13,7 +13,7 @@ import { mapActions } from 'vuex'
 import { getGoodsConsultItem } from '@/api/goods/consult'
 
 export default {
-  name: 'goods-consult-detail',
+  name: 'goods-opinion-consult-detail',
   components: {
     'PageMain': () => import('./components/PageMain')
   },
@@ -75,7 +75,7 @@ export default {
             goods_consult_id: res.data.goods_consult_id,
             content: res.data.content,
             create_time: res.data.create_time,
-            type: 1
+            is_client: true // 额外参数,表示是否属于提问
           })
 
           this.tableBuffer[id] = { ...res.data }
@@ -93,7 +93,7 @@ export default {
 
       this.updateData({
         type: 'set',
-        name: 'goods-consult-list',
+        name: 'goods-opinion-consult',
         srcId: id,
         data: {
           status: 1
