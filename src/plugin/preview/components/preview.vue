@@ -21,8 +21,10 @@ export default {
   },
   methods: {
     showImagePreview(imageUrl = '') {
+      const blob = /^(blob)[^\s]+/
       const reg = /^((https|http|ftp|rtsp|mms)?:\/\/)[^\s]+/
-      if (!reg.test(imageUrl)) {
+
+      if (!blob.test(imageUrl) && !reg.test(imageUrl)) {
         imageUrl = document.location.protocol + '//' + imageUrl
       }
 
