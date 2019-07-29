@@ -296,7 +296,7 @@
             v-model="form.username"
             :disabled="dialogStatus !== 'create'"
             placeholder="请输入账号"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
 
         <div v-if="dialogStatus === 'create'">
@@ -307,7 +307,7 @@
               type="password"
               v-model="form.password"
               placeholder="请输入密码"
-              clearable/>
+              :clearable="true"/>
           </el-form-item>
 
           <el-form-item
@@ -317,7 +317,7 @@
               type="password"
               v-model="form.password_confirm"
               placeholder="请再次输入密码"
-              clearable/>
+              :clearable="true"/>
           </el-form-item>
         </div>
 
@@ -327,7 +327,7 @@
           <el-input
             v-model="form.nickname"
             placeholder="可输入昵称"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
 
         <el-form-item
@@ -336,7 +336,7 @@
           <el-input
             v-model="form.head_pic"
             placeholder="可输入头像图片"
-            clearable>
+            :clearable="true">
             <template slot="prepend">
               <el-popover
                 v-if="form.head_pic"
@@ -370,7 +370,7 @@
           <el-input
             v-model="form.mobile"
             placeholder="请输入手机号"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
 
         <el-form-item
@@ -380,7 +380,7 @@
           <el-input
             v-model="form.email"
             placeholder="可输入邮箱地址"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
 
         <el-form-item
@@ -406,7 +406,7 @@
             type="date"
             value-format="yyyy-MM-dd"
             placeholder="可选择出生日期"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
 
         <el-form-item
@@ -512,7 +512,7 @@
           <el-input
             v-model="financeForm.source_no"
             placeholder="可输入来源订单号"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
 
         <el-form-item
@@ -523,7 +523,7 @@
             placeholder="请输入操作原因"
             type="textarea"
             :autosize="{minRows: 3}"
-            show-word-limit
+            :show-word-limit="true"
             maxlength="255">
           </el-input>
         </el-form-item>

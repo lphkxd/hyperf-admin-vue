@@ -20,7 +20,7 @@
       <el-input
         v-model="form.name.value"
         :placeholder="form.name.description"
-        clearable/>
+        :clearable="true"/>
       <div class="help-block" v-html="form.name.help_text"></div>
     </el-form-item>
 
@@ -30,7 +30,7 @@
       <el-input
         v-model="form.title.value"
         :placeholder="form.title.description"
-        clearable/>
+        :clearable="true"/>
       <div class="help-block" v-html="form.title.help_text"></div>
     </el-form-item>
 
@@ -40,7 +40,7 @@
       <el-input
         v-model="form.keywords.value"
         :placeholder="form.keywords.description"
-        clearable/>
+        :clearable="true"/>
       <div class="help-block" v-html="form.keywords.help_text"></div>
     </el-form-item>
 
@@ -61,7 +61,7 @@
       <el-input
         v-model="form.logo.value"
         :placeholder="form.logo.description"
-        clearable>
+        :clearable="true">
         <template slot="prepend">
           <el-popover
             v-if="form.logo.value"
@@ -93,7 +93,7 @@
       <el-input
         v-model="form.miitbeian.value"
         :placeholder="form.miitbeian.description"
-        clearable/>
+        :clearable="true"/>
       <div class="help-block" v-html="form.miitbeian.help_text"></div>
     </el-form-item>
 
@@ -103,7 +103,7 @@
       <el-input
         v-model="form.miitbeian_url.value"
         :placeholder="form.miitbeian_url.description"
-        clearable/>
+        :clearable="true"/>
       <div class="help-block" v-html="form.miitbeian_url.help_text"></div>
     </el-form-item>
 
@@ -113,7 +113,7 @@
       <el-input
         v-model="form.miitbeian_ico.value"
         :placeholder="form.miitbeian_ico.description"
-        clearable>
+        :clearable="true">
         <template slot="prepend">
           <el-popover
             v-if="form.miitbeian_ico.value"
@@ -143,7 +143,7 @@
       <el-input
         v-model="form.beian.value"
         :placeholder="form.beian.description"
-        clearable/>
+        :clearable="true"/>
       <div class="help-block" v-html="form.beian.help_text"></div>
     </el-form-item>
 
@@ -153,7 +153,7 @@
       <el-input
         v-model="form.beian_url.value"
         :placeholder="form.beian_url.description"
-        clearable/>
+        :clearable="true"/>
       <div class="help-block" v-html="form.beian_url.help_text"></div>
     </el-form-item>
 
@@ -163,7 +163,7 @@
       <el-input
         v-model="form.beian_ico.value"
         :placeholder="form.beian_ico.description"
-        clearable>
+        :clearable="true">
         <template slot="prepend">
           <el-popover
             v-if="form.beian_ico.value"
@@ -228,7 +228,7 @@
       <el-input
         v-model="form.close_reason.value"
         :placeholder="form.close_reason.description"
-        clearable/>
+        :clearable="true"/>
       <div class="help-block" v-html="form.close_reason.help_text"></div>
     </el-form-item>
 
@@ -243,13 +243,13 @@
         class="dynamic-platform-key"
         v-model="platform.key"
         placeholder="序列值"
-        clearable/>
+        :clearable="true"/>
 
       <el-input
         class="dynamic-platform-value"
         v-model="platform.value"
         placeholder="平台名称"
-        clearable/>
+        :clearable="true"/>
 
       <el-button
         v-if="platforms.length > 1"
@@ -273,7 +273,7 @@
         class="dynamic-domain"
         v-model="form.allow_origin.value[index]"
         placeholder="域名地址"
-        clearable/>
+        :clearable="true"/>
 
       <el-button
         v-if="form.allow_origin.value.length > 1"
@@ -295,7 +295,7 @@
       <el-input
         v-model="form.weixin_url.value"
         :placeholder="form.weixin_url.description"
-        clearable/>
+        :clearable="true"/>
       <div class="help-block" v-html="form.weixin_url.help_text"></div>
     </el-form-item>
 
@@ -305,7 +305,7 @@
       <el-input
         v-model="form.qrcode_logo.value"
         :placeholder="form.qrcode_logo.description"
-        clearable>
+        :clearable="true">
         <el-button
           slot="append"
           @click="$refs.upload.handleUploadDlg('qrcode_logo')">

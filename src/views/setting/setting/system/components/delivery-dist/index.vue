@@ -9,7 +9,7 @@
       <el-input
         v-model="form.api_id.value"
         :placeholder="form.api_id.description"
-        clearable/>
+        :clearable="true"/>
       <div class="help-block" v-html="form.api_id.help_text"></div>
     </el-form-item>
 
@@ -19,7 +19,7 @@
       <el-input
         v-model="form.api_key.value"
         :placeholder="form.api_key.description"
-        clearable/>
+        :clearable="true"/>
       <div class="help-block" v-html="form.api_key.help_text"></div>
     </el-form-item>
 

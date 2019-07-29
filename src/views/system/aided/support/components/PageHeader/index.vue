@@ -12,7 +12,7 @@
         prefix-icon="el-icon-search"
         placeholder="可输入客服昵称"
         @keyup.enter.native="handleFormSubmit"
-        clearable/>
+        :clearable="true"/>
     </el-form-item>
 
     <el-form-item label="组名称" prop="type_name">
@@ -21,7 +21,7 @@
         prefix-icon="el-icon-search"
         placeholder="可输入客服组名称"
         @keyup.enter.native="handleFormSubmit"
-        clearable/>
+        :clearable="true"/>
     </el-form-item>
 
     <el-form-item label="状态" prop="status">

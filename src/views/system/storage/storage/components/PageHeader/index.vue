@@ -13,7 +13,7 @@
         placeholder="资源名称"
         @keyup.enter.native="handleFormSubmit"
         style="width: 200px;"
-        clearable/>
+        :draggable="true"/>
     </el-form-item>
 
     <el-form-item>

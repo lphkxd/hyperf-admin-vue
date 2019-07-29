@@ -117,7 +117,7 @@
             style="width: 100%;"
             placeholder="请输入快递单号"
             ref="logisticCode"
-            clearable>
+            :clearable="true">
             <el-select
               v-model="traceType"
               style="width: 105px;"

@@ -171,7 +171,7 @@
           <el-input
             v-model="form.title"
             placeholder="请输入消息标题"
-            clearable/>
+            :draggable="true"/>
         </el-form-item>
 
         <el-form-item
@@ -229,7 +229,7 @@
           <el-input
             v-model="form.url"
             placeholder="可输入外部链接"
-            clearable/>
+            :draggable="true"/>
         </el-form-item>
 
         <el-form-item

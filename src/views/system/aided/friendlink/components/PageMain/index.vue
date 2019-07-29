@@ -173,7 +173,7 @@
           <el-input
             v-model="form.name"
             placeholder="请输入友情链接名称"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
 
         <el-form-item
@@ -182,7 +182,7 @@
           <el-input
             v-model="form.url"
             placeholder="请输入友情链接Url"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
 
         <el-form-item
@@ -191,7 +191,7 @@
           <el-input
             v-model="form.logo"
             placeholder="可输入友情链接Logo"
-            clearable>
+            :clearable="true">
             <template slot="prepend">
               <el-popover
                 v-if="form.logo"

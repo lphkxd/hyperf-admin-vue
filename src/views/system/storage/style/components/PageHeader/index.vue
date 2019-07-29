@@ -13,7 +13,7 @@
         placeholder="资源样式名称"
         @keyup.enter.native="handleFormSubmit"
         style="width: 200px;"
-        clearable/>
+        :clearable="true"/>
     </el-form-item>
 
     <el-form-item label="编码" prop="code">
@@ -23,7 +23,7 @@
         placeholder="资源样式编码"
         @keyup.enter.native="handleFormSubmit"
         style="width: 140px;"
-        clearable/>
+        :clearable="true"/>
     </el-form-item>
 
     <el-form-item label="平台" prop="platform">

@@ -13,7 +13,7 @@
         placeholder="可输入 账号/昵称"
         @keyup.enter.native="handleFormSubmit"
         style="width: 200px;"
-        clearable/>
+        :clearable="true"/>
     </el-form-item>
 
     <el-form-item label="用户组" prop="group_id">

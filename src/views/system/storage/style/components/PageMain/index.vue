@@ -178,7 +178,7 @@
               <el-input
                 v-model="form.name"
                 placeholder="请输入样式名称"
-                clearable/>
+                :clearable="true"/>
             </el-form-item>
 
             <el-form-item
@@ -187,7 +187,7 @@
               <el-input
                 v-model="form.code"
                 placeholder="请输入样式编码"
-                clearable/>
+                :clearable="true"/>
             </el-form-item>
 
             <el-form-item

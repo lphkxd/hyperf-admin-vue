@@ -12,7 +12,7 @@
         placeholder="可输入 账号/昵称"
         @keyup.enter.native="handleFormSubmit"
         style="width: 200px;"
-        clearable/>
+        :clearable="true"/>
     </el-form-item>
 
     <el-form-item label="类型" prop="type">
@@ -74,7 +74,7 @@
               placeholder="可输入关键词搜索咨询"
               @keyup.enter.native="handleFormSubmit"
               style="width: 200px;"
-              clearable/>
+              :clearable="true"/>
           </el-form-item>
 
           <el-form-item label="前台" prop="is_show">

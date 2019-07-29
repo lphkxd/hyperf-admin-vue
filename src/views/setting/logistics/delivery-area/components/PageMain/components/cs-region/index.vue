@@ -30,7 +30,7 @@
         node-key="region_id"
         :props="treeProps"
         :load="loadNode"
-        lazy>
+        :lazy="true">
           <span class="custom-tree-node action" slot-scope="{node, data}">
             <span>{{node.label}}</span>
 

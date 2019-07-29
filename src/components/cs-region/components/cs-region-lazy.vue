@@ -14,8 +14,8 @@
         node-key="region_id"
         :props="treeProps"
         :load="loadNode"
-        show-checkbox
-        lazy
+        :show-checkbox="true"
+        :lazy="true"
         ref="tree"/>
 
       <div slot="footer" class="dialog-footer">

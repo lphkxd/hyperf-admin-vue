@@ -13,7 +13,7 @@
         placeholder="可输入账号"
         @keyup.enter.native="handleFormSubmit"
         style="width: 200px;"
-        clearable/>
+        :clearable="true"/>
     </el-form-item>
 
     <el-form-item label="账号类型" prop="client_type">
@@ -63,7 +63,7 @@
               placeholder="可输入路径"
               @keyup.enter.native="handleFormSubmit"
               style="width: 320px;"
-              clearable/>
+              :clearable="true"/>
           </el-form-item>
 
           <el-form-item label="时间段" prop="time_period">

@@ -89,7 +89,7 @@
             placeholder="请输入回复内容"
             type="textarea"
             :autosize="{minRows: 5}"
-            show-word-limit
+            :show-word-limit="true"
             maxlength="200"/>
 
           <el-button

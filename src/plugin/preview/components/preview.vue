@@ -2,7 +2,6 @@
   <el-dialog
     :visible.sync="dialogVisible"
     :append-to-body="true"
-    :close-on-click-modal="false"
     @close="close">
     <div class="image">
       <el-image :src="dialogImageUrl" @click.native="$open(dialogImageUrl)"/>
@@ -20,17 +19,32 @@ export default {
     }
   },
   methods: {
-    showImagePreview(imageUrl = '') {
+    getImageUrl(image) {
+      let result = []
+      if (Array.isArray(image)) {
+        for (let item of image) {
+          result.push(this.checkUrl(item))
+        }
+      } else {
+        result.push(this.checkUrl(image))
+      }
+
+      return result
+    },
+    checkUrl(url) {
       const blob = /^(blob)[^\s]+/
       const reg = /^((https|http|ftp|rtsp|mms)?:\/\/)[^\s]+/
 
-      if (!blob.test(imageUrl) && !reg.test(imageUrl)) {
-        imageUrl = document.location.protocol + '//' + imageUrl
+      if (!blob.test(url) && !reg.test(url)) {
+        return document.location.protocol + '//' + url
       }
 
+      return url
+    },
+    show(image) {
       this.$nextTick(() => {
         this.dialogVisible = true
-        this.dialogImageUrl = imageUrl
+        this.dialogImageUrl = Array.isArray(image) ? image[0] : image
       })
     },
     close() {

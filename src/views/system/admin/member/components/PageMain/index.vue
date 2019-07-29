@@ -156,7 +156,7 @@
             v-model="form.username"
             :disabled="dialogStatus !== 'create'"
             placeholder="请输入账号"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
 
         <el-form-item
@@ -167,7 +167,7 @@
             type="password"
             v-model="form.password"
             placeholder="请输入密码"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
 
         <el-form-item
@@ -178,7 +178,7 @@
             type="password"
             v-model="form.password_confirm"
             placeholder="请再次输入密码"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
 
         <el-form-item
@@ -187,7 +187,7 @@
           <el-input
             v-model="form.nickname"
             placeholder="请输入昵称"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
 
         <el-form-item

@@ -122,7 +122,7 @@
           <el-input
             v-model="form.name"
             placeholder="请输入应用安装包名称"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
 
         <el-form-item
@@ -131,7 +131,7 @@
           <el-input
             v-model="form.user_agent"
             placeholder="请输入系统标识"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
 
         <el-form-item
@@ -140,7 +140,7 @@
           <el-input
             v-model="form.ver"
             placeholder="请输入应用安装包版本号"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
 
         <el-form-item

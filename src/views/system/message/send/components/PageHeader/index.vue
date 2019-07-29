@@ -13,7 +13,7 @@
         placeholder="消息标题"
         @keyup.enter.native="handleFormSubmit"
         style="width: 200px;"
-        clearable/>
+        :draggable="true"/>
     </el-form-item>
 
     <el-form-item label="成员组" prop="member">

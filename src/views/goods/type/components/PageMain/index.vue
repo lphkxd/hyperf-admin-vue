@@ -86,8 +86,8 @@
             v-model="form.type_name"
             placeholder="请输入模型名称"
             @keyup.enter.native="dialogStatus === 'create' ? create() : update()"
-            ref="input"
-            clearable/>
+            :clearable="true"
+            ref="input"/>
         </el-form-item>
       </el-form>
 

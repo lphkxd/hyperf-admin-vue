@@ -21,6 +21,10 @@
   box-shadow: none !important;
 }
 
+.el-checkbox:last-of-type {
+  margin-right: 8px !important;
+}
+
 button, input, select, textarea {
   font-family: inherit;
   font-size: inherit;

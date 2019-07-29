@@ -67,7 +67,7 @@
           placeholder="输入关键字进行过滤"
           prefix-icon="el-icon-search"
           style="width: 180px;"
-          clearable>
+          :draggable="true">
         </el-input>
       </el-form-item>
 
@@ -95,8 +95,8 @@
           @node-drop="handleDrop"
           :allow-drag="allowDrag"
           :allow-drop="allowDrop"
-          draggable
-          show-checkbox
+          :draggable="true"
+          :show-checkbox="true"
           ref="tree">
           <span class="custom-tree-node action" slot-scope="{node, data}">
             <span class="brother-showing" :class="{'status-tree': !data.status}">
@@ -170,7 +170,7 @@
               <el-input
                 v-model="form.name"
                 placeholder="请输入权限名称"
-                clearable/>
+                :draggable="true"/>
             </el-form-item>
 
             <el-row :gutter="20">
@@ -247,7 +247,7 @@
                   :data="menuData"
                   :props="treeProps"
                   :default-checked-keys="form.menu_auth"
-                  show-checkbox
+                  :show-checkbox="true"
                   ref="menuTree">
                     <span class="custom-tree-node" slot-scope="{node, data}">
                       <span class="brother-showing" :class="{'status-tree': !data.status}">
@@ -269,7 +269,7 @@
                   :data="menuData"
                   :props="treeProps"
                   :default-checked-keys="form.log_auth"
-                  show-checkbox
+                  :show-checkbox="true"
                   ref="logTree">
                     <span class="custom-tree-node" slot-scope="{node, data}">
                       <span class="brother-showing" :class="{'status-tree': !data.status}">

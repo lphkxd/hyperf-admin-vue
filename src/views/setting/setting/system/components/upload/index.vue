@@ -24,7 +24,7 @@
       <el-input
         v-model="form.oss.value"
         :placeholder="form.oss.description"
-        clearable/>
+        :clearable="true"/>
       <div class="help-block" v-html="form.oss.help_text"></div>
     </el-form-item>
 
@@ -63,7 +63,7 @@
       <el-input
         v-model="form.careyshop_url.value"
         :placeholder="form.careyshop_url.description"
-        clearable/>
+        :clearable="true"/>
       <div class="help-block" v-html="form.careyshop_url.help_text"></div>
     </el-form-item>
 
@@ -75,7 +75,7 @@
       <el-input
         v-model="form.qiniu_access_key.value"
         :placeholder="form.qiniu_access_key.description"
-        clearable/>
+        :clearable="true"/>
       <div class="help-block" v-html="form.qiniu_access_key.help_text"></div>
     </el-form-item>
 
@@ -85,7 +85,7 @@
       <el-input
         v-model="form.qiniu_secret_key.value"
         :placeholder="form.qiniu_secret_key.description"
-        clearable/>
+        :clearable="true"/>
       <div class="help-block" v-html="form.qiniu_secret_key.help_text"></div>
     </el-form-item>
 
@@ -95,7 +95,7 @@
       <el-input
         v-model="form.qiniu_bucket.value"
         :placeholder="form.qiniu_bucket.description"
-        clearable/>
+        :clearable="true"/>
       <div class="help-block" v-html="form.qiniu_bucket.help_text"></div>
     </el-form-item>
 
@@ -105,7 +105,7 @@
       <el-input
         v-model="form.qiniu_url.value"
         :placeholder="form.qiniu_url.description"
-        clearable/>
+        :clearable="true"/>
       <div class="help-block" v-html="form.qiniu_url.help_text"></div>
     </el-form-item>
 
@@ -117,7 +117,7 @@
       <el-input
         v-model="form.aliyun_access_key.value"
         :placeholder="form.aliyun_access_key.description"
-        clearable/>
+        :clearable="true"/>
       <div class="help-block" v-html="form.aliyun_access_key.help_text"></div>
     </el-form-item>
 
@@ -127,7 +127,7 @@
       <el-input
         v-model="form.aliyun_secret_key.value"
         :placeholder="form.aliyun_secret_key.description"
-        clearable/>
+        :clearable="true"/>
       <div class="help-block" v-html="form.aliyun_secret_key.help_text"></div>
     </el-form-item>
 
@@ -137,7 +137,7 @@
       <el-input
         v-model="form.aliyun_bucket.value"
         :placeholder="form.aliyun_bucket.description"
-        clearable/>
+        :clearable="true"/>
       <div class="help-block" v-html="form.aliyun_bucket.help_text"></div>
     </el-form-item>
 
@@ -147,7 +147,7 @@
       <el-input
         v-model="form.aliyun_url.value"
         :placeholder="form.aliyun_url.description"
-        clearable/>
+        :clearable="true"/>
       <div class="help-block" v-html="form.aliyun_url.help_text"></div>
     </el-form-item>
 
@@ -157,7 +157,7 @@
       <el-input
         v-model="form.aliyun_endpoint.value"
         :placeholder="form.aliyun_endpoint.description"
-        clearable/>
+        :clearable="true"/>
       <div class="help-block" v-html="form.aliyun_endpoint.help_text"></div>
     </el-form-item>
 
@@ -167,7 +167,7 @@
       <el-input
         v-model="form.aliyun_rolearn.value"
         :placeholder="form.aliyun_rolearn.description"
-        clearable/>
+        :clearable="true"/>
       <div class="help-block" v-html="form.aliyun_rolearn.help_text"></div>
     </el-form-item>
 

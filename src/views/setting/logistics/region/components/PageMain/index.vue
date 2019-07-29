@@ -40,7 +40,7 @@
           placeholder="输入关键字进行过滤"
           prefix-icon="el-icon-search"
           style="width: 180px;"
-          clearable>
+          :clearable="true">
         </el-input>
       </el-form-item>
 
@@ -66,8 +66,8 @@
           @node-drop="handleDrop"
           :allow-drag="allowDrag"
           :allow-drop="allowDrop"
-          draggable
-          show-checkbox
+          :draggable="true"
+          :show-checkbox="true"
           ref="tree">
           <span class="custom-tree-node action" slot-scope="{node, data}">
             <span class="brother-showing">
@@ -146,7 +146,7 @@
                   <el-input
                     v-model="form.region_name"
                     placeholder="请输入区域名称"
-                    clearable/>
+                    :clearable="true"/>
                 </el-form-item>
               </el-col>
 

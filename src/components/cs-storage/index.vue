@@ -39,8 +39,8 @@
               v-model="form.name"
               placeholder="输入资源名称进行搜索"
               @keyup.enter.native="handleSearch"
-              size="small"
-              clearable>
+              :clearable="true"
+              size="small">
               <el-button slot="append" icon="el-icon-search" @click="handleSearch"></el-button>
             </el-input>
           </el-form-item>

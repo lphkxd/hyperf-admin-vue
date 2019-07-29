@@ -180,7 +180,7 @@
           <el-input
             v-model="form.name"
             placeholder="请输入广告位置名称"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
 
         <el-form-item
@@ -219,7 +219,7 @@
               <el-input
                 v-model="form.code"
                 placeholder="可输入广告位置编码"
-                clearable/>
+                :clearable="true"/>
             </el-form-item>
           </el-col>
         </el-row>

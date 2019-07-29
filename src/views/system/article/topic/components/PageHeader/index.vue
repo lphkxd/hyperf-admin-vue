@@ -13,7 +13,7 @@
         placeholder="专题标题"
         @keyup.enter.native="handleFormSubmit"
         style="width: 200px;"
-        clearable/>
+        :clearable="true"/>
     </el-form-item>
 
     <el-form-item label="关键词" prop="keywords">
@@ -23,7 +23,7 @@
         placeholder="专题关键词"
         @keyup.enter.native="handleFormSubmit"
         style="width: 140px;"
-        clearable/>
+        :clearable="true"/>
     </el-form-item>
 
     <el-form-item>
@@ -58,7 +58,7 @@
               placeholder="专题别名"
               @keyup.enter.native="handleFormSubmit"
               style="width: 160px;"
-              clearable/>
+              :clearable="true"/>
           </el-form-item>
 
           <el-form-item label="状态" prop="status">

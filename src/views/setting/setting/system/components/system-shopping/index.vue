@@ -71,7 +71,7 @@
         v-model="form.spacer.value"
         :placeholder="form.spacer.description"
         style="width: 180px;"
-        clearable/>
+        :clearable="true"/>
       <div class="help-block" v-html="form.spacer.help_text"></div>
     </el-form-item>
 

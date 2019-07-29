@@ -24,7 +24,7 @@
         placeholder="可输入品牌名称"
         @keyup.enter.native="handleFormSubmit"
         style="width: 200px;"
-        clearable/>
+        :clearable="true"/>
     </el-form-item>
 
     <el-form-item label="状态" prop="status">

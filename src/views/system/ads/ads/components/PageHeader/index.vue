@@ -13,7 +13,7 @@
         placeholder="广告列表名称"
         @keyup.enter.native="handleFormSubmit"
         style="width: 200px;"
-        clearable/>
+        :clearable="true"/>
     </el-form-item>
 
     <el-form-item label="编码" prop="code">
@@ -23,7 +23,7 @@
         placeholder="广告列表编码"
         @keyup.enter.native="handleFormSubmit"
         style="width: 140px;"
-        clearable/>
+        :clearable="true"/>
     </el-form-item>
 
     <el-form-item label="类型" prop="type">

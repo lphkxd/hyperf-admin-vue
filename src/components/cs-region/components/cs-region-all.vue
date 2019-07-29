@@ -16,7 +16,7 @@
         :props="treeProps"
         :default-checked-keys="checkedKeys"
         :close-on-click-modal="false"
-        show-checkbox
+        :show-checkbox="true"
         ref="tree"/>
 
       <div slot="footer" class="dialog-footer">

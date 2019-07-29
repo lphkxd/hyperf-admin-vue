@@ -26,7 +26,7 @@
         placeholder="文章标题"
         @keyup.enter.native="handleFormSubmit"
         style="width: 200px;"
-        clearable/>
+        :clearable="true"/>
     </el-form-item>
 
     <el-form-item label="关键词" prop="keywords">
@@ -36,7 +36,7 @@
         placeholder="文章关键词"
         @keyup.enter.native="handleFormSubmit"
         style="width: 140px;"
-        clearable/>
+        :clearable="true"/>
     </el-form-item>
 
     <el-form-item>

@@ -105,7 +105,7 @@
           <el-input
             v-model="form.consignee"
             placeholder="请输入姓名"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
 
         <el-form-item
@@ -126,7 +126,7 @@
           <el-input
             v-model="form.address"
             placeholder="请输入详细地址"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
 
         <el-form-item
@@ -135,7 +135,7 @@
           <el-input
             v-model="form.zipcode"
             placeholder="可输入邮编"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
 
         <el-form-item
@@ -144,7 +144,7 @@
           <el-input
             v-model="form.mobile"
             placeholder="请输入手机"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
 
         <el-form-item
@@ -153,7 +153,7 @@
           <el-input
             v-model="form.tel"
             placeholder="可输入电话"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
 
         <el-form-item

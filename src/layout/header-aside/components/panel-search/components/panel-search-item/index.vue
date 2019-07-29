@@ -40,7 +40,7 @@ export default {
     margin: 0px -20px;
     &.can-hover {
       @extend %unable-select;
-      margin: 0px;
+      margin: 0;
       &:hover {
         background-color: #F5F7FA;
         .cs-panel-search-item__icon {

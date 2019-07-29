@@ -144,7 +144,7 @@
           <el-input
             v-model="form.nick_name"
             placeholder="请输入客服昵称"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
 
         <el-form-item
@@ -153,7 +153,7 @@
           <el-input
             v-model="form.type_name"
             placeholder="请输入客服组名称"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
 
         <el-form-item

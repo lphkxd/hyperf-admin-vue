@@ -124,7 +124,7 @@
           <el-input
             v-model="updateForm.image"
             placeholder="可输入支付图片"
-            clearable>
+            :clearable="true">
             <template slot="prepend">
               <el-popover
                 v-if="updateForm.image"
@@ -228,7 +228,7 @@
           <el-input
             v-model="item.value"
             :placeholder="item.name"
-            clearable/>
+            :clearable="true"/>
           <div class="help-block" v-html="item.remark"></div>
         </el-form-item>
       </el-form>

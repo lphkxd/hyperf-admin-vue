@@ -37,7 +37,7 @@
           placeholder="输入关键字进行过滤"
           prefix-icon="el-icon-search"
           style="width: 180px;"
-          clearable>
+          :clearable="true">
         </el-input>
       </el-form-item>
 
@@ -60,9 +60,9 @@
           :default-expand-all="isExpandAll"
           :default-expanded-keys="expanded"
           :allow-drag="allowDrag"
+          :draggable="true"
           @node-click="handleNodeClick"
           @node-drop="handleDrop"
-          draggable
           ref="tree">
           <span class="custom-tree-node action" slot-scope="{node, data}">
             <span class="brother-showing">
@@ -143,7 +143,7 @@
                   <el-input
                     v-model="form.cat_name"
                     placeholder="请输入文章分类名称"
-                    clearable/>
+                    :clearable="true"/>
                 </el-form-item>
               </el-col>
 
@@ -194,7 +194,7 @@
               <el-input
                 v-model="form.keywords"
                 placeholder="可输入文章分类关键词"
-                clearable/>
+                :clearable="true"/>
             </el-form-item>
 
             <el-form-item

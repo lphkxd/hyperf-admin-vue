@@ -12,7 +12,7 @@
         placeholder="订单号、售后单号等"
         @keyup.enter.native="handleFormSubmit"
         style="width: 170px;"
-        clearable/>
+        :clearable="true"/>
     </el-form-item>
 
     <el-form-item label="快递单号" prop="logistic_code">
@@ -22,7 +22,7 @@
         placeholder="可输入快递单号"
         @keyup.enter.native="handleFormSubmit"
         style="width: 150px;"
-        clearable/>
+        :clearable="true"/>
     </el-form-item>
 
     <el-form-item label="状态" prop="state">
@@ -71,7 +71,7 @@
               placeholder="可输入 账号/昵称"
               @keyup.enter.native="handleFormSubmit"
               style="width: 220px;"
-              clearable/>
+              :clearable="true"/>
           </el-form-item>
 
           <el-form-item label="超时配送(天)" prop="timeout">

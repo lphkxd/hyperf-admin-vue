@@ -117,7 +117,7 @@
           <el-input
             v-model="form.name"
             placeholder="请输入快递公司名称"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
 
         <el-row>
@@ -128,7 +128,7 @@
               <el-input
                 v-model="form.phonetic"
                 placeholder="新增不填写将自动识别"
-                clearable/>
+                :clearable="true"/>
             </el-form-item>
           </el-col>
 
@@ -139,7 +139,7 @@
               <el-input
                 v-model="form.code"
                 placeholder="请输入快递公司编码"
-                clearable/>
+                :clearable="true"/>
             </el-form-item>
           </el-col>
         </el-row>

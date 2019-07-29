@@ -20,7 +20,7 @@
           <el-input
             v-model="currentForm.title"
             placeholder="请输入文章标题"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
 
         <el-form-item
@@ -43,7 +43,7 @@
           <el-input
             v-model="currentForm.image"
             placeholder="可输入文章图片"
-            clearable>
+            :clearable="true">
             <template slot="prepend">
               <el-popover
                 v-if="currentForm.image"
@@ -76,7 +76,7 @@
           <el-input
             v-model="currentForm.keywords"
             placeholder="可输入文章关键词"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
 
         <el-form-item
@@ -104,7 +104,7 @@
           <el-input
             v-model="currentForm.source"
             placeholder="可输入文章来源"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
 
         <el-form-item
@@ -113,7 +113,7 @@
           <el-input
             v-model="currentForm.source_url"
             placeholder="可输入来源地址"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
 
         <el-form-item
@@ -122,7 +122,7 @@
           <el-input
             v-model="currentForm.url"
             placeholder="可输入文章外部连接"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
 
         <el-form-item

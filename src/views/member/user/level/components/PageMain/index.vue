@@ -93,7 +93,7 @@
           <el-input
             v-model="form.name"
             placeholder="请输入等级名称"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
 
         <el-row>

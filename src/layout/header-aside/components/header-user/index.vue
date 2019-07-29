@@ -45,7 +45,7 @@
             @keyup.enter.native="setPassword"
             type="password"
             placeholder="原始密码"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
         <el-form-item
           label="新密码"
@@ -55,7 +55,7 @@
             @keyup.enter.native="setPassword"
             type="password"
             placeholder="新密码"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
         <el-form-item
           label="确认密码"
@@ -65,7 +65,7 @@
             @keyup.enter.native="setPassword"
             type="password"
             placeholder="确认密码"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

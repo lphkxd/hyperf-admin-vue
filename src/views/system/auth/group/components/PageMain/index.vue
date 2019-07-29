@@ -146,7 +146,7 @@
           <el-input
             v-model="form.name"
             placeholder="请输入名称"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
 
         <el-form-item

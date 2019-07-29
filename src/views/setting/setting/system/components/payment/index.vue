@@ -9,7 +9,7 @@
       <el-input
         v-model="form.success.value"
         :placeholder="form.success.description"
-        clearable/>
+        :clearable="true"/>
       <div class="help-block" v-html="form.success.help_text"></div>
     </el-form-item>
 
@@ -19,7 +19,7 @@
       <el-input
         v-model="form.error.value"
         :placeholder="form.error.description"
-        clearable/>
+        :clearable="true"/>
       <div class="help-block" v-html="form.error.help_text"></div>
     </el-form-item>
 

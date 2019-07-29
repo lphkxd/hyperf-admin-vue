@@ -13,7 +13,7 @@
         placeholder="可输入 账号/昵称"
         @keyup.enter.native="handleFormSubmit"
         style="width: 200px;"
-        clearable/>
+        :clearable="true"/>
     </el-form-item>
 
     <el-form-item label="支付方式" prop="to_payment">
@@ -76,7 +76,7 @@
               placeholder="可输入支付流水号"
               @keyup.enter.native="handleFormSubmit"
               style="width: 320px;"
-              clearable/>
+              :clearable="true"/>
           </el-form-item>
 
           <el-form-item label="订单号" prop="order_no">
@@ -86,7 +86,7 @@
               placeholder="可输入订单号"
               @keyup.enter.native="handleFormSubmit"
               style="width: 320px;"
-              clearable/>
+              :clearable="true"/>
           </el-form-item>
 
           <el-form-item label="交易号" prop="out_trade_no">
@@ -96,7 +96,7 @@
               placeholder="可输入交易号"
               @keyup.enter.native="handleFormSubmit"
               style="width: 320px;"
-              clearable/>
+              :clearable="true"/>
           </el-form-item>
 
           <el-form-item label="时间段" prop="time_period">

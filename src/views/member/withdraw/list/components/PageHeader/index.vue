@@ -12,7 +12,7 @@
         placeholder="提现单号"
         @keyup.enter.native="handleFormSubmit"
         style="width: 230px;"
-        clearable/>
+        :clearable="true"/>
     </el-form-item>
 
     <el-form-item label="账号" prop="account">
@@ -22,7 +22,7 @@
         placeholder="可输入 账号/昵称"
         @keyup.enter.native="handleFormSubmit"
         style="width: 170px;"
-        clearable/>
+        :clearable="true"/>
     </el-form-item>
 
     <el-form-item label="状态" prop="status">

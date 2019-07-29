@@ -215,7 +215,7 @@
           <el-input
             v-model="form.name"
             placeholder="请输入广告名称"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
 
         <el-row :gutter="20">
@@ -245,7 +245,7 @@
               <el-input
                 v-model="form.code"
                 placeholder="可输入广告编码"
-                clearable/>
+                :clearable="true"/>
             </el-form-item>
           </el-col>
         </el-row>
@@ -313,7 +313,7 @@
               <el-input
                 v-model="form.url"
                 placeholder="请输入广告链接地址"
-                clearable/>
+                :clearable="true"/>
             </el-form-item>
           </el-col>
 

@@ -119,7 +119,7 @@
           <el-input
             v-model="form.name"
             placeholder="请输入二维码名称"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
 
         <el-form-item
@@ -138,7 +138,7 @@
           <el-input
             v-model="form.logo"
             placeholder="可输入二维码Logo链接"
-            clearable>
+            :clearable="true">
             <cs-upload
               slot="append"
               type="slot"

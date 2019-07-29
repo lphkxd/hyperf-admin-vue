@@ -11,7 +11,7 @@
         prefix-icon="el-icon-search"
         placeholder="可输入应用安装包名称"
         @keyup.enter.native="handleFormSubmit"
-        clearable/>
+        :clearable="true"/>
     </el-form-item>
 
     <el-form-item label="系统标识" prop="user_agent">
@@ -20,7 +20,7 @@
         prefix-icon="el-icon-search"
         placeholder="可输入系统标识"
         @keyup.enter.native="handleFormSubmit"
-        clearable/>
+        :clearable="true"/>
     </el-form-item>
 
     <el-form-item>

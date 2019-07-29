@@ -20,7 +20,7 @@
           <el-input
             v-model="currentForm.title"
             placeholder="请输入专题标题"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
 
         <el-form-item
@@ -29,7 +29,7 @@
           <el-input
             v-model="currentForm.alias"
             placeholder="可输入专题别名"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
 
         <el-form-item
@@ -38,7 +38,7 @@
           <el-input
             v-model="currentForm.keywords"
             placeholder="可输入专题关键词"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
 
         <el-form-item

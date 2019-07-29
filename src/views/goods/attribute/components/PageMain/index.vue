@@ -222,7 +222,7 @@
           <el-input
             v-model="form.attr_name"
             placeholder="请输入商品属性名称"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
 
         <el-form-item
@@ -259,7 +259,7 @@
           <el-input
             v-model="form.icon"
             placeholder="可输入商品属性图标(图片)"
-            clearable>
+            :clearable="true">
             <template slot="prepend">
               <el-popover
                 v-if="form.icon"

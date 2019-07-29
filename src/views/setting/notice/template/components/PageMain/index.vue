@@ -123,7 +123,7 @@
           <el-input
             v-model="smsForm.key_id"
             placeholder="Access Key ID"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
 
         <el-form-item
@@ -132,7 +132,7 @@
           <el-input
             v-model="smsForm.key_secret"
             placeholder="Access Key Secret"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
 
         <el-form-item
@@ -177,7 +177,7 @@
           <el-input
             v-model="emailForm.email_host"
             placeholder="SMTP服务器"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
 
         <el-form-item
@@ -186,7 +186,7 @@
           <el-input
             v-model="emailForm.email_port"
             placeholder="SMTP端口"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
 
         <el-form-item
@@ -195,7 +195,7 @@
           <el-input
             v-model="emailForm.email_addr"
             placeholder="发信人邮箱地址"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
 
         <el-form-item
@@ -204,7 +204,7 @@
           <el-input
             v-model="emailForm.email_id"
             placeholder="SMTP身份验证用户名"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
 
         <el-form-item
@@ -213,7 +213,7 @@
           <el-input
             v-model="emailForm.email_pass"
             placeholder="SMTP身份验证码"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
 
         <el-form-item
@@ -269,7 +269,7 @@
           <el-input
             v-model="tplForm.sms_code"
             placeholder="阿里云短信模板编号"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
 
         <el-form-item
@@ -279,7 +279,7 @@
           <el-input
             v-model="tplForm.sms_sign"
             placeholder="阿里云短信签名"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
 
         <el-form-item
@@ -290,8 +290,8 @@
             v-model="tplForm.title"
             placeholder="通知系统标题"
             maxlength="200"
-            show-word-limit
-            clearable/>
+            :show-word-limit="true"
+            :clearable="true"/>
         </el-form-item>
 
         <el-form-item
@@ -316,7 +316,7 @@
             type="textarea"
             placeholder="通知系统模板"
             :autosize="{minRows: 5}"
-            show-word-limit
+            :show-word-limit="true"
             maxlength="500"
             ref="textarea"/>
 

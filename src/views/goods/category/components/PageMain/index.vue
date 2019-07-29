@@ -78,7 +78,7 @@
           placeholder="输入关键字进行过滤"
           prefix-icon="el-icon-search"
           style="width: 180px;"
-          clearable>
+          :clearable="true">
         </el-input>
       </el-form-item>
 
@@ -190,7 +190,7 @@
                   <el-input
                     v-model="form.name"
                     placeholder="请输入商品分类名称"
-                    clearable/>
+                    :clearable="true"/>
                 </el-form-item>
               </el-col>
 
@@ -201,7 +201,7 @@
                   <el-input
                     v-model="form.name_phonetic"
                     placeholder="不填写系统将自动识别"
-                    clearable/>
+                    :clearable="true"/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -214,7 +214,7 @@
                   <el-input
                     v-model="form.alias"
                     placeholder="可输入商品分类别名"
-                    clearable/>
+                    :clearable="true"/>
                 </el-form-item>
               </el-col>
 
@@ -225,7 +225,7 @@
                   <el-input
                     v-model="form.alias_phonetic"
                     placeholder="不填写系统将自动识别"
-                    clearable/>
+                    :clearable="true"/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -238,7 +238,7 @@
                   <el-input
                     v-model="form.category_pic"
                     placeholder="可输入商品分类图片"
-                    clearable>
+                    :clearable="true">
                     <template slot="prepend">
                       <el-popover
                         v-if="form.category_pic"
@@ -273,7 +273,7 @@
                   <el-input
                     v-model="form.category_ioc"
                     placeholder="可输入商品分类图标"
-                    clearable/>
+                    :clearable="true"/>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -284,7 +284,7 @@
               <el-input
                 v-model="form.keywords"
                 placeholder="可输入商品分类关键词"
-                clearable/>
+                :clearable="true"/>
             </el-form-item>
 
             <el-form-item

@@ -186,7 +186,7 @@
               <el-input
                 v-model="form.name"
                 placeholder="请输入品牌名称"
-                clearable/>
+                :clearable="true"/>
             </el-form-item>
           </el-col>
 
@@ -197,7 +197,7 @@
               <el-input
                 v-model="form.phonetic"
                 placeholder="不填写系统将自动识别"
-                clearable/>
+                :clearable="true"/>
             </el-form-item>
           </el-col>
         </el-row>
@@ -222,7 +222,7 @@
           <el-input
             v-model="form.description"
             placeholder="可输入品牌描述"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
 
         <el-form-item
@@ -231,7 +231,7 @@
           <el-input
             v-model="form.logo"
             placeholder="可输入品牌Logo"
-            clearable>
+            :clearable="true">
             <template slot="prepend">
               <el-popover
                 v-if="form.logo"
@@ -264,7 +264,7 @@
           <el-input
             v-model="form.url"
             placeholder="可输入品牌链接地址"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
 
         <el-form-item

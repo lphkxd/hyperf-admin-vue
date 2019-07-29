@@ -12,7 +12,7 @@
         prefix-icon="el-icon-search"
         placeholder="可输入模型名称"
         @keyup.enter.native="handleFormSubmit"
-        clearable/>
+        :clearable="true"/>
     </el-form-item>
 
     <el-form-item>

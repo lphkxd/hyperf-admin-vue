@@ -78,7 +78,7 @@
           <el-input
             v-model="form.name"
             placeholder="请输入收款人姓名"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
 
         <el-form-item
@@ -87,7 +87,7 @@
           <el-input
             v-model="form.mobile"
             placeholder="请输入收款人手机号"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
 
         <el-form-item
@@ -96,7 +96,7 @@
           <el-input
             v-model="form.bank_name"
             placeholder="请输入收款账户"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
 
         <el-form-item
@@ -105,7 +105,7 @@
           <el-input
             v-model="form.account"
             placeholder="请输入收款账号"
-            clearable/>
+            :clearable="true"/>
         </el-form-item>
       </el-form>
 
