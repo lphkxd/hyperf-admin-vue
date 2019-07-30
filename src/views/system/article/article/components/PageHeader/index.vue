@@ -59,10 +59,9 @@
 
     <el-form-item>
       <el-popover
-        width="200"
+        width="233"
         placement="bottom"
         trigger="click">
-
         <div class="more-filter">
           <el-form-item label="置顶" prop="is_top">
             <el-select
@@ -158,8 +157,5 @@ export default {
   }
   .more-filter >>> label {
     width: auto;
-  }
-  .more-filter >>> input {
-    width: 160px;
   }
 </style>

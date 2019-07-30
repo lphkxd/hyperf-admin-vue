@@ -26,7 +26,7 @@
         label="编号"
         prop="goods_type_id"
         sortable="custom"
-        width="160">
+        width="100">
       </el-table-column>
 
       <el-table-column

@@ -60,14 +60,13 @@
       @selection-change="handleSelectionChange"
       @sort-change="sortChange"
       ref="multipleTable">
-
       <el-table-column type="selection" width="35"/>
 
       <el-table-column
         label="编号"
         prop="goods_attribute_id"
         sortable="custom"
-        width="130">
+        width="120">
       </el-table-column>
 
       <el-table-column

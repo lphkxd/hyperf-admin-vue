@@ -53,7 +53,6 @@
       :data="currentTableData"
       @selection-change="handleSelectionChange"
       stripe>
-
       <el-table-column type="selection" width="35"/>
 
       <el-table-column

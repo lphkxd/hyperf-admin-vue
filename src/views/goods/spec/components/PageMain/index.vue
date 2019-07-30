@@ -52,14 +52,13 @@
       :data="currentTableData"
       @selection-change="handleSelectionChange"
       @sort-change="sortChange">
-
       <el-table-column type="selection" width="35"/>
 
       <el-table-column
         label="编号"
         prop="spec_id"
         sortable="custom"
-        width="160">
+        width="100">
       </el-table-column>
 
       <el-table-column

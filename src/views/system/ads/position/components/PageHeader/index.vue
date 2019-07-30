@@ -58,10 +58,9 @@
 
     <el-form-item>
       <el-popover
-        width="230"
+        width="261"
         placement="bottom"
         trigger="click">
-
         <div class="more-filter">
           <el-form-item label="平台" prop="platform">
             <el-select
@@ -152,8 +151,5 @@ export default {
   }
   .more-filter >>> label {
     width: 68px;
-  }
-  .more-filter >>> input {
-    width: 160px;
   }
 </style>

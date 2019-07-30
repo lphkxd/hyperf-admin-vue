@@ -33,14 +33,13 @@
       @selection-change="handleSelectionChange"
       @sort-change="sortChange"
       stripe>
-
       <el-table-column type="selection" width="35"/>
 
       <el-table-column
         label="编号"
         prop="delivery_item_id"
         sortable="custom"
-        min-width="60">
+        width="100">
       </el-table-column>
 
       <el-table-column

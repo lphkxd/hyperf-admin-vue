@@ -67,7 +67,6 @@
         width="402"
         placement="bottom"
         trigger="click">
-
         <div class="more-filter">
           <el-form-item label="支付流水号" prop="payment_no">
             <el-input
@@ -114,7 +113,6 @@
             <el-select
               v-model="form.type"
               placeholder="请选择"
-              style="width: 160px;"
               clearable
               value="">
               <el-option label="充值" value="0"/>

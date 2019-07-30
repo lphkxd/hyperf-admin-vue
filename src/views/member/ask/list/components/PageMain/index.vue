@@ -9,7 +9,7 @@
         label="编号"
         prop="ask_id"
         sortable="custom"
-        min-width="80">
+        min-width="100">
       </el-table-column>
 
       <el-table-column

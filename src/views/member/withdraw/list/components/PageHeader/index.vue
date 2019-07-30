@@ -60,7 +60,7 @@
 
     <el-form-item>
       <el-popover
-        width="402"
+        width="374"
         placement="bottom"
         trigger="click">
         <div class="more-filter">
@@ -142,6 +142,6 @@ export default {
     margin-bottom: -18px;
   }
   .more-filter >>> label {
-    width: 82px;
+    width: auto;
   }
 </style>

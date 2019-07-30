@@ -60,7 +60,7 @@
 
     <el-form-item>
       <el-popover
-        width="312"
+        width="412"
         placement="bottom"
         trigger="click">
         <div class="more-filter">
@@ -70,8 +70,19 @@
               prefix-icon="el-icon-search"
               placeholder="可输入 账号/昵称"
               @keyup.enter.native="handleFormSubmit"
-              style="width: 220px;"
+              style="width: 320px;"
               :clearable="true"/>
+          </el-form-item>
+
+          <el-form-item label="是否订阅" prop="is_sub">
+            <el-select
+              v-model="form.is_sub"
+              placeholder="请选择"
+              clearable
+              value="">
+              <el-option label="是" value="1"/>
+              <el-option label="否" value="0"/>
+            </el-select>
           </el-form-item>
 
           <el-form-item label="超时配送(天)" prop="timeout">
@@ -79,18 +90,6 @@
               v-model="form.timeout"
               controls-position="right"
               :min="0"/>
-          </el-form-item>
-
-          <el-form-item label="是否订阅" prop="is_sub">
-            <el-select
-              v-model="form.is_sub"
-              placeholder="请选择"
-              style="width: 130px;"
-              clearable
-              value="">
-              <el-option label="是" value="1"/>
-              <el-option label="否" value="0"/>
-            </el-select>
           </el-form-item>
         </div>
 

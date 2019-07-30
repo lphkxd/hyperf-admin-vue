@@ -62,10 +62,9 @@
 
     <el-form-item>
       <el-popover
-        width="240"
+        width="360"
         placement="bottom"
         trigger="click">
-
         <div class="more-filter">
           <el-form-item label="搜索" prop="content">
             <el-input
@@ -73,7 +72,7 @@
               prefix-icon="el-icon-search"
               placeholder="可输入关键词搜索咨询"
               @keyup.enter.native="handleFormSubmit"
-              style="width: 200px;"
+              style="width: 320px;"
               :clearable="true"/>
           </el-form-item>
 
@@ -83,8 +82,8 @@
               placeholder="请选择"
               clearable
               value="">
-              <el-option label="隐藏" value="0"/>
               <el-option label="显示" value="1"/>
+              <el-option label="隐藏" value="0"/>
             </el-select>
           </el-form-item>
         </div>
@@ -138,8 +137,5 @@ export default {
   }
   .more-filter >>> label {
     width: auto;
-  }
-  .more-filter >>> input {
-    width: 200px;
   }
 </style>

@@ -66,7 +66,6 @@
         width="402"
         placement="bottom"
         trigger="click">
-
         <div class="more-filter">
           <el-form-item label="操作人账号" prop="action">
             <el-input
@@ -113,7 +112,6 @@
             <el-select
               v-model="form.module"
               placeholder="请选择"
-              style="width: 160px;"
               clearable
               value="">
               <el-option label="积分" value="points"/>

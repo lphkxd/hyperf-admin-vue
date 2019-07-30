@@ -61,7 +61,6 @@
         width="388"
         placement="bottom"
         trigger="click">
-
         <div class="more-filter">
           <el-form-item label="投放日期" prop="time_period">
             <el-date-picker
@@ -93,7 +92,6 @@
             <el-select
               v-model="form.platform"
               placeholder="请选择"
-              style="width: 160px;"
               clearable
               value="">
               <el-option
@@ -108,7 +106,6 @@
             <el-select
               v-model="form.status"
               placeholder="请选择"
-              style="width: 160px;"
               clearable
               value="">
               <el-option label="启用" value="1"/>
