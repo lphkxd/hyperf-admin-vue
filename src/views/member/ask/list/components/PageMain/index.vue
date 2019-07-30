@@ -18,12 +18,12 @@
         min-width="300"
         :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          <el-link
+          <span
             v-if="auth.detail"
-            type="primary"
+            class="ask-title"
             @click="openAskDetail(scope.row.ask_id)">
             {{scope.row.title}}
-          </el-link>
+          </span>
 
           <span v-else>
             {{scope.row.title}}
@@ -195,3 +195,13 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+  .ask-title {
+    color: $color-primary;
+    &:hover {
+      cursor: pointer;
+      text-decoration: underline;
+    }
+  }
+</style>

@@ -39,7 +39,7 @@
       <el-table-column
         label="标题"
         prop="title"
-        min-width="220"
+        min-width="350"
         :show-overflow-tooltip="true">
       </el-table-column>
 
@@ -61,17 +61,10 @@
       </el-table-column>
 
       <el-table-column
-        label="游览量"
-        prop="page_views"
-        sortable="custom"
-        min-width="85">
-      </el-table-column>
-
-      <el-table-column
         label="日期"
         prop="create_time"
         align="center"
-        min-width="150"
+        width="160"
         sortable="custom">
         <template slot-scope="scope">
           <el-tooltip placement="top">

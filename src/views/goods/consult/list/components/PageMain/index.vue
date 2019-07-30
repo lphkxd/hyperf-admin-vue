@@ -46,8 +46,53 @@
       <el-table-column type="selection" width="35"/>
 
       <el-table-column
-        label="商品咨询">
+        label="商品咨询"
+        min-width="550">
         <template slot-scope="scope">
+          <el-image
+            class="goods-image"
+            :src="scope.row.get_goods.attachment | getPreviewUrl"
+            lazy/>
+
+          <div class="goods-info">
+            <div><span>{{scope.row.get_goods.name}}</span></div>
+            <div class="consult-content">
+              <p>{{scope.row.content}}</p>
+              <p>{{scope.row.create_time}}</p>
+            </div>
+          </div>
+        </template>
+      </el-table-column>
+
+      <el-table-column
+        label="状态"
+        prop="status"
+        align="center"
+        sortable="custom"
+        width="100">
+        <template slot-scope="scope">
+          <el-tag
+            :type="statusMap[scope.row.status].type"
+            size="mini">
+            {{statusMap[scope.row.status].text}}
+          </el-tag>
+        </template>
+      </el-table-column>
+
+      <el-table-column
+        label="前台"
+        prop="is_show"
+        sortable="custom"
+        align="center"
+        width="100">
+        <template slot-scope="scope">
+          <el-tag
+            size="mini"
+            :type="showMap[scope.row.is_show].type"
+            :style="auth.show || auth.hide ? 'cursor: pointer;' : ''"
+            @click.native="handleShow(scope.$index)">
+            {{showMap[scope.row.is_show].text}}
+          </el-tag>
         </template>
       </el-table-column>
 
@@ -74,6 +119,7 @@
 </template>
 
 <script>
+import util from '@/utils/util'
 import { mapActions } from 'vuex'
 import { delGoodsConsultList, setGoodsConsultShow } from '@/api/goods/consult'
 
@@ -123,6 +169,15 @@ export default {
           type: 'info'
         }
       }
+    }
+  },
+  filters: {
+    getPreviewUrl(val) {
+      if (Array.isArray(val) && val.length > 0) {
+        return util.getImageCodeUrl(val[0]['source'], 'goods_image_x80')
+      }
+
+      return null
     }
   },
   watch: {
@@ -289,3 +344,27 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .el-table >>> td {
+    background-color: #ffffff !important;
+  }
+  .goods-image {
+    float: left;
+    width: 80px;
+    height: 80px;
+  }
+  .goods-info {
+    float: left;
+    width: 80%;
+    margin-left: 20px;
+  }
+  .consult-content {
+    color: #909399;
+    font-size: 13px;
+  }
+  .consult-content p {
+    margin: 10px 0 10px 0;
+    line-height: 1.3;
+  }
+</style>
