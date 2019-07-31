@@ -66,11 +66,11 @@
         placement="bottom"
         trigger="click">
         <div class="more-filter">
-          <el-form-item label="咨询搜索" prop="content">
+          <el-form-item label="咨询内容" prop="content">
             <el-input
               v-model="form.content"
               prefix-icon="el-icon-search"
-              placeholder="可输入关键词搜索咨询"
+              placeholder="输入关键词对咨询内容进行搜索"
               @keyup.enter.native="handleFormSubmit"
               style="width: 320px;"
               :clearable="true"/>
@@ -94,8 +94,7 @@
               value="">
               <el-option label="编号" value="goods_consult_id"/>
               <el-option label="类型" value="type"/>
-              <el-option label="是否显示" value="is_show"/>
-              <el-option label="是否回复" value="status"/>
+              <el-option label="状态" value="status"/>
               <el-option label="创建日期" value="create_time"/>
             </el-select>
           </el-form-item>

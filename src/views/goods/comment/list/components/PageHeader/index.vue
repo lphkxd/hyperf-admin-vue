@@ -35,8 +35,8 @@
         style="width: 120px;"
         clearable
         value="">
-        <el-option label="未读" value="0"/>
-        <el-option label="已读" value="1"/>
+        <el-option label="待处理" value="0"/>
+        <el-option label="已处理" value="1"/>
       </el-select>
     </el-form-item>
 
@@ -60,7 +60,7 @@
 
     <el-form-item>
       <el-popover
-        width="360"
+        width="388"
         placement="bottom"
         trigger="click">
         <div class="more-filter">
@@ -74,28 +74,28 @@
               :clearable="true"/>
           </el-form-item>
 
-          <el-form-item label="搜索" prop="content">
+          <el-form-item label="评论内容" prop="content">
             <el-input
               v-model="form.content"
               prefix-icon="el-icon-search"
-              placeholder="可输入关键词搜索评价"
+              placeholder="输入关键词对评价内容进行搜索"
               @keyup.enter.native="handleFormSubmit"
               style="width: 320px;"
               :clearable="true"/>
           </el-form-item>
 
-          <el-form-item label="追评" prop="is_append">
+          <el-form-item label="追评类型" prop="is_append">
             <el-select
               v-model="form.is_append"
               placeholder="请选择"
               clearable
               value="">
-              <el-option label="不含追评" value="0"/>
-              <el-option label="包含追评" value="1"/>
+              <el-option label="主评" value="0"/>
+              <el-option label="追评" value="1"/>
             </el-select>
           </el-form-item>
 
-          <el-form-item label="前台" prop="is_show">
+          <el-form-item label="是否显示" prop="is_show">
             <el-select
               v-model="form.is_show"
               placeholder="请选择"
@@ -106,7 +106,7 @@
             </el-select>
           </el-form-item>
 
-          <el-form-item label="置顶" prop="is_top">
+          <el-form-item label="是否置顶" prop="is_top">
             <el-select
               v-model="form.is_top"
               placeholder="请选择"
@@ -117,7 +117,7 @@
             </el-select>
           </el-form-item>
 
-          <el-form-item label="有图" prop="is_image">
+          <el-form-item label="是否有图" prop="is_image">
             <el-select
               v-model="form.is_image"
               placeholder="请选择"
@@ -125,6 +125,28 @@
               value="">
               <el-option label="是" value="1"/>
               <el-option label="否" value="0"/>
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="排序类型" prop="order_field">
+            <el-select
+              v-model="form.order_field"
+              placeholder="请选择"
+              value="">
+              <el-option label="编号" value="goods_comment_id"/>
+              <el-option label="评分" value="score"/>
+              <el-option label="状态" value="status"/>
+              <el-option label="创建日期" value="create_time"/>
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="排序方式" prop="order_type">
+            <el-select
+              v-model="form.order_type"
+              placeholder="请选择"
+              value="">
+              <el-option label="升序" value="asc"/>
+              <el-option label="降序" value="desc"/>
             </el-select>
           </el-form-item>
         </div>
@@ -158,7 +180,9 @@ export default {
         is_append: undefined,
         is_show: undefined,
         is_top: undefined,
-        is_image: undefined
+        is_image: undefined,
+        order_type: 'desc',
+        order_field: 'goods_comment_id'
       }
     }
   },
@@ -178,6 +202,6 @@ export default {
     margin-bottom: -18px;
   }
   .more-filter >>> label {
-    width: auto;
+    width: 68px;
   }
 </style>

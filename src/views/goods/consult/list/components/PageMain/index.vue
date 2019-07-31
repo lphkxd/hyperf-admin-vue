@@ -64,14 +64,8 @@
       <el-table-column
         label="操作"
         align="center"
-        min-width="160">
+        min-width="120">
         <template slot-scope="scope">
-          <el-button
-            v-if="auth.detail"
-            @click="openConsultDetail(scope.row.goods_consult_id)"
-            size="small"
-            type="text">详细记录</el-button>
-
           <el-button
             v-if="auth.show || auth.hide"
             @click="handleShow(scope.$index)"

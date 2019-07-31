@@ -15,7 +15,7 @@
       <el-table-column
         label="主题"
         prop="title"
-        min-width="300"
+        min-width="320"
         :show-overflow-tooltip="true">
         <template slot-scope="scope">
           <span
@@ -70,14 +70,8 @@
       <el-table-column
         label="操作"
         align="center"
-        min-width="120">
+        min-width="100">
         <template slot-scope="scope">
-          <el-button
-            v-if="auth.detail"
-            @click="openAskDetail(scope.row.ask_id)"
-            size="small"
-            type="text">详细记录</el-button>
-
           <el-button
             v-if="auth.del"
             @click="handleDelete(scope.$index)"
