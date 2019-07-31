@@ -62,11 +62,11 @@
 
     <el-form-item>
       <el-popover
-        width="360"
+        width="388"
         placement="bottom"
         trigger="click">
         <div class="more-filter">
-          <el-form-item label="搜索" prop="content">
+          <el-form-item label="咨询搜索" prop="content">
             <el-input
               v-model="form.content"
               prefix-icon="el-icon-search"
@@ -76,7 +76,7 @@
               :clearable="true"/>
           </el-form-item>
 
-          <el-form-item label="前台" prop="is_show">
+          <el-form-item label="是否显示" prop="is_show">
             <el-select
               v-model="form.is_show"
               placeholder="请选择"
@@ -84,6 +84,29 @@
               value="">
               <el-option label="显示" value="1"/>
               <el-option label="隐藏" value="0"/>
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="排序类型" prop="order_field">
+            <el-select
+              v-model="form.order_field"
+              placeholder="请选择"
+              value="">
+              <el-option label="编号" value="goods_consult_id"/>
+              <el-option label="类型" value="type"/>
+              <el-option label="是否显示" value="is_show"/>
+              <el-option label="是否回复" value="status"/>
+              <el-option label="创建日期" value="create_time"/>
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="排序方式" prop="order_type">
+            <el-select
+              v-model="form.order_type"
+              placeholder="请选择"
+              value="">
+              <el-option label="升序" value="asc"/>
+              <el-option label="降序" value="desc"/>
             </el-select>
           </el-form-item>
         </div>
@@ -116,7 +139,9 @@ export default {
         is_show: undefined,
         type: undefined,
         status: undefined,
-        account: undefined
+        account: undefined,
+        order_type: 'desc',
+        order_field: 'goods_consult_id'
       }
     }
   },

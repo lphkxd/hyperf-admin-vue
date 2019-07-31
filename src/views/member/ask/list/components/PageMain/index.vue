@@ -70,13 +70,13 @@
       <el-table-column
         label="操作"
         align="center"
-        min-width="100">
+        min-width="120">
         <template slot-scope="scope">
           <el-button
             v-if="auth.detail"
             @click="openAskDetail(scope.row.ask_id)"
             size="small"
-            type="text">明细</el-button>
+            type="text">详细记录</el-button>
 
           <el-button
             v-if="auth.del"

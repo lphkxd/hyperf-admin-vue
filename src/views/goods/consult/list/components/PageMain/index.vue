@@ -3,32 +3,12 @@
     <el-form
       :inline="true"
       size="small">
-      <el-form-item v-if="auth.show || auth.hide">
-        <el-button-group>
-          <el-button
-            v-if="auth.show"
-            :disabled="loading"
-            @click="handleShow(null, 1, true)">
-            <cs-icon name="eye"/>
-            显示
-          </el-button>
-
-          <el-button
-            v-if="auth.hide"
-            :disabled="loading"
-            @click="handleShow(null, 0, true)">
-            <cs-icon name="eye-slash"/>
-            隐藏
-          </el-button>
-        </el-button-group>
-      </el-form-item>
-
       <el-form-item v-if="auth.del">
         <el-button
           :disabled="loading"
           @click="handleDelete(null)">
           <cs-icon name="trash-o"/>
-          删除
+          批量删除
         </el-button>
       </el-form-item>
 
@@ -39,10 +19,9 @@
     </el-form>
 
     <el-table
-      :data="currentTableData"
       v-loading="loading"
-      @selection-change="handleSelectionChange"
-      @sort-change="sortChange">
+      :data="currentTableData"
+      @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="35"/>
 
       <el-table-column
@@ -57,55 +36,47 @@
           <div class="goods-info">
             <div><span>{{scope.row.get_goods.name}}</span></div>
             <div class="consult-content">
-              <p>{{scope.row.content}}</p>
+              <p>
+                <el-tag
+                  :type="statusMap[scope.row.status].type"
+                  size="mini">
+                  {{statusMap[scope.row.status].text}}
+                </el-tag>
+
+                <span
+                  @click="openConsultDetail(scope.row.goods_consult_id)"
+                  :class="{title: auth.detail}"
+                  class="cs-ml-5">{{scope.row.content}}</span>
+              </p>
               <p>{{scope.row.create_time}}</p>
             </div>
           </div>
         </template>
       </el-table-column>
 
-      <el-table-column
-        label="状态"
-        prop="status"
-        align="center"
-        sortable="custom"
-        width="100">
+      <el-table-column>
         <template slot-scope="scope">
-          <el-tag
-            :type="statusMap[scope.row.status].type"
-            size="mini">
-            {{statusMap[scope.row.status].text}}
-          </el-tag>
-        </template>
-      </el-table-column>
-
-      <el-table-column
-        label="前台"
-        prop="is_show"
-        sortable="custom"
-        align="center"
-        width="100">
-        <template slot-scope="scope">
-          <el-tag
-            size="mini"
-            :type="showMap[scope.row.is_show].type"
-            :style="auth.show || auth.hide ? 'cursor: pointer;' : ''"
-            @click.native="handleShow(scope.$index)">
-            {{showMap[scope.row.is_show].text}}
-          </el-tag>
+          <p>{{scope.row.get_user.username || '游客'}}</p>
+          <p>{{typeList[scope.row.type]}}</p>
         </template>
       </el-table-column>
 
       <el-table-column
         label="操作"
         align="center"
-        min-width="100">
+        min-width="160">
         <template slot-scope="scope">
           <el-button
             v-if="auth.detail"
             @click="openConsultDetail(scope.row.goods_consult_id)"
             size="small"
-            type="text">明细</el-button>
+            type="text">详细记录</el-button>
+
+          <el-button
+            v-if="auth.show || auth.hide"
+            @click="handleShow(scope.$index)"
+            size="small"
+            type="text">{{scope.row.is_show ? '隐藏' : '显示'}}</el-button>
 
           <el-button
             v-if="auth.del"
@@ -143,7 +114,7 @@ export default {
         show: false,
         hide: false,
         del: false,
-        detail: true
+        detail: false
       },
       statusMap: {
         0: {
@@ -153,20 +124,6 @@ export default {
         1: {
           text: '已回复',
           type: 'success'
-        }
-      },
-      showMap: {
-        0: {
-          text: '隐藏',
-          type: 'danger'
-        },
-        1: {
-          text: '显示',
-          type: 'success'
-        },
-        2: {
-          text: '...',
-          type: 'info'
         }
       }
     }
@@ -225,20 +182,6 @@ export default {
       }
 
       return idList
-    },
-    // 获取排序字段
-    sortChange({ column, prop, order }) {
-      let sort = {
-        order_type: undefined,
-        order_field: undefined
-      }
-
-      if (column && order) {
-        sort.order_type = order === 'ascending' ? 'asc' : 'desc'
-        sort.order_field = prop
-      }
-
-      this.$emit('sort', sort)
     },
     // 选中数据项
     handleSelectionChange(val) {
@@ -334,6 +277,10 @@ export default {
     },
     // 打开咨询明细
     openConsultDetail(consult_id) {
+      if (!this.auth.detail) {
+        return
+      }
+
       this.$router.push({
         name: 'goods-opinion-consult-detail',
         params: {
@@ -345,8 +292,8 @@ export default {
 }
 </script>
 
-<style scoped>
-  .el-table >>> td {
+<style lang="scss" scoped>
+  .el-table /deep/ td {
     background-color: #ffffff !important;
   }
   .goods-image {
@@ -360,11 +307,21 @@ export default {
     margin-left: 20px;
   }
   .consult-content {
-    color: #909399;
+    color: $color-text-sub;
     font-size: 13px;
   }
   .consult-content p {
     margin: 10px 0 10px 0;
     line-height: 1.3;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    .title {
+      &:hover {
+        cursor: pointer;
+        color: $color-primary;
+        text-decoration: underline;
+      }
+    }
   }
 </style>

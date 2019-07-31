@@ -86,10 +86,10 @@
           <el-button
             @click="() => {}"
             size="small"
-            type="text">明细</el-button>
+            type="text">详细记录</el-button>
 
           <el-button
-            @click="() => {}"
+            @click="() => {scope.row}"
             size="small"
             type="text">删除</el-button>
         </template>
