@@ -31,6 +31,7 @@
           <el-image
             class="goods-image"
             :src="scope.row.get_goods.attachment | getPreviewUrl"
+            fit="contain"
             lazy/>
 
           <div class="goods-info">

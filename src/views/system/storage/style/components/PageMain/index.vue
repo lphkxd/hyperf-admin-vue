@@ -64,7 +64,7 @@
         label="名称"
         prop="name"
         sortable="custom"
-        min-width="180"
+        min-width="140"
         :show-overflow-tooltip="true">
       </el-table-column>
 
@@ -72,7 +72,7 @@
         label="编码"
         prop="code"
         sortable="custom"
-        min-width="120"
+        min-width="160"
         :show-overflow-tooltip="true">
       </el-table-column>
 
@@ -113,7 +113,7 @@
       <el-table-column
         label="第三方样式"
         prop="style"
-        min-width="120"
+        min-width="90"
         :show-overflow-tooltip="true">
       </el-table-column>
 
