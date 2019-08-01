@@ -28,28 +28,30 @@
         label="商品咨询"
         min-width="550">
         <template slot-scope="scope">
-          <el-image
-            class="goods-image"
-            :src="scope.row.get_goods.attachment | getPreviewUrl"
-            fit="contain"
-            lazy/>
+          <div class="goods-consult">
+            <el-image
+              class="goods-image"
+              :src="scope.row.get_goods.attachment | getPreviewUrl"
+              fit="contain"
+              lazy/>
 
-          <div class="goods-info">
-            <div><span>{{scope.row.get_goods.name}}</span></div>
-            <div class="consult-content">
-              <p>
-                <el-tag
-                  :type="statusMap[scope.row.status].type"
-                  size="mini">
-                  {{statusMap[scope.row.status].text}}
-                </el-tag>
+            <div class="goods-info cs-pl-20">
+              <span>{{scope.row.get_goods.name}}</span>
+              <div class="consult-content">
+                <p>
+                  <el-tag
+                    :type="statusMap[scope.row.status].type"
+                    size="mini">
+                    {{statusMap[scope.row.status].text}}
+                  </el-tag>
 
-                <span
-                  @click="openConsultDetail(scope.row.goods_consult_id)"
-                  :class="{title: auth.detail}"
-                  class="cs-ml-5">{{scope.row.content}}</span>
-              </p>
-              <p>{{scope.row.create_time}}</p>
+                  <span
+                    @click="openConsultDetail(scope.row.goods_consult_id)"
+                    :class="{title: auth.detail}"
+                    class="cs-pl-5">{{scope.row.content}}</span>
+                </p>
+                <p>{{scope.row.create_time}}</p>
+              </div>
             </div>
           </div>
         </template>
@@ -57,8 +59,10 @@
 
       <el-table-column>
         <template slot-scope="scope">
-          <p>{{scope.row.get_user.username || '游客'}}</p>
-          <p>{{typeList[scope.row.type]}}</p>
+          <div class="user-info">
+            <p>{{scope.row.get_user.username || '游客'}}</p>
+            <p>{{typeList[scope.row.type]}}</p>
+          </div>
         </template>
       </el-table-column>
 
@@ -291,6 +295,10 @@ export default {
   .el-table /deep/ td {
     background-color: #ffffff !important;
   }
+  .goods-consult {
+    height: 80px;
+    margin: 10px 0;
+  }
   .goods-image {
     float: left;
     width: 80px;
@@ -299,14 +307,13 @@ export default {
   .goods-info {
     float: left;
     width: 80%;
-    margin-left: 20px;
   }
   .consult-content {
     color: $color-text-sub;
     font-size: 13px;
   }
   .consult-content p {
-    margin: 10px 0 10px 0;
+    margin: 10px 0 0 0;
     line-height: 1.3;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -318,5 +325,8 @@ export default {
         text-decoration: underline;
       }
     }
+  }
+  .user-info p {
+    line-height: 1.3;
   }
 </style>
