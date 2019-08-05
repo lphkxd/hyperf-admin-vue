@@ -1,40 +1,34 @@
-<template>
-  <div class="cs-layout-header-aside-menu-side">
-    <el-menu
-      :collapse="asideCollapse"
-      :unique-opened="true"
-      :collapse-transition="false"
-      :default-active="active"
-      :default-openeds="openeds"
-      ref="menu"
-      @select="handleMenuSelect">
-      <template v-for="(menu, menuIndex) in menuAside">
-        <cs-layout-header-aside-menu-item v-if="menu.children === undefined" :menu="menu" :key="menuIndex"/>
-        <cs-layout-header-aside-menu-sub v-else :menu="menu" :key="menuIndex"/>
-      </template>
-    </el-menu>
-    <div v-if="menuAside.length === 0 && !asideCollapse" class="cs-layout-header-aside-menu-empty" flex="dir:top main:center cross:center">
-      <cs-icon name="inbox"/>
-      <span>暂无侧栏菜单</span>
-    </div>
-  </div>
-</template>
-
-<script>
 import { mapState } from 'vuex'
 import menuMixin from '../mixin/menu'
-import csLayoutMainMenuItem from '../components/menu-item'
-import csLayoutMainMenuSub from '../components/menu-sub'
 import BScroll from 'better-scroll'
+import { elMenuItem, elSubmenu } from '../libs/util.menu'
 
 export default {
   name: 'cs-layout-header-aside-menu-side',
   mixins: [
     menuMixin
   ],
-  components: {
-    'cs-layout-header-aside-menu-item': csLayoutMainMenuItem,
-    'cs-layout-header-aside-menu-sub': csLayoutMainMenuSub
+  render(createElement) {
+    return createElement('div', {
+      attrs: { class: 'cs-layout-header-aside-menu-side' }
+    }, [
+      createElement('el-menu', {
+        props: { collapse: this.asideCollapse, uniqueOpened: true, defaultActive: this.active },
+        ref: 'menu',
+        on: { select: this.handleMenuSelect }
+      }, this.aside.map(menu => (menu.children === undefined ? elMenuItem : elSubmenu).call(this, createElement, menu))),
+      ...this.aside.length === 0 && !this.asideCollapse ? [
+        createElement('div', {
+          attrs: { class: 'cs-layout-header-aside-menu-empty', flex: 'dir:top main:center cross:center' }
+        }, [
+          createElement('cs-icon', {
+            props: { name: 'inbox' }
+          }),
+          createElement('span', {
+          }, this.$t('layout.header-aside.menu-side.empty'))
+        ])
+      ] : []
+    ])
   },
   data() {
     return {
@@ -114,4 +108,3 @@ export default {
     }
   }
 }
-</script>
