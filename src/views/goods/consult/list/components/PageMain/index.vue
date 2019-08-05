@@ -35,7 +35,7 @@
               fit="contain"
               lazy/>
 
-            <div class="goods-info cs-pl-20">
+            <div class="goods-info cs-ml">
               <span>{{scope.row.get_goods.name}}</span>
               <div class="consult-content">
                 <p>

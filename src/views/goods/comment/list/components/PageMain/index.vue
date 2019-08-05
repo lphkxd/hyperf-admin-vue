@@ -4,8 +4,32 @@
       v-loading="loading"
       :data="currentTableData">
       <el-table-column
+        label="商品信息"
+        min-width="300">
+        <template slot-scope="scope">
+          <el-image
+            class="goods-image cs-ml-10"
+            :src="scope.row.get_order_goods.goods_image | getPreviewUrl('goods_image_x80')"
+            fit="contain"
+            lazy/>
+
+          <div class="goods-info cs-ml">
+            <p>{{scope.row.get_order_goods.goods_name}}</p>
+            <p><span class="spec">{{scope.row.get_order_goods.key_value}}</span></p>
+            <p>
+              <el-tag
+                :type="statusMap[scope.row.status].type"
+                size="mini">
+                {{statusMap[scope.row.status].text}}
+              </el-tag>
+            </p>
+          </div>
+        </template>
+      </el-table-column>
+
+      <el-table-column
         label="商品评价"
-        min-width="450">
+        min-width="300">
         <template slot-scope="scope">
           <div class="goods-comment">
             <p>[主评] <span class="time">{{scope.row.create_time}}</span></p>
@@ -36,25 +60,6 @@
                 :lazy="true"
                 fit="cover"
                 @click.stop="setImageSrcList(scope.row.get_addition.image, index)"/>
-            </div>
-          </div>
-        </template>
-      </el-table-column>
-
-      <el-table-column
-        label="商品信息"
-        min-width="300">
-        <template slot-scope="scope">
-          <div>
-            <el-image
-              class="goods-image"
-              :src="scope.row.get_order_goods.goods_image | getPreviewUrl('goods_image_x80')"
-              fit="contain"
-              lazy/>
-
-            <div class="goods-info">
-              <p>{{scope.row.get_order_goods.goods_name}}</p>
-              <p>{{scope.row.get_order_goods.key_value}}</p>
             </div>
           </div>
         </template>
@@ -92,6 +97,16 @@ export default {
     return {
       currentTableData: [],
       auth: {},
+      statusMap: {
+        0: {
+          text: '待回复',
+          type: 'warning'
+        },
+        1: {
+          text: '已回复',
+          type: 'success'
+        }
+      },
       srcList: []
     }
   },
@@ -176,9 +191,22 @@ export default {
     }
   }
   .goods-image {
+    float: left;
     width: 80px;
     height: 80px;
   }
   .goods-info {
+    float: left;
+    width: 70%;
+    .spec {
+      color: $color-text-sub;
+      font-size: 13px;
+    }
+    p {
+      margin: 0;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
   }
 </style>
