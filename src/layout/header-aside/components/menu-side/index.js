@@ -13,11 +13,11 @@ export default {
       attrs: { class: 'cs-layout-header-aside-menu-side' }
     }, [
       createElement('el-menu', {
-        props: { collapse: this.asideCollapse, uniqueOpened: true, defaultActive: this.active },
+        props: { collapse: this.asideCollapse, uniqueOpened: true, defaultActive: this.active, defaultOpeneds: this.openeds },
         ref: 'menu',
         on: { select: this.handleMenuSelect }
-      }, this.aside.map(menu => (menu.children === undefined ? elMenuItem : elSubmenu).call(this, createElement, menu))),
-      ...this.aside.length === 0 && !this.asideCollapse ? [
+      }, this.menuAside.map(menu => (menu.children === undefined ? elMenuItem : elSubmenu).call(this, createElement, menu))),
+      ...this.menuAside.length === 0 && !this.asideCollapse ? [
         createElement('div', {
           attrs: { class: 'cs-layout-header-aside-menu-empty', flex: 'dir:top main:center cross:center' }
         }, [
@@ -25,7 +25,7 @@ export default {
             props: { name: 'inbox' }
           }),
           createElement('span', {
-          }, this.$t('layout.header-aside.menu-side.empty'))
+          }, '暂无侧栏菜单')
         ])
       ] : []
     ])
