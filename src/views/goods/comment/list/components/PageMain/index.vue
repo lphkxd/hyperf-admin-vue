@@ -15,7 +15,7 @@
 
           <div class="goods-info cs-ml">
             <p>{{scope.row.get_order_goods.goods_name}}</p>
-            <p><span class="spec">{{scope.row.get_order_goods.key_value}}</span></p>
+            <p><span class="comment-son">{{scope.row.get_order_goods.key_value}}</span></p>
             <p>
               <el-tag
                 :type="statusMap[scope.row.status].type"
@@ -32,7 +32,7 @@
         min-width="300">
         <template slot-scope="scope">
           <div class="goods-comment">
-            <p>[主评] <span class="time">{{scope.row.create_time}}</span></p>
+            <p>[主评] <span class="comment-son">{{scope.row.create_time}}</span></p>
             <p>{{scope.row.content}}</p>
             <div style="line-height: 0;">
               <el-image
@@ -48,7 +48,7 @@
           </div>
 
           <div class="goods-comment" v-if="scope.row.get_addition">
-            <p>[追评] <span class="time">{{scope.row.get_addition.create_time}}</span></p>
+            <p>[追评] <span class="comment-son">{{scope.row.get_addition.create_time}}</span></p>
             <p>{{scope.row.get_addition.content}}</p>
             <div style="line-height: 0;">
               <el-image
@@ -61,6 +61,21 @@
                 fit="cover"
                 @click.stop="setImageSrcList(scope.row.get_addition.image, index)"/>
             </div>
+          </div>
+        </template>
+      </el-table-column>
+
+      <el-table-column
+        width="220">
+        <template slot-scope="scope">
+          <div class="goods_user">
+            <p>{{scope.row.get_user.username}}</p>
+            <p><span class="comment-son">{{scope.row.order_no}}</span></p>
+            <el-rate
+              v-model="scope.row.score"
+              :disabled="true"
+              :colors="['#99A9BF', '#F7BA2A', '#FF9900']">
+            </el-rate>
           </div>
         </template>
       </el-table-column>
@@ -179,15 +194,15 @@ export default {
     text-align: center;
     line-height: 1.4;
   }
+  .comment-son {
+    color: $color-text-sub;
+    font-size: 13px;
+  }
   .goods-comment {
     margin: 10px 0;
     p {
       margin: 0;
       line-height: 1.3;
-    }
-    .time {
-      color: $color-text-sub;
-      font-size: 13px;
     }
   }
   .goods-image {
@@ -198,15 +213,14 @@ export default {
   .goods-info {
     float: left;
     width: 70%;
-    .spec {
-      color: $color-text-sub;
-      font-size: 13px;
-    }
     p {
       margin: 0;
       text-overflow: ellipsis;
       white-space: nowrap;
       overflow: hidden;
     }
+  }
+  .goods_user p {
+    margin: 0;
   }
 </style>
