@@ -3,7 +3,7 @@
     <page-main
       :table-data="table"
       :loading="loading"
-      @refresh="handleRefresh"/>
+      @refresh="handleSubmit"/>
   </cs-container>
 </template>
 
@@ -25,12 +25,6 @@ export default {
     this.handleSubmit()
   },
   methods: {
-    // 刷新列表页面
-    handleRefresh() {
-      this.$nextTick(() => {
-        this.handleFormSubmit()
-      })
-    },
     // 确定查询
     handleSubmit() {
       this.loading = true

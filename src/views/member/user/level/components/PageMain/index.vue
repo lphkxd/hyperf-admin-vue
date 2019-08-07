@@ -12,13 +12,23 @@
         </el-button>
       </el-form-item>
 
-      <el-form-item v-if="auth.del">
-        <el-button
-          :disabled="loading"
-          @click="handleDelete(null)">
-          <cs-icon name="trash-o"/>
-          删除
-        </el-button>
+      <el-form-item>
+        <el-button-group>
+          <el-button
+            v-if="auth.del"
+            :disabled="loading"
+            @click="handleDelete(null)">
+            <cs-icon name="trash-o"/>
+            删除
+          </el-button>
+
+          <el-button
+            :disabled="loading"
+            @click="$emit('refresh')">
+            <cs-icon name="refresh"/>
+            刷新
+          </el-button>
+        </el-button-group>
       </el-form-item>
 
       <cs-help
@@ -431,6 +441,7 @@ export default {
 <style scoped>
   .level-icon {
     margin-left: 5px;
-    vertical-align: middle;
+    line-height: 0;
+    vertical-align: text-top;
   }
 </style>

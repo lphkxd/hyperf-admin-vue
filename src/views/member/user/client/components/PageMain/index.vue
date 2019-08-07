@@ -94,6 +94,14 @@
 
             <el-form-item label="账号等级">
               <span>{{props.row.get_user_level.name}}</span>
+              <el-image
+                v-if="props.row.get_user_level.icon"
+                class="level-icon"
+                :src="props.row.get_user_level.icon">
+                <div slot="error" class="image-slot">
+                  <i class="el-icon-picture-outline"></i>
+                </div>
+              </el-image>
             </el-form-item>
 
             <el-form-item label="用户组">
@@ -176,7 +184,20 @@
         sortable="custom"
         min-width="100">
         <template slot-scope="scope">
-          {{scope.row.get_user_level.name}}
+          <el-tooltip
+            v-if="scope.row.get_user_level.icon"
+            :content="scope.row.get_user_level.name"
+            placement="top">
+            <el-image
+              class="level-icon"
+              :src="scope.row.get_user_level.icon">
+              <div slot="error" class="image-slot">
+                <i class="el-icon-picture-outline"></i>
+              </div>
+            </el-image>
+          </el-tooltip>
+
+          <span v-else>{{scope.row.get_user_level.name}}</span>
         </template>
       </el-table-column>
 
@@ -1165,5 +1186,10 @@ export default {
   .table-expand .el-form-item {
     margin-right: 0;
     margin-bottom: 0;
+  }
+  .level-icon {
+    margin-left: 5px;
+    line-height: 0;
+    vertical-align: text-top;
   }
 </style>
