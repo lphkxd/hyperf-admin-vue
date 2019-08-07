@@ -133,6 +133,7 @@
             size="mini"
             :type="topMap[scope.row.is_top].type"
             :style="auth.top || auth.remove_top ? 'cursor: pointer;' : ''"
+            :effect="auth.top || auth.remove_top ? 'light' : 'plain'"
             @click.native="handleTop(scope.$index)">
             {{topMap[scope.row.is_top].text}}
           </el-tag>
@@ -150,6 +151,7 @@
             size="mini"
             :type="statusMap[scope.row.status].type"
             :style="auth.enable || auth.disable ? 'cursor: pointer;' : ''"
+            :effect="auth.enable || auth.disable ? 'light' : 'plain'"
             @click.native="handleStatus(scope.$index)">
             {{statusMap[scope.row.status].text}}
           </el-tag>

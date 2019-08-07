@@ -67,7 +67,7 @@
         sortable="custom"
         width="100">
         <template slot-scope="scope">
-          <el-tag size="mini" :type="scope.row.type ? 'info' : 'warning'">
+          <el-tag size="mini" effect="plain" :type="scope.row.type ? 'info' : 'warning'">
             {{companyType[scope.row.type]}}
           </el-tag>
         </template>

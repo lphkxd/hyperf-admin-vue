@@ -82,6 +82,7 @@
                 size="mini"
                 :type="statusMap[scope.row.status].type"
                 :style="auth.enable || auth.disable ? 'cursor: pointer;' : ''"
+                :effect="auth.enable || auth.disable ? 'light' : 'plain'"
                 @click.native="handleStatus(scope.$index)">
                 {{statusMap[scope.row.status].text}}
               </el-tag>
@@ -301,8 +302,7 @@
               v-for="(item, index) in tplForm.get_notice_item"
               :key="index"
               :disable-transitions="true"
-              class="cs-mr-10"
-              style="cursor: pointer;"
+              style="cursor: pointer; margin-right: 10px;"
               effect="plain"
               @click="insertVariables(item.item_name)">
               {{item.item_name}}

@@ -45,6 +45,7 @@
         <template slot-scope="scope">
           <el-tag
             :type="statusMap[scope.row.status].type"
+            effect="plain"
             size="mini">
             {{statusMap[scope.row.status].text}}
           </el-tag>
@@ -116,6 +117,7 @@
               <span>状态：</span>
               <el-tag
                 :type="statusMap[infoForm.status].type"
+                effect="plain"
                 size="mini">
                 {{statusMap[infoForm.status].text}}
               </el-tag>

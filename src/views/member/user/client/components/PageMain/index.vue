@@ -73,6 +73,7 @@
                 {{props.row.mobile}}
                 <el-tag
                   :type="legalizeMap[props.row.is_mobile].type"
+                  effect="plain"
                   size="mini">
                   {{legalizeMap[props.row.is_mobile].text}}
                 </el-tag>
@@ -84,6 +85,7 @@
                 {{props.row.email}}
                 <el-tag
                   :type="legalizeMap[props.row.is_email].type"
+                  effect="plain"
                   size="mini">
                   {{legalizeMap[props.row.is_email].text}}
                 </el-tag>
@@ -123,6 +125,7 @@
             <el-form-item label="状态">
               <el-tag
                 :type="statusMap[props.row.status].type"
+                effect="plain"
                 size="mini">
                 {{statusMap[props.row.status].text}}
               </el-tag>
@@ -206,7 +209,8 @@
           <el-tag
             size="mini"
             :type="statusMap[scope.row.status].type"
-            :style="auth.disable || auth.enable ? 'cursor: pointer;' : ''"
+            :style="auth.enable || auth.disable ? 'cursor: pointer;' : ''"
+            :effect="auth.enable || auth.disable ? 'light' : 'plain'"
             @click.native="handleStatus(scope.$index)">
             {{statusMap[scope.row.status].text}}
           </el-tag>

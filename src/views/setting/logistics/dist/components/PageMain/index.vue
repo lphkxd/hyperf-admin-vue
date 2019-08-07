@@ -82,6 +82,7 @@
         <template slot-scope="scope">
           <el-tag
             :type="scope.row.state | getStateType"
+            effect="plain"
             size="mini">
             {{traceState[scope.row.state]}}
           </el-tag>

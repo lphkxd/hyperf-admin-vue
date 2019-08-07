@@ -41,6 +41,7 @@
                 <p>
                   <el-tag
                     :type="statusMap[scope.row.status].type"
+                    effect="plain"
                     size="mini">
                     {{statusMap[scope.row.status].text}}
                   </el-tag>

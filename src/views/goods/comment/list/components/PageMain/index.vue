@@ -19,8 +19,23 @@
             <p>
               <el-tag
                 :type="statusMap[scope.row.status].type"
+                effect="plain"
                 size="mini">
                 {{statusMap[scope.row.status].text}}
+              </el-tag>
+
+              <el-tag
+                :type="topMap[scope.row.is_top].type"
+                effect="plain"
+                size="mini">
+                {{topMap[scope.row.is_top].text}}
+              </el-tag>
+
+              <el-tag
+                :type="showMap[scope.row.is_show].type"
+                effect="plain"
+                size="mini">
+                {{showMap[scope.row.is_show].text}}
               </el-tag>
             </p>
           </div>
@@ -33,7 +48,7 @@
         <template slot-scope="scope">
           <div class="goods-comment">
             <p>[主评] <span class="comment-son">{{scope.row.create_time}}</span></p>
-            <p>{{scope.row.content}}</p>
+            <p><span @click="() => {}" class="link">{{scope.row.content}}</span></p>
             <div style="line-height: 0;">
               <el-image
                 v-for="(item, index) in scope.row.image"
@@ -49,7 +64,7 @@
 
           <div class="goods-comment" v-if="scope.row.get_addition">
             <p>[追评] <span class="comment-son">{{scope.row.get_addition.create_time}}</span></p>
-            <p>{{scope.row.get_addition.content}}</p>
+            <p><span @click="() => {}" class="link">{{scope.row.get_addition.content}}</span></p>
             <div style="line-height: 0;">
               <el-image
                 v-for="(item, index) in scope.row.get_addition.image"
@@ -86,6 +101,12 @@
         min-width="100">
         <template slot-scope="scope">
           <el-button
+            v-if="!scope.row.status"
+            @click="() => {}"
+            size="small"
+            type="text">忽略</el-button>
+
+          <el-button
             @click="() => {scope.row}"
             size="small"
             type="text">删除</el-button>
@@ -112,17 +133,45 @@ export default {
     return {
       currentTableData: [],
       auth: {},
+      srcList: [],
       statusMap: {
         0: {
-          text: '待回复',
+          text: '待处理',
           type: 'warning'
         },
         1: {
-          text: '已回复',
+          text: '已处理',
           type: 'success'
         }
       },
-      srcList: []
+      topMap: {
+        0: {
+          text: '普通',
+          type: 'info'
+        },
+        1: {
+          text: '置顶',
+          type: 'warning'
+        },
+        2: {
+          text: '...',
+          type: 'info'
+        }
+      },
+      showMap: {
+        0: {
+          text: '隐藏',
+          type: 'danger'
+        },
+        1: {
+          text: '显示',
+          type: 'success'
+        },
+        2: {
+          text: '...',
+          type: 'info'
+        }
+      }
     }
   },
   filters: {
@@ -203,6 +252,13 @@ export default {
     p {
       margin: 0;
       line-height: 1.3;
+      .link {
+        &:hover {
+          cursor: pointer;
+          color: $color-primary;
+          text-decoration: underline;
+        }
+      }
     }
   }
   .goods-image {

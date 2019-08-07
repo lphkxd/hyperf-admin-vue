@@ -33,6 +33,7 @@
             <el-tag
               v-if="tableData.status !== null"
               :type="statusMap[tableData.status].type"
+              effect="plain"
               size="mini">
               {{statusMap[tableData.status].text}}
             </el-tag>

@@ -33,6 +33,7 @@
             <el-tag
               v-if="get(scope.row, 'meta.instance.$vnode.componentOptions.tag')"
               type="info"
+              effect="plain"
               size="mini">
               &#60;{{get(scope.row, 'meta.instance.$vnode.componentOptions.tag')}}&gt;
             </el-tag>

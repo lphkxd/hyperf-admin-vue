@@ -116,6 +116,7 @@
             size="mini"
             :type="indexMap[scope.row.spec_index].type"
             :style="auth.index || auth.close ? 'cursor: pointer;' : ''"
+            :effect="auth.index || auth.close ? 'light' : 'plain'"
             @click.native="handleIndex(scope.$index)">
             {{indexMap[scope.row.spec_index].text}}
           </el-tag>

@@ -28,9 +28,9 @@
               <el-tag
                 v-for="item in props.row.region"
                 :key="item.region_id"
+                class="cs-mr-10"
                 effect="plain"
-                type="info"
-                class="cs-mr-10">
+                type="info">
                 {{item.name}}
               </el-tag>
             </el-form-item>

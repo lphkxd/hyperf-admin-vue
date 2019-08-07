@@ -101,7 +101,8 @@
           <el-tag
             size="mini"
             :type="statusMap[scope.row.status].type"
-            :style="auth.disable || auth.enable ? 'cursor: pointer;' : ''"
+            :style="auth.enable || auth.disable ? 'cursor: pointer;' : ''"
+            :effect="auth.enable || auth.disable ? 'light' : 'plain'"
             @click.native="switchStatus(scope.$index)">
             {{statusMap[scope.row.status].text}}
           </el-tag>

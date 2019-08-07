@@ -84,7 +84,7 @@
         align="center"
         width="100">
         <template slot-scope="scope">
-          <el-tag size="mini" :type="topMap[scope.row.is_top].type">
+          <el-tag size="mini" effect="plain" :type="topMap[scope.row.is_top].type">
             {{topMap[scope.row.is_top].text}}
           </el-tag>
         </template>
@@ -97,7 +97,7 @@
         align="center"
         width="100">
         <template slot-scope="scope">
-          <el-tag size="mini" :type="statusMap[scope.row.status].type">
+          <el-tag size="mini" effect="plain" :type="statusMap[scope.row.status].type">
             {{statusMap[scope.row.status].text}}
           </el-tag>
         </template>

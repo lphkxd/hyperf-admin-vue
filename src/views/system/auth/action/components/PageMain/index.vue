@@ -73,7 +73,8 @@
         <template slot-scope="scope">
           <el-tag
             size="mini"
-            :type="scope.row.status ? 'warning' : 'success'">
+            :type="scope.row.status ? 'warning' : 'success'"
+            effect="plain">
             {{statusMap[scope.row.status]}}
           </el-tag>
         </template>

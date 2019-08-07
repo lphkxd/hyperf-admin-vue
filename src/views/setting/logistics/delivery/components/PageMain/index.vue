@@ -65,6 +65,7 @@
             <el-form-item label="状态">
               <el-tag
                 :type="statusMap[props.row.status].type"
+                effect="plain"
                 size="mini">
                 {{statusMap[props.row.status].text}}
               </el-tag>
@@ -167,6 +168,7 @@
             size="mini"
             :type="statusMap[scope.row.status].type"
             :style="auth.enable || auth.disable ? 'cursor: pointer;' : ''"
+            :effect="auth.enable || auth.disable ? 'light' : 'plain'"
             @click.native="handleStatus(scope.$index)">
             {{statusMap[scope.row.status].text}}
           </el-tag>

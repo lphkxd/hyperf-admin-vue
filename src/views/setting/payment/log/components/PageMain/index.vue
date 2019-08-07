@@ -48,6 +48,7 @@
             <el-form-item label="状态">
               <el-tag
                 :type="statusMap[props.row.status].type"
+                effect="plain"
                 size="mini">
                 {{statusMap[props.row.status].text}}
               </el-tag>
@@ -115,6 +116,7 @@
         <template slot-scope="scope">
           <el-tag
             :type="statusMap[scope.row.status].type"
+            effect="plain"
             size="mini">
             {{statusMap[scope.row.status].text}}
           </el-tag>

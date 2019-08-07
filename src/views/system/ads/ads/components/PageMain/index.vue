@@ -140,7 +140,7 @@
               开始投放日期：{{scope.row.begin_time}}<br/>
               投放结束日期：{{scope.row.end_time}}
             </div>
-            <el-tag size="mini" type="info">详细</el-tag>
+            <el-tag size="mini" effect="plain" type="info">详细</el-tag>
           </el-tooltip>
         </template>
       </el-table-column>
@@ -156,6 +156,7 @@
             size="mini"
             :type="statusMap[scope.row.status].type"
             :style="auth.enable || auth.disable ? 'cursor: pointer;' : ''"
+            :effect="auth.enable || auth.disable ? 'light' : 'plain'"
             @click.native="handleStatus(scope.$index)">
             {{statusMap[scope.row.status].text}}
           </el-tag>

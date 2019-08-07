@@ -28,6 +28,7 @@
             <el-form-item label="收支类型">
               <el-tag
                 :type="typeMap[props.row.type].type"
+                effect="plain"
                 size="mini">
                 {{typeMap[props.row.type].text}}
               </el-tag>
@@ -36,6 +37,7 @@
             <el-form-item label="收支金额">
               <el-tag
                 :type="typeMap[props.row.type].type"
+                effect="plain"
                 size="mini">
                 {{props.row.amount}}
               </el-tag>
@@ -95,6 +97,7 @@
         <template slot-scope="scope">
           <el-tag
             :type="typeMap[scope.row.type].type"
+            effect="plain"
             size="mini">
             {{`${typeMap[scope.row.type].symbol} ${scope.row.amount}`}}
           </el-tag>
