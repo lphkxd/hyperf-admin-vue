@@ -323,8 +323,8 @@ export default {
         ],
         logo: [
           {
-            max: 255,
-            message: 'Logo不能大于 255 个字符',
+            max: 512,
+            message: '长度不能大于 512 个字符',
             trigger: 'blur'
           }
         ],

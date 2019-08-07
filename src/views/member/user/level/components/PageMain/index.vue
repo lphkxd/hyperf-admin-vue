@@ -37,6 +37,17 @@
       <el-table-column
         label="名称"
         prop="name">
+        <template slot-scope="scope">
+          <span>{{scope.row.name}}</span>
+          <el-image
+            v-if="scope.row.icon"
+            class="level-icon"
+            :src="scope.row.icon">
+            <div slot="error" class="image-slot">
+              <i class="el-icon-picture-outline"></i>
+            </div>
+          </el-image>
+        </template>
       </el-table-column>
 
       <el-table-column
@@ -93,6 +104,25 @@
             v-model="form.name"
             placeholder="请输入等级名称"
             :clearable="true"/>
+        </el-form-item>
+
+        <el-form-item
+          label="等级图标"
+          prop="icon">
+          <el-input
+            v-model="form.icon"
+            placeholder="可输入等级图标"
+            :clearable="true">
+            <cs-upload
+              slot="append"
+              type="slot"
+              accept="image/*"
+              :limit="1"
+              :multiple="false"
+              @confirm="_getUploadFileList">
+              <el-button slot="control"><cs-icon name="upload"/></el-button>
+            </cs-upload>
+          </el-input>
         </el-form-item>
 
         <el-row>
@@ -163,6 +193,9 @@ import {
 } from '@/api/user/level'
 
 export default {
+  components: {
+    'csUpload': () => import('@/components/cs-upload')
+  },
   props: {
     loading: {
       default: false
@@ -189,6 +222,7 @@ export default {
       },
       form: {
         name: undefined,
+        icon: undefined,
         amount: undefined,
         discount: undefined,
         description: undefined
@@ -203,6 +237,13 @@ export default {
           {
             max: 30,
             message: '长度不能大于 30 个字符',
+            trigger: 'blur'
+          }
+        ],
+        icon: [
+          {
+            max: 512,
+            message: '长度不能大于 200 个字符',
             trigger: 'blur'
           }
         ],
@@ -265,6 +306,19 @@ export default {
 
       return idList
     },
+    // 获取上传文件
+    _getUploadFileList(files) {
+      if (!files.length) {
+        return
+      }
+
+      const response = files[0].response
+      if (!response || response.status !== 200) {
+        return
+      }
+
+      this.form.icon = document.location.protocol + '//' + response.data[0].url
+    },
     // 选中数据项
     handleSelectionChange(val) {
       this.multipleSelection = val
@@ -303,6 +357,7 @@ export default {
       this.form = {
         name: '',
         amount: 0,
+        icon: '',
         discount: 0,
         description: ''
       }
@@ -372,3 +427,10 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .level-icon {
+    margin-left: 5px;
+    vertical-align: middle;
+  }
+</style>
