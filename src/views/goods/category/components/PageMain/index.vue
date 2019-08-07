@@ -269,9 +269,9 @@
               <el-col :span="12">
                 <el-form-item
                   label="图标"
-                  prop="category_ioc">
+                  prop="category_ico">
                   <el-input
-                    v-model="form.category_ioc"
+                    v-model="form.category_ico"
                     placeholder="可输入商品分类图标"
                     :clearable="true"/>
                 </el-form-item>
@@ -418,7 +418,7 @@ export default {
         alias: undefined,
         alias_phonetic: undefined,
         category_pic: undefined,
-        category_ioc: undefined,
+        category_ico: undefined,
         keywords: undefined,
         description: undefined,
         category_type: 0,
@@ -467,7 +467,7 @@ export default {
             trigger: 'blur'
           }
         ],
-        category_ioc: [
+        category_ico: [
           {
             max: 50,
             message: '长度不能大于 50 个字符',
@@ -560,7 +560,7 @@ export default {
         alias: '',
         alias_phonetic: '',
         category_pic: '',
-        category_ioc: '',
+        category_ico: '',
         keywords: '',
         description: '',
         category_type: 0,
