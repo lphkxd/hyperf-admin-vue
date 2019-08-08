@@ -58,10 +58,21 @@
         </template>
       </el-table-column>
 
-      <el-table-column>
+      <el-table-column min-width="130">
         <template slot-scope="scope">
           <div class="user-info">
-            <p>{{scope.row.get_user.username || '游客'}}</p>
+            <p>
+              <span>{{scope.row.get_user.username || '游客'}}</span>
+              <el-image
+                v-if="scope.row.get_user.level_icon"
+                class="level-icon"
+                :src="scope.row.get_user.level_icon">
+                <div slot="error" class="image-slot">
+                  <i class="el-icon-picture-outline"></i>
+                </div>
+              </el-image>
+            </p>
+
             <p>{{typeList[scope.row.type]}}</p>
           </div>
         </template>
@@ -329,5 +340,10 @@ export default {
   }
   .user-info p {
     line-height: 1.3;
+  }
+  .level-icon {
+    margin-left: 5px;
+    line-height: 0;
+    vertical-align: text-bottom;
   }
 </style>

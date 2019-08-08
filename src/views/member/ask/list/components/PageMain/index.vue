@@ -15,7 +15,7 @@
       <el-table-column
         label="主题"
         prop="title"
-        min-width="320"
+        min-width="300"
         :show-overflow-tooltip="true">
         <template slot-scope="scope">
           <span
@@ -42,7 +42,18 @@
 
       <el-table-column
         label="提交账号"
-        prop="get_user.username">
+        min-width="130">
+        <template slot-scope="scope">
+          <span>{{scope.row.get_user.username}}</span>
+          <el-image
+            v-if="scope.row.get_user.level_icon"
+            class="level-icon"
+            :src="scope.row.get_user.level_icon">
+            <div slot="error" class="image-slot">
+              <i class="el-icon-picture-outline"></i>
+            </div>
+          </el-image>
+        </template>
       </el-table-column>
 
       <el-table-column
@@ -198,5 +209,10 @@ export default {
       cursor: pointer;
       text-decoration: underline;
     }
+  }
+  .level-icon {
+    margin-left: 5px;
+    line-height: 0;
+    vertical-align: text-bottom;
   }
 </style>

@@ -442,6 +442,6 @@ export default {
   .level-icon {
     margin-left: 5px;
     line-height: 0;
-    vertical-align: text-top;
+    vertical-align: text-bottom;
   }
 </style>

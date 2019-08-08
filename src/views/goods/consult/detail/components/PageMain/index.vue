@@ -71,8 +71,18 @@
 
             <div class="problem">
               <div class="consult-content cs-pb-10">{{item.content}}</div>
-              <div v-if="item.is_client" class="user-name">{{tableData.get_user.username || '游客'}}</div>
-              <div v-else class="user-name">客服人员</div>
+              <div class="user-name">
+                <span v-if="item.is_client">{{tableData.get_user.username || '游客'}}</span>
+                <span v-else>客服人员</span>
+                <el-image
+                  v-if="item.is_client && tableData.get_user.level_icon"
+                  class="level-icon"
+                  :src="tableData.get_user.level_icon">
+                  <div slot="error" class="image-slot">
+                    <i class="el-icon-picture-outline"></i>
+                  </div>
+                </el-image>
+              </div>
             </div>
           </el-card>
         </el-timeline-item>
@@ -234,5 +244,10 @@ export default {
     white-space: pre-wrap;
     word-wrap: break-word;
     *white-space: pre;
+  }
+  .level-icon {
+    margin-left: 5px;
+    line-height: 0;
+    vertical-align: text-bottom;
   }
 </style>
