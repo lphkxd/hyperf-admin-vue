@@ -94,7 +94,7 @@
             <dt>
               <div class="picture cs-m-10">
                 <el-checkbox :label="item.storage_id" class="storage-check">&nbsp;</el-checkbox>
-                <el-image :src="item | getImageThumb" @click.native="openStorage(index)" lazy/>
+                <el-image fit="fill" :src="item | getImageThumb" @click.native="openStorage(index)" lazy/>
               </div>
               <span class="storage-name cs-ml-10" :title="item.name">{{item.name}}</span>
               <el-dropdown

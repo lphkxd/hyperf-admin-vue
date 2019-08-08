@@ -69,7 +69,7 @@
             <dt>
               <div class="picture cs-m-5">
                 <el-checkbox v-if="item.type !== 2" :label="item.storage_id" class="check">&nbsp;</el-checkbox>
-                <el-image :src="item | getImageThumb" @click.native="handleOpen(index)" lazy/>
+                <el-image fit="fill" :src="item | getImageThumb" @click.native="handleOpen(index)" lazy/>
               </div>
               <el-tooltip placement="top" :enterable="false" :open-delay="600">
                 <div slot="content">
