@@ -25,16 +25,21 @@
               </el-tag>
 
               <el-tag
+                size="mini"
                 :type="topMap[scope.row.is_top].type"
-                effect="plain"
-                size="mini">
+                style="margin: 0 10px;"
+                :style="auth.top || auth.remove_top ? 'cursor: pointer;' : ''"
+                :effect="auth.top || auth.remove_top ? 'light' : 'plain'"
+                @click.native="handleTop(scope.$index)">
                 {{topMap[scope.row.is_top].text}}
               </el-tag>
 
               <el-tag
+                size="mini"
                 :type="showMap[scope.row.is_show].type"
-                effect="plain"
-                size="mini">
+                :style="auth.show || auth.hide ? 'cursor: pointer;' : ''"
+                :effect="auth.show || auth.hide ? 'light' : 'plain'"
+                @click.native="handleShow(scope.$index)">
                 {{showMap[scope.row.is_show].text}}
               </el-tag>
             </p>
@@ -48,7 +53,11 @@
         <template slot-scope="scope">
           <div class="goods-comment">
             <p>[主评] <span class="comment-son">{{scope.row.create_time}}</span></p>
-            <p><span @click="() => {}" class="link">{{scope.row.content}}</span></p>
+            <p>
+              <span
+                @click="openCommentDetail(scope.row.goods_comment_id)"
+                :class="{link: auth.detail}">{{scope.row.content}}</span>
+            </p>
             <div style="line-height: 0;">
               <el-image
                 v-for="(item, index) in scope.row.image"
@@ -64,7 +73,11 @@
 
           <div class="goods-comment" v-if="scope.row.get_addition">
             <p>[追评] <span class="comment-son">{{scope.row.get_addition.create_time}}</span></p>
-            <p><span @click="() => {}" class="link">{{scope.row.get_addition.content}}</span></p>
+            <p>
+              <span
+                @click="openCommentDetail(scope.row.goods_comment_id)"
+                :class="{link: auth.detail}">{{scope.row.get_addition.content}}</span>
+            </p>
             <div style="line-height: 0;">
               <el-image
                 v-for="(item, index) in scope.row.get_addition.image"
@@ -84,7 +97,17 @@
         width="220">
         <template slot-scope="scope">
           <div class="goods_user">
-            <p>{{scope.row.get_user.username}}</p>
+            <p>
+              <span>{{scope.row.get_user.username}}</span>
+              <el-image
+                v-if="scope.row.get_user.level_icon"
+                class="level-icon"
+                :src="scope.row.get_user.level_icon">
+                <div slot="error" class="image-slot">
+                  <i class="el-icon-picture-outline"></i>
+                </div>
+              </el-image>
+            </p>
             <p><span class="comment-son">{{scope.row.order_no}}</span></p>
             <el-rate
               v-model="scope.row.score"
@@ -101,13 +124,14 @@
         min-width="100">
         <template slot-scope="scope">
           <el-button
-            v-if="!scope.row.status"
-            @click="() => {}"
+            v-if="!scope.row.status && auth.ignore"
+            @click="handleIgnore(scope.$index)"
             size="small"
             type="text">忽略</el-button>
 
           <el-button
-            @click="() => {scope.row}"
+            v-if="auth.del"
+            @click="handleDelete(scope.$index)"
             size="small"
             type="text">删除</el-button>
         </template>
@@ -119,6 +143,12 @@
 <script>
 import util from '@/utils/util'
 import { mapActions } from 'vuex'
+import {
+  delGoodsCommentItem,
+  setGoodsCommentShow,
+  setGoodsCommentStatus,
+  setGoodsCommentTop
+} from '@/api/goods/comment'
 
 export default {
   props: {
@@ -132,7 +162,15 @@ export default {
   data() {
     return {
       currentTableData: [],
-      auth: {},
+      auth: {
+        ignore: false,
+        show: false,
+        hide: false,
+        top: false,
+        remove_top: false,
+        del: false,
+        detail: false
+      },
       srcList: [],
       statusMap: {
         0: {
@@ -207,6 +245,13 @@ export default {
     ]),
     // 验证权限
     _validationAuth() {
+      this.auth.ignore = this.$has('/goods/opinion/comment/ignore')
+      this.auth.show = this.$has('/goods/opinion/comment/show')
+      this.auth.hide = this.$has('/goods/opinion/comment/hide')
+      this.auth.top = this.$has('/goods/opinion/comment/top')
+      this.auth.remove_top = this.$has('/goods/opinion/comment/remove_top')
+      this.auth.del = this.$has('/goods/opinion/comment/del')
+      this.auth.detail = this.$has('/goods/opinion/comment/detail')
     },
     // 设置大图预览列表及顺序
     setImageSrcList(srcList, index) {
@@ -222,6 +267,111 @@ export default {
       image.forEach(value => {
         this.srcList.push(value['url'])
       })
+    },
+    // 忽略评论
+    handleIgnore(index) {
+      this.$confirm('确定要执行该操作吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+        closeOnClickModal: false
+      })
+        .then(() => {
+          setGoodsCommentStatus([this.currentTableData[index].goods_comment_id], 1)
+            .then(() => {
+              this.currentTableData[index].status = 1
+              this.$message.success('操作成功')
+            })
+        })
+        .catch(() => {
+        })
+    },
+    // 删除评论
+    handleDelete(index) {
+      this.$confirm('确定要执行该操作吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+        closeOnClickModal: false
+      })
+        .then(() => {
+          delGoodsCommentItem(this.currentTableData[index].goods_comment_id)
+            .then(() => {
+              this.currentTableData.splice(index, 1)
+              this.$message.success('操作成功')
+            })
+        })
+        .catch(() => {
+        })
+    },
+    // 打开评论详细
+    openCommentDetail(comment_id) {
+      if (!this.auth.detail) {
+        return
+      }
+
+      this.$router.push({
+        name: 'goods-opinion-comment-detail',
+        params: {
+          goods_comment_id: comment_id
+        }
+      })
+    },
+    // 设置是否置顶
+    handleTop(index) {
+      const data = this.currentTableData[index]
+      const oldTop = data.is_top
+      const newTop = oldTop ? 0 : 1
+
+      if (oldTop > 1) {
+        return
+      }
+
+      if (newTop === 0 && !this.auth.remove_top) {
+        return
+      }
+
+      if (newTop === 1 && !this.auth.top) {
+        return
+      }
+
+      data.is_top = 2
+      setGoodsCommentTop([data.goods_comment_id], newTop)
+        .then(() => {
+          data.is_top = newTop
+          this.$message.success('操作成功')
+        })
+        .catch(() => {
+          data.is_top = oldTop
+        })
+    },
+    // 设置是否显示
+    handleShow(index) {
+      const data = this.currentTableData[index]
+      const oldShow = data.is_show
+      const newShow = oldShow ? 0 : 1
+
+      if (oldShow > 1) {
+        return
+      }
+
+      if (newShow === 0 && !this.auth.hide) {
+        return
+      }
+
+      if (newShow === 1 && !this.auth.show) {
+        return
+      }
+
+      data.is_show = 2
+      setGoodsCommentShow([data.goods_comment_id], newShow)
+        .then(() => {
+          data.is_show = newShow
+          this.$message.success('操作成功')
+        })
+        .catch(() => {
+          data.is_show = oldShow
+        })
     }
   }
 }
@@ -278,5 +428,10 @@ export default {
   }
   .goods_user p {
     margin: 0;
+  }
+  .level-icon {
+    margin-left: 5px;
+    line-height: 0;
+    vertical-align: text-bottom;
   }
 </style>

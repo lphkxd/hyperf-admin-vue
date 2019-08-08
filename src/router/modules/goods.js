@@ -62,6 +62,13 @@ export default {
       name: `${pre}opinion-comment`,
       meta: { ...meta, cache: true, title: '商品评价' },
       component: () => import('@/views/goods/comment/list')
+    },
+    {
+      path: 'opinion/comment/detail/:goods_comment_id',
+      name: `${pre}opinion-comment-detail`,
+      props: true,
+      meta: { ...meta, cache: true, title: '评价明细' },
+      component: () => import('@/views/goods/comment/detail')
     }
   ])('goods-')
 }
