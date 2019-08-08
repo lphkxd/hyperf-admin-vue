@@ -516,6 +516,7 @@
                 <el-image
                   v-if="imageUrl"
                   :src="imageUrl | getPreviewUrl"
+                  fit="fill"
                   @click.native="$open(imageUrl)"/>
               </div>
 
@@ -568,6 +569,7 @@
                 <el-image
                   v-if="imageResult['url_prefix']"
                   :src="imageResult['url_prefix']"
+                  fit="fill"
                   @click.native="$open(imageResult['url_prefix'])"/>
               </div>
 
