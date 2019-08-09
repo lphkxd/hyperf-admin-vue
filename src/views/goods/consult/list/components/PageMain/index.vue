@@ -66,7 +66,8 @@
               <el-image
                 v-if="scope.row.get_user.level_icon"
                 class="level-icon"
-                :src="scope.row.get_user.level_icon">
+                :src="scope.row.get_user.level_icon"
+                fit="fill">
                 <div slot="error" class="image-slot">
                   <i class="el-icon-picture-outline"></i>
                 </div>

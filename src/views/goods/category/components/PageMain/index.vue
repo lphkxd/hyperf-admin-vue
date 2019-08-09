@@ -248,7 +248,8 @@
                         <div class="popover-image">
                           <el-image
                             :src="form.category_pic | getPreviewUrl"
-                            @click.native="$preview(form.category_pic)"/>
+                            @click.native="$preview(form.category_pic)"
+                            fit="fill"/>
                         </div>
                         <cs-icon slot="reference" name="image"/>
                       </el-popover>

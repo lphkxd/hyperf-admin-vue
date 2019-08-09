@@ -71,7 +71,8 @@
             <div class="popover-image">
               <el-image
                 :src="form.logo.value | getPreviewUrl"
-                @click.native="$preview(form.logo.value)"/>
+                @click.native="$preview(form.logo.value)"
+                fit="fill"/>
             </div>
             <cs-icon slot="reference" name="image"/>
           </el-popover>
@@ -123,7 +124,8 @@
             <div class="popover-image">
               <el-image
                 :src="form.miitbeian_ico.value | getPreviewUrl"
-                @click.native="$preview(form.miitbeian_ico.value)"/>
+                @click.native="$preview(form.miitbeian_ico.value)"
+                fit="fill"/>
             </div>
             <cs-icon slot="reference" name="image"/>
           </el-popover>
@@ -173,7 +175,8 @@
             <div class="popover-image">
               <el-image
                 :src="form.beian_ico.value | getPreviewUrl"
-                @click.native="$preview(form.beian_ico.value)"/>
+                @click.native="$preview(form.beian_ico.value)"
+                fit="fill"/>
             </div>
             <cs-icon slot="reference" name="image"/>
           </el-popover>

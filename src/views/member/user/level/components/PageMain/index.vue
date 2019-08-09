@@ -52,7 +52,8 @@
           <el-image
             v-if="scope.row.icon"
             class="level-icon"
-            :src="scope.row.icon">
+            :src="scope.row.icon"
+            fit="fill">
             <div slot="error" class="image-slot">
               <i class="el-icon-picture-outline"></i>
             </div>

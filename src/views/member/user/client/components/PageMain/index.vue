@@ -97,7 +97,8 @@
               <el-image
                 v-if="props.row.get_user_level.icon"
                 class="level-icon"
-                :src="props.row.get_user_level.icon">
+                :src="props.row.get_user_level.icon"
+                fit="fill">
                 <div slot="error" class="image-slot">
                   <i class="el-icon-picture-outline"></i>
                 </div>
@@ -156,7 +157,8 @@
             <div class="popover-image">
               <el-image
                 :src="scope.row.head_pic | getPreviewUrl"
-                @click.native="$preview(scope.row.head_pic)"/>
+                @click.native="$preview(scope.row.head_pic)"
+                fit="fill"/>
             </div>
             <cs-icon slot="reference" name="user-circle"/>
           </el-popover>
@@ -190,7 +192,8 @@
             placement="top">
             <el-image
               class="level-icon"
-              :src="scope.row.get_user_level.icon">
+              :src="scope.row.get_user_level.icon"
+              fit="fill">
               <div slot="error" class="image-slot">
                 <i class="el-icon-picture-outline"></i>
               </div>
@@ -370,7 +373,8 @@
                 <div class="popover-image">
                   <el-image
                     :src="form.head_pic | getPreviewUrl"
-                    @click.native="$preview(form.head_pic)"/>
+                    @click.native="$preview(form.head_pic)"
+                    fit="fill"/>
                 </div>
                 <cs-icon slot="reference" name="user-circle"/>
               </el-popover>

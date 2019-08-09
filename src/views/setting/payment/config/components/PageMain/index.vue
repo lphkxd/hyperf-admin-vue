@@ -27,7 +27,8 @@
               <div v-if="props.row.image" class="popover-image">
                 <el-image
                   :src="props.row.image | getPreviewUrl"
-                  @click.native="$preview(props.row.image)"/>
+                  @click.native="$preview(props.row.image)"
+                  fit="fill"/>
               </div>
             </el-form-item>
           </el-form>
@@ -134,7 +135,8 @@
                 <div class="popover-image">
                   <el-image
                     :src="updateForm.image | getPreviewUrl"
-                    @click.native="$preview(updateForm.image)"/>
+                    @click.native="$preview(updateForm.image)"
+                    fit="fill"/>
                 </div>
                 <cs-icon slot="reference" name="image"/>
               </el-popover>

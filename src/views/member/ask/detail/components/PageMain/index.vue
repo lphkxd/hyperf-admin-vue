@@ -70,7 +70,8 @@
                 <el-image
                   v-if="item.type === 1 && tableData.get_user.level_icon"
                   class="level-icon"
-                  :src="tableData.get_user.level_icon">
+                  :src="tableData.get_user.level_icon"
+                  fit="fill">
                   <div slot="error" class="image-slot">
                     <i class="el-icon-picture-outline"></i>
                   </div>

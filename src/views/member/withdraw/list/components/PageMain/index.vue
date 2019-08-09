@@ -126,7 +126,8 @@
               <el-image
                 v-if="qrcodeUrl"
                 style="float: right;"
-                :src="`${qrcodeUrl}?text=${infoForm.withdraw_no}`"/>
+                :src="`${qrcodeUrl}?text=${infoForm.withdraw_no}`"
+                fit="fill"/>
             </td>
           </tr>
           <tr>

@@ -61,7 +61,8 @@
             <div class="popover-image">
               <el-image
                 :src="scope.row.logo"
-                @click.native="$preview(scope.row.logo)"/>
+                @click.native="$preview(scope.row.logo)"
+                fit="fill"/>
             </div>
             <cs-icon slot="reference" name="image"/>
           </el-popover>
@@ -164,7 +165,7 @@
 
       <el-divider>效果预览</el-divider>
       <div v-if="form.text" style="text-align: center;">
-        <el-image v-if="qrcodeImage" :src="qrcodeImage"/>
+        <el-image v-if="qrcodeImage" fit="fill" :src="qrcodeImage"/>
       </div>
 
       <div slot="footer" class="dialog-footer">
@@ -198,7 +199,7 @@
           <p>效果预览</p>
         </el-col>
         <el-col :span="20">
-          <el-image v-if="qrcodeData.url" :src="qrcodeData.url"/>
+          <el-image v-if="qrcodeData.url" fit="fill" :src="qrcodeData.url"/>
         </el-col>
       </el-row>
 
