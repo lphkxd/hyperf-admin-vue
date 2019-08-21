@@ -16,14 +16,14 @@ export default {
   getters: {
     /**
      * @description 返回现存 log (all) 的条数
-     * @param {*} state vuex state
+     * @param {*} state state
      */
     length(state) {
       return state.log.length
     },
     /**
      * @description 返回现存 log (error) 的条数
-     * @param {*} state vuex state
+     * @param {*} state state
      */
     lengthError(state) {
       return state.log.filter(log => log.type === 'danger').length
@@ -32,6 +32,7 @@ export default {
   actions: {
     /**
      * @description 添加一个日志
+     * @param {Object} context
      * @param {String} param message {String} 信息
      * @param {String} param type {String} 类型
      * @param {Object} param meta {Object} 附带的信息
@@ -59,7 +60,7 @@ export default {
   mutations: {
     /**
      * @description 添加日志
-     * @param {Object} state vuex state
+     * @param {Object} state state
      * @param {Object} log data
      */
     push(state, log) {
@@ -67,7 +68,7 @@ export default {
     },
     /**
      * @description 清空日志
-     * @param {Object} state vuex state
+     * @param {Object} state state
      */
     clean(state) {
       // store 赋值

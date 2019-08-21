@@ -9,7 +9,7 @@ export default {
   actions: {
     /**
      * @description 设置用户数据
-     * @param state vuex state
+     * @param context
      * @param dispatch
      * @param info
      * @returns {Promise<any>}
@@ -31,7 +31,7 @@ export default {
     },
     /**
      * @description 从数据库取用户数据
-     * @param state vuex state
+     * @param context
      * @param dispatch
      * @returns {Promise<any>}
      */
@@ -52,7 +52,7 @@ export default {
   mutations: {
     /**
      * @description 设置未读消息数
-     * @param {Object} state vuex state
+     * @param {Object} state state
      * @param {Number} count data
      */
     setMessage(state, count) {

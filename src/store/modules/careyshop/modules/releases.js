@@ -43,7 +43,7 @@ export default {
     },
     /**
      * @description 设置是否有新的 CareyShop Admin 版本
-     * @param {Object} state vuex state
+     * @param {Object} state state
      * @param {Boolean} update can update
      */
     updateSet(state, update) {
@@ -52,7 +52,7 @@ export default {
     },
     /**
      * @description 设置最新版本的信息
-     * @param {Object} state vuex state
+     * @param {Object} state state
      * @param {Object} latest releases value
      */
     latestSet(state, latest) {

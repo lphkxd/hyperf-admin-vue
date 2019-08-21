@@ -10,7 +10,7 @@ export default {
   actions: {
     /**
      * @description 将当前的设置应用到 element
-     * @param state vuex state
+     * @param {Object} context
      * @param commit
      * @param {Boolean} refresh 是否在设置之后刷新页面
      */
@@ -23,6 +23,7 @@ export default {
     },
     /**
      * @description 确认已经加载组件尺寸设置
+     * @param {Object} context
      */
     isLoaded({ state }) {
       if (state.value) {
@@ -39,7 +40,7 @@ export default {
     },
     /**
      * @description 设置尺寸
-     * @param state vuex state
+     * @param context
      * @param dispatch
      * @param size  尺寸
      * @returns {Promise<any>}
@@ -63,7 +64,7 @@ export default {
     },
     /**
      * @description 从持久化数据读取尺寸设置
-     * @param state vuex state
+     * @param context
      * @param dispatch
      * @returns {Promise<any>}
      */

@@ -7,9 +7,9 @@ export default {
   actions: {
     /**
      * @description 登录
-     * @param {Object} param dispatch
-     * @param {Object} param username {String} 用户账号
-     * @param {Object} param password {String} 密码
+     * @param {Object} payload dispatch
+     * @param {Object} payload username {String} 用户账号
+     * @param {Object} payload password {String} 密码
      */
     login({ dispatch }, { username, password }) {
       return new Promise((resolve, reject) => {
@@ -44,9 +44,9 @@ export default {
     },
     /**
      * @description 注销用户并返回登录页面
-     * @param {Object} param dispatch
-     * @param {Object} param vm {Object} vue 实例
-     * @param {Object} param confirm {Boolean} 是否需要确认
+     * @param {Object} payload dispatch
+     * @param {Object} payload vm {Object} vue 实例
+     * @param {Object} payload confirm {Boolean} 是否需要确认
      */
     logout({ dispatch }, { vm, confirm = false }) {
       // 实际注销操作
@@ -94,7 +94,7 @@ export default {
     },
     /**
      * @description 用户登录后从持久化数据加载一系列的设置
-     * @param {Object} state vuex state
+     * @param {Object} context
      */
     load({ commit, dispatch }) {
       return new Promise(async resolve => {

@@ -16,9 +16,9 @@ export default {
   actions: {
     /**
      * @description 设置侧边栏展开或者收缩
-     * @param state vuex state
+     * @param context
      * @param dispatch
-     * @param collapse  is collapse
+     * @param collapse is collapse
      * @returns {Promise<any>}
      */
     asideCollapseSet({ state, dispatch }, collapse) {
@@ -38,7 +38,7 @@ export default {
     },
     /**
      * @description 切换侧边栏展开和收缩
-     * @param state vuex state
+     * @param context
      * @param dispatch
      * @returns {Promise<any>}
      */
@@ -59,7 +59,7 @@ export default {
     },
     /**
      * @description 从持久化数据读取侧边栏展开或者收缩
-     * @param state vuex state
+     * @param context
      * @param dispatch
      * @returns {Promise<any>}
      */
@@ -78,7 +78,7 @@ export default {
     },
     /**
      * @description 从持久化数据读取菜单源数据
-     * @param state vuex state
+     * @param state state
      * @param dispatch
      * @returns {Promise<*>}
      */
@@ -101,7 +101,7 @@ export default {
   mutations: {
     /**
      * @description 设置顶栏菜单
-     * @param {Object} state vuex state
+     * @param {Object} state state
      * @param {Array} menu menu setting
      */
     headerSet(state, menu) {
@@ -110,7 +110,7 @@ export default {
     },
     /**
      * @description 设置侧边栏菜单
-     * @param {Object} state vuex state
+     * @param {Object} state state
      * @param {Array} menu menu setting
      */
     asideSet(state, menu) {

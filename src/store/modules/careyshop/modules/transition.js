@@ -9,7 +9,7 @@ export default {
   actions: {
     /**
      * @description 设置开启状态
-     * @param state vuex state
+     * @param context
      * @param dispatch
      * @param active  新的状态
      * @returns {Promise<any>}
@@ -31,7 +31,7 @@ export default {
     },
     /**
      * @description 从数据库读取页面过渡动画设置
-     * @param state vuex state
+     * @param context
      * @param dispatch
      * @returns {Promise<any>}
      */

@@ -22,6 +22,7 @@ export default {
   actions: {
     /**
      * @description 确认已经加载多标签页数据
+     * @param {Object} context
      */
     isLoaded({ state }) {
       if (state.value) return Promise.resolve()
@@ -35,7 +36,7 @@ export default {
     },
     /**
      * @description 从持久化数据载入分页列表
-     * @param state vuex state
+     * @param context
      * @param commit
      * @param dispatch
      * @returns {Promise<any>}
@@ -79,7 +80,7 @@ export default {
     },
     /**
      * 将 opened 属性赋值并持久化 在这之前请先确保已经更新了 state.opened
-     * @param state vuex state
+     * @param context
      * @param dispatch
      * @returns {Promise<any>}
      */
@@ -98,7 +99,7 @@ export default {
     },
     /**
      * @description 更新页面列表上的某一项
-     * @param state vuex state
+     * @param context
      * @param commit
      * @param dispatch
      * @param index
@@ -123,7 +124,7 @@ export default {
     },
     /**
      * @description 新增一个 tag (打开一个页面)
-     * @param state vuex state
+     * @param context
      * @param commit
      * @param dispatch
      * @param tag
@@ -153,7 +154,7 @@ export default {
     },
     /**
      * @description 打开一个新的页面
-     * @param state vuex state
+     * @param context
      * @param commit
      * @param dispatch
      * @param name
@@ -201,7 +202,7 @@ export default {
     },
     /**
      * @description 关闭一个 tag (关闭一个页面)
-     * @param state vuex state
+     * @param context
      * @param commit
      * @param dispatch
      * @param tagName 要关闭的标签名字
@@ -258,7 +259,7 @@ export default {
     },
     /**
      * @description 关闭当前标签左边的标签
-     * @param state vuex state
+     * @param context
      * @param commit
      * @param dispatch
      * @param pageSelect  当前选中的tagName
@@ -289,7 +290,7 @@ export default {
     },
     /**
      * @description 关闭当前标签右边的标签
-     * @param state vuex state
+     * @param context
      * @param commit
      * @param dispatch
      * @param pageSelect  当前选中的tagName
@@ -319,7 +320,7 @@ export default {
     },
     /**
      * @description 关闭当前激活之外的 tag
-     * @param state vuex state
+     * @param context
      * @param commit
      * @param dispatch
      * @param pageSelect  当前选中的tagName
@@ -354,7 +355,7 @@ export default {
     },
     /**
      * @description 关闭所有 tag
-     * @param state vuex state
+     * @param context
      * @param commit
      * @param dispatch
      * @returns {Promise<any>}
@@ -380,14 +381,14 @@ export default {
     /**
      * @class keepAlive
      * @description 从已经打开的页面记录中更新需要缓存的页面记录
-     * @param {Object} state vuex state
+     * @param {Object} state state
      */
     keepAliveRefresh(state) {
       state.keepAlive = state.opened.filter(item => isKeepAlive(item)).map(e => e.name)
     },
     /**
      * @description 删除一个页面的缓存设置
-     * @param {Object} state vuex state
+     * @param {Object} state state
      * @param {String} name name
      */
     keepAliveRemove(state, name) {
@@ -401,7 +402,7 @@ export default {
     },
     /**
      * @description 增加一个页面的缓存设置
-     * @param state vuex state
+     * @param state state
      * @param name  name
      */
     keepAlivePush(state, name) {
@@ -411,7 +412,7 @@ export default {
     },
     /**
      * @description 清空页面缓存设置
-     * @param {Object} state vuex state
+     * @param {Object} state state
      */
     keepAliveClean(state) {
       state.keepAlive = []
@@ -419,7 +420,7 @@ export default {
     /**
      * @class current
      * @description 设置当前激活的页面 fullPath
-     * @param {Object} state vuex state
+     * @param {Object} state state
      * @param {String} fullPath new fullPath
      */
     currentSet(state, fullPath) {
@@ -428,7 +429,7 @@ export default {
     /**
      * @class pool
      * @description 保存 pool (候选池)
-     * @param {Object} state vuex state
+     * @param {Object} state state
      * @param {Array} routes routes
      */
     init(state, routes) {
