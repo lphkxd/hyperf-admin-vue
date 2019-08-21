@@ -85,6 +85,7 @@ util.formatDataToTree = function(data, key = 'menu_id', pid = 'parent_id', paren
   })
 
   let tree = []
+  // eslint-disable-next-line no-unused-vars
   for (let id in data) {
     if (!data.hasOwnProperty(id)) {
       continue

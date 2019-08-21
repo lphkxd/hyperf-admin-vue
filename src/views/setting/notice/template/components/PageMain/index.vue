@@ -609,6 +609,7 @@ export default {
       getNoticeItem('sms')
         .then(res => {
           const data = res.data.value
+          // eslint-disable-next-line no-unused-vars
           for (const key in data) {
             if (data.hasOwnProperty(key)) {
               this.smsForm[key] = data[key].value
@@ -661,6 +662,7 @@ export default {
       getNoticeItem('email')
         .then(res => {
           const data = res.data.value
+          // eslint-disable-next-line no-unused-vars
           for (const key in data) {
             if (data.hasOwnProperty(key)) {
               this.emailForm[key] = data[key].value

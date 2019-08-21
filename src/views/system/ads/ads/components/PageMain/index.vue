@@ -695,6 +695,7 @@ export default {
     },
     // 切换广告位置
     switchPosition(val) {
+      // eslint-disable-next-line no-unused-vars
       for (const value of this.positionTable) {
         if (value.ads_position_id === val) {
           this.adsType = value.type

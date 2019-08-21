@@ -62,6 +62,7 @@ export default {
           value: 'total'
         })
 
+        // eslint-disable-next-line no-unused-vars
         for (const index in res) {
           if (!res.hasOwnProperty(index)) {
             continue

@@ -194,6 +194,7 @@ export default {
     },
     handleConfirm() {
       let data = []
+      // eslint-disable-next-line no-unused-vars
       for (const value of this.currentTableData) {
         if (this.checkList.indexOf(value.storage_id) !== -1) {
           data.push(value)

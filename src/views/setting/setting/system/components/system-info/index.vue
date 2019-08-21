@@ -383,6 +383,7 @@ export default {
       this.form = val
       this.platforms = []
 
+      // eslint-disable-next-line no-unused-vars
       for (const key in this.form.platform.value) {
         if (this.form.platform.value.hasOwnProperty(key)) {
           this.platforms.push({
@@ -403,6 +404,7 @@ export default {
     // 确定修改
     handleFormSubmit() {
       let data = {}
+      // eslint-disable-next-line no-unused-vars
       for (const index in this.form) {
         if (this.form.hasOwnProperty(index)) {
           data[index] = this.form[index].value
@@ -410,6 +412,7 @@ export default {
       }
 
       let platform = {}
+      // eslint-disable-next-line no-unused-vars
       for (const item of this.platforms) {
         platform[item.key] = item.value
       }

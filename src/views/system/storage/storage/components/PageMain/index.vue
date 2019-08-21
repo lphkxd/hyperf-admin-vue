@@ -394,6 +394,7 @@ export default {
         })
       }
 
+      // eslint-disable-next-line no-unused-vars
       for (const value of files) {
         if (value.status !== 'success') {
           continue

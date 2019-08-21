@@ -157,6 +157,7 @@ export default {
   methods: {
     handleFormSubmit(isRestore = false) {
       let form = {}
+      // eslint-disable-next-line no-unused-vars
       for (const index in this.form) {
         if (!this.form.hasOwnProperty(index)) {
           continue

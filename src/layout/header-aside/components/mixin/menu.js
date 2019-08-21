@@ -30,6 +30,7 @@ export default {
 
       // 查找顶级路由下是否存在子路由
       let router = null
+      // eslint-disable-next-line no-unused-vars
       for (const value of frameInRoutes) {
         if (value.path === index) {
           router = value.children
@@ -44,6 +45,7 @@ export default {
       }
 
       // 存在子路由,则判断子级路由是否有权限
+      // eslint-disable-next-line no-unused-vars
       for (const value of router) {
         const newPath = index + '/' + value.path
         if (this.$has(newPath)) {

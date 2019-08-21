@@ -75,6 +75,7 @@ export default {
       const key = val.findIndex(item => item.path === this.value)
 
       if (key !== -1 && val[key].children) {
+        // eslint-disable-next-line no-unused-vars
         for (const item of val[key].children) {
           if (this.$route.path === item.path) {
             continue

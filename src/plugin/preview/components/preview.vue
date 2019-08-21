@@ -22,6 +22,7 @@ export default {
     getImageUrl(image) {
       let result = []
       if (Array.isArray(image)) {
+        // eslint-disable-next-line no-unused-vars
         for (let item of image) {
           result.push(this.checkUrl(item))
         }

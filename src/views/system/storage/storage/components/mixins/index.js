@@ -35,6 +35,7 @@ export default {
     // 全部选择
     allCheckBox() {
       this.checkList = []
+      // eslint-disable-next-line no-unused-vars
       for (const value of this.currentTableData) {
         if (!this.isCheckDirectory) {
           if (value.type === 2) {
@@ -48,6 +49,7 @@ export default {
     // 反向选择
     reverseCheckBox() {
       let checkList = []
+      // eslint-disable-next-line no-unused-vars
       for (const value of this.currentTableData) {
         if (!this.isCheckDirectory) {
           if (value.type === 2) {
