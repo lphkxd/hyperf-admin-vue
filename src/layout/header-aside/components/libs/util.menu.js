@@ -44,7 +44,7 @@ export function elSubmenu(createElement, menu) {
       ] : [],
       ...menu.icon === undefined && !menu.iconSvg ? [
         createElement('i', {
-          slot: 'title', attrs: { class: 'fa fa-file-o' }
+          slot: 'title', attrs: { class: 'fa fa-folder-o' }
         })
       ] : [],
       ...menu.iconSvg ? [
