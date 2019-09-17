@@ -193,7 +193,7 @@ util.getSign = function(params) {
 util.getImageCodeUrl = function(url, code = '') {
   let data = process.env.VUE_APP_BASE_API
   data += '/v1/storage/method/get.storage.thumb/code/' + code
-  data += '?url=' + encodeURI(url)
+  data += '?url=' + encodeURIComponent(url)
 
   return data
 }
@@ -207,7 +207,7 @@ util.getImageCodeUrl = function(url, code = '') {
 util.getDownloadUrl = function(file, code) {
   let data = process.env.VUE_APP_BASE_API
   data += '/v1/storage/method/get.storage.download/code/' + code
-  data += '?url=' + encodeURI(file.url)
+  data += '?url=' + encodeURIComponent(file.url)
   data += '&filename=' + encodeURI(file.name)
 
   return data
@@ -221,7 +221,7 @@ util.getDownloadUrl = function(file, code) {
  */
 util.getImageStyleUrl = function(url, style) {
   let data = process.env.VUE_APP_BASE_API
-  data += '/v1/storage/method/get.storage.thumb' + '?url=' + encodeURI(url)
+  data += '/v1/storage/method/get.storage.thumb' + '?url=' + encodeURIComponent(url)
   data += style
 
   return data

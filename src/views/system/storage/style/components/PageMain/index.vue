@@ -479,14 +479,12 @@
             </template>
 
             <template v-else>
-              <el-form-item>
-                <el-alert
-                  title="启用第三方样式后本地样式将失效"
-                  type="warning"
-                  :closable="false"
-                  center>
-                </el-alert>
-              </el-form-item>
+              <el-alert
+                title="启用第三方样式后本地样式将失效"
+                type="warning"
+                :closable="false"
+                center>
+              </el-alert>
             </template>
 
             <el-divider>高级</el-divider>
