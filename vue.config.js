@@ -14,7 +14,7 @@ const publicPath = ''
 
 module.exports = {
   publicPath, // 根据你的实际情况更改这里
-  lintOnSave: true,
+  lintOnSave: process.env.NODE_ENV !== 'production',
   devServer: {
     publicPath // 和 publicPath 保持一致
   },
