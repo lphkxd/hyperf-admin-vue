@@ -16,6 +16,7 @@ module.exports = {
   publicPath, // 根据你的实际情况更改这里
   lintOnSave: process.env.NODE_ENV !== 'production',
   devServer: {
+    // https://webpack.js.org/configuration/dev-server/
     publicPath // 和 publicPath 保持一致
   },
   css: {
