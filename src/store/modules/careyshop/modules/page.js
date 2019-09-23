@@ -84,7 +84,7 @@ export default {
      * @param dispatch
      * @returns {Promise<any>}
      */
-    opencsdb({ state, dispatch }) {
+    openecsdb({ state, dispatch }) {
       return new Promise(async resolve => {
         // 设置数据
         dispatch('careyshop/db/set', {
@@ -117,7 +117,7 @@ export default {
         page.fullPath = fullPath || page.fullPath
         state.opened.splice(index, 1, page)
         // 持久化
-        await dispatch('opencsdb')
+        await dispatch('openecsdb')
         // end
         resolve()
       })
@@ -147,7 +147,7 @@ export default {
           commit('keepAlivePush', tag.name)
         }
         // 持久化
-        await dispatch('opencsdb')
+        await dispatch('openecsdb')
         // end
         resolve()
       })
@@ -237,7 +237,7 @@ export default {
           state.opened.splice(index, 1)
         }
         // 持久化
-        await dispatch('opencsdb')
+        await dispatch('openecsdb')
         // 最后需要判断是否需要跳到首页
         if (isCurrent) {
           const {
@@ -283,7 +283,7 @@ export default {
           router.push(pageAim)
         }
         // 持久化
-        await dispatch('opencsdb')
+        await dispatch('openecsdb')
         // end
         resolve()
       })
@@ -313,7 +313,7 @@ export default {
           router.push(pageAim)
         }
         // 持久化
-        await dispatch('opencsdb')
+        await dispatch('openecsdb')
         // end
         resolve()
       })
@@ -348,7 +348,7 @@ export default {
           router.push(pageAim)
         }
         // 持久化
-        await dispatch('opencsdb')
+        await dispatch('openecsdb')
         // end
         resolve()
       })
@@ -365,7 +365,7 @@ export default {
         // 删除打开的页面 并在缓存设置中删除
         state.opened.splice(1).forEach(({ name }) => commit('keepAliveRemove', name))
         // 持久化
-        await dispatch('opencsdb')
+        await dispatch('openecsdb')
         // 关闭所有的标签页后需要判断一次现在是不是在首页
         if (router.app.$route.name !== 'index') {
           router.push({
