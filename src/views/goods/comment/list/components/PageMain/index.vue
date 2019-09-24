@@ -256,18 +256,7 @@ export default {
     },
     // 设置大图预览列表及顺序
     setImageSrcList(srcList, index) {
-      if (!Array.isArray(srcList) || !srcList.length) {
-        this.srcList = []
-        return
-      }
-
-      const before = srcList.slice(index)
-      const image = before.concat(srcList.slice(0, index))
-
-      this.srcList = []
-      image.forEach(value => {
-        this.srcList.push(value['url'])
-      })
+      this.srcList = util.setImageSrcList(srcList, index)
     },
     // 忽略评论
     handleIgnore(index) {

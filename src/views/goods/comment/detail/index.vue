@@ -50,7 +50,9 @@ export default {
     ]),
     getInitData() {
       return {
-        status: null
+        status: null,
+        get_user: {},
+        get_order_goods: {}
       }
     },
     switchData(id) {

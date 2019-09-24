@@ -281,4 +281,26 @@ util.bytesFormatter = function(bytes, spacer = ' ') {
   return `${bytes}${spacer}${symbols[i]}`
 }
 
+/**
+ * 设置大图预览列表及顺序
+ * @param srcList
+ * @param index
+ * @returns {{}}
+ */
+util.setImageSrcList = function(srcList, index) {
+  if (!Array.isArray(srcList) || !srcList.length) {
+    return []
+  }
+
+  const before = srcList.slice(index)
+  const image = before.concat(srcList.slice(0, index))
+
+  let imageList = []
+  image.forEach(value => {
+    imageList.push(value['url'])
+  })
+
+  return imageList
+}
+
 export default util
