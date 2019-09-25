@@ -47,7 +47,7 @@
       <el-timeline>
         <!-- 主评 -->
         <el-timeline-item
-          :timestamp="tableData.create_time"
+          :timestamp="`[主评] ${tableData.create_time}`"
           type="primary"
           placement="top">
           <el-card shadow="never">
@@ -60,7 +60,14 @@
             </div>
 
             <div class="problem">
-              <div class="consult-content cs-pb-10">[主评] {{tableData.content}}</div>
+              <div class="consult-content action cs-pb-10">
+                <span>{{tableData.content}}</span>
+                <el-button
+                  class="form-button active"
+                  type="text"
+                  size="small"
+                  @click="initReplyForm(tableData.goods_comment_id)">回复</el-button>
+              </div>
               <div style="line-height: 0;">
                 <el-image
                   v-for="(item, index) in tableData.image"
@@ -87,7 +94,149 @@
             </div>
           </el-card>
         </el-timeline-item>
+
+        <!-- 主评回复 -->
+        <el-timeline-item
+          v-for="(item, index) in tableData.get_main_reply"
+          :key="`main_reply${index}`"
+          :timestamp="`[主评回复] ${item.create_time}`"
+          type="danger"
+          placement="top">
+          <el-card shadow="never">
+            <div class="user-icon">
+              <el-avatar
+                size="medium"
+                src="image/avatar/admin.png">
+              </el-avatar>
+            </div>
+
+            <div class="problem">
+              <div class="consult-content cs-pb-10">{{item.content}}</div>
+              <div style="line-height: 0;">
+                <el-image
+                  v-for="(value, index) in item.image"
+                  :key="index"
+                  class="comment_thumb"
+                  :src="value | getPreviewUrl('comment_thumb_x40')"
+                  :preview-src-list="srcList"
+                  :lazy="true"
+                  fit="cover"
+                  @click.stop="setImageSrcList(item.image, index)"/>
+              </div>
+              <div class="user-name"><span>客服人员</span></div>
+            </div>
+          </el-card>
+        </el-timeline-item>
+
+        <!-- 追评 -->
+        <el-timeline-item
+          v-if="tableData.get_addition"
+          :timestamp="`[追评] ${tableData.get_addition.create_time}`"
+          type="primary"
+          placement="top">
+          <el-card shadow="never">
+            <div class="user-icon">
+              <el-avatar
+                size="medium"
+                :src="tableData.get_user.head_pic | getPreviewUrl('head_pic')">
+                <img src="image/avatar/user.png" alt=""/>
+              </el-avatar>
+            </div>
+
+            <div class="problem">
+              <div class="consult-content action cs-pb-10">
+                <span>{{tableData.get_addition.content}}</span>
+                <el-button
+                  class="form-button active"
+                  type="text"
+                  size="small"
+                  @click="initReplyForm(tableData.get_addition.goods_comment_id)">回复</el-button>
+              </div>
+              <div style="line-height: 0;">
+                <el-image
+                  v-for="(item, index) in tableData.get_addition.image"
+                  :key="index"
+                  class="comment_thumb"
+                  :src="item | getPreviewUrl('comment_thumb_x40')"
+                  :preview-src-list="srcList"
+                  :lazy="true"
+                  fit="cover"
+                  @click.stop="setImageSrcList(tableData.get_addition.image, index)"/>
+              </div>
+              <div class="user-name">
+                <span>{{tableData.get_user.username}}</span>
+                <el-image
+                  v-if="tableData.get_user.level_icon"
+                  :src="tableData.get_user.level_icon"
+                  class="level-icon"
+                  fit="fill">
+                  <div slot="error" class="image-slot">
+                    <i class="el-icon-picture-outline"></i>
+                  </div>
+                </el-image>
+              </div>
+            </div>
+          </el-card>
+        </el-timeline-item>
+
+        <!-- 追评回复 -->
+        <el-timeline-item
+          v-for="(item, index) in tableData.get_addition_reply"
+          :key="`addition_reply${index}`"
+          :timestamp="`[追评回复] ${item.create_time}`"
+          type="danger"
+          placement="top">
+          <el-card shadow="never">
+            <div class="user-icon">
+              <el-avatar
+                size="medium"
+                src="image/avatar/admin.png">
+              </el-avatar>
+            </div>
+
+            <div class="problem">
+              <div class="consult-content cs-pb-10">{{item.content}}</div>
+              <div style="line-height: 0;">
+                <el-image
+                  v-for="(value, index) in item.image"
+                  :key="index"
+                  class="comment_thumb"
+                  :src="value | getPreviewUrl('comment_thumb_x40')"
+                  :preview-src-list="srcList"
+                  :lazy="true"
+                  fit="cover"
+                  @click.stop="setImageSrcList(item.image, index)"/>
+              </div>
+              <div class="user-name"><span>客服人员</span></div>
+            </div>
+          </el-card>
+        </el-timeline-item>
       </el-timeline>
+
+      <el-form
+        v-show="form.isShowReply"
+        :model="form"
+        :rules="rules"
+        id="reply-form"
+        ref="form"
+        label-width="68px">
+        <el-form-item prop="content">
+          <el-input
+            v-model="form.content"
+            placeholder="请输入回复内容"
+            type="textarea"
+            :autosize="{minRows: 5}"
+            :show-word-limit="true"
+            maxlength="200"/>
+
+          <el-button
+            class="cs-mt-10"
+            type="primary"
+            :loading="form.submitLoading"
+            @click="() => {}"
+            size="small">提交</el-button>
+        </el-form-item>
+      </el-form>
     </el-card>
   </div>
 </template>
@@ -108,7 +257,10 @@ export default {
     return {
       form: {
         goods_comment_id: undefined,
-        content: undefined
+        content: undefined,
+        image: undefined,
+        isShowReply: false,
+        submitLoading: false
       },
       formBuffer: [],
       srcList: [],
@@ -160,6 +312,22 @@ export default {
     // 设置大图预览列表及顺序
     setImageSrcList(srcList, index) {
       this.srcList = util.setImageSrcList(srcList, index)
+    },
+    // 初始化回复框数据
+    initReplyForm(goods_comment_id) {
+      this.form = {
+        goods_comment_id,
+        content: undefined,
+        image: undefined,
+        isShowReply: true,
+        submitLoading: false
+      }
+
+      this.$nextTick(() => {
+        this.$refs.form.clearValidate()
+        const anchor = this.$el.querySelector('#reply-form')
+        this.$parent.scrollTo(0, anchor.offsetTop)
+      })
     }
   }
 }
@@ -213,5 +381,15 @@ export default {
   .comment_thumb >>> .el-image__error {
     text-align: center;
     line-height: 1.4;
+  }
+  .form-button {
+    line-height: 0;
+    padding: 7px 5px;
+  }
+  .active {
+    display: none;
+  }
+  .action:hover .active{
+    display: inline;
   }
 </style>

@@ -51,6 +51,7 @@ export default {
     getInitData() {
       return {
         status: null,
+        create_time: '',
         get_user: {},
         get_order_goods: {}
       }
