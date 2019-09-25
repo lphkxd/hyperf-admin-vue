@@ -24,7 +24,7 @@ export default {
     getRouterAuthPath(index, indexPath) {
       // 子级路由直接访问
       if (index === '/index' || !indexPath || indexPath.length > 1) {
-        this.$router.push({ path: index })
+        this.$router.push({ path: index }).catch(() => {})
         return
       }
 
@@ -40,7 +40,7 @@ export default {
 
       // 不存在子路由,则直接进入
       if (!router) {
-        this.$router.push({ path: index })
+        this.$router.push({ path: index }).catch(() => {})
         return
       }
 
@@ -49,7 +49,7 @@ export default {
       for (const value of router) {
         const newPath = index + '/' + value.path
         if (this.$has(newPath)) {
-          this.$router.push({ path: newPath })
+          this.$router.push({ path: newPath }).catch(() => {})
           break
         }
       }

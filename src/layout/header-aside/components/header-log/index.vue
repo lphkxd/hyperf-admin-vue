@@ -6,7 +6,7 @@
     <el-button
       class="cs-ml-0 cs-mr btn-text can-hover"
       type="text"
-      @click="handleClick">
+      @click="$router.push({name: 'log'}).catch(() => {})">
       <el-badge
         v-if="logLength > 0"
         :max="99"
@@ -38,12 +38,7 @@ export default {
   methods: {
     ...mapMutations('careyshop/log', [
       'clean'
-    ]),
-    handleClick() {
-      this.$router.push({
-        name: 'log'
-      })
-    }
+    ])
   }
 }
 </script>

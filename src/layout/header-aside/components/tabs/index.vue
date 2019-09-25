@@ -161,7 +161,7 @@ export default {
       const page = this.opened.find(page => page.fullPath === tab.name)
       const { name, params, query } = page
       if (page) {
-        this.$router.push({ name, params, query })
+        this.$router.push({ name, params, query }).catch(() => {})
       }
     },
     /**

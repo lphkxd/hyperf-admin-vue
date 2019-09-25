@@ -270,6 +270,8 @@ export default {
       this.$router.push({
         name: 'system-message-user'
       })
+        .catch(() => {
+        })
     }
   },
   beforeDestroy() {
