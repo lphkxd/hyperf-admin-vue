@@ -131,9 +131,7 @@ export default {
   },
   data() {
     return {
-      form: {
-        content: undefined
-      },
+      form: {},
       formBuffer: [],
       rules: {
         content: [

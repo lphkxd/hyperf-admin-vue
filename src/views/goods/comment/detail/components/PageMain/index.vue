@@ -229,11 +229,35 @@
             :show-word-limit="true"
             maxlength="200"/>
 
+          <div style="line-height: 0;">
+            <el-image
+              v-for="(value, index) in form.image"
+              :key="index"
+              class="comment_thumb"
+              style="margin: 10px 5px 0 0;"
+              :src="value | getPreviewUrl('comment_thumb_x40')"
+              :preview-src-list="srcList"
+              :lazy="true"
+              fit="cover"
+              @click.stop="setImageSrcList(form.image, index)"/>
+          </div>
+
+          <cs-upload
+            type="slot"
+            accept="image/*"
+            @confirm="_getUploadFileList">
+            <el-button
+              type="info"
+              size="small"
+              slot="control"
+              style="float: left; margin: 10px 10px 0 0;">上传图片</el-button>
+          </cs-upload>
+
           <el-button
             class="cs-mt-10"
             type="primary"
-            :loading="form.submitLoading"
-            @click="() => {}"
+            :loading="submitLoading"
+            @click="handleFormSubmit"
             size="small">提交</el-button>
         </el-form-item>
       </el-form>
@@ -243,8 +267,12 @@
 
 <script>
 import util from '@/utils/util'
+import { replyGoodsCommentItem } from '@/api/goods/comment'
 
 export default {
+  components: {
+    'csUpload': () => import('@/components/cs-upload')
+  },
   props: {
     loading: {
       default: false
@@ -255,23 +283,11 @@ export default {
   },
   data() {
     return {
-      form: {
-        goods_comment_id: undefined,
-        content: undefined,
-        image: undefined,
-        isShowReply: false,
-        submitLoading: false
-      },
+      form: {},
       formBuffer: [],
       srcList: [],
+      submitLoading: false,
       rules: {
-        goods_comment_id: [
-          {
-            required: true,
-            message: '评价编号不能为空',
-            trigger: 'blur'
-          }
-        ],
         content: [
           {
             required: true,
@@ -307,26 +323,91 @@ export default {
     }
   },
   watch: {
+    'tableData.goods_comment_id': {
+      handler(val) {
+        if (val > 0) {
+          if (this.formBuffer.hasOwnProperty(val)) {
+            this.form = this.formBuffer[val]
+          } else {
+            this.formBuffer[val] = {
+              goods_comment_id: undefined,
+              content: undefined,
+              image: undefined,
+              isShowReply: false
+            }
+            this.form = this.formBuffer[val]
+          }
+
+          this.$nextTick(() => {
+            this.$refs.form.clearValidate()
+          })
+        }
+      }
+    }
   },
   methods: {
+    // 上传图片点击确定后处理
+    _getUploadFileList(files) {
+      if (!files.length) {
+        return
+      }
+
+      let insert = []
+      for (const value of files) {
+        if (value.status !== 'success') {
+          continue
+        }
+
+        const response = value.response
+        if (!response || response.status !== 200) {
+          continue
+        }
+
+        if (response.data) {
+          insert.push({
+            name: response.data[0]['name'],
+            source: response.data[0]['url'],
+            url: '//' + response.data[0]['url']
+          })
+        }
+      }
+
+      this.form.image = insert
+    },
     // 设置大图预览列表及顺序
     setImageSrcList(srcList, index) {
       this.srcList = util.setImageSrcList(srcList, index)
     },
     // 初始化回复框数据
-    initReplyForm(goods_comment_id) {
-      this.form = {
-        goods_comment_id,
-        content: undefined,
-        image: undefined,
-        isShowReply: true,
-        submitLoading: false
-      }
+    initReplyForm(id) {
+      this.form.goods_comment_id = id
+      this.form.content = ''
+      this.form.image = []
+      this.form.isShowReply = true
 
       this.$nextTick(() => {
         this.$refs.form.clearValidate()
         const anchor = this.$el.querySelector('#reply-form')
         this.$parent.scrollTo(0, anchor.offsetTop)
+      })
+    },
+    // 请求回复
+    handleFormSubmit() {
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          this.submitLoading = true
+          const comment_id = this.tableData.goods_comment_id
+
+          replyGoodsCommentItem({ ...this.form })
+            .then(res => {
+              this.form.isShowReply = false
+              this.$emit('reply', comment_id, res.data)
+              this.$message.success('操作成功')
+            })
+            .finally(() => {
+              this.submitLoading = false
+            })
+        }
       })
     }
   }

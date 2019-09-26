@@ -176,7 +176,7 @@ util.getSign = function(params) {
 
     let k = sorted[i]
     if (type.indexOf(typeof params[k]) === -1) {
-      basestring += k + params[k]
+      basestring += k + (typeof params[k] === 'boolean' ? Number(params[k]) : params[k])
     }
   }
 

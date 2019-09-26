@@ -124,9 +124,7 @@ export default {
   },
   data() {
     return {
-      form: {
-        answer: undefined
-      },
+      form: {},
       formBuffer: [],
       rules: {
         answer: [
