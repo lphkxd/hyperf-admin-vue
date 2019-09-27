@@ -50,7 +50,7 @@
           :timestamp="`[主评] ${tableData.create_time}`"
           type="primary"
           placement="top">
-          <el-card shadow="never">
+          <el-card shadow="never" class="action">
             <div class="user-icon">
               <el-avatar
                 size="medium"
@@ -60,7 +60,7 @@
             </div>
 
             <div class="problem">
-              <div class="consult-content action cs-pb-10">
+              <div class="consult-content cs-pb-10">
                 <span>{{tableData.content}}</span>
                 <el-button
                   class="form-button active"
@@ -134,7 +134,7 @@
           :timestamp="`[追评] ${tableData.get_addition.create_time}`"
           type="primary"
           placement="top">
-          <el-card shadow="never">
+          <el-card shadow="never" class="action">
             <div class="user-icon">
               <el-avatar
                 size="medium"
@@ -144,7 +144,7 @@
             </div>
 
             <div class="problem">
-              <div class="consult-content action cs-pb-10">
+              <div class="consult-content cs-pb-10">
                 <span>{{tableData.get_addition.content}}</span>
                 <el-button
                   class="form-button active"
@@ -214,6 +214,7 @@
       </el-timeline>
 
       <el-form
+        v-has="'/goods/opinion/comment/detail'"
         v-show="form.isShowReply"
         :model="form"
         :rules="rules"
