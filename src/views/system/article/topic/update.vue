@@ -29,7 +29,36 @@ export default {
       // 表单数据
       formData: {},
       // 表单数据缓存
-      formBuffer: []
+      formBuffer: [],
+      // 判断是否路由进入
+      isSourceRoute: false
+    }
+  },
+  mounted() {
+    this.$nextTick(() => {
+      if (!this.isSourceRoute && !this.formBuffer.length) {
+        this.switchData(this.topic_id)
+      }
+    })
+  },
+  // 第一次进入或从其他组件对应路由进入时触发
+  beforeRouteEnter(to, from, next) {
+    if (to.params.topic_id) {
+      next(instance => {
+        instance.switchData(to.params.topic_id)
+        instance.isSourceRoute = true
+      })
+    } else {
+      next(new Error('未指定ID'))
+    }
+  },
+  // 在同一组件对应的多个路由间切换时触发
+  beforeRouteUpdate(to, from, next) {
+    if (to.params.topic_id) {
+      this.switchData(to.params.topic_id)
+      next()
+    } else {
+      next(new Error('未指定ID'))
     }
   },
   methods: {
@@ -59,23 +88,6 @@ export default {
             this.loading = false
           })
         })
-    }
-  },
-  // 第一次进入或从其他组件对应路由进入时触发
-  beforeRouteEnter(to, from, next) {
-    if (to.params.topic_id) {
-      next(instance => { instance.switchData(to.params.topic_id) })
-    } else {
-      next(new Error('未指定ID'))
-    }
-  },
-  // 在同一组件对应的多个路由间切换时触发
-  beforeRouteUpdate(to, from, next) {
-    if (to.params.topic_id) {
-      this.switchData(to.params.topic_id)
-      next()
-    } else {
-      next(new Error('未指定ID'))
     }
   }
 }

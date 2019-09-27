@@ -215,13 +215,14 @@
 
       <el-form
         v-has="'/goods/opinion/comment/detail'"
-        v-show="form.isShowReply"
         :model="form"
         :rules="rules"
         id="reply-form"
         ref="form"
         label-width="68px">
-        <el-form-item prop="content">
+        <el-form-item
+          v-if="form.isShowReply"
+          prop="content">
           <el-input
             v-model="form.content"
             placeholder="请输入回复内容"

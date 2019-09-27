@@ -17,6 +17,12 @@ export default {
   components: {
     'PageMain': () => import('./components/PageMain')
   },
+  props: {
+    ask_id: {
+      type: [Number, String],
+      required: true
+    }
+  },
   data() {
     return {
       // 加载状态
@@ -24,13 +30,25 @@ export default {
       // 表格数据
       table: this.getInitData(),
       // 表格缓存数据
-      tableBuffer: []
+      tableBuffer: [],
+      // 判断是否路由进入
+      isSourceRoute: false
     }
+  },
+  mounted() {
+    this.$nextTick(() => {
+      if (!this.isSourceRoute && !this.tableBuffer.length) {
+        this.switchData(this.ask_id)
+      }
+    })
   },
   // 第一次进入或从其他组件对应路由进入时触发
   beforeRouteEnter(to, from, next) {
     if (to.params.ask_id) {
-      next(instance => { instance.switchData(to.params.ask_id) })
+      next(instance => {
+        instance.switchData(to.params.ask_id)
+        instance.isSourceRoute = true
+      })
     } else {
       next(new Error('未指定ID'))
     }

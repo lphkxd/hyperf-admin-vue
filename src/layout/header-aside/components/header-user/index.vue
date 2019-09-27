@@ -179,10 +179,12 @@ export default {
       getMessageUserUnread(null)
         .then(res => {
           if (res.data['total'] > this.unreadMessage) {
+            const h = this.$createElement
             this.$notify.info({
               title: '消息提示',
-              message: '您有新的消息，请注意查收。',
-              position: 'bottom-right'
+              message: h('p', { style: 'cursor: pointer' }, '您有新的消息，请注意查收。'),
+              position: 'bottom-right',
+              onClick: () => { this.handleMessage() }
             })
           }
 
@@ -262,11 +264,6 @@ export default {
      * 打开未读消息
      */
     handleMessage() {
-      // if (!this.unreadMessage) {
-      //   this.$message.warning('消息已全部读取，没有剩余未读消息')
-      //   return
-      // }
-
       this.$router.push({
         name: 'system-message-user'
       })
