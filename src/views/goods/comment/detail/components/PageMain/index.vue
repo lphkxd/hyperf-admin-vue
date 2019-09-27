@@ -467,7 +467,7 @@ export default {
   }
   .form-button {
     line-height: 0;
-    padding: 7px 5px;
+    padding: 6px 5px;
   }
   .active {
     display: none;
