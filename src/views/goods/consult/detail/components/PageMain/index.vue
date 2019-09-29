@@ -8,7 +8,9 @@
         <el-row class="cs-mb-10">
           <el-col :span="18">
             <span class="text-explode">关联商品：</span>
-            <span>{{tableData.get_goods.name}}</span>
+            <span
+              @click="handleView(tableData.get_goods.goods_id)"
+              class="goods-link">{{tableData.get_goods.name}}</span>
           </el-col>
 
           <el-col :span="6">
@@ -207,6 +209,13 @@ export default {
             })
         }
       })
+    },
+    // 打开商品预览
+    handleView(goods_id) {
+      this.$router.push({
+        name: 'goods-admin-view',
+        params: { goods_id }
+      })
     }
   }
 }
@@ -220,6 +229,11 @@ export default {
   .box-card-header {
     font-size: 14px;
     color: #606266;
+  }
+  .goods-link:hover {
+    cursor: pointer;
+    color: #409EFF;
+    text-decoration: underline;
   }
   .text-explode {
     color: #909399;

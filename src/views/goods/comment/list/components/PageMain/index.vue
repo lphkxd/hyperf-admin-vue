@@ -9,12 +9,17 @@
         <template slot-scope="scope">
           <el-image
             class="goods-image cs-ml-10"
+            @click="handleView(scope.row.get_order_goods.goods_id)"
             :src="scope.row.get_order_goods.goods_image | getPreviewUrl('goods_image_x80')"
             fit="contain"
             lazy/>
 
           <div class="goods-info cs-ml">
-            <p>{{scope.row.get_order_goods.goods_name}}</p>
+            <p>
+              <span
+                @click="handleView(scope.row.get_order_goods.goods_id)"
+                class="link">{{scope.row.get_order_goods.goods_name}}</span>
+            </p>
             <p><span class="comment-son">{{scope.row.get_order_goods.key_value}}</span></p>
             <p>
               <el-tag
@@ -362,6 +367,13 @@ export default {
         .catch(() => {
           data.is_show = oldShow
         })
+    },
+    // 打开商品预览
+    handleView(goods_id) {
+      this.$router.push({
+        name: 'goods-admin-view',
+        params: { goods_id }
+      })
     }
   }
 }
@@ -405,6 +417,9 @@ export default {
     float: left;
     width: 80px;
     height: 80px;
+    &:hover {
+      cursor: pointer;
+    }
   }
   .goods-info {
     float: left;
@@ -414,6 +429,13 @@ export default {
       text-overflow: ellipsis;
       white-space: nowrap;
       overflow: hidden;
+      .link {
+        &:hover {
+          cursor: pointer;
+          color: $color-primary;
+          text-decoration: underline;
+        }
+      }
     }
   }
   .goods_user p {

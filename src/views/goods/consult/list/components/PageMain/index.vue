@@ -31,12 +31,15 @@
           <div class="goods-consult">
             <el-image
               class="goods-image"
+              @click="handleView(scope.row.get_goods.goods_id)"
               :src="scope.row.get_goods.attachment | getPreviewUrl"
               fit="contain"
               lazy/>
 
             <div class="goods-info cs-ml">
-              <span>{{scope.row.get_goods.name}}</span>
+              <span
+                @click="handleView(scope.row.get_goods.goods_id)"
+                class="link">{{scope.row.get_goods.name}}</span>
               <div class="consult-content">
                 <p>
                   <el-tag
@@ -299,6 +302,13 @@ export default {
           goods_consult_id: consult_id
         }
       })
+    },
+    // 打开商品预览
+    handleView(goods_id) {
+      this.$router.push({
+        name: 'goods-admin-view',
+        params: { goods_id }
+      })
     }
   }
 }
@@ -316,10 +326,20 @@ export default {
     float: left;
     width: 80px;
     height: 80px;
+    &:hover {
+      cursor: pointer;
+    }
   }
   .goods-info {
     float: left;
     width: 80%;
+    .link {
+      &:hover {
+        cursor: pointer;
+        color: $color-primary;
+        text-decoration: underline;
+      }
+    }
   }
   .consult-content {
     color: $color-text-sub;
