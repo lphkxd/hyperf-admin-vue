@@ -69,6 +69,19 @@ export default {
       props: true,
       meta: { ...meta, cache: true, title: '评价明细' },
       component: () => import('@/views/goods/comment/detail')
+    },
+    {
+      path: 'admin/list',
+      name: `${pre}admin-list`,
+      meta: { ...meta, cache: true, title: '商品列表' },
+      component: () => import('@/views/goods/admin')
+    },
+    {
+      path: 'admin/view/:goods_id',
+      name: `${pre}admin-view`,
+      props: true,
+      meta: { ...meta, title: '商品预览' },
+      component: () => import('@/views/goods/admin/view')
     }
   ])('goods-')
 }
