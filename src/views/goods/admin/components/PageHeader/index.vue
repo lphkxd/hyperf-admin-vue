@@ -23,7 +23,7 @@
       <el-input
         v-model="form.keywords"
         prefix-icon="el-icon-search"
-        placeholder="商品关键词"
+        placeholder="关键词，可用空格间隔"
         @keyup.enter.native="handleFormSubmit"
         :clearable="true"/>
     </el-form-item>
@@ -32,7 +32,7 @@
       <el-input
         v-model="form.goods_code"
         prefix-icon="el-icon-search"
-        placeholder="code、spu、sku、bar"
+        placeholder="货号、条码、SKU、SPU"
         @keyup.enter.native="handleFormSubmit"
         :clearable="true"/>
     </el-form-item>
