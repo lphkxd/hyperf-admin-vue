@@ -122,19 +122,17 @@ export function getBrandList(data) {
 
 /**
  * 获取品牌选择列表
- * @param {Array} goods_category_id
+ * @param {Object} data
  * @returns {AxiosPromise}
  */
-export function getBrandSelect(goods_category_id) {
+export function getBrandSelect(data) {
   return request({
     url: '/v1/brand',
     method: 'post',
     params: {
       method: 'get.brand.select'
     },
-    data: {
-      goods_category_id
-    }
+    data
   })
 }
 
