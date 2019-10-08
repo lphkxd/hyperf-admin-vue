@@ -10,7 +10,7 @@
         v-model="form.name"
         prefix-icon="el-icon-search"
         placeholder="可输入快递公司名称"
-        @keyup.enter.native="handleFormSubmit"
+        @keyup.enter.native="handleFormSubmit()"
         style="width: 200px;"
         :clearable="true"/>
     </el-form-item>

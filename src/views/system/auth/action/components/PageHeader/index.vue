@@ -11,7 +11,7 @@
         v-model="form.username"
         prefix-icon="el-icon-search"
         placeholder="可输入账号"
-        @keyup.enter.native="handleFormSubmit"
+        @keyup.enter.native="handleFormSubmit(true)"
         style="width: 200px;"
         :clearable="true"/>
     </el-form-item>
@@ -60,7 +60,7 @@
               v-model="form.path"
               prefix-icon="el-icon-search"
               placeholder="可输入路径"
-              @keyup.enter.native="handleFormSubmit"
+              @keyup.enter.native="handleFormSubmit(true)"
               style="width: 320px;"
               :clearable="true"/>
           </el-form-item>

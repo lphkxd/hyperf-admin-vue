@@ -10,7 +10,7 @@
         v-model="form.withdraw_no"
         prefix-icon="el-icon-search"
         placeholder="提现单号"
-        @keyup.enter.native="handleFormSubmit"
+        @keyup.enter.native="handleFormSubmit(true)"
         style="width: 230px;"
         :clearable="true"/>
     </el-form-item>
@@ -20,7 +20,7 @@
         v-model="form.account"
         prefix-icon="el-icon-search"
         placeholder="可输入 账号/昵称"
-        @keyup.enter.native="handleFormSubmit"
+        @keyup.enter.native="handleFormSubmit(true)"
         style="width: 170px;"
         :clearable="true"/>
     </el-form-item>

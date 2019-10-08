@@ -42,7 +42,7 @@
           prop="passwordOld">
           <el-input
             v-model="form.passwordOld"
-            @keyup.enter.native="setPassword"
+            @keyup.enter.native="setPassword()"
             type="password"
             placeholder="原始密码"
             :clearable="true"/>
@@ -52,7 +52,7 @@
           prop="password">
           <el-input
             v-model="form.password"
-            @keyup.enter.native="setPassword"
+            @keyup.enter.native="setPassword()"
             type="password"
             placeholder="新密码"
             :clearable="true"/>
@@ -62,7 +62,7 @@
           prop="passwordConfirm">
           <el-input
             v-model="form.passwordConfirm"
-            @keyup.enter.native="setPassword"
+            @keyup.enter.native="setPassword()"
             type="password"
             placeholder="确认密码"
             :clearable="true"/>

@@ -11,7 +11,7 @@
         v-model="form.name"
         prefix-icon="el-icon-search"
         placeholder="广告列表名称"
-        @keyup.enter.native="handleFormSubmit"
+        @keyup.enter.native="handleFormSubmit(true)"
         style="width: 200px;"
         :clearable="true"/>
     </el-form-item>
@@ -21,7 +21,7 @@
         v-model="form.code"
         prefix-icon="el-icon-search"
         placeholder="广告列表编码"
-        @keyup.enter.native="handleFormSubmit"
+        @keyup.enter.native="handleFormSubmit(true)"
         style="width: 140px;"
         :clearable="true"/>
     </el-form-item>

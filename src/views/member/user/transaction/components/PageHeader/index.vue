@@ -11,7 +11,7 @@
         v-model="form.account"
         prefix-icon="el-icon-search"
         placeholder="可输入 账号/昵称"
-        @keyup.enter.native="handleFormSubmit"
+        @keyup.enter.native="handleFormSubmit(true)"
         style="width: 200px;"
         :clearable="true"/>
     </el-form-item>
@@ -72,7 +72,7 @@
               v-model="form.action"
               prefix-icon="el-icon-search"
               placeholder="可输入操作人账号"
-              @keyup.enter.native="handleFormSubmit"
+              @keyup.enter.native="handleFormSubmit(true)"
               style="width: 320px;"
               :clearable="true"/>
           </el-form-item>
@@ -82,7 +82,7 @@
               v-model="form.source_no"
               prefix-icon="el-icon-search"
               placeholder="可输入来源订单号"
-              @keyup.enter.native="handleFormSubmit"
+              @keyup.enter.native="handleFormSubmit(true)"
               style="width: 320px;"
               :clearable="true"/>
           </el-form-item>
@@ -92,7 +92,7 @@
               v-model="form.card_number"
               prefix-icon="el-icon-search"
               placeholder="可输入购物卡卡号"
-              @keyup.enter.native="handleFormSubmit"
+              @keyup.enter.native="handleFormSubmit(true)"
               style="width: 320px;"
               :clearable="true"/>
           </el-form-item>

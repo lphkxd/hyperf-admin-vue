@@ -10,7 +10,7 @@
         v-model="form.name"
         prefix-icon="el-icon-search"
         placeholder="可输入二维码名称"
-        @keyup.enter.native="handleFormSubmit"
+        @keyup.enter.native="handleFormSubmit(true)"
         :clearable="true"/>
     </el-form-item>
 

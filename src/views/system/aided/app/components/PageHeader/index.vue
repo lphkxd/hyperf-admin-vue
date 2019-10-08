@@ -10,7 +10,7 @@
         v-model="form.app_name"
         prefix-icon="el-icon-search"
         placeholder="可输入应用名称"
-        @keyup.enter.native="handleFormSubmit"
+        @keyup.enter.native="handleFormSubmit()"
         :clearable="true"/>
     </el-form-item>
 

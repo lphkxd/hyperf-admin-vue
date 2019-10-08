@@ -11,7 +11,7 @@
         v-model="form.nick_name"
         prefix-icon="el-icon-search"
         placeholder="可输入客服昵称"
-        @keyup.enter.native="handleFormSubmit"
+        @keyup.enter.native="handleFormSubmit()"
         :clearable="true"/>
     </el-form-item>
 
@@ -20,7 +20,7 @@
         v-model="form.type_name"
         prefix-icon="el-icon-search"
         placeholder="可输入客服组名称"
-        @keyup.enter.native="handleFormSubmit"
+        @keyup.enter.native="handleFormSubmit()"
         :clearable="true"/>
     </el-form-item>
 

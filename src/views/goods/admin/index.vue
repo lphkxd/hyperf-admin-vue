@@ -76,6 +76,7 @@ export default {
     },
     // 提交查询请求
     handleSubmit(form, isRestore = false) {
+      console.log(form, isRestore)
     }
   }
 }

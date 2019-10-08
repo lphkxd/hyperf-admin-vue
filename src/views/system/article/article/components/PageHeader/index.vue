@@ -24,7 +24,7 @@
         v-model="form.title"
         prefix-icon="el-icon-search"
         placeholder="文章标题"
-        @keyup.enter.native="handleFormSubmit"
+        @keyup.enter.native="handleFormSubmit(true)"
         style="width: 200px;"
         :clearable="true"/>
     </el-form-item>
@@ -34,7 +34,7 @@
         v-model="form.keywords"
         prefix-icon="el-icon-search"
         placeholder="文章关键词"
-        @keyup.enter.native="handleFormSubmit"
+        @keyup.enter.native="handleFormSubmit(true)"
         style="width: 140px;"
         :clearable="true"/>
     </el-form-item>

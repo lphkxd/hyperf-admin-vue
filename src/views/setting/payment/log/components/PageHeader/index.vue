@@ -11,7 +11,7 @@
         v-model="form.account"
         prefix-icon="el-icon-search"
         placeholder="可输入 账号/昵称"
-        @keyup.enter.native="handleFormSubmit"
+        @keyup.enter.native="handleFormSubmit(true)"
         style="width: 200px;"
         :clearable="true"/>
     </el-form-item>
@@ -73,7 +73,7 @@
               v-model="form.payment_no"
               prefix-icon="el-icon-search"
               placeholder="可输入支付流水号"
-              @keyup.enter.native="handleFormSubmit"
+              @keyup.enter.native="handleFormSubmit(true)"
               style="width: 320px;"
               :clearable="true"/>
           </el-form-item>
@@ -83,7 +83,7 @@
               v-model="form.order_no"
               prefix-icon="el-icon-search"
               placeholder="可输入订单号"
-              @keyup.enter.native="handleFormSubmit"
+              @keyup.enter.native="handleFormSubmit(true)"
               style="width: 320px;"
               :clearable="true"/>
           </el-form-item>
@@ -93,7 +93,7 @@
               v-model="form.out_trade_no"
               prefix-icon="el-icon-search"
               placeholder="可输入交易号"
-              @keyup.enter.native="handleFormSubmit"
+              @keyup.enter.native="handleFormSubmit(true)"
               style="width: 320px;"
               :clearable="true"/>
           </el-form-item>

@@ -20,7 +20,7 @@
       class="input-new-tag"
       ref="saveTagInput"
       size="small"
-      @keyup.enter.native="handleInputConfirm"
+      @keyup.enter.native="handleInputConfirm()"
       @blur="handleInputConfirm"/>
 
     <el-button

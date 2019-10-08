@@ -1,5 +1,5 @@
 <template>
-  <div class="login-container" @keyup.enter.native="handleLogin">
+  <div class="login-container">
     <div class="login-border">
       <div class="login-main">
         <div class="login-logo">

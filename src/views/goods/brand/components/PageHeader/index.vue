@@ -11,6 +11,7 @@
         placeholder="可选择所属商品分类 试试搜索：手机"
         :options="catData"
         :props="catProps"
+        :show-all-levels="false"
         style="width: 245px;"
         filterable
         clearable>
@@ -22,7 +23,7 @@
         v-model="form.name"
         prefix-icon="el-icon-search"
         placeholder="可输入品牌名称"
-        @keyup.enter.native="handleFormSubmit"
+        @keyup.enter.native="handleFormSubmit(true)"
         style="width: 200px;"
         :clearable="true"/>
     </el-form-item>

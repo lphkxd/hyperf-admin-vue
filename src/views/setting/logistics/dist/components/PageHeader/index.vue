@@ -10,7 +10,7 @@
         v-model="form.order_code"
         prefix-icon="el-icon-search"
         placeholder="订单号、售后单号等"
-        @keyup.enter.native="handleFormSubmit"
+        @keyup.enter.native="handleFormSubmit(true)"
         style="width: 170px;"
         :clearable="true"/>
     </el-form-item>
@@ -20,7 +20,7 @@
         v-model="form.logistic_code"
         prefix-icon="el-icon-search"
         placeholder="可输入快递单号"
-        @keyup.enter.native="handleFormSubmit"
+        @keyup.enter.native="handleFormSubmit(true)"
         style="width: 150px;"
         :clearable="true"/>
     </el-form-item>
@@ -69,7 +69,7 @@
               v-model="form.account"
               prefix-icon="el-icon-search"
               placeholder="可输入 账号/昵称"
-              @keyup.enter.native="handleFormSubmit"
+              @keyup.enter.native="handleFormSubmit(true)"
               style="width: 320px;"
               :clearable="true"/>
           </el-form-item>
