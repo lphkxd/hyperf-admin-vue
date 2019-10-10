@@ -8,8 +8,10 @@
 
     <page-main
       :table-data="table"
+      :tabs-config="tabs"
       :loading="loading"
       @sort="handleSort"
+      @tabs="handleTabs"
       @refresh="handleRefresh"/>
 
     <page-footer
@@ -24,6 +26,7 @@
 
 <script>
 import { mapActions } from 'vuex'
+import { getGoodsAdminList } from '@/api/goods/goods'
 
 export default {
   name: 'goods-admin-list',
@@ -40,6 +43,10 @@ export default {
         current: 1,
         size: 25,
         total: 0
+      },
+      tabs: {
+        status: 1,
+        is_delete: 0
       },
       order: {
         order_type: undefined,
@@ -74,9 +81,35 @@ export default {
         this.$refs.header.handleFormSubmit()
       })
     },
+    // 标签页切换
+    handleTabs(val) {
+      this.tabs = val
+      this.$nextTick(() => {
+        this.$refs.header.handleFormSubmit(true)
+      })
+    },
     // 提交查询请求
     handleSubmit(form, isRestore = false) {
-      console.log(form, isRestore)
+      if (isRestore) {
+        this.page.current = 1
+      }
+
+      this.loading = true
+      getGoodsAdminList({
+        ...form,
+        ...this.tabs,
+        ...this.order,
+        page_no: this.page.current,
+        page_size: this.page.size
+      })
+        .then(res => {
+          this.updateData({ type: 'clear', name: 'goods-admin-list' })
+          this.page.total = res.data.total_result
+          this.table = res.data.total_result > 0 ? res.data.items : []
+        })
+        .finally(() => {
+          this.loading = false
+        })
     }
   }
 }
