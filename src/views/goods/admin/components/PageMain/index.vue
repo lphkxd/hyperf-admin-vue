@@ -1,13 +1,95 @@
 <template>
   <div class="cs-p">
     <el-form :inline="true" size="small">
-      <el-form-item>
+      <el-form-item v-if="tabPane !== 'delete'">
         <el-button
           :disabled="loading"
           @click="() => {}">
           <cs-icon name="plus"/>
           新增商品
         </el-button>
+      </el-form-item>
+
+      <el-form-item v-if="tabPane === 'stock'">
+        <el-button
+          :disabled="loading"
+          @click="() => {}">
+          <cs-icon name="level-up"/>
+          上架
+        </el-button>
+      </el-form-item>
+
+      <el-form-item v-if="tabPane === 'sale'">
+        <el-button
+          :disabled="loading"
+          @click="() => {}">
+          <cs-icon name="level-down"/>
+          下架
+        </el-button>
+      </el-form-item>
+
+      <el-form-item v-if="tabPane !== 'delete'">
+        <el-dropdown placement="bottom">
+          <el-button
+            :disabled="loading">
+            <cs-icon name="thumbs-o-up"/>
+            推荐
+            <cs-icon name="angle-down"/>
+          </el-button>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item>设为推荐</el-dropdown-item>
+            <el-dropdown-item>取消推荐</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+      </el-form-item>
+
+      <el-form-item v-if="tabPane !== 'delete'">
+        <el-dropdown placement="bottom">
+          <el-button
+            :disabled="loading">
+            <cs-icon name="star-o"/>
+            新品
+            <cs-icon name="angle-down"/>
+          </el-button>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item>设为新品</el-dropdown-item>
+            <el-dropdown-item>取消新品</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+      </el-form-item>
+
+      <el-form-item v-if="tabPane !== 'delete'">
+        <el-dropdown placement="bottom">
+          <el-button
+            :disabled="loading">
+            <cs-icon name="sun-o"/>
+            热卖
+            <cs-icon name="angle-down"/>
+          </el-button>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item>设为热卖</el-dropdown-item>
+            <el-dropdown-item>取消热卖</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+      </el-form-item>
+
+      <el-form-item>
+        <el-button-group>
+          <el-button
+            :disabled="loading"
+            @click="() => {}">
+            <cs-icon name="trash-o"/>
+            {{tabPane === 'delete' ? '彻底删除' : '删除'}}
+          </el-button>
+
+          <el-button
+            v-if="tabPane === 'delete'"
+            :disabled="loading"
+            @click="() => {}">
+            <cs-icon name="reply"/>
+            恢复
+          </el-button>
+        </el-button-group>
       </el-form-item>
 
       <cs-help
