@@ -509,7 +509,7 @@ export default {
       }
     },
     getPreviewUrl(val) {
-      return util.getImageCodeUrl(val, 'goods_attribute')
+      return val ? util.getImageCodeUrl(val, 'goods_attribute') : ''
     }
   },
   mounted() {

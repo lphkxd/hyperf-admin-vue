@@ -260,7 +260,7 @@ export default {
   },
   filters: {
     getPreviewUrl(val) {
-      return util.getImageCodeUrl(val, 'article_lists')
+      return val ? util.getImageCodeUrl(val, 'article_lists') : ''
     }
   },
   activated() {

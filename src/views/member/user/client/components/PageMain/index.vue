@@ -796,7 +796,7 @@ export default {
   },
   filters: {
     getPreviewUrl(val) {
-      return util.getImageCodeUrl(val, 'head_pic')
+      return val ? util.getImageCodeUrl(val, 'head_pic') : ''
     }
   },
   mounted() {

@@ -508,7 +508,7 @@ export default {
   },
   filters: {
     getPreviewUrl(val) {
-      return util.getImageCodeUrl(val, 'goods_category')
+      return val ? util.getImageCodeUrl(val, 'goods_category') : ''
     }
   },
   watch: {

@@ -9,10 +9,10 @@ export default {
   filters: {
     // 获取图片缩略图
     getImageThumb(val) {
-      let imageUrl = null
+      let imageUrl = ''
       switch (val['type']) {
         case 0:
-          imageUrl = util.getImageCodeUrl(val['url'], 'storage_lists')
+          imageUrl = val['url'] ? util.getImageCodeUrl(val['url'], 'storage_lists') : ''
           break
 
         case 1:
@@ -21,7 +21,7 @@ export default {
 
         case 2:
           if (val['cover']) {
-            imageUrl = util.getImageCodeUrl(val['cover'], 'storage_lists')
+            imageUrl = val['cover'] ? util.getImageCodeUrl(val['cover'], 'storage_lists') : ''
           } else {
             imageUrl = val['is_default'] ? 'image/storage/default.png' : 'image/storage/folder.png'
           }

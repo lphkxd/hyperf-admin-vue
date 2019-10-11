@@ -224,7 +224,7 @@ export default {
         return util.getImageCodeUrl(val.source, code)
       }
 
-      return null
+      return ''
     }
   },
   watch: {

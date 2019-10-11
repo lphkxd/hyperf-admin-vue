@@ -383,7 +383,7 @@ export default {
   },
   filters: {
     getPreviewUrl(val) {
-      return util.getImageCodeUrl(val, 'link_image')
+      return val ? util.getImageCodeUrl(val, 'link_image') : ''
     }
   },
   watch: {

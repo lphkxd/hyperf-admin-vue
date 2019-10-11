@@ -461,7 +461,7 @@ export default {
   },
   filters: {
     getPreviewUrl(val) {
-      return util.getImageCodeUrl(val, 'goods_brand')
+      return val ? util.getImageCodeUrl(val, 'goods_brand') : ''
     }
   },
   watch: {

@@ -355,7 +355,7 @@ export default {
   },
   filters: {
     getPreviewUrl(val) {
-      return util.getImageCodeUrl(val)
+      return val ? util.getImageCodeUrl(val) : ''
     }
   },
   methods: {

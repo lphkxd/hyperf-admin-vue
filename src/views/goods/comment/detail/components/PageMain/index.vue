@@ -320,10 +320,12 @@ export default {
   filters: {
     getPreviewUrl(val, code) {
       if (val) {
-        return util.getImageCodeUrl(val.source || val, code)
+        if (val.source || val) {
+          return util.getImageCodeUrl(val.source || val, code)
+        }
       }
 
-      return null
+      return ''
     }
   },
   watch: {
