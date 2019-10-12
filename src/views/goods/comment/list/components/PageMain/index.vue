@@ -18,9 +18,14 @@
             <p>
               <span
                 @click="handleView(scope.row.get_order_goods.goods_id)"
+                :title="scope.row.get_order_goods.goods_name"
                 class="link">{{scope.row.get_order_goods.goods_name}}</span>
             </p>
-            <p><span class="comment-son">{{scope.row.get_order_goods.key_value}}</span></p>
+            <p>
+              <span
+                :title="scope.row.get_order_goods.key_value"
+                class="comment-son">{{scope.row.get_order_goods.key_value}}</span>
+            </p>
             <p>
               <el-tag
                 :type="statusMap[scope.row.status].type"

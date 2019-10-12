@@ -39,6 +39,7 @@
             <div class="goods-info cs-ml">
               <span
                 @click="handleView(scope.row.get_goods.goods_id)"
+                :title="scope.row.get_goods.name"
                 class="link">{{scope.row.get_goods.name}}</span>
               <div class="consult-content">
                 <p>
@@ -52,6 +53,7 @@
                   <span
                     @click="openConsultDetail(scope.row.goods_consult_id)"
                     :class="{title: auth.detail}"
+                    :title="scope.row.content"
                     class="cs-pl-5">{{scope.row.content}}</span>
                 </p>
                 <p>{{scope.row.create_time}}</p>

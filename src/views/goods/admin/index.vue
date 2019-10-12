@@ -84,6 +84,7 @@ export default {
     // 标签页切换
     handleTabs(val) {
       this.tabs = val
+      this.order = {}
       this.$nextTick(() => {
         this.$refs.header.handleFormSubmit(true)
       })

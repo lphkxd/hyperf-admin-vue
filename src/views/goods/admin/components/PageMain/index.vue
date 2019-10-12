@@ -117,13 +117,28 @@
           <el-table-column type="selection" width="35"/>
 
           <el-table-column
+            v-if="tabPane === 'delete'"
+            label="来源"
+            align="center"
+            width="80">
+            <template slot-scope="scope">
+              <span>{{scope.row.status ? '出售中' : '已下架'}}</span>
+            </template>
+          </el-table-column>
+
+          <el-table-column
             label="商品"
             prop="goods_id"
             sortable="custom"
-            min-width="300">
+            min-width="380">
             <template slot-scope="scope">
+              <div class="goods-summary cs-mb-5">
+                <span class="cs-mr">商品货号：{{scope.row.goods_code}}</span>
+                <span>创建日期：{{scope.row.create_time}}</span>
+              </div>
+
               <el-image
-                class="goods-image cs-ml-10"
+                class="goods-image"
                 @click="handleView(scope.row.goods_id)"
                 :src="scope.row.attachment | getPreviewUrl"
                 fit="contain"
@@ -133,15 +148,110 @@
                 <p>
                   <span
                     @click="handleView(scope.row.goods_id)"
+                    :title="scope.row.name"
                     class="link">{{scope.row.name}}</span>
                 </p>
 
-                <p><span class="son">{{scope.row.product_name}}</span></p>
-                <p><span class="son">{{scope.row.goods_code}}</span></p>
+                <p>
+                  <span :title="scope.row.product_name" class="son">{{scope.row.product_name}}</span>
+                </p>
+
+                <p>
+                  <u v-for="(item, index) in goodsTab" :key="index">
+                    <el-tag
+                      v-if="scope.row[index]"
+                      :type="item.type"
+                      :disable-transitions="true"
+                      class="cs-mr-10"
+                      effect="dark"
+                      size="mini">
+                      {{item.name}}
+                    </el-tag>
+                  </u>
+                </p>
               </div>
             </template>
           </el-table-column>
 
+          <el-table-column
+            label="价格"
+            prop="shop_price"
+            sortable="custom">
+            <template slot-scope="scope">
+              <span class="goods-shop-price">{{scope.row.shop_price}}</span>
+            </template>
+          </el-table-column>
+
+          <el-table-column
+            label="库存"
+            prop="store_qty"
+            sortable="custom">
+          </el-table-column>
+
+          <el-table-column
+            label="总销量"
+            prop="sales_sum"
+            sortable="custom">
+          </el-table-column>
+
+          <el-table-column
+            label="排序值"
+            prop="sort"
+            align="center"
+            sortable="custom"
+            min-width="100">
+            <template slot-scope="scope">
+              <el-input-number
+                v-if="tabPane !== 'delete'"
+                v-model="scope.row.sort"
+                style="width: 88px;"
+                size="mini"
+                controls-position="right"
+                :min="0"
+                :max="255"
+                @change="() => {}">
+              </el-input-number>
+              <span v-else>
+                {{scope.row.sort}}
+              </span>
+            </template>
+          </el-table-column>
+
+          <el-table-column
+            label="操作"
+            align="center"
+            min-width="140">
+            <template slot-scope="scope">
+              <el-button
+                v-if="tabPane !== 'delete'"
+                @click="() => {}"
+                size="small"
+                type="text">编辑</el-button>
+
+              <el-button
+                v-if="tabPane !== 'delete'"
+                @click="() => {}"
+                size="small"
+                type="text">复制</el-button>
+
+              <el-button
+                v-if="tabPane !== 'delete'"
+                @click="() => {}"
+                size="small"
+                type="text">{{scope.row.status ? '下架' : '上架'}}</el-button>
+
+              <el-button
+                @click="() => {}"
+                size="small"
+                type="text">{{tabPane === 'delete' ? '彻底删除' : '删除'}}</el-button>
+
+              <el-button
+                v-if="tabPane === 'delete'"
+                @click="() => {}"
+                size="small"
+                type="text">恢复</el-button>
+            </template>
+          </el-table-column>
         </el-table>
       </el-tab-pane>
     </el-tabs>
@@ -261,6 +371,13 @@ export default {
   }
   .el-table /deep/ td {
     background-color: #ffffff !important;
+  }
+  .goods-summary {
+    color: $color-text-placehoder;
+    font-size: 13px;
+  }
+  .goods-shop-price {
+    color: $color-danger;
   }
   .goods-image {
     float: left;
