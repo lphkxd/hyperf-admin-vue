@@ -5,7 +5,7 @@
       :data="currentTableData">
       <el-table-column
         label="商品信息"
-        min-width="300">
+        min-width="380">
         <template slot-scope="scope">
           <el-image
             class="goods-image cs-ml-10"

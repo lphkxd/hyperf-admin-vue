@@ -13,7 +13,7 @@
       <el-form-item v-if="tabPane === 'stock'">
         <el-button
           :disabled="loading"
-          @click="() => {}">
+          @click="handleStatus(null, 1)">
           <cs-icon name="level-up"/>
           上架
         </el-button>
@@ -22,7 +22,7 @@
       <el-form-item v-if="tabPane === 'sale'">
         <el-button
           :disabled="loading"
-          @click="() => {}">
+          @click="handleStatus(null, 0)">
           <cs-icon name="level-down"/>
           下架
         </el-button>
@@ -236,7 +236,7 @@
 
               <el-button
                 v-if="tabPane !== 'delete'"
-                @click="() => {}"
+                @click="handleStatus(scope.$index, Number(!scope.row.status))"
                 size="small"
                 type="text">{{scope.row.status ? '下架' : '上架'}}</el-button>
 
@@ -320,6 +320,23 @@ export default {
     }
   },
   methods: {
+    // 获取列表中的编号
+    _getIdList(val) {
+      if (val === null) {
+        val = this.multipleSelection
+      }
+
+      let idList = []
+      if (Array.isArray(val)) {
+        val.forEach(value => {
+          idList.push(value.goods_id)
+        })
+      } else {
+        idList.push(this.currentTableData[val].goods_id)
+      }
+
+      return idList
+    },
     // 点击切换标签
     handleBefore(activeName) {
       let config = { status: 1, is_delete: 0 }
@@ -359,6 +376,25 @@ export default {
         name: 'goods-admin-view',
         params: { goods_id }
       })
+    },
+    // 批量设置上下架状态
+    handleStatus(val, status) {
+      let goods_id = this._getIdList(val)
+      if (goods_id.length === 0) {
+        this.$message.error('请选择要操作的数据')
+        return
+      }
+
+      this.$confirm('确定要执行该操作吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+        closeOnClickModal: false
+      })
+        .then(() => {
+        })
+        .catch(() => {
+        })
     }
   }
 }
