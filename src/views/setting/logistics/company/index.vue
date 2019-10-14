@@ -60,7 +60,11 @@ export default {
   },
   methods: {
     // 刷新列表页面
-    handleRefresh() {
+    handleRefresh(isTurning = false) {
+      if (isTurning) {
+        !(this.page.current - 1) || this.page.current--
+      }
+
       this.$nextTick(() => {
         this.$refs.header.handleFormSubmit()
       })

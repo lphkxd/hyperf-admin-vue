@@ -668,7 +668,7 @@ export default {
               }
 
               if (this.currentTableData.length <= 0) {
-                this.$emit('refresh')
+                this.$emit('refresh', true)
               }
 
               this.$message.success('操作成功')

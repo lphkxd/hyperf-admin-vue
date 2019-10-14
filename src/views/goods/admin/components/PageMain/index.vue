@@ -37,8 +37,8 @@
             <cs-icon name="angle-down"/>
           </el-button>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>设为推荐</el-dropdown-item>
-            <el-dropdown-item>取消推荐</el-dropdown-item>
+            <el-dropdown-item @click.native="handleRecommend(null, 1)">设为推荐</el-dropdown-item>
+            <el-dropdown-item @click.native="handleRecommend(null, 0)">取消推荐</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </el-form-item>
@@ -52,8 +52,8 @@
             <cs-icon name="angle-down"/>
           </el-button>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>设为新品</el-dropdown-item>
-            <el-dropdown-item>取消新品</el-dropdown-item>
+            <el-dropdown-item @click.native="handleNew(null, 1)">设为新品</el-dropdown-item>
+            <el-dropdown-item @click.native="handleNew(null, 0)">取消新品</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </el-form-item>
@@ -67,8 +67,8 @@
             <cs-icon name="angle-down"/>
           </el-button>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>设为热卖</el-dropdown-item>
-            <el-dropdown-item>取消热卖</el-dropdown-item>
+            <el-dropdown-item @click.native="handleHot(null, 1)">设为热卖</el-dropdown-item>
+            <el-dropdown-item @click.native="handleHot(null, 0)">取消热卖</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </el-form-item>
@@ -77,7 +77,7 @@
         <el-button-group>
           <el-button
             :disabled="loading"
-            @click="() => {}">
+            @click="handleDelete(null, true)">
             <cs-icon name="trash-o"/>
             {{tabPane === 'delete' ? '彻底删除' : '删除'}}
           </el-button>
@@ -85,7 +85,7 @@
           <el-button
             v-if="tabPane === 'delete'"
             :disabled="loading"
-            @click="() => {}">
+            @click="handleDelete(null, false)">
             <cs-icon name="reply"/>
             恢复
           </el-button>
@@ -209,7 +209,7 @@
                 controls-position="right"
                 :min="0"
                 :max="255"
-                @change="() => {}">
+                @change="handleSort(scope.$index)">
               </el-input-number>
               <span v-else>
                 {{scope.row.sort}}
@@ -230,7 +230,7 @@
 
               <el-button
                 v-if="tabPane !== 'delete'"
-                @click="() => {}"
+                @click="handleCopy(scope.row.goods_id)"
                 size="small"
                 type="text">复制</el-button>
 
@@ -241,13 +241,13 @@
                 type="text">{{scope.row.status ? '下架' : '上架'}}</el-button>
 
               <el-button
-                @click="() => {}"
+                @click="handleDelete(scope.$index, true)"
                 size="small"
                 type="text">{{tabPane === 'delete' ? '彻底删除' : '删除'}}</el-button>
 
               <el-button
                 v-if="tabPane === 'delete'"
-                @click="() => {}"
+                @click="handleDelete(scope.$index, false)"
                 size="small"
                 type="text">恢复</el-button>
             </template>
@@ -260,6 +260,14 @@
 
 <script>
 import util from '@/utils/util'
+import {
+  copyGoodsItem,
+  delGoodsList, setGoodsSort,
+  setHotGoodsList,
+  setNewGoodsList,
+  setRecommendGoodsList,
+  setShelvesGoodsList
+} from '@/api/goods/goods'
 
 export default {
   props: {
@@ -392,6 +400,186 @@ export default {
         closeOnClickModal: false
       })
         .then(() => {
+          setShelvesGoodsList(goods_id, status)
+            .then(() => {
+              for (let i = this.currentTableData.length - 1; i >= 0; i--) {
+                if (goods_id.indexOf(this.currentTableData[i].goods_id) !== -1) {
+                  this.currentTableData.splice(i, 1)
+                }
+              }
+
+              if (this.currentTableData.length <= 0) {
+                this.$emit('refresh', true)
+              }
+
+              this.$message.success('操作成功')
+            })
+        })
+        .catch(() => {
+        })
+    },
+    // 批量设置是否推荐
+    handleRecommend(val, isRecommend) {
+      let goods_id = this._getIdList(val)
+      if (goods_id.length === 0) {
+        this.$message.error('请选择要操作的数据')
+        return
+      }
+
+      this.$confirm('确定要执行该操作吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+        closeOnClickModal: false
+      })
+        .then(() => {
+          setRecommendGoodsList(goods_id, isRecommend)
+            .then(() => {
+              this.currentTableData.forEach((value, index) => {
+                if (goods_id.indexOf(value.goods_id) !== -1) {
+                  this.$set(this.currentTableData, index, {
+                    ...value,
+                    is_recommend: isRecommend
+                  })
+                }
+              })
+
+              this.$message.success('操作成功')
+            })
+        })
+        .catch(() => {
+        })
+    },
+    // 批量设置是否新品
+    handleNew(val, isNew) {
+      let goods_id = this._getIdList(val)
+      if (goods_id.length === 0) {
+        this.$message.error('请选择要操作的数据')
+        return
+      }
+
+      this.$confirm('确定要执行该操作吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+        closeOnClickModal: false
+      })
+        .then(() => {
+          setNewGoodsList(goods_id, isNew)
+            .then(() => {
+              this.currentTableData.forEach((value, index) => {
+                if (goods_id.indexOf(value.goods_id) !== -1) {
+                  this.$set(this.currentTableData, index, {
+                    ...value,
+                    is_new: isNew
+                  })
+                }
+              })
+
+              this.$message.success('操作成功')
+            })
+        })
+        .catch(() => {
+        })
+    },
+    // 批量设置是否热卖
+    handleHot(val, isHot) {
+      let goods_id = this._getIdList(val)
+      if (goods_id.length === 0) {
+        this.$message.error('请选择要操作的数据')
+        return
+      }
+
+      this.$confirm('确定要执行该操作吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+        closeOnClickModal: false
+      })
+        .then(() => {
+          setHotGoodsList(goods_id, isHot)
+            .then(() => {
+              this.currentTableData.forEach((value, index) => {
+                if (goods_id.indexOf(value.goods_id) !== -1) {
+                  this.$set(this.currentTableData, index, {
+                    ...value,
+                    is_hot: isHot
+                  })
+                }
+              })
+
+              this.$message.success('操作成功')
+            })
+        })
+        .catch(() => {
+        })
+    },
+    // 批量删除或恢复
+    handleDelete(val, isDelete) {
+      let goods_id = this._getIdList(val)
+      if (goods_id.length === 0) {
+        this.$message.error('请选择要操作的数据')
+        return
+      }
+
+      this.$confirm('确定要执行该操作吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+        closeOnClickModal: false
+      })
+        .then(() => {
+          let status = null
+          switch (this.tabPane) {
+            case 'sale':
+            case 'stock':
+              status = 1
+              break
+
+            case 'delete':
+              status = isDelete ? 2 : 0
+              break
+          }
+
+          delGoodsList(goods_id, status)
+            .then(() => {
+              for (let i = this.currentTableData.length - 1; i >= 0; i--) {
+                if (goods_id.indexOf(this.currentTableData[i].goods_id) !== -1) {
+                  this.currentTableData.splice(i, 1)
+                }
+              }
+
+              if (this.currentTableData.length <= 0) {
+                this.$emit('refresh', true)
+              }
+
+              this.$message.success('操作成功')
+            })
+        })
+        .catch(() => {
+        })
+    },
+    // 设置排序值
+    handleSort(index) {
+      setGoodsSort(
+        this.currentTableData[index].goods_id,
+        this.currentTableData[index].sort
+      )
+    },
+    // 复制一个商品
+    handleCopy(goods_id) {
+      this.$confirm('确定要执行该操作吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+        closeOnClickModal: false
+      })
+        .then(() => {
+          copyGoodsItem(goods_id)
+            .then(res => {
+              this.currentTableData.unshift(res.data)
+              this.$message.success('操作成功')
+            })
         })
         .catch(() => {
         })
