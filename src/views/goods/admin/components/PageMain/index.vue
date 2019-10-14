@@ -145,15 +145,21 @@
                 lazy/>
 
               <div class="goods-info cs-ml">
-                <p>
+                <p class="action">
                   <span
                     @click="handleView(scope.row.goods_id)"
                     :title="scope.row.name"
                     class="link">{{scope.row.name}}</span>
+
+                    <cs-icon v-if="tabPane !== 'delete'" class="goods-edit active" name="edit"/>
                 </p>
 
-                <p>
-                  <span :title="scope.row.product_name" class="son">{{scope.row.product_name}}</span>
+                <p class="action">
+                  <span
+                    :title="scope.row.product_name"
+                    class="son">{{scope.row.product_name}}</span>
+
+                  <cs-icon v-if="tabPane !== 'delete'" class="goods-edit active" name="edit"/>
                 </p>
 
                 <p>
@@ -178,7 +184,10 @@
             prop="shop_price"
             sortable="custom">
             <template slot-scope="scope">
-              <span class="goods-shop-price">{{scope.row.shop_price}}</span>
+              <div class="action">
+                <span class="goods-shop-price">{{scope.row.shop_price}}</span>
+                <cs-icon v-if="tabPane !== 'delete'" class="goods-edit active" name="edit"/>
+              </div>
             </template>
           </el-table-column>
 
@@ -186,6 +195,12 @@
             label="库存"
             prop="store_qty"
             sortable="custom">
+            <template slot-scope="scope">
+              <div class="action">
+                <span>{{scope.row.store_qty}}</span>
+                <cs-icon v-if="tabPane !== 'delete'" class="goods-edit active" name="edit"/>
+              </div>
+            </template>
           </el-table-column>
 
           <el-table-column
@@ -620,9 +635,6 @@ export default {
     }
     p {
       margin: 0;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      overflow: hidden;
       .link {
         &:hover {
           cursor: pointer;
@@ -630,6 +642,21 @@ export default {
           text-decoration: underline;
         }
       }
+    }
+  }
+  .active {
+    display: none;
+  }
+  .action:hover .active{
+    display: inline;
+  }
+  .goods-edit {
+    padding-left: 5px;
+    font-size: 13px;
+    color: $color-info;
+    &:hover {
+      cursor: pointer;
+      color: $color-primary;
     }
   }
 </style>
