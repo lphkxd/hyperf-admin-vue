@@ -32,6 +32,22 @@
       </el-table-column>
 
       <el-table-column
+        label="状态"
+        prop="status"
+        align="center"
+        sortable="custom"
+        width="100">
+        <template slot-scope="scope">
+          <el-tag
+            :type="statusMap[scope.row.status].type"
+            effect="plain"
+            size="mini">
+            {{statusMap[scope.row.status].text}}
+          </el-tag>
+        </template>
+      </el-table-column>
+
+      <el-table-column
         label="类型"
         prop="ask_type"
         sortable="custom">
@@ -62,22 +78,6 @@
         prop="create_time"
         sortable="custom"
         width="160">
-      </el-table-column>
-
-      <el-table-column
-        label="状态"
-        prop="status"
-        align="center"
-        sortable="custom"
-        width="100">
-        <template slot-scope="scope">
-          <el-tag
-            :type="statusMap[scope.row.status].type"
-            effect="plain"
-            size="mini">
-            {{statusMap[scope.row.status].text}}
-          </el-tag>
-        </template>
       </el-table-column>
 
       <el-table-column
@@ -203,13 +203,11 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-  .ask-title {
-    color: $color-primary;
-    &:hover {
-      cursor: pointer;
-      text-decoration: underline;
-    }
+<style scoped>
+  .ask-title:hover {
+    color: #409EFF;
+    cursor: pointer;
+    text-decoration: underline;
   }
   .level-icon {
     margin-left: 5px;
