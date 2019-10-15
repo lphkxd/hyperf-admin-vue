@@ -162,8 +162,7 @@
           prop="title">
           <el-input
             v-model="form.title"
-            placeholder="请输入消息标题"
-            :draggable="true"/>
+            placeholder="请输入消息标题"/>
         </el-form-item>
 
         <el-form-item
@@ -220,8 +219,7 @@
           prop="url">
           <el-input
             v-model="form.url"
-            placeholder="可输入外部链接"
-            :draggable="true"/>
+            placeholder="可输入外部链接"/>
         </el-form-item>
 
         <el-form-item

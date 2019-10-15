@@ -12,8 +12,7 @@
         prefix-icon="el-icon-search"
         placeholder="资源名称"
         @keyup.enter.native="handleFormSubmit(true)"
-        style="width: 200px;"
-        :draggable="true"/>
+        style="width: 200px;"/>
     </el-form-item>
 
     <el-form-item>

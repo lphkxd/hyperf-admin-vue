@@ -208,7 +208,6 @@
             v-model="nameForm.name"
             placeholder="请输入目录名称"
             @keyup.enter.native="nameStatus === 'create' ? create() : rename()"
-            :draggable="true"
             ref="input"/>
         </el-form-item>
       </el-form>

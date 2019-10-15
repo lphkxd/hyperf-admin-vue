@@ -154,8 +154,8 @@
                     <cs-icon
                       v-if="tabPane !== 'delete'"
                       class="goods-edit active"
-                      name="edit"
-                      @click.native="setGoodsName(scope.$index)"/>
+                      @click.native="setGoodsName(scope.$index)"
+                      name="edit"/>
                 </p>
 
                 <p class="action">
@@ -163,7 +163,11 @@
                     :title="scope.row.product_name"
                     class="son">{{scope.row.product_name}}</span>
 
-                  <cs-icon v-if="tabPane !== 'delete'" class="goods-edit active" name="edit"/>
+                  <cs-icon
+                    v-if="tabPane !== 'delete'"
+                    class="goods-edit active"
+                    @click.native="setGoodsProduct(scope.$index)"
+                    name="edit"/>
                 </p>
 
                 <p>
@@ -293,10 +297,10 @@
           <el-input
             v-model="nameForm.name"
             placeholder="请输入商品名称"
+            @keyup.enter.native="handleSetName"
             maxlength="200"
-            @keyup.enter.native="() => {}"
-            :draggable="true"
-            ref="input"/>
+            show-word-limit
+            ref="nameInput"/>
         </el-form-item>
       </el-form>
 
@@ -308,7 +312,45 @@
         <el-button
           type="primary"
           :loading="dialogLoading"
-          @click="() => {}"
+          @click="handleSetName"
+          size="small">修改</el-button>
+      </div>
+    </el-dialog>
+
+    <el-dialog
+      title="商品促销名"
+      :visible.sync="productFormVisible"
+      :append-to-body="true"
+      :close-on-click-modal="false"
+      width="600px">
+      <el-form
+        :model="productForm"
+        :rules="rules"
+        ref="product"
+        label-width="80px"
+        @submit.native.prevent>
+        <el-form-item
+          label="促销名"
+          prop="product_name">
+          <el-input
+            v-model="productForm.product_name"
+            placeholder="请输入商品促销名"
+            @keyup.enter.native="handleSetProduct"
+            maxlength="100"
+            show-word-limit
+            ref="productInput"/>
+        </el-form-item>
+      </el-form>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button
+          @click="productFormVisible = false"
+          size="small">取消</el-button>
+
+        <el-button
+          type="primary"
+          :loading="dialogLoading"
+          @click="handleSetProduct"
           size="small">修改</el-button>
       </div>
     </el-dialog>
@@ -319,7 +361,7 @@
 import util from '@/utils/util'
 import {
   copyGoodsItem,
-  delGoodsList, setGoodsSort,
+  delGoodsList, setGoodsItem, setGoodsSort,
   setHotGoodsList,
   setNewGoodsList,
   setRecommendGoodsList,
@@ -365,6 +407,8 @@ export default {
       dialogLoading: false,
       nameForm: {},
       nameFormVisible: false,
+      productForm: {},
+      productFormVisible: false,
       rules: {
         name: [
           {
@@ -375,6 +419,18 @@ export default {
           {
             max: 200,
             message: '长度不能大于 200 个字符',
+            trigger: 'blur'
+          }
+        ],
+        product_name: [
+          {
+            required: true,
+            message: '商品促销名不能为空',
+            trigger: 'blur'
+          },
+          {
+            max: 100,
+            message: '长度不能大于 100 个字符',
             trigger: 'blur'
           }
         ]
@@ -661,8 +717,77 @@ export default {
         .catch(() => {
         })
     },
+    // 修改商品名称对话框
     setGoodsName(val) {
-      console.log(val)
+      const data = this.currentTableData[val]
+      this.nameForm = {
+        goods_id: data.goods_id,
+        name: data.name,
+        index: val
+      }
+
+      this.$nextTick(() => {
+        this.$refs.name.clearValidate()
+        this.$refs.nameInput.select()
+      })
+
+      this.dialogLoading = false
+      this.nameFormVisible = true
+    },
+    // 请求修改商品名称
+    handleSetName() {
+      this.$refs.name.validate(valid => {
+        if (valid) {
+          this.dialogLoading = true
+          const index = this.nameForm.index
+
+          setGoodsItem({ ...this.nameForm })
+            .then(() => {
+              this.currentTableData[index].name = this.nameForm.name
+              this.nameFormVisible = false
+              this.$message.success('操作成功')
+            })
+            .catch(() => {
+              this.dialogLoading = false
+            })
+        }
+      })
+    },
+    // 修改商品促销名
+    setGoodsProduct(val) {
+      const data = this.currentTableData[val]
+      this.productForm = {
+        goods_id: data.goods_id,
+        product_name: data.product_name,
+        index: val
+      }
+
+      this.$nextTick(() => {
+        this.$refs.product.clearValidate()
+        this.$refs.productInput.select()
+      })
+
+      this.dialogLoading = false
+      this.productFormVisible = true
+    },
+    // 请求修改商品促销名
+    handleSetProduct() {
+      this.$refs.product.validate(valid => {
+        if (valid) {
+          this.dialogLoading = true
+          const index = this.productForm.index
+
+          setGoodsItem({ ...this.productForm })
+            .then(() => {
+              this.currentTableData[index].product_name = this.productForm.product_name
+              this.productFormVisible = false
+              this.$message.success('操作成功')
+            })
+            .catch(() => {
+              this.dialogLoading = false
+            })
+        }
+      })
     }
   }
 }

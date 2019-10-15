@@ -66,8 +66,7 @@
           :disabled="loading"
           placeholder="输入关键字进行过滤"
           prefix-icon="el-icon-search"
-          style="width: 180px;"
-          :draggable="true">
+          style="width: 180px;">
         </el-input>
       </el-form-item>
 
@@ -169,8 +168,7 @@
               prop="name">
               <el-input
                 v-model="form.name"
-                placeholder="请输入权限名称"
-                :draggable="true"/>
+                placeholder="请输入权限名称"/>
             </el-form-item>
 
             <el-row :gutter="20">
