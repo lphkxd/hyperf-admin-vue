@@ -22,7 +22,7 @@
         label="提现金额"
         prop="money">
         <template slot-scope="scope">
-          <b>{{scope.row.money}}</b>
+          <b>{{scope.row.money | getNumber}}</b>
         </template>
       </el-table-column>
 
@@ -34,6 +34,9 @@
       <el-table-column
         label="合计金额"
         prop="amount">
+        <template slot-scope="scope">
+          {{scope.row.amount | getNumber}}
+        </template>
       </el-table-column>
 
       <el-table-column
@@ -104,9 +107,9 @@
           <tr><td>收款账户：</td><td>{{infoForm.bank_name}}</td></tr>
           <tr><td>收款账号：</td><td>{{infoForm.account}}</td></tr>
           <tr><td>&nbsp;</td></tr>
-          <tr><td><b>提现金额：</b></td><td>{{infoForm.money}}</td></tr>
+          <tr><td><b>提现金额：</b></td><td>{{infoForm.money | getNumber}}</td></tr>
           <tr><td>手续费：</td><td>{{infoForm.fee}} %</td></tr>
-          <tr><td>合计金额：</td><td>{{infoForm.amount}}</td></tr>
+          <tr><td>合计金额：</td><td>{{infoForm.amount | getNumber}}</td></tr>
         </table>
 
         <table style="width: 100%;">
@@ -173,6 +176,7 @@
 </template>
 
 <script>
+import util from '@/utils/util'
 import {
   completeWithdrawItem,
   processWithdrawItem,
@@ -230,6 +234,11 @@ export default {
           type: 'danger'
         }
       }
+    }
+  },
+  filters: {
+    getNumber(val) {
+      return util.getNumber(val)
     }
   },
   mounted() {

@@ -151,7 +151,11 @@
                     :title="scope.row.name"
                     class="link">{{scope.row.name}}</span>
 
-                    <cs-icon v-if="tabPane !== 'delete'" class="goods-edit active" name="edit"/>
+                    <cs-icon
+                      v-if="tabPane !== 'delete'"
+                      class="goods-edit active"
+                      name="edit"
+                      @click.native="setGoodsName(scope.$index)"/>
                 </p>
 
                 <p class="action">
@@ -185,7 +189,7 @@
             sortable="custom">
             <template slot-scope="scope">
               <div class="action">
-                <span class="goods-shop-price">{{scope.row.shop_price}}</span>
+                <span class="goods-shop-price">{{scope.row.shop_price | getNumber}}</span>
                 <cs-icon v-if="tabPane !== 'delete'" class="goods-edit active" name="edit"/>
               </div>
             </template>
@@ -214,7 +218,7 @@
             prop="sort"
             align="center"
             sortable="custom"
-            min-width="100">
+            min-width="110">
             <template slot-scope="scope">
               <el-input-number
                 v-if="tabPane !== 'delete'"
@@ -270,6 +274,44 @@
         </el-table>
       </el-tab-pane>
     </el-tabs>
+
+    <el-dialog
+      title="商品名称"
+      :visible.sync="nameFormVisible"
+      :append-to-body="true"
+      :close-on-click-modal="false"
+      width="600px">
+      <el-form
+        :model="nameForm"
+        :rules="rules"
+        ref="name"
+        label-width="80px"
+        @submit.native.prevent>
+        <el-form-item
+          label="名称"
+          prop="name">
+          <el-input
+            v-model="nameForm.name"
+            placeholder="请输入商品名称"
+            maxlength="200"
+            @keyup.enter.native="() => {}"
+            :draggable="true"
+            ref="input"/>
+        </el-form-item>
+      </el-form>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button
+          @click="nameFormVisible = false"
+          size="small">取消</el-button>
+
+        <el-button
+          type="primary"
+          :loading="dialogLoading"
+          @click="() => {}"
+          size="small">修改</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -319,6 +361,23 @@ export default {
           'type': 'warning',
           'name': '热卖'
         }
+      },
+      dialogLoading: false,
+      nameForm: {},
+      nameFormVisible: false,
+      rules: {
+        name: [
+          {
+            required: true,
+            message: '商品名称不能为空',
+            trigger: 'blur'
+          },
+          {
+            max: 200,
+            message: '长度不能大于 200 个字符',
+            trigger: 'blur'
+          }
+        ]
       }
     }
   },
@@ -331,6 +390,9 @@ export default {
       }
 
       return ''
+    },
+    getNumber(val) {
+      return util.getNumber(val)
     }
   },
   watch: {
@@ -598,6 +660,9 @@ export default {
         })
         .catch(() => {
         })
+    },
+    setGoodsName(val) {
+      console.log(val)
     }
   }
 }

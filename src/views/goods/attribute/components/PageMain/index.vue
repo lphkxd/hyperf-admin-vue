@@ -155,7 +155,7 @@
         prop="sort"
         sortable="custom"
         align="center"
-        min-width="100">
+        min-width="110">
         <template slot-scope="scope">
           <el-input-number
             v-if="auth.sort"

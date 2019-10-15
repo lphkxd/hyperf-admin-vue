@@ -110,7 +110,7 @@
         prop="sort"
         align="center"
         sortable="custom"
-        min-width="100">
+        min-width="110">
         <template slot-scope="scope">
           <el-input-number
             v-if="auth.sort"

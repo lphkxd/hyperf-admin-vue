@@ -34,7 +34,7 @@
             </el-form-item>
 
             <el-form-item label="支付金额">
-              <span>{{props.row.amount}}</span>
+              <span>{{props.row.amount | getNumber}}</span>
             </el-form-item>
 
             <el-form-item label="支付日期">
@@ -87,6 +87,9 @@
       <el-table-column
         label="支付金额"
         prop="amount">
+        <template slot-scope="scope">
+          {{scope.row.amount | getNumber}}
+        </template>
       </el-table-column>
 
       <el-table-column
@@ -135,6 +138,8 @@
 </template>
 
 <script>
+import util from '@/utils/util'
+
 export default {
   props: {
     loading: {
@@ -167,6 +172,11 @@ export default {
           type: 'warning'
         }
       }
+    }
+  },
+  filters: {
+    getNumber(val) {
+      return util.getNumber(val)
     }
   },
   methods: {

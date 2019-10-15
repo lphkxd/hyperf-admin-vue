@@ -370,14 +370,13 @@ export default {
   .message-badge {
     display: inline-flex;
   }
-  .message-title {
-    &:hover {
-      cursor: pointer;
-      text-decoration: underline;
-    }
-    &.read {
-      color: $color-text-placehoder;
-    }
+  .message-title:hover {
+    color: $color-primary;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  .read {
+    color: $color-text-placehoder;
   }
   .tab-box {
     padding: 5px 10px;

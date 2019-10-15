@@ -1111,9 +1111,9 @@ export default {
             message: `
               <p>${this.currentTableData[index].username} 的账户资金</p>
               <p>查询时间：${dayjs().format('YYYY-MM-DD HH:mm:ss')}</p></br>
-              <p>累计消费：${res.data.total_money || 0}</p>
-              <p>可用余额：${res.data.balance || 0}</p>
-              <p>锁定余额：${res.data.lock_balance || 0}</p>
+              <p>累计消费：${util.getNumber(res.data.total_money)}</p>
+              <p>可用余额：${util.getNumber(res.data.balance)}</p>
+              <p>锁定余额：${util.getNumber(res.data.lock_balance)}</p>
               <p>账号积分：${res.data.points || 0}</p>
               <p>锁定积分：${res.data.lock_points || 0}</p>
             `,

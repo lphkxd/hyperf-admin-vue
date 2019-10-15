@@ -39,12 +39,12 @@
                 :type="typeMap[props.row.type].type"
                 effect="plain"
                 size="mini">
-                {{props.row.amount}}
+                {{typeMap[props.row.type].symbol}} {{props.row.amount | getNumber}}
               </el-tag>
             </el-form-item>
 
             <el-form-item label="剩余余额">
-              <span>{{props.row.balance}}</span>
+              <span>{{props.row.balance | getNumber}}</span>
             </el-form-item>
 
             <el-form-item label="交易来源">
@@ -99,7 +99,7 @@
             :type="typeMap[scope.row.type].type"
             effect="plain"
             size="mini">
-            {{`${typeMap[scope.row.type].symbol} ${scope.row.amount}`}}
+            {{typeMap[scope.row.type].symbol}} {{scope.row.amount | getNumber}}
           </el-tag>
         </template>
       </el-table-column>
@@ -107,6 +107,9 @@
       <el-table-column
         label="剩余余额"
         prop="balance">
+        <template slot-scope="scope">
+          {{scope.row.balance | getNumber}}
+        </template>
       </el-table-column>
 
       <el-table-column
@@ -148,6 +151,8 @@
 </template>
 
 <script>
+import util from '@/utils/util'
+
 export default {
   props: {
     loading: {
@@ -179,6 +184,11 @@ export default {
         money: '余额',
         card: '购物卡'
       }
+    }
+  },
+  filters: {
+    getNumber(val) {
+      return util.getNumber(val)
     }
   },
   methods: {

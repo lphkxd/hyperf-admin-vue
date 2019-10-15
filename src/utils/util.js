@@ -303,4 +303,14 @@ util.setImageSrcList = function(srcList, index) {
   return imageList
 }
 
+/**
+ * 将数值保留2位小数返回(不会四舍五入)
+ * @param value
+ * @returns {string}
+ */
+util.getNumber = function(value) {
+  const toFixedNum = Number(value).toFixed(3)
+  return toFixedNum.substring(0, toFixedNum.toString().length - 1)
+}
+
 export default util
