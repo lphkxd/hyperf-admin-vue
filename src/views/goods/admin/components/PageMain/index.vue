@@ -155,7 +155,7 @@
                       v-if="tabPane !== 'delete'"
                       class="goods-edit active"
                       @click.native="setGoodsName(scope.$index)"
-                      name="edit"/>
+                      name="pencil"/>
                 </p>
 
                 <p class="action">
@@ -167,7 +167,7 @@
                     v-if="tabPane !== 'delete'"
                     class="goods-edit active"
                     @click.native="setGoodsProduct(scope.$index)"
-                    name="edit"/>
+                    name="pencil"/>
                 </p>
 
                 <p>
@@ -194,7 +194,7 @@
             <template slot-scope="scope">
               <div class="action">
                 <span class="goods-shop-price">{{scope.row.shop_price | getNumber}}</span>
-                <cs-icon v-if="tabPane !== 'delete'" class="goods-edit active" name="edit"/>
+                <cs-icon v-if="tabPane !== 'delete'" class="goods-edit active" name="pencil"/>
               </div>
             </template>
           </el-table-column>
@@ -206,7 +206,7 @@
             <template slot-scope="scope">
               <div class="action">
                 <span>{{scope.row.store_qty}}</span>
-                <cs-icon v-if="tabPane !== 'delete'" class="goods-edit active" name="edit"/>
+                <cs-icon v-if="tabPane !== 'delete'" class="goods-edit active" name="pencil"/>
               </div>
             </template>
           </el-table-column>
