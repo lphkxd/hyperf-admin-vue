@@ -41,7 +41,20 @@ CareyShop 整体的架构理念为前后端分离，这样更容易创建出私�
 > 如果您以前运行过 webpack 项目，并且本机 node 版本 >= 8，可以忽略这一步。
 
 **node**
-在 node.js 官网 下载合适您系统的 node.js。
+
+在 [node.js 官网](https://nodejs.org/en/download/ "node.js 官网") 官网 下载合适您系统的 node.js（推荐 10 以上的版本），安装完毕后检查版本是否正确。
+```
+node -v
+v10.13.0
+
+npm -v
+6.12.0
+```
+
+**@vue/cli**
+
+此依赖建议全局安装，在适合的命令环境下输入：
+npm install -g @vue/cli@3.12.0
 
 ### 项目启动
 ```
