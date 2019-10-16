@@ -42,7 +42,7 @@ CareyShop 整体的架构理念为前后端分离，这样更容易创建出私�
 
 **node**
 
-在 [node.js 官网](https://nodejs.org/en/download/ "node.js 官网") 官网 下载合适您系统的 node.js（推荐 10 以上的版本），安装完毕后检查版本是否正确。
+在 [node.js](https://nodejs.org/en/download/ "node.js 官网") 官网下载合适您系统的 node.js（推荐 10 以上的版本），安装完毕后可查看版本号。
 ```
 node -v
 v10.13.0
