@@ -170,6 +170,7 @@
             v-model="form.goods_type_id"
             placeholder="请选择所属商品模型"
             style="width: 100%;"
+            :disabled="dialogStatus === 'update'"
             clearable
             value="">
             <el-option
@@ -253,6 +254,9 @@ export default {
     },
     tableData: {
       default: () => []
+    },
+    selectId: {
+      default: null
     }
   },
   data() {
@@ -398,7 +402,7 @@ export default {
     // 弹出新建对话框
     handleCreate() {
       this.form = {
-        goods_type_id: null,
+        goods_type_id: this.selectId,
         name: '',
         spec_item: '',
         spec_index: 1,

@@ -12,6 +12,7 @@
       :table-data="table"
       :loading="loading"
       :type-data="typeList"
+      :select-id="selectTypeId"
       @sort="handleSort"
       @refresh="handleRefresh"/>
 
@@ -47,6 +48,7 @@ export default {
       table: [],
       loading: true,
       typeList: {},
+      selectTypeId: null,
       page: {
         current: 1,
         size: 25,
@@ -100,6 +102,8 @@ export default {
       }
 
       this.loading = true
+      this.selectTypeId = form.goods_type_id || null
+
       getGoodsAttributePage({
         ...form,
         ...this.order,

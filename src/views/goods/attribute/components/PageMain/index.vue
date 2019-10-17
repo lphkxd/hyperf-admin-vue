@@ -392,6 +392,9 @@ export default {
     },
     tableData: {
       default: () => []
+    },
+    selectId: {
+      default: null
     }
   },
   data() {
@@ -665,7 +668,7 @@ export default {
         attr_name: '',
         description: '',
         icon: '',
-        goods_type_id: item ? item.goods_type_id : null,
+        goods_type_id: item ? item.goods_type_id : this.selectId,
         sort: 50,
         parent_id: item ? item.goods_attribute_id : 0,
         attr_index: '1',
