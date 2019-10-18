@@ -170,7 +170,6 @@
             v-model="form.goods_type_id"
             placeholder="请选择所属商品模型"
             style="width: 100%;"
-            :disabled="dialogStatus === 'update'"
             clearable
             value="">
             <el-option
@@ -471,16 +470,23 @@ export default {
             spec_item: this.form.spec_item.split('\n')
           })
             .then(res => {
-              this.$set(
-                this.currentTableData,
-                this.currentIndex,
-                {
-                  ...this.currentTableData[this.currentIndex],
-                  ...res.data,
-                  get_goods_type: {
-                    ...this.typeData.find(item => item.goods_type_id === res.data.goods_type_id)
-                  }
-                })
+              if (this.selectId && this.form.goods_type_id !== this.selectId) {
+                this.currentTableData.splice(this.currentIndex, 1)
+                if (this.currentTableData.length <= 0) {
+                  this.$emit('refresh', true)
+                }
+              } else {
+                this.$set(
+                  this.currentTableData,
+                  this.currentIndex,
+                  {
+                    ...this.currentTableData[this.currentIndex],
+                    ...res.data,
+                    get_goods_type: {
+                      ...this.typeData.find(item => item.goods_type_id === res.data.goods_type_id)
+                    }
+                  })
+              }
 
               this.dialogFormVisible = false
               this.$message.success('操作成功')

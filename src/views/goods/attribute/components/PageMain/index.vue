@@ -642,6 +642,10 @@ export default {
                 }
               }
 
+              if (data.length <= 0) {
+                this.$emit('refresh', true)
+              }
+
               this.$refs.multipleTable.clearSelection()
               this.$message.success('操作成功')
             })
@@ -758,10 +762,17 @@ export default {
                   return item.goods_attribute_id === this.currentData.goods_attribute_id
                 })
 
-                this.$set(this.currentTableData, pos, {
-                  ...this.currentData,
-                  ...res.data
-                })
+                if (this.selectId && res.data.goods_type_id !== this.selectId) {
+                  this.currentTableData.splice(pos, 1)
+                  if (this.currentTableData.length <= 0) {
+                    this.$emit('refresh', true)
+                  }
+                } else {
+                  this.$set(this.currentTableData, pos, {
+                    ...this.currentData,
+                    ...res.data
+                  })
+                }
 
                 this.dialogFormVisible = false
                 this.$refs.multipleTable.clearSelection()

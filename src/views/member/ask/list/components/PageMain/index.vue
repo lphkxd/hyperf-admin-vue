@@ -184,6 +184,10 @@ export default {
           delAskItem(this.currentTableData[index].ask_id)
             .then(() => {
               this.currentTableData.splice(index, 1)
+              if (this.currentTableData.length <= 0) {
+                this.$emit('refresh', true)
+              }
+
               this.$message.success('操作成功')
             })
         })

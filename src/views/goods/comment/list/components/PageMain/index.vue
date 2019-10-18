@@ -298,6 +298,10 @@ export default {
           delGoodsCommentItem(this.currentTableData[index].goods_comment_id)
             .then(() => {
               this.currentTableData.splice(index, 1)
+              if (this.currentTableData.length <= 0) {
+                this.$emit('refresh', true)
+              }
+
               this.$message.success('操作成功')
             })
         })
