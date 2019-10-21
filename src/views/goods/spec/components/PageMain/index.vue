@@ -467,7 +467,7 @@ export default {
           this.dialogLoading = true
           setGoodsSpecItem({
             ...this.form,
-            spec_item: this.form.spec_item.split('\n')
+            spec_item: this.form.spec_item.trim().split('\n')
           })
             .then(res => {
               if (this.selectId && this.form.goods_type_id !== this.selectId) {
