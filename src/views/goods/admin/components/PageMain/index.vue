@@ -710,7 +710,12 @@ export default {
         .then(() => {
           copyGoodsItem(goods_id)
             .then(res => {
-              this.currentTableData.unshift(res.data)
+              this.currentTableData.unshift({
+                ...res.data,
+                sales_sum: 0,
+                comment_sum: 0
+              })
+
               this.$message.success('操作成功')
             })
         })
