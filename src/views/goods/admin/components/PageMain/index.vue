@@ -4,7 +4,7 @@
       <el-form-item v-if="tabPane !== 'delete'">
         <el-button
           :disabled="loading"
-          @click="() => {}">
+          @click="handleCreate">
           <cs-icon name="plus"/>
           新增商品
         </el-button>
@@ -194,7 +194,11 @@
             <template slot-scope="scope">
               <div class="action">
                 <span class="goods-shop-price">{{scope.row.shop_price | getNumber}}</span>
-                <cs-icon v-if="tabPane !== 'delete'" class="goods-edit active" name="pencil"/>
+                <cs-icon
+                  v-if="tabPane !== 'delete'"
+                  class="goods-edit active"
+                  @click.native="setGoodsPriceOrStore(scope.$index)"
+                  name="pencil"/>
               </div>
             </template>
           </el-table-column>
@@ -206,7 +210,11 @@
             <template slot-scope="scope">
               <div class="action">
                 <span>{{scope.row.store_qty}}</span>
-                <cs-icon v-if="tabPane !== 'delete'" class="goods-edit active" name="pencil"/>
+                <cs-icon
+                  v-if="tabPane !== 'delete'"
+                  class="goods-edit active"
+                  @click.native="setGoodsPriceOrStore(scope.$index)"
+                  name="pencil"/>
               </div>
             </template>
           </el-table-column>
@@ -247,7 +255,7 @@
             <template slot-scope="scope">
               <el-button
                 v-if="tabPane !== 'delete'"
-                @click="() => {}"
+                @click="handleEdit(scope.row.goods_id)"
                 size="small"
                 type="text">编辑</el-button>
 
@@ -791,6 +799,24 @@ export default {
             .catch(() => {
               this.dialogLoading = false
             })
+        }
+      })
+    },
+    // 修改商品价格或库存
+    setGoodsPriceOrStore(index) {
+    },
+    // 新增商品
+    handleCreate() {
+      this.$router.push({
+        name: 'goods-admin-create'
+      })
+    },
+    // 编辑商品
+    handleEdit(key) {
+      this.$router.push({
+        name: 'goods-admin-update',
+        params: {
+          goods_id: key
         }
       })
     }

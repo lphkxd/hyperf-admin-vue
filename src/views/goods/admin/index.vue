@@ -105,7 +105,8 @@ export default {
         ...this.tabs,
         ...this.order,
         page_no: this.page.current,
-        page_size: this.page.size
+        page_size: this.page.size,
+        is_goods_spec: 1
       })
         .then(res => {
           this.updateData({ type: 'clear', name: 'goods-admin-list' })

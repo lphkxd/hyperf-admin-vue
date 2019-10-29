@@ -204,18 +204,38 @@ export default {
      * 清空缓存
      */
     clearCache() {
+      const loading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      })
+
       clearCacheAll()
         .then(() => {
           this.$message.success('缓存更新成功')
+        })
+        .finally(() => {
+          loading.close()
         })
     },
     /**
      * 最优设置
      */
     systemOptimize() {
+      const loading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      })
+
       setSystemOptimize()
         .then(() => {
-          this.$message.success('正式环境下已调至最优状态')
+          this.$message.success('已调至最优状态')
+        })
+        .finally(() => {
+          loading.close()
         })
     },
     /**

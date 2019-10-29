@@ -237,7 +237,7 @@ export default {
         .then(() => {
           delWithdrawUserList(
             [this.currentTableData[index].withdraw_user_id],
-            this.$route.params.client_id,
+            this.$route.params.client_id
           )
             .then(() => {
               this.currentTableData.splice(index, 1)

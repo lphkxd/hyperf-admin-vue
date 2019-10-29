@@ -82,6 +82,19 @@ export default {
       props: true,
       meta: { ...meta, title: '商品预览' },
       component: () => import('@/views/goods/admin/view')
+    },
+    {
+      path: 'admin/create',
+      name: `${pre}admin-create`,
+      meta: { ...meta, cache: true, title: '新增商品' },
+      component: () => import('@/views/goods/admin/create')
+    },
+    {
+      path: 'admin/update/:goods_id',
+      name: `${pre}admin-update`,
+      props: true,
+      meta: { ...meta, cache: true, title: '编辑商品' },
+      component: () => import('@/views/goods/admin/update')
     }
   ])('goods-')
 }
