@@ -188,7 +188,7 @@
           </el-table-column>
 
           <el-table-column
-            label="价格"
+            label="本店价"
             prop="shop_price"
             sortable="custom">
             <template slot-scope="scope">
@@ -362,11 +362,82 @@
           size="small">修改</el-button>
       </div>
     </el-dialog>
+
+    <el-dialog
+      title="价格或库存修改"
+      :visible.sync="sellFormVisible"
+      :append-to-body="true"
+      :close-on-click-modal="false"
+      width="850px">
+      <el-table
+        :data="sellForm['goods_spec_item']"
+        style="margin-top: -25px;">
+        <el-table-column
+          label="规格"
+          prop="key_value">
+        </el-table-column>
+
+        <el-table-column
+          label="本店价"
+          prop="price">
+          <template slot-scope="scope">
+            <el-input-number
+              v-model="scope.row.price"
+              controls-position="right"
+              size="mini"
+              :precision="2"
+              :min="0">
+            </el-input-number>
+          </template>
+        </el-table-column>
+
+        <el-table-column
+          label="当前库存"
+          prop="store_qty"
+          width="120">
+        </el-table-column>
+
+        <el-table-column
+          label="增加/减少"
+          prop="alter">
+          <template slot-scope="scope">
+            <el-input-number
+              v-model="scope.row.alter"
+              controls-position="right"
+              size="mini"
+              @change="countRealStore(scope.row)">
+            </el-input-number>
+          </template>
+        </el-table-column>
+
+        <el-table-column
+          label="实际库存"
+          prop="real_store"
+          width="120">
+          <template slot-scope="scope">
+            {{scope.row.real_store}}
+          </template>
+        </el-table-column>
+      </el-table>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button
+          @click="sellFormVisible = false"
+          size="small">取消</el-button>
+
+        <el-button
+          type="primary"
+          :loading="sellLoading"
+          @click="handleGoodsPriceOrStore"
+          size="small">修改</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import util from '@/utils/util'
+import { cloneDeep } from 'lodash'
 import {
   copyGoodsItem,
   delGoodsList, setGoodsItem, setGoodsSort,
@@ -417,6 +488,9 @@ export default {
       nameFormVisible: false,
       productForm: {},
       productFormVisible: false,
+      sellLoading: false,
+      sellForm: {},
+      sellFormVisible: false,
       rules: {
         name: [
           {
@@ -803,7 +877,71 @@ export default {
       })
     },
     // 修改商品价格或库存
-    setGoodsPriceOrStore(index) {
+    setGoodsPriceOrStore(val) {
+      const data = this.currentTableData[val]
+      const specItem = cloneDeep(data.goods_spec_item)
+
+      if (data.goods_spec_item <= 0) {
+        specItem.push({
+          key_value: '-',
+          price: data.shop_price,
+          store_qty: data.store_qty,
+          alter: 0,
+          real_store: data.store_qty
+        })
+      } else {
+        specItem.forEach(value => {
+          value['alter'] = 0
+          value['real_store'] = value['store_qty']
+        })
+      }
+
+      this.sellForm = {
+        goods_id: data.goods_id,
+        goods_spec_item: specItem,
+        goods_spec_menu: data.goods_spec_menu,
+        is_empty_spec: data.goods_spec_item <= 0,
+        index: val
+      }
+
+      this.sellLoading = false
+      this.sellFormVisible = true
+    },
+    // 计算实际库存
+    countRealStore(value) {
+      value.real_store = value.store_qty + value.alter
+    },
+    // 请求修改价格或库存
+    handleGoodsPriceOrStore() {
+      const data = this.sellForm['goods_spec_item']
+      let formData = { goods_id: this.sellForm.goods_id }
+
+      if (this.sellForm.is_empty_spec) {
+        formData['shop_price'] = data[0]['price']
+        formData['store_qty'] = data[0]['real_store']
+      } else {
+        formData['goods_spec_item'] = []
+        formData['goods_spec_menu'] = this.sellForm['goods_spec_menu']
+
+        data.forEach(value => {
+          formData['goods_spec_item'].push({
+            ...value,
+            store_qty: value['real_store']
+          })
+        })
+      }
+
+      this.sellLoading = true
+      const index = this.sellForm.index
+
+      setGoodsItem(formData)
+        .then(res => {
+          // TODO:规格菜单数据丢失,待继续
+          console.log(res)
+        })
+        .catch(() => {
+          this.sellLoading = false
+        })
     },
     // 新增商品
     handleCreate() {

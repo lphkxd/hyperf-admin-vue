@@ -106,7 +106,7 @@ export default {
         ...this.order,
         page_no: this.page.current,
         page_size: this.page.size,
-        is_goods_spec: 1
+        is_goods_spec: this.tabs.is_delete ? 0 : 1
       })
         .then(res => {
           this.updateData({ type: 'clear', name: 'goods-admin-list' })
