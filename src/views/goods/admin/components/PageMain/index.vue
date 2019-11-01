@@ -932,12 +932,19 @@ export default {
       }
 
       this.sellLoading = true
-      const index = this.sellForm.index
-
       setGoodsItem(formData)
         .then(res => {
-          // TODO:规格菜单数据丢失,待继续
-          console.log(res)
+          this.$set(
+            this.currentTableData,
+            this.sellForm.index,
+            {
+              ...this.currentTableData[this.sellForm.index],
+              ...res.data
+            }
+          )
+
+          this.sellFormVisible = false
+          this.$message.success('操作成功')
         })
         .catch(() => {
           this.sellLoading = false
