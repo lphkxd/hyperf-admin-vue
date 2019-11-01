@@ -361,7 +361,8 @@
 <script>
 import {
   addGoodsCategoryItem,
-  delGoodsCategoryList, setGoodsCategoryIndex,
+  delGoodsCategoryList,
+  setGoodsCategoryIndex,
   setGoodsCategoryItem,
   setGoodsCategoryStatus
 } from '@/api/goods/category'

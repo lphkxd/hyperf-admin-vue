@@ -195,7 +195,8 @@ import {
   addUserAddressItem,
   delUserAddressList,
   isUserAddressMaximum,
-  setUserAddressDefault, setUserAddressItem
+  setUserAddressDefault,
+  setUserAddressItem
 } from '@/api/user/address'
 import util from '@/utils/util'
 import { getRegionSonList } from '@/api/logistics/region'

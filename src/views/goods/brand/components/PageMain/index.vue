@@ -325,7 +325,8 @@
 <script>
 import {
   addBrandItem,
-  delBrandList, setBrandItem,
+  delBrandList,
+  setBrandItem,
   setBrandSort,
   setBrandStatus
 } from '@/api/goods/brand'
