@@ -1,7 +1,7 @@
 <template>
   <div class="cs-p">
     <el-form :inline="true" size="small">
-      <el-form-item v-if="tabPane !== 'delete'">
+      <el-form-item v-if="tabPane !== 'delete' && auth.add">
         <el-button
           :disabled="loading"
           @click="handleCreate">
@@ -10,7 +10,7 @@
         </el-button>
       </el-form-item>
 
-      <el-form-item v-if="tabPane === 'stock'">
+      <el-form-item v-if="tabPane === 'stock' && auth.shelves">
         <el-button
           :disabled="loading"
           @click="handleStatus(null, 1)">
@@ -19,7 +19,7 @@
         </el-button>
       </el-form-item>
 
-      <el-form-item v-if="tabPane === 'sale'">
+      <el-form-item v-if="tabPane === 'sale' && auth.shelves">
         <el-button
           :disabled="loading"
           @click="handleStatus(null, 0)">
@@ -28,7 +28,7 @@
         </el-button>
       </el-form-item>
 
-      <el-form-item v-if="tabPane !== 'delete'">
+      <el-form-item v-if="tabPane !== 'delete' && auth.recommend">
         <el-dropdown placement="bottom">
           <el-button
             :disabled="loading">
@@ -43,7 +43,7 @@
         </el-dropdown>
       </el-form-item>
 
-      <el-form-item v-if="tabPane !== 'delete'">
+      <el-form-item v-if="tabPane !== 'delete' && auth.new">
         <el-dropdown placement="bottom">
           <el-button
             :disabled="loading">
@@ -58,7 +58,7 @@
         </el-dropdown>
       </el-form-item>
 
-      <el-form-item v-if="tabPane !== 'delete'">
+      <el-form-item v-if="tabPane !== 'delete' && auth.hot">
         <el-dropdown placement="bottom">
           <el-button
             :disabled="loading">
@@ -76,6 +76,7 @@
       <el-form-item>
         <el-button-group>
           <el-button
+            v-if="auth.del"
             :disabled="loading"
             @click="handleDelete(null, true)">
             <cs-icon name="trash-o"/>
@@ -83,7 +84,7 @@
           </el-button>
 
           <el-button
-            v-if="tabPane === 'delete'"
+            v-if="tabPane === 'delete' && auth.restore"
             :disabled="loading"
             @click="handleDelete(null, false)">
             <cs-icon name="reply"/>
@@ -152,7 +153,7 @@
                     class="link">{{scope.row.name}}</span>
 
                     <cs-icon
-                      v-if="tabPane !== 'delete'"
+                      v-if="tabPane !== 'delete' && auth.set"
                       class="goods-edit active"
                       @click.native="setGoodsName(scope.$index)"
                       name="pencil"/>
@@ -164,7 +165,7 @@
                     class="son">{{scope.row.product_name}}</span>
 
                   <cs-icon
-                    v-if="tabPane !== 'delete'"
+                    v-if="tabPane !== 'delete' && auth.set"
                     class="goods-edit active"
                     @click.native="setGoodsProduct(scope.$index)"
                     name="pencil"/>
@@ -195,7 +196,7 @@
               <div class="action">
                 <span class="goods-shop-price">{{scope.row.shop_price | getNumber}}</span>
                 <cs-icon
-                  v-if="tabPane !== 'delete'"
+                  v-if="tabPane !== 'delete' && auth.price"
                   class="goods-edit active"
                   @click.native="setGoodsPriceOrStore(scope.$index)"
                   name="pencil"/>
@@ -211,7 +212,7 @@
               <div class="action">
                 <span>{{scope.row.store_qty}}</span>
                 <cs-icon
-                  v-if="tabPane !== 'delete'"
+                  v-if="tabPane !== 'delete' && auth.store"
                   class="goods-edit active"
                   @click.native="setGoodsPriceOrStore(scope.$index)"
                   name="pencil"/>
@@ -233,7 +234,7 @@
             min-width="110">
             <template slot-scope="scope">
               <el-input-number
-                v-if="tabPane !== 'delete'"
+                v-if="tabPane !== 'delete' && auth.sort"
                 v-model="scope.row.sort"
                 style="width: 88px;"
                 size="mini"
@@ -254,30 +255,31 @@
             min-width="140">
             <template slot-scope="scope">
               <el-button
-                v-if="tabPane !== 'delete'"
+                v-if="tabPane !== 'delete' && auth.set"
                 @click="handleEdit(scope.row.goods_id)"
                 size="small"
                 type="text">编辑</el-button>
 
               <el-button
-                v-if="tabPane !== 'delete'"
+                v-if="tabPane !== 'delete' && auth.copy"
                 @click="handleCopy(scope.row.goods_id)"
                 size="small"
                 type="text">复制</el-button>
 
               <el-button
-                v-if="tabPane !== 'delete'"
+                v-if="tabPane !== 'delete' && auth.shelves"
                 @click="handleStatus(scope.$index, Number(!scope.row.status))"
                 size="small"
                 type="text">{{scope.row.status ? '下架' : '上架'}}</el-button>
 
               <el-button
+                v-if="auth.del"
                 @click="handleDelete(scope.$index, true)"
                 size="small"
                 type="text">{{tabPane === 'delete' ? '彻底删除' : '删除'}}</el-button>
 
               <el-button
-                v-if="tabPane === 'delete'"
+                v-if="tabPane === 'delete' && auth.restore"
                 @click="handleDelete(scope.$index, false)"
                 size="small"
                 type="text">恢复</el-button>
@@ -385,6 +387,7 @@
               v-model="scope.row.price"
               controls-position="right"
               size="mini"
+              :disabled="!auth.price"
               :precision="2"
               :min="0">
             </el-input-number>
@@ -403,6 +406,7 @@
           <template slot-scope="scope">
             <el-input-number
               v-model="scope.row.alter"
+              :disabled="!auth.store"
               controls-position="right"
               size="mini"
               @change="countRealStore(scope.row)">
@@ -436,16 +440,18 @@
 </template>
 
 <script>
-import util from '@/utils/util'
-import { cloneDeep } from 'lodash'
 import {
   copyGoodsItem,
-  delGoodsList, setGoodsItem, setGoodsSort,
+  delGoodsList,
+  setGoodsItem,
+  setGoodsSort,
   setHotGoodsList,
   setNewGoodsList,
   setRecommendGoodsList,
   setShelvesGoodsList
 } from '@/api/goods/goods'
+import util from '@/utils/util'
+import { cloneDeep } from 'lodash'
 
 export default {
   props: {
@@ -463,6 +469,20 @@ export default {
     return {
       currentTableData: [],
       multipleSelection: [],
+      auth: {
+        add: false,
+        set: false,
+        del: false,
+        restore: false,
+        copy: false,
+        shelves: false,
+        recommend: false,
+        new: false,
+        hot: false,
+        sort: false,
+        price: false,
+        store: false
+      },
       tabPane: 'sale',
       tabList: { 'sale': '出售中', 'stock': '已下架', 'delete': '回收站' },
       goodsTab: {
@@ -542,7 +562,25 @@ export default {
       immediate: true
     }
   },
+  mounted() {
+    this._validationAuth()
+  },
   methods: {
+    // 验证权限
+    _validationAuth() {
+      this.auth.add = this.$has('/goods/admin/list/add')
+      this.auth.set = this.$has('/goods/admin/list/set')
+      this.auth.del = this.$has('/goods/admin/list/del')
+      this.auth.restore = this.$has('/goods/admin/list/restore')
+      this.auth.copy = this.$has('/goods/admin/list/copy')
+      this.auth.shelves = this.$has('/goods/admin/list/shelves')
+      this.auth.recommend = this.$has('/goods/admin/list/recommend')
+      this.auth.new = this.$has('/goods/admin/list/new')
+      this.auth.hot = this.$has('/goods/admin/list/hot')
+      this.auth.sort = this.$has('/goods/admin/list/sort')
+      this.auth.price = this.$has('/goods/admin/list/price')
+      this.auth.store = this.$has('/goods/admin/list/store')
+    },
     // 获取列表中的编号
     _getIdList(val) {
       if (val === null) {
