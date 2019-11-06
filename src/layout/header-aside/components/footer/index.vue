@@ -6,7 +6,7 @@
     :page-sizes="sizes"
     :disabled="loading"
     :layout="sizes.includes(size) ? layout : simple"
-    style="margin: -10px;"
+    style="margin: -10px -5px;"
     @size-change="handleSizeChange"
     @current-change="handleCurrentChange">
   </el-pagination>
