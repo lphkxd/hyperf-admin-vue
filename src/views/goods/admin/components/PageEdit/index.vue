@@ -40,10 +40,6 @@ export default {
         create: '新增商品',
         update: '编辑商品'
       },
-      stateButton: {
-        create: '确定',
-        update: '修改'
-      },
       currentForm: {
         goods_category_id: [],
         name: '',
