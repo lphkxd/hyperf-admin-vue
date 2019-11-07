@@ -202,6 +202,9 @@ export default {
             case 1:
               insert += `<p><a href="${util.getDownloadUrl(file, this.code)}">附件：${file.name}</a></p>`
               break
+            case 3:
+              insert += `<video controls="controls"><source src="//${file.url}" /></video>`
+              break
           }
         }
       }
@@ -220,6 +223,9 @@ export default {
             break
           case 1:
             insert += `<p><a href="${util.getDownloadUrl(value, this.code)}">附件：${value.name}</a></p>`
+            break
+          case 3:
+            insert += `<video controls="controls"><source src="//${value.url}" /></video>`
             break
         }
       }

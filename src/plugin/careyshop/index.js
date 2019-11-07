@@ -18,6 +18,7 @@ import pluginLog from '@/plugin/log'
 import pluginOpen from '@/plugin/open'
 import pluginHas from '@/plugin/has'
 import pluginPreview from '@/plugin/preview'
+import pluginPlayer from '@/plugin/player'
 import pluginPrint from '@/plugin/print'
 
 export default {
@@ -43,6 +44,7 @@ export default {
     Vue.use(pluginOpen)
     Vue.use(pluginHas)
     Vue.use(pluginPreview)
+    Vue.use(pluginPlayer)
     Vue.use(pluginPrint)
   }
 }

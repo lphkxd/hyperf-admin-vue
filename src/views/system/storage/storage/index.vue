@@ -42,7 +42,7 @@ export default {
       navi: [],
       page: {
         current: 1,
-        size: 100,
+        size: 50,
         total: 0
       }
     }

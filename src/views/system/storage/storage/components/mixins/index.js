@@ -1,5 +1,4 @@
 import util from '@/utils/util'
-import ca from 'element-ui/src/locale/lang/ca'
 
 export default {
   data() {

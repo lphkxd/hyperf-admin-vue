@@ -51,13 +51,13 @@
     <!-- 面包屑开始 -->
     <el-breadcrumb class="breadcrumb cs-mb" separator-class="el-icon-arrow-right">
       <el-breadcrumb-item>
-        <a @click="switchDirectory(0)">资源管理</a>
+        <a style="cursor: pointer;" @click="switchDirectory(0)">资源管理</a>
       </el-breadcrumb-item>
 
       <el-breadcrumb-item
         v-for="item in naviData"
         :key="item.storage_id">
-        <a @click="switchDirectory(item.storage_id)">{{item.name}}</a>
+        <a style="cursor: pointer;" @click="switchDirectory(item.storage_id)">{{item.name}}</a>
       </el-breadcrumb-item>
     </el-breadcrumb>
 
@@ -71,12 +71,12 @@
                 <el-checkbox v-if="item.type !== 2" :label="item.storage_id" class="check">&nbsp;</el-checkbox>
                 <el-image fit="fill" :src="item | getImageThumb" @click.native="handleOpen(index)" lazy/>
               </div>
-              <el-tooltip placement="top" :enterable="false" :open-delay="600">
+              <el-tooltip placement="top" :enterable="false" :open-delay="300">
                 <div slot="content">
                   <span>名称：{{item.name}}</span><br/>
                   <span>日期：{{item.create_time}}</span><br/>
                   <span v-if="item.type === 0">尺寸：{{`${item.pixel['width']},${item.pixel['height']}`}}</span>
-                  <span v-else>类型：<cs-icon :name="item.type === 1 ? 'file-o' : 'folder-o'"/></span>
+                  <span v-else>类型：<cs-icon :name="item.type | getFileTypeIocn"/></span>
                 </div>
                 <span class="storage-name cs-ml-5">{{item.name}}</span>
               </el-tooltip>

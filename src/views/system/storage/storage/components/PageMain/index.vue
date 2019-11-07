@@ -77,13 +77,13 @@
 
     <el-breadcrumb class="breadcrumb cs-mb" separator-class="el-icon-arrow-right">
       <el-breadcrumb-item>
-        <a @click="switchFolder(0)">资源管理</a>
+        <a style="cursor: pointer;" @click="switchFolder(0)">资源管理</a>
       </el-breadcrumb-item>
 
       <el-breadcrumb-item
         v-for="item in naviData"
         :key="item.storage_id">
-        <a @click="switchFolder(item.storage_id)">{{item.name}}</a>
+        <a style="cursor: pointer;" @click="switchFolder(item.storage_id)">{{item.name}}</a>
       </el-breadcrumb-item>
     </el-breadcrumb>
 
@@ -433,6 +433,10 @@ export default {
           this.switchFolder(storage['storage_id'])
           break
 
+        case 3:
+          this.$player(storage['url'], storage['mime'])
+          break
+
         default:
           this.$message.warning('打开资源出现异常操作')
       }
@@ -615,6 +619,7 @@ export default {
 
       switch (storage.type) {
         case 0:
+        case 3:
           link = storage.url
           break
         case 1:
