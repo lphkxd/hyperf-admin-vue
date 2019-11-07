@@ -11,8 +11,63 @@
       <el-form
         ref="form"
         :model="currentForm"
-        :rules="rules"
         label-width="80px">
+        <el-tabs v-model="activeName">
+          <el-tab-pane label="基础设置" name="basic">
+            基础设置
+          </el-tab-pane>
+
+          <el-tab-pane label="规格属性" name="type">
+            规格属性
+          </el-tab-pane>
+
+          <el-tab-pane label="媒体设置" name="photo">
+            媒体设置
+          </el-tab-pane>
+
+          <el-tab-pane label="商品详情" name="detail">
+            <el-form-item
+              label="详情描述"
+              prop="content">
+              <cs-tinymce
+                ref="tinymce"
+                v-model="currentForm.content"
+                code="inside_content"
+                :height="450"/>
+            </el-form-item>
+          </el-tab-pane>
+
+          <el-tab-pane label="积分结算" name="integral">
+            <el-form-item
+              label="结算方式"
+              prop="integral_type">
+              <el-radio-group v-model="currentForm.integral_type">
+                <el-radio :label="0">按百分比</el-radio>
+                <el-radio :label="1">按固定值</el-radio>
+              </el-radio-group>
+            </el-form-item>
+
+            <el-form-item
+              label="赠送分值"
+              prop="give_integral">
+              <el-input-number
+                v-model="currentForm.give_integral"
+                :precision="currentForm.integral_type ? 0 : 2"
+                :max="currentForm.integral_type ? undefined : 100"
+                :min="0"
+                controls-position="right"/>
+            </el-form-item>
+
+            <el-form-item
+              label="可抵扣额"
+              prop="is_integral">
+              <el-input-number
+                v-model="currentForm.is_integral"
+                :min="0"
+                controls-position="right"/>
+            </el-form-item>
+          </el-tab-pane>
+        </el-tabs>
       </el-form>
     </el-card>
   </div>
@@ -27,6 +82,9 @@ export default {
     'csTinymce': () => import('@/components/cs-tinymce')
   },
   props: {
+    confirmLoading: {
+      default: false
+    },
     state: {
       type: String,
       required: true,
@@ -36,6 +94,7 @@ export default {
   data() {
     return {
       loading: false,
+      activeName: 'basic',
       stateMap: {
         create: '新增商品',
         update: '编辑商品'
@@ -79,6 +138,11 @@ export default {
       },
       rules: {
       }
+    }
+  },
+  methods: {
+    // 确认新增或修改
+    handleConfirm() {
     }
   }
 }
