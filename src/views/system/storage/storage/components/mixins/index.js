@@ -1,4 +1,5 @@
 import util from '@/utils/util'
+import ca from 'element-ui/src/locale/lang/ca'
 
 export default {
   data() {
@@ -9,14 +10,10 @@ export default {
   filters: {
     // 获取图片缩略图
     getImageThumb(val) {
-      let imageUrl = ''
+      let imageUrl = 'image/storage/file.png'
       switch (val['type']) {
         case 0:
           imageUrl = val['url'] ? util.getImageCodeUrl(val['url'], 'storage_lists') : ''
-          break
-
-        case 1:
-          imageUrl = 'image/storage/file.png'
           break
 
         case 2:
@@ -26,9 +23,31 @@ export default {
             imageUrl = val['is_default'] ? 'image/storage/default.png' : 'image/storage/folder.png'
           }
           break
+
+        case 3:
+          imageUrl = 'image/storage/video.png'
+          break
       }
 
       return imageUrl
+    },
+    // 获取资源类型图标
+    getFileTypeIocn(val) {
+      switch (val) {
+        case 0:
+          return 'file-photo-o'
+
+        case 1:
+          return 'file-o'
+
+        case 2:
+          return 'folder-o'
+
+        case 3:
+          return 'file-video-o'
+      }
+
+      return 'question'
     }
   },
   methods: {

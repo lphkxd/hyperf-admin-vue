@@ -170,7 +170,7 @@
               </p>
               <p>
                 <span v-if="item.type === 0">尺寸：{{`${item.pixel['width']},${item.pixel['height']}`}}</span>
-                <span v-else>类型：<cs-icon :name="item.type === 1 ? 'file-o' : 'folder-o'"/></span>
+                <span v-else>类型：<cs-icon :name="item.type | getFileTypeIocn"/></span>
               </p>
             </dd>
           </dl>
