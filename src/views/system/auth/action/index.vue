@@ -42,7 +42,7 @@ export default {
       table: [],
       page: {
         current: 1,
-        size: 50,
+        size: 0,
         total: 0
       },
       order: {
@@ -52,9 +52,13 @@ export default {
     }
   },
   mounted() {
-    getClientType()
+    Promise.all([
+      getClientType(),
+      this.$store.dispatch('careyshop/db/databasePage', { user: true })
+    ])
       .then(res => {
-        this.group = res
+        this.group = res[0]
+        this.page.size = res[1].get('size').value() || 50
       })
       .then(() => {
         this.handleSubmit()

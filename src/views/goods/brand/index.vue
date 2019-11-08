@@ -43,7 +43,7 @@ export default {
       table: [],
       page: {
         current: 1,
-        size: 25,
+        size: 0,
         total: 0
       },
       order: {
@@ -53,11 +53,16 @@ export default {
     }
   },
   mounted() {
-    getGoodsCategoryList(null)
+    Promise.all([
+      getGoodsCategoryList(null),
+      this.$store.dispatch('careyshop/db/databasePage', { user: true })
+    ])
       .then(res => {
-        this.cat = res.data.length
-          ? util.formatDataToTree(res.data, 'goods_category_id')
+        this.cat = res[0].data.length
+          ? util.formatDataToTree(res[0].data, 'goods_category_id')
           : []
+
+        this.page.size = res[1].get('size').value() || 25
       })
       .then(() => {
         this.handleSubmit()

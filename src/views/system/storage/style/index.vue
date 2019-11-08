@@ -42,7 +42,7 @@ export default {
       platformTable: [],
       page: {
         current: 1,
-        size: 25,
+        size: 0,
         total: 0
       },
       order: {
@@ -52,9 +52,13 @@ export default {
     }
   },
   mounted() {
-    getSettingList('system_info', 'platform')
+    Promise.all([
+      getSettingList('system_info', 'platform'),
+      this.$store.dispatch('careyshop/db/databasePage', { user: true })
+    ])
       .then(res => {
-        this.platformTable = res.data['platform']['value']
+        this.platformTable = res[0].data['platform']['value']
+        this.page.size = res[1].get('size').value() || 25
       })
       .then(() => {
         this.handleSubmit()

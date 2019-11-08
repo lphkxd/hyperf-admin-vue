@@ -13,6 +13,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   props: {
     current: {
@@ -36,7 +38,15 @@ export default {
     }
   },
   methods: {
+    ...mapActions('careyshop/db', [
+      'databasePage'
+    ]),
     handleSizeChange(val) {
+      this.databasePage({ user: true })
+        .then(res => {
+          res.set('size', val).write()
+        })
+
       this.$emit('change', {
         current: this.current,
         size: val,

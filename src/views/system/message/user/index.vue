@@ -38,7 +38,7 @@ export default {
       type: [],
       page: {
         current: 1,
-        size: 25,
+        size: 0,
         total: 0
       },
       order: {
@@ -55,7 +55,10 @@ export default {
     }
   },
   mounted() {
-    getMessageType()
+    Promise.all([
+      getMessageType(),
+      this.$store.dispatch('careyshop/db/databasePage', { user: true })
+    ])
       .then(res => {
         this.type.unshift({
           name: '全部消息',
@@ -63,16 +66,18 @@ export default {
         })
 
         // eslint-disable-next-line no-unused-vars
-        for (const index in res) {
-          if (!res.hasOwnProperty(index)) {
+        for (const index in res[0]) {
+          if (!res[0].hasOwnProperty(index)) {
             continue
           }
 
           this.type.push({
-            name: res[index],
+            name: res[0][index],
             value: index
           })
         }
+
+        this.page.size = res[1].get('size').value() || 25
       })
       .then(() => {
         this.handleSubmit()

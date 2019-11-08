@@ -45,7 +45,7 @@ export default {
       group: {},
       page: {
         current: 1,
-        size: 25,
+        size: 0,
         total: 0
       },
       order: {
@@ -55,10 +55,15 @@ export default {
     }
   },
   mounted() {
-    Promise.all([getMessageType(), getMember()])
+    Promise.all([
+      getMessageType(),
+      getMember(),
+      this.$store.dispatch('careyshop/db/databasePage', { user: true })
+    ])
       .then(res => {
         this.typeList = res[0]
         this.group = res[1]
+        this.page.size = res[2].get('size').value() || 25
       })
       .then(() => {
         this.handleSubmit()

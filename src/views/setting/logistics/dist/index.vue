@@ -48,7 +48,7 @@ export default {
       },
       page: {
         current: 1,
-        size: 50,
+        size: 0,
         total: 0
       },
       order: {
@@ -58,7 +58,13 @@ export default {
     }
   },
   mounted() {
-    this.handleSubmit({ is_trace: 1 })
+    this.$store.dispatch('careyshop/db/databasePage', { user: true })
+      .then(res => {
+        this.page.size = res.get('size').value() || 50
+      })
+      .then(() => {
+        this.handleSubmit({ is_trace: 1 })
+      })
   },
   methods: {
     // 刷新列表页面

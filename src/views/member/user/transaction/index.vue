@@ -42,7 +42,7 @@ export default {
       toPayment: {},
       page: {
         current: 1,
-        size: 50,
+        size: 0,
         total: 0
       },
       order: {
@@ -52,11 +52,16 @@ export default {
     }
   },
   mounted() {
-    getPaymentList({ is_select: 1 })
+    Promise.all([
+      getPaymentList({ is_select: 1 }),
+      this.$store.dispatch('careyshop/db/databasePage', { user: true })
+    ])
       .then(res => {
-        res.data.forEach(value => {
+        res[0].data.forEach(value => {
           this.toPayment[value.code] = value
         })
+
+        this.page.size = res[1].get('size').value() || 50
       })
       .then(() => {
         this.handleSubmit()

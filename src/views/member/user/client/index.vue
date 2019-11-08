@@ -45,7 +45,7 @@ export default {
       level: [],
       page: {
         current: 1,
-        size: 25,
+        size: 0,
         total: 0
       },
       order: {
@@ -57,11 +57,13 @@ export default {
   mounted() {
     Promise.all([
       getUserLevelList(),
-      getAuthGroupList({ status: 1, exclude_id: [1, 2, 4] })
+      getAuthGroupList({ status: 1, exclude_id: [1, 2, 4] }),
+      this.$store.dispatch('careyshop/db/databasePage', { user: true })
     ])
       .then(res => {
         this.level = res[0].data
         this.group = res[1].data
+        this.page.size = res[2].get('size').value() || 25
       })
       .then(() => {
         this.handleSubmit()

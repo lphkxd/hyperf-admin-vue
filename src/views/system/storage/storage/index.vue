@@ -42,13 +42,20 @@ export default {
       navi: [],
       page: {
         current: 1,
-        size: 50,
+        size: 0,
         total: 0
       }
     }
   },
   mounted() {
-    this.handleSubmit()
+    this.$store.dispatch('careyshop/db/databasePage', { user: true })
+      .then(res => {
+        const size = res.get('size').value()
+        this.page.size = size || 50
+      })
+      .finally(() => {
+        this.handleSubmit()
+      })
   },
   watch: {
     storageId: {

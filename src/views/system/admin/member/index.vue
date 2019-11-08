@@ -42,7 +42,7 @@ export default {
       group: [],
       page: {
         current: 1,
-        size: 25,
+        size: 0,
         total: 0
       },
       order: {
@@ -52,12 +52,13 @@ export default {
     }
   },
   mounted() {
-    getAuthGroupList({
-      status: 1,
-      exclude_id: [3, 4]
-    })
+    Promise.all([
+      getAuthGroupList({ status: 1, exclude_id: [3, 4] }),
+      this.$store.dispatch('careyshop/db/databasePage', { user: true })
+    ])
       .then(res => {
-        this.group = res.data
+        this.group = res[0].data
+        this.page.size = res[1].get('size').value() || 25
       })
       .then(() => {
         this.handleSubmit()

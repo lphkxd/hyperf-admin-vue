@@ -51,7 +51,7 @@ export default {
       selectTypeId: null,
       page: {
         current: 1,
-        size: 25,
+        size: 0,
         total: 0
       },
       order: {
@@ -61,9 +61,15 @@ export default {
     }
   },
   mounted() {
-    getGoodsTypeSelect({ order_type: 'asc' })
+    Promise.all([
+      getGoodsTypeSelect({ order_type: 'asc' }),
+      this.$store.dispatch('careyshop/db/databasePage', { user: true })
+    ])
       .then(res => {
-        this.typeList = res.data.length > 0 ? res.data : []
+        this.typeList = res[0].data.length > 0 ? res.data : []
+        this.page.size = res[1].get('size').value() || 25
+      })
+      .then(() => {
         this.handleSubmit({ goods_type_id: this.goods_type_id }, true)
       })
   },

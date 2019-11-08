@@ -47,7 +47,7 @@ export default {
       },
       page: {
         current: 1,
-        size: 25,
+        size: 0,
         total: 0
       },
       order: {
@@ -57,7 +57,13 @@ export default {
     }
   },
   mounted() {
-    this.handleSubmit()
+    this.$store.dispatch('careyshop/db/databasePage', { user: true })
+      .then(res => {
+        this.page.size = res.get('size').value() || 25
+      })
+      .then(() => {
+        this.handleSubmit()
+      })
   },
   methods: {
     ...mapActions('careyshop/update', [
