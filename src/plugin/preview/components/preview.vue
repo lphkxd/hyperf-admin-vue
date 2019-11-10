@@ -3,8 +3,8 @@
     :visible.sync="dialogVisible"
     :append-to-body="true"
     @close="close">
-    <div class="image">
-      <el-image fit="fill" :src="dialogImageUrl" @click.native="$open(dialogImageUrl)"/>
+    <div v-if="dialogVisible" class="image">
+      <el-image :src="dialogImageUrl" fit="fill" @click.native="$open(dialogImageUrl)"/>
     </div>
   </el-dialog>
 </template>

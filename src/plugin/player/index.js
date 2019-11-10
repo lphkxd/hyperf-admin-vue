@@ -1,4 +1,5 @@
 import PlayerComponent from './components/player'
+import videojs from 'vue-video-player'
 
 export default {
   install(Vue, options) {
@@ -9,5 +10,8 @@ export default {
     Vue.prototype.$player = function(url, mime = 'video/*') {
       player.show(url, mime)
     }
+
+    Vue.use(videojs)
+    window.videojs = videojs.videojs
   }
 }
