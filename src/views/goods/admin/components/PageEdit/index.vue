@@ -74,8 +74,8 @@
 </template>
 
 <script>
-import util from '@/utils/util'
-import { mapActions } from 'vuex'
+// import util from '@/utils/util'
+// import { mapActions } from 'vuex'
 
 export default {
   components: {
