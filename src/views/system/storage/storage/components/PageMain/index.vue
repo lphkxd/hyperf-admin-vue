@@ -124,6 +124,12 @@
                   </el-dropdown-item>
 
                   <el-dropdown-item
+                    v-if="item.type === 3 && !item.cover && auth.cover"
+                    :command="{type: 'video_cover', index}">
+                    <cs-icon name="image" class="more-icon"/>选择海报
+                  </el-dropdown-item>
+
+                  <el-dropdown-item
                     v-if="item.type === 2 && auth.default"
                     :command="{type: 'default', index}">
                     <cs-icon name="folder-open-o" class="more-icon"/>{{item.is_default ? '取消默认' : '设为默认'}}
@@ -133,7 +139,7 @@
                     v-if="item.cover && auth.clear_cover"
                     :command="{type: 'clear_cover', index}"
                     divided>
-                    <cs-icon name="image" class="more-icon"/>取消封面
+                    <cs-icon name="image" class="more-icon"/>{{item.type === 2 ? '取消封面' : '取消海报'}}
                   </el-dropdown-item>
 
                   <el-dropdown-item
@@ -188,6 +194,11 @@
       :limit="uploadConfig.limit"
       :storage-id="storageId"
       @confirm="_getUploadFileList"/>
+
+    <cs-storage
+      style="display: none"
+      ref="storage"
+      @confirm="handleVideoCover"/>
 
     <el-dialog
       :title="nameMap[nameStatus]"
@@ -290,7 +301,8 @@ import {
 export default {
   mixins: [storage],
   components: {
-    'csUpload': () => import('@/components/cs-upload')
+    'csUpload': () => import('@/components/cs-upload'),
+    'csStorage': () => import('@/components/cs-storage')
   },
   props: {
     tableData: {
@@ -326,6 +338,7 @@ export default {
         label: 'name',
         children: 'children'
       },
+      videoCover: 0,
       auth: {
         add: false,
         upload: false,
@@ -434,7 +447,7 @@ export default {
           break
 
         case 3:
-          this.$player(storage['url'], storage['mime'])
+          this.$player(storage['url'], storage['mime'], storage['cover'])
           break
 
         default:
@@ -642,7 +655,8 @@ export default {
         })
     },
     handleCover(index) {
-      setStorageCover(this.currentTableData[index].storage_id)
+      const storage = this.currentTableData[index]
+      setStorageCover(storage.storage_id, storage.parent_id)
         .then(() => {
           this.$message.success('操作成功')
         })
@@ -686,6 +700,11 @@ export default {
         case 'cover':
           this.handleCover(command.index)
           break
+        // 选择海报
+        case 'video_cover':
+          this.videoCover = command.index
+          this.$refs.storage.handleStorageDlg()
+          break
         // 取消封面
         case 'clear_cover':
           this.handleClearCover(command.index)
@@ -724,6 +743,27 @@ export default {
 
       this.$refs.upload.setReplaceId(storage.storage_id)
       this.$refs.upload.handleUploadDlg()
+    },
+    // 选择视频海报
+    handleVideoCover(files) {
+      let cover
+      const storage = this.currentTableData[this.videoCover]
+
+      // eslint-disable-next-line no-unused-vars
+      for (const value of files) {
+        if (value.type === 0) {
+          cover = value
+          break
+        }
+      }
+
+      if (cover) {
+        setStorageCover(cover.storage_id, storage.storage_id)
+          .then(() => {
+            storage['cover'] = cover.url
+            this.$message.success('操作成功')
+          })
+      }
     }
   }
 }

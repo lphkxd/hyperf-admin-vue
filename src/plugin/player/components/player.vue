@@ -4,7 +4,7 @@
     :append-to-body="true"
     @close="close">
     <div v-if="dialogVisible" class="player">
-      <cs-video :src="dialogVideoUrl" :mime="dialogVideoMime"/>
+      <cs-video :src="dialogVideoUrl" :mime="dialogVideoMime" :poster="dialogVidePoster"/>
     </div>
   </el-dialog>
 </template>
@@ -19,7 +19,8 @@ export default {
     return {
       dialogVisible: false,
       dialogVideoUrl: '',
-      dialogVideoMime: ''
+      dialogVideoMime: '',
+      dialogVidePoster: ''
     }
   },
   methods: {
@@ -33,17 +34,19 @@ export default {
 
       return url
     },
-    show(url, mime) {
+    show(url, mime, poster) {
       this.$nextTick(() => {
         this.dialogVisible = true
         this.dialogVideoUrl = this.checkUrl(url)
         this.dialogVideoMime = mime
+        this.dialogVidePoster = this.checkUrl(poster)
       })
     },
     close() {
       this.dialogVisible = false
       this.dialogVideoUrl = ''
       this.dialogVideoMime = ''
+      this.dialogVidePoster = ''
     }
   }
 }

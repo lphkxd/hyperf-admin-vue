@@ -203,7 +203,8 @@ export default {
               insert += `<p><a href="${util.getDownloadUrl(file, this.code)}">附件：${file.name}</a></p>`
               break
             case 3:
-              insert += `<video controls="controls"><source src="//${file.url}" /></video>`
+              let cover = file.cover ? util.getImageCodeUrl(file.cover) : ''
+              insert += `<video poster="${cover}" controls="controls"><source src="//${file.url}" /></video>`
               break
           }
         }
@@ -225,7 +226,8 @@ export default {
             insert += `<p><a href="${util.getDownloadUrl(value, this.code)}">附件：${value.name}</a></p>`
             break
           case 3:
-            insert += `<video controls="controls"><source src="//${value.url}" /></video>`
+            let cover = value.cover ? util.getImageCodeUrl(value.cover) : ''
+            insert += `<video poster="${cover}" controls="controls"><source src="//${value.url}" /></video>`
             break
         }
       }

@@ -17,14 +17,18 @@ export default {
 
         case 2:
           if (val['cover']) {
-            imageUrl = val['cover'] ? util.getImageCodeUrl(val['cover'], 'storage_lists') : ''
+            imageUrl = util.getImageCodeUrl(val['cover'], 'storage_lists')
           } else {
             imageUrl = val['is_default'] ? 'image/storage/default.png' : 'image/storage/folder.png'
           }
           break
 
         case 3:
-          imageUrl = 'image/storage/video.png'
+          if (val['cover']) {
+            imageUrl = util.getImageCodeUrl(val['cover'], 'storage_lists')
+          } else {
+            imageUrl = 'image/storage/video.png'
+          }
           break
       }
 

@@ -7,8 +7,8 @@ export default {
     const player = new PlayerConstructor()
 
     player.$mount(player.$el)
-    Vue.prototype.$player = function(url, mime = 'video/*') {
-      player.show(url, mime)
+    Vue.prototype.$player = function(url, mime = 'video/*', poster = '') {
+      player.show(url, mime, poster)
     }
 
     Vue.use(videojs)

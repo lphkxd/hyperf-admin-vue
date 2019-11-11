@@ -15,6 +15,12 @@ import 'vue-video-player/src/custom-theme.css'
 export default {
   name: 'cs-video',
   props: {
+    // 视频海报
+    poster: {
+      type: String,
+      required: false,
+      default: ''
+    },
     // 播放路径
     src: {
       type: String,
@@ -55,7 +61,7 @@ export default {
           src: this.src,
           type: this.mime
         }],
-        poster: '',
+        poster: this.poster,
         notSupportedMessage: '此视频暂无法播放，请稍后再试',
         controlBar: {
           timeDivider: true,

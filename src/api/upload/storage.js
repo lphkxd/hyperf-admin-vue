@@ -149,9 +149,10 @@ export function renameStorageItem(storage_id, name) {
 /**
  * 将图片资源设为目录封面
  * @param {Number} storage_id
+ * @param {Number} parent_id
  * @returns {AxiosPromise}
  */
-export function setStorageCover(storage_id) {
+export function setStorageCover(storage_id, parent_id) {
   return request({
     url: '/v1/storage',
     method: 'post',
@@ -159,7 +160,8 @@ export function setStorageCover(storage_id) {
       method: 'set.storage.cover'
     },
     data: {
-      storage_id
+      storage_id,
+      parent_id
     }
   })
 }
