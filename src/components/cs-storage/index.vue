@@ -131,6 +131,7 @@ export default {
       checkList: [],
       currentTableData: [],
       isCheckDirectory: false,
+      storageType: [],
       form: {
         name: '',
         storage_id: 0,
@@ -181,6 +182,7 @@ export default {
 
       getStorageList({
         ...this.form,
+        type: this.storageType,
         page_no: this.page.current,
         page_size: this.page.size
       })

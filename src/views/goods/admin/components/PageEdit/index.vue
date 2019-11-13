@@ -22,7 +22,43 @@
           </el-tab-pane>
 
           <el-tab-pane label="媒体设置" name="photo">
-            媒体设置
+            <el-form-item
+              label="视频上传"
+              prop="video">
+              <cs-video
+                class="input-video"
+                mime="video/*"
+                :src="currentForm.video['url']"
+                :poster="currentForm.video['cover']"></cs-video>
+
+              <el-button
+                class="storage-button"
+                type="info"
+                size="small"
+                @click="handleStorage(null, [2, 3])"
+                plain>
+                <cs-icon name="inbox"/>
+                资源选择
+              </el-button>
+
+              <cs-upload
+                type="slot"
+                accept="video/*"
+                :limit="1"
+                :multiple="false"
+                @confirm="() => {}">
+                <el-button
+                  class="storage-button"
+                  type="info"
+                  size="small"
+                  slot="control"
+                  plain>
+                  <cs-icon name="upload"/>
+                  上传视频
+                </el-button>
+              </cs-upload>
+
+            </el-form-item>
           </el-tab-pane>
 
           <el-tab-pane label="商品详情" name="detail">
@@ -70,6 +106,8 @@
         </el-tabs>
       </el-form>
     </el-card>
+
+    <cs-storage ref="storage" style="display: none" @confirm="storageCallback"/>
   </div>
 </template>
 
@@ -79,7 +117,10 @@
 
 export default {
   components: {
-    'csTinymce': () => import('@/components/cs-tinymce')
+    'csUpload': () => import('@/components/cs-upload'),
+    'csStorage': () => import('@/components/cs-storage'),
+    'csTinymce': () => import('@/components/cs-tinymce'),
+    'csVideo': () => import('@/components/cs-video')
   },
   props: {
     confirmLoading: {
@@ -99,6 +140,7 @@ export default {
         create: '新增商品',
         update: '编辑商品'
       },
+      storageCallback: '',
       currentForm: {
         goods_category_id: [],
         name: '',
@@ -143,6 +185,12 @@ export default {
   methods: {
     // 确认新增或修改
     handleConfirm() {
+    },
+    // 打开资源选择框
+    handleStorage(callback, type = []) {
+      this.storageCallback = callback
+      this.$refs.storage.storageType = type
+      this.$refs.storage.handleStorageDlg()
     }
   }
 }
@@ -160,5 +208,13 @@ export default {
   .box-card {
     border-radius: 0;
     border: 1px solid #DCDFE6;
+  }
+  .input-video {
+    width: 290px;
+    margin-bottom: 10px;
+  }
+  .storage-button {
+    float: left;
+    margin-right: 10px;
   }
 </style>
