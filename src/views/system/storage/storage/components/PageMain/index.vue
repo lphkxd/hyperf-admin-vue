@@ -512,7 +512,8 @@ export default {
           addStorageDirectoryItem({ ...this.nameForm })
             .then(res => {
               this.currentTableData.unshift({
-                ...res.data
+                ...res.data,
+                is_default: 0
               })
 
               this.directoryList = []
