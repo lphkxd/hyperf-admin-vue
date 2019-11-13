@@ -26,16 +26,18 @@
               label="视频上传"
               prop="video">
               <cs-video
+                ref="goodsVideo"
                 class="input-video"
-                mime="video/*"
+                :mime="currentForm.video['mime']"
                 :src="currentForm.video['url']"
-                :poster="currentForm.video['cover']"></cs-video>
+                :poster="currentForm.video['cover']">
+              </cs-video>
 
               <el-button
                 class="storage-button"
                 type="info"
                 size="small"
-                @click="handleStorage(null, [2, 3])"
+                @click="handleStorage(_getVideoFileList, [2, 3])"
                 plain>
                 <cs-icon name="inbox"/>
                 资源选择
@@ -163,7 +165,7 @@ export default {
         description: '',
         content: '',
         attachment: [],
-        video: [],
+        video: {},
         unit: '',
         is_recommend: 0,
         is_new: 0,
@@ -191,6 +193,20 @@ export default {
       this.storageCallback = callback
       this.$refs.storage.storageType = type
       this.$refs.storage.handleStorageDlg()
+    },
+    // 获取视频选择资源
+    _getVideoFileList(files) {
+      // eslint-disable-next-line no-unused-vars
+      for (const value of files) {
+        if (value.type === 3) {
+          // this.currentForm.video = {
+          //   url: '//' + value.url,
+          //   mime: value.mime,
+          //   cover: '//' + value.cover
+          // }
+          // this.$refs.goodsVideo.setSources(this.currentForm.video)
+        }
+      }
     }
   }
 }

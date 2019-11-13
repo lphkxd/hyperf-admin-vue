@@ -70,6 +70,13 @@ export default {
         }
       }
     }
+  },
+  methods: {
+    // 更换视频源
+    setSources(src, mime, poster = '') {
+      this.playerOptions.poster = poster
+      this.playerOptions.sources = [{ src: src, type: mime }]
+    }
   }
 }
 </script>

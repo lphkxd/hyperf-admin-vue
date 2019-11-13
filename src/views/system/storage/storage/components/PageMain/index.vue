@@ -704,6 +704,7 @@ export default {
         // 选择海报
         case 'video_cover':
           this.videoCover = command.index
+          this.$refs.storage.storageType = [0, 2]
           this.$refs.storage.handleStorageDlg()
           break
         // 取消封面
