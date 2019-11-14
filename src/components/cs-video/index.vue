@@ -60,6 +60,7 @@ export default {
         fluid: true,
         sources: this.src ? [{ type: this.mime, src: this.src }] : [],
         poster: this.poster,
+        notSupportedMessage: '视频资源不存在',
         controlBar: {
           timeDivider: true,
           durationDisplay: true,
@@ -89,8 +90,8 @@ export default {
     },
     // 移除视频源
     delSources() {
-      // this.playerOptions.poster = ''
-      this.playerOptions.sources = []
+      this.playerOptions.poster = ''
+      this.playerOptions.sources = [{}]
     }
   }
 }

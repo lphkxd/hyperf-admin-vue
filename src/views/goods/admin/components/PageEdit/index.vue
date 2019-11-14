@@ -25,25 +25,29 @@
             <el-form-item
               label="商品相册"
               prop="attachment">
-              <el-button
-                class="storage-button"
-                type="info"
-                size="small"
-                @click="handleStorage(() => {}, [0, 2])"
-                plain>
-                <cs-icon name="inbox"/>
-                资源选择
-              </el-button>
+              <cs-upload
+                v-model="currentForm.attachment"
+                :fileList="imageFile"
+                :multiple="true">
+              </cs-upload>
 
-              <el-button
-                class="storage-button"
-                type="info"
-                size="small"
-                @click="handleUpload(() => {}, 'photo')"
-                plain>
-                <cs-icon name="upload"/>
-                上传图片
-              </el-button>
+<!--              <el-button-->
+<!--                type="info"-->
+<!--                size="small"-->
+<!--                @click="handleStorage(() => {}, [0, 2])"-->
+<!--                plain>-->
+<!--                <cs-icon name="inbox"/>-->
+<!--                资源选择-->
+<!--              </el-button>-->
+
+<!--              <el-button-->
+<!--                type="info"-->
+<!--                size="small"-->
+<!--                @click="handleUpload(() => {}, 'photo')"-->
+<!--                plain>-->
+<!--                <cs-icon name="upload"/>-->
+<!--                上传图片-->
+<!--              </el-button>-->
             </el-form-item>
 
             <el-form-item
@@ -58,31 +62,23 @@
               </cs-video>
 
               <el-button
-                class="storage-button"
-                type="info"
-                size="small"
                 @click="handleStorage(_getVideoFileList, [2, 3])"
-                plain>
+                size="small">
                 <cs-icon name="inbox"/>
                 资源选择
               </el-button>
 
               <el-button
-                class="storage-button"
-                type="info"
-                size="small"
                 @click="handleUpload(_getVideoFileList, 'video', 'upload')"
-                plain>
+                size="small">
                 <cs-icon name="upload"/>
                 上传视频
               </el-button>
 
               <el-button
-                class="storage-button"
-                type="info"
-                size="small"
+                v-if="currentForm.video.url"
                 @click="delVideoFile"
-                plain>
+                size="small">
                 <cs-icon name="trash"/>
                 删除
               </el-button>
@@ -185,6 +181,7 @@ export default {
       storageCallback: '',
       uploadCallback: '',
       uploadConfig: {},
+      imageFile: [],
       currentForm: {
         goods_category_id: [],
         name: '',
@@ -229,6 +226,7 @@ export default {
   methods: {
     // 确认新增或修改
     handleConfirm() {
+      console.log(this.currentForm)
     },
     // 打开资源选择框
     handleStorage(callback, type = []) {
@@ -278,16 +276,15 @@ export default {
       // eslint-disable-next-line no-unused-vars
       for (const value of fileList) {
         if (value.type === 3) {
-          const sources = { url: value.url, mime: value.mime, cover: value.cover }
-          this.$refs.goodsVideo.setSources(sources)
-          this.currentForm.video = sources
+          this.currentForm.video = { url: value.url, mime: value.mime, cover: value.cover }
+          this.$refs.goodsVideo.setSources(this.currentForm.video)
           break
         }
       }
     },
     // 清除视频资源
     delVideoFile() {
-      // this.currentForm.video = {}
+      this.currentForm.video = {}
       this.$refs.goodsVideo.delSources()
     }
   }
@@ -310,9 +307,5 @@ export default {
   .input-video {
     width: 350px;
     margin-bottom: 10px;
-  }
-  .storage-button {
-    float: left;
-    margin-right: 10px;
   }
 </style>
