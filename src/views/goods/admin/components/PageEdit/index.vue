@@ -23,14 +23,38 @@
 
           <el-tab-pane label="媒体设置" name="photo">
             <el-form-item
+              label="商品相册"
+              prop="attachment">
+              <el-button
+                class="storage-button"
+                type="info"
+                size="small"
+                @click="handleStorage(() => {}, [0, 2])"
+                plain>
+                <cs-icon name="inbox"/>
+                资源选择
+              </el-button>
+
+              <el-button
+                class="storage-button"
+                type="info"
+                size="small"
+                @click="handleUpload(() => {}, 'photo')"
+                plain>
+                <cs-icon name="upload"/>
+                上传图片
+              </el-button>
+            </el-form-item>
+
+            <el-form-item
               label="视频上传"
               prop="video">
               <cs-video
                 ref="goodsVideo"
                 class="input-video"
-                :mime="currentForm.video['mime']"
-                :src="currentForm.video['url']"
-                :poster="currentForm.video['cover']">
+                :mime="currentForm.video.mime"
+                :src="currentForm.video.url"
+                :poster="currentForm.video.cover">
               </cs-video>
 
               <el-button
@@ -43,23 +67,25 @@
                 资源选择
               </el-button>
 
-              <cs-upload
-                type="slot"
-                accept="video/*"
-                :limit="1"
-                :multiple="false"
-                @confirm="() => {}">
-                <el-button
-                  class="storage-button"
-                  type="info"
-                  size="small"
-                  slot="control"
-                  plain>
-                  <cs-icon name="upload"/>
-                  上传视频
-                </el-button>
-              </cs-upload>
+              <el-button
+                class="storage-button"
+                type="info"
+                size="small"
+                @click="handleUpload(_getVideoFileList, 'video', 'upload')"
+                plain>
+                <cs-icon name="upload"/>
+                上传视频
+              </el-button>
 
+              <el-button
+                class="storage-button"
+                type="info"
+                size="small"
+                @click="delVideoFile"
+                plain>
+                <cs-icon name="trash"/>
+                删除
+              </el-button>
             </el-form-item>
           </el-tab-pane>
 
@@ -109,7 +135,21 @@
       </el-form>
     </el-card>
 
-    <cs-storage ref="storage" style="display: none" @confirm="storageCallback"/>
+    <cs-storage
+      ref="storage"
+      style="display: none"
+      @confirm="storageCallback">
+    </cs-storage>
+
+    <cs-upload
+      style="display: none"
+      ref="upload"
+      type="slot"
+      :multiple="uploadConfig.multiple"
+      :accept="uploadConfig.accept"
+      :limit="uploadConfig.limit"
+      @confirm="uploadCallback">
+    </cs-upload>
   </div>
 </template>
 
@@ -143,6 +183,8 @@ export default {
         update: '编辑商品'
       },
       storageCallback: '',
+      uploadCallback: '',
+      uploadConfig: {},
       currentForm: {
         goods_category_id: [],
         name: '',
@@ -194,19 +236,59 @@ export default {
       this.$refs.storage.storageType = type
       this.$refs.storage.handleStorageDlg()
     },
-    // 获取视频选择资源
-    _getVideoFileList(files) {
-      // eslint-disable-next-line no-unused-vars
-      for (const value of files) {
-        if (value.type === 3) {
-          // this.currentForm.video = {
-          //   url: '//' + value.url,
-          //   mime: value.mime,
-          //   cover: '//' + value.cover
-          // }
-          // this.$refs.goodsVideo.setSources(this.currentForm.video)
+    // 打开上传对话框
+    handleUpload(callback, type, source) {
+      if (type === 'video') {
+        this.uploadConfig = {
+          accept: 'video/*',
+          multiple: false,
+          limit: 1
         }
       }
+
+      if (type === 'photo') {
+        this.uploadConfig = {
+          accept: 'image/*',
+          multiple: true,
+          limit: 0
+        }
+      }
+
+      this.uploadCallback = callback
+      this.$refs.upload.handleUploadDlg(source)
+    },
+    // 获取视频选择资源
+    _getVideoFileList(files, source) {
+      if (!files.length) {
+        return
+      }
+
+      let fileList = []
+      if (source === 'upload') {
+        const response = files[0].response
+        if (!response || response.status !== 200) {
+          return
+        }
+
+        fileList = response.data
+      } else {
+        fileList = files
+      }
+
+      // eslint-disable-next-line no-unused-vars
+      for (const value of fileList) {
+        if (value.type === 3) {
+          const sources = { url: value.url, mime: value.mime, cover: value.cover }
+          this.$refs.goodsVideo.setSources(sources)
+          this.currentForm.video = sources
+          break
+        }
+      }
+    },
+    // 清除视频资源
+    delVideoFile() {
+      // this.currentForm.video = {}
+      this.$refs.goodsVideo.delSources()
     }
   }
 }
@@ -226,7 +308,7 @@ export default {
     border: 1px solid #DCDFE6;
   }
   .input-video {
-    width: 290px;
+    width: 350px;
     margin-bottom: 10px;
   }
   .storage-button {

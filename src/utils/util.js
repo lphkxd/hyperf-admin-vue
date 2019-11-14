@@ -219,7 +219,7 @@ util.getDownloadUrl = function(file, code) {
  * @param style
  * @returns {string}
  */
-util.getImageStyleUrl = function(url, style) {
+util.getImageStyleUrl = function(url, style = '') {
   let data = process.env.VUE_APP_BASE_API
   data += '/v1/storage/method/get.storage.thumb' + '?url=' + encodeURIComponent(url)
   data += style

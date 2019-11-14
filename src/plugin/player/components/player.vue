@@ -10,6 +10,8 @@
 </template>
 
 <script>
+import util from '@/utils/util'
+
 export default {
   name: 'player',
   components: {
@@ -18,8 +20,8 @@ export default {
   data() {
     return {
       dialogVisible: false,
-      dialogVideoUrl: '',
       dialogVideoMime: '',
+      dialogVideoUrl: '',
       dialogVidePoster: ''
     }
   },
@@ -36,16 +38,16 @@ export default {
     },
     show(url, mime, poster) {
       this.$nextTick(() => {
-        this.dialogVisible = true
-        this.dialogVideoUrl = this.checkUrl(url)
         this.dialogVideoMime = mime
-        this.dialogVidePoster = this.checkUrl(poster)
+        this.dialogVideoUrl = this.checkUrl(url)
+        this.dialogVidePoster = poster ? util.getImageStyleUrl(poster) : ''
+        this.dialogVisible = true
       })
     },
     close() {
       this.dialogVisible = false
-      this.dialogVideoUrl = ''
       this.dialogVideoMime = ''
+      this.dialogVideoUrl = ''
       this.dialogVidePoster = ''
     }
   }

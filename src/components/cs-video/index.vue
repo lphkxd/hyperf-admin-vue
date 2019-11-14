@@ -11,6 +11,7 @@
 import 'video.js/dist/lang/zh-CN'
 import 'video.js/dist/video-js.css'
 import 'vue-video-player/src/custom-theme.css'
+import util from '@/utils/util'
 
 export default {
   name: 'cs-video',
@@ -24,13 +25,13 @@ export default {
     // 播放路径
     src: {
       type: String,
-      required: true,
+      required: false,
       default: ''
     },
     // 播放类型
     mime: {
       type: String,
-      required: true,
+      required: false,
       default: ''
     },
     // 是否自动播放
@@ -57,10 +58,7 @@ export default {
         language: 'zh-CN',
         aspectRatio: '16:9',
         fluid: true,
-        sources: [{
-          src: this.src,
-          type: this.mime
-        }],
+        sources: this.src ? [{ type: this.mime, src: this.src }] : [],
         poster: this.poster,
         controlBar: {
           timeDivider: true,
@@ -72,10 +70,27 @@ export default {
     }
   },
   methods: {
+    checkUrl(url) {
+      if (url) {
+        const blob = /^(blob)[^\s]+/
+        const reg = /^((https|http|ftp|rtsp|mms)?:\/\/)[^\s]+/
+
+        if (!blob.test(url) && !reg.test(url)) {
+          return document.location.protocol + '//' + url
+        }
+      }
+
+      return url
+    },
     // 更换视频源
-    setSources(src, mime, poster = '') {
-      this.playerOptions.poster = poster
-      this.playerOptions.sources = [{ src: src, type: mime }]
+    setSources(sources) {
+      this.playerOptions.poster = sources['cover'] ? util.getImageStyleUrl(sources['cover']) : ''
+      this.playerOptions.sources = [{ src: this.checkUrl(sources['url']), type: sources['mime'] }]
+    },
+    // 移除视频源
+    delSources() {
+      // this.playerOptions.poster = ''
+      this.playerOptions.sources = []
     }
   }
 }
