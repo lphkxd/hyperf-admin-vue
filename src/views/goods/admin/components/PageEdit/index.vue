@@ -25,29 +25,29 @@
             <el-form-item
               label="商品相册"
               prop="attachment">
-              <cs-upload
-                v-model="currentForm.attachment"
-                :fileList="imageFile"
-                :multiple="true">
-              </cs-upload>
+              <cs-photo>
+                <template slot="upload">
+                </template>
+              </cs-photo>
 
+              <!--https://www.sunzhongwei.com/vue-achieve-upload-photos-and-can-adjust-the-image-sequence-->
 <!--              <el-button-->
-<!--                type="info"-->
-<!--                size="small"-->
-<!--                @click="handleStorage(() => {}, [0, 2])"-->
-<!--                plain>-->
+<!--                @click="handleStorage(_getAttachmentFileList, [0, 2])"-->
+<!--                size="small">-->
 <!--                <cs-icon name="inbox"/>-->
 <!--                资源选择-->
 <!--              </el-button>-->
 
 <!--              <el-button-->
-<!--                type="info"-->
-<!--                size="small"-->
-<!--                @click="handleUpload(() => {}, 'photo')"-->
-<!--                plain>-->
+<!--                @click="handleUpload(_getAttachmentFileList, 'photo', 'upload')"-->
+<!--                size="small">-->
 <!--                <cs-icon name="upload"/>-->
 <!--                上传图片-->
 <!--              </el-button>-->
+
+              <div class="help-block">
+                <span>第一张图片将作为商品主图，拖动可调整图片位置，建议图片尺寸 800x800</span>
+              </div>
             </el-form-item>
 
             <el-form-item
@@ -105,6 +105,11 @@
                 <el-radio :label="0">按百分比</el-radio>
                 <el-radio :label="1">按固定值</el-radio>
               </el-radio-group>
+
+              <div class="help-block">
+                <span v-if="currentForm.integral_type">按赠送分值设定的值固定赠送积分，赠送分值需大于等于0</span>
+                <span v-else>按实际支付金额百分比赠送，赠送分值的范围是0 ~ 100</span>
+              </div>
             </el-form-item>
 
             <el-form-item
@@ -158,7 +163,8 @@ export default {
     'csUpload': () => import('@/components/cs-upload'),
     'csStorage': () => import('@/components/cs-storage'),
     'csTinymce': () => import('@/components/cs-tinymce'),
-    'csVideo': () => import('@/components/cs-video')
+    'csVideo': () => import('@/components/cs-video'),
+    'csPhoto': () => import('@/components/cs-photo')
   },
   props: {
     confirmLoading: {
@@ -181,7 +187,6 @@ export default {
       storageCallback: '',
       uploadCallback: '',
       uploadConfig: {},
-      imageFile: [],
       currentForm: {
         goods_category_id: [],
         name: '',
@@ -255,28 +260,47 @@ export default {
       this.uploadCallback = callback
       this.$refs.upload.handleUploadDlg(source)
     },
+    // 筛选过滤选择的资源
+    _getFileList(files, source) {
+      if (!source) {
+        return files
+      }
+
+      let fileList = []
+      for (const value of files) {
+        if (value.status !== 'success') {
+          continue
+        }
+
+        const response = value.response
+        if (!response || response.status !== 200) {
+          continue
+        }
+
+        if (response.data) {
+          fileList.push(response.data[0])
+        }
+      }
+
+      return fileList
+    },
     // 获取视频选择资源
     _getVideoFileList(files, source) {
       if (!files.length) {
         return
       }
 
-      let fileList = []
-      if (source === 'upload') {
-        const response = files[0].response
-        if (!response || response.status !== 200) {
-          return
-        }
-
-        fileList = response.data
-      } else {
-        fileList = files
-      }
+      const fileList = this._getFileList(files, source)
 
       // eslint-disable-next-line no-unused-vars
       for (const value of fileList) {
         if (value.type === 3) {
-          this.currentForm.video = { url: value.url, mime: value.mime, cover: value.cover }
+          this.currentForm.video = {
+            url: value.url,
+            mime: value.mime,
+            cover: value.cover
+          }
+
           this.$refs.goodsVideo.setSources(this.currentForm.video)
           break
         }
@@ -286,6 +310,21 @@ export default {
     delVideoFile() {
       this.currentForm.video = {}
       this.$refs.goodsVideo.delSources()
+    },
+    // 获取商品相册资源
+    _getAttachmentFileList(files, source) {
+      if (!files.length) {
+        return
+      }
+
+      const fileList = this._getFileList(files, source)
+      fileList.forEach(value => {
+        this.currentForm.attachment.push({
+          name: value.name,
+          source: value.url,
+          url: '//' + value.url
+        })
+      })
     }
   }
 }
@@ -307,5 +346,11 @@ export default {
   .input-video {
     width: 350px;
     margin-bottom: 10px;
+  }
+  .help-block {
+    color: #909399;
+    font-size: 12px;
+    line-height: 2;
+    margin-bottom: -12px;
   }
 </style>
