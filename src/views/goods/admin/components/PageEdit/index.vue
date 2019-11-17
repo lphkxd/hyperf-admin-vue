@@ -25,28 +25,35 @@
             <el-form-item
               label="商品相册"
               prop="attachment">
-              <cs-photo>
+              <cs-photo v-model="currentForm.attachment">
                 <template slot="upload">
+                  <div
+                    v-if="!currentForm.attachment.length"
+                    tabindex="0"
+                    style="margin-bottom: 8px;"
+                    class="el-upload el-upload--picture-card"
+                    @click="handleUpload(_getAttachmentFileList, 'photo', 'upload')">
+                    <cs-icon name="image"/>
+                  </div>
                 </template>
               </cs-photo>
 
-              <!--https://www.sunzhongwei.com/vue-achieve-upload-photos-and-can-adjust-the-image-sequence-->
-<!--              <el-button-->
-<!--                @click="handleStorage(_getAttachmentFileList, [0, 2])"-->
-<!--                size="small">-->
-<!--                <cs-icon name="inbox"/>-->
-<!--                资源选择-->
-<!--              </el-button>-->
+              <el-button
+                @click="handleStorage(_getAttachmentFileList, [0, 2])"
+                size="small">
+                <cs-icon name="inbox"/>
+                资源选择
+              </el-button>
 
-<!--              <el-button-->
-<!--                @click="handleUpload(_getAttachmentFileList, 'photo', 'upload')"-->
-<!--                size="small">-->
-<!--                <cs-icon name="upload"/>-->
-<!--                上传图片-->
-<!--              </el-button>-->
+              <el-button
+                @click="handleUpload(_getAttachmentFileList, 'photo', 'upload')"
+                size="small">
+                <cs-icon name="upload"/>
+                上传图片
+              </el-button>
 
               <div class="help-block">
-                <span>第一张图片将作为商品主图，拖动可调整图片位置，建议图片尺寸 800x800</span>
+                <span>第一张图片将作为商品主图，拖动可调整图片位置，建议图片尺寸800x800</span>
               </div>
             </el-form-item>
 
@@ -82,6 +89,10 @@
                 <cs-icon name="trash"/>
                 删除
               </el-button>
+
+              <div class="help-block">
+                <span>推荐使用mp4格式的视频，同时也支持ogg、webm等格式的视频</span>
+              </div>
             </el-form-item>
           </el-tab-pane>
 
@@ -105,11 +116,6 @@
                 <el-radio :label="0">按百分比</el-radio>
                 <el-radio :label="1">按固定值</el-radio>
               </el-radio-group>
-
-              <div class="help-block">
-                <span v-if="currentForm.integral_type">按赠送分值设定的值固定赠送积分，赠送分值需大于等于0</span>
-                <span v-else>按实际支付金额百分比赠送，赠送分值的范围是0 ~ 100</span>
-              </div>
             </el-form-item>
 
             <el-form-item
@@ -121,6 +127,11 @@
                 :max="currentForm.integral_type ? undefined : 100"
                 :min="0"
                 controls-position="right"/>
+
+              <div class="help-block">
+                <span v-if="currentForm.integral_type">按赠送分值设定的值固定赠送积分，赠送分值需大于等于0</span>
+                <span v-else>按实际支付金额百分比赠送，赠送分值的范围是0 ~ 100</span>
+              </div>
             </el-form-item>
 
             <el-form-item
@@ -130,6 +141,9 @@
                 v-model="currentForm.is_integral"
                 :min="0"
                 controls-position="right"/>
+              <div class="help-block">
+                <span>商品最多允许抵扣多少积分，0为不可使用</span>
+              </div>
             </el-form-item>
           </el-tab-pane>
         </el-tabs>

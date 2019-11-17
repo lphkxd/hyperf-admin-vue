@@ -60,7 +60,6 @@ export default {
         fluid: true,
         sources: this.src ? [{ type: this.mime, src: this.src }] : [],
         poster: this.poster,
-        notSupportedMessage: '视频资源不存在',
         controlBar: {
           timeDivider: true,
           durationDisplay: true,
