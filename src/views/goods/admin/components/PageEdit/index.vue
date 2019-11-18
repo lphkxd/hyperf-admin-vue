@@ -14,7 +14,68 @@
         label-width="80px">
         <el-tabs v-model="activeName">
           <el-tab-pane label="基础设置" name="basic">
-            基础设置
+            <el-form-item
+              label="名称"
+              prop="name">
+              <el-input
+                v-model="currentForm.name"
+                placeholder="请输入商品名称"
+                :clearable="true"/>
+            </el-form-item>
+
+            <el-form-item
+              label="短名称"
+              prop="short_name">
+              <el-input
+                v-model="currentForm.short_name"
+                placeholder="可输入商品短名称，适用于移动端显示"
+                :clearable="true"/>
+            </el-form-item>
+
+            <el-form-item
+              label="促销语"
+              prop="product_name">
+              <el-input
+                v-model="currentForm.product_name"
+                placeholder="可输入商品促销语"
+                :clearable="true"/>
+            </el-form-item>
+
+            <el-form-item
+              label="货号"
+              prop="goods_code">
+              <el-input
+                v-model="currentForm.goods_code"
+                placeholder="可输入商品货号，为空系统将自动生成"
+                :clearable="true"/>
+            </el-form-item>
+
+            <el-form-item
+              label="SPU"
+              prop="goods_spu">
+              <el-input
+                v-model="currentForm.goods_spu"
+                placeholder="可输入商品SPU"
+                :clearable="true"/>
+            </el-form-item>
+
+            <el-form-item
+              label="SKU"
+              prop="goods_sku">
+              <el-input
+                v-model="currentForm.goods_sku"
+                placeholder="可输入商品SKU"
+                :clearable="true"/>
+            </el-form-item>
+
+            <el-form-item
+              label="条码"
+              prop="bar_code">
+              <el-input
+                v-model="currentForm.bar_code"
+                placeholder="可输入商品条码"
+                :clearable="true"/>
+            </el-form-item>
           </el-tab-pane>
 
           <el-tab-pane label="规格属性" name="type">
@@ -97,6 +158,24 @@
           </el-tab-pane>
 
           <el-tab-pane label="商品详情" name="detail">
+            <el-form-item
+              label="关键词"
+              prop="keywords">
+              <el-input
+                v-model="currentForm.keywords"
+                placeholder="可输入商品关键词，有利于SEO搜索"
+                :clearable="true"/>
+            </el-form-item>
+
+            <el-form-item
+              label="页面描述"
+              prop="description">
+              <el-input
+                v-model="currentForm.description"
+                placeholder="可输入商品简单描述，有利于SEO搜索"
+                :clearable="true"/>
+            </el-form-item>
+
             <el-form-item
               label="详情描述"
               prop="content">
@@ -181,6 +260,9 @@ export default {
     'csPhoto': () => import('@/components/cs-photo')
   },
   props: {
+    loading: {
+      default: true
+    },
     confirmLoading: {
       default: false
     },
@@ -192,7 +274,6 @@ export default {
   },
   data() {
     return {
-      loading: false,
       activeName: 'basic',
       stateMap: {
         create: '新增商品',

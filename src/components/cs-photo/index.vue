@@ -10,7 +10,7 @@
             <el-image :src="item.source | getPreviewUrl" fit="contain"/>
           </div>
 
-          <span class="el-upload-list__item-actions">
+          <span class="el-upload-list__item-actions thumbnail-move">
             <span class="el-upload-list__item-delete">
               <i class="el-icon-zoom-in" @click="preview(index)"></i>
             </span>
@@ -77,5 +77,8 @@ export default {
     width: 146px;
     height: 146px;
     overflow: hidden;
+  }
+  .thumbnail-move {
+    cursor: move;
   }
 </style>
