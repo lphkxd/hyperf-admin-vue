@@ -20,6 +20,8 @@
               <el-input
                 v-model="currentForm.name"
                 placeholder="请输入商品名称"
+                maxlength="200"
+                show-word-limit
                 :clearable="true"/>
             </el-form-item>
 
@@ -29,6 +31,8 @@
               <el-input
                 v-model="currentForm.short_name"
                 placeholder="可输入商品短名称，适用于移动端显示"
+                maxlength="50"
+                show-word-limit
                 :clearable="true"/>
             </el-form-item>
 
@@ -38,7 +42,44 @@
               <el-input
                 v-model="currentForm.product_name"
                 placeholder="可输入商品促销语"
+                maxlength="100"
+                show-word-limit
                 :clearable="true"/>
+            </el-form-item>
+
+            <el-form-item
+              label="分类"
+              prop="goods_category_id">
+              <el-cascader
+                v-model="currentForm.goods_category_id"
+                placeholder="请选择商品分类，试试搜索：分类"
+                :options="catData"
+                :props="cascaderProps"
+                style="width: 100%;"
+                filterable
+                clearable>
+              </el-cascader>
+            </el-form-item>
+
+            <el-form-item
+              label="品牌"
+              prop="brand_id">
+              <el-select
+                v-model="currentForm.brand_id"
+                placeholder="可选择商品品牌，试试搜索：品牌"
+                style="width: 320px;"
+                filterable
+                clearable
+                value="">
+                <el-option
+                  v-for="(item, index) in brandData"
+                  :key="index"
+                  :label="item.name"
+                  :value="item.brand_id">
+                  <span class="brand-name">{{item.name}}</span>
+                  <span class="brand-category">{{item.category_name}}</span>
+                </el-option>
+              </el-select>
             </el-form-item>
 
             <el-form-item
@@ -120,6 +161,58 @@
             </el-form-item>
 
             <el-form-item
+              label="排序值"
+              prop="sort">
+              <el-input-number
+                v-model="currentForm.sort"
+                controls-position="right"
+                :min="0"
+                :max="255"/>
+
+              <div class="help-block">
+                <span>排序值将影响商品排列的顺序，数值越小越靠前</span>
+              </div>
+            </el-form-item>
+
+            <el-form-item
+              label="上架状态"
+              prop="status">
+              <el-radio-group v-model="currentForm.status">
+                <el-radio :label="1">出售中</el-radio>
+                <el-radio :label="0">已下架</el-radio>
+              </el-radio-group>
+            </el-form-item>
+
+            <el-form-item
+              label="是否推荐"
+              prop="is_recommend">
+              <el-radio-group v-model="currentForm.is_recommend">
+                <el-radio :label="1">是</el-radio>
+                <el-radio :label="0">否</el-radio>
+              </el-radio-group>
+            </el-form-item>
+
+            <el-form-item
+              label="是否新品"
+              prop="is_new">
+              <el-radio-group v-model="currentForm.is_new">
+                <el-radio :label="1">是</el-radio>
+                <el-radio :label="0">否</el-radio>
+              </el-radio-group>
+            </el-form-item>
+
+            <el-form-item
+              label="是否热卖"
+              prop="is_hot">
+              <el-radio-group v-model="currentForm.is_hot">
+                <el-radio :label="1">是</el-radio>
+                <el-radio :label="0">否</el-radio>
+              </el-radio-group>
+            </el-form-item>
+
+            <el-divider content-position="left">购买信息</el-divider>
+
+            <el-form-item
               label="市场价"
               prop="market_price">
               <el-input-number
@@ -170,61 +263,11 @@
             </el-form-item>
 
             <el-form-item
-              label="是否推荐"
-              prop="is_recommend">
-              <el-radio-group v-model="currentForm.is_recommend">
-                <el-radio :label="1">是</el-radio>
-                <el-radio :label="0">否</el-radio>
-              </el-radio-group>
-            </el-form-item>
-
-            <el-form-item
-              label="是否新品"
-              prop="is_new">
-              <el-radio-group v-model="currentForm.is_new">
-                <el-radio :label="1">是</el-radio>
-                <el-radio :label="0">否</el-radio>
-              </el-radio-group>
-            </el-form-item>
-
-            <el-form-item
-              label="是否热卖"
-              prop="is_hot">
-              <el-radio-group v-model="currentForm.is_hot">
-                <el-radio :label="1">是</el-radio>
-                <el-radio :label="0">否</el-radio>
-              </el-radio-group>
-            </el-form-item>
-
-            <el-form-item
               label="是否包邮"
               prop="is_postage">
               <el-radio-group v-model="currentForm.is_postage">
                 <el-radio :label="1">是</el-radio>
                 <el-radio :label="0">否</el-radio>
-              </el-radio-group>
-            </el-form-item>
-
-            <el-form-item
-              label="排序值"
-              prop="sort">
-              <el-input-number
-                v-model="currentForm.sort"
-                controls-position="right"
-                :min="0"
-                :max="255"/>
-
-              <div class="help-block">
-                <span>排序值将影响商品排列的顺序，数值越小越靠前</span>
-              </div>
-            </el-form-item>
-
-            <el-form-item
-              label="上架状态"
-              prop="status">
-              <el-radio-group v-model="currentForm.status">
-                <el-radio :label="1">出售中</el-radio>
-                <el-radio :label="0">已下架</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-tab-pane>
@@ -418,6 +461,12 @@ export default {
     confirmLoading: {
       default: false
     },
+    catData: {
+      default: () => []
+    },
+    brandData: {
+      default: () => []
+    },
     state: {
       type: String,
       required: true,
@@ -434,8 +483,15 @@ export default {
       storageCallback: '',
       uploadCallback: '',
       uploadConfig: {},
+      cascaderProps: {
+        value: 'goods_category_id',
+        label: 'name',
+        children: 'children',
+        checkStrictly: true,
+        emitPath: false
+      },
       currentForm: {
-        goods_category_id: [],
+        goods_category_id: undefined,
         name: '',
         short_name: '',
         product_name: '',
@@ -443,7 +499,7 @@ export default {
         goods_spu: '',
         goods_sku: '',
         bar_code: '',
-        brand_id: [],
+        brand_id: undefined,
         store_qty: 0,
         market_price: 0,
         shop_price: 0,
@@ -585,6 +641,15 @@ export default {
   }
   .clearfix:after {
     clear: both
+  }
+  .brand-name {
+    float: left;
+  }
+  .brand-category {
+    float: right;
+    color: #8492a6;
+    font-size: 12px;
+    padding-right: 15px;
   }
   .box-card {
     border-radius: 0;

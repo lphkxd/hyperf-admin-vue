@@ -5,6 +5,8 @@
       state="create"
       :loading="loading"
       :confirm-loading.sync="confirmLoading"
+      :cat-data="catData"
+      :brand-data="brandData"
       @close="handleClose">
     </page-edit>
 
@@ -28,6 +30,7 @@
 </template>
 
 <script>
+import util from '@/utils/util'
 import { mapActions } from 'vuex'
 import { getBrandSelect } from '@/api/goods/brand'
 import { getGoodsCategoryList } from '@/api/goods/category'
@@ -41,7 +44,9 @@ export default {
   data() {
     return {
       loading: true,
-      confirmLoading: false
+      confirmLoading: false,
+      catData: [],
+      brandData: []
     }
   },
   mounted() {
@@ -51,7 +56,10 @@ export default {
       getGoodsTypeSelect(null)
     ])
       .then(res => {
-        console.log(res)
+        this.brandData = res[0].data
+        this.catData = res[1].data.length
+          ? util.formatDataToTree(res[1].data, 'goods_category_id')
+          : []
       })
       .finally(() => {
         this.loading = false

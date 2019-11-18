@@ -12,7 +12,7 @@
         :options="catData"
         :props="cascaderProps"
         :show-all-levels="false"
-        style="width: 180px;"
+        style="width: 200px;"
         filterable
         clearable>
       </el-cascader>
@@ -63,8 +63,9 @@
           <el-form-item label="品牌" prop="brand_id">
             <el-select
               v-model="form.brand_id"
-              placeholder="请选择"
+              placeholder="试试搜索：品牌"
               style="width: 320px;"
+              filterable
               multiple
               clearable
               value="">
@@ -177,7 +178,9 @@ export default {
         value: 'goods_category_id',
         label: 'name',
         children: 'children',
-        checkStrictly: true
+        multiple: true,
+        checkStrictly: true,
+        emitPath: false
       },
       form: {
         goods_category_id: undefined,
@@ -208,12 +211,6 @@ export default {
   methods: {
     handleFormSubmit(isRestore = false) {
       let data = { ...this.form }
-      const catId = data.goods_category_id
-
-      if (catId) {
-        data.goods_category_id = catId.length > 0 ? catId[catId.length - 1] : undefined
-      }
-
       if (!data.store_qty[0] && !data.store_qty[1]) {
         data.store_qty = undefined
       }
@@ -222,6 +219,7 @@ export default {
     },
     handleFormReset() {
       this.$refs.form.resetFields()
+      this.form.goods_category_id = []
     }
   }
 }
