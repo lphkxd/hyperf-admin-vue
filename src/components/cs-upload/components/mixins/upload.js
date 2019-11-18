@@ -8,13 +8,14 @@ export default {
       token: {},
       params: {},
       uploadUrl: '',
-      parentId: [],
+      parentId: -1,
       parentData: [],
       parentProps: {
         value: 'storage_id',
         label: 'name',
         children: 'children',
-        checkStrictly: true
+        checkStrictly: true,
+        emitPath: false
       }
     }
   },
@@ -133,8 +134,8 @@ export default {
             this.params['x:parent_id'] = 0
             if (this.storageId !== null) {
               this.params['x:parent_id'] = this.storageId
-            } else if (this.parentId.length) {
-              this.params['x:parent_id'] = this.parentId[this.parentId.length - 1]
+            } else {
+              this.params['x:parent_id'] = this.parentId <= 0 ? 0 : this.parentId
             }
           }
 
@@ -223,22 +224,12 @@ export default {
             : []
 
           this.parentData.unshift({
-            storage_id: 0,
+            storage_id: -1,
             parent_id: 0,
             name: '根目录'
           })
 
-          let default_id = res.data.default
-          do {
-            let node = res.data.list.find(item => item.storage_id === default_id)
-            if (node) {
-              default_id = node.parent_id
-              this.parentId.unshift(node.storage_id)
-            } else {
-              default_id = 0
-              this.parentId = [0]
-            }
-          } while (default_id)
+          this.parentId = res.data.default || -1
         })
     }
   }

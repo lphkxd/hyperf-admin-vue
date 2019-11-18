@@ -393,7 +393,8 @@ export default {
         value: 'goods_category_id',
         label: 'name',
         children: 'children',
-        checkStrictly: true
+        checkStrictly: true,
+        emitPath: false
       },
       formStatus: 'create',
       formLoading: false,
@@ -543,20 +544,10 @@ export default {
 
       this.form.category_pic = response.data[0].url
     },
-    // 获取上级编号
-    _getParentId() {
-      const treeId = this.form.parent_id
-
-      if (!Array.isArray(treeId)) {
-        return treeId
-      }
-
-      return treeId.length > 0 ? treeId[treeId.length - 1] : 0
-    },
     // 重置表单
     resetForm() {
       this.form = {
-        parent_id: [],
+        parent_id: 0,
         name: '',
         name_phonetic: '',
         alias: '',
@@ -668,10 +659,7 @@ export default {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.formLoading = true
-          addGoodsCategoryItem({
-            ...this.form,
-            'parent_id': this._getParentId()
-          })
+          addGoodsCategoryItem({ ...this.form })
             .then(res => {
               this.expanded = [res.data.parent_id || res.data.goods_category_id]
               this.$emit('refresh')
@@ -704,10 +692,7 @@ export default {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.formLoading = true
-          setGoodsCategoryItem({
-            ...this.form,
-            'parent_id': this._getParentId()
-          })
+          setGoodsCategoryItem({ ...this.form })
             .then(res => {
               this.expanded = [res.data.parent_id || res.data.goods_category_id]
               this.$emit('refresh')

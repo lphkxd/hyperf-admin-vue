@@ -200,7 +200,8 @@ export default {
         value: 'region_id',
         label: 'region_name',
         children: 'children',
-        checkStrictly: true
+        checkStrictly: true,
+        emitPath: false
       },
       formStatus: 'create',
       formLoading: false,
@@ -262,16 +263,6 @@ export default {
       this.auth.del = this.$has('/setting/logistics/region/del')
       this.auth.move = this.$has('/setting/logistics/region/move')
     },
-    // 获取上级编号
-    _getParentId() {
-      const treeId = this.form.parent_id
-
-      if (!Array.isArray(treeId)) {
-        return treeId
-      }
-
-      return treeId.length > 0 ? treeId[treeId.length - 1] : 0
-    },
     // 过滤节点
     filterNode(value, data) {
       if (!value) { return true }
@@ -281,7 +272,7 @@ export default {
     resetForm() {
       this.form = {
         // 默认指定中国区域
-        parent_id: [1],
+        parent_id: 1,
         region_name: '',
         sort: 50
       }
@@ -330,10 +321,7 @@ export default {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.formLoading = true
-          addRegionItem({
-            ...this.form,
-            'parent_id': this._getParentId()
-          })
+          addRegionItem({ ...this.form })
             .then(res => {
               this.expanded = [res.data.parent_id || res.data.region_id]
               this.$emit('refresh')

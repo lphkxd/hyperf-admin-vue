@@ -114,7 +114,8 @@ export default {
         value: 'article_cat_id',
         label: 'cat_name',
         children: 'children',
-        checkStrictly: true
+        checkStrictly: true,
+        emitPath: false
       },
       form: {
         article_cat_id: undefined,
@@ -135,14 +136,7 @@ export default {
   },
   methods: {
     handleFormSubmit(isRestore = false) {
-      let data = { ...this.form }
-      let catId = data.article_cat_id
-
-      if (catId) {
-        data.article_cat_id = catId.length > 0 ? catId[catId.length - 1] : undefined
-      }
-
-      this.$emit('submit', data, isRestore)
+      this.$emit('submit', this.form, isRestore)
     },
     handleFormReset() {
       this.$refs.form.resetFields()

@@ -316,7 +316,8 @@ export default {
         value: 'menu_id',
         label: 'name',
         children: 'children',
-        checkStrictly: true
+        checkStrictly: true,
+        emitPath: false
       },
       auth: {
         add: false,
@@ -425,16 +426,6 @@ export default {
       this.auth.status = this.$has('/system/auth/menu/status')
       this.auth.move = this.$has('/system/auth/menu/move')
     },
-    // 获取上级编号
-    _getParentId() {
-      const treeId = this.form.parent_id
-
-      if (!Array.isArray(treeId)) {
-        return treeId
-      }
-
-      return treeId.length > 0 ? treeId[treeId.length - 1] : 0
-    },
     // 过滤菜单
     filterNode(value, data) {
       if (!value) { return true }
@@ -454,7 +445,7 @@ export default {
     // 重置表单
     resetForm() {
       this.form = {
-        parent_id: [],
+        parent_id: 0,
         name: '',
         alias: '',
         icon: '',
@@ -513,7 +504,6 @@ export default {
           this.formLoading = true
           addMenuItem({
             ...this.form,
-            'parent_id': this._getParentId(),
             'module': this.module
           })
             .then(res => {
@@ -535,10 +525,7 @@ export default {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.formLoading = true
-          setMenuItem({
-            ...this.form,
-            'parent_id': this._getParentId()
-          })
+          setMenuItem({ ...this.form })
             .then(res => {
               if (!this.isExpandAll) {
                 this.expanded = [res.data.parent_id || res.data.menu_id]

@@ -396,7 +396,8 @@ export default {
         value: 'goods_category_id',
         label: 'name',
         children: 'children',
-        checkStrictly: true
+        checkStrictly: true,
+        emitPath: false
       },
       form: {
         goods_category_id: undefined,
@@ -504,16 +505,6 @@ export default {
 
       return idList
     },
-    // 获取上级编号
-    _getParentId() {
-      const catId = this.form.goods_category_id
-
-      if (!Array.isArray(catId)) {
-        return catId
-      }
-
-      return catId.length > 0 ? catId[catId.length - 1] : 0
-    },
     // 获取上传文件
     _getUploadFileList(files) {
       if (!files.length) {
@@ -548,7 +539,7 @@ export default {
     // 弹出新建对话框
     handleCreate() {
       this.form = {
-        goods_category_id: [],
+        goods_category_id: 0,
         name: '',
         phonetic: '',
         description: '',
@@ -572,11 +563,9 @@ export default {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.dialogLoading = true
-          const catId = this._getParentId()
-
           Promise.all([
-            addBrandItem({ ...this.form, goods_category_id: catId }),
-            getGoodsCategoryItem(catId)
+            addBrandItem({ ...this.form }),
+            getGoodsCategoryItem(this.form.goods_category_id)
           ])
             .then(res => {
               this.currentTableData.unshift({
@@ -611,11 +600,9 @@ export default {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.dialogLoading = true
-          const catId = this._getParentId()
-
           Promise.all([
-            setBrandItem({ ...this.form, goods_category_id: catId }),
-            getGoodsCategoryItem(catId)
+            setBrandItem({ ...this.form }),
+            getGoodsCategoryItem(this.form.goods_category_id)
           ])
             .then(res => {
               this.$set(

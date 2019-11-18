@@ -244,7 +244,8 @@ export default {
         value: 'article_cat_id',
         label: 'cat_name',
         children: 'children',
-        checkStrictly: true
+        checkStrictly: true,
+        emitPath: false
       },
       formStatus: 'create',
       formLoading: false,
@@ -327,16 +328,6 @@ export default {
       this.auth.del = this.$has('/system/article/cat/del')
       this.auth.move = this.$has('/system/article/cat/move')
     },
-    // 获取上级编号
-    _getParentId() {
-      const treeId = this.form.parent_id
-
-      if (!Array.isArray(treeId)) {
-        return treeId
-      }
-
-      return treeId.length > 0 ? treeId[treeId.length - 1] : 0
-    },
     // 过滤分类
     filterNode(value, data) {
       if (!value) { return true }
@@ -356,7 +347,7 @@ export default {
     // 重置表单
     resetForm() {
       this.form = {
-        parent_id: [],
+        parent_id: 0,
         cat_name: '',
         cat_type: 0,
         keywords: '',
@@ -408,10 +399,7 @@ export default {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.formLoading = true
-          addArticleCatItem({
-            ...this.form,
-            'parent_id': this._getParentId()
-          })
+          addArticleCatItem({ ...this.form })
             .then(res => {
               if (!this.isExpandAll) {
                 this.expanded = [res.data.parent_id || res.data.article_cat_id]
@@ -431,10 +419,7 @@ export default {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.formLoading = true
-          setArticleCatItem({
-            ...this.form,
-            'parent_id': this._getParentId()
-          })
+          setArticleCatItem({ ...this.form })
             .then(res => {
               if (!this.isExpandAll) {
                 this.expanded = [res.data.parent_id || res.data.article_cat_id]

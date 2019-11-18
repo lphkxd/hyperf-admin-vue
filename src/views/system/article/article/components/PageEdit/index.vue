@@ -222,11 +222,12 @@ export default {
         value: 'article_cat_id',
         label: 'cat_name',
         children: 'children',
-        checkStrictly: true
+        checkStrictly: true,
+        emitPath: false
       },
       currentForm: {
         title: '',
-        article_cat_id: [],
+        article_cat_id: null,
         image: '',
         keywords: '',
         description: '',
@@ -365,21 +366,9 @@ export default {
         }
       })
     },
-    getArticleCatId() {
-      const treeId = this.currentForm.article_cat_id
-
-      if (!Array.isArray(treeId)) {
-        return treeId
-      }
-
-      return treeId.length > 0 ? treeId[treeId.length - 1] : 0
-    },
     // 新增文章
     handleCreate() {
-      addArticleItem({
-        ...this.currentForm,
-        article_cat_id: this.getArticleCatId()
-      })
+      addArticleItem({ ...this.currentForm })
         .then(res => {
           this.updateData({
             type: 'add',
@@ -402,10 +391,7 @@ export default {
     },
     // 更新文章
     handleUpdate() {
-      setArticleItem({
-        ...this.currentForm,
-        article_cat_id: this.getArticleCatId()
-      })
+      setArticleItem({ ...this.currentForm })
         .then(res => {
           this.updateData({
             type: 'set',
