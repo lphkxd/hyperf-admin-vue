@@ -76,6 +76,157 @@
                 placeholder="可输入商品条码"
                 :clearable="true"/>
             </el-form-item>
+
+            <el-form-item
+              label="计量单位"
+              prop="unit">
+              <el-input
+                v-model="currentForm.unit"
+                placeholder="可输入商品计量单位，例如：件、个"
+                :clearable="true"/>
+            </el-form-item>
+
+            <el-form-item
+              label="计量方式"
+              prop="measure_type">
+              <el-radio-group v-model="currentForm.measure_type">
+                <el-radio :label="0">重量</el-radio>
+                <el-radio :label="1">计件</el-radio>
+                <el-radio :label="2">体积</el-radio>
+              </el-radio-group>
+            </el-form-item>
+
+            <el-form-item
+              label="商品计量"
+              prop="measure">
+              <el-input-number
+                v-model="currentForm.measure"
+                controls-position="right"
+                :precision="2"
+                :min="0"/>
+            </el-form-item>
+
+            <el-form-item
+              label="实际库存"
+              prop="store_qty">
+              <el-input-number
+                v-model="currentForm.store_qty"
+                controls-position="right"
+                :min="0"/>
+
+              <div class="help-block">
+                <span>多规格商品将自动求和所有规格的库存做为实际库存</span>
+              </div>
+            </el-form-item>
+
+            <el-form-item
+              label="市场价"
+              prop="market_price">
+              <el-input-number
+                v-model="currentForm.market_price"
+                controls-position="right"
+                :precision="2"
+                :min="0"/>
+            </el-form-item>
+
+            <el-form-item
+              label="本店价"
+              prop="shop_price">
+              <el-input-number
+                v-model="currentForm.shop_price"
+                controls-position="right"
+                :precision="2"
+                :min="0"/>
+
+              <div class="help-block">
+                <span>多规格商品按实际规格中的本店价计算</span>
+              </div>
+            </el-form-item>
+
+            <el-form-item
+              label="最少起订"
+              prop="least_sum">
+              <el-input-number
+                v-model="currentForm.least_sum"
+                controls-position="right"
+                :min="0"/>
+
+              <div class="help-block">
+                <span>该商品最低的起订量，0为不限制</span>
+              </div>
+            </el-form-item>
+
+            <el-form-item
+              label="限购数量"
+              prop="purchase_sum">
+              <el-input-number
+                v-model="currentForm.purchase_sum"
+                controls-position="right"
+                :min="0"/>
+
+              <div class="help-block">
+                <span>同个账号下最多限购该商品的数量，0为不限制</span>
+              </div>
+            </el-form-item>
+
+            <el-form-item
+              label="是否推荐"
+              prop="is_recommend">
+              <el-radio-group v-model="currentForm.is_recommend">
+                <el-radio :label="1">是</el-radio>
+                <el-radio :label="0">否</el-radio>
+              </el-radio-group>
+            </el-form-item>
+
+            <el-form-item
+              label="是否新品"
+              prop="is_new">
+              <el-radio-group v-model="currentForm.is_new">
+                <el-radio :label="1">是</el-radio>
+                <el-radio :label="0">否</el-radio>
+              </el-radio-group>
+            </el-form-item>
+
+            <el-form-item
+              label="是否热卖"
+              prop="is_hot">
+              <el-radio-group v-model="currentForm.is_hot">
+                <el-radio :label="1">是</el-radio>
+                <el-radio :label="0">否</el-radio>
+              </el-radio-group>
+            </el-form-item>
+
+            <el-form-item
+              label="是否包邮"
+              prop="is_postage">
+              <el-radio-group v-model="currentForm.is_postage">
+                <el-radio :label="1">是</el-radio>
+                <el-radio :label="0">否</el-radio>
+              </el-radio-group>
+            </el-form-item>
+
+            <el-form-item
+              label="排序值"
+              prop="sort">
+              <el-input-number
+                v-model="currentForm.sort"
+                controls-position="right"
+                :min="0"
+                :max="255"/>
+
+              <div class="help-block">
+                <span>排序值将影响商品排列的顺序，数值越小越靠前</span>
+              </div>
+            </el-form-item>
+
+            <el-form-item
+              label="上架状态"
+              prop="status">
+              <el-radio-group v-model="currentForm.status">
+                <el-radio :label="1">出售中</el-radio>
+                <el-radio :label="0">已下架</el-radio>
+              </el-radio-group>
+            </el-form-item>
           </el-tab-pane>
 
           <el-tab-pane label="规格属性" name="type">
@@ -220,6 +371,7 @@
                 v-model="currentForm.is_integral"
                 :min="0"
                 controls-position="right"/>
+
               <div class="help-block">
                 <span>商品最多允许抵扣多少积分，0为不可使用</span>
               </div>
@@ -317,7 +469,7 @@ export default {
         spec_image: [],
         is_postage: 0,
         measure: 0,
-        measure_type: undefined
+        measure_type: 0
       },
       rules: {
       }
