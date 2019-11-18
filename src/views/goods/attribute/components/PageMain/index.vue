@@ -668,11 +668,15 @@ export default {
     },
     // 弹出创建对话框
     handleCreate(item) {
+      let getSelectId = (value) => {
+        return value ? value.toString() : null
+      }
+
       this.form = {
         attr_name: '',
         description: '',
         icon: '',
-        goods_type_id: item ? item.goods_type_id : this.selectId,
+        goods_type_id: item ? item.goods_type_id : getSelectId(this.selectId),
         sort: 50,
         parent_id: item ? item.goods_attribute_id : 0,
         attr_index: '1',

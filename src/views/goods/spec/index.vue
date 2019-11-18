@@ -66,7 +66,7 @@ export default {
       this.$store.dispatch('careyshop/db/databasePage', { user: true })
     ])
       .then(res => {
-        this.typeList = res[0].data.length > 0 ? res.data : []
+        this.typeList = res[0].data.length > 0 ? res[0].data : []
         this.page.size = res[1].get('size').value() || 25
       })
       .then(() => {
