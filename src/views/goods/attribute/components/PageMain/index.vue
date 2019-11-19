@@ -766,7 +766,7 @@ export default {
                   return item.goods_attribute_id === this.currentData.goods_attribute_id
                 })
 
-                if (this.selectId && res.data.goods_type_id !== this.selectId) {
+                if (this.selectId && res.data.goods_type_id !== Number(this.selectId)) {
                   this.currentTableData.splice(pos, 1)
                   if (this.currentTableData.length <= 0) {
                     this.$emit('refresh', true)

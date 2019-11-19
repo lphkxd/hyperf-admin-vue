@@ -291,6 +291,18 @@
                 </el-option>
               </el-select>
             </el-form-item>
+
+            <el-row :gutter="20">
+              <el-col :span="13">
+                <el-form-item label="商品规格">
+                </el-form-item>
+              </el-col>
+
+              <el-col :span="11">
+                <el-form-item label="商品属性">
+                </el-form-item>
+              </el-col>
+            </el-row>
           </el-tab-pane>
 
           <el-tab-pane label="媒体设置" name="photo">
