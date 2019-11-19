@@ -293,12 +293,12 @@
             </el-form-item>
 
             <el-row :gutter="20">
-              <el-col :span="13">
+              <el-col :span="12">
                 <el-form-item label="商品规格">
                 </el-form-item>
               </el-col>
 
-              <el-col :span="11">
+              <el-col :span="12">
                 <el-form-item label="商品属性">
                 </el-form-item>
               </el-col>
