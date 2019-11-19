@@ -292,14 +292,37 @@
               </el-select>
             </el-form-item>
 
-            <el-row :gutter="20">
-              <el-col :span="12">
+            <el-row :gutter="10">
+              <el-col :span="11">
                 <el-form-item label="商品规格">
+                  <el-table></el-table>
                 </el-form-item>
               </el-col>
 
-              <el-col :span="12">
+              <el-col :span="13">
                 <el-form-item label="商品属性">
+                  <el-table
+                    :data="attrData"
+                    row-key="goods_attribute_id"
+                    :show-header="false"
+                    :tree-props="{children: 'get_attribute'}"
+                    default-expand-all>
+                    <el-table-column
+                      label="属性名称"
+                      width="200"
+                      :show-overflow-tooltip="true">
+                      <template slot-scope="scope">
+                        <cs-icon class="attr-icon-move cs-pr-5" name="align-justify"/>
+                        <span>{{scope.row.attr_name}}</span>
+                      </template>
+                    </el-table-column>
+
+                    <el-table-column label="属性值">
+                      <template slot-scope="scope">
+                        <span v-if="scope.row.parent_id">{{scope.row.goods_attribute_id}}</span>
+                      </template>
+                    </el-table-column>
+                  </el-table>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -677,8 +700,8 @@ export default {
         getGoodsSpecList(value)
       ])
         .then(res => {
-          this.attrData = res[0].data
-          this.specData = res[1].data
+          this.attrData = res[0].data.length > 0 ? res[0].data : []
+          this.specData = res[1].data.length > 0 ? res[1].data : []
         })
     }
   }
@@ -716,5 +739,9 @@ export default {
     font-size: 12px;
     line-height: 2;
     margin-bottom: -12px;
+  }
+  .attr-icon-move {
+    color: #C0C4CC;
+    cursor: move;
   }
 </style>
