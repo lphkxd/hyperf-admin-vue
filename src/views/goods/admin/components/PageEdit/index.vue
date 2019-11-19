@@ -72,8 +72,8 @@
                 clearable
                 value="">
                 <el-option
-                  v-for="(item, index) in brandData"
-                  :key="index"
+                  v-for="item in brandData"
+                  :key="item.brand_id"
                   :label="item.name"
                   :value="item.brand_id">
                   <span class="brand-name">{{item.name}}</span>
@@ -273,7 +273,24 @@
           </el-tab-pane>
 
           <el-tab-pane label="规格属性" name="type">
-            规格属性
+            <el-form-item
+              label="商品模型"
+              prop="goods_type_id">
+              <el-select
+                v-model="currentForm.goods_type_id"
+                placeholder="请选择商品模型，试试搜索：手机"
+                style="width: 320px;"
+                @change="selectGoodsType"
+                filterable
+                value="">
+                <el-option
+                  v-for="item in typeData"
+                  :key="item.goods_type_id"
+                  :label="item.type_name"
+                  :value="item.goods_type_id">
+                </el-option>
+              </el-select>
+            </el-form-item>
           </el-tab-pane>
 
           <el-tab-pane label="媒体设置" name="photo">
@@ -287,21 +304,21 @@
                     tabindex="0"
                     style="margin-bottom: 8px;"
                     class="el-upload el-upload--picture-card"
-                    @click="handleUpload(_getAttachmentFileList, 'photo', 'upload')">
+                    @click="handleUpload(getAttachmentFileList, 'photo', 'upload')">
                     <cs-icon name="image"/>
                   </div>
                 </template>
               </cs-photo>
 
               <el-button
-                @click="handleStorage(_getAttachmentFileList, [0, 2])"
+                @click="handleStorage(getAttachmentFileList, [0, 2])"
                 size="small">
                 <cs-icon name="inbox"/>
                 资源选择
               </el-button>
 
               <el-button
-                @click="handleUpload(_getAttachmentFileList, 'photo', 'upload')"
+                @click="handleUpload(getAttachmentFileList, 'photo', 'upload')"
                 size="small">
                 <cs-icon name="upload"/>
                 上传图片
@@ -324,14 +341,14 @@
               </cs-video>
 
               <el-button
-                @click="handleStorage(_getVideoFileList, [2, 3])"
+                @click="handleStorage(getVideoFileList, [2, 3])"
                 size="small">
                 <cs-icon name="inbox"/>
                 资源选择
               </el-button>
 
               <el-button
-                @click="handleUpload(_getVideoFileList, 'video', 'upload')"
+                @click="handleUpload(getVideoFileList, 'video', 'upload')"
                 size="small">
                 <cs-icon name="upload"/>
                 上传视频
@@ -446,6 +463,9 @@
 // import util from '@/utils/util'
 // import { mapActions } from 'vuex'
 
+import { getGoodsAttributeList } from '@/api/goods/attribute'
+import { getGoodsSpecList } from '@/api/goods/spec'
+
 export default {
   components: {
     'csUpload': () => import('@/components/cs-upload'),
@@ -465,6 +485,9 @@ export default {
       default: () => []
     },
     brandData: {
+      default: () => []
+    },
+    typeData: {
       default: () => []
     },
     state: {
@@ -528,7 +551,9 @@ export default {
         measure_type: 0
       },
       rules: {
-      }
+      },
+      attrData: [],
+      specData: []
     }
   },
   methods: {
@@ -564,7 +589,7 @@ export default {
       this.$refs.upload.handleUploadDlg(source)
     },
     // 筛选过滤选择的资源
-    _getFileList(files, source) {
+    getFileList(files, source) {
       if (!source) {
         return files
       }
@@ -588,12 +613,12 @@ export default {
       return fileList
     },
     // 获取视频选择资源
-    _getVideoFileList(files, source) {
+    getVideoFileList(files, source) {
       if (!files.length) {
         return
       }
 
-      const fileList = this._getFileList(files, source)
+      const fileList = this.getFileList(files, source)
 
       // eslint-disable-next-line no-unused-vars
       for (const value of fileList) {
@@ -615,12 +640,12 @@ export default {
       this.$refs.goodsVideo.delSources()
     },
     // 获取商品相册资源
-    _getAttachmentFileList(files, source) {
+    getAttachmentFileList(files, source) {
       if (!files.length) {
         return
       }
 
-      const fileList = this._getFileList(files, source)
+      const fileList = this.getFileList(files, source)
       fileList.forEach(value => {
         this.currentForm.attachment.push({
           name: value.name,
@@ -628,6 +653,21 @@ export default {
           url: '//' + value.url
         })
       })
+    },
+    // 切换商品属性
+    selectGoodsType(value) {
+      this.currentForm.goods_attr_item = []
+      this.currentForm.goods_spec_item = []
+      this.currentForm.spec_image = []
+
+      Promise.all([
+        getGoodsAttributeList(value),
+        getGoodsSpecList(value)
+      ])
+        .then(res => {
+          this.attrData = res[0].data
+          this.specData = res[1].data
+        })
     }
   }
 }

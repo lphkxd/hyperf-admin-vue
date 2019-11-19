@@ -7,6 +7,7 @@
       :confirm-loading.sync="confirmLoading"
       :cat-data="catData"
       :brand-data="brandData"
+      :type-data="typeData"
       @close="handleClose">
     </page-edit>
 
@@ -46,7 +47,8 @@ export default {
       loading: true,
       confirmLoading: false,
       catData: [],
-      brandData: []
+      brandData: [],
+      typeData: []
     }
   },
   mounted() {
@@ -57,6 +59,7 @@ export default {
     ])
       .then(res => {
         this.brandData = res[0].data
+        this.typeData = res[2].data
         this.catData = res[1].data.length
           ? util.formatDataToTree(res[1].data, 'goods_category_id')
           : []
