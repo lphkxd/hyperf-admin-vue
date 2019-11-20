@@ -1,16 +1,20 @@
 <template>
   <div style="line-height: 0;">
-    <ul class="el-upload-list el-upload-list--picture-card">
-      <draggable v-model="imageList" class="dragArea">
-        <li
-          v-for="(item, index) in value"
-          :key="index"
-          class="el-upload-list__item is-success animated">
-          <div class="thumbnail">
-            <el-image :src="item.source | getPreviewUrl" fit="contain"/>
-          </div>
+    <draggable
+      v-model="imageList"
+      class="el-upload-list el-upload-list--picture-card"
+      tag="ul"
+      @start="drag = true"
+      @end="drag = false">
+      <li
+        v-for="(item, index) in value"
+        :key="index"
+        class="el-upload-list__item">
+        <div class="thumbnail">
+          <el-image :src="item.source | getPreviewUrl" fit="contain"/>
+        </div>
 
-          <span class="el-upload-list__item-actions thumbnail-move">
+        <span v-show="!drag" class="el-upload-list__item-actions thumbnail-move">
             <span class="el-upload-list__item-delete">
               <i class="el-icon-zoom-in" @click="preview(index)"></i>
             </span>
@@ -19,27 +23,30 @@
               <i class="el-icon-delete" @click="remove(index)"></i>
             </span>
           </span>
-        </li>
-      </draggable>
-    </ul>
+      </li>
+    </draggable>
     <slot name="upload"></slot>
   </div>
 </template>
 
 <script>
-import draggable from 'vuedraggable'
 import util from '@/utils/util'
 
 export default {
   name: 'cs-photo',
   components: {
-    draggable
+    'draggable': () => import('vuedraggable')
   },
   props: {
     // 外部v-model值
     value: {
       type: Array,
       default: () => []
+    }
+  },
+  data() {
+    return {
+      drag: false
     }
   },
   filters: {
@@ -80,5 +87,8 @@ export default {
   }
   .thumbnail-move {
     cursor: move;
+  }
+  .sortable-ghost {
+    opacity: 0;
   }
 </style>

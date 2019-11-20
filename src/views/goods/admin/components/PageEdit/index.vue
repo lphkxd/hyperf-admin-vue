@@ -307,6 +307,7 @@
                     :show-header="false"
                     :tree-props="{children: 'get_attribute'}"
                     default-expand-all>
+
                     <el-table-column
                       label="属性名称"
                       width="200"
@@ -350,6 +351,7 @@
                         </div>
                       </template>
                     </el-table-column>
+
                   </el-table>
                 </el-form-item>
               </el-col>
@@ -525,7 +527,7 @@
 <script>
 // import util from '@/utils/util'
 // import { mapActions } from 'vuex'
-
+// import draggable from 'vuedraggable'
 import { getGoodsAttributeList } from '@/api/goods/attribute'
 import { getGoodsSpecList } from '@/api/goods/spec'
 
@@ -627,7 +629,7 @@ export default {
     // 确认新增或修改
     handleConfirm() {
       console.log(this.currentForm)
-      console.log(this.typeTemp)
+      console.log(this.attrData)
     },
     // 打开资源选择框
     handleStorage(callback, type = []) {
