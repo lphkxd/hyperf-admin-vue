@@ -23,8 +23,7 @@
     <el-table
       v-loading="loading"
       :data="tableData"
-      @sort-change="sortChange"
-      stripe>
+      @sort-change="sortChange">
       <el-table-column type="expand">
         <template slot-scope="props">
           <el-form label-position="left" inline>

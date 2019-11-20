@@ -3,8 +3,7 @@
     <el-table
       :data="currentTableData"
       v-loading="loading"
-      @sort-change="sortChange"
-      stripe>
+      @sort-change="sortChange">
       <el-table-column
         label="编号"
         prop="ask_id"

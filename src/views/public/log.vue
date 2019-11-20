@@ -1,9 +1,7 @@
 <template>
   <cs-container>
     <div class="cs-p">
-      <el-table
-        :data="log"
-        stripe>
+      <el-table :data="log">
         <!-- 时间 -->
         <el-table-column
           prop="time"

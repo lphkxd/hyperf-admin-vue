@@ -3,8 +3,8 @@
     <el-table
       :data="tableData"
       v-loading="loading"
-      @sort-change="sortChange"
-      stripe>
+      @sort-change="sortChange">
+
       <el-table-column
         label="账号"
         prop="username"

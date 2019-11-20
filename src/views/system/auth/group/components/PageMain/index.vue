@@ -339,13 +339,9 @@ export default {
       this.$emit('sort', sort)
     },
     // 返回表格行颜色
-    tableRowClassName({ row, rowIndex }) {
+    tableRowClassName({ row }) {
       if (row.system) {
         return 'warning-row'
-      }
-
-      if (rowIndex % 2 !== 0) {
-        return 'spacer-row'
       }
 
       return ''

@@ -2,8 +2,7 @@
   <div class="cs-p">
     <el-table
       v-loading="loading"
-      :data="tableData"
-      stripe>
+      :data="tableData">
       <el-table-column type="expand">
         <template slot-scope="props">
           <el-form label-position="left" inline class="table-expand">

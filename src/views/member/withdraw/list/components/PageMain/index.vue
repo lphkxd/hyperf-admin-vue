@@ -9,8 +9,7 @@
       v-loading="loading"
       :data="currentTableData"
       @sort-change="sortChange"
-      highlight-current-row
-      stripe>
+      highlight-current-row>
       <el-table-column
         label="提现单号"
         prop="withdraw_no"
