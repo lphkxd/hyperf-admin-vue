@@ -302,7 +302,9 @@
           <el-form-item
             label="录入方式"
             prop="attr_input_type">
-            <el-radio-group v-model="form.attr_input_type">
+            <el-radio-group
+              v-model="form.attr_input_type"
+              @change="removeAttrValue">
               <el-radio
                 v-for="(item, index) in inputMap"
                 :key="index"
@@ -315,6 +317,7 @@
             prop="attr_values">
             <el-input
               v-model="form.attr_values"
+              :disabled="form.attr_input_type <= 0"
               placeholder="请输入商品属性可选值，一行一个，手工填写可不填"
               type="textarea"
               :rows="5"/>
@@ -576,6 +579,12 @@ export default {
     // 选中数据项
     handleSelectionChange(val) {
       this.multipleSelection = val
+    },
+    // 清除选项值
+    removeAttrValue(val) {
+      if (val <= 0) {
+        this.form.attr_values = ''
+      }
     },
     // 批量设置检索
     handleIndex(val) {
