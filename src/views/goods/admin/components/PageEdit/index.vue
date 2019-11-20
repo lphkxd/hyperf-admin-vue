@@ -319,7 +319,35 @@
 
                     <el-table-column label="属性值">
                       <template slot-scope="scope">
-                        <span v-if="scope.row.parent_id">{{scope.row.goods_attribute_id}}</span>
+                        <div v-if="scope.row.parent_id">
+                          <el-select
+                            v-if="scope.row.attr_input_type !== 0"
+                            v-model="typeTemp.attr[scope.row.goods_attribute_id]"
+                            :multiple-limit="scope.row.attr_input_type === 2 ? 0 : 1"
+                            placeholder="请选择"
+                            style="width: 100%;"
+                            size="small"
+                            value=""
+                            filterable
+                            allow-create
+                            default-first-option
+                            multiple
+                            clearable>
+                            <el-option
+                              v-for="(item, index) in scope.row.attr_values"
+                              :key="index"
+                              :value="item"/>
+                          </el-select>
+
+                          <el-input
+                            v-else
+                            v-model="typeTemp.attr[scope.row.goods_attribute_id]"
+                            type="textarea"
+                            placeholder="请输入内容"
+                            size="small"
+                            autosize>
+                          </el-input>
+                        </div>
                       </template>
                     </el-table-column>
                   </el-table>
@@ -588,13 +616,18 @@ export default {
       rules: {
       },
       attrData: [],
-      specData: []
+      specData: [],
+      typeTemp: {
+        attr: {},
+        spec: {}
+      }
     }
   },
   methods: {
     // 确认新增或修改
     handleConfirm() {
       console.log(this.currentForm)
+      console.log(this.typeTemp)
     },
     // 打开资源选择框
     handleStorage(callback, type = []) {
@@ -691,6 +724,11 @@ export default {
     },
     // 切换商品属性
     selectGoodsType(value) {
+      // this.typeTemp = {
+      //   attr: {},
+      //   spec: {}
+      // }
+
       this.currentForm.goods_attr_item = []
       this.currentForm.goods_spec_item = []
       this.currentForm.spec_image = []
