@@ -30,25 +30,22 @@
       <el-dropdown
         size="default"
         split-button
+        :show-timeout="50"
         @click="closeAll"
         @command="command => handleControlItemClick(command)">
         <cs-icon name="times-circle"/>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item command="left">
-            <cs-icon name="arrow-left" class="cs-mr-10"/>
-            关闭左侧
+            <cs-icon name="arrow-left" class="cs-mr-10"/>关闭左侧
           </el-dropdown-item>
           <el-dropdown-item command="right">
-            <cs-icon name="arrow-right" class="cs-mr-10"/>
-            关闭右侧
+            <cs-icon name="arrow-right" class="cs-mr-10"/>关闭右侧
           </el-dropdown-item>
           <el-dropdown-item command="other">
-            <cs-icon name="times" class="cs-mr-10"/>
-            关闭其它
+            <cs-icon name="times" class="cs-mr-10"/>关闭其它
           </el-dropdown-item>
           <el-dropdown-item command="all">
-            <cs-icon name="times-circle" class="cs-mr-10"/>
-            全部关闭
+            <cs-icon name="times-circle" class="cs-mr-10"/>全部关闭
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>

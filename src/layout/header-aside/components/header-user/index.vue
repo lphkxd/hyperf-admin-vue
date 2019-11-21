@@ -1,5 +1,5 @@
 <template>
-  <el-dropdown class="cs-mr">
+  <el-dropdown class="cs-mr" :show-timeout="50">
     <span class="btn-text">
       <el-badge :hidden="!unreadMessage" :value="unreadMessage" :max="99">
         {{info.name ? `您好 ${info.name}` : '未登录'}}

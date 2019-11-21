@@ -1,11 +1,11 @@
 <template>
-  <el-dropdown placement="bottom" @command="handleChange">
+  <el-dropdown placement="bottom" @command="handleChange" :show-timeout="50">
     <el-button class="cs-mr btn-text can-hover" type="text">
       <cs-icon name="font" style="font-size: 16px;"/>
     </el-button>
     <el-dropdown-menu slot="dropdown">
       <el-dropdown-item v-for="item in options" :key="item.value" :command="item.value">
-        <cs-icon :name="iconName(item.value)" class="cs-mr-5"/>{{item.label}}
+        <cs-icon :name="iconName(item.value)" class="cs-mr-10"/>{{item.label}}
       </el-dropdown-item>
     </el-dropdown-menu>
   </el-dropdown>

@@ -29,7 +29,7 @@
       </el-form-item>
 
       <el-form-item v-if="tabPane !== 'delete' && auth.recommend">
-        <el-dropdown placement="bottom">
+        <el-dropdown placement="bottom" :show-timeout="50">
           <el-button
             :disabled="loading">
             <cs-icon name="thumbs-o-up"/>
@@ -44,7 +44,7 @@
       </el-form-item>
 
       <el-form-item v-if="tabPane !== 'delete' && auth.new">
-        <el-dropdown placement="bottom">
+        <el-dropdown placement="bottom" :show-timeout="50">
           <el-button
             :disabled="loading">
             <cs-icon name="star-o"/>
@@ -59,7 +59,7 @@
       </el-form-item>
 
       <el-form-item v-if="tabPane !== 'delete' && auth.hot">
-        <el-dropdown placement="bottom">
+        <el-dropdown placement="bottom" :show-timeout="50">
           <el-button
             :disabled="loading">
             <cs-icon name="sun-o"/>
