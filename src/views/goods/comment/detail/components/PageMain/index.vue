@@ -82,7 +82,10 @@
                   @click.stop="setImageSrcList(tableData.image, index)"/>
               </div>
               <div class="user-name">
-                <span>{{tableData.get_user.username}}</span>
+                <el-popover trigger="hover" placement="top">
+                  <span>{{tableData.ip_address_region}}</span>
+                  <span slot="reference">{{tableData.get_user.username}}</span>
+                </el-popover>
                 <el-image
                   v-if="tableData.get_user.level_icon"
                   :src="tableData.get_user.level_icon"
@@ -166,7 +169,10 @@
                   @click.stop="setImageSrcList(tableData.get_addition.image, index)"/>
               </div>
               <div class="user-name">
-                <span>{{tableData.get_user.username}}</span>
+                <el-popover trigger="hover" placement="top">
+                  <span>{{tableData.get_addition.ip_address_region}}</span>
+                  <span slot="reference">{{tableData.get_user.username}}</span>
+                </el-popover>
                 <el-image
                   v-if="tableData.get_user.level_icon"
                   :src="tableData.get_user.level_icon"
