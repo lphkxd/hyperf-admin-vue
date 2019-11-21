@@ -108,7 +108,10 @@
         <template slot-scope="scope">
           <div class="goods_user">
             <p>
-              <span>{{scope.row.get_user.username}}</span>
+              <el-popover trigger="hover" placement="top">
+                <span>{{scope.row.ip_address_region}}</span>
+                <span slot="reference">{{scope.row.get_user.username}}</span>
+              </el-popover>
               <el-image
                 v-if="scope.row.get_user.level_icon"
                 class="level-icon"
