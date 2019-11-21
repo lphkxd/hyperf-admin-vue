@@ -127,7 +127,7 @@
             </el-form-item>
 
             <el-form-item label="登陆IP">
-              <span>{{props.row.last_ip}}</span>
+              <span>{{props.row.last_ip_region}} {{props.row.last_ip}}</span>
             </el-form-item>
 
             <el-form-item label="状态">

@@ -81,8 +81,16 @@
 
       <el-table-column
         label="登陆IP"
-        prop="last_ip"
-        width="150">
+        show-overflow-tooltip>
+        <template slot-scope="scope">
+          <el-tooltip
+            v-if="scope.row.last_ip"
+            :content="scope.row.last_ip"
+            placement="top">
+            <cs-icon name="map-marker"/>
+          </el-tooltip>
+          {{scope.row.last_ip_region}}
+        </template>
       </el-table-column>
 
       <el-table-column

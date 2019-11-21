@@ -35,6 +35,20 @@
       </el-table-column>
 
       <el-table-column
+        label="IP"
+        show-overflow-tooltip>
+        <template slot-scope="scope">
+          <el-tooltip
+            v-if="scope.row.ip"
+            :content="scope.row.ip"
+            placement="top">
+            <cs-icon name="map-marker"/>
+          </el-tooltip>
+          {{scope.row.ip_region}}
+        </template>
+      </el-table-column>
+
+      <el-table-column
         label="请求参数"
         align="center"
         width="80">
@@ -78,12 +92,6 @@
             {{statusMap[scope.row.status]}}
           </el-tag>
         </template>
-      </el-table-column>
-
-      <el-table-column
-        label="IP"
-        prop="ip"
-        width="130">
       </el-table-column>
 
       <el-table-column
