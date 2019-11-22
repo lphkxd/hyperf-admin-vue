@@ -359,7 +359,7 @@ export default {
     }
   },
   methods: {
-    // 获取上传文件
+    // 获取上传资源
     _getUploadFileList(files, source) {
       if (!files.length) {
         return

@@ -845,10 +845,12 @@ export default {
       }
 
       const data = response.data[0]
-      this.imageInfo = `大小: ${util.bytesFormatter(data.size)} `
-      this.imageInfo += `宽: ${data['pixel']['width']} PX `
-      this.imageInfo += `高: ${data['pixel']['height']} PX`
-      this.imageUrl = data.url
+      if (data.type === 0) {
+        this.imageInfo = `大小: ${util.bytesFormatter(data.size)} `
+        this.imageInfo += `宽: ${data['pixel']['width']} PX `
+        this.imageInfo += `高: ${data['pixel']['height']} PX`
+        this.imageUrl = data.url
+      }
     },
     // 选中数据项
     handleSelectionChange(val) {

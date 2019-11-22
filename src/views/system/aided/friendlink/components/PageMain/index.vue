@@ -451,8 +451,7 @@ export default {
     handleCommand(command) {
       switch (command) {
         case 'storage':
-          this.$refs.storage.storageType = [0, 2]
-          this.$refs.storage.handleStorageDlg()
+          this.$refs.storage.handleStorageDlg([0, 2])
           break
 
         case 'upload':
@@ -460,7 +459,7 @@ export default {
           break
       }
     },
-    // 获取上传文件
+    // 获取上传资源
     _getUploadFileList(files) {
       if (!files.length) {
         return
@@ -475,7 +474,7 @@ export default {
         this.form.logo = response.data[0].url
       }
     },
-    // 获取选择文件
+    // 获取选择资源
     _getStorageFileList(files) {
       if (!files.length) {
         return

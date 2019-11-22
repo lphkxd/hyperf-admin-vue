@@ -634,8 +634,7 @@ export default {
     // 打开资源选择框
     handleStorage(callback, type = []) {
       this.storageCallback = callback
-      this.$refs.storage.storageType = type
-      this.$refs.storage.handleStorageDlg()
+      this.$refs.storage.handleStorageDlg(type)
     },
     // 打开上传对话框
     handleUpload(callback, type, source) {

@@ -252,24 +252,47 @@
               @click.stop="setImageSrcList(form.image, index)"/>
           </div>
 
-          <cs-upload
-            type="slot"
-            accept="image/*"
-            @confirm="_getUploadFileList">
-            <el-button
-              type="info"
-              size="small"
-              slot="control"
-              style="float: left; margin: 10px 10px 0 0;">上传图片</el-button>
-          </cs-upload>
+          <div class="cs-mt-10">
+            <el-dropdown
+              :show-timeout="50"
+              placement="bottom"
+              @command="handleCommand">
+              <el-button type="info" size="small" class="cs-mr-10">
+                上传图片
+                <cs-icon name="angle-down"/>
+              </el-button>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item command="storage">
+                  <cs-icon name="inbox" class="cs-mr-5"/>资源选择
+                </el-dropdown-item>
 
-          <el-button
-            class="cs-mt-10"
-            type="primary"
-            :loading="submitLoading"
-            @click="handleFormSubmit"
-            size="small">提交</el-button>
+                <el-dropdown-item command="upload">
+                  <cs-icon name="upload" class="cs-mr-5"/>上传资源
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+
+            <el-button
+              type="primary"
+              :loading="submitLoading"
+              @click="handleFormSubmit"
+              size="small">提交</el-button>
+          </div>
         </el-form-item>
+
+        <cs-storage
+          ref="storage"
+          style="display: none"
+          @confirm="_getStorageFileList">
+        </cs-storage>
+
+        <cs-upload
+          style="display: none"
+          ref="upload"
+          type="slot"
+          accept="image/*"
+          @confirm="_getUploadFileList">
+        </cs-upload>
       </el-form>
     </el-card>
   </div>
@@ -281,7 +304,8 @@ import { replyGoodsCommentItem } from '@/api/goods/comment'
 
 export default {
   components: {
-    'csUpload': () => import('@/components/cs-upload')
+    'csUpload': () => import('@/components/cs-upload'),
+    'csStorage': () => import('@/components/cs-storage')
   },
   props: {
     loading: {
@@ -358,12 +382,20 @@ export default {
     }
   },
   methods: {
-    // 上传图片点击确定后处理
-    _getUploadFileList(files) {
-      if (!files.length) {
-        return
-      }
+    // 资源下拉框事件
+    handleCommand(command) {
+      switch (command) {
+        case 'storage':
+          this.$refs.storage.handleStorageDlg([0, 2])
+          break
 
+        case 'upload':
+          this.$refs.upload.handleUploadDlg()
+          break
+      }
+    },
+    // 获取上传资源
+    _getUploadFileList(files) {
       let insert = []
       for (const value of files) {
         if (value.status !== 'success') {
@@ -376,13 +408,30 @@ export default {
         }
 
         if (response.data) {
-          insert.push({
-            name: response.data[0]['name'],
-            source: response.data[0]['url'],
-            url: '//' + response.data[0]['url']
-          })
+          if (response.data[0]['type'] === 0) {
+            insert.push({
+              name: response.data[0]['name'],
+              source: response.data[0]['url'],
+              url: '//' + response.data[0]['url']
+            })
+          }
         }
       }
+
+      this.form.image = insert
+    },
+    // 获取选择资源
+    _getStorageFileList(files) {
+      let insert = []
+      files.forEach(value => {
+        if (value['type'] === 0) {
+          insert.push({
+            name: value['name'],
+            source: value['url'],
+            url: '//' + value['url']
+          })
+        }
+      })
 
       this.form.image = insert
     },

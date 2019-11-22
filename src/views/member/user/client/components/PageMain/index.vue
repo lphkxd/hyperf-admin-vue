@@ -378,15 +378,22 @@
                 <cs-icon slot="reference" name="user-circle"/>
               </el-popover>
             </template>
-            <cs-upload
+
+            <el-dropdown
               slot="append"
-              type="slot"
-              accept="image/*"
-              :limit="1"
-              :multiple="false"
-              @confirm="_getUploadFileList">
-              <el-button slot="control"><cs-icon name="upload"/></el-button>
-            </cs-upload>
+              :show-timeout="50"
+              @command="handleCommand">
+              <el-button><cs-icon name="cloud-upload" style="color: #909399;"/></el-button>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item command="storage">
+                  <cs-icon name="inbox" class="cs-mr-5"/>资源选择
+                </el-dropdown-item>
+
+                <el-dropdown-item command="upload">
+                  <cs-icon name="upload" class="cs-mr-5"/>上传资源
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
           </el-input>
         </el-form-item>
 
@@ -466,6 +473,22 @@
           @click="update"
           size="small">修改</el-button>
       </div>
+
+      <cs-storage
+        ref="storage"
+        style="display: none"
+        @confirm="_getStorageFileList">
+      </cs-storage>
+
+      <cs-upload
+        style="display: none"
+        ref="upload"
+        type="slot"
+        accept="image/*"
+        :limit="1"
+        :multiple="false"
+        @confirm="_getUploadFileList">
+      </cs-upload>
     </el-dialog>
 
     <el-dialog
@@ -586,7 +609,8 @@ import { getPaymentList, setPaymentFinance } from '@/api/payment/payment'
 
 export default {
   components: {
-    'csUpload': () => import('@/components/cs-upload')
+    'csUpload': () => import('@/components/cs-upload'),
+    'csStorage': () => import('@/components/cs-storage')
   },
   props: {
     loading: {
@@ -833,7 +857,19 @@ export default {
 
       return idList
     },
-    // 获取上传文件
+    // 资源下拉框事件
+    handleCommand(command) {
+      switch (command) {
+        case 'storage':
+          this.$refs.storage.handleStorageDlg([0, 2])
+          break
+
+        case 'upload':
+          this.$refs.upload.handleUploadDlg()
+          break
+      }
+    },
+    // 获取上传资源
     _getUploadFileList(files) {
       if (!files.length) {
         return
@@ -844,7 +880,22 @@ export default {
         return
       }
 
-      this.form.head_pic = response.data[0].url
+      if (response.data[0].type === 0) {
+        this.form.head_pic = response.data[0].url
+      }
+    },
+    // 获取选择资源
+    _getStorageFileList(files) {
+      if (!files.length) {
+        return
+      }
+
+      for (const value of files) {
+        if (value.type === 0) {
+          this.form.head_pic = value.url
+          break
+        }
+      }
     },
     // 选中数据项
     handleSelectionChange(val) {

@@ -193,12 +193,14 @@
       :accept="uploadConfig.accept"
       :limit="uploadConfig.limit"
       :storage-id="storageId"
-      @confirm="_getUploadFileList"/>
+      @confirm="_getUploadFileList">
+    </cs-upload>
 
     <cs-storage
       style="display: none"
       ref="storage"
-      @confirm="handleVideoCover"/>
+      @confirm="handleVideoCover">
+    </cs-storage>
 
     <el-dialog
       :title="nameMap[nameStatus]"
@@ -704,8 +706,7 @@ export default {
         // 选择海报
         case 'video_cover':
           this.videoCover = command.index
-          this.$refs.storage.storageType = [0, 2]
-          this.$refs.storage.handleStorageDlg()
+          this.$refs.storage.handleStorageDlg([0, 2])
           break
         // 取消封面
         case 'clear_cover':

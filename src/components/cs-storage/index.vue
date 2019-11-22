@@ -156,8 +156,9 @@ export default {
     }
   },
   methods: {
-    handleStorageDlg() {
+    handleStorageDlg(type = []) {
       this.visible = true
+      this.storageType = type
       this.handleSubmit()
     },
     switchDirectory(val) {
