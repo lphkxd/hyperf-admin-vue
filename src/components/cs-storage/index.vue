@@ -131,6 +131,7 @@ export default {
       checkList: [],
       currentTableData: [],
       isCheckDirectory: false,
+      source: '',
       storageType: [],
       form: {
         name: '',
@@ -156,9 +157,10 @@ export default {
     }
   },
   methods: {
-    handleStorageDlg(type = []) {
+    handleStorageDlg(type = [], source = '') {
       this.visible = true
       this.storageType = type
+      this.source = source
       this.handleSubmit()
     },
     switchDirectory(val) {
@@ -205,7 +207,7 @@ export default {
       }
 
       this.visible = false
-      this.$emit('confirm', data)
+      this.$emit('confirm', data, this.source)
     },
     handleSearch() {
       this.page.current = 1

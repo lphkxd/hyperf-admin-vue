@@ -3,15 +3,6 @@
     v-if="form"
     :model="form"
     label-width="200px">
-    <cs-upload
-      style="display: none"
-      ref="upload"
-      type="slot"
-      accept="image/*"
-      :limit="1"
-      :multiple="false"
-      @confirm="_getUploadFileList"/>
-
     <el-divider>基础设置</el-divider>
 
     <el-form-item
@@ -77,11 +68,22 @@
             <cs-icon slot="reference" name="image"/>
           </el-popover>
         </template>
-        <el-button
+
+        <el-dropdown
           slot="append"
-          @click="$refs.upload.handleUploadDlg('logo')">
-          <cs-icon name="upload"/>
-        </el-button>
+          :show-timeout="50"
+          @command="handleCommand">
+          <el-button><cs-icon name="cloud-upload" style="color: #909399;"/></el-button>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item :command="{command: 'storage', source: 'logo'}">
+              <cs-icon name="inbox" class="cs-mr-5"/>资源选择
+            </el-dropdown-item>
+
+            <el-dropdown-item :command="{command: 'upload', source: 'logo'}">
+              <cs-icon name="upload" class="cs-mr-5"/>上传资源
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
       </el-input>
       <div class="help-block" v-html="form.logo.help_text"></div>
     </el-form-item>
@@ -335,6 +337,22 @@
         :loading="loading"
         @click="handleFormSubmit">保存</el-button>
     </el-form-item>
+
+    <cs-storage
+      ref="storage"
+      style="display: none"
+      @confirm="_getStorageFileList">
+    </cs-storage>
+
+    <cs-upload
+      style="display: none"
+      ref="upload"
+      type="slot"
+      accept="image/*"
+      :limit="1"
+      :multiple="false"
+      @confirm="_getUploadFileList">
+    </cs-upload>
   </el-form>
 </template>
 
@@ -344,7 +362,8 @@ import { setSystemList } from '@/api/config/setting'
 
 export default {
   components: {
-    'csUpload': () => import('@/components/cs-upload')
+    'csUpload': () => import('@/components/cs-upload'),
+    'csStorage': () => import('@/components/cs-storage')
   },
   data() {
     return {
@@ -359,6 +378,18 @@ export default {
     }
   },
   methods: {
+    // 资源下拉框事件
+    handleCommand(command) {
+      switch (command.command) {
+        case 'storage':
+          this.$refs.storage.handleStorageDlg([0, 2], command.source)
+          break
+
+        case 'upload':
+          this.$refs.upload.handleUploadDlg(command.source)
+          break
+      }
+    },
     // 获取上传资源
     _getUploadFileList(files, source) {
       if (!files.length) {
@@ -370,6 +401,10 @@ export default {
         return
       }
 
+      if (response.data[0].type !== 0) {
+        return
+      }
+
       this.form[source].value = ''
       if (source === 'qrcode_logo') {
         this.form[source].value += document.location.protocol
@@ -377,6 +412,27 @@ export default {
       }
 
       this.form[source].value += response.data[0].url
+    },
+    // 获取选择资源
+    _getStorageFileList(files, source) {
+      if (!files.length) {
+        return
+      }
+
+      for (const value of files) {
+        if (value.type !== 0) {
+          continue
+        }
+
+        this.form[source].value = ''
+        if (source === 'qrcode_logo') {
+          this.form[source].value += document.location.protocol
+          this.form[source].value += '//'
+        }
+
+        this.form[source].value += value.url
+        break
+      }
     },
     // 设置配置数据
     setFormData(val) {
