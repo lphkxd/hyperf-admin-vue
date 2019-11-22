@@ -276,9 +276,7 @@
             <el-form-item
               label="类型"
               prop="type">
-              <el-radio-group
-                v-model="form.type"
-                @change="switchType">
+              <el-radio-group v-model="form.type">
                 <el-radio label="0">图片</el-radio>
                 <el-radio label="1">代码</el-radio>
               </el-radio-group>
@@ -299,10 +297,32 @@
           v-if="form.type === '0' && dialogFormVisible"
           label="图片"
           prop="content">
-          <cs-upload
-            v-model="content.image"
-            :fileList="imageFile"
-            :multiple="true"/>
+          <cs-photo v-model="content.image">
+            <template slot="upload">
+              <div
+                v-if="!content.image.length"
+                tabindex="0"
+                style="margin-bottom: 8px;"
+                class="el-upload el-upload--picture-card"
+                @click="$refs.upload.handleUploadDlg()">
+                <cs-icon name="image"/>
+              </div>
+            </template>
+          </cs-photo>
+
+          <el-button
+            @click="$refs.storage.handleStorageDlg([0, 2])"
+            size="small">
+            <cs-icon name="inbox"/>
+            资源选择
+          </el-button>
+
+          <el-button
+            @click="$refs.upload.handleUploadDlg()"
+            size="small">
+            <cs-icon name="upload"/>
+            上传图片
+          </el-button>
         </el-form-item>
 
         <el-form-item
@@ -324,7 +344,6 @@
             inactive-value="0">
           </el-switch>
         </el-form-item>
-
       </el-form>
 
       <div slot="footer" class="dialog-footer">
@@ -345,6 +364,20 @@
           @click="handleUpdate"
           size="small">修改</el-button>
       </div>
+
+      <cs-storage
+        ref="storage"
+        style="display: none"
+        @confirm="_getStorageFileList">
+      </cs-storage>
+
+      <cs-upload
+        style="display: none"
+        ref="upload"
+        type="slot"
+        accept="image/*"
+        @confirm="_getUploadFileList">
+      </cs-upload>
     </el-dialog>
   </div>
 </template>
@@ -360,6 +393,8 @@ import {
 export default {
   components: {
     'csUpload': () => import('@/components/cs-upload'),
+    'csStorage': () => import('@/components/cs-storage'),
+    'csPhoto': () => import('@/components/cs-photo'),
     'csTinymce': () => import('@/components/cs-tinymce')
   },
   props: {
@@ -375,7 +410,6 @@ export default {
   },
   data() {
     return {
-      imageFile: [],
       content: { image: [], code: '' },
       currentTableData: [],
       multipleSelection: [],
@@ -538,6 +572,49 @@ export default {
 
       return idList
     },
+    // 获取上传资源
+    _getUploadFileList(files) {
+      if (!files.length) {
+        return
+      }
+
+      for (const value of files) {
+        if (value.status !== 'success') {
+          continue
+        }
+
+        const response = value.response
+        if (!response || response.status !== 200) {
+          continue
+        }
+
+        if (response.data) {
+          if (response.data[0]['type'] === 0) {
+            this.content.image.push({
+              name: response.data[0]['name'],
+              source: response.data[0]['url'],
+              url: '//' + response.data[0]['url']
+            })
+          }
+        }
+      }
+    },
+    // 获取选择资源
+    _getStorageFileList(files) {
+      if (!files.length) {
+        return
+      }
+
+      files.forEach(value => {
+        if (value.type === 0) {
+          this.content.image.push({
+            name: value.name,
+            source: value.url,
+            url: '//' + value.url
+          })
+        }
+      })
+    },
     // 选中数据项
     handleSelectionChange(val) {
       this.multipleSelection = val
@@ -668,9 +745,7 @@ export default {
         this.$refs.form.clearValidate()
       })
 
-      this.imageFile = []
       this.content = { image: [], code: '' }
-
       this.dialogStatus = 'create'
       this.dialogLoading = false
       this.dialogFormVisible = true
@@ -722,11 +797,11 @@ export default {
 
       // 初始化组件数据
       this.content = { image: [], code: '' }
+
       if (this.form.type === '0') {
-        this.imageFile = Array.isArray(this.form.content) ? this.form.content : []
-        this.content = { image: [...this.imageFile], code: '' }
+        const imageFile = Array.isArray(this.form.content) ? this.form.content : []
+        this.content.image = [...imageFile]
       } else {
-        this.imageFile = []
         this.content.code = this.form.content.toString()
       }
 
@@ -753,12 +828,6 @@ export default {
             })
         }
       })
-    },
-    // 切换内容类型
-    switchType(val) {
-      if (val === '1') {
-        this.imageFile = this.content.image
-      }
     }
   }
 }

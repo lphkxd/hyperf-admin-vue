@@ -359,25 +359,25 @@
               </el-col>
             </el-row>
           </el-form>
+
+          <cs-storage
+            ref="storage"
+            style="display: none"
+            @confirm="_getStorageFileList">
+          </cs-storage>
+
+          <cs-upload
+            style="display: none"
+            ref="upload"
+            type="slot"
+            accept="image/*"
+            :limit="1"
+            :multiple="false"
+            @confirm="_getUploadFileList">
+          </cs-upload>
         </el-card>
       </el-col>
     </el-row>
-
-    <cs-storage
-      ref="storage"
-      style="display: none"
-      @confirm="_getStorageFileList">
-    </cs-storage>
-
-    <cs-upload
-      style="display: none"
-      ref="upload"
-      type="slot"
-      accept="image/*"
-      :limit="1"
-      :multiple="false"
-      @confirm="_getUploadFileList">
-    </cs-upload>
   </div>
 </template>
 

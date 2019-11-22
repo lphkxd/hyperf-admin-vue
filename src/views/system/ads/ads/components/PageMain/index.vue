@@ -253,11 +253,34 @@
           v-if="dialogFormVisible"
           :label="adsType !== undefined ? typeMap[adsType]['text'] : '内容'"
           prop="content">
-          <cs-upload
-            v-if="adsType === 0"
-            v-model="content.image"
-            :fileList="imageFile"
-            :multiple="true"/>
+          <div v-if="adsType === 0">
+            <cs-photo v-model="content.image">
+              <template slot="upload">
+                <div
+                  v-if="!content.image.length"
+                  tabindex="0"
+                  style="margin-bottom: 8px;"
+                  class="el-upload el-upload--picture-card"
+                  @click="$refs.upload.handleUploadDlg()">
+                  <cs-icon name="image"/>
+                </div>
+              </template>
+            </cs-photo>
+
+            <el-button
+              @click="$refs.storage.handleStorageDlg([0, 2])"
+              size="small">
+              <cs-icon name="inbox"/>
+              资源选择
+            </el-button>
+
+            <el-button
+              @click="$refs.upload.handleUploadDlg()"
+              size="small">
+              <cs-icon name="upload"/>
+              上传图片
+            </el-button>
+          </div>
 
           <cs-tinymce
             v-if="adsType === 1"
@@ -361,7 +384,6 @@
             inactive-value="0">
           </el-switch>
         </el-form-item>
-
       </el-form>
 
       <div slot="footer" class="dialog-footer">
@@ -382,6 +404,20 @@
           @click="handleUpdate"
           size="small">修改</el-button>
       </div>
+
+      <cs-storage
+        ref="storage"
+        style="display: none"
+        @confirm="_getStorageFileList">
+      </cs-storage>
+
+      <cs-upload
+        style="display: none"
+        ref="upload"
+        type="slot"
+        accept="image/*"
+        @confirm="_getUploadFileList">
+      </cs-upload>
     </el-dialog>
   </div>
 </template>
@@ -398,6 +434,8 @@ import {
 export default {
   components: {
     'csUpload': () => import('@/components/cs-upload'),
+    'csStorage': () => import('@/components/cs-storage'),
+    'csPhoto': () => import('@/components/cs-photo'),
     'csTinymce': () => import('@/components/cs-tinymce')
   },
   props: {
@@ -425,7 +463,6 @@ export default {
   data() {
     return {
       adsType: undefined,
-      imageFile: [],
       content: { image: [], code: '' },
       currentTableData: [],
       multipleSelection: [],
@@ -566,6 +603,49 @@ export default {
 
       return idList
     },
+    // 获取上传资源
+    _getUploadFileList(files) {
+      if (!files.length) {
+        return
+      }
+
+      for (const value of files) {
+        if (value.status !== 'success') {
+          continue
+        }
+
+        const response = value.response
+        if (!response || response.status !== 200) {
+          continue
+        }
+
+        if (response.data) {
+          if (response.data[0]['type'] === 0) {
+            this.content.image.push({
+              name: response.data[0]['name'],
+              source: response.data[0]['url'],
+              url: '//' + response.data[0]['url']
+            })
+          }
+        }
+      }
+    },
+    // 获取选择资源
+    _getStorageFileList(files) {
+      if (!files.length) {
+        return
+      }
+
+      files.forEach(value => {
+        if (value.type === 0) {
+          this.content.image.push({
+            name: value.name,
+            source: value.url,
+            url: '//' + value.url
+          })
+        }
+      })
+    },
     // 选中数据项
     handleSelectionChange(val) {
       this.multipleSelection = val
@@ -698,10 +778,6 @@ export default {
       for (const value of this.positionTable) {
         if (value.ads_position_id === val) {
           this.adsType = value.type
-          if (this.adsType === 1) {
-            this.imageFile = this.content.image
-          }
-
           break
         }
       }
@@ -726,9 +802,8 @@ export default {
         this.$refs.form.clearValidate()
       })
 
-      this.imageFile = []
-      this.content = { image: [], code: '' }
       this.adsType = undefined
+      this.content = { image: [], code: '' }
 
       this.dialogStatus = 'create'
       this.dialogLoading = false
@@ -786,11 +861,11 @@ export default {
 
       // 初始化组件数据
       this.content = { image: [], code: '' }
+
       if (this.adsType === 0) {
-        this.imageFile = Array.isArray(this.form.content) ? this.form.content : []
-        this.content = { image: [...this.imageFile], code: '' }
+        const imageFile = Array.isArray(this.form.content) ? this.form.content : []
+        this.content.image = [...imageFile]
       } else {
-        this.imageFile = []
         this.content.code = this.form.content.toString()
       }
 
