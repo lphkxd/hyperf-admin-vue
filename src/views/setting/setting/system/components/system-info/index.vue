@@ -132,11 +132,22 @@
             <cs-icon slot="reference" name="image"/>
           </el-popover>
         </template>
-        <el-button
+
+        <el-dropdown
           slot="append"
-          @click="$refs.upload.handleUploadDlg('miitbeian_ico')">
-          <cs-icon name="upload"/>
-        </el-button>
+          :show-timeout="50"
+          @command="handleCommand">
+          <el-button><cs-icon name="cloud-upload" style="color: #909399;"/></el-button>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item :command="{command: 'storage', source: 'miitbeian_ico'}">
+              <cs-icon name="inbox" class="cs-mr-5"/>资源选择
+            </el-dropdown-item>
+
+            <el-dropdown-item :command="{command: 'upload', source: 'miitbeian_ico'}">
+              <cs-icon name="upload" class="cs-mr-5"/>上传资源
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
       </el-input>
       <div class="help-block" v-html="form.miitbeian_ico.help_text"></div>
     </el-form-item>
@@ -183,11 +194,22 @@
             <cs-icon slot="reference" name="image"/>
           </el-popover>
         </template>
-        <el-button
+
+        <el-dropdown
           slot="append"
-          @click="$refs.upload.handleUploadDlg('beian_ico')">
-          <cs-icon name="upload"/>
-        </el-button>
+          :show-timeout="50"
+          @command="handleCommand">
+          <el-button><cs-icon name="cloud-upload" style="color: #909399;"/></el-button>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item :command="{command: 'storage', source: 'beian_ico'}">
+              <cs-icon name="inbox" class="cs-mr-5"/>资源选择
+            </el-dropdown-item>
+
+            <el-dropdown-item :command="{command: 'upload', source: 'beian_ico'}">
+              <cs-icon name="upload" class="cs-mr-5"/>上传资源
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
       </el-input>
       <div class="help-block" v-html="form.beian_ico.help_text"></div>
     </el-form-item>
@@ -311,11 +333,21 @@
         v-model="form.qrcode_logo.value"
         :placeholder="form.qrcode_logo.description"
         :clearable="true">
-        <el-button
+        <el-dropdown
           slot="append"
-          @click="$refs.upload.handleUploadDlg('qrcode_logo')">
-          <cs-icon name="upload"/>
-        </el-button>
+          :show-timeout="50"
+          @command="handleCommand">
+          <el-button><cs-icon name="cloud-upload" style="color: #909399;"/></el-button>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item :command="{command: 'storage', source: 'qrcode_logo'}">
+              <cs-icon name="inbox" class="cs-mr-5"/>资源选择
+            </el-dropdown-item>
+
+            <el-dropdown-item :command="{command: 'upload', source: 'qrcode_logo'}">
+              <cs-icon name="upload" class="cs-mr-5"/>上传资源
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
       </el-input>
       <div class="help-block" v-html="form.qrcode_logo.help_text"></div>
     </el-form-item>
