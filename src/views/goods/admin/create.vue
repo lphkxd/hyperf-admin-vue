@@ -54,14 +54,14 @@ export default {
   mounted() {
     Promise.all([
       getBrandSelect({ order_field: 'phonetic' }),
-      getGoodsCategoryList(null),
-      getGoodsTypeSelect(null)
+      getGoodsTypeSelect({ order_type: 'asc' }),
+      getGoodsCategoryList(null)
     ])
       .then(res => {
         this.brandData = res[0].data
-        this.typeData = res[2].data
-        this.catData = res[1].data.length
-          ? util.formatDataToTree(res[1].data, 'goods_category_id')
+        this.typeData = res[1].data
+        this.catData = res[2].data.length
+          ? util.formatDataToTree(res[2].data, 'goods_category_id')
           : []
       })
       .finally(() => {
