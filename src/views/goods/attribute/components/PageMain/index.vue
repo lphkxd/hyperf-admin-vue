@@ -425,6 +425,16 @@ export default {
     }
   },
   data() {
+    const validateAttrValue = (rule, value, callback) => {
+      if (this.form.attr_input_type > 0) {
+        if (!value) {
+          return callback(new Error('可选值不能为空'))
+        }
+      }
+
+      callback()
+    }
+
     return {
       currentTableData: [],
       multipleSelection: [],
@@ -520,6 +530,12 @@ export default {
             message: '至少选择一项',
             trigger: 'change'
           }
+        ],
+        attr_values: [
+          {
+            validator: validateAttrValue,
+            trigger: 'blur'
+          }
         ]
       }
     }
@@ -534,9 +550,11 @@ export default {
   },
   filters: {
     getAttrValue(value) {
-      if (value) {
+      if (value && typeof value === 'object') {
         return value.join(',')
       }
+
+      return value
     },
     getPreviewUrl(val) {
       return val ? util.getImageCodeUrl(val, 'goods_attribute') : ''
@@ -765,12 +783,17 @@ export default {
                 this.dialogLoading = false
               })
           } else {
-            this.form.attr_values = this.form.attr_values.trim()
-            this.form.attr_values = this.form.attr_input_type > 0
-              ? this.form.attr_values.split('\n')
-              : [this.form.attr_values]
+            let attrValue = []
+            if (this.form.attr_values) {
+              attrValue = this.form.attr_input_type > 0
+                ? this.form.attr_values.trim().split('\n')
+                : [this.form.attr_values]
+            }
 
-            addGoodsAttributeItem({ ...this.form })
+            addGoodsAttributeItem({
+              ...this.form,
+              attr_values: attrValue
+            })
               .then(res => {
                 const sonData = data.find(item => item.goods_attribute_id === res.data.parent_id)
                 sonData.get_attribute.push({ ...res.data })
@@ -842,12 +865,17 @@ export default {
                 this.dialogLoading = false
               })
           } else {
-            this.form.attr_values = this.form.attr_values.trim()
-            this.form.attr_values = this.form.attr_input_type > 0
-              ? this.form.attr_values.split('\n')
-              : [this.form.attr_values]
+            let attrValue = []
+            if (this.form.attr_values) {
+              attrValue = this.form.attr_input_type > 0
+                ? this.form.attr_values.trim().split('\n')
+                : [this.form.attr_values]
+            }
 
-            setGoodsAttributeItem({ ...this.form })
+            setGoodsAttributeItem({
+              ...this.form,
+              attr_values: attrValue
+            })
               .then(res => {
                 const pos = this.currentTableData.findIndex(item => {
                   return item.goods_attribute_id === this.currentData.parent_id
@@ -878,6 +906,8 @@ export default {
       if (val === '0') {
         this.form.attr_index = '0'
       }
+
+      this.$refs.form.validateField('attr_values')
     }
   }
 }
