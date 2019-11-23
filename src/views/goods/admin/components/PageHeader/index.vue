@@ -12,7 +12,7 @@
         :options="catData"
         :props="cascaderProps"
         :show-all-levels="false"
-        style="width: 200px;"
+        style="width: 220px;"
         filterable
         clearable>
       </el-cascader>
@@ -178,7 +178,6 @@ export default {
         value: 'goods_category_id',
         label: 'name',
         children: 'children',
-        multiple: true,
         checkStrictly: true,
         emitPath: false
       },
@@ -219,7 +218,6 @@ export default {
     },
     handleFormReset() {
       this.$refs.form.resetFields()
-      this.form.goods_category_id = []
     }
   }
 }

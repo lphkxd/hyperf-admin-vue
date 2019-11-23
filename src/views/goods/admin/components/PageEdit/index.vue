@@ -293,66 +293,92 @@
             </el-form-item>
 
             <el-row :gutter="10">
-              <el-col :span="11">
+              <el-col :span="12">
                 <el-form-item label="商品规格">
-                  <el-table></el-table>
+                  <div v-show="!specData.length" style="padding-top: 5px;">
+                    <p style="color: #909399; text-align: center;">暂无数据</p>
+                    <el-divider></el-divider>
+                  </div>
                 </el-form-item>
               </el-col>
 
-              <el-col :span="13">
+              <el-col :span="12">
                 <el-form-item label="商品属性">
-                  <el-table
-                    :data="attrData"
-                    row-key="goods_attribute_id"
-                    :show-header="false"
-                    :tree-props="{children: 'get_attribute'}"
-                    default-expand-all>
+                  <div v-show="!attrData.length" style="padding-top: 5px;">
+                    <p style="color: #909399; text-align: center;">暂无数据</p>
+                    <el-divider></el-divider>
+                  </div>
 
-                    <el-table-column
-                      label="属性名称"
-                      width="200"
-                      :show-overflow-tooltip="true">
-                      <template slot-scope="scope">
-                        <cs-icon class="attr-icon-move cs-pr-5" name="align-justify"/>
-                        <span>{{scope.row.attr_name}}</span>
+                  <draggable
+                    v-show="attrData.length"
+                    :list="attrData"
+                    :component-data="{props: {value: this.activeAttrNames}}"
+                    tag="el-collapse"
+                    handle=".handle">
+                    <el-collapse-item
+                      v-for="(item, parent) in attrData"
+                      :key="item.goods_attribute_id"
+                      :name="item.goods_attribute_id">
+                      <template slot="title">
+                        <cs-icon class="attr-icon-move cs-pr-5 handle" name="align-justify"/>
+                        <span>{{item.attr_name}}</span>
                       </template>
-                    </el-table-column>
 
-                    <el-table-column label="属性值">
-                      <template slot-scope="scope">
-                        <div v-if="scope.row.parent_id">
-                          <el-select
-                            v-if="scope.row.attr_input_type !== 0"
-                            v-model="typeTemp.attr[scope.row.goods_attribute_id]"
-                            :multiple-limit="scope.row.attr_input_type === 2 ? 0 : 1"
-                            placeholder="请选择"
-                            style="width: 100%;"
-                            size="small"
-                            value=""
-                            filterable
-                            allow-create
-                            default-first-option
-                            multiple
-                            clearable>
-                            <el-option
-                              v-for="(item, index) in scope.row.attr_values"
-                              :key="index"
-                              :value="item"/>
-                          </el-select>
+                      <draggable
+                        :list="item.get_attribute"
+                        tag="form"
+                        class="el-form el-form--label-left"
+                        handle=".item-handle">
+                        <div
+                          v-for="(value, key) in item.get_attribute"
+                          :key="value.goods_attribute_id"
+                          class="el-form-item attr-form">
+                          <label class="el-form-item__label attr-label">
+                            <cs-icon class="attr-icon-move cs-pr-5 item-handle" name="align-justify"/>
+                            <span :title="value.attr_name">{{value.attr_name}}</span>
+                          </label>
+                          <div class="el-form-item__content attr-content">
+                            <el-select
+                              v-if="value.attr_input_type !== 0"
+                              v-model="typeTemp.attr[value.goods_attribute_id]"
+                              :multiple-limit="value.attr_input_type === 2 ? 0 : 1"
+                              placeholder="请选择"
+                              style="width: 100%;"
+                              size="small"
+                              value=""
+                              filterable
+                              allow-create
+                              default-first-option
+                              multiple
+                              clearable>
+                              <el-option
+                                v-for="(attr, index) in value.attr_values"
+                                :key="index"
+                                :value="attr"/>
+                            </el-select>
 
-                          <el-input
-                            v-else
-                            v-model="typeTemp.attr[scope.row.goods_attribute_id]"
-                            type="textarea"
-                            placeholder="请输入内容"
-                            size="small"
-                            autosize>
-                          </el-input>
+                            <div v-else>
+                              <el-input
+                                v-model="typeTemp.attr[value.goods_attribute_id]"
+                                type="textarea"
+                                placeholder="请输入内容"
+                                size="small"
+                                style="width: 93%;"
+                                autosize>
+                              </el-input>
+
+                              <cs-icon
+                                name="clone"
+                                class="attr-default"
+                                title="设为默认值"
+                                @click.native="setAttrDefaultValue(parent, key)">
+                              </cs-icon>
+                            </div>
+                          </div>
                         </div>
-                      </template>
-                    </el-table-column>
-
-                  </el-table>
+                      </draggable>
+                    </el-collapse-item>
+                  </draggable>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -537,7 +563,8 @@ export default {
     'csStorage': () => import('@/components/cs-storage'),
     'csTinymce': () => import('@/components/cs-tinymce'),
     'csVideo': () => import('@/components/cs-video'),
-    'csPhoto': () => import('@/components/cs-photo')
+    'csPhoto': () => import('@/components/cs-photo'),
+    'draggable': () => import('vuedraggable')
   },
   props: {
     loading: {
@@ -615,10 +642,10 @@ export default {
         measure: 0,
         measure_type: 0
       },
-      rules: {
-      },
+      rules: {},
       attrData: [],
       specData: [],
+      activeAttrNames: [],
       typeTemp: {
         attr: {},
         spec: {}
@@ -629,7 +656,7 @@ export default {
     // 确认新增或修改
     handleConfirm() {
       console.log(this.currentForm)
-      console.log(this.attrData)
+      console.log(this.typeTemp)
     },
     // 打开资源选择框
     handleStorage(callback, type = []) {
@@ -741,7 +768,24 @@ export default {
         .then(res => {
           this.attrData = res[0].data.length > 0 ? res[0].data : []
           this.specData = res[1].data.length > 0 ? res[1].data : []
+
+          let attrActive = []
+          this.attrData.forEach(item => {
+            attrActive.push(item.goods_attribute_id)
+          })
+
+          this.activeAttrNames = attrActive
         })
+    },
+    // 设置商品属性为默认值
+    setAttrDefaultValue(parent, key) {
+      const data = this.attrData[parent]['get_attribute'][key]
+      if (!data || !data.attr_values[0]) {
+        this.$message.info('该商品属性项不存在默认值')
+        return
+      }
+
+      this.$set(this.typeTemp.attr, data.goods_attribute_id, data.attr_values[0])
     }
   }
 }
@@ -782,5 +826,31 @@ export default {
   .attr-icon-move {
     color: #C0C4CC;
     cursor: move;
+  }
+  .attr-form {
+    padding-left: 15px;
+    margin-bottom: 10px;
+  }
+  .attr-label {
+    width: 30%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .attr-content {
+    margin-left: 30%;
+    line-height: 32px;
+  }
+  .attr-default {
+    float: right;
+    color: #C0C4CC;
+    cursor: pointer;
+    padding-top: 10px;
+  }
+  .el-collapse >>> .el-collapse-item__content {
+    padding-bottom: 0;
+  }
+  .sortable-ghost {
+    opacity: 0;
   }
 </style>

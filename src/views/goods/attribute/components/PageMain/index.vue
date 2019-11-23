@@ -302,7 +302,8 @@
               <el-radio
                 v-for="(item, index) in indexMap"
                 :key="index"
-                :label="index">{{item}}</el-radio>
+                :label="index"
+                :disabled="form.attr_input_type === '0'">{{item}}</el-radio>
             </el-radio-group>
           </el-form-item>
 
@@ -311,7 +312,7 @@
             prop="attr_input_type">
             <el-radio-group
               v-model="form.attr_input_type"
-              @change="removeAttrValue">
+              @change="changeAttrValue">
               <el-radio
                 v-for="(item, index) in inputMap"
                 :key="index"
@@ -324,7 +325,6 @@
             prop="attr_values">
             <el-input
               v-model="form.attr_values"
-              :disabled="form.attr_input_type <= 0"
               placeholder="请输入商品属性可选值，一行一个，手工填写可不填"
               type="textarea"
               :rows="5"/>
@@ -631,12 +631,6 @@ export default {
     handleSelectionChange(val) {
       this.multipleSelection = val
     },
-    // 清除选项值
-    removeAttrValue(val) {
-      if (val <= 0) {
-        this.form.attr_values = ''
-      }
-    },
     // 批量设置检索
     handleIndex(val) {
       let attr_id = this._getIdList(null)
@@ -771,10 +765,12 @@ export default {
                 this.dialogLoading = false
               })
           } else {
-            addGoodsAttributeItem({
-              ...this.form,
-              attr_values: this.form.attr_values.trim().split('\n')
-            })
+            this.form.attr_values = this.form.attr_values.trim()
+            this.form.attr_values = this.form.attr_input_type > 0
+              ? this.form.attr_values.split('\n')
+              : [this.form.attr_values]
+
+            addGoodsAttributeItem({ ...this.form })
               .then(res => {
                 const sonData = data.find(item => item.goods_attribute_id === res.data.parent_id)
                 sonData.get_attribute.push({ ...res.data })
@@ -846,10 +842,12 @@ export default {
                 this.dialogLoading = false
               })
           } else {
-            setGoodsAttributeItem({
-              ...this.form,
-              attr_values: this.form.attr_values.trim().split('\n')
-            })
+            this.form.attr_values = this.form.attr_values.trim()
+            this.form.attr_values = this.form.attr_input_type > 0
+              ? this.form.attr_values.split('\n')
+              : [this.form.attr_values]
+
+            setGoodsAttributeItem({ ...this.form })
               .then(res => {
                 const pos = this.currentTableData.findIndex(item => {
                   return item.goods_attribute_id === this.currentData.parent_id
@@ -875,6 +873,11 @@ export default {
           }
         }
       })
+    },
+    changeAttrValue(val) {
+      if (val === '0') {
+        this.form.attr_index = '0'
+      }
     }
   }
 }
