@@ -781,7 +781,7 @@ export default {
     setAttrDefaultValue(parent, key) {
       const data = this.attrData[parent]['get_attribute'][key]
       if (!data || !data.attr_values[0]) {
-        this.$message.info('该商品属性项不存在默认值')
+        this.$message.info('该属性项不存在默认值')
         return
       }
 
