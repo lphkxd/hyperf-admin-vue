@@ -402,7 +402,7 @@
               </cs-photo>
 
               <el-button
-                @click="handleStorage(getAttachmentFileList, [0, 2])"
+                @click="handleStorage(getAttachmentFileList, [0, 2], 'photo')"
                 size="small">
                 <cs-icon name="inbox"/>
                 资源选择
@@ -432,7 +432,7 @@
               </cs-video>
 
               <el-button
-                @click="handleStorage(getVideoFileList, [2, 3])"
+                @click="handleStorage(getVideoFileList, [2, 3], 'video')"
                 size="small">
                 <cs-icon name="inbox"/>
                 资源选择
@@ -535,6 +535,7 @@
     <cs-storage
       ref="storage"
       style="display: none"
+      :limit="uploadConfig.limit"
       @confirm="storageCallback">
     </cs-storage>
 
@@ -659,8 +660,9 @@ export default {
       console.log(this.typeTemp)
     },
     // 打开资源选择框
-    handleStorage(callback, type = []) {
+    handleStorage(callback, type = [], source = '') {
       this.storageCallback = callback
+      this.uploadConfig.limit = source === 'photo' ? 0 : 1
       this.$refs.storage.handleStorageDlg(type)
     },
     // 打开上传对话框

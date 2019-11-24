@@ -9,31 +9,45 @@
     <!-- 搜索框开始 -->
     <el-form :model="form" style="margin-top: -25px;" size="small" @submit.native.prevent>
       <el-row :gutter="20">
-        <el-col :span="8">
+        <el-col :span="10">
           <el-form-item>
             <el-button-group>
-              <el-button
-                @click="allCheckBox">
-                <cs-icon name="check-square-o"/>
-                全选
-              </el-button>
+              <el-tooltip content="勾选当前页全部资源" placement="top">
+                <el-button
+                  @click="allCheckBox">
+                  <cs-icon name="check-square-o"/>
+                  全选
+                </el-button>
+              </el-tooltip>
 
-              <el-button
-                @click="reverseCheckBox">
-                <cs-icon name="minus-square-o"/>
-                反选
-              </el-button>
+              <el-tooltip content="反向勾选当前页资源" placement="top">
+                <el-button
+                  @click="reverseCheckBox">
+                  <cs-icon name="minus-square-o"/>
+                  反选
+                </el-button>
+              </el-tooltip>
 
-              <el-button
-                @click="cancelCheckBox">
-                <cs-icon name="square-o"/>
-                取消
-              </el-button>
+              <el-tooltip content="取消当前页勾选" placement="top">
+                <el-button
+                  @click="cancelCheckBox">
+                  <cs-icon name="square-o"/>
+                  取消
+                </el-button>
+              </el-tooltip>
+
+              <el-tooltip content="清除所有已选中勾选" placement="top">
+                <el-button
+                  @click="checkList = []">
+                  <cs-icon name="remove"/>
+                  清除
+                </el-button>
+              </el-tooltip>
             </el-button-group>
           </el-form-item>
         </el-col>
 
-        <el-col :span="16">
+        <el-col :span="14">
           <el-form-item prop="name">
             <el-input
               v-model="form.name"
@@ -96,11 +110,22 @@
 
     <!-- 确认,取消 -->
     <div slot="footer" class="dialog-footer">
+      <div style="float: left; font-size: 13px;">
+        <span v-if="checkList.length > limit && limit !== 0" style="color: #F56C6C;">
+          当前已选 {{checkList.length}} 个，最多允许选择 {{limit}} 个资源
+        </span>
+
+        <span v-else>当前已选 {{checkList.length}} 个资源</span>
+      </div>
+
       <el-button
         @click="visible = false"
         size="small">取消</el-button>
+
       <el-button
         type="primary"
+        :loading="loadingCollection"
+        :disabled="checkList.length > limit && limit !== 0"
         @click="handleConfirm"
         size="small">确定</el-button>
     </div>
@@ -109,7 +134,7 @@
 
 <script>
 import storage from '@/views/system/storage/storage/components/mixins'
-import { getStorageNavi, getStorageList } from '@/api/upload/storage'
+import { getStorageNavi, getStorageList, getStorageCollection } from '@/api/upload/storage'
 
 export default {
   name: 'cs-storage',
@@ -121,12 +146,19 @@ export default {
     // 确认按钮事件
     confirm: {
       type: Function
+    },
+    // 最大选择数(0表示不限制)
+    limit: {
+      type: Number,
+      required: false,
+      default: 0
     }
   },
   data() {
     return {
       visible: false,
       loading: true,
+      loadingCollection: false,
       naviData: [],
       checkList: [],
       currentTableData: [],
@@ -161,6 +193,8 @@ export default {
       this.visible = true
       this.storageType = type
       this.source = source
+      this.checkList = []
+      this.loadingCollection = false
       this.handleSubmit()
     },
     switchDirectory(val) {
@@ -180,9 +214,7 @@ export default {
       })
     },
     handleSubmit() {
-      this.checkList = []
       this.loading = true
-
       getStorageList({
         ...this.form,
         type: this.storageType,
@@ -198,16 +230,26 @@ export default {
         })
     },
     handleConfirm() {
-      let data = []
-      // eslint-disable-next-line no-unused-vars
-      for (const value of this.currentTableData) {
-        if (this.checkList.indexOf(value.storage_id) !== -1) {
-          data.push(value)
-        }
+      if (this.checkList.length <= 0) {
+        this.$emit('confirm', [], this.source)
+        this.visible = false
+        return
       }
 
-      this.visible = false
-      this.$emit('confirm', data, this.source)
+      this.loadingCollection = true
+      getStorageCollection({
+        storage_id: this.checkList,
+        order_type: this.form.order_type,
+        order_field: this.form.order_field
+      })
+        .then(res => {
+          this.checkList = []
+          this.visible = false
+          this.$emit('confirm', res.data.length > 0 ? res.data : [], this.source)
+        })
+        .finally(() => {
+          this.loadingCollection = false
+        })
     },
     handleSearch() {
       this.page.current = 1

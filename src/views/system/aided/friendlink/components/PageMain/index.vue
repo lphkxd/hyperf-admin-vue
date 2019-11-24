@@ -279,6 +279,7 @@
       <cs-storage
         ref="storage"
         style="display: none"
+        :limit="1"
         @confirm="_getStorageFileList">
       </cs-storage>
 

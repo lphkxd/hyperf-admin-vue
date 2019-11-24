@@ -107,6 +107,22 @@ export function getStorageList(data) {
 }
 
 /**
+ * 根据资源编号获取集合
+ * @param {Object} data
+ * @returns {AxiosPromise}
+ */
+export function getStorageCollection(data) {
+  return request({
+    url: '/v1/storage',
+    method: 'post',
+    params: {
+      method: 'get.storage.collection'
+    },
+    data
+  })
+}
+
+/**
  * 获取导航数据
  * @param {Number} storage_id
  * @param {Number} is_layer

@@ -19,33 +19,48 @@
             :disabled="loading"
             @click="handleUpload">
             <cs-icon name="upload"/>
-            上传
+            上传资源
           </el-button>
         </el-button-group>
       </el-form-item>
 
       <el-form-item>
         <el-button-group>
-          <el-button
-            :disabled="loading"
-            @click="allCheckBox">
-            <cs-icon name="check-square-o"/>
-            全选
-          </el-button>
+          <el-tooltip content="勾选当前页全部资源" placement="top">
+            <el-button
+              :disabled="loading"
+              @click="allCheckBox">
+              <cs-icon name="check-square-o"/>
+              全选
+            </el-button>
+          </el-tooltip>
 
-          <el-button
-            :disabled="loading"
-            @click="reverseCheckBox">
-            <cs-icon name="minus-square-o"/>
-            反选
-          </el-button>
+          <el-tooltip content="反向勾选当前页资源" placement="top">
+            <el-button
+              :disabled="loading"
+              @click="reverseCheckBox">
+              <cs-icon name="minus-square-o"/>
+              反选
+            </el-button>
+          </el-tooltip>
 
-          <el-button
-            :disabled="loading"
-            @click="cancelCheckBox">
-            <cs-icon name="square-o"/>
-            取消
-          </el-button>
+          <el-tooltip content="取消当前页勾选" placement="top">
+            <el-button
+              :disabled="loading"
+              @click="cancelCheckBox">
+              <cs-icon name="square-o"/>
+              取消
+            </el-button>
+          </el-tooltip>
+
+          <el-tooltip content="清除所有已选中勾选" placement="top">
+            <el-button
+              :disabled="loading"
+              @click="checkList = []">
+              <cs-icon name="remove"/>
+              清除
+            </el-button>
+          </el-tooltip>
         </el-button-group>
       </el-form-item>
 
@@ -199,6 +214,7 @@
     <cs-storage
       style="display: none"
       ref="storage"
+      :limit="1"
       @confirm="handleVideoCover">
     </cs-storage>
 
@@ -373,7 +389,6 @@ export default {
   watch: {
     tableData: {
       handler(val) {
-        this.checkList = []
         this.currentTableData = val
       },
       immediate: true

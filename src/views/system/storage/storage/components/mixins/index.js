@@ -1,4 +1,5 @@
 import util from '@/utils/util'
+import { union, xor, remove } from 'lodash'
 
 export default {
   data() {
@@ -54,22 +55,8 @@ export default {
     }
   },
   methods: {
-    // 全部选择
-    allCheckBox() {
-      this.checkList = []
-      // eslint-disable-next-line no-unused-vars
-      for (const value of this.currentTableData) {
-        if (!this.isCheckDirectory) {
-          if (value.type === 2) {
-            continue
-          }
-        }
-
-        this.checkList.push(value.storage_id)
-      }
-    },
-    // 反向选择
-    reverseCheckBox() {
+    // 获取当前页所有资源编号
+    _getStorageIdList() {
       let checkList = []
       // eslint-disable-next-line no-unused-vars
       for (const value of this.currentTableData) {
@@ -79,16 +66,29 @@ export default {
           }
         }
 
-        if (this.checkList.indexOf(value.storage_id) === -1) {
-          checkList.push(value.storage_id)
-        }
+        checkList.push(value.storage_id)
       }
 
-      this.checkList = checkList
+      return checkList
+    },
+    // 全部选择
+    allCheckBox() {
+      this.checkList = union(this.checkList, this._getStorageIdList())
+    },
+    // 反向选择
+    reverseCheckBox() {
+      this.checkList = xor(this.checkList, this._getStorageIdList())
     },
     // 取消选择
     cancelCheckBox() {
-      this.checkList = []
+      let checkList = this._getStorageIdList()
+      let currentCheckList = [...this.checkList]
+
+      remove(currentCheckList, (item) => {
+        return checkList.indexOf(item) !== -1
+      })
+
+      this.checkList = currentCheckList
     }
   }
 }
