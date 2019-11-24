@@ -63,17 +63,27 @@
 
     <el-form-item>
       <el-popover
-        width="402"
+        width="397"
         placement="bottom"
         trigger="click">
         <div class="more-filter">
+          <el-form-item label="时间段" prop="time_period">
+            <el-date-picker
+              v-model="form.time_period"
+              type="datetimerange"
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              style="width: 315px;">
+            </el-date-picker>
+          </el-form-item>
+
           <el-form-item label="操作人账号" prop="action">
             <el-input
               v-model="form.action"
               prefix-icon="el-icon-search"
               placeholder="可输入操作人账号"
               @keyup.enter.native="handleFormSubmit(true)"
-              style="width: 320px;"
               :clearable="true"/>
           </el-form-item>
 
@@ -83,7 +93,6 @@
               prefix-icon="el-icon-search"
               placeholder="可输入来源订单号"
               @keyup.enter.native="handleFormSubmit(true)"
-              style="width: 320px;"
               :clearable="true"/>
           </el-form-item>
 
@@ -93,19 +102,7 @@
               prefix-icon="el-icon-search"
               placeholder="可输入购物卡卡号"
               @keyup.enter.native="handleFormSubmit(true)"
-              style="width: 320px;"
               :clearable="true"/>
-          </el-form-item>
-
-          <el-form-item label="时间段" prop="time_period">
-            <el-date-picker
-              v-model="form.time_period"
-              type="datetimerange"
-              range-separator="至"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期"
-              style="width: 320px;">
-            </el-date-picker>
           </el-form-item>
 
           <el-form-item label="收支模型" prop="module">
@@ -196,5 +193,8 @@ export default {
   }
   .more-filter >>> label {
     width: 82px;
+  }
+  .more-filter >>> .el-form-item__content {
+    margin-left: 82px;
   }
 </style>

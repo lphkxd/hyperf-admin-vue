@@ -79,18 +79,16 @@
       </el-table-column>
 
       <el-table-column
-        label="平台"
-        min-width="70">
+        label="展示方式">
         <template slot-scope="scope">
-          {{platformTable[scope.row.platform]}}
+          {{displayMap[scope.row.display]}}
         </template>
       </el-table-column>
 
       <el-table-column
-        label="展示方式"
-        align="center">
+        label="平台">
         <template slot-scope="scope">
-          {{displayMap[scope.row.display]}}
+          {{platformTable[scope.row.platform]}}
         </template>
       </el-table-column>
 
@@ -195,15 +193,15 @@
         <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item
-              label="平台"
-              prop="platform">
+              label="展示方式"
+              prop="display">
               <el-select
-                v-model="form.platform"
+                v-model="form.display"
                 placeholder="请选择"
                 style="width: 100%;"
                 value="">
                 <el-option
-                  v-for="(item, index) in platformTable"
+                  v-for="(item, index) in displayMap"
                   :key="index"
                   :label="item"
                   :value="index"/>
@@ -226,15 +224,15 @@
         <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item
-              label="展示方式"
-              prop="display">
+              label="平台"
+              prop="platform">
               <el-select
-                v-model="form.display"
+                v-model="form.platform"
                 placeholder="请选择"
                 style="width: 100%;"
                 value="">
                 <el-option
-                  v-for="(item, index) in displayMap"
+                  v-for="(item, index) in platformTable"
                   :key="index"
                   :label="item"
                   :value="index"/>

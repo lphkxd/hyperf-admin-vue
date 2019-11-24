@@ -51,7 +51,7 @@
 
     <el-form-item>
       <el-popover
-        width="375"
+        width="370"
         placement="bottom"
         trigger="click">
         <div class="more-filter">
@@ -61,7 +61,6 @@
               prefix-icon="el-icon-search"
               placeholder="可输入路径"
               @keyup.enter.native="handleFormSubmit(true)"
-              style="width: 320px;"
               :clearable="true"/>
           </el-form-item>
 
@@ -72,7 +71,7 @@
               range-separator="至"
               start-placeholder="开始日期"
               end-placeholder="结束日期"
-              style="width: 320px;">
+              style="width: 315px;">
             </el-date-picker>
           </el-form-item>
         </div>
@@ -148,5 +147,8 @@ export default {
   }
   .more-filter >>> label {
     width: 54px;
+  }
+  .more-filter >>> .el-form-item__content {
+    margin-left: 54px;
   }
 </style>

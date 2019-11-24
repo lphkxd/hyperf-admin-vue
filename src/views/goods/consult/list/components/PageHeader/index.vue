@@ -62,7 +62,7 @@
 
     <el-form-item>
       <el-popover
-        width="388"
+        width="250"
         placement="bottom"
         trigger="click">
         <div class="more-filter">
@@ -70,9 +70,8 @@
             <el-input
               v-model="form.content"
               prefix-icon="el-icon-search"
-              placeholder="输入关键词对咨询内容进行搜索"
+              placeholder="输入关键词进行搜索"
               @keyup.enter.native="handleFormSubmit(true)"
-              style="width: 320px;"
               :clearable="true"/>
           </el-form-item>
 
@@ -160,6 +159,9 @@ export default {
     margin-bottom: -18px;
   }
   .more-filter >>> label {
-    width: auto;
+    width: 70px;
+  }
+  .more-filter >>> .el-form-item__content {
+    margin-left: 70px;
   }
 </style>

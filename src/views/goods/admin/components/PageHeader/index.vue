@@ -56,15 +56,15 @@
 
     <el-form-item>
       <el-popover
-        width="388"
+        width="352"
         placement="bottom"
         trigger="click">
         <div class="more-filter">
           <el-form-item label="品牌" prop="brand_id">
             <el-select
               v-model="form.brand_id"
+              style="width: 282px;"
               placeholder="试试搜索：品牌"
-              style="width: 320px;"
               filterable
               multiple
               clearable
@@ -228,7 +228,10 @@ export default {
     margin-bottom: -18px;
   }
   .more-filter >>> label {
-    width: 68px;
+    width: 70px;
+  }
+  .more-filter >>> .el-form-item__content {
+    margin-left: 70px;
   }
   .brand-name {
     float: left;

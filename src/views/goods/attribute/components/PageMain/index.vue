@@ -25,7 +25,7 @@
             :disabled="loading"
             @click="handleIndex(1)">
             <cs-icon name="bookmark-o"/>
-            关键字
+            关键词
           </el-button>
 
           <el-button
@@ -451,7 +451,7 @@ export default {
       },
       indexMap: {
         0: '不检索',
-        1: '关键字',
+        1: '关键词',
         2: '范围'
       },
       inputMap: {

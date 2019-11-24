@@ -58,10 +58,23 @@
 
     <el-form-item>
       <el-popover
-        width="261"
+        width="250"
         placement="bottom"
         trigger="click">
         <div class="more-filter">
+          <el-form-item label="展示方式" prop="display">
+            <el-select
+              v-model="form.display"
+              placeholder="请选择"
+              clearable
+              value="">
+              <el-option label="多个广告" value="0"/>
+              <el-option label="单个广告" value="1"/>
+              <el-option label="随机多个" value="2"/>
+              <el-option label="随机单个" value="3"/>
+            </el-select>
+          </el-form-item>
+
           <el-form-item label="平台" prop="platform">
             <el-select
               v-model="form.platform"
@@ -73,19 +86,6 @@
                 :key="index"
                 :label="item"
                 :value="index"/>
-            </el-select>
-          </el-form-item>
-
-          <el-form-item label="展示方式" prop="display">
-            <el-select
-              v-model="form.display"
-              placeholder="请选择"
-              clearable
-              value="">
-              <el-option label="多个广告" value="0"/>
-              <el-option label="单个广告" value="1"/>
-              <el-option label="随机多个" value="2"/>
-              <el-option label="随机单个" value="3"/>
             </el-select>
           </el-form-item>
 
@@ -150,6 +150,9 @@ export default {
     margin-bottom: -18px;
   }
   .more-filter >>> label {
-    width: 68px;
+    width: 70px;
+  }
+  .more-filter >>> .el-form-item__content {
+    margin-left: 70px;
   }
 </style>

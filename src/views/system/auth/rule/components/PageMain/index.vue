@@ -64,9 +64,10 @@
         <el-input
           v-model="filterText"
           :disabled="loading"
-          placeholder="输入关键字进行过滤"
+          placeholder="输入关键词进行过滤"
           prefix-icon="el-icon-search"
-          style="width: 180px;">
+          style="width: 240px;"
+          :clearable="true">
         </el-input>
       </el-form-item>
 

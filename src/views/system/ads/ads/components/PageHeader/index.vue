@@ -58,7 +58,7 @@
 
     <el-form-item>
       <el-popover
-        width="388"
+        width="383"
         placement="bottom"
         trigger="click">
         <div class="more-filter">
@@ -69,15 +69,16 @@
               range-separator="至"
               start-placeholder="开始投放日期"
               end-placeholder="投放结束日期"
-              style="width: 320px;">
+              style="width: 315px;">
             </el-date-picker>
           </el-form-item>
 
           <el-form-item label="广告位置" prop="ads_position_id">
             <el-select
               v-model="form.ads_position_id"
-              placeholder="请选择"
-              style="width: 320px;"
+              placeholder="可选择广告位置，试试搜索：广告"
+              style="width: 315px;"
+              filterable
               clearable
               value="">
               <el-option
@@ -187,10 +188,10 @@ export default {
 </script>
 
 <style scoped>
-  .more-filter {
-    margin-bottom: -18px;
-  }
   .more-filter >>> label {
-    width: 68px;
+    width: 70px;
+  }
+  .more-filter >>> .el-form-item__content {
+    margin-left: 70px;
   }
 </style>

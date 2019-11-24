@@ -60,7 +60,7 @@
 
     <el-form-item>
       <el-popover
-        width="374"
+        width="369"
         placement="bottom"
         trigger="click">
         <div class="more-filter">
@@ -71,7 +71,7 @@
               range-separator="至"
               start-placeholder="开始日期"
               end-placeholder="结束日期"
-              style="width: 320px;">
+              style="width: 315px;">
             </el-date-picker>
           </el-form-item>
         </div>

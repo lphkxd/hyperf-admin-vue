@@ -12,7 +12,8 @@
         prefix-icon="el-icon-search"
         placeholder="资源名称"
         @keyup.enter.native="handleFormSubmit(true)"
-        style="width: 280px;"/>
+        style="width: 280px;"
+        :clearable="true"/>
     </el-form-item>
 
     <el-form-item>
@@ -35,7 +36,7 @@
 
     <el-form-item>
       <el-popover
-        width="261"
+        width="250"
         placement="bottom"
         trigger="click">
         <div class="more-filter">
@@ -112,6 +113,9 @@ export default {
     margin-bottom: -18px;
   }
   .more-filter >>> label {
-    width: 68px;
+    width: 70px;
+  }
+  .more-filter >>> .el-form-item__content {
+    margin-left: 70px;
   }
 </style>
