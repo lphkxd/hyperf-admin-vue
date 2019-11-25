@@ -10,7 +10,7 @@
     "inspect": "vue-cli-service inspect --mode production --verbose"
   },
   "dependencies": {
-    "@babel/runtime": "^7.7.2",
+    "@babel/runtime": "^7.7.4",
     "axios": "^0.19.0",
     "babel-polyfill": "^6.26.0",
     "better-scroll": "^1.15.2",
@@ -18,9 +18,9 @@
     "dayjs": "^1.8.17",
     "element-ui": "^2.12.0",
     "flex.css": "^1.1.7",
-    "fuse.js": "^3.4.5",
+    "fuse.js": "^3.4.6",
     "highlight.js": "^9.16.2",
-    "hotkeys-js": "^3.7.2",
+    "hotkeys-js": "^3.7.3",
     "lodash": "^4.17.15",
     "lowdb": "^1.0.0",
     "mockjs": "^1.1.0",
@@ -35,7 +35,7 @@
     "vuex": "^3.1.2"
   },
   "devDependencies": {
-    "@babel/plugin-transform-runtime": "^7.6.2",
+    "@babel/plugin-transform-runtime": "^7.7.4",
     "@vue/cli-plugin-babel": "^3.12.0",
     "@vue/cli-plugin-eslint": "^3.12.0",
     "@vue/cli-plugin-unit-mocha": "^3.12.0",
@@ -45,7 +45,7 @@
     "babel-eslint": "^10.0.3",
     "babel-jest": "^24.9.0",
     "compression-webpack-plugin": "^3.0.0",
-    "eslint": "^6.6.0",
+    "eslint": "^6.7.0",
     "eslint-plugin-html": "^6.0.0",
     "eslint-plugin-vue": "^5.2.3",
     "node-sass": "^4.13.0",
