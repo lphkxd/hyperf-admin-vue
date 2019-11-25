@@ -292,7 +292,7 @@
               </el-select>
             </el-form-item>
 
-            <el-row :gutter="20">
+            <el-row :gutter="20" v-loading="typeLoading">
               <el-col :span="12">
                 <el-form-item label="商品规格">
                   <div v-show="!specData.length" style="padding-top: 5px;">
@@ -304,18 +304,23 @@
                     <el-card
                       v-for="(item) in specData"
                       :key="item.spec_id"
+                      :body-style="{padding: '10px 15px'}"
                       class="spec-box-card"
                       shadow="never">
-                      <div slot="header" class="clearfix">
+                      <div slot="header" class="clearfix action">
                         <cs-icon class="icon-move cs-pr-5 spec-handle" name="align-justify"/>
                         <span class="cs-pr-10">规格项</span>
-                        <el-input v-model="item.name" placeholder="请输入规格名称" style="width: 260px"/>
+                        <el-input v-model="item.name" placeholder="请输入规格名称" style="width: 248px" clearable/>
+                        <el-button class="active cs-pl-10" size="small" type="text">删除</el-button>
+                      </div>
+
+                      <div>
+                        <span>正文内容</span>
                       </div>
                     </el-card>
 
                     <el-button class="cs-mt" size="small">新增规格</el-button>
                   </div>
-
                 </el-form-item>
               </el-col>
 
@@ -359,7 +364,7 @@
                               v-if="value.attr_input_type !== 0"
                               v-model="typeTemp.attr[value.goods_attribute_id]"
                               :multiple-limit="value.attr_input_type === 2 ? 0 : 1"
-                              placeholder="请选择"
+                              :placeholder="`请选择，${value.attr_input_type === 2 ? '可多选' : '仅单选'}`"
                               style="width: 100%;"
                               value=""
                               filterable
@@ -379,7 +384,7 @@
                                 type="textarea"
                                 placeholder="请输入内容"
                                 style="width: 93%;"
-                                autosize>
+                                :autosize="{minRows: 2}">
                               </el-input>
 
                               <cs-icon
@@ -658,6 +663,7 @@ export default {
         measure_type: 0
       },
       rules: {},
+      typeLoading: false,
       attrData: [],
       specData: [],
       activeAttrNames: [],
@@ -774,6 +780,7 @@ export default {
       //   spec: {}
       // }
 
+      this.typeLoading = true
       this.currentForm.goods_attr_item = []
       this.currentForm.goods_spec_item = []
       this.currentForm.spec_image = []
@@ -802,6 +809,9 @@ export default {
           this.attrData = attrData
           this.specData = specData
         })
+        .finally(() => {
+          this.typeLoading = false
+        })
     },
     // 设置商品属性为默认值
     setAttrDefaultValue(parent, key) {
@@ -825,6 +835,12 @@ export default {
   }
   .clearfix:after {
     clear: both
+  }
+  .active {
+    display: none;
+  }
+  .action:hover .active{
+    display: inline-block;
   }
   .brand-name {
     float: left;
@@ -858,20 +874,21 @@ export default {
     margin-bottom: 10px;
   }
   .attr-label {
-    width: 30%;
+    width: 35%;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
   }
   .attr-content {
-    margin-left: 30%;
-    line-height: 32px;
+    margin-left: 35%;
+    /*line-height: 32px;*/
   }
   .attr-default {
-    float: right;
     color: #C0C4CC;
     cursor: pointer;
-    padding-top: 10px;
+    position:absolute;
+    top: 45%;
+    right: 0;
   }
   .el-collapse >>> .el-collapse-item__content {
     padding-bottom: 0;
@@ -880,9 +897,12 @@ export default {
     opacity: 0;
   }
   .spec-box-card {
-    line-height: 28px;
     margin-bottom: -1px;
     border-left-color: #FFFFFF;
     border-right-color: #FFFFFF;
+  }
+  .spec-box-card >>> .el-card__header {
+    padding: 10px 0;
+    /*border-bottom: 0;*/
   }
 </style>
