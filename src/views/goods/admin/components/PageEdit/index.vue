@@ -292,13 +292,30 @@
               </el-select>
             </el-form-item>
 
-            <el-row :gutter="10">
+            <el-row :gutter="20">
               <el-col :span="12">
                 <el-form-item label="商品规格">
                   <div v-show="!specData.length" style="padding-top: 5px;">
                     <p style="color: #909399; text-align: center;">暂无数据</p>
                     <el-divider></el-divider>
                   </div>
+
+                  <div v-show="attrData.length">
+                    <el-card
+                      v-for="(item) in specData"
+                      :key="item.spec_id"
+                      class="spec-box-card"
+                      shadow="never">
+                      <div slot="header" class="clearfix">
+                        <cs-icon class="icon-move cs-pr-5 spec-handle" name="align-justify"/>
+                        <span class="cs-pr-10">规格项</span>
+                        <el-input v-model="item.name" placeholder="请输入规格名称" style="width: 260px"/>
+                      </div>
+                    </el-card>
+
+                    <el-button class="cs-mt" size="small">新增规格</el-button>
+                  </div>
+
                 </el-form-item>
               </el-col>
 
@@ -314,13 +331,13 @@
                     :list="attrData"
                     :component-data="{props: {value: this.activeAttrNames}}"
                     tag="el-collapse"
-                    handle=".handle">
+                    handle=".attr-handle">
                     <el-collapse-item
                       v-for="(item, parent) in attrData"
                       :key="item.goods_attribute_id"
                       :name="item.goods_attribute_id">
                       <template slot="title">
-                        <cs-icon class="attr-icon-move cs-pr-5 handle" name="align-justify"/>
+                        <cs-icon class="icon-move cs-pr-5 attr-handle" name="align-justify"/>
                         <span>{{item.attr_name}}</span>
                       </template>
 
@@ -328,13 +345,13 @@
                         :list="item.get_attribute"
                         tag="form"
                         class="el-form el-form--label-left"
-                        handle=".item-handle">
+                        handle=".item-attr-handle">
                         <div
                           v-for="(value, key) in item.get_attribute"
                           :key="value.goods_attribute_id"
                           class="el-form-item attr-form">
                           <label class="el-form-item__label attr-label">
-                            <cs-icon class="attr-icon-move cs-pr-5 item-handle" name="align-justify"/>
+                            <cs-icon class="icon-move cs-pr-5 item-attr-handle" name="align-justify"/>
                             <span :title="value.attr_name">{{value.attr_name}}</span>
                           </label>
                           <div class="el-form-item__content attr-content">
@@ -344,7 +361,6 @@
                               :multiple-limit="value.attr_input_type === 2 ? 0 : 1"
                               placeholder="请选择"
                               style="width: 100%;"
-                              size="small"
                               value=""
                               filterable
                               allow-create
@@ -362,7 +378,6 @@
                                 v-model="typeTemp.attr[value.goods_attribute_id]"
                                 type="textarea"
                                 placeholder="请输入内容"
-                                size="small"
                                 style="width: 93%;"
                                 autosize>
                               </el-input>
@@ -554,7 +569,6 @@
 <script>
 // import util from '@/utils/util'
 // import { mapActions } from 'vuex'
-// import draggable from 'vuedraggable'
 import { getGoodsAttributeList } from '@/api/goods/attribute'
 import { getGoodsSpecList } from '@/api/goods/spec'
 
@@ -647,6 +661,7 @@ export default {
       attrData: [],
       specData: [],
       activeAttrNames: [],
+      activeSpecNames: [],
       typeTemp: {
         attr: {},
         spec: {}
@@ -768,15 +783,24 @@ export default {
         getGoodsSpecList(value)
       ])
         .then(res => {
-          this.attrData = res[0].data.length > 0 ? res[0].data : []
-          this.specData = res[1].data.length > 0 ? res[1].data : []
+          let attrData = res[0].data.length > 0 ? res[0].data : []
+          let specData = res[1].data.length > 0 ? res[1].data : []
 
           let attrActive = []
-          this.attrData.forEach(item => {
+          attrData.forEach(item => {
             attrActive.push(item.goods_attribute_id)
           })
 
+          let specActive = []
+          specData.forEach(item => {
+            specActive.push(item.spec_id)
+          })
+
           this.activeAttrNames = attrActive
+          this.activeSpecNames = specActive
+
+          this.attrData = attrData
+          this.specData = specData
         })
     },
     // 设置商品属性为默认值
@@ -825,7 +849,7 @@ export default {
     line-height: 2;
     margin-bottom: -12px;
   }
-  .attr-icon-move {
+  .icon-move {
     color: #C0C4CC;
     cursor: move;
   }
@@ -854,5 +878,11 @@ export default {
   }
   .sortable-ghost {
     opacity: 0;
+  }
+  .spec-box-card {
+    line-height: 28px;
+    margin-bottom: -1px;
+    border-left-color: #FFFFFF;
+    border-right-color: #FFFFFF;
   }
 </style>
