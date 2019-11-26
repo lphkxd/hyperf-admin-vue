@@ -191,6 +191,17 @@
         </el-form-item>
 
         <el-form-item
+          label="展现方式"
+          prop="spec_type">
+          <el-radio-group
+            v-model="form.spec_type">
+            <el-radio :label="0">文字</el-radio>
+            <el-radio :label="1">图片</el-radio>
+            <el-radio :label="2">颜色</el-radio>
+          </el-radio-group>
+        </el-form-item>
+
+        <el-form-item
           label="排序值"
           prop="sort">
           <el-input-number
@@ -296,6 +307,7 @@ export default {
         name: undefined,
         spec_item: undefined,
         spec_index: undefined,
+        spec_type: undefined,
         sort: undefined
       },
       rules: {
@@ -405,6 +417,7 @@ export default {
         name: '',
         spec_item: '',
         spec_index: 1,
+        spec_type: 0,
         sort: 50
       }
 

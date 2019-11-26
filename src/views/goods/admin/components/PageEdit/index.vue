@@ -300,26 +300,62 @@
                     <el-divider></el-divider>
                   </div>
 
-                  <div v-show="attrData.length">
+                  <div v-show="currentForm.goods_type_id">
                     <el-card
-                      v-for="(item) in specData"
+                      v-for="(item, key) in specData"
                       :key="item.spec_id"
                       :body-style="{padding: '10px 15px'}"
                       class="spec-box-card"
                       shadow="never">
                       <div slot="header" class="clearfix action">
-                        <cs-icon class="icon-move cs-pr-5 spec-handle" name="align-justify"/>
+                        <cs-icon class="icon-move cs-p-10 spec-handle" name="align-justify"/>
                         <span class="cs-pr-10">规格项</span>
-                        <el-input v-model="item.name" placeholder="请输入规格名称" style="width: 248px" clearable/>
-                        <el-button class="active cs-pl-10" size="small" type="text">删除</el-button>
+
+                        <el-input
+                          v-model="item.name"
+                          placeholder="请输入规格名称"
+                          style="width: 30%;"
+                          clearable>
+                        </el-input>
+
+                        <el-radio-group
+                          v-model="item.spec_type"
+                          class="cs-pl-10">
+                          <el-radio :label="0">文字</el-radio>
+                          <el-radio :label="1">图片</el-radio>
+                          <el-radio :label="2">颜色</el-radio>
+                        </el-radio-group>
+
+                        <el-button
+                          @click="delSpecItem(key)"
+                          class="active cs-pl-10"
+                          size="small"
+                          type="text">删除</el-button>
                       </div>
 
-                      <div>
-                        <span>正文内容</span>
-                      </div>
+                      <el-checkbox-group v-model="item.select_spec">
+                        <div
+                          v-for="(value, index) in item.spec_item"
+                          :key="`${item.spec_id}_${index}`">
+                          <el-checkbox :label="value">
+                            <el-tag
+                              @click.prevent.self="() => {console.log('okok')}"
+                              type="info"
+                              effect="plain"
+                              closable>{{value}}</el-tag>
+                          </el-checkbox>
+
+                        </div>
+                      </el-checkbox-group>
+
+                      <el-button type="text">+ 添加规格值</el-button>
                     </el-card>
 
-                    <el-button class="cs-mt" size="small">新增规格</el-button>
+                    <el-button
+                      class="cs-mt"
+                      type="primary"
+                      size="small"
+                      @click="addNewSpec">新增规格</el-button>
                   </div>
                 </el-form-item>
               </el-col>
@@ -332,7 +368,7 @@
                   </div>
 
                   <draggable
-                    v-show="attrData.length"
+                    v-show="currentForm.goods_type_id"
                     :list="attrData"
                     :component-data="{props: {value: this.activeAttrNames}}"
                     tag="el-collapse"
@@ -342,7 +378,7 @@
                       :key="item.goods_attribute_id"
                       :name="item.goods_attribute_id">
                       <template slot="title">
-                        <cs-icon class="icon-move cs-pr-5 attr-handle" name="align-justify"/>
+                        <cs-icon class="icon-move cs-p-10 attr-handle" name="align-justify"/>
                         <span>{{item.attr_name}}</span>
                       </template>
 
@@ -356,13 +392,13 @@
                           :key="value.goods_attribute_id"
                           class="el-form-item attr-form">
                           <label class="el-form-item__label attr-label">
-                            <cs-icon class="icon-move cs-pr-5 item-attr-handle" name="align-justify"/>
+                            <cs-icon class="icon-move cs-pr-10 item-attr-handle" name="align-justify"/>
                             <span :title="value.attr_name">{{value.attr_name}}</span>
                           </label>
                           <div class="el-form-item__content attr-content">
                             <el-select
                               v-if="value.attr_input_type !== 0"
-                              v-model="typeTemp.attr[value.goods_attribute_id]"
+                              v-model="value.result"
                               :multiple-limit="value.attr_input_type === 2 ? 0 : 1"
                               :placeholder="`请选择，${value.attr_input_type === 2 ? '可多选' : '仅单选'}`"
                               style="width: 100%;"
@@ -380,7 +416,7 @@
 
                             <div v-else>
                               <el-input
-                                v-model="typeTemp.attr[value.goods_attribute_id]"
+                                v-model="value.result"
                                 type="textarea"
                                 placeholder="请输入内容"
                                 style="width: 93%;"
@@ -572,7 +608,7 @@
 </template>
 
 <script>
-// import util from '@/utils/util'
+import util from '@/utils/util'
 // import { mapActions } from 'vuex'
 import { getGoodsAttributeList } from '@/api/goods/attribute'
 import { getGoodsSpecList } from '@/api/goods/spec'
@@ -666,19 +702,13 @@ export default {
       typeLoading: false,
       attrData: [],
       specData: [],
-      activeAttrNames: [],
-      activeSpecNames: [],
-      typeTemp: {
-        attr: {},
-        spec: {}
-      }
+      activeAttrNames: []
     }
   },
   methods: {
     // 确认新增或修改
     handleConfirm() {
-      console.log(this.currentForm)
-      console.log(this.typeTemp)
+      console.log(this.specData)
     },
     // 打开资源选择框
     handleStorage(callback, type = [], source = '') {
@@ -775,11 +805,6 @@ export default {
     },
     // 切换商品属性
     selectGoodsType(value) {
-      // this.typeTemp = {
-      //   attr: {},
-      //   spec: {}
-      // }
-
       this.typeLoading = true
       this.currentForm.goods_attr_item = []
       this.currentForm.goods_spec_item = []
@@ -790,22 +815,19 @@ export default {
         getGoodsSpecList(value)
       ])
         .then(res => {
+          let attrActive = []
           let attrData = res[0].data.length > 0 ? res[0].data : []
           let specData = res[1].data.length > 0 ? res[1].data : []
 
-          let attrActive = []
           attrData.forEach(item => {
             attrActive.push(item.goods_attribute_id)
           })
 
-          let specActive = []
           specData.forEach(item => {
-            specActive.push(item.spec_id)
+            item.select_spec = []
           })
 
           this.activeAttrNames = attrActive
-          this.activeSpecNames = specActive
-
           this.attrData = attrData
           this.specData = specData
         })
@@ -815,13 +837,29 @@ export default {
     },
     // 设置商品属性为默认值
     setAttrDefaultValue(parent, key) {
-      const data = this.attrData[parent]['get_attribute'][key]
+      let data = this.attrData[parent]['get_attribute'][key]
       if (!data || !data.attr_values[0]) {
         this.$message.info('该属性项不存在默认值')
         return
       }
 
-      this.$set(this.typeTemp.attr, data.goods_attribute_id, data.attr_values[0])
+      this.$set(data, 'result', data.attr_values[0])
+    },
+    // 新增规格
+    addNewSpec() {
+      this.specData.push({
+        spec_id: -util.randomLenNum(6, true),
+        goods_type_id: this.currentForm.goods_type_id,
+        name: '',
+        spec_index: 0,
+        spec_type: 0,
+        sort: 50,
+        spec_item: []
+      })
+    },
+    // 删除规格
+    delSpecItem(key) {
+      this.specData.splice(key, 1)
     }
   }
 }
@@ -870,7 +908,7 @@ export default {
     cursor: move;
   }
   .attr-form {
-    padding-left: 15px;
+    padding-left: 20px;
     margin-bottom: 10px;
   }
   .attr-label {
@@ -897,12 +935,16 @@ export default {
     opacity: 0;
   }
   .spec-box-card {
-    margin-bottom: -1px;
-    border-left-color: #FFFFFF;
-    border-right-color: #FFFFFF;
+    border-radius: 0;
+    border: none;
   }
   .spec-box-card >>> .el-card__header {
-    padding: 10px 0;
+    padding: 5px 0;
+    background-color: #f8f8f9;
+    border: 1px solid #EBEEF5;
     /*border-bottom: 0;*/
+  }
+  .spec-box-card >>> .el-radio {
+    margin-right: 10px;
   }
 </style>

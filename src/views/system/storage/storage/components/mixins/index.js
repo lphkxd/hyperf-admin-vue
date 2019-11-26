@@ -1,5 +1,5 @@
 import util from '@/utils/util'
-import { union, xor, remove } from 'lodash'
+import { union, xor, difference } from 'lodash'
 
 export default {
   data() {
@@ -81,14 +81,7 @@ export default {
     },
     // 取消选择
     cancelCheckBox() {
-      let checkList = this._getStorageIdList()
-      let currentCheckList = [...this.checkList]
-
-      remove(currentCheckList, (item) => {
-        return checkList.indexOf(item) !== -1
-      })
-
-      this.checkList = currentCheckList
+      this.checkList = difference(this.checkList, this._getStorageIdList())
     }
   }
 }
