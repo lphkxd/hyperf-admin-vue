@@ -293,7 +293,7 @@
             </el-form-item>
 
             <el-row :gutter="20" v-loading="typeLoading">
-              <el-col :span="12">
+              <el-col :span="13">
                 <el-form-item label="商品规格">
                   <div v-show="!specData.length" style="padding-top: 5px;">
                     <p style="color: #909399; text-align: center;">暂无数据</p>
@@ -301,66 +301,29 @@
                   </div>
 
                   <div v-show="currentForm.goods_type_id">
-                    <el-card
-                      v-for="(item, key) in specData"
-                      :key="item.spec_id"
-                      :body-style="{padding: '10px 15px'}"
-                      class="spec-box-card"
-                      shadow="never">
-                      <div slot="header" class="clearfix action">
-                        <cs-icon class="icon-move cs-p-10 spec-handle" name="align-justify"/>
-                        <span class="cs-pr-10">规格项</span>
+                    <draggable
+                      :list="specData"
+                      :component-data="{props: {value: this.activeSpecNames}}"
+                      tag="el-collapse"
+                      handle=".spec-handle">
+                      <el-collapse-item
+                        v-for="(item, parent) in specData"
+                        :key="item.spec_id"
+                        :name="item.spec_id">
+                        <template slot="title">
+                          <cs-icon class="icon-move cs-pr-10 spec-handle" name="align-justify"></cs-icon>
+                          <span v-if="item.name">{{item.name}}</span>
+                        </template>
+                      </el-collapse-item>
+                    </draggable>
 
-                        <el-input
-                          v-model="item.name"
-                          placeholder="请输入规格名称"
-                          style="width: 30%;"
-                          clearable>
-                        </el-input>
-
-                        <el-radio-group
-                          v-model="item.spec_type"
-                          class="cs-pl-10">
-                          <el-radio :label="0">文字</el-radio>
-                          <el-radio :label="1">图片</el-radio>
-                          <el-radio :label="2">颜色</el-radio>
-                        </el-radio-group>
-
-                        <el-button
-                          @click="delSpecItem(key)"
-                          class="active cs-pl-10"
-                          size="small"
-                          type="text">删除</el-button>
-                      </div>
-
-                      <el-checkbox-group v-model="item.select_spec">
-                        <div
-                          v-for="(value, index) in item.spec_item"
-                          :key="`${item.spec_id}_${index}`">
-                          <el-checkbox :label="value">
-                            <el-tag
-                              @click.prevent.self="() => {console.log('okok')}"
-                              type="info"
-                              effect="plain"
-                              closable>{{value}}</el-tag>
-                          </el-checkbox>
-
-                        </div>
-                      </el-checkbox-group>
-
-                      <el-button type="text">+ 添加规格值</el-button>
-                    </el-card>
-
-                    <el-button
-                      class="cs-mt"
-                      type="primary"
-                      size="small"
-                      @click="addNewSpec">新增规格</el-button>
+                    <el-button class="cs-mt" size="small" @click="addNewSpec">新增规格</el-button>
                   </div>
+
                 </el-form-item>
               </el-col>
 
-              <el-col :span="12">
+              <el-col :span="11">
                 <el-form-item label="商品属性">
                   <div v-show="!attrData.length" style="padding-top: 5px;">
                     <p style="color: #909399; text-align: center;">暂无数据</p>
@@ -378,7 +341,7 @@
                       :key="item.goods_attribute_id"
                       :name="item.goods_attribute_id">
                       <template slot="title">
-                        <cs-icon class="icon-move cs-p-10 attr-handle" name="align-justify"/>
+                        <cs-icon class="icon-move cs-pr-10 attr-handle" name="align-justify"/>
                         <span>{{item.attr_name}}</span>
                       </template>
 
@@ -399,9 +362,10 @@
                             <el-select
                               v-if="value.attr_input_type !== 0"
                               v-model="value.result"
-                              :multiple-limit="value.attr_input_type === 2 ? 0 : 1"
-                              :placeholder="`请选择，${value.attr_input_type === 2 ? '可多选' : '仅单选'}`"
+                              :multiple-limit="inputType[value.attr_input_type].type"
+                              :placeholder=inputType[value.attr_input_type].value
                               style="width: 100%;"
+                              size="small"
                               value=""
                               filterable
                               allow-create
@@ -418,9 +382,10 @@
                               <el-input
                                 v-model="value.result"
                                 type="textarea"
-                                placeholder="请输入内容"
-                                style="width: 93%;"
-                                :autosize="{minRows: 2}">
+                                :placeholder=inputType[value.attr_input_type].value
+                                style="width: 90%;"
+                                size="small"
+                                autosize>
                               </el-input>
 
                               <cs-icon
@@ -609,7 +574,6 @@
 
 <script>
 import util from '@/utils/util'
-// import { mapActions } from 'vuex'
 import { getGoodsAttributeList } from '@/api/goods/attribute'
 import { getGoodsSpecList } from '@/api/goods/spec'
 
@@ -651,6 +615,11 @@ export default {
         create: '新增商品',
         update: '编辑商品'
       },
+      inputType: [
+        { value: '请输入自定义内容', type: 1 },
+        { value: '仅单选或自定义输入', type: 1 },
+        { value: '可多选或自定义输入', type: 2 }
+      ],
       storageCallback: '',
       uploadCallback: '',
       uploadConfig: {},
@@ -699,10 +668,11 @@ export default {
         measure_type: 0
       },
       rules: {},
-      typeLoading: false,
       attrData: [],
       specData: [],
-      activeAttrNames: []
+      activeAttrNames: [],
+      activeSpecNames: [],
+      typeLoading: false
     }
   },
   methods: {
@@ -816,6 +786,7 @@ export default {
       ])
         .then(res => {
           let attrActive = []
+          let specActive = []
           let attrData = res[0].data.length > 0 ? res[0].data : []
           let specData = res[1].data.length > 0 ? res[1].data : []
 
@@ -825,9 +796,11 @@ export default {
 
           specData.forEach(item => {
             item.select_spec = []
+            specActive.push(item.spec_id)
           })
 
           this.activeAttrNames = attrActive
+          this.activeSpecNames = specActive
           this.attrData = attrData
           this.specData = specData
         })
@@ -847,8 +820,9 @@ export default {
     },
     // 新增规格
     addNewSpec() {
+      let specId = -util.randomLenNum(6, true)
       this.specData.push({
-        spec_id: -util.randomLenNum(6, true),
+        spec_id: specId,
         goods_type_id: this.currentForm.goods_type_id,
         name: '',
         spec_index: 0,
@@ -856,10 +830,8 @@ export default {
         sort: 50,
         spec_item: []
       })
-    },
-    // 删除规格
-    delSpecItem(key) {
-      this.specData.splice(key, 1)
+
+      this.activeSpecNames.push(specId)
     }
   }
 }
@@ -873,12 +845,6 @@ export default {
   }
   .clearfix:after {
     clear: both
-  }
-  .active {
-    display: none;
-  }
-  .action:hover .active{
-    display: inline-block;
   }
   .brand-name {
     float: left;
@@ -908,43 +874,32 @@ export default {
     cursor: move;
   }
   .attr-form {
-    padding-left: 20px;
+    padding-left: 15px;
     margin-bottom: 10px;
   }
   .attr-label {
-    width: 35%;
+    width: 30%;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
   }
   .attr-content {
-    margin-left: 35%;
-    /*line-height: 32px;*/
+    margin-left: 30%;
+    line-height: 32px;
   }
   .attr-default {
     color: #C0C4CC;
     cursor: pointer;
-    position:absolute;
-    top: 45%;
-    right: 0;
+    float: right;
+    padding: 10px 5px;
+  }
+  .el-collapse >>> .el-collapse-item__header {
+    font-size: 14px;
   }
   .el-collapse >>> .el-collapse-item__content {
     padding-bottom: 0;
   }
   .sortable-ghost {
     opacity: 0;
-  }
-  .spec-box-card {
-    border-radius: 0;
-    border: none;
-  }
-  .spec-box-card >>> .el-card__header {
-    padding: 5px 0;
-    background-color: #f8f8f9;
-    border: 1px solid #EBEEF5;
-    /*border-bottom: 0;*/
-  }
-  .spec-box-card >>> .el-radio {
-    margin-right: 10px;
   }
 </style>
