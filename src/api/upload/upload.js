@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 /**
  * 获取上传模块列表
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getUploadModule() {
   return request({
@@ -17,7 +17,7 @@ export function getUploadModule() {
 /**
  * 获取上传地址
  * @param {String} module
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getUploadUrl(module = undefined) {
   return request({
@@ -36,7 +36,7 @@ export function getUploadUrl(module = undefined) {
  * 获取上传Token
  * @param {String} module
  * @param {String} type
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getUploadToken(module = undefined, type = 'web') {
   return request({
@@ -55,7 +55,7 @@ export function getUploadToken(module = undefined, type = 'web') {
 /**
  * 替换上传资源
  * @param {Number} storage_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function replaceUploadItem(storage_id) {
   return request({

@@ -3,7 +3,7 @@ import request from '@/utils/request'
 /**
  * 添加一个商品分类
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function addGoodsCategoryItem(data) {
   return request({
@@ -19,7 +19,7 @@ export function addGoodsCategoryItem(data) {
 /**
  * 编辑一个商品分类
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setGoodsCategoryItem(data) {
   return request({
@@ -36,7 +36,7 @@ export function setGoodsCategoryItem(data) {
  * 批量删除商品分类(支持检测是否存在子节点与关联商品)
  * @param {Array} goods_category_id
  * @param {Number} not_empty
- * @returns {AxiosPromise}
+ * @returns
  */
 export function delGoodsCategoryList(goods_category_id, not_empty = 0) {
   return request({
@@ -55,7 +55,7 @@ export function delGoodsCategoryList(goods_category_id, not_empty = 0) {
 /**
  * 获取一个商品分类
  * @param {Number} goods_category_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getGoodsCategoryItem(goods_category_id) {
   return request({
@@ -73,7 +73,7 @@ export function getGoodsCategoryItem(goods_category_id) {
 /**
  * 获取商品分类列表
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getGoodsCategoryList(data) {
   return request({
@@ -89,7 +89,7 @@ export function getGoodsCategoryList(data) {
 /**
  * 获取所有子级分类
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getGoodsCategorySon(data) {
   return request({
@@ -105,7 +105,7 @@ export function getGoodsCategorySon(data) {
 /**
  * 获取分类导航数据
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getGoodsCategoryNavi(data) {
   return request({
@@ -122,7 +122,7 @@ export function getGoodsCategoryNavi(data) {
  * 批量设置是否显示
  * @param {Array} goods_category_id
  * @param {Number} status
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setGoodsCategoryStatus(goods_category_id, status) {
   return request({
@@ -142,7 +142,7 @@ export function setGoodsCategoryStatus(goods_category_id, status) {
  * 设置商品分类排序
  * @param {Number} goods_category_id
  * @param {Number} sort
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setGoodsCategorySort(goods_category_id, sort) {
   return request({
@@ -162,7 +162,7 @@ export function setGoodsCategorySort(goods_category_id, sort) {
  * 批量设置是否导航
  * @param {Array} goods_category_id
  * @param {Number} is_navi
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setGoodsCategoryNavi(goods_category_id, is_navi) {
   return request({
@@ -181,7 +181,7 @@ export function setGoodsCategoryNavi(goods_category_id, is_navi) {
 /**
  * 根据编号自动排序
  * @param {Array} goods_category_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setGoodsCategoryIndex(goods_category_id) {
   return request({

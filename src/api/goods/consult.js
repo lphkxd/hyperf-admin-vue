@@ -3,7 +3,7 @@ import request from '@/utils/request'
 /**
  * 批量删除商品咨询
  * @param {Array} goods_consult_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function delGoodsConsultList(goods_consult_id) {
   return request({
@@ -22,7 +22,7 @@ export function delGoodsConsultList(goods_consult_id) {
  * 批量设置是否前台显示
  * @param {Array} goods_consult_id
  * @param {Number} is_show
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setGoodsConsultShow(goods_consult_id, is_show) {
   return request({
@@ -42,7 +42,7 @@ export function setGoodsConsultShow(goods_consult_id, is_show) {
  * 回复一个商品咨询
  * @param {Number} goods_consult_id
  * @param {String} content
- * @returns {AxiosPromise}
+ * @returns
  */
 export function replyGoodsConsultItem(goods_consult_id, content) {
   return request({
@@ -61,7 +61,7 @@ export function replyGoodsConsultItem(goods_consult_id, content) {
 /**
  * 获取一个商品咨询问答明细
  * @param {Number} goods_consult_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getGoodsConsultItem(goods_consult_id) {
   return request({
@@ -79,7 +79,7 @@ export function getGoodsConsultItem(goods_consult_id) {
 /**
  * 获取商品咨询列表
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getGoodsConsultList(data) {
   return request({

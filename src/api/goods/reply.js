@@ -3,7 +3,7 @@ import request from '@/utils/request'
 /**
  * 批量删除商品评价的回复
  * @param {Array} goods_reply_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function delGoodsReplyList(goods_reply_id) {
   return request({
@@ -21,7 +21,7 @@ export function delGoodsReplyList(goods_reply_id) {
 /**
  * 获取商品评价回复列表
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getGoodsReplyList(data) {
   return request({

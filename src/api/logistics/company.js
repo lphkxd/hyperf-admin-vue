@@ -3,7 +3,7 @@ import request from '@/utils/request'
 /**
  * 添加一个快递公司
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function addDeliveryCompanyItem(data) {
   return request({
@@ -19,7 +19,7 @@ export function addDeliveryCompanyItem(data) {
 /**
  * 编辑一个快递公司
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setDeliveryCompanyItem(data) {
   return request({
@@ -35,7 +35,7 @@ export function setDeliveryCompanyItem(data) {
 /**
  * 批量删除快递公司
  * @param {Array} delivery_item_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function delDeliveryCompanyList(delivery_item_id) {
   return request({
@@ -53,7 +53,7 @@ export function delDeliveryCompanyList(delivery_item_id) {
 /**
  * 获取一个快递公司
  * @param {Number} delivery_item_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getDeliveryCompanyItem(delivery_item_id) {
   return request({
@@ -73,7 +73,7 @@ export function getDeliveryCompanyItem(delivery_item_id) {
  * @param {String} code
  * @param {Number} type
  * @param {Number} exclude_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function uniqueDeliveryCompanyCode(code, type, exclude_id = null) {
   return request({
@@ -93,7 +93,7 @@ export function uniqueDeliveryCompanyCode(code, type, exclude_id = null) {
 /**
  * 获取快递公司列表
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getDeliveryCompanyList(data) {
   return request({
@@ -109,7 +109,7 @@ export function getDeliveryCompanyList(data) {
 /**
  * 获取快递公司选择列表
  * @param {Number} type
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getDeliveryCompanySelect(type = null) {
   return request({
@@ -127,7 +127,7 @@ export function getDeliveryCompanySelect(type = null) {
 /**
  * 根据快递单号识别快递公司
  * @param {String} code
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getDeliveryCompanyRecognise(code) {
   return request({
@@ -145,7 +145,7 @@ export function getDeliveryCompanyRecognise(code) {
 /**
  * 复制一个快递公司为「热门类型」
  * @param {Number} delivery_item_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function copyDeliveryCompanyHot(delivery_item_id) {
   return request({

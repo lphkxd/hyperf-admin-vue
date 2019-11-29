@@ -3,7 +3,7 @@ import request from '@/utils/request'
 /**
  * 添加一个订单促销
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function addPromotionItem(data) {
   return request({
@@ -19,7 +19,7 @@ export function addPromotionItem(data) {
 /**
  * 编辑一个订单促销
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setPromotionItem(data) {
   return request({
@@ -35,7 +35,7 @@ export function setPromotionItem(data) {
 /**
  * 获取一个订单促销
  * @param {Number} promotion_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getPromotionItem(promotion_id) {
   return request({
@@ -54,7 +54,7 @@ export function getPromotionItem(promotion_id) {
  * 批量设置订单促销状态
  * @param {Array} promotion_id
  * @param {Number} status
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setPromotionStatus(promotion_id, status) {
   return request({
@@ -73,7 +73,7 @@ export function setPromotionStatus(promotion_id, status) {
 /**
  * 批量删除订单促销
  * @param {Array} promotion_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function delPromotionList(promotion_id) {
   return request({
@@ -91,7 +91,7 @@ export function delPromotionList(promotion_id) {
 /**
  * 获取订单促销列表
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getPromotionList(data) {
   return request({
@@ -106,7 +106,7 @@ export function getPromotionList(data) {
 
 /**
  * 获取正在进行的促销列表
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getPromotionActive() {
   return request({

@@ -3,7 +3,7 @@ import request from '@/utils/request'
 /**
  * 添加一条购物卡
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function addCardItem(data) {
   return request({
@@ -19,7 +19,7 @@ export function addCardItem(data) {
 /**
  * 编辑一条购物卡
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setCardItem(data) {
   return request({
@@ -35,7 +35,7 @@ export function setCardItem(data) {
 /**
  * 获取一条购物卡
  * @param {Number} card_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getCardItem(card_id) {
   return request({
@@ -54,7 +54,7 @@ export function getCardItem(card_id) {
  * 批量设置购物卡状态
  * @param {Array} card_id
  * @param {Number} status
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setCardStatus(card_id, status) {
   return request({
@@ -73,7 +73,7 @@ export function setCardStatus(card_id, status) {
 /**
  * 批量删除购物卡
  * @param {Array} card_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function delCardList(card_id) {
   return request({
@@ -91,7 +91,7 @@ export function delCardList(card_id) {
 /**
  * 获取购物卡列表
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getCardList(data) {
   return request({

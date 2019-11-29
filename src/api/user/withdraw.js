@@ -3,7 +3,7 @@ import request from '@/utils/request'
 /**
  * 获取一个提现请求
  * @param {String} withdraw_no
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getWithdrawItem(withdraw_no) {
   return request({
@@ -21,7 +21,7 @@ export function getWithdrawItem(withdraw_no) {
 /**
  * 获取提现请求列表
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getWithdrawList(data) {
   return request({
@@ -37,7 +37,7 @@ export function getWithdrawList(data) {
 /**
  * 处理一个提现请求
  * @param {String} withdraw_no
- * @returns {AxiosPromise}
+ * @returns
  */
 export function processWithdrawItem(withdraw_no) {
   return request({
@@ -56,7 +56,7 @@ export function processWithdrawItem(withdraw_no) {
  * 完成一个提现请求
  * @param {String} withdraw_no
  * @param {String} remark
- * @returns {AxiosPromise}
+ * @returns
  */
 export function completeWithdrawItem(withdraw_no, remark) {
   return request({
@@ -76,7 +76,7 @@ export function completeWithdrawItem(withdraw_no, remark) {
  * 拒绝一个提现请求
  * @param {String} withdraw_no
  * @param {String} remark
- * @returns {AxiosPromise}
+ * @returns
  */
 export function refuseWithdrawItem(withdraw_no, remark) {
   return request({
@@ -94,7 +94,7 @@ export function refuseWithdrawItem(withdraw_no, remark) {
 
 /**
  * 获取提现手续费
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getWithdrawFee() {
   return request({

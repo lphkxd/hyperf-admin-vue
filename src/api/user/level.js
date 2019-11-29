@@ -3,7 +3,7 @@ import request from '@/utils/request'
 /**
  * 获取一个账号等级
  * @param {Number} user_level_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getUserLevelItem(user_level_id) {
   return request({
@@ -20,7 +20,7 @@ export function getUserLevelItem(user_level_id) {
 
 /**
  * 获取账号等级列表
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getUserLevelList() {
   return request({
@@ -35,7 +35,7 @@ export function getUserLevelList() {
 /**
  * 添加一个账号等级
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function addUserLevelItem(data) {
   return request({
@@ -51,7 +51,7 @@ export function addUserLevelItem(data) {
 /**
  * 编辑一个账号等级
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setUserLevelItem(data) {
   return request({
@@ -67,7 +67,7 @@ export function setUserLevelItem(data) {
 /**
  * 批量删除账号等级
  * @param {Array} user_level_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function delUserLevelList(user_level_id) {
   return request({

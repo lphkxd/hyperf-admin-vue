@@ -3,7 +3,7 @@ import request from '@/utils/request'
 /**
  * 添加一个文章分类
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function addArticleCatItem(data) {
   return request({
@@ -19,7 +19,7 @@ export function addArticleCatItem(data) {
 /**
  * 编辑一个文章分类
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setArticleCatItem(data) {
   return request({
@@ -36,7 +36,7 @@ export function setArticleCatItem(data) {
  * 批量删除文章分类(支持检测是否存在子节点与关联文章)
  * @param {Array} article_cat_id
  * @param {Number} not_empty
- * @returns {AxiosPromise}
+ * @returns
  */
 export function delArticleCatList(article_cat_id, not_empty = 0) {
   return request({
@@ -55,7 +55,7 @@ export function delArticleCatList(article_cat_id, not_empty = 0) {
 /**
  * 获取一个文章分类
  * @param {Number} article_cat_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getArticleCatItem(article_cat_id) {
   return request({
@@ -73,7 +73,7 @@ export function getArticleCatItem(article_cat_id) {
 /**
  * 获取文章分类列表
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getArticleCatList(data) {
   return request({
@@ -90,7 +90,7 @@ export function getArticleCatList(data) {
  * 获取分类导航数据
  * @param {Number} article_cat_id
  * @param {Number} is_layer
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getArticleCatNavi(article_cat_id = 0, is_layer = 1) {
   return request({
@@ -110,7 +110,7 @@ export function getArticleCatNavi(article_cat_id = 0, is_layer = 1) {
  * 设置文章分类排序
  * @param {Number} article_cat_id
  * @param {Number} sort
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setArticleCatSort(article_cat_id, sort) {
   return request({
@@ -130,7 +130,7 @@ export function setArticleCatSort(article_cat_id, sort) {
  * 批量设置是否导航
  * @param {Array} article_cat_id
  * @param {Number} is_navi
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setArticleCatNavi(article_cat_id, is_navi) {
   return request({
@@ -149,7 +149,7 @@ export function setArticleCatNavi(article_cat_id, is_navi) {
 /**
  * 根据编号自动设置排序值
  * @param {Array} article_cat_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setArticleCatIndex(article_cat_id) {
   return request({

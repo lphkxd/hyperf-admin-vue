@@ -4,7 +4,7 @@ import request from '@/utils/request'
  * 获取一个订单
  * @param {String} order_no
  * @param {Number} is_get_log
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getOrderItem(order_no, is_get_log = 0) {
   return request({
@@ -23,7 +23,7 @@ export function getOrderItem(order_no, is_get_log = 0) {
 /**
  * 获取订单列表
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getOrderList(data) {
   return request({
@@ -39,7 +39,7 @@ export function getOrderList(data) {
 /**
  * 编辑一个订单
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setOrderItem(data) {
   return request({
@@ -55,7 +55,7 @@ export function setOrderItem(data) {
 /**
  * 取消一个订单
  * @param {String} order_no
- * @returns {AxiosPromise}
+ * @returns
  */
 export function cancelOrderItem(order_no) {
   return request({
@@ -74,7 +74,7 @@ export function cancelOrderItem(order_no) {
  * 将订单放入回收站、还原或删除
  * @param {String} order_no
  * @param {Number} is_recycle
- * @returns {AxiosPromise}
+ * @returns
  */
 export function recycleOrderItem(order_no, is_recycle) {
   return request({
@@ -93,7 +93,7 @@ export function recycleOrderItem(order_no, is_recycle) {
 /**
  * 获取一个订单商品明细
  * @param {Number} order_goods_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getOrderGoodsItem(order_goods_id) {
   return request({
@@ -110,7 +110,7 @@ export function getOrderGoodsItem(order_goods_id) {
 
 /**
  * 获取订单各个状态合计数
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getOrderStatusTotal() {
   return request({
@@ -126,7 +126,7 @@ export function getOrderStatusTotal() {
  * 调整订单应付金额
  * @param {String} order_no
  * @param {Number} total_amount
- * @returns {AxiosPromise}
+ * @returns
  */
 export function changePriceOrderItem(order_no, total_amount) {
   return request({
@@ -146,7 +146,7 @@ export function changePriceOrderItem(order_no, total_amount) {
  * 添加或编辑卖家备注
  * @param {String} order_no
  * @param {String} sellers_remark
- * @returns {AxiosPromise}
+ * @returns
  */
 export function remarkOrderItem(order_no, sellers_remark) {
   return request({
@@ -165,7 +165,7 @@ export function remarkOrderItem(order_no, sellers_remark) {
 /**
  * 订单设为配货状态
  * @param {String} order_no
- * @returns {AxiosPromise}
+ * @returns
  */
 export function pickingOrderItem(order_no) {
   return request({
@@ -183,7 +183,7 @@ export function pickingOrderItem(order_no) {
 /**
  * 订单设为发货状态
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function deliveryOrderItem(data) {
   return request({
@@ -199,7 +199,7 @@ export function deliveryOrderItem(data) {
 /**
  * 订单确认收货。(卖家也可进行此操作)
  * @param {String} order_no
- * @returns {AxiosPromise}
+ * @returns
  */
 export function completeOrderItem(order_no) {
   return request({
@@ -216,7 +216,7 @@ export function completeOrderItem(order_no) {
 
 /**
  * 未付款订单超时自动取消
- * @returns {AxiosPromise}
+ * @returns
  */
 export function timeoutOrderCancel() {
   return request({
@@ -230,7 +230,7 @@ export function timeoutOrderCancel() {
 
 /**
  * 未确认收货订单超时自动完成
- * @returns {AxiosPromise}
+ * @returns
  */
 export function timeoutOrderComplete() {
   return request({

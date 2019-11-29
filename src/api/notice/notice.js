@@ -3,7 +3,7 @@ import request from '@/utils/request'
 /**
  * 获取一个通知系统
  * @param {String} code
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getNoticeItem(code) {
   return request({
@@ -20,7 +20,7 @@ export function getNoticeItem(code) {
 
 /**
  * 获取通知系统列表
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getNoticeList() {
   return request({
@@ -36,7 +36,7 @@ export function getNoticeList() {
  * 批量设置通知系统是否启用
  * @param {Array} code
  * @param {Number} status
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setNoticeStatus(code, status) {
   return request({
@@ -55,7 +55,7 @@ export function setNoticeStatus(code, status) {
 /**
  * 设置一个通知系统
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setNoticeItem(data) {
   return request({

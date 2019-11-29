@@ -3,7 +3,7 @@ import request from '@/utils/request'
 /**
  * 查询一笔退款信息
  * @param {String} refund_no
- * @returns {AxiosPromise}
+ * @returns
  */
 export function queryRefundItem(refund_no) {
   return request({
@@ -21,7 +21,7 @@ export function queryRefundItem(refund_no) {
 /**
  * 获取退款记录列表
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getRefundList(data) {
   return request({

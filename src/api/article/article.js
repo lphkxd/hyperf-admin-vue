@@ -3,7 +3,7 @@ import request from '@/utils/request'
 /**
  * 添加一篇文章
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function addArticleItem(data) {
   return request({
@@ -19,7 +19,7 @@ export function addArticleItem(data) {
 /**
  * 编辑一篇文章
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setArticleItem(data) {
   return request({
@@ -35,7 +35,7 @@ export function setArticleItem(data) {
 /**
  * 批量删除文章
  * @param {Array} article_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function delArticleList(article_id) {
   return request({
@@ -53,7 +53,7 @@ export function delArticleList(article_id) {
 /**
  * 获取一篇文章
  * @param {Number} article_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getArticleItem(article_id) {
   return request({
@@ -71,7 +71,7 @@ export function getArticleItem(article_id) {
 /**
  * 获取文章列表
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getArticleList(data) {
   return request({
@@ -88,7 +88,7 @@ export function getArticleList(data) {
  * 批量设置文章置顶
  * @param {Array} article_id
  * @param {Number} is_top
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setArticleTop(article_id, is_top) {
   return request({
@@ -108,7 +108,7 @@ export function setArticleTop(article_id, is_top) {
  * 批量设置文章是否显示
  * @param {Array} article_id
  * @param {Number} status
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setArticleStatus(article_id, status) {
   return request({

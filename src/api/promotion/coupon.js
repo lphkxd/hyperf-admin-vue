@@ -3,7 +3,7 @@ import request from '@/utils/request'
 /**
  * 添加一张优惠劵
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function addCouponItem(data) {
   return request({
@@ -19,7 +19,7 @@ export function addCouponItem(data) {
 /**
  * 编辑一张优惠劵
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setCouponItem(data) {
   return request({
@@ -35,7 +35,7 @@ export function setCouponItem(data) {
 /**
  * 获取一张优惠劵
  * @param {Number} coupon_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getCouponItem(coupon_id) {
   return request({
@@ -53,7 +53,7 @@ export function getCouponItem(coupon_id) {
 /**
  * 获取优惠劵列表
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getCouponList(data) {
   return request({
@@ -69,7 +69,7 @@ export function getCouponList(data) {
 /**
  * 批量删除优惠劵
  * @param {Array} coupon_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function delCouponList(coupon_id) {
   return request({
@@ -88,7 +88,7 @@ export function delCouponList(coupon_id) {
  * 批量设置优惠劵状态
  * @param {Array} coupon_id
  * @param {Number} status
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setCouponStatus(coupon_id, status) {
   return request({
@@ -108,7 +108,7 @@ export function setCouponStatus(coupon_id, status) {
  * 批量设置优惠劵是否失效
  * @param {Array} coupon_id
  * @param {Number} is_invalid
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setCouponInvalid(coupon_id, is_invalid) {
   return request({
@@ -126,7 +126,7 @@ export function setCouponInvalid(coupon_id, is_invalid) {
 
 /**
  * 获取当前可领取的优惠劵列表
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getCouponActive() {
   return request({

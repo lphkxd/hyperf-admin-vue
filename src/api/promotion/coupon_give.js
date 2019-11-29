@@ -3,7 +3,7 @@ import request from '@/utils/request'
 /**
  * 向指定用户发放优惠劵
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function giveCouponUser(data) {
   return request({
@@ -20,7 +20,7 @@ export function giveCouponUser(data) {
  * 生成线下优惠劵
  * @param {Number} coupon_id
  * @param {Number} give_number
- * @returns {AxiosPromise}
+ * @returns
  */
 export function giveCouponLive(coupon_id, give_number) {
   return request({
@@ -39,7 +39,7 @@ export function giveCouponLive(coupon_id, give_number) {
 /**
  * 获取已领取优惠劵列表
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getCouponGiveList(data) {
   return request({
@@ -55,7 +55,7 @@ export function getCouponGiveList(data) {
 /**
  * 批量删除已领取优惠劵
  * @param {Array} coupon_give_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function delCouponGiveList(coupon_give_id) {
   return request({
@@ -73,7 +73,7 @@ export function delCouponGiveList(coupon_give_id) {
 /**
  * 批量恢复已删优惠劵
  * @param {Array} coupon_give_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function recCouponGiveList(coupon_give_id) {
   return request({
@@ -91,7 +91,7 @@ export function recCouponGiveList(coupon_give_id) {
 /**
  * 导出线下生成的优惠劵
  * @param {Number} coupon_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getCouponGiveExport(coupon_id) {
   return request({

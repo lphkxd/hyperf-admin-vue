@@ -3,7 +3,7 @@ import request from '@/utils/request'
 /**
  * 获取一条操作日志
  * @param {Number} action_log_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getActionLogItem(action_log_id) {
   return request({
@@ -21,7 +21,7 @@ export function getActionLogItem(action_log_id) {
 /**
  * 获取操作日志列表
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getActionLogList(data) {
   return request({

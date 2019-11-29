@@ -3,7 +3,7 @@ import request from '@/utils/request'
 /**
  * 添加一个配送方式
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function addDeliveryItem(data) {
   return request({
@@ -19,7 +19,7 @@ export function addDeliveryItem(data) {
 /**
  * 编辑一个配送方式
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setDeliveryItem(data) {
   return request({
@@ -35,7 +35,7 @@ export function setDeliveryItem(data) {
 /**
  * 批量删除配送方式
  * @param {Array} delivery_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function delDeliveryList(delivery_id) {
   return request({
@@ -53,7 +53,7 @@ export function delDeliveryList(delivery_id) {
 /**
  * 获取一个配送方式
  * @param {Number} delivery_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getDeliveryItem(delivery_id) {
   return request({
@@ -71,7 +71,7 @@ export function getDeliveryItem(delivery_id) {
 /**
  * 获取配送方式列表
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getDeliveryList(data) {
   return request({
@@ -86,7 +86,7 @@ export function getDeliveryList(data) {
 
 /**
  * 获取配送方式选择列表
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getDeliverySelect() {
   return request({
@@ -101,7 +101,7 @@ export function getDeliverySelect() {
 /**
  * 根据配送方式获取运费
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getDeliveryFreight(data) {
   return request({
@@ -118,7 +118,7 @@ export function getDeliveryFreight(data) {
  * 批量设置配送方式状态
  * @param {Array} delivery_id
  * @param {Number} status
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setDeliveryStatus(delivery_id, status) {
   return request({
@@ -138,7 +138,7 @@ export function setDeliveryStatus(delivery_id, status) {
  * 验证快递公司编号是否已存在
  * @param {Number} delivery_item_id
  * @param {Number} exclude_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function uniqueDeliveryItem(delivery_item_id, exclude_id) {
   return request({
@@ -158,7 +158,7 @@ export function uniqueDeliveryItem(delivery_item_id, exclude_id) {
  * 设置配送方式排序
  * @param {Number} delivery_id
  * @param {Number} sort
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setDeliverySort(delivery_id, sort) {
   return request({

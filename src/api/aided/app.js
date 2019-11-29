@@ -3,7 +3,7 @@ import request from '@/utils/request'
 /**
  * 添加一个应用
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function addAppItem(data) {
   return request({
@@ -19,7 +19,7 @@ export function addAppItem(data) {
 /**
  * 编辑一个应用
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setAppItem(data) {
   return request({
@@ -35,7 +35,7 @@ export function setAppItem(data) {
 /**
  * 获取一个应用
  * @param {Number} app_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getAppItem(app_id) {
   return request({
@@ -53,7 +53,7 @@ export function getAppItem(app_id) {
 /**
  * 获取应用列表
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getAppList(data) {
   return request({
@@ -69,7 +69,7 @@ export function getAppList(data) {
 /**
  * 批量删除应用
  * @param {Array} app_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function delAppList(app_id) {
   return request({
@@ -88,7 +88,7 @@ export function delAppList(app_id) {
  * 查询应用名称是否已存在
  * @param {String} app_name
  * @param {Number} exclude_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function uniqueAppName(app_name, exclude_id) {
   return request({
@@ -107,7 +107,7 @@ export function uniqueAppName(app_name, exclude_id) {
 /**
  * 更换应用Secret
  * @param {Number} app_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function replaceAppSecret(app_id) {
   return request({
@@ -126,7 +126,7 @@ export function replaceAppSecret(app_id) {
  * 批量设置应用状态
  * @param {Array} app_id
  * @param {Number} status
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setAppStatus(app_id, status) {
   return request({

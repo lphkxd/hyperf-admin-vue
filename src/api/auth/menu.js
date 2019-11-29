@@ -17,7 +17,7 @@ export function getMenuModule() {
 /**
  * 根据权限获取菜单列表
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getMenuAuthList(data) {
   return request({
@@ -34,7 +34,7 @@ export function getMenuAuthList(data) {
 /**
  * 获取一个菜单
  * @param {Number} menu_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getMenuItem(menu_id) {
   return request({
@@ -52,7 +52,7 @@ export function getMenuItem(menu_id) {
 /**
  * 添加一个菜单
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function addMenuItem(data) {
   return request({
@@ -68,7 +68,7 @@ export function addMenuItem(data) {
 /**
  * 编辑一个菜单
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setMenuItem(data) {
   return request({
@@ -84,7 +84,7 @@ export function setMenuItem(data) {
 /**
  * 删除一个菜单，如果当前菜单存在子级，那么所有的子级也将被删除
  * @param {Number} menu_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function delMenuItem(menu_id) {
   return request({
@@ -102,7 +102,7 @@ export function delMenuItem(menu_id) {
 /**
  * 获取菜单列表
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getMenuList(data) {
   return request({
@@ -119,7 +119,7 @@ export function getMenuList(data) {
  * 根据菜单Id生成导航「面包屑」数据
  * @param {Number} menu_id
  * @param {Number} is_layer
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getMenuIdNavi(menu_id, is_layer = 1) {
   return request({
@@ -139,7 +139,7 @@ export function getMenuIdNavi(menu_id, is_layer = 1) {
  * 根据菜单Url生成导航「面包屑」数据
  * @param {String} url
  * @param {Number} is_layer
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getMenuUrlNavi(url, is_layer = 1) {
   return request({
@@ -159,7 +159,7 @@ export function getMenuUrlNavi(url, is_layer = 1) {
  * 批量设置是否属于导航菜单
  * @param {Array} menu_id
  * @param {Number} is_navi
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setMenuNavi(menu_id, is_navi) {
   return request({
@@ -179,7 +179,7 @@ export function setMenuNavi(menu_id, is_navi) {
  * 设置菜单排序
  * @param {Number} menu_id
  * @param {Number} sort
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setMenuSort(menu_id, sort) {
   return request({
@@ -198,7 +198,7 @@ export function setMenuSort(menu_id, sort) {
 /**
  * 根据编号自动设置排序值
  * @param {Array} menu_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setMenuIndex(menu_id) {
   return request({
@@ -217,7 +217,7 @@ export function setMenuIndex(menu_id) {
  * 设置菜单状态，同时会影响上级与下级菜单的状态
  * @param {Number} menu_id
  * @param {Number} status
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setMenuStatus(menu_id, status) {
   return request({

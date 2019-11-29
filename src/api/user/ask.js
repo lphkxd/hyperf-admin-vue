@@ -3,7 +3,7 @@ import request from '@/utils/request'
 /**
  * 删除一条记录
  * @param {Number} ask_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function delAskItem(ask_id) {
   return request({
@@ -22,7 +22,7 @@ export function delAskItem(ask_id) {
  * 回复一个提问
  * @param {Number} ask_id
  * @param {string} answer
- * @returns {AxiosPromise}
+ * @returns
  */
 export function replyAskItem(ask_id, answer) {
   return request({
@@ -41,7 +41,7 @@ export function replyAskItem(ask_id, answer) {
 /**
  * 获取一个问答明细
  * @param {Number} ask_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getAskItem(ask_id) {
   return request({
@@ -59,7 +59,7 @@ export function getAskItem(ask_id) {
 /**
  * 获取问答主题列表
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getAskList(data) {
   return request({

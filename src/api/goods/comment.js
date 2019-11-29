@@ -3,7 +3,7 @@ import request from '@/utils/request'
 /**
  * 顾客对商品的评价管理组成员可对其进行回复，可回复多条（追加评价）。
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function replyGoodsCommentItem(data) {
   return request({
@@ -19,7 +19,7 @@ export function replyGoodsCommentItem(data) {
 /**
  * 删除任意一条商品评价(主评,主回,追评,追回)
  * @param {Number} goods_comment_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function delGoodsCommentItem(goods_comment_id) {
   return request({
@@ -37,7 +37,7 @@ export function delGoodsCommentItem(goods_comment_id) {
 /**
  * 获取一个商品评价得分
  * @param {Number} goods_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getGoodsCommentScore(goods_id) {
   return request({
@@ -56,7 +56,7 @@ export function getGoodsCommentScore(goods_id) {
  * 批量设置是否前台显示（只对主评有效）
  * @param {Array} goods_comment_id
  * @param {Number} is_show
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setGoodsCommentShow(goods_comment_id, is_show) {
   return request({
@@ -76,7 +76,7 @@ export function setGoodsCommentShow(goods_comment_id, is_show) {
  * 批量设置评价是否置顶（只对主评有效）
  * @param {Array} goods_comment_id
  * @param {Number} is_top
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setGoodsCommentTop(goods_comment_id, is_top) {
   return request({
@@ -96,7 +96,7 @@ export function setGoodsCommentTop(goods_comment_id, is_top) {
  * 批量设置评价是否已读（只对主评有效）
  * @param {Array} goods_comment_id
  * @param {Number} status
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setGoodsCommentStatus(goods_comment_id, status) {
   return request({
@@ -115,7 +115,7 @@ export function setGoodsCommentStatus(goods_comment_id, status) {
 /**
  * 获取一个商品”全部”、”晒图”、”追评”、”好评”、”中评”、差评”的数量
  * @param {Number} goods_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getGoodsCommentCount(goods_id) {
   return request({
@@ -133,7 +133,7 @@ export function getGoodsCommentCount(goods_id) {
 /**
  * 获取某个评价的明细
  * @param {Number} goods_comment_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getGoodsCommentItem(goods_comment_id) {
   return request({
@@ -151,7 +151,7 @@ export function getGoodsCommentItem(goods_comment_id) {
 /**
  * 获取商品评价列表
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getGoodsCommentList(data) {
   return request({

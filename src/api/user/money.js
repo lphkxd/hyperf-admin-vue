@@ -3,7 +3,7 @@ import request from '@/utils/request'
 /**
  * 获取指定账号资金信息
  * @param {Number} client_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getUserMoneyInfo(client_id) {
   return request({

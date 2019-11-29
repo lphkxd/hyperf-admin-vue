@@ -3,7 +3,7 @@ import request from '@/utils/request'
 /**
  * 获取一笔交易结算
  * @param {Number} transaction_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getTransactionItem(transaction_id) {
   return request({
@@ -21,7 +21,7 @@ export function getTransactionItem(transaction_id) {
 /**
  * 获取交易结算列表
  * @param {Array} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getTransactionList(data) {
   return request({

@@ -4,7 +4,7 @@ import request from '@/utils/request'
  * 通用的接口获取
  * @param {Object} data
  * @param {String} method
- * @returns {AxiosPromise}
+ * @returns
  */
 function getRequest(data, method) {
   return request({
@@ -23,7 +23,7 @@ function getRequest(data, method) {
  * 获取某个模块的设置
  * @param {String} module
  * @param {String} code
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getSettingList(module, code = '') {
   return request({
@@ -42,7 +42,7 @@ export function getSettingList(module, code = '') {
 /**
  * 设置配送轨迹
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setDeliveryDistList(data) {
   return getRequest(data, 'set.delivery.dist.list')
@@ -51,7 +51,7 @@ export function setDeliveryDistList(data) {
 /**
  * 设置支付完成提示页
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setPaymentList(data) {
   return getRequest(data, 'set.payment.list')
@@ -60,7 +60,7 @@ export function setPaymentList(data) {
 /**
  * 设置配送优惠
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setDeliveryList(data) {
   return getRequest(data, 'set.delivery.list')
@@ -69,7 +69,7 @@ export function setDeliveryList(data) {
 /**
  * 设置购物系统
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setShoppingList(data) {
   return getRequest(data, 'set.shopping.list')
@@ -78,7 +78,7 @@ export function setShoppingList(data) {
 /**
  * 设置售后服务
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setServiceList(data) {
   return getRequest(data, 'set.service.list')
@@ -87,7 +87,7 @@ export function setServiceList(data) {
 /**
  * 设置系统配置
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setSystemList(data) {
   return getRequest(data, 'set.system.list')
@@ -96,7 +96,7 @@ export function setSystemList(data) {
 /**
  * 设置上传配置
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setUploadList(data) {
   return getRequest(data, 'set.upload.list')

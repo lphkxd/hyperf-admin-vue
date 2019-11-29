@@ -3,7 +3,7 @@ import request from '@/utils/request'
 /**
  * 添加一个配送区域
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function addDeliveryAreaItem(data) {
   return request({
@@ -19,7 +19,7 @@ export function addDeliveryAreaItem(data) {
 /**
  * 编辑一个配送区域
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setDeliveryAreaItem(data) {
   return request({
@@ -35,7 +35,7 @@ export function setDeliveryAreaItem(data) {
 /**
  * 批量删除配送区域
  * @param {Array} delivery_area_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function delDeliveryAreaList(delivery_area_id) {
   return request({
@@ -53,7 +53,7 @@ export function delDeliveryAreaList(delivery_area_id) {
 /**
  * 获取一个配送区域
  * @param {Number} delivery_area_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getDeliveryAreaItem(delivery_area_id) {
   return request({
@@ -71,7 +71,7 @@ export function getDeliveryAreaItem(delivery_area_id) {
 /**
  * 获取配送区域列表
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getDeliveryAreaList(data) {
   return request({

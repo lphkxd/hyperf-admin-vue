@@ -3,7 +3,7 @@ import request from '@/utils/request'
 /**
  * 添加一条配送轨迹
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function addDeliveryDistItem(data) {
   return request({
@@ -19,7 +19,7 @@ export function addDeliveryDistItem(data) {
 /**
  * 根据流水号获取配送轨迹
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getDeliveryDistCode(data) {
   return request({
@@ -35,7 +35,7 @@ export function getDeliveryDistCode(data) {
 /**
  * 获取配送轨迹列表
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getDeliveryDistList(data) {
   return request({
@@ -51,7 +51,7 @@ export function getDeliveryDistList(data) {
 /**
  * 根据快递单号即时查询配送轨迹
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getDeliveryDistTrace(data) {
   return request({
@@ -66,7 +66,7 @@ export function getDeliveryDistTrace(data) {
 
 /**
  * 获取配送回调URL接口
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getDeliveryDistCallback() {
   return request({

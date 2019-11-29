@@ -4,7 +4,7 @@ import request from '@/utils/request'
  * 检测商品货号是否唯一
  * @param {String} goods_code
  * @param {Number} exclude_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function uniqueGoodsCode(goods_code, exclude_id) {
   return request({
@@ -23,7 +23,7 @@ export function uniqueGoodsCode(goods_code, exclude_id) {
 /**
  * 添加一个商品
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function addGoodsItem(data) {
   return request({
@@ -39,7 +39,7 @@ export function addGoodsItem(data) {
 /**
  * 编辑一个商品
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setGoodsItem(data) {
   return request({
@@ -55,7 +55,7 @@ export function setGoodsItem(data) {
 /**
  * 获取一个商品
  * @param {Number} goods_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getGoodsItem(goods_id) {
   return request({
@@ -74,7 +74,7 @@ export function getGoodsItem(goods_id) {
  * 批量删除或恢复商品(回收站)
  * @param {Array} goods_id
  * @param {Number} is_delete
- * @returns {AxiosPromise}
+ * @returns
  */
 export function delGoodsList(goods_id, is_delete) {
   return request({
@@ -94,7 +94,7 @@ export function delGoodsList(goods_id, is_delete) {
  * 批量设置或关闭商品可积分抵扣
  * @param {Array} goods_id
  * @param {Number} is_integral
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setIntegralGoodsList(goods_id, is_integral) {
   return request({
@@ -114,7 +114,7 @@ export function setIntegralGoodsList(goods_id, is_integral) {
  * 批量设置商品是否推荐
  * @param {Array} goods_id
  * @param {Number} is_recommend
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setRecommendGoodsList(goods_id, is_recommend) {
   return request({
@@ -134,7 +134,7 @@ export function setRecommendGoodsList(goods_id, is_recommend) {
  * 批量设置商品是否为新品
  * @param {Array} goods_id
  * @param {Number} is_new
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setNewGoodsList(goods_id, is_new) {
   return request({
@@ -154,7 +154,7 @@ export function setNewGoodsList(goods_id, is_new) {
  * 批量设置商品是否为热卖
  * @param {Array} goods_id
  * @param {Number} is_hot
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setHotGoodsList(goods_id, is_hot) {
   return request({
@@ -174,7 +174,7 @@ export function setHotGoodsList(goods_id, is_hot) {
  * 批量设置商品是否上下架
  * @param {Array} goods_id
  * @param {Number} status
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setShelvesGoodsList(goods_id, status) {
   return request({
@@ -193,7 +193,7 @@ export function setShelvesGoodsList(goods_id, status) {
 /**
  * 获取指定商品的属性列表
  * @param {Number} goods_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getGoodsAttrList(goods_id) {
   return request({
@@ -209,9 +209,9 @@ export function getGoodsAttrList(goods_id) {
 }
 
 /**
- * 获取指定商品的规格列表
+ * 获取指定商品的规格组合列表
  * @param {Number} goods_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getGoodsSpecList(goods_id) {
   return request({
@@ -229,7 +229,7 @@ export function getGoodsSpecList(goods_id) {
 /**
  * 获取指定商品的规格图
  * @param {Number} goods_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getGoodsSpecImage(goods_id) {
   return request({
@@ -247,7 +247,7 @@ export function getGoodsSpecImage(goods_id) {
 /**
  * 获取管理后台商品列表
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getGoodsAdminList(data) {
   return request({
@@ -264,7 +264,7 @@ export function getGoodsAdminList(data) {
  * 设置商品排序
  * @param {Number} goods_id
  * @param {Number} sort
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setGoodsSort(goods_id, sort) {
   return request({
@@ -283,7 +283,7 @@ export function setGoodsSort(goods_id, sort) {
 /**
  * 获取商品关键词联想词
  * @param {String} keywords
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getGoodsKeywordsSuggest(keywords) {
   return request({
@@ -301,7 +301,7 @@ export function getGoodsKeywordsSuggest(keywords) {
 /**
  * 复制一个商品
  * @param {Number} goods_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function copyGoodsItem(goods_id) {
   return request({
@@ -309,6 +309,60 @@ export function copyGoodsItem(goods_id) {
     method: 'post',
     params: {
       method: 'copy.goods.item'
+    },
+    data: {
+      goods_id
+    }
+  })
+}
+
+/**
+ * 获取指定商品的属性配置数据
+ * @param {Number} goods_id
+ * @returns
+ */
+export function getAttrConfigItem(goods_id) {
+  return request({
+    url: '/v1/goods',
+    method: 'post',
+    params: {
+      method: 'get.goods.attr.config'
+    },
+    data: {
+      goods_id
+    }
+  })
+}
+
+/**
+ * 获取指定商品的规格配置数据
+ * @param {Number} goods_id
+ * @returns
+ */
+export function getSpecConfigItem(goods_id) {
+  return request({
+    url: '/v1/goods',
+    method: 'post',
+    params: {
+      method: 'get.goods.spec.config'
+    },
+    data: {
+      goods_id
+    }
+  })
+}
+
+/**
+ * 获取指定商品的规格菜单数据
+ * @param {Number} goods_id
+ * @returns
+ */
+export function getGoodsSpecMenu(goods_id) {
+  return request({
+    url: '/v1/goods',
+    method: 'post',
+    params: {
+      method: 'get.goods.spec.menu'
     },
     data: {
       goods_id

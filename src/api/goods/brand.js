@@ -3,7 +3,7 @@ import request from '@/utils/request'
 /**
  * 添加一个品牌
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function addBrandItem(data) {
   return request({
@@ -19,7 +19,7 @@ export function addBrandItem(data) {
 /**
  * 编辑一个品牌
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setBrandItem(data) {
   return request({
@@ -35,7 +35,7 @@ export function setBrandItem(data) {
 /**
  * 批量删除品牌
  * @param {Array} brand_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function delBrandList(brand_id) {
   return request({
@@ -54,7 +54,7 @@ export function delBrandList(brand_id) {
  * 批量设置品牌是否显示
  * @param {Array} brand_id
  * @param {Number} status
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setBrandStatus(brand_id, status) {
   return request({
@@ -73,7 +73,7 @@ export function setBrandStatus(brand_id, status) {
 /**
  * 验证品牌名称是否唯一
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function uniqueBrandName(data) {
   return request({
@@ -89,7 +89,7 @@ export function uniqueBrandName(data) {
 /**
  * 获取一个品牌
  * @param {Number} brand_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getBrandItem(brand_id) {
   return request({
@@ -107,7 +107,7 @@ export function getBrandItem(brand_id) {
 /**
  * 获取品牌列表
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getBrandList(data) {
   return request({
@@ -123,7 +123,7 @@ export function getBrandList(data) {
 /**
  * 获取品牌选择列表
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getBrandSelect(data) {
   return request({
@@ -140,7 +140,7 @@ export function getBrandSelect(data) {
  * 设置品牌排序
  * @param {Number} brand_id
  * @param {Number} sort
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setBrandSort(brand_id, sort) {
   return request({

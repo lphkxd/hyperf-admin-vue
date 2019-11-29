@@ -3,7 +3,7 @@ import request from '@/utils/request'
 /**
  * 添加一个商品规格
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function addGoodsSpecItem(data) {
   return request({
@@ -19,7 +19,7 @@ export function addGoodsSpecItem(data) {
 /**
  * 编辑一个商品规格
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setGoodsSpecItem(data) {
   return request({
@@ -34,10 +34,10 @@ export function setGoodsSpecItem(data) {
 
 /**
  * 获取一条商品规格
- * @param {Number} spec_id
- * @returns {AxiosPromise}
+ * @param {Object} data
+ * @returns
  */
-export function getGoodsSpecItem(spec_id) {
+export function getGoodsSpecItem(data) {
   return request({
     url: '/v1/spec',
     method: 'post',
@@ -45,7 +45,7 @@ export function getGoodsSpecItem(spec_id) {
       method: 'get.goods.spec.item'
     },
     data: {
-      spec_id
+      data
     }
   })
 }
@@ -53,7 +53,7 @@ export function getGoodsSpecItem(spec_id) {
 /**
  * 获取商品规格列表(可翻页)
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getGoodsSpecPage(data) {
   return request({
@@ -69,7 +69,7 @@ export function getGoodsSpecPage(data) {
 /**
  * 获取商品规格列表
  * @param {Number} goods_type_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getGoodsSpecList(goods_type_id) {
   return request({
@@ -87,7 +87,7 @@ export function getGoodsSpecList(goods_type_id) {
 /**
  * 批量删除商品规格
  * @param {Array} spec_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function delGoodsSpecList(spec_id) {
   return request({
@@ -106,7 +106,7 @@ export function delGoodsSpecList(spec_id) {
  * 批量设置商品规格检索
  * @param {Array} spec_id
  * @param {Number} spec_index
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setGoodsSpecKey(spec_id, spec_index) {
   return request({
@@ -126,7 +126,7 @@ export function setGoodsSpecKey(spec_id, spec_index) {
  * 设置商品规格排序
  * @param {Number} spec_id
  * @param {Number} sort
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setGoodsSpecSort(spec_id, sort) {
   return request({

@@ -3,7 +3,7 @@ import request from '@/utils/request'
 /**
  * 添加一个商品折扣
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function addDiscountItem(data) {
   return request({
@@ -19,7 +19,7 @@ export function addDiscountItem(data) {
 /**
  * 编辑一个商品折扣
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setDiscountItem(data) {
   return request({
@@ -35,7 +35,7 @@ export function setDiscountItem(data) {
 /**
  * 获取一个商品折扣
  * @param {Number} discount_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getDiscountItem(discount_id) {
   return request({
@@ -53,7 +53,7 @@ export function getDiscountItem(discount_id) {
 /**
  * 批量删除商品折扣
  * @param {Number} discount_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function delDiscountList(discount_id) {
   return request({
@@ -72,7 +72,7 @@ export function delDiscountList(discount_id) {
  * 批量设置商品折扣状态
  * @param {Array} discount_id
  * @param {Number} status
- * @returns {AxiosPromise}
+ * @returns
  */
 export function setDiscountStatus(discount_id, status) {
   return request({
@@ -91,7 +91,7 @@ export function setDiscountStatus(discount_id, status) {
 /**
  * 获取商品折扣列表
  * @param {Object} data
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getDiscountList(data) {
   return request({
@@ -107,7 +107,7 @@ export function getDiscountList(data) {
 /**
  * 根据商品编号获取折扣信息
  * @param {Array} goods_id
- * @returns {AxiosPromise}
+ * @returns
  */
 export function getDiscountGoodsInfo(goods_id) {
   return request({
