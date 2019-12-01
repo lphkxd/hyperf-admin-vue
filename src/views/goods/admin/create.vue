@@ -58,11 +58,9 @@ export default {
       getGoodsCategoryList(null)
     ])
       .then(res => {
-        this.brandData = res[0].data
-        this.typeData = res[1].data
-        this.catData = res[2].data.length
-          ? util.formatDataToTree(res[2].data, 'goods_category_id')
-          : []
+        this.brandData = res[0].data || []
+        this.typeData = res[1].data || []
+        this.catData = util.formatDataToTree(res[2].data, 'goods_category_id')
       })
       .finally(() => {
         this.loading = false

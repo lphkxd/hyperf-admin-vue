@@ -99,7 +99,7 @@
                 :src="props.row.get_user_level.icon"
                 fit="fill">
                 <div slot="error" class="image-slot">
-                  <i class="el-icon-picture-outline"></i>
+                  <i class="el-icon-picture-outline"/>
                 </div>
               </el-image>
             </el-form-item>
@@ -116,7 +116,7 @@
               <span>{{props.row.birthday}}</span>
             </el-form-item>
 
-            <el-divider></el-divider>
+            <el-divider/>
 
             <el-form-item label="创建日期">
               <span>{{props.row.create_time}}</span>
@@ -194,7 +194,7 @@
               :src="scope.row.get_user_level.icon"
               fit="fill">
               <div slot="error" class="image-slot">
-                <i class="el-icon-picture-outline"></i>
+                <i class="el-icon-picture-outline"/>
               </div>
             </el-image>
           </el-tooltip>
@@ -1156,10 +1156,11 @@ export default {
     handleMoney(index) {
       getUserMoneyInfo(this.currentTableData[index].user_id)
         .then(res => {
-          this.$notify({
-            title: '账户资金',
-            dangerouslyUseHTMLString: true,
-            message: `
+          if (res.data) {
+            this.$notify({
+              title: '账户资金',
+              dangerouslyUseHTMLString: true,
+              message: `
               <p>${this.currentTableData[index].username} 的账户资金</p>
               <p>查询时间：${dayjs().format('YYYY-MM-DD HH:mm:ss')}</p></br>
               <p>累计消费：${util.getNumber(res.data.total_money)}</p>
@@ -1168,10 +1169,11 @@ export default {
               <p>账号积分：${res.data.points || 0}</p>
               <p>锁定积分：${res.data.lock_points || 0}</p>
             `,
-            type: 'success',
-            position: 'bottom-right',
-            duration: 0
-          })
+              type: 'success',
+              position: 'bottom-right',
+              duration: 0
+            })
+          }
         })
     },
     // 获取支付方式列表
@@ -1179,7 +1181,7 @@ export default {
       if (!this.toPayment.length) {
         getPaymentList({ is_select: 1, type: 'deposit' })
           .then(res => {
-            this.toPayment = res.data
+            this.toPayment = res.data || {}
           })
       }
     },

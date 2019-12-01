@@ -43,10 +43,13 @@ export default {
       getAuthGroupList({ status: 1 })
     ])
       .then(res => {
-        this.module = res[0]
-        res[1].data.forEach(value => {
-          this.group[value.group_id] = value
-        })
+        this.module = res[0] || {}
+
+        if (res[1].data) {
+          res[1].data.forEach(value => {
+            this.group[value.group_id] = value
+          })
+        }
       })
       .then(() => {
         this.handleSubmit()
@@ -89,7 +92,7 @@ export default {
             })
           }
 
-          if (res.data.length > 0) {
+          if (res.data) {
             res.data.forEach(value => {
               this.tree[mapModule[value.module] - 1].children.push(value)
             })

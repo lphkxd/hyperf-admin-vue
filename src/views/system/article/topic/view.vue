@@ -50,7 +50,7 @@ export default {
 
       getTopicItem(this.topic_id)
         .then(res => {
-          this.topic = res.data
+          this.topic = res.data || {}
         })
         .finally(() => {
           this.loading = false

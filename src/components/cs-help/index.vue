@@ -34,7 +34,10 @@ export default {
     getHelp() {
       if (!this.helpContent) {
         this.helpContent = '正在获取内容,请稍后...'
-        getHelpRouter(this.router).then(res => { this.helpContent = res })
+        getHelpRouter(this.router)
+          .then(res => {
+            this.helpContent = res
+          })
       }
     }
   }

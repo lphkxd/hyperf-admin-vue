@@ -73,7 +73,7 @@
                   :src="tableData.get_user.level_icon"
                   fit="fill">
                   <div slot="error" class="image-slot">
-                    <i class="el-icon-picture-outline"></i>
+                    <i class="el-icon-picture-outline"/>
                   </div>
                 </el-image>
               </div>
@@ -169,7 +169,7 @@ export default {
       handler(val) {
         if (val > 0) {
           if (this.formBuffer.hasOwnProperty(val)) {
-            this.form = this.formBuffer[val]
+            this.form = this.formBuffer[val] || {}
           } else {
             this.formBuffer[val] = { answer: undefined }
             this.form = this.formBuffer[val]

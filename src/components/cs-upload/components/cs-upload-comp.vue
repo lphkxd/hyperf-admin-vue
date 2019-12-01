@@ -17,12 +17,12 @@
       :on-success="handleSuccess"
       :on-error="handleError"
       :on-exceed="handleExceed">
-      <i class="el-icon-plus"></i>
+      <i class="el-icon-plus"/>
       <div slot="tip" class="el-upload__tip">{{uploadTip}}大小不能超过 {{this.token['file_size']}}</div>
     </el-upload>
 
     <el-cascader
-      v-if="storageId === null"
+      v-if="storageId == null"
       v-model="parentId"
       :options="parentData"
       :props="parentProps"

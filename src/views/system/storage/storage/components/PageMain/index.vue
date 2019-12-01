@@ -278,8 +278,8 @@
         ref="directory">
         <span slot-scope="{node, data}">
           <span class="brother-showing">
-            <i v-if="data.children" :class="`fa fa-folder-${node.expanded ? 'open-o' : 'o'}`"></i>
-            <i v-else class="fa fa-folder-o"></i>
+            <i v-if="data.children" :class="`fa fa-folder-${node.expanded ? 'open-o' : 'o'}`"/>
+            <i v-else class="fa fa-folder-o"/>
             {{node.label}}
           </span>
         </span>
@@ -548,10 +548,7 @@ export default {
       if (!this.directoryList.length) {
         getStorageDirectorySelect()
           .then(res => {
-            this.directoryList = res.data.list.length
-              ? util.formatDataToTree(res.data.list, 'storage_id')
-              : []
-
+            this.directoryList = util.formatDataToTree(res.data.list, 'storage_id')
             this.directoryList.unshift({
               storage_id: 0,
               parent_id: 0,

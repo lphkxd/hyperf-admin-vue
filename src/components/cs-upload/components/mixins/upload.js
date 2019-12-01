@@ -46,13 +46,13 @@ export default {
       if (this.replaceId) {
         replaceUploadItem(val['replaceId'])
           .then(res => {
-            this.token = res.data ? res.data : {}
+            this.token = res.data || {}
             this.uploadUrl = this.token['token']['upload_url']['upload_url']
           })
       } else {
         getUploadToken(val['moduleName'])
           .then(res => {
-            this.token = res.data ? res.data : {}
+            this.token = res.data || {}
             this.uploadUrl = this.token['token']['upload_url']['upload_url']
           })
       }
@@ -219,10 +219,7 @@ export default {
 
       getStorageDirectorySelect()
         .then(res => {
-          this.parentData = res.data.list.length
-            ? util.formatDataToTree(res.data.list, 'storage_id')
-            : []
-
+          this.parentData = util.formatDataToTree(res.data.list, 'storage_id')
           this.parentData.unshift({
             storage_id: -1,
             parent_id: 0,

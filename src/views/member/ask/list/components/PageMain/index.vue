@@ -66,7 +66,7 @@
             :src="scope.row.get_user.level_icon"
             fit="fill">
             <div slot="error" class="image-slot">
-              <i class="el-icon-picture-outline"></i>
+              <i class="el-icon-picture-outline"/>
             </div>
           </el-image>
         </template>

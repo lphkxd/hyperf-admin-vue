@@ -129,9 +129,7 @@ export default {
   mounted() {
     getArticleCatList(null)
       .then(res => {
-        this.catData = res.data.length
-          ? util.formatDataToTree(res.data, 'article_cat_id')
-          : []
+        this.catData = util.formatDataToTree(res.data, 'article_cat_id')
       })
   },
   methods: {

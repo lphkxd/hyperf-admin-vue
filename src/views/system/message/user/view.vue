@@ -50,7 +50,7 @@ export default {
 
       getMessageUserItem(this.message_id)
         .then(res => {
-          this.message = res.data
+          this.message = res.data || {}
         })
         .finally(() => {
           this.loading = false

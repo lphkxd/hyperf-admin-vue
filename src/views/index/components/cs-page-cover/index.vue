@@ -47,8 +47,7 @@ export default {
     color: $color-text-sub;
   }
   .cs-page-cover__build-time {
-    margin: 0;
-    margin-bottom: 10px;
+    margin: 0 0 10px;
     font-size: 12px;
     line-height: 12px;
     color: $color-text-placehoder;

@@ -136,7 +136,7 @@ export default {
   created() {
     getMessageType()
       .then(res => {
-        this.typeList = res
+        this.typeList = res || {}
       })
       .then(() => {
         this._validationAuth()

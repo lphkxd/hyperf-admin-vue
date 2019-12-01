@@ -65,8 +65,7 @@ export default {
     getRegionData(regionId, resolve) {
       getRegionList({ region_id: regionId })
         .then(res => {
-          const data = res.data.length ? res.data : []
-          resolve(data)
+          resolve(res.data || [])
         })
         .finally(() => {
           this.loading = false

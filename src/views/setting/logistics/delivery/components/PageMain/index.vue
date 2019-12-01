@@ -902,7 +902,7 @@ export default {
 
       getDeliveryCompanySelect(0)
         .then(res => {
-          this.dialogCompany = res.data
+          this.dialogCompany = res.data || []
         })
     },
     // 编辑对话框

@@ -17,12 +17,16 @@ function errorLog(err) {
     type: 'error',
     duration: 5 * 1000
   })
+
   // 添加到日志
   store.dispatch('careyshop/log/push', {
     type: 'error',
     info: '数据请求异常',
     message: err.message
   })
+    .then(() => {
+    })
+
   // 打印到控制台
   if (process.env.NODE_ENV === 'development') {
     util.log.danger('>>>>>> Error >>>>>>')
@@ -112,7 +116,7 @@ function refreshToken(config) {
     })
       .then(res => {
         userInfo.token = res.data.token
-        store.dispatch('careyshop/user/set', userInfo, { root: true })
+        store.dispatch('careyshop/user/set', userInfo, { root: true }).then(() => {})
         util.cookies.set('token', res.data.token.token)
       })
       .catch(err => {

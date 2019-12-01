@@ -66,9 +66,11 @@ export default {
       this.$store.dispatch('careyshop/db/databasePage', { user: true })
     ])
       .then(res => {
-        res[0].data.forEach(item => {
-          this.typeList[item.goods_type_id] = item.type_name
-        })
+        if (res[0].data) {
+          res[0].data.forEach(item => {
+            this.typeList[item.goods_type_id] = item.type_name
+          })
+        }
 
         this.page.size = res[1].get('size').value() || 25
       })
@@ -117,8 +119,8 @@ export default {
         page_size: this.page.size
       })
         .then(res => {
+          this.table = res.data.items || []
           this.page.total = res.data.total_result
-          this.table = res.data.total_result > 0 ? res.data.items : []
         })
         .finally(() => {
           this.loading = false

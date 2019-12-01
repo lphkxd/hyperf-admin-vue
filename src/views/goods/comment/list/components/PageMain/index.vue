@@ -74,10 +74,9 @@
                 :key="index"
                 class="comment_thumb"
                 :src="item | getPreviewUrl('comment_thumb_x40')"
-                :preview-src-list="srcList"
                 :lazy="true"
                 fit="cover"
-                @click.stop="setImageSrcList(scope.row.image, index)"/>
+                @click="$preview(item.url)"/>
             </div>
           </div>
 
@@ -94,10 +93,9 @@
                 :key="index"
                 class="comment_thumb"
                 :src="item | getPreviewUrl('comment_thumb_x40')"
-                :preview-src-list="srcList"
                 :lazy="true"
                 fit="cover"
-                @click.stop="setImageSrcList(scope.row.get_addition.image, index)"/>
+                @click="$preview(item.url)"/>
             </div>
           </div>
         </template>
@@ -118,7 +116,7 @@
                 :src="scope.row.get_user.level_icon"
                 fit="fill">
                 <div slot="error" class="image-slot">
-                  <i class="el-icon-picture-outline"></i>
+                  <i class="el-icon-picture-outline"/>
                 </div>
               </el-image>
             </p>
@@ -185,7 +183,6 @@ export default {
         del: false,
         detail: false
       },
-      srcList: [],
       statusMap: {
         0: {
           text: '待处理',
@@ -266,10 +263,6 @@ export default {
       this.auth.remove_top = this.$has('/goods/opinion/comment/remove_top')
       this.auth.del = this.$has('/goods/opinion/comment/del')
       this.auth.detail = this.$has('/goods/opinion/comment/detail')
-    },
-    // 设置大图预览列表及顺序
-    setImageSrcList(srcList, index) {
-      this.srcList = util.setImageSrcList(srcList, index)
     },
     // 忽略评论
     handleIgnore(index) {

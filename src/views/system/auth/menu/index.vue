@@ -48,9 +48,7 @@ export default {
       getMenuList({ ...form })
         .then(res => {
           this.module = form.module
-          this.tree = res.data.length
-            ? util.formatDataToTree(res.data)
-            : []
+          this.tree = util.formatDataToTree(res.data)
 
           if (this.$refs.main) {
             this.$refs.main.filterText = ''

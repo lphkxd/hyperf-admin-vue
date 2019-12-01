@@ -321,7 +321,7 @@ export function copyGoodsItem(goods_id) {
  * @param {Number} goods_id
  * @returns
  */
-export function getAttrConfigItem(goods_id) {
+export function getGoodsAttrConfig(goods_id) {
   return request({
     url: '/v1/goods',
     method: 'post',
@@ -339,7 +339,7 @@ export function getAttrConfigItem(goods_id) {
  * @param {Number} goods_id
  * @returns
  */
-export function getSpecConfigItem(goods_id) {
+export function getGoodsSpecConfig(goods_id) {
   return request({
     url: '/v1/goods',
     method: 'post',

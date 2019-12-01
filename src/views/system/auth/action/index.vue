@@ -57,7 +57,7 @@ export default {
       this.$store.dispatch('careyshop/db/databasePage', { user: true })
     ])
       .then(res => {
-        this.group = res[0]
+        this.group = res[0] || []
         this.page.size = res[1].get('size').value() || 50
       })
       .then(() => {
@@ -102,8 +102,8 @@ export default {
         page_size: this.page.size
       })
         .then(res => {
+          this.table = res.data.items || []
           this.page.total = res.data.total_result
-          this.table = res.data.total_result > 0 ? res.data.items : []
         })
         .finally(() => {
           this.loading = false

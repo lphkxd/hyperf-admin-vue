@@ -58,13 +58,8 @@ export default {
         getDeliveryAreaList({ delivery_id: val.delivery_id })
       ])
         .then(res => {
-          if (res[0].data) {
-            this.title = res[0].data.name
-          }
-
-          if (res[1].data) {
-            this.table = res[1].data
-          }
+          this.title = res[0].data ? res[0].data.name : ''
+          this.table = res[1].data || []
         })
         .finally(() => {
           this.loading = false

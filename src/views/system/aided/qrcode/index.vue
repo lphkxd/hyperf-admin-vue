@@ -94,8 +94,8 @@ export default {
         page_size: this.page.size
       })
         .then(res => {
+          this.table = res.data.items || []
           this.page.total = res.data.total_result
-          this.table = res.data.total_result > 0 ? res.data.items : []
         })
         .finally(() => {
           this.loading = false

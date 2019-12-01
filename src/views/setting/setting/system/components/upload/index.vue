@@ -201,7 +201,7 @@ export default {
   mounted() {
     getUploadModule()
       .then(res => {
-        this.uploadTable = res.data
+        this.uploadTable = res.data || []
       })
   },
   methods: {

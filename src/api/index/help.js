@@ -29,7 +29,7 @@ export function getHelpRouter(router) {
         let content = '暂无帮助内容'
         const style = 'style="float: right; margin-bottom: -10px;" class="el-button el-button--text el-button--small"'
 
-        if (Object.keys(res.data).length > 0) {
+        if (res.data) {
           content = `<div class="help-content">${res.data.content}</div>`
 
           if (res.data.url) {

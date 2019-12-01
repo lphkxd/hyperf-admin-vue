@@ -1006,7 +1006,7 @@ export default {
       if (!this.uploadTable.length) {
         getUploadModule()
           .then(res => {
-            this.uploadTable = res.data
+            this.uploadTable = res.data || []
             this.uploadTable.unshift({ name: '使用系统默认', module: '' })
           })
       }
@@ -1114,7 +1114,7 @@ export default {
 
       getStorageThumbUrl({ ...data })
         .then(res => {
-          this.imageResult = res.data
+          this.imageResult = res.data || {}
         })
         .then(() => {
           getStorageThumbInfo(this.imageResult['url_prefix'], this.imageResult['source'])
@@ -1186,7 +1186,7 @@ export default {
       if (!this.uploadTable.length) {
         getUploadModule()
           .then(res => {
-            this.uploadTable = res.data
+            this.uploadTable = res.data || []
             this.uploadTable.unshift({ name: '使用系统默认', module: '' })
           })
       }

@@ -31,10 +31,8 @@ export default {
   mounted() {
     getArticleCatList(null)
       .then(res => {
-        this.catList = res.data.length > 0 ? res.data : []
-        if (this.catList.length) {
-          this.catData = util.formatDataToTree(this.catList, 'article_cat_id')
-        }
+        this.catList = res.data || []
+        this.catData = util.formatDataToTree(this.catList, 'article_cat_id')
       })
       .finally(() => {
         this.loading = false

@@ -65,16 +65,17 @@ export default {
           value: 'total'
         })
 
-        // eslint-disable-next-line no-unused-vars
-        for (const index in res[0]) {
-          if (!res[0].hasOwnProperty(index)) {
-            continue
-          }
+        if (res[0]) {
+          for (const index in res[0]) {
+            if (!res[0].hasOwnProperty(index)) {
+              continue
+            }
 
-          this.type.push({
-            name: res[0][index],
-            value: index
-          })
+            this.type.push({
+              name: res[0][index],
+              value: index
+            })
+          }
         }
 
         this.page.size = res[1].get('size').value() || 25
@@ -120,7 +121,7 @@ export default {
       })
         .then(res => {
           this.page.total = res.data.total_result
-          this.table = res.data.total_result > 0 ? res.data.items : []
+          this.table = res.data.items || []
           this.unread = res.data.unread_count || {}
         })
         .finally(() => {

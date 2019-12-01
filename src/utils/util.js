@@ -73,6 +73,10 @@ util.md5 = function(str) {
  * @returns {Array}
  */
 util.formatDataToTree = function(data, key = 'menu_id', pid = 'parent_id', parent = {}) {
+  if (!data || Object.keys(data).length <= 0) {
+    return []
+  }
+
   let map = {}
   const isSetParent = Object.keys(parent).length > 0
 

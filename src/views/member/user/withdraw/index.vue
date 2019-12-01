@@ -55,7 +55,7 @@ export default {
       ])
         .then(res => {
           this.username = res[0].data ? res[0].data.username : ''
-          this.table = res[1].data.length ? res[1].data : []
+          this.table = res[1].data || []
         })
         .finally(() => {
           this.loading = false

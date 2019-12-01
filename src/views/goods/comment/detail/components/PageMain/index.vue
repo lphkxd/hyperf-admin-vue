@@ -76,10 +76,9 @@
                   :key="index"
                   class="comment_thumb"
                   :src="item | getPreviewUrl('comment_thumb_x40')"
-                  :preview-src-list="srcList"
                   :lazy="true"
                   fit="cover"
-                  @click.stop="setImageSrcList(tableData.image, index)"/>
+                  @click="$preview(item.url)"/>
               </div>
               <div class="user-name">
                 <el-popover trigger="hover" placement="top">
@@ -92,7 +91,7 @@
                   class="level-icon"
                   fit="fill">
                   <div slot="error" class="image-slot">
-                    <i class="el-icon-picture-outline"></i>
+                    <i class="el-icon-picture-outline"/>
                   </div>
                 </el-image>
               </div>
@@ -123,10 +122,9 @@
                   :key="index"
                   class="comment_thumb"
                   :src="value | getPreviewUrl('comment_thumb_x40')"
-                  :preview-src-list="srcList"
                   :lazy="true"
                   fit="cover"
-                  @click.stop="setImageSrcList(item.image, index)"/>
+                  @click="$preview(value.url)"/>
               </div>
               <div class="user-name"><span>客服人员</span></div>
             </div>
@@ -163,10 +161,9 @@
                   :key="index"
                   class="comment_thumb"
                   :src="item | getPreviewUrl('comment_thumb_x40')"
-                  :preview-src-list="srcList"
                   :lazy="true"
                   fit="cover"
-                  @click.stop="setImageSrcList(tableData.get_addition.image, index)"/>
+                  @click="$preview(item.url)"/>
               </div>
               <div class="user-name">
                 <el-popover trigger="hover" placement="top">
@@ -179,7 +176,7 @@
                   class="level-icon"
                   fit="fill">
                   <div slot="error" class="image-slot">
-                    <i class="el-icon-picture-outline"></i>
+                    <i class="el-icon-picture-outline"/>
                   </div>
                 </el-image>
               </div>
@@ -210,10 +207,9 @@
                   :key="index"
                   class="comment_thumb"
                   :src="value | getPreviewUrl('comment_thumb_x40')"
-                  :preview-src-list="srcList"
                   :lazy="true"
                   fit="cover"
-                  @click.stop="setImageSrcList(item.image, index)"/>
+                  @click="$preview(value.url)"/>
               </div>
               <div class="user-name"><span>客服人员</span></div>
             </div>
@@ -246,10 +242,9 @@
               class="comment_thumb"
               style="margin: 10px 5px 0 0;"
               :src="value | getPreviewUrl('comment_thumb_x40')"
-              :preview-src-list="srcList"
               :lazy="true"
               fit="cover"
-              @click.stop="setImageSrcList(form.image, index)"/>
+              @click="$preview(value.url)"/>
           </div>
 
           <div class="cs-mt-10">
@@ -319,7 +314,6 @@ export default {
     return {
       form: {},
       formBuffer: [],
-      srcList: [],
       submitLoading: false,
       rules: {
         content: [
@@ -363,7 +357,7 @@ export default {
       handler(val) {
         if (val > 0) {
           if (this.formBuffer.hasOwnProperty(val)) {
-            this.form = this.formBuffer[val]
+            this.form = this.formBuffer[val] || {}
           } else {
             this.formBuffer[val] = {
               goods_comment_id: undefined,
@@ -434,10 +428,6 @@ export default {
       })
 
       this.form.image = insert
-    },
-    // 设置大图预览列表及顺序
-    setImageSrcList(srcList, index) {
-      this.srcList = util.setImageSrcList(srcList, index)
     },
     // 初始化回复框数据
     initReplyForm(id) {

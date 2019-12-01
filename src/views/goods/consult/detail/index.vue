@@ -89,12 +89,14 @@ export default {
       getGoodsConsultItem(id)
         .then(res => {
           // 需要在头部插入问题正文
-          res.data.get_answer.unshift({
-            goods_consult_id: res.data.goods_consult_id,
-            content: res.data.content,
-            create_time: res.data.create_time,
-            is_client: true // 额外参数,表示是否属于提问
-          })
+          if (res.data) {
+            res.data.get_answer.unshift({
+              goods_consult_id: res.data.goods_consult_id,
+              content: res.data.content,
+              create_time: res.data.create_time,
+              is_client: true // 额外参数,表示是否属于提问
+            })
+          }
 
           this.tableBuffer[id] = { ...res.data }
           this.table = this.tableBuffer[id]

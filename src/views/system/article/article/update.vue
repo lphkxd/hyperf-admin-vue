@@ -80,7 +80,7 @@ export default {
     switchData(id) {
       // 缓存存在则返回缓存数据(已加工数据)
       if (this.formBuffer[id]) {
-        this.formData = this.formBuffer[id]
+        this.formData = this.formBuffer[id] || {}
         return
       }
 
@@ -111,9 +111,7 @@ export default {
           .then(res => {
             // 处理分类数据
             this.catList = res[0].data || []
-            if (this.catList.length) {
-              this.catData = util.formatDataToTree(this.catList, 'article_cat_id')
-            }
+            this.catData = util.formatDataToTree(this.catList, 'article_cat_id')
 
             // 处理文章数据
             this.formBuffer[id] = this.setArticleData({ ...res[1].data })

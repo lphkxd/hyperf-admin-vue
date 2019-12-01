@@ -354,9 +354,7 @@ export default {
         getRegionSonList({ region_id: 1 })
           .then(res => {
             const setParent = { key: 'parent_id', value: [1] }
-            this.treeData = res.data.length
-              ? util.formatDataToTree(res.data, 'region_id', 'parent_id', setParent)
-              : []
+            this.treeData = util.formatDataToTree(res.data, 'region_id', 'parent_id', setParent)
           })
       }
     },

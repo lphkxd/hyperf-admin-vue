@@ -100,8 +100,8 @@ export default {
       })
         .then(res => {
           this.updateData({ type: 'clear', name: 'system-article-article' })
+          this.table = res.data.items || []
           this.page.total = res.data.total_result
-          this.table = res.data.total_result > 0 ? res.data.items : []
         })
         .finally(() => {
           this.loading = false

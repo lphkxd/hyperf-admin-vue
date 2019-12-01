@@ -372,7 +372,8 @@
       :close-on-click-modal="false"
       width="850px">
       <el-table
-        :data="sellForm['goods_spec_item']"
+        v-loading="sellLoading"
+        :data="sellForm.spec_combo"
         style="margin-top: -25px;">
         <el-table-column
           label="规格"
@@ -431,7 +432,7 @@
 
         <el-button
           type="primary"
-          :loading="sellLoading"
+          :loading="sellFormLoading"
           @click="handleGoodsPriceOrStore"
           size="small">修改</el-button>
       </div>
@@ -448,10 +449,10 @@ import {
   setHotGoodsList,
   setNewGoodsList,
   setRecommendGoodsList,
-  setShelvesGoodsList
+  setShelvesGoodsList,
+  getGoodsSpecList
 } from '@/api/goods/goods'
 import util from '@/utils/util'
-import { cloneDeep } from 'lodash'
 
 export default {
   props: {
@@ -508,9 +509,10 @@ export default {
       nameFormVisible: false,
       productForm: {},
       productFormVisible: false,
+      sellForm: [],
       sellLoading: false,
-      sellForm: {},
       sellFormVisible: false,
+      sellFormLoading: false,
       rules: {
         name: [
           {
@@ -914,55 +916,63 @@ export default {
         }
       })
     },
-    // 修改商品价格或库存
-    setGoodsPriceOrStore(val) {
-      const data = this.currentTableData[val]
-      const specItem = cloneDeep(data.goods_spec_item)
-
-      if (data.goods_spec_item <= 0) {
-        specItem.push({
-          key_value: '-',
-          price: data.shop_price,
-          store_qty: data.store_qty,
-          alter: 0,
-          real_store: data.store_qty
-        })
-      } else {
-        specItem.forEach(value => {
-          value['alter'] = 0
-          value['real_store'] = value['store_qty']
-        })
-      }
-
-      this.sellForm = {
-        goods_id: data.goods_id,
-        goods_spec_item: specItem,
-        goods_spec_menu: data.goods_spec_menu,
-        is_empty_spec: data.goods_spec_item <= 0,
-        index: val
-      }
-
-      this.sellLoading = false
-      this.sellFormVisible = true
-    },
     // 计算实际库存
     countRealStore(value) {
       value.real_store = value.store_qty + value.alter
     },
+    // 修改商品价格或库存
+    setGoodsPriceOrStore(index) {
+      this.sellForm = []
+      this.sellLoading = true
+      this.sellFormVisible = true
+      this.sellFormLoading = false
+
+      let specCombo = []
+      const data = this.currentTableData[index]
+
+      getGoodsSpecList(data.goods_id)
+        .then(res => {
+          if (res.data) {
+            res.data.forEach(value => {
+              specCombo.push({
+                ...value,
+                alter: 0,
+                real_store: value.store_qty
+              })
+            })
+          } else {
+            specCombo.push({
+              key_value: '-',
+              price: data.shop_price,
+              store_qty: data.store_qty,
+              alter: 0,
+              real_store: data.store_qty
+            })
+          }
+
+          this.sellForm = {
+            goods_id: data.goods_id,
+            spec_combo: specCombo,
+            empty_spec: res.data == null,
+            index
+          }
+        })
+        .finally(() => {
+          this.sellLoading = false
+        })
+    },
     // 请求修改价格或库存
     handleGoodsPriceOrStore() {
-      const data = this.sellForm['goods_spec_item']
+      const data = this.sellForm.spec_combo
       let formData = { goods_id: this.sellForm.goods_id }
 
-      if (this.sellForm.is_empty_spec) {
+      if (this.sellForm.empty_spec) {
         formData['shop_price'] = data[0]['price']
         formData['store_qty'] = data[0]['real_store']
       } else {
-        formData['goods_spec_item'] = []
-        formData['goods_spec_menu'] = this.sellForm['goods_spec_menu']
-
+        formData['spec_combo'] = []
         data.forEach(value => {
-          formData['goods_spec_item'].push({
+          formData['spec_combo'].push({
             ...value,
             store_qty: value['real_store']
           })

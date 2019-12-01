@@ -111,13 +111,12 @@ export default {
         ...this.tabs,
         ...this.order,
         page_no: this.page.current,
-        page_size: this.page.size,
-        is_goods_spec: this.tabs.is_delete ? 0 : 1
+        page_size: this.page.size
       })
         .then(res => {
           this.updateData({ type: 'clear', name: 'goods-admin-list' })
+          this.table = res.data.items || []
           this.page.total = res.data.total_result
-          this.table = res.data.total_result > 0 ? res.data.items : []
         })
         .finally(() => {
           this.loading = false

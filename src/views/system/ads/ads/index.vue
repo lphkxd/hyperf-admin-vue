@@ -62,8 +62,8 @@ export default {
       this.$store.dispatch('careyshop/db/databasePage', { user: true })
     ])
       .then(res => {
-        this.positionTable = res[0].data
-        this.platformTable = res[1].data['platform']['value']
+        this.positionTable = res[0].data || []
+        this.platformTable = res[1].data ? res[1].data['platform']['value'] : []
         this.page.size = res[2].get('size').value() || 25
       })
       .then(() => {
@@ -109,8 +109,8 @@ export default {
         page_size: this.page.size
       })
         .then(res => {
+          this.table = res.data.items || []
           this.page.total = res.data.total_result
-          this.table = res.data.total_result > 0 ? res.data.items : []
         })
         .finally(() => {
           this.loading = false

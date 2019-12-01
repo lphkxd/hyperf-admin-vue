@@ -25,7 +25,7 @@
         :on-success="handleSuccess"
         :on-error="handleError"
         :on-exceed="handleExceed">
-        <i class="el-icon-upload"></i>
+        <i class="el-icon-upload"/>
         <div class="el-upload__text">将资源拖到此处，或<em>点击上传</em></div>
         <div slot="tip" class="el-upload__tip">{{uploadTip}}大小不能超过 {{this.token['file_size']}}</div>
       </el-upload>
@@ -33,7 +33,7 @@
       <div slot="footer" class="dialog-footer">
         <div style="float: left">
           <el-cascader
-            v-if="storageId === null"
+            v-if="storageId == null"
             v-model="parentId"
             :options="parentData"
             :props="parentProps"

@@ -30,7 +30,7 @@ export default {
       this.loading = true
       getUserLevelList()
         .then(res => {
-          this.table = res.data.length > 0 ? res.data : []
+          this.table = res.data || []
         })
         .finally(() => {
           this.loading = false

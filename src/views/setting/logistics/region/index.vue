@@ -39,9 +39,7 @@ export default {
       getRegionSonList({ region_id: 1 }) // 默认只获取中国区域
         .then(res => {
           const setParent = { key: 'parent_id', value: [1] }
-          this.tree = res.data.length
-            ? util.formatDataToTree(res.data, 'region_id', 'parent_id', setParent)
-            : []
+          this.tree = util.formatDataToTree(res.data, 'region_id', 'parent_id', setParent)
 
           if (this.$refs.main) {
             this.$refs.main.filterText = ''

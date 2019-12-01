@@ -100,9 +100,9 @@
           ref="tree">
           <span class="custom-tree-node action" slot-scope="{node, data}">
             <span class="brother-showing" :class="{'status-tree': !data.status}">
-              <i v-if="!data.system && auth.move" class="fa fa-align-justify move-tree cs-mr-10"></i>
-              <i v-if="data.children" :class="`fa fa-folder-${node.expanded ? 'open-o' : 'o'}`"></i>
-              <i v-else class="fa fa-file-o"></i>
+              <i v-if="!data.system && auth.move" class="fa fa-align-justify move-tree cs-mr-10"/>
+              <i v-if="data.children" :class="`fa fa-folder-${node.expanded ? 'open-o' : 'o'}`"/>
+              <i v-else class="fa fa-file-o"/>
               {{node.label}}
             </span>
 
@@ -250,9 +250,9 @@
                   ref="menuTree">
                     <span class="custom-tree-node" slot-scope="{node, data}">
                       <span class="brother-showing" :class="{'status-tree': !data.status}">
-                        <i v-if="data.icon" :class="`fa fa-${data.icon}`"></i>
-                        <i v-else-if="data.children" :class="`fa fa-folder-${node.expanded ? 'open-o' : 'o'}`"></i>
-                        <i v-else class="fa fa-file-o"></i>
+                        <i v-if="data.icon" :class="`fa fa-${data.icon}`"/>
+                        <i v-else-if="data.children" :class="`fa fa-folder-${node.expanded ? 'open-o' : 'o'}`"/>
+                        <i v-else class="fa fa-file-o"/>
                         {{node.label}}
                         <i v-if="data.url" class="fa fa-link" style="font-size: 12px;">
                           {{data.url}}
@@ -272,9 +272,9 @@
                   ref="logTree">
                     <span class="custom-tree-node" slot-scope="{node, data}">
                       <span class="brother-showing" :class="{'status-tree': !data.status}">
-                        <i v-if="data.icon" :class="`fa fa-${data.icon}`"></i>
-                        <i v-else-if="data.children" :class="`fa fa-folder-${node.expanded ? 'open-o' : 'o'}`"></i>
-                        <i v-else class="fa fa-file-o"></i>
+                        <i v-if="data.icon" :class="`fa fa-${data.icon}`"/>
+                        <i v-else-if="data.children" :class="`fa fa-folder-${node.expanded ? 'open-o' : 'o'}`"/>
+                        <i v-else class="fa fa-file-o"/>
                         {{node.label}}
                         <i v-if="data.url" class="fa fa-link" style="font-size: 12px;">
                           {{data.url}}
@@ -569,9 +569,7 @@ export default {
       this.treeLoading = true
       getMenuList({ module: val })
         .then(res => {
-          this.menuData = res.data.length
-            ? util.formatDataToTree(res.data)
-            : []
+          this.menuData = util.formatDataToTree(res.data)
 
           if (this.formStatus === 'update' && res.data.length) {
             if (!this.menuAuth.length && !this.logAuth.length) {

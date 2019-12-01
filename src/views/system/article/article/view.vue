@@ -51,7 +51,7 @@ export default {
 
       getArticleItem(this.article_id)
         .then(res => {
-          this.article = res.data
+          this.article = res.data || {}
         })
         .finally(() => {
           this.loading = false

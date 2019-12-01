@@ -38,10 +38,7 @@ export default {
       this.loading = true
       getGoodsCategoryList(null)
         .then(res => {
-          this.tree = res.data.length
-            ? util.formatDataToTree(res.data, 'goods_category_id')
-            : []
-
+          this.tree = util.formatDataToTree(res.data, 'goods_category_id')
           if (this.$refs.main) {
             this.$refs.main.filterText = ''
             this.$refs.main.resetForm()

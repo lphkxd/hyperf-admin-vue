@@ -63,7 +63,7 @@ export default {
             this.addressId = res[0].data.user_address_id
           }
 
-          this.table = res[1].data.length ? res[1].data : []
+          this.table = res[1].data || []
         })
         .finally(() => {
           this.loading = false

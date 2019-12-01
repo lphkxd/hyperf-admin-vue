@@ -6,9 +6,9 @@
       <img src="~@/assets/image/logo@2x.png" alt="logo">
       <div slot="footer" class="index-btn-group">
         <span @click="$open('https://www.careyshop.cn')">主页</span>
-        <el-divider direction="vertical"></el-divider>
+        <el-divider direction="vertical"/>
         <span @click="$open('https://doc.careyshop.cn')">文档</span>
-        <el-divider direction="vertical"></el-divider>
+        <el-divider direction="vertical"/>
         <span @click="$open('https://bbs.careyshop.cn')">论坛</span>
       </div>
     </cs-page-cover>

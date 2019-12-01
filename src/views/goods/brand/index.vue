@@ -58,10 +58,7 @@ export default {
       this.$store.dispatch('careyshop/db/databasePage', { user: true })
     ])
       .then(res => {
-        this.cat = res[0].data.length
-          ? util.formatDataToTree(res[0].data, 'goods_category_id')
-          : []
-
+        this.cat = util.formatDataToTree(res[0].data, 'goods_category_id')
         this.page.size = res[1].get('size').value() || 25
       })
       .then(() => {
@@ -107,8 +104,8 @@ export default {
         page_size: this.page.size
       })
         .then(res => {
+          this.table = res.data.items || []
           this.page.total = res.data.total_result
-          this.table = res.data.total_result > 0 ? res.data.items : []
         })
         .finally(() => {
           this.loading = false

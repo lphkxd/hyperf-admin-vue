@@ -34,10 +34,10 @@ new Vue({
     // 检查最新版本
     // this.$store.dispatch('careyshop/releases/checkUpdate')
     // 用户登录后从数据库加载一系列的设置
-    this.$store.dispatch('careyshop/account/load')
+    this.$store.dispatch('careyshop/account/load').then(() => {})
     // 获取并记录用户 UA
     this.$store.commit('careyshop/ua/get')
     // 初始化全屏监听
-    this.$store.dispatch('careyshop/fullscreen/listen')
+    this.$store.dispatch('careyshop/fullscreen/listen').then(() => {})
   }
 }).$mount('#app')

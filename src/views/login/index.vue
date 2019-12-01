@@ -5,7 +5,7 @@
         <div class="login-logo">
           <img src="~@/assets/image/logo_100.png" alt="logo">
         </div>
-        <loginBox></loginBox>
+        <loginBox/>
       </div>
     </div>
   </div>

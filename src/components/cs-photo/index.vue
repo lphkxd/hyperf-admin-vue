@@ -16,16 +16,16 @@
 
         <span v-show="!drag" class="el-upload-list__item-actions thumbnail-move">
             <span class="el-upload-list__item-delete">
-              <i class="el-icon-zoom-in" @click="preview(index)"></i>
+              <i class="el-icon-zoom-in" @click="preview(index)"/>
             </span>
 
             <span class="el-upload-list__item-delete">
-              <i class="el-icon-delete" @click="remove(index)"></i>
+              <i class="el-icon-delete" @click="remove(index)"/>
             </span>
           </span>
       </li>
     </draggable>
-    <slot name="upload"></slot>
+    <slot name="upload"/>
   </div>
 </template>
 

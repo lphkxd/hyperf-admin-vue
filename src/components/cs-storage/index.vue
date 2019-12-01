@@ -55,7 +55,7 @@
               @keyup.enter.native="handleSearch()"
               :clearable="true"
               size="small">
-              <el-button slot="append" icon="el-icon-search" @click="handleSearch"></el-button>
+              <el-button slot="append" icon="el-icon-search" @click="handleSearch"/>
             </el-input>
           </el-form-item>
         </el-col>
@@ -183,7 +183,7 @@ export default {
       handler(val) {
         getStorageNavi(val)
           .then(res => {
-            this.naviData = res.data
+            this.naviData = res.data || []
           })
       }
     }
@@ -223,7 +223,7 @@ export default {
       })
         .then(res => {
           this.page.total = res.data['total_result']
-          this.currentTableData = res.data['total_result'] > 0 ? res.data['items'] : []
+          this.currentTableData = res.data['items'] || []
         })
         .finally(() => {
           this.loading = false
@@ -245,7 +245,7 @@ export default {
         .then(res => {
           this.checkList = []
           this.visible = false
-          this.$emit('confirm', res.data.length > 0 ? res.data : [], this.source)
+          this.$emit('confirm', res.data || [], this.source)
         })
         .finally(() => {
           this.loadingCollection = false

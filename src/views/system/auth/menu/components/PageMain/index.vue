@@ -66,10 +66,10 @@
           ref="tree">
           <span class="custom-tree-node action" slot-scope="{node, data}">
             <span class="brother-showing" :class="{'status-tree': !data.status}">
-              <i v-if="auth.move" class="fa fa-align-justify move-tree cs-mr-10"></i>
-              <i v-if="data.icon" :class="`fa fa-${data.icon}`"></i>
-              <i v-else-if="data.children" :class="`fa fa-folder-${node.expanded ? 'open-o' : 'o'}`"></i>
-              <i v-else class="fa fa-file-o"></i>
+              <i v-if="auth.move" class="fa fa-align-justify move-tree cs-mr-10"/>
+              <i v-if="data.icon" :class="`fa fa-${data.icon}`"/>
+              <i v-else-if="data.children" :class="`fa fa-folder-${node.expanded ? 'open-o' : 'o'}`"/>
+              <i v-else class="fa fa-file-o"/>
               {{node.label}}
             </span>
 
@@ -411,7 +411,7 @@ export default {
   mounted() {
     getMenuModule()
       .then(res => {
-        this.treeModule = res
+        this.treeModule = res || {}
       })
       .then(() => {
         this._validationAuth()

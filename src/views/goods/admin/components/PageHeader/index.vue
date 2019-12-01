@@ -202,9 +202,7 @@ export default {
     ])
       .then(res => {
         this.brandData = res[0].data
-        this.catData = res[1].data.length
-          ? util.formatDataToTree(res[1].data, 'goods_category_id')
-          : []
+        this.catData = util.formatDataToTree(res[1].data, 'goods_category_id')
       })
   },
   methods: {

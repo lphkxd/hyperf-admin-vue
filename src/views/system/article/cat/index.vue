@@ -45,10 +45,7 @@ export default {
       this.loading = true
       getArticleCatList({ ...form })
         .then(res => {
-          this.tree = res.data.length
-            ? util.formatDataToTree(res.data, 'article_cat_id')
-            : []
-
+          this.tree = util.formatDataToTree(res.data, 'article_cat_id')
           if (this.$refs.main) {
             this.$refs.main.filterText = ''
             this.$refs.main.resetForm()

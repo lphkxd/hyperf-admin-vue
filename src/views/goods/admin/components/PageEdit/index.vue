@@ -295,111 +295,111 @@
             <el-row :gutter="20" v-loading="typeLoading">
               <el-col :span="13">
                 <el-form-item label="商品规格">
-                  <div v-show="!specData.length" style="padding-top: 5px;">
+                  <div v-show="!currentForm.spec_config.length" style="padding-top: 5px;">
                     <p style="color: #909399; text-align: center;">暂无数据</p>
-                    <el-divider></el-divider>
+                    <el-divider/>
                   </div>
 
-                  <div v-show="currentForm.goods_type_id">
-                    <draggable
-                      :list="specData"
-                      :component-data="{props: {value: this.activeSpecNames}}"
-                      tag="el-collapse"
-                      handle=".spec-handle">
-                      <el-collapse-item
-                        v-for="(item, parent) in specData"
-                        :key="item.spec_id"
-                        :name="item.spec_id">
-                        <template slot="title">
-                          <cs-icon class="icon-move cs-pr-10 spec-handle" name="align-justify"></cs-icon>
-                          <span v-if="item.name">{{item.name}}</span>
-                        </template>
-                      </el-collapse-item>
-                    </draggable>
+<!--                  <div v-show="currentForm.goods_type_id">-->
+<!--                    <draggable-->
+<!--                      :list="specData"-->
+<!--                      :component-data="{props: {value: this.activeSpecNames}}"-->
+<!--                      tag="el-collapse"-->
+<!--                      handle=".spec-handle">-->
+<!--                      <el-collapse-item-->
+<!--                        v-for="(item, parent) in specData"-->
+<!--                        :key="item.spec_id"-->
+<!--                        :name="item.spec_id">-->
+<!--                        <template slot="title">-->
+<!--                          <cs-icon class="icon-move cs-pr-10 spec-handle" name="align-justify"/>-->
+<!--                          <span v-if="item.name">{{item.name}}</span>-->
+<!--                        </template>-->
+<!--                      </el-collapse-item>-->
+<!--                    </draggable>-->
 
-                    <el-button class="cs-mt" size="small" @click="addNewSpec">新增规格</el-button>
-                  </div>
+<!--                    <el-button class="cs-mt" size="small" @click="addNewSpec">新增规格</el-button>-->
+<!--                  </div>-->
 
                 </el-form-item>
               </el-col>
 
               <el-col :span="11">
                 <el-form-item label="商品属性">
-                  <div v-show="!attrData.length" style="padding-top: 5px;">
+                  <div v-show="!currentForm.attr_config.length" style="padding-top: 5px;">
                     <p style="color: #909399; text-align: center;">暂无数据</p>
-                    <el-divider></el-divider>
+                    <el-divider/>
                   </div>
 
-                  <draggable
-                    v-show="currentForm.goods_type_id"
-                    :list="attrData"
-                    :component-data="{props: {value: this.activeAttrNames}}"
-                    tag="el-collapse"
-                    handle=".attr-handle">
-                    <el-collapse-item
-                      v-for="(item, parent) in attrData"
-                      :key="item.goods_attribute_id"
-                      :name="item.goods_attribute_id">
-                      <template slot="title">
-                        <cs-icon class="icon-move cs-pr-10 attr-handle" name="align-justify"/>
-                        <span>{{item.attr_name}}</span>
-                      </template>
+<!--                  <draggable-->
+<!--                    v-show="currentForm.goods_type_id"-->
+<!--                    :list="attrData"-->
+<!--                    :component-data="{props: {value: this.activeAttrNames}}"-->
+<!--                    tag="el-collapse"-->
+<!--                    handle=".attr-handle">-->
+<!--                    <el-collapse-item-->
+<!--                      v-for="(item, parent) in attrData"-->
+<!--                      :key="item.goods_attribute_id"-->
+<!--                      :name="item.goods_attribute_id">-->
+<!--                      <template slot="title">-->
+<!--                        <cs-icon class="icon-move cs-pr-10 attr-handle" name="align-justify"/>-->
+<!--                        <span>{{item.attr_name}}</span>-->
+<!--                      </template>-->
 
-                      <draggable
-                        :list="item.get_attribute"
-                        tag="form"
-                        class="el-form el-form--label-left"
-                        handle=".item-attr-handle">
-                        <div
-                          v-for="(value, key) in item.get_attribute"
-                          :key="value.goods_attribute_id"
-                          class="el-form-item attr-form">
-                          <label class="el-form-item__label attr-label">
-                            <cs-icon class="icon-move cs-pr-10 item-attr-handle" name="align-justify"/>
-                            <span :title="value.attr_name">{{value.attr_name}}</span>
-                          </label>
-                          <div class="el-form-item__content attr-content">
-                            <el-select
-                              v-if="value.attr_input_type !== 0"
-                              v-model="value.result"
-                              :multiple-limit="inputType[value.attr_input_type].type"
-                              :placeholder=inputType[value.attr_input_type].value
-                              style="width: 100%;"
-                              size="small"
-                              value=""
-                              filterable
-                              allow-create
-                              default-first-option
-                              multiple
-                              clearable>
-                              <el-option
-                                v-for="(attr, index) in value.attr_values"
-                                :key="index"
-                                :value="attr"/>
-                            </el-select>
+<!--                      <draggable-->
+<!--                        :list="item.get_attribute"-->
+<!--                        tag="form"-->
+<!--                        class="el-form el-form&#45;&#45;label-left"-->
+<!--                        handle=".item-attr-handle">-->
+<!--                        <div-->
+<!--                          v-for="(value, key) in item.get_attribute"-->
+<!--                          :key="value.goods_attribute_id"-->
+<!--                          class="el-form-item attr-form">-->
+<!--                          <label class="el-form-item__label attr-label">-->
+<!--                            <cs-icon class="icon-move cs-pr-10 item-attr-handle" name="align-justify"/>-->
+<!--                            <span :title="value.attr_name">{{value.attr_name}}</span>-->
+<!--                          </label>-->
+<!--                          <div class="el-form-item__content attr-content">-->
+<!--                            <el-select-->
+<!--                              v-if="value.attr_input_type !== 0"-->
+<!--                              v-model="value.result"-->
+<!--                              :multiple-limit="inputType[value.attr_input_type].type"-->
+<!--                              :placeholder=inputType[value.attr_input_type].value-->
+<!--                              style="width: 100%;"-->
+<!--                              size="small"-->
+<!--                              value=""-->
+<!--                              filterable-->
+<!--                              allow-create-->
+<!--                              default-first-option-->
+<!--                              multiple-->
+<!--                              clearable>-->
+<!--                              <el-option-->
+<!--                                v-for="(attr, index) in value.attr_values"-->
+<!--                                :key="index"-->
+<!--                                :value="attr"/>-->
+<!--                            </el-select>-->
 
-                            <div v-else>
-                              <el-input
-                                v-model="value.result"
-                                type="textarea"
-                                :placeholder=inputType[value.attr_input_type].value
-                                style="width: 90%;"
-                                size="small"
-                                autosize>
-                              </el-input>
+<!--                            <div v-else>-->
+<!--                              <el-input-->
+<!--                                v-model="value.result"-->
+<!--                                type="textarea"-->
+<!--                                :placeholder=inputType[value.attr_input_type].value-->
+<!--                                style="width: 90%;"-->
+<!--                                size="small"-->
+<!--                                autosize>-->
+<!--                              </el-input>-->
 
-                              <cs-icon
-                                name="clone"
-                                class="attr-default"
-                                title="设为默认值"
-                                @click.native="setAttrDefaultValue(parent, key)">
-                              </cs-icon>
-                            </div>
-                          </div>
-                        </div>
-                      </draggable>
-                    </el-collapse-item>
-                  </draggable>
+<!--                              <cs-icon-->
+<!--                                name="clone"-->
+<!--                                class="attr-default"-->
+<!--                                title="设为默认值"-->
+<!--                                @click.native="setAttrDefaultValue(parent, key)">-->
+<!--                              </cs-icon>-->
+<!--                            </div>-->
+<!--                          </div>-->
+<!--                        </div>-->
+<!--                      </draggable>-->
+<!--                    </el-collapse-item>-->
+<!--                  </draggable>-->
                 </el-form-item>
               </el-col>
             </el-row>
@@ -576,6 +576,7 @@
 import util from '@/utils/util'
 import { getGoodsAttributeList } from '@/api/goods/attribute'
 import { getGoodsSpecList } from '@/api/goods/spec'
+import { getGoodsAttrConfig, getGoodsSpecConfig } from '@/api/goods/goods'
 
 export default {
   components: {
@@ -631,6 +632,7 @@ export default {
         emitPath: false
       },
       currentForm: {
+        goods_id: undefined,
         goods_category_id: undefined,
         name: '',
         short_name: '',
@@ -660,25 +662,23 @@ export default {
         goods_type_id: undefined,
         sort: 50,
         status: 1,
-        goods_attr_item: [],
-        goods_spec_item: [],
-        spec_image: [],
+        attr_config: [],
+        spec_config: [],
+        spec_combo: [],
         is_postage: 0,
         measure: 0,
         measure_type: 0
       },
       rules: {},
-      attrData: [],
-      specData: [],
-      activeAttrNames: [],
-      activeSpecNames: [],
-      typeLoading: false
+      typeLoading: false,
+      activeAttr: [],
+      activeSpec: []
     }
   },
   methods: {
     // 确认新增或修改
     handleConfirm() {
-      console.log(this.specData)
+      console.log(this.currentForm)
     },
     // 打开资源选择框
     handleStorage(callback, type = [], source = '') {
@@ -738,8 +738,6 @@ export default {
       }
 
       const fileList = this.getFileList(files, source)
-
-      // eslint-disable-next-line no-unused-vars
       for (const value of fileList) {
         if (value.type === 3) {
           this.currentForm.video = {
@@ -776,33 +774,44 @@ export default {
     // 切换商品属性
     selectGoodsType(value) {
       this.typeLoading = true
-      this.currentForm.goods_attr_item = []
-      this.currentForm.goods_spec_item = []
-      this.currentForm.spec_image = []
+      this.activeAttr = []
+      this.activeSpec = []
+      this.currentForm.attr_config = []
+      this.currentForm.spec_config = []
+      this.currentForm.spec_combo = []
 
-      Promise.all([
-        getGoodsAttributeList(value),
-        getGoodsSpecList(value)
-      ])
+      let request = []
+      let isReadOldData = false
+      if (this.state !== 'create' && this.currentForm.goods_category_id === value) {
+        this.$confirm('检测到您选择了该商品的原商品模型，是否加载原数据？', '提示', {
+          confirmButtonText: '是',
+          cancelButtonText: '否',
+          type: 'warning'
+        })
+          .then(() => {
+            isReadOldData = true
+          })
+          .catch(() => {
+            isReadOldData = false
+          })
+      }
+
+      if (!isReadOldData) {
+        request = [
+          getGoodsAttributeList(value),
+          getGoodsSpecList(value)
+        ]
+      } else {
+        getGoodsAttrConfig(this.currentForm.goods_id)
+        getGoodsSpecConfig(this.currentForm.goods_id)
+      }
+
+      Promise.all(request)
         .then(res => {
-          let attrActive = []
-          let specActive = []
-          let attrData = res[0].data.length > 0 ? res[0].data : []
-          let specData = res[1].data.length > 0 ? res[1].data : []
-
-          attrData.forEach(item => {
-            attrActive.push(item.goods_attribute_id)
-          })
-
-          specData.forEach(item => {
-            item.select_spec = []
-            specActive.push(item.spec_id)
-          })
-
-          this.activeAttrNames = attrActive
-          this.activeSpecNames = specActive
-          this.attrData = attrData
-          this.specData = specData
+          this.activeAttr = res[0].data['attr_key'] || []
+          this.activeSpec = res[1].data['spec_key'] || []
+          this.currentForm.attr_config = res[0].data['attr_config'] || []
+          this.currentForm.spec_config = res[1].data['spec_config'] || []
         })
         .finally(() => {
           this.typeLoading = false
@@ -810,28 +819,28 @@ export default {
     },
     // 设置商品属性为默认值
     setAttrDefaultValue(parent, key) {
-      let data = this.attrData[parent]['get_attribute'][key]
-      if (!data || !data.attr_values[0]) {
-        this.$message.info('该属性项不存在默认值')
-        return
-      }
-
-      this.$set(data, 'result', data.attr_values[0])
+      // let data = this.attr_config[parent]['get_attribute'][key]
+      // if (!data || !data.attr_values[0]) {
+      //   this.$message.info('该属性项不存在默认值')
+      //   return
+      // }
+      //
+      // this.$set(data, 'result', data.attr_values[0])
     },
     // 新增规格
     addNewSpec() {
-      let specId = -util.randomLenNum(6, true)
-      this.specData.push({
-        spec_id: specId,
-        goods_type_id: this.currentForm.goods_type_id,
-        name: '',
-        spec_index: 0,
-        spec_type: 0,
-        sort: 50,
-        spec_item: []
-      })
-
-      this.activeSpecNames.push(specId)
+      // let specId = -util.randomLenNum(6, true)
+      // this.specData.push({
+      //   spec_id: specId,
+      //   goods_type_id: this.currentForm.goods_type_id,
+      //   name: '',
+      //   spec_index: 0,
+      //   spec_type: 0,
+      //   sort: 50,
+      //   spec_item: []
+      // })
+      //
+      // this.activeSpecNames.push(specId)
     }
   }
 }

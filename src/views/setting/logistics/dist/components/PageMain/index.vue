@@ -125,8 +125,8 @@
               placeholder="请选择"
               @change="getDeliveryCompany"
               value="">
-              <el-option label="智能识别" :value="0"></el-option>
-              <el-option label="手动获取" :value="1"></el-option>
+              <el-option label="智能识别" :value="0"/>
+              <el-option label="手动获取" :value="1"/>
             </el-select>
 
             <template slot-scope="{item}">
@@ -260,7 +260,7 @@ export default {
 
       getDeliveryCompanySelect()
         .then(res => {
-          this.companyList = res.data.length > 0 ? res.data : []
+          this.companyList = res.data || []
           this.companyCopy = this.companyList
         })
     },
