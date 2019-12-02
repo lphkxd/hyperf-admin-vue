@@ -52,7 +52,7 @@
       v-loading="loading"
       @selection-change="handleSelectionChange"
       @sort-change="sortChange">
-      <el-table-column type="selection" width="35"/>
+      <el-table-column type="selection" width="30"/>
 
       <el-table-column type="expand">
         <template slot-scope="props">

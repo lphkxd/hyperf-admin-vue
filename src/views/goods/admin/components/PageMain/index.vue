@@ -115,7 +115,7 @@
           :data="currentTableData"
           @selection-change="handleSelectionChange"
           @sort-change="sortChange">
-          <el-table-column type="selection" width="35"/>
+          <el-table-column type="selection" width="30"/>
 
           <el-table-column
             v-if="tabPane === 'delete'"
