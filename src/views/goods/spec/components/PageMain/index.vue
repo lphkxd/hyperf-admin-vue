@@ -73,6 +73,14 @@
       </el-table-column>
 
       <el-table-column
+        label="展现方式"
+        prop="spec_type">
+        <template slot-scope="scope">
+          {{typeMap[scope.row.spec_type]}}
+        </template>
+      </el-table-column>
+
+      <el-table-column
         label="规格项"
         prop="spec_item"
         :show-overflow-tooltip="true"
@@ -195,9 +203,10 @@
           prop="spec_type">
           <el-radio-group
             v-model="form.spec_type">
-            <el-radio :label="0">文字</el-radio>
-            <el-radio :label="1">图片</el-radio>
-            <el-radio :label="2">颜色</el-radio>
+            <el-radio
+              v-for="(value, key) in typeMap"
+              :key="key"
+              :label="Number(key)">{{value}}</el-radio>
           </el-radio-group>
         </el-form-item>
 
@@ -294,6 +303,11 @@ export default {
           text: '...',
           type: 'info'
         }
+      },
+      typeMap: {
+        0: '文字',
+        1: '图片',
+        2: '颜色'
       },
       dialogLoading: false,
       dialogFormVisible: false,

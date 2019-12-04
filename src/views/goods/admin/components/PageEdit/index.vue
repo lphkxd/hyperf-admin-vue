@@ -295,57 +295,80 @@
             <el-row :gutter="20" v-loading="typeLoading">
               <el-col :span="13">
                 <el-form-item label="商品规格">
-                  <div v-show="!currentForm.spec_config.length" style="padding-top: 5px;">
-                    <p style="color: #909399; text-align: center;">暂无数据</p>
-                    <el-divider/>
-                  </div>
-
-                  <div v-show="currentForm.goods_type_id">
-                    <draggable
-                      :list="currentForm.spec_config"
-                      :component-data="{props: {value: this.activeSpec}}"
-                      tag="el-collapse"
-                      handle=".spec-handle">
-                      <el-collapse-item
-                        v-for="(item, parent) in currentForm.spec_config"
-                        :key="item.spec_id"
-                        :name="item.spec_id"
-                        class="action">
-                        <template slot="title">
-                          <cs-icon class="icon-move cs-pr-10 spec-handle" name="align-justify"/>
-                          <span>{{item.name}}</span>
-
-                          <div class="active cs-pl-10">
-                            <el-popover placement="top" trigger="hover">
-                              <el-radio-group v-model="item.spec_type">
-                                <el-radio :label="0">文字</el-radio>
-                                <el-radio :label="1">图片</el-radio>
-                                <el-radio :label="2">颜色</el-radio>
-                              </el-radio-group>
-                              <span style="color: #409EFF; padding-right: 10px;" slot="reference">展现方式</span>
-                            </el-popover>
-
-                            <el-button @click="() => {}" size="small" type="text">重命名</el-button>
-                            <el-button @click="delSpecItem(parent)" size="small" type="text">删除</el-button>
-                          </div>
-                        </template>
-                      </el-collapse-item>
-                    </draggable>
-
-                    <el-button class="cs-mt" size="small" @click="addNewSpec">新增规格</el-button>
-                  </div>
-                </el-form-item>
-              </el-col>
-
-              <el-col :span="11">
-                <el-form-item label="商品属性">
-                  <div v-show="!currentForm.attr_config.length" style="padding-top: 5px;">
+                  <div v-if="!currentForm.spec_config.length" style="padding-top: 5px;">
                     <p style="color: #909399; text-align: center;">暂无数据</p>
                     <el-divider/>
                   </div>
 
                   <draggable
+                    v-else
+                    :list="currentForm.spec_config"
+                    :component-data="{props: {value: this.activeSpec}}"
+                    tag="el-collapse"
+                    handle=".spec-handle">
+                    <el-collapse-item
+                      v-for="(item, parent) in currentForm.spec_config"
+                      :key="item.spec_id"
+                      :name="item.spec_id"
+                      class="action">
+                      <template slot="title">
+                        <cs-icon class="icon-move cs-pr-10 spec-handle" name="align-justify"/>
+                        <span>{{item.name}}</span>
+
+                        <div class="active cs-pl-10">
+                          <el-popover placement="top" trigger="hover" :close-delay="50">
+                            <el-radio-group v-model="item.spec_type">
+                              <el-radio :label="0">文字</el-radio>
+                              <el-radio :label="1">图片</el-radio>
+                              <el-radio :label="2">颜色</el-radio>
+                            </el-radio-group>
+                            <span class="spec-action" slot="reference">展现方式</span>
+                          </el-popover>
+
+                          <el-popover placement="top" trigger="hover" :close-delay="50">
+                            <el-input v-model="item.name" size="small" placeholder="请输入内容"/>
+                            <span class="spec-action" slot="reference">重命名</span>
+                          </el-popover>
+
+                          <el-button @click="delSpecItem(parent)" size="small" type="text">删除</el-button>
+                        </div>
+                      </template>
+
+                      <el-checkbox-group v-model="item.check_list">
+                        <draggable
+                          :list="item.spec_item"
+                          handle=".item-spec-handle">
+                          <label
+                            v-for="(value, key) in item.spec_item"
+                            class="item-spec-handle"
+                            :key="key">
+                            <el-checkbox :label="value.item_name">&nbsp;</el-checkbox>
+                            <el-button>test</el-button>
+                          </label>
+                        </draggable>
+                      </el-checkbox-group>
+
+                      <el-button type="text" size="mini">+ 添加规格值</el-button>
+                    </el-collapse-item>
+                  </draggable>
+
+                  <el-button
                     v-show="currentForm.goods_type_id"
+                    class="cs-mt"
+                    size="mini"
+                    @click="addNewSpec">新增规格</el-button>
+                </el-form-item>
+              </el-col>
+
+              <el-col :span="11">
+                <el-form-item label="商品属性">
+                  <div v-if="!currentForm.attr_config.length" style="padding-top: 5px;">
+                    <p style="color: #909399; text-align: center;">暂无数据</p>
+                    <el-divider/>
+                  </div>
+
+                  <draggable
+                    v-else
                     :list="currentForm.attr_config"
                     :component-data="{props: {value: this.activeAttr}}"
                     tag="el-collapse"
@@ -845,11 +868,11 @@ export default {
     },
     // 新增规格
     addNewSpec() {
-      let specId = -util.randomLenNum(6, true)
+      let specId = -util.randomLenNum(6)
       this.currentForm.spec_config.push({
         spec_id: specId,
         goods_type_id: this.currentForm.goods_type_id,
-        name: '',
+        name: '规格' + specId,
         spec_index: 0,
         spec_type: 0,
         sort: 50,
@@ -861,6 +884,7 @@ export default {
     },
     // 删除规格
     delSpecItem(key) {
+      this.currentForm.spec_config.splice(key, 1)
     }
   }
 }
@@ -938,7 +962,11 @@ export default {
     display: block;
   }
   .spec-action {
-    color: #C0C4CC;
-    width: 16px;
+    color: #409EFF;
+    padding-right: 10px;
+    font-size: 12px;
+  }
+  .spec-item-move {
+    cursor: move;
   }
 </style>
