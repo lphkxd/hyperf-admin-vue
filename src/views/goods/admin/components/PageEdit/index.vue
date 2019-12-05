@@ -338,17 +338,35 @@
                         <draggable
                           :list="item.spec_item"
                           handle=".item-spec-handle">
-                          <label
+                          <div
                             v-for="(value, key) in item.spec_item"
-                            class="item-spec-handle"
+                            class="spec-item item-spec-handle"
                             :key="key">
-                            <el-checkbox :label="value.item_name">&nbsp;</el-checkbox>
-                            <el-button>test</el-button>
-                          </label>
+                            <el-checkbox
+                              :label="value.item_name"
+                              style="width: 16px;">
+                              &nbsp;
+                            </el-checkbox>
+
+                            <el-color-picker
+                              v-if="item.spec_type === 2"
+                              v-model="value.color"
+                              size="mini">
+                            </el-color-picker>
+
+                            <el-tag
+                              class="spec-item-move"
+                              type="info"
+                              size="medium"
+                              effect="plain"
+                              closable>
+                              {{value.item_name}}
+                            </el-tag>
+                          </div>
                         </draggable>
                       </el-checkbox-group>
 
-                      <el-button type="text" size="mini">+ 添加规格值</el-button>
+                      <el-button class="cs-fl cs-pl-10" type="text" size="mini">+ 添加</el-button>
                     </el-collapse-item>
                   </draggable>
 
@@ -965,6 +983,17 @@ export default {
     color: #409EFF;
     padding-right: 10px;
     font-size: 12px;
+  }
+  .spec-item {
+    float: left;
+    padding: 0 10px 10px;
+  }
+  .spec-item >>> .el-color-picker{
+    margin-top: -10px;
+    padding-right: 3px;
+  }
+  .spec-item >>> .el-color-picker__trigger {
+    top: 10px;
   }
   .spec-item-move {
     cursor: move;
