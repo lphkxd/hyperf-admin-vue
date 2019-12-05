@@ -340,26 +340,34 @@
                           handle=".item-spec-handle">
                           <div
                             v-for="(value, key) in item.spec_item"
-                            class="spec-item item-spec-handle"
+                            class="spec-item"
                             :key="key">
                             <el-checkbox :label="value.item_name" style="width: 16px;">&nbsp;</el-checkbox>
 
-                            <el-avatar
+                            <div
                               v-if="item.spec_type === 1"
-                              :src="value.image"
-                              shape="square"
-                              size="small">
-                              <img src="image/system/image.png" alt=""/>
-                            </el-avatar>
+                              class="spec-type">
+                              <el-avatar
+                                :src="value.color"
+                                class="spec-position"
+                                shape="square"
+                                size="small">
+                                <img src="image/system/image.png" alt=""/>
+                              </el-avatar>
+                            </div>
 
-                            <el-color-picker
+                            <div
                               v-if="item.spec_type === 2"
-                              v-model="value.color"
-                              size="mini">
-                            </el-color-picker>
+                              class="spec-type">
+                              <el-color-picker
+                                v-model="value.color"
+                                class="spec-position"
+                                size="mini">
+                              </el-color-picker>
+                            </div>
 
                             <el-tag
-                              class="spec-item-move"
+                              class="spec-item-move item-spec-handle"
                               type="info"
                               size="medium"
                               effect="plain"
@@ -999,14 +1007,14 @@ export default {
     float: left;
     padding: 0 10px 10px;
   }
-  .spec-item >>> .el-color-picker{
-    margin-top: -10px;
-    padding-right: 3px;
-  }
-  .spec-item >>> .el-color-picker__trigger {
-    top: 10px;
-  }
   .spec-item-move {
     cursor: move;
+  }
+  .spec-type {
+    display: initial;
+    padding-right: 31px;
+  }
+  .spec-position {
+    position: absolute;
   }
 </style>
