@@ -54,12 +54,12 @@
                 v-if="item.type === 1"
                 size="medium"
                 :src="tableData.get_user.head_pic | getPreviewUrl">
-                <img src="image/avatar/user.png" alt=""/>
+                <img src="image/system/user.png" alt=""/>
               </el-avatar>
 
               <el-avatar
                 v-else size="medium"
-                src="image/avatar/admin.png">
+                src="image/system/admin.png">
               </el-avatar>
             </div>
 

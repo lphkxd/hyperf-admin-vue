@@ -342,11 +342,15 @@
                             v-for="(value, key) in item.spec_item"
                             class="spec-item item-spec-handle"
                             :key="key">
-                            <el-checkbox
-                              :label="value.item_name"
-                              style="width: 16px;">
-                              &nbsp;
-                            </el-checkbox>
+                            <el-checkbox :label="value.item_name" style="width: 16px;">&nbsp;</el-checkbox>
+
+                            <el-avatar
+                              v-if="item.spec_type === 1"
+                              :src="value.image"
+                              shape="square"
+                              size="small">
+                              <img src="image/system/image.png" alt=""/>
+                            </el-avatar>
 
                             <el-color-picker
                               v-if="item.spec_type === 2"
@@ -728,6 +732,13 @@ export default {
       typeLoading: false,
       activeAttr: [],
       activeSpec: []
+    }
+  },
+  created() {
+    // 解决Firefox下拖拽结束后会新开搜索窗口
+    document.body.ondrop = function(event) {
+      event.preventDefault()
+      event.stopPropagation()
     }
   },
   methods: {
