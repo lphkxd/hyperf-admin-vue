@@ -348,11 +348,11 @@
                               v-if="item.spec_type === 1"
                               class="spec-type">
                               <el-avatar
-                                :src="value.image[0] | getPreviewUrl('goods_image_x80')"
                                 class="cs-cp spec-position"
-                                style=""
                                 shape="square"
-                                :size="27">
+                                :src="value.image[0] | getPreviewUrl('goods_image_x80')"
+                                :size="27"
+                                @click.native="setSpecImage(parent, key, value.image)">
                                 <img src="image/system/image.png" alt=""/>
                               </el-avatar>
                             </div>
@@ -637,6 +637,51 @@
       :limit="uploadConfig.limit"
       @confirm="uploadCallback">
     </cs-upload>
+
+    <el-dialog
+      title="规格图片"
+      width="600px"
+      :visible.sync="specImageVisible"
+      :append-to-body="true"
+      :close-on-click-modal="false">
+      <cs-photo v-model="specImage" style="margin-top: -25px;">
+        <template slot="upload">
+          <div
+            v-if="!specImage.length"
+            tabindex="0"
+            style="margin-bottom: 8px;"
+            class="el-upload el-upload--picture-card"
+            @click="handleUpload(getSpecImageList, 'photo', 'upload')">
+            <cs-icon name="image"/>
+          </div>
+        </template>
+      </cs-photo>
+
+      <el-button
+        @click="handleStorage(getSpecImageList, [0, 2], 'photo')"
+        size="small">
+        <cs-icon name="inbox"/>
+        资源选择
+      </el-button>
+
+      <el-button
+        @click="handleUpload(getSpecImageList, 'photo', 'upload')"
+        size="small">
+        <cs-icon name="upload"/>
+        上传图片
+      </el-button>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button
+          @click.native="specImageVisible = false"
+          size="small">取消</el-button>
+
+        <el-button
+          @click.native="confirmSpecImage"
+          type="primary"
+          size="small">确定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -740,7 +785,10 @@ export default {
       rules: {},
       typeLoading: false,
       activeAttr: [],
-      activeSpec: []
+      activeSpec: [],
+      specImage: [],
+      specImageKey: {},
+      specImageVisible: false
     }
   },
   created() {
@@ -934,6 +982,35 @@ export default {
     // 删除规格
     delSpecItem(key) {
       this.currentForm.spec_config.splice(key, 1)
+    },
+    // 编辑规格项图片
+    setSpecImage(parent, key, image) {
+      this.specImage = [...image]
+      this.specImageKey = { parent, key }
+      this.specImageVisible = true
+    },
+    // 获取规格项图片
+    getSpecImageList(files, source) {
+      if (!files.length) {
+        return
+      }
+
+      const fileList = this.getFileList(files, source)
+      fileList.forEach(value => {
+        this.specImage.push({
+          name: value.name,
+          source: value.url,
+          url: '//' + value.url
+        })
+      })
+    },
+    // 完成规格图片编辑
+    confirmSpecImage() {
+      const { parent, key } = this.specImageKey
+      const data = this.currentForm.spec_config[parent]['spec_item'][key]
+
+      this.$set(data, 'image', this.specImage)
+      this.specImageVisible = false
     }
   }
 }
