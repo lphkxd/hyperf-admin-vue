@@ -35,6 +35,19 @@
   float: right;
 }
 
+// 鼠标状态
+.#{$prefix}-cm {
+  &:hover {
+    cursor: move !important;
+  }
+}
+
+.#{$prefix}-cp {
+  &:hover {
+    cursor: pointer !important;
+  }
+}
+
 // 边距相关
 $sizes: (0, 5, 10, 15, 20);
 

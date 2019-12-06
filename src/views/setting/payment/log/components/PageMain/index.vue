@@ -3,6 +3,7 @@
     <el-table
       v-loading="loading"
       :data="tableData"
+      :highlight-current-row="true"
       @sort-change="sortChange">
 
       <el-table-column type="expand">

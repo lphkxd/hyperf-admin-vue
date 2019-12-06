@@ -24,13 +24,15 @@ export default {
     }
   },
   mounted() {
-    this.$notify({
-      title: 'Demo 演示提示',
-      dangerouslyUseHTMLString: true,
-      message: '<p>为避免相同账号多人登录而被踢下线，可使用账号"admin1~admin45"进行登录，密码全部为"admin888"。</p>',
-      position: 'bottom-right',
-      duration: 0
-    })
+    if (process.env.VUE_APP_ISDEMO === 'true') {
+      this.$notify({
+        title: 'Demo 演示提示',
+        dangerouslyUseHTMLString: true,
+        message: '<p>为避免相同账号多人登录而被踢下线，可使用账号"admin1~admin45"进行登录，密码全部为"admin888"。</p>',
+        position: 'bottom-right',
+        duration: 0
+      })
+    }
   }
 }
 </script>

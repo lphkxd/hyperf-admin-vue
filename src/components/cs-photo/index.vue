@@ -14,7 +14,7 @@
           <el-image :src="item.source | getPreviewUrl" fit="contain"/>
         </div>
 
-        <span v-show="!drag" class="el-upload-list__item-actions thumbnail-move">
+        <span v-show="!drag" class="el-upload-list__item-actions cs-cm">
             <span class="el-upload-list__item-delete">
               <i class="el-icon-zoom-in" @click="preview(index)"/>
             </span>
@@ -84,9 +84,6 @@ export default {
     width: 146px;
     height: 146px;
     overflow: hidden;
-  }
-  .thumbnail-move {
-    cursor: move;
   }
   .sortable-ghost {
     opacity: 0;

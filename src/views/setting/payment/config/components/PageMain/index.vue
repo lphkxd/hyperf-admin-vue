@@ -2,7 +2,8 @@
   <div class="cs-p">
     <el-table
       v-loading="loading"
-      :data="tableData">
+      :data="tableData"
+      :highlight-current-row="true">
       <el-table-column type="expand">
         <template slot-scope="props">
           <el-form label-position="left" inline class="table-expand">

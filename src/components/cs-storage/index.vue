@@ -65,13 +65,13 @@
     <!-- 面包屑开始 -->
     <el-breadcrumb class="breadcrumb cs-mb" separator-class="el-icon-arrow-right">
       <el-breadcrumb-item>
-        <a style="cursor: pointer;" @click="switchDirectory(0)">资源管理</a>
+        <a class="cs-cp" @click="switchDirectory(0)">资源管理</a>
       </el-breadcrumb-item>
 
       <el-breadcrumb-item
         v-for="item in naviData"
         :key="item.storage_id">
-        <a style="cursor: pointer;" @click="switchDirectory(item.storage_id)">{{item.name}}</a>
+        <a class="cs-cp" @click="switchDirectory(item.storage_id)">{{item.name}}</a>
       </el-breadcrumb-item>
     </el-breadcrumb>
 

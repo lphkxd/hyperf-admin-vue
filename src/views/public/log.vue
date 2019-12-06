@@ -1,7 +1,7 @@
 <template>
   <cs-container>
     <div class="cs-p">
-      <el-table :data="log">
+      <el-table :data="log" :highlight-current-row="true">
         <!-- 时间 -->
         <el-table-column
           prop="time"

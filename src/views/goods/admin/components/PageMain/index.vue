@@ -139,7 +139,7 @@
               </div>
 
               <el-image
-                class="goods-image"
+                class="goods-image cs-cp"
                 @click="handleView(scope.row.goods_id)"
                 :src="scope.row.attachment | getPreviewUrl"
                 fit="contain"
@@ -1036,9 +1036,6 @@ export default {
     float: left;
     width: 80px;
     height: 80px;
-    &:hover {
-      cursor: pointer;
-    }
   }
   .goods-info {
     float: left;

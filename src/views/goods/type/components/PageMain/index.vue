@@ -21,6 +21,7 @@
     <el-table
       v-loading="loading"
       :data="currentTableData"
+      :highlight-current-row="true"
       @sort-change="sortChange">
       <el-table-column
         label="编号"

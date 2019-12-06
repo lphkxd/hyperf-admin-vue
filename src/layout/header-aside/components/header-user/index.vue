@@ -182,7 +182,7 @@ export default {
             const h = this.$createElement
             this.$notify.info({
               title: '消息提示',
-              message: h('p', { style: 'cursor: pointer' }, '您有新的消息，请注意查收。'),
+              message: h('p', { 'class': 'cs-cp' }, '您有新的消息，请注意查收。'),
               position: 'bottom-right',
               onClick: () => { this.handleMessage() }
             })

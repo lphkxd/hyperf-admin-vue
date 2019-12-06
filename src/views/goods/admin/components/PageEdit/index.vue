@@ -348,10 +348,11 @@
                               v-if="item.spec_type === 1"
                               class="spec-type">
                               <el-avatar
-                                :src="value.color"
-                                class="spec-position"
+                                :src="value.image[0] | getPreviewUrl('goods_image_x80')"
+                                class="cs-cp spec-position"
+                                style=""
                                 shape="square"
-                                size="small">
+                                :size="27">
                                 <img src="image/system/image.png" alt=""/>
                               </el-avatar>
                             </div>
@@ -367,7 +368,7 @@
                             </div>
 
                             <el-tag
-                              class="spec-item-move item-spec-handle"
+                              class="cs-cm item-spec-handle"
                               type="info"
                               size="medium"
                               effect="plain"
@@ -749,6 +750,17 @@ export default {
       event.stopPropagation()
     }
   },
+  filters: {
+    getPreviewUrl(val, code) {
+      if (val) {
+        if (val.source || val) {
+          return util.getImageCodeUrl(val.source || val, code)
+        }
+      }
+
+      return ''
+    }
+  },
   methods: {
     // 确认新增或修改
     handleConfirm() {
@@ -1006,9 +1018,6 @@ export default {
   .spec-item {
     float: left;
     padding: 0 10px 10px;
-  }
-  .spec-item-move {
-    cursor: move;
   }
   .spec-type {
     display: initial;

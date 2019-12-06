@@ -1,8 +1,9 @@
 <template>
   <div class="cs-p">
     <el-table
-      :data="currentTableData"
       v-loading="loading"
+      :data="currentTableData"
+      :highlight-current-row="true"
       @sort-change="sortChange">
       <el-table-column
         label="编号"

@@ -40,8 +40,9 @@
     </el-form>
 
     <el-table
-      :data="currentTableData"
       v-loading="loading"
+      :data="currentTableData"
+      :highlight-current-row="true"
       :row-class-name="tableRowClassName"
       @selection-change="handleSelectionChange"
       @sort-change="sortChange">

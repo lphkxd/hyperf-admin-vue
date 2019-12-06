@@ -8,8 +8,8 @@
     <el-table
       v-loading="loading"
       :data="currentTableData"
-      @sort-change="sortChange"
-      highlight-current-row>
+      :highlight-current-row="true"
+      @sort-change="sortChange">
       <el-table-column
         label="提现单号"
         prop="withdraw_no"

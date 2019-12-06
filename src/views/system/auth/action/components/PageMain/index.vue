@@ -1,8 +1,9 @@
 <template>
   <div class="cs-p">
     <el-table
-      :data="tableData"
       v-loading="loading"
+      :data="tableData"
+      :highlight-current-row="true"
       @sort-change="sortChange">
 
       <el-table-column
@@ -54,12 +55,10 @@
         width="80">
         <template slot-scope="scope">
           <el-tag
+            @click.native="getObjectToJson(scope.$index, 'params')"
+            class="cs-cp"
             size="mini"
-            type="info"
-            style="cursor: pointer;"
-            @click.native="getObjectToJson(scope.$index, 'params')">
-            详细
-          </el-tag>
+            type="info">详细</el-tag>
         </template>
       </el-table-column>
 
@@ -69,12 +68,10 @@
         width="80">
         <template slot-scope="scope">
           <el-tag
+            @click.native="getObjectToJson(scope.$index, 'result')"
+            class="cs-cp"
             size="mini"
-            type="info"
-            style="cursor: pointer;"
-            @click.native="getObjectToJson(scope.$index, 'result')">
-            详细
-          </el-tag>
+            type="info">详细</el-tag>
         </template>
       </el-table-column>
 

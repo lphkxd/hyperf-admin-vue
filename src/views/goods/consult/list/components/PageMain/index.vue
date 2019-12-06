@@ -30,7 +30,7 @@
         <template slot-scope="scope">
           <div class="goods-consult">
             <el-image
-              class="goods-image"
+              class="goods-image cs-cp"
               @click="handleView(scope.row.get_goods.goods_id)"
               :src="scope.row.get_goods.attachment | getPreviewUrl"
               fit="contain"
@@ -334,9 +334,6 @@ export default {
     float: left;
     width: 80px;
     height: 80px;
-    &:hover {
-      cursor: pointer;
-    }
   }
   .goods-info {
     float: left;

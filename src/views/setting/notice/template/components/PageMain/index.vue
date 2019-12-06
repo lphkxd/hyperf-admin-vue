@@ -63,6 +63,7 @@
         <el-table
           v-if="index.toString() === tplCode"
           :data="currentTableData"
+          :highlight-current-row="true"
           @selection-change="handleSelectionChange">
           <el-table-column type="selection" width="30"/>
 
@@ -302,7 +303,7 @@
               v-for="(item, index) in tplForm.get_notice_item"
               :key="index"
               :disable-transitions="true"
-              style="cursor: pointer; margin-right: 10px;"
+              class="cs-cp cs-mr-10"
               effect="plain"
               @click="insertVariables(item.item_name)">
               {{item.item_name}}

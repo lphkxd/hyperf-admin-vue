@@ -20,7 +20,8 @@
 
     <el-table
       v-loading="loading"
-      :data="currentTableData">
+      :data="currentTableData"
+      :highlight-current-row="true">
       <el-table-column
         label="收货人"
         prop="consignee"
