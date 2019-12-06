@@ -107,11 +107,30 @@
       :close-on-click-modal="false"
       width="600px">
       <cs-highlight :code="dialogJson" style="margin-top: -25px;"/>
+
+      <div slot="footer" class="dialog-footer">
+        <div class="cs-fl">
+          <el-button
+            @click="copyData(dialogJson)"
+            size="small">复制</el-button>
+        </div>
+
+        <el-button
+          @click.native="dialogFormVisible = false"
+          size="small">取消</el-button>
+
+        <el-button
+          @click.native="dialogFormVisible = false"
+          type="primary"
+          size="small">确定</el-button>
+      </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
+import * as clipboard from 'clipboard-polyfill'
+
 export default {
   props: {
     loading: {
@@ -159,6 +178,15 @@ export default {
       this.dialogJson = JSON.stringify(this.tableData[index][type], null, 2)
       this.dialogStatus = type
       this.dialogFormVisible = true
+    },
+    copyData(val) {
+      clipboard.writeText(val)
+        .then(() => {
+          this.$message.success('已复制到剪贴板')
+        })
+        .catch(err => {
+          this.$message.error(err)
+        })
     }
   }
 }

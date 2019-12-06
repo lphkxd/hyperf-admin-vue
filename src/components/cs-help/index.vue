@@ -1,6 +1,6 @@
 <template>
   <el-popover
-    style="float: right"
+    class="cs-fr"
     placement="bottom-end"
     width="400"
     trigger="hover"

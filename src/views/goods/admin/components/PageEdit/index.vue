@@ -4,7 +4,7 @@
       class="box-card"
       shadow="never"
       v-loading="loading">
-      <div slot="header" class="clearfix" style="text-align: center;">
+      <div slot="header" class="cs-text-center clearfix">
         <span>{{stateMap[state]}}</span>
       </div>
 
@@ -316,7 +316,7 @@
                         <span>{{item.name}}</span>
 
                         <div class="active cs-pl-10">
-                          <el-popover placement="top" trigger="hover" :close-delay="50">
+                          <el-popover placement="top" trigger="hover" :open-delay="600" :close-delay="50">
                             <el-radio-group v-model="item.spec_type">
                               <el-radio :label="0">文字</el-radio>
                               <el-radio :label="1">图片</el-radio>
@@ -325,7 +325,7 @@
                             <span class="spec-action" slot="reference">展现方式</span>
                           </el-popover>
 
-                          <el-popover placement="top" trigger="hover" :close-delay="50">
+                          <el-popover placement="top" trigger="hover" :open-delay="600" :close-delay="50">
                             <el-input v-model="item.name" size="small" placeholder="请输入内容"/>
                             <span class="spec-action" slot="reference">重命名</span>
                           </el-popover>
@@ -347,14 +347,27 @@
                             <div
                               v-if="item.spec_type === 1"
                               class="spec-type">
-                              <el-avatar
-                                class="cs-cp spec-position"
-                                shape="square"
-                                :src="value.image[0] | getPreviewUrl('goods_image_x80')"
-                                :size="27"
-                                @click.native="setSpecImage(parent, key, value.image)">
-                                <img src="image/system/image.png" alt=""/>
-                              </el-avatar>
+                              <el-popover
+                                placement="top"
+                                trigger="hover"
+                                :close-delay="50"
+                                :disabled="!value.image.length">
+                                <cs-photo
+                                  v-model="value.image"
+                                  :width="80"
+                                  :height="80">
+                                </cs-photo>
+
+                                <el-avatar
+                                  class="cs-cp spec-position"
+                                  slot="reference"
+                                  shape="square"
+                                  @click.native="setSpecImage(parent, key, value.image)"
+                                  :src="value.image[0] | getPreviewUrl('goods_image_x80')"
+                                  :size="27">
+                                  <img src="image/system/image.png" alt=""/>
+                                </el-avatar>
+                              </el-popover>
                             </div>
 
                             <div
@@ -640,38 +653,35 @@
 
     <el-dialog
       title="规格图片"
-      width="600px"
+      width="665px"
       :visible.sync="specImageVisible"
       :append-to-body="true"
       :close-on-click-modal="false">
-      <cs-photo v-model="specImage" style="margin-top: -25px;">
+      <cs-photo
+        v-model="specImage"
+        style="margin-top: -25px;">
         <template slot="upload">
-          <div
-            v-if="!specImage.length"
-            tabindex="0"
-            style="margin-bottom: 8px;"
-            class="el-upload el-upload--picture-card"
-            @click="handleUpload(getSpecImageList, 'photo', 'upload')">
-            <cs-icon name="image"/>
-          </div>
+          <div v-if="!specImage.length" class="spec-up-image">暂无规格图</div>
         </template>
       </cs-photo>
 
-      <el-button
-        @click="handleStorage(getSpecImageList, [0, 2], 'photo')"
-        size="small">
-        <cs-icon name="inbox"/>
-        资源选择
-      </el-button>
-
-      <el-button
-        @click="handleUpload(getSpecImageList, 'photo', 'upload')"
-        size="small">
-        <cs-icon name="upload"/>
-        上传图片
-      </el-button>
-
       <div slot="footer" class="dialog-footer">
+        <div class="cs-fl">
+          <el-button
+            @click="handleStorage(getSpecImageList, [0, 2], 'photo')"
+            size="small">
+            <cs-icon name="inbox"/>
+            资源选择
+          </el-button>
+
+          <el-button
+            @click="handleUpload(getSpecImageList, 'photo', 'upload')"
+            size="small">
+            <cs-icon name="upload"/>
+            上传图片
+          </el-button>
+        </div>
+
         <el-button
           @click.native="specImageVisible = false"
           size="small">取消</el-button>
@@ -1016,7 +1026,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   .clearfix:before,
   .clearfix:after {
     display: table;
@@ -1036,20 +1046,20 @@ export default {
   }
   .box-card {
     border-radius: 0;
-    border: 1px solid #DCDFE6;
+    border: 1px solid $color-border-1;
   }
   .input-video {
     width: 350px;
     margin-bottom: 10px;
   }
   .help-block {
-    color: #909399;
+    color: $color-info;
     font-size: 12px;
     line-height: 2;
     margin-bottom: -12px;
   }
   .icon-move {
-    color: #C0C4CC;
+    color: $color-text-placehoder;
     cursor: move;
   }
   .attr-form {
@@ -1067,15 +1077,15 @@ export default {
     line-height: 34px;
   }
   .attr-default {
-    color: #C0C4CC;
+    color: $color-text-placehoder;
     cursor: pointer;
     float: right;
     padding: 12px 5px;
   }
-  .el-collapse >>> .el-collapse-item__header {
+  .el-collapse /deep/ .el-collapse-item__header {
     font-size: 14px;
   }
-  .el-collapse >>> .el-collapse-item__content {
+  .el-collapse /deep/ .el-collapse-item__content {
     padding-bottom: 0;
   }
   .sortable-ghost {
@@ -1088,7 +1098,7 @@ export default {
     display: block;
   }
   .spec-action {
-    color: #409EFF;
+    color: $color-primary;
     padding-right: 10px;
     font-size: 12px;
   }
@@ -1102,5 +1112,10 @@ export default {
   }
   .spec-position {
     position: absolute;
+  }
+  .spec-up-image {
+    @extend %flex-center-row;
+    color: $color-info;
+    height: 156px;
   }
 </style>

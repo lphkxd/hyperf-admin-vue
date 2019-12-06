@@ -31,7 +31,7 @@
       </el-upload>
 
       <div slot="footer" class="dialog-footer">
-        <div style="float: left">
+        <div class="cs-fl">
           <el-cascader
             v-if="storageId == null"
             v-model="parentId"

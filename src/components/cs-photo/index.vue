@@ -4,17 +4,20 @@
       v-model="imageList"
       class="el-upload-list el-upload-list--picture-card"
       tag="ul"
+      :disabled="!isMove"
+      :options="{scroll: true, animation: 400}"
       @start="drag = true"
       @end="drag = false">
       <li
         v-for="(item, index) in value"
         :key="index"
-        class="el-upload-list__item">
-        <div class="thumbnail">
-          <el-image :src="item.source | getPreviewUrl" fit="contain"/>
+        class="el-upload-list__item"
+        :style="`width:${width}px; height:${height}px;`">
+        <div class="thumbnail" :style="`width:${width}px; height:${height}px;`">
+          <el-image :src="item.source | getPreviewUrl(width, height)" fit="contain"/>
         </div>
 
-        <span v-show="!drag" class="el-upload-list__item-actions cs-cm">
+        <span v-show="!drag" :class="{'el-upload-list__item-actions': true, 'cs-cm': isMove}">
             <span class="el-upload-list__item-delete">
               <i class="el-icon-zoom-in" @click="preview(index)"/>
             </span>
@@ -42,6 +45,15 @@ export default {
     value: {
       type: Array,
       default: () => []
+    },
+    width: {
+      default: 148
+    },
+    height: {
+      default: 148
+    },
+    isMove: {
+      default: true
     }
   },
   data() {
@@ -50,9 +62,8 @@ export default {
     }
   },
   filters: {
-    getPreviewUrl(val) {
-      const style = '&size[]=146'
-      return util.getImageStyleUrl(val, style)
+    getPreviewUrl(val, width, height) {
+      return util.getImageStyleUrl(val, `&size[]=${width}&size[]=${height}`)
     }
   },
   computed: {
@@ -76,14 +87,9 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   .thumbnail {
-    text-align: center;
-    vertical-align: middle;
-    display: table-cell;
-    width: 146px;
-    height: 146px;
-    overflow: hidden;
+    @extend %flex-center-col;
   }
   .sortable-ghost {
     opacity: 0;
