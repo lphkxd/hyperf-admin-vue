@@ -330,7 +330,7 @@
                             <span class="spec-action" slot="reference">重命名</span>
                           </el-popover>
 
-                          <el-button @click="delSpecItem(parent)" size="small" type="text">删除</el-button>
+                          <el-button @click="delSpec(parent)" size="small" type="text">删除</el-button>
                         </div>
                       </template>
 
@@ -385,6 +385,8 @@
                               type="info"
                               size="medium"
                               effect="plain"
+                              @dblclick.native="showSpecNameDialog(value.item_name, 'set', parent, key)"
+                              @close="delSpecItem(parent, key)"
                               closable>
                               {{value.item_name}}
                             </el-tag>
@@ -392,15 +394,30 @@
                         </draggable>
                       </el-checkbox-group>
 
-                      <el-button class="cs-fl cs-pl-10" type="text" size="mini">+ 添加</el-button>
+                      <el-button
+                        @click="showSpecNameDialog(null, 'add', parent, null)"
+                        class="active cs-fl cs-ml-10 cs-mb-10"
+                        size="mini">+ 添加</el-button>
                     </el-collapse-item>
                   </draggable>
 
-                  <el-button
-                    v-show="currentForm.goods_type_id"
-                    class="cs-mt"
-                    size="mini"
-                    @click="addNewSpec">新增规格</el-button>
+                  <div v-if="currentForm.goods_type_id">
+                    <el-input
+                      v-if="inputSpecVisible"
+                      v-model="inputSpecValue"
+                      class="spec-add-input"
+                      ref="addSpecInput"
+                      size="small"
+                      @keyup.enter.native="addSpec"
+                      @blur="addSpec">
+                    </el-input>
+
+                    <el-button
+                      v-else
+                      class="spec-add-button cs-mt"
+                      size="mini"
+                      @click="showSpecInput">+ 新增规格</el-button>
+                  </div>
                 </el-form-item>
               </el-col>
 
@@ -692,6 +709,38 @@
           size="small">确定</el-button>
       </div>
     </el-dialog>
+
+    <el-dialog
+      title="规格项"
+      :visible.sync="specName.visible"
+      :append-to-body="true"
+      :close-on-click-modal="false"
+      width="600px">
+      <el-form
+        label-width="auto"
+        @submit.native.prevent>
+        <el-form-item
+          label="名称"
+          prop="name">
+          <el-input
+            v-model="specName.value"
+            placeholder="请输入规格项名称"
+            @keyup.enter.native="confirmSpecName"
+            ref="specNameInput"/>
+        </el-form-item>
+      </el-form>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button
+          @click="specName.visible = false"
+          size="small">取消</el-button>
+
+        <el-button
+          type="primary"
+          @click="confirmSpecName"
+          size="small">确定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -793,12 +842,21 @@ export default {
         measure_type: 0
       },
       rules: {},
+      inputSpecValue: '',
+      inputSpecVisible: false,
       typeLoading: false,
       activeAttr: [],
       activeSpec: [],
       specImage: [],
       specImageKey: {},
-      specImageVisible: false
+      specImageVisible: false,
+      specName: {
+        value: '',
+        type: '',
+        visible: false,
+        parent: null,
+        key: null
+      }
     }
   },
   created() {
@@ -973,24 +1031,37 @@ export default {
 
       this.$set(data, 'result', data.attr_values[0])
     },
-    // 新增规格
-    addNewSpec() {
-      let specId = -util.randomLenNum(6)
-      this.currentForm.spec_config.push({
-        spec_id: specId,
-        goods_type_id: this.currentForm.goods_type_id,
-        name: '规格' + specId,
-        spec_index: 0,
-        spec_type: 0,
-        sort: 50,
-        spec_item: [],
-        check_list: []
-      })
+    showSpecInput() {
+      this.inputSpecValue = ''
+      this.inputSpecVisible = true
 
-      this.activeSpec.push(specId)
+      this.$nextTick(() => {
+        this.$refs.addSpecInput.focus()
+      })
+    },
+    // 新增规格
+    addSpec() {
+      if (this.inputSpecValue) {
+        const specId = -util.randomLenNum(6)
+        this.currentForm.spec_config.push({
+          spec_id: specId,
+          goods_type_id: this.currentForm.goods_type_id,
+          name: this.inputSpecValue,
+          spec_index: 0,
+          spec_type: 0,
+          sort: 50,
+          spec_item: [],
+          check_list: []
+        })
+
+        this.activeSpec.push(specId)
+      }
+
+      this.inputSpecVisible = false
+      this.inputSpecValue = ''
     },
     // 删除规格
-    delSpecItem(key) {
+    delSpec(key) {
       this.currentForm.spec_config.splice(key, 1)
     },
     // 编辑规格项图片
@@ -1021,6 +1092,58 @@ export default {
 
       this.$set(data, 'image', this.specImage)
       this.specImageVisible = false
+    },
+    // 新增规格项
+    addSpenItem(value, index) {
+      const itemId = -util.randomLenNum(6)
+      this.currentForm.spec_config[index]['spec_item'].push({
+        spec_item_id: itemId,
+        item_name: value,
+        is_contact: 0,
+        sort: 50,
+        image: [],
+        color: ''
+      })
+    },
+    // 删除规格项
+    delSpecItem(parent, key) {
+      this.currentForm.spec_config[parent]['spec_item'].splice(key, 1)
+    },
+    // 显示规格名称编辑对话框
+    showSpecNameDialog(value, type, parent, key) {
+      this.specName = {
+        value,
+        type,
+        parent,
+        key,
+        visible: true
+      }
+
+      this.$nextTick(() => {
+        this.$refs.specNameInput.select()
+      })
+    },
+    // 规格名称编辑确认
+    confirmSpecName() {
+      if (!this.specName.value) {
+        this.specName.visible = false
+        return
+      }
+
+      if (this.specName.type === 'add') {
+        this.addSpenItem(this.specName.value, this.specName.parent)
+      }
+
+      if (this.specName.type === 'set') {
+        const { parent, key } = this.specName
+        const data = this.currentForm.spec_config[parent]['spec_item'][key]
+
+        if (data.item_name !== this.specName.value) {
+          this.$set(data, 'item_name', this.specName.value)
+        }
+      }
+
+      this.specName.visible = false
     }
   }
 }
@@ -1096,6 +1219,16 @@ export default {
   }
   .action:hover .active{
     display: block;
+  }
+  .spec-add-button {
+    height: 32px;
+    line-height: 30px;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  .spec-add-input {
+    margin-top: 16px;
+    width: 90px;
   }
   .spec-action {
     color: $color-primary;

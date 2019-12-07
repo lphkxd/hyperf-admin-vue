@@ -86,7 +86,7 @@ export default {
     showInput() {
       this.inputVisible = true
       this.$nextTick(() => {
-        this.$refs.saveTagInput.$refs.input.focus()
+        this.$refs.saveTagInput.focus()
       })
     },
     handleInputConfirm() {

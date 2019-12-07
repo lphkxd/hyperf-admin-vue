@@ -2,10 +2,10 @@
   <div style="line-height: 0;">
     <draggable
       v-model="imageList"
+      v-bind="{scroll: true, animation: 400}"
       class="el-upload-list el-upload-list--picture-card"
       tag="ul"
       :disabled="!isMove"
-      :options="{scroll: true, animation: 400}"
       @start="drag = true"
       @end="drag = false">
       <li

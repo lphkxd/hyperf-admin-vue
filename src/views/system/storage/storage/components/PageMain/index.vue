@@ -228,7 +228,7 @@
         :model="nameForm"
         :rules="rules"
         ref="name"
-        label-width="80px"
+        label-width="auto"
         @submit.native.prevent>
         <el-form-item
           label="名称"

@@ -299,7 +299,7 @@
         :model="nameForm"
         :rules="rules"
         ref="name"
-        label-width="80px"
+        label-width="auto"
         @submit.native.prevent>
         <el-form-item
           label="名称"
@@ -337,7 +337,7 @@
         :model="productForm"
         :rules="rules"
         ref="product"
-        label-width="80px"
+        label-width="auto"
         @submit.native.prevent>
         <el-form-item
           label="促销名"
