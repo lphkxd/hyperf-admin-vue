@@ -717,7 +717,8 @@
       :close-on-click-modal="false"
       width="600px">
       <el-form
-        label-width="auto"
+        label-width="40px"
+        label-position="left"
         @submit.native.prevent>
         <el-form-item
           label="名称"
@@ -746,8 +747,8 @@
 
 <script>
 import util from '@/utils/util'
-import { getGoodsAttributeList } from '@/api/goods/attribute'
 import { getGoodsSpecList } from '@/api/goods/spec'
+import { getGoodsAttributeList } from '@/api/goods/attribute'
 import { getGoodsAttrConfig, getGoodsSpecConfig } from '@/api/goods/goods'
 
 export default {

@@ -99,7 +99,7 @@ export default {
         page_size: this.page.size
       })
         .then(res => {
-          this.table = res.data['items'] || []
+          this.table = res.data.items || []
           this.page.total = res.data['total_result']
         })
         .finally(() => {

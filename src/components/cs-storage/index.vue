@@ -222,8 +222,8 @@ export default {
         page_size: this.page.size
       })
         .then(res => {
+          this.currentTableData = res.data.items || []
           this.page.total = res.data['total_result']
-          this.currentTableData = res.data['items'] || []
         })
         .finally(() => {
           this.loading = false
