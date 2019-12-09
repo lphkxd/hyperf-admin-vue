@@ -12,7 +12,7 @@ let util = {
  * @description 更新标题
  * @param {String} titleText 标题
  */
-util.title = function(titleText) {
+util.title = (titleText) => {
   window.document.title = `${titleText ? `${titleText} - ` : ''}${process.env.VUE_APP_TITLE}`
 }
 
@@ -20,7 +20,7 @@ util.title = function(titleText) {
  * @description 打开新页面
  * @param {String} url 地址
  */
-util.open = function(url) {
+util.open = (url) => {
   if (url === '/') {
     url = document.location.origin
   }
@@ -45,7 +45,7 @@ util.open = function(url) {
  * @param date
  * @returns {string}
  */
-util.randomLenNum = function(len, date = false) {
+util.randomLenNum = (len, date = false) => {
   let random
   random = Math.ceil(Math.random() * 100000000000000).toString().substr(0, len || 4)
   return date ? random + Date.now() : random
@@ -56,7 +56,7 @@ util.randomLenNum = function(len, date = false) {
  * @param str
  * @returns {*}
  */
-util.md5 = function(str) {
+util.md5 = (str) => {
   let crypto = require('crypto')
   let md5 = crypto.createHash('md5')
 
@@ -72,7 +72,7 @@ util.md5 = function(str) {
  * @param parent
  * @returns {Array}
  */
-util.formatDataToTree = function(data, key = 'menu_id', pid = 'parent_id', parent = {}) {
+util.formatDataToTree = (data, key = 'menu_id', pid = 'parent_id', parent = {}) => {
   if (!data || Object.keys(data).length <= 0) {
     return []
   }
@@ -123,12 +123,12 @@ util.formatDataToTree = function(data, key = 'menu_id', pid = 'parent_id', paren
 
 /**
  * 字符计量大小转换为字节大小
- * @param val
+ * @param value
  * @returns {number}
  */
-util.stringToByte = function(val) {
+util.stringToByte = (value) => {
   const exp = '(^[0-9\\.]+)(\\w+)'
-  const result = val.match(exp)
+  const result = value.match(exp)
 
   if (!result) {
     return 0
@@ -148,7 +148,7 @@ util.stringToByte = function(val) {
  * 生成 GUID
  * @returns {string}
  */
-util.guid = function() {
+util.guid = () => {
   let s = []
   const hexDigits = '0123456789abcdef'
 
@@ -168,7 +168,7 @@ util.guid = function() {
  * @param params
  * @returns {*}
  */
-util.getSign = function(params) {
+util.getSign = (params) => {
   let sorted = Object.keys(params).sort()
   let basestring = process.env.VUE_APP_SECRET
   const type = ['undefined', 'object', 'function']
@@ -194,7 +194,7 @@ util.getSign = function(params) {
  * @param code
  * @returns {string}
  */
-util.getImageCodeUrl = function(url, code = '') {
+util.getImageCodeUrl = (url, code = '') => {
   let data = process.env.VUE_APP_BASE_API
   data += '/v1/storage/method/get.storage.thumb/code/' + code
   data += '?url=' + encodeURIComponent(url)
@@ -208,7 +208,7 @@ util.getImageCodeUrl = function(url, code = '') {
  * @param code
  * @returns {*}
  */
-util.getDownloadUrl = function(file, code) {
+util.getDownloadUrl = (file, code) => {
   let data = process.env.VUE_APP_BASE_API
   data += '/v1/storage/method/get.storage.download/code/' + code
   data += '?url=' + encodeURIComponent(file.url)
@@ -223,7 +223,7 @@ util.getDownloadUrl = function(file, code) {
  * @param style
  * @returns {string}
  */
-util.getImageStyleUrl = function(url, style = '') {
+util.getImageStyleUrl = (url, style = '') => {
   let data = process.env.VUE_APP_BASE_API
   data += '/v1/storage/method/get.storage.thumb' + '?url=' + encodeURIComponent(url)
   data += style
@@ -237,7 +237,7 @@ util.getImageStyleUrl = function(url, style = '') {
  * @param digits
  * @returns {string}
  */
-util.numberFormatter = function(num, digits = 2) {
+util.numberFormatter = (num, digits = 2) => {
   const si = [
     { value: 1E18, symbol: 'EB' },
     { value: 1E15, symbol: 'PB' },
@@ -262,7 +262,7 @@ util.numberFormatter = function(num, digits = 2) {
  * @param spacer
  * @returns {string}
  */
-util.bytesFormatter = function(bytes, spacer = ' ') {
+util.bytesFormatter = (bytes, spacer = ' ') => {
   if (isNaN(bytes)) {
     return ''
   }
@@ -291,7 +291,7 @@ util.bytesFormatter = function(bytes, spacer = ' ') {
  * @param index
  * @returns {{}}
  */
-util.setImageSrcList = function(srcList, index) {
+util.setImageSrcList = (srcList, index) => {
   if (!Array.isArray(srcList) || !srcList.length) {
     return []
   }
@@ -312,9 +312,33 @@ util.setImageSrcList = function(srcList, index) {
  * @param value
  * @returns {string}
  */
-util.getNumber = function(value) {
+util.getNumber = (value) => {
   const toFixedNum = Number(value).toFixed(3)
   return toFixedNum.substring(0, toFixedNum.toString().length - 1)
+}
+
+/**
+ * 笛卡尔积算法 (https://github.com/1260215278/Sku-demo)
+ * @param array
+ * @returns {*|*[]|U}
+ */
+util.descartes = (array) => {
+  if (array.length < 2) {
+    return array[0] || []
+  }
+
+  return [].reduce.call(array, (col, set) => {
+    let res = []
+    col.forEach((c) => {
+      set.forEach((s) => {
+        let t = [].concat(Array.isArray(c) ? c : [c])
+        t.push(s)
+        res.push(t)
+      })
+    })
+
+    return res
+  })
 }
 
 export default util

@@ -13,7 +13,7 @@ Vue.use(careyshop)
 
 // v-has
 Vue.directive('has', {
-  bind: function(el, binding) {
+  bind: (el, binding) => {
     if (!Vue.prototype.$has(binding.value)) {
       el.parentNode ? el.parentNode.removeChild(el) : el.style.display = 'none'
     }

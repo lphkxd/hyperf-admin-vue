@@ -314,6 +314,7 @@
                       <template slot="title">
                         <cs-icon class="icon-move cs-pr-10 spec-handle" name="align-justify"/>
                         <span>{{item.name}}</span>
+<!--                        <el-input v-model="item.name" size="mini" style="width: 35%;"/>-->
 
                         <div class="active cs-pl-10">
                           <el-popover placement="top" trigger="hover" :open-delay="600" :close-delay="50">
@@ -764,6 +765,7 @@
 
 <script>
 import util from '@/utils/util'
+import { debounce } from 'lodash'
 import { getGoodsSpecList } from '@/api/goods/spec'
 import { getGoodsAttributeList } from '@/api/goods/attribute'
 import { getGoodsAttrConfig, getGoodsSpecConfig } from '@/api/goods/goods'
@@ -879,7 +881,7 @@ export default {
   },
   created() {
     // 解决Firefox下拖拽结束后会新开搜索窗口
-    document.body.ondrop = function(event) {
+    document.body.ondrop = (event) => {
       event.preventDefault()
       event.stopPropagation()
     }
@@ -893,6 +895,14 @@ export default {
       }
 
       return ''
+    }
+  },
+  watch: {
+    'currentForm.spec_config': {
+      handler(val) {
+        this._handleSpecItemData(val)
+      },
+      deep: true
     }
   },
   methods: {
@@ -1188,7 +1198,11 @@ export default {
       }
 
       this.specName.visible = false
-    }
+    },
+    // 设置规格列表
+    _handleSpecItemData: debounce(function(value) {
+      // console.log('okokok', value)
+    }, 500)
   }
 }
 </script>

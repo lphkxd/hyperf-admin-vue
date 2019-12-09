@@ -8,7 +8,7 @@ const cookies = {}
  * @param {String} value cookie value
  * @param {Object} cookieSetting cookie setting
  */
-cookies.set = function(name = 'default', value = '', cookieSetting = {}) {
+cookies.set = (name = 'default', value = '', cookieSetting = {}) => {
   let currentCookieSetting = { expires: 1 }
   Object.assign(currentCookieSetting, cookieSetting)
   Cookies.set(`careyshop-${process.env.VUE_APP_VERSION}-${name}`, value, currentCookieSetting)
@@ -18,14 +18,14 @@ cookies.set = function(name = 'default', value = '', cookieSetting = {}) {
  * @description 拿到 cookie 值
  * @param {String} name cookie name
  */
-cookies.get = function(name = 'default') {
+cookies.get = (name = 'default') => {
   return Cookies.get(`careyshop-${process.env.VUE_APP_VERSION}-${name}`)
 }
 
 /**
  * @description 拿到 cookie 全部的值
  */
-cookies.getAll = function() {
+cookies.getAll = () => {
   return Cookies.get()
 }
 
@@ -33,7 +33,7 @@ cookies.getAll = function() {
  * @description 删除 cookie
  * @param {String} name cookie name
  */
-cookies.remove = function(name = 'default') {
+cookies.remove = (name = 'default') => {
   return Cookies.remove(`careyshop-${process.env.VUE_APP_VERSION}-${name}`)
 }
 
