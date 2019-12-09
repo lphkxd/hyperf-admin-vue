@@ -35,7 +35,7 @@ export function setWithdrawUserItem(data) {
 /**
  * 批量删除提现账号
  * @param {Array} withdraw_user_id
- * @param {Number} client_id
+ * @param {Number,String} client_id
  * @returns
  */
 export function delWithdrawUserList(withdraw_user_id, client_id) {
@@ -55,7 +55,7 @@ export function delWithdrawUserList(withdraw_user_id, client_id) {
 /**
  * 获取指定账号的一个提现账号
  * @param {Number} withdraw_user_id
- * @param {Number} client_id
+ * @param {Number,String} client_id
  * @returns
  */
 export function getWithdrawUserItem(withdraw_user_id, client_id) {
@@ -74,7 +74,7 @@ export function getWithdrawUserItem(withdraw_user_id, client_id) {
 
 /**
  * 获取指定账号的提现账号列表
- * @param {Number} client_id
+ * @param {Number,String} client_id
  * @returns
  */
 export function getWithdrawUserList(client_id) {
@@ -92,7 +92,7 @@ export function getWithdrawUserList(client_id) {
 
 /**
  * 检测是否超出最大添加数量
- * @param {Number} client_id
+ * @param {Number,String} client_id
  * @returns
  */
 export function isWithdrawUserMaximum(client_id) {

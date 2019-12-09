@@ -14,6 +14,7 @@ export default {
             instance
           }
         })
+
         // 只在开发模式下打印 log
         if (process.env.NODE_ENV === 'development') {
           util.log.capsule('CareyShop', 'ErrorHandler', 'danger')

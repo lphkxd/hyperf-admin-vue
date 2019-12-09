@@ -18,6 +18,7 @@
 
 <script>
 import themeList from './components/cs-theme-list'
+
 export default {
   components: {
     'cs-theme-list': themeList

@@ -20,7 +20,7 @@ export function getTransactionItem(transaction_id) {
 
 /**
  * 获取交易结算列表
- * @param {Array} data
+ * @param {Object} data
  * @returns
  */
 export function getTransactionList(data) {

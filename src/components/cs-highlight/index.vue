@@ -1,5 +1,5 @@
 <template>
-  <pre class="cs-highlight hljs" v-html="highlightHTML"></pre>
+  <pre class="cs-highlight hljs" v-html="highlightHTML"/>
 </template>
 
 <script>
@@ -8,6 +8,7 @@
 import './styles/github-gist.css'
 import htmlFormat from './libs/htmlFormat'
 import highlight from 'highlight.js'
+
 export default {
   name: 'cs-highlight',
   props: {

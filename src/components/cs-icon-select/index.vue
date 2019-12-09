@@ -19,7 +19,7 @@
         <el-collapse-item v-for="(item, index) in icon" :key="index" :title="item.title" :name="index" class="class">
           <el-row class="class-row">
             <el-col class="class-col" v-for="(iconName, iconIndex) in item.icon" :key="iconIndex" :span="4" @click.native="selectIcon(iconName)">
-              <i :class="'fa fa-' + iconName"></i>
+              <i :class="'fa fa-' + iconName"/>
             </el-col>
           </el-row>
         </el-collapse-item>
@@ -29,7 +29,7 @@
           <div class="class-title">{{item.title}}</div>
           <el-row class="class-row">
             <el-col class="class-col" v-for="(iconName, iconIndex) in item.icon" :key="iconIndex" :span="4" @click.native="selectIcon(iconName)">
-              <i :class="'fa fa-' + iconName"></i>
+              <i :class="'fa fa-' + iconName"/>
             </el-col>
           </el-row>
         </div>
@@ -41,16 +41,16 @@
       v-model="currentValue"
       v-bind="bind">
       <template v-if="value" slot="prepend">
-        <i :class="'fa fa-' + value"></i>
+        <i :class="'fa fa-' + value"/>
       </template>
       <el-button v-popover:pop slot="append">
-        <i class="fa fa-list"></i>
+        <i class="fa fa-list"/>
       </el-button>
     </el-input>
     <!-- 不允许用户输入 -->
     <el-button v-popover:pop v-if="!userInput">
       <template v-if="value">
-        <i :class="'fa fa-' + value"></i>
+        <i :class="'fa fa-' + value"/>
       </template>
       {{value ? value : placeholder}}
     </el-button>
@@ -59,6 +59,7 @@
 
 <script>
 import icon from './data/index'
+
 export default {
   name: 'cs-icon-select',
   props: {

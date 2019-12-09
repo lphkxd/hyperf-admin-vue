@@ -19,6 +19,7 @@
 import { getHelpRouter } from '@/api/index/help'
 
 export default {
+  name: 'cs-help',
   props: {
     router: {
       type: String,

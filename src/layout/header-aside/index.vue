@@ -105,6 +105,7 @@ import csHeaderUser from './components/header-user'
 import csHeaderLog from './components/header-log'
 import { mapState, mapGetters, mapActions } from 'vuex'
 import mixinSearch from './mixins/search'
+
 export default {
   name: 'cs-layout-header-aside',
   mixins: [
