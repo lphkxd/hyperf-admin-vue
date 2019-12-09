@@ -296,7 +296,7 @@
               <el-col :span="13">
                 <el-form-item label="商品规格">
                   <div v-if="!currentForm.spec_config.length" style="padding-top: 5px;">
-                    <p style="color: #909399; text-align: center;">暂无数据</p>
+                    <p class="empty-data">暂无数据</p>
                     <el-divider/>
                   </div>
 
@@ -342,7 +342,7 @@
                             v-for="(value, key) in item.spec_item"
                             class="spec-item"
                             :key="key">
-                            <el-checkbox :label="value.item_name" style="width: 16px;">&nbsp;</el-checkbox>
+                            <el-checkbox :label="value.spec_item_id" style="width: 16px;">&nbsp;</el-checkbox>
 
                             <div
                               v-if="item.spec_type === 1"
@@ -385,7 +385,7 @@
                               type="info"
                               size="medium"
                               effect="plain"
-                              @dblclick.native="showSpecNameDialog(value.item_name, 'set', parent, key)"
+                              @dblclick.native="showSpecItemNameDialog(value.item_name, 'set', parent, key)"
                               @close="delSpecItem(parent, key)"
                               closable>
                               {{value.item_name}}
@@ -395,7 +395,7 @@
                       </el-checkbox-group>
 
                       <el-button
-                        @click="showSpecNameDialog(null, 'add', parent, null)"
+                        @click="showSpecItemNameDialog(null, 'add', parent, null)"
                         class="active cs-fl cs-ml-10 cs-mb-10"
                         size="mini">+ 添加</el-button>
                     </el-collapse-item>
@@ -419,12 +419,19 @@
                       @click="showSpecInput">+ 新增规格</el-button>
                   </div>
                 </el-form-item>
+
+                <el-form-item label="规格列表">
+                  <div v-if="!currentForm.spec_combo.length" style="padding-top: 5px;">
+                    <p class="empty-data">暂无数据</p>
+                    <el-divider/>
+                  </div>
+                </el-form-item>
               </el-col>
 
               <el-col :span="11">
                 <el-form-item label="商品属性">
                   <div v-if="!currentForm.attr_config.length" style="padding-top: 5px;">
-                    <p style="color: #909399; text-align: center;">暂无数据</p>
+                    <p class="empty-data">暂无数据</p>
                     <el-divider/>
                   </div>
 
@@ -678,7 +685,7 @@
         v-model="specImage"
         style="margin-top: -25px;">
         <template slot="upload">
-          <div v-if="!specImage.length" class="spec-up-image">暂无规格图</div>
+          <div v-if="!specImage.length" class="empty-data">暂无规格图</div>
         </template>
       </cs-photo>
 
@@ -726,7 +733,7 @@
           <el-input
             v-model="specName.value"
             placeholder="请输入规格项名称"
-            @keyup.enter.native="confirmSpecName"
+            @keyup.enter.native="confirmSpecItemName"
             ref="specNameInput"/>
         </el-form-item>
       </el-form>
@@ -738,7 +745,7 @@
 
         <el-button
           type="primary"
-          @click="confirmSpecName"
+          @click="confirmSpecItemName"
           size="small">确定</el-button>
       </div>
     </el-dialog>
@@ -1110,8 +1117,8 @@ export default {
     delSpecItem(parent, key) {
       this.currentForm.spec_config[parent]['spec_item'].splice(key, 1)
     },
-    // 显示规格名称编辑对话框
-    showSpecNameDialog(value, type, parent, key) {
+    // 显示规格项名称编辑对话框
+    showSpecItemNameDialog(value, type, parent, key) {
       this.specName = {
         value,
         type,
@@ -1124,8 +1131,8 @@ export default {
         this.$refs.specNameInput.select()
       })
     },
-    // 规格名称编辑确认
-    confirmSpecName() {
+    // 规格项名称编辑确认
+    confirmSpecItemName() {
       if (!this.specName.value) {
         this.specName.visible = false
         return
@@ -1137,10 +1144,14 @@ export default {
 
       if (this.specName.type === 'set') {
         const { parent, key } = this.specName
-        const data = this.currentForm.spec_config[parent]['spec_item'][key]
+        const data = this.currentForm.spec_config[parent]['spec_item']
 
-        if (data.item_name !== this.specName.value) {
-          this.$set(data, 'item_name', this.specName.value)
+        if (data[key].item_name !== this.specName.value) {
+          this.$set(data, key, {
+            ...data[key],
+            item_name: this.specName.value,
+            spec_item_id: -util.randomLenNum(6)
+          })
         }
       }
 
@@ -1181,6 +1192,11 @@ export default {
     font-size: 12px;
     line-height: 2;
     margin-bottom: -12px;
+  }
+  .empty-data {
+    @extend %flex-center-row;
+    color: $color-info;
+    height: 156px;
   }
   .icon-move {
     color: $color-text-placehoder;
@@ -1246,10 +1262,5 @@ export default {
   }
   .spec-position {
     position: absolute;
-  }
-  .spec-up-image {
-    @extend %flex-center-row;
-    color: $color-info;
-    height: 156px;
   }
 </style>
