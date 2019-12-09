@@ -325,8 +325,18 @@
                             <span class="spec-action" slot="reference">展现方式</span>
                           </el-popover>
 
-                          <el-popover placement="top" trigger="hover" :open-delay="600" :close-delay="50">
-                            <el-input v-model="item.name" size="small" placeholder="请输入内容"/>
+                          <el-popover
+                            placement="top"
+                            trigger="hover"
+                            :open-delay="600"
+                            :close-delay="50"
+                            @show="showSpecName(item.name, parent)">
+                            <el-input
+                              v-model="specName.value"
+                              size="small"
+                              placeholder="请输入内容"
+                              @keyup.enter.native="confirmSpecName"
+                              @blur="confirmSpecName"/>
                             <span class="spec-action" slot="reference">重命名</span>
                           </el-popover>
 
@@ -1116,6 +1126,27 @@ export default {
     // 删除规格项
     delSpecItem(parent, key) {
       this.currentForm.spec_config[parent]['spec_item'].splice(key, 1)
+    },
+    // 显示规格名称编辑
+    showSpecName(value, parent) {
+      this.specName = { value, parent }
+    },
+    // 规格名称编辑确认
+    confirmSpecName() {
+      if (!this.specName.value) {
+        return
+      }
+
+      const { value, parent } = this.specName
+      const data = this.currentForm.spec_config
+
+      if (data[parent].name !== value) {
+        this.$set(data, parent, {
+          ...data[parent],
+          name: value,
+          spec_id: -util.randomLenNum(6)
+        })
+      }
     },
     // 显示规格项名称编辑对话框
     showSpecItemNameDialog(value, type, parent, key) {
