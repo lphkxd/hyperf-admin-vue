@@ -737,13 +737,8 @@
       :append-to-body="true"
       :close-on-click-modal="false"
       width="500px">
-      <el-form
-        label-width="40px"
-        label-position="left"
-        @submit.native.prevent>
-        <el-form-item
-          label="名称"
-          prop="name">
+      <el-form @submit.native.prevent>
+        <el-form-item>
           <el-input
             v-if="specName.type === 'set'"
             v-model="specName.value"
@@ -766,11 +761,13 @@
       <div slot="footer" class="dialog-footer">
         <div v-show="specName.type === 'add'" class="cs-fl">
           <el-button
-            @click="() => {}"
+            @click="importSpecItem"
             size="small">
             <cs-icon name="code-fork"/>
             模型中导入
           </el-button>
+
+          <page-spec ref="importSpec"/>
         </div>
 
         <el-button
@@ -795,6 +792,7 @@ import { getGoodsAttrConfig, getGoodsSpecConfig } from '@/api/goods/goods'
 
 export default {
   components: {
+    'PageSpec': () => import('../PageSpec'),
     'csUpload': () => import('@/components/cs-upload'),
     'csStorage': () => import('@/components/cs-storage'),
     'csTinymce': () => import('@/components/cs-tinymce'),
@@ -1218,6 +1216,11 @@ export default {
         }
       }
 
+      this.specName.visible = false
+    },
+    // 从商品模型中导入规格
+    importSpecItem() {
+      this.$refs.importSpec.handleVisible()
       this.specName.visible = false
     },
     // 设置规格列表
