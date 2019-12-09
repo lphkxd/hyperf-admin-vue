@@ -85,6 +85,20 @@ export function getGoodsSpecList(goods_type_id) {
 }
 
 /**
+ * 获取所有商品规格及规格项
+ * @returns
+ */
+export function getGoodsSpecAll() {
+  return request({
+    url: '/v1/spec',
+    method: 'post',
+    params: {
+      method: 'get.goods.spec.all'
+    }
+  })
+}
+
+/**
  * 批量删除商品规格
  * @param {Array} spec_id
  * @returns

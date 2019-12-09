@@ -314,10 +314,13 @@
                       <template slot="title">
                         <cs-icon class="icon-move cs-pr-10 spec-handle" name="align-justify"/>
                         <span>{{item.name}}</span>
-<!--                        <el-input v-model="item.name" size="mini" style="width: 35%;"/>-->
 
                         <div class="active cs-pl-10">
-                          <el-popover placement="top" trigger="hover" :open-delay="600" :close-delay="50">
+                          <el-popover
+                            placement="top"
+                            trigger="hover"
+                            :open-delay="400"
+                            :close-delay="50">
                             <el-radio-group v-model="item.spec_type">
                               <el-radio :label="0">文字</el-radio>
                               <el-radio :label="1">图片</el-radio>
@@ -329,7 +332,7 @@
                           <el-popover
                             placement="top"
                             trigger="hover"
-                            :open-delay="600"
+                            :open-delay="400"
                             :close-delay="50"
                             @show="showSpecName(item.name, parent)">
                             <el-input
@@ -733,7 +736,7 @@
       :visible.sync="specName.visible"
       :append-to-body="true"
       :close-on-click-modal="false"
-      width="600px">
+      width="500px">
       <el-form
         label-width="40px"
         label-position="left"
@@ -742,14 +745,34 @@
           label="名称"
           prop="name">
           <el-input
+            v-if="specName.type === 'set'"
             v-model="specName.value"
             placeholder="请输入规格项名称"
             @keyup.enter.native="confirmSpecItemName"
-            ref="specNameInput"/>
+            ref="specNameInput">
+          </el-input>
+
+          <el-input
+            v-else
+            v-model="specName.value"
+            placeholder="请输入规格项名称，一行一个"
+            type="textarea"
+            :rows="5"
+            ref="specNameInput">
+          </el-input>
         </el-form-item>
       </el-form>
 
       <div slot="footer" class="dialog-footer">
+        <div v-show="specName.type === 'add'" class="cs-fl">
+          <el-button
+            @click="() => {}"
+            size="small">
+            <cs-icon name="code-fork"/>
+            模型中导入
+          </el-button>
+        </div>
+
         <el-button
           @click="specName.visible = false"
           size="small">取消</el-button>
@@ -1122,18 +1145,6 @@ export default {
       this.$set(data, 'image', this.specImage)
       this.specImageVisible = false
     },
-    // 新增规格项
-    addSpenItem(value, index) {
-      const itemId = -util.randomLenNum(6)
-      this.currentForm.spec_config[index]['spec_item'].push({
-        spec_item_id: itemId,
-        item_name: value,
-        is_contact: 0,
-        sort: 50,
-        image: [],
-        color: ''
-      })
-    },
     // 删除规格项
     delSpecItem(parent, key) {
       this.currentForm.spec_config[parent]['spec_item'].splice(key, 1)
@@ -1180,14 +1191,24 @@ export default {
         return
       }
 
+      const { parent, key } = this.specName
+      const data = this.currentForm.spec_config[parent]['spec_item']
+
       if (this.specName.type === 'add') {
-        this.addSpenItem(this.specName.value, this.specName.parent)
+        const specList = this.specName.value.trim().split('\n')
+        specList.forEach(value => {
+          data.push({
+            spec_item_id: -util.randomLenNum(6),
+            item_name: value,
+            is_contact: 0,
+            sort: 50,
+            image: [],
+            color: ''
+          })
+        })
       }
 
       if (this.specName.type === 'set') {
-        const { parent, key } = this.specName
-        const data = this.currentForm.spec_config[parent]['spec_item']
-
         if (data[key].item_name !== this.specName.value) {
           this.$set(data, key, {
             ...data[key],
@@ -1285,7 +1306,7 @@ export default {
   }
   .spec-add-button {
     height: 32px;
-    line-height: 30px;
+    line-height: 32px;
     padding-top: 0;
     padding-bottom: 0;
   }
