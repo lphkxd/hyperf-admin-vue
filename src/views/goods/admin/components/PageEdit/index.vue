@@ -1024,7 +1024,7 @@ export default {
       } else {
         request = [
           getGoodsAttrConfig(this.currentForm.goods_id),
-          getGoodsSpecConfig(this.currentForm.goods_id)
+          getGoodsSpecConfig(this.currentForm.goods_id, 1)
         ]
       }
 
@@ -1034,6 +1034,7 @@ export default {
           this.activeSpec = res[1].data['spec_key'] || []
           this.currentForm.attr_config = res[0].data['attr_config'] || []
           this.currentForm.spec_config = res[1].data['spec_config'] || []
+          this.currentForm.spec_combo = res[1].data['spec_combo'] || []
         })
         .finally(() => {
           this.typeLoading = false

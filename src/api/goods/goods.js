@@ -337,9 +337,10 @@ export function getGoodsAttrConfig(goods_id) {
 /**
  * 获取指定商品的规格配置数据
  * @param {Number} goods_id
+ * @param {Number} key_to_array
  * @returns
  */
-export function getGoodsSpecConfig(goods_id) {
+export function getGoodsSpecConfig(goods_id, key_to_array = 0) {
   return request({
     url: '/v1/goods',
     method: 'post',
@@ -347,7 +348,8 @@ export function getGoodsSpecConfig(goods_id) {
       method: 'get.goods.spec.config'
     },
     data: {
-      goods_id
+      goods_id,
+      key_to_array
     }
   })
 }
