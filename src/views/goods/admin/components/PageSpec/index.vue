@@ -9,7 +9,10 @@
 
     <el-row class="tac">
       <el-col :span="8">
-        <el-menu unique-opened>
+        <el-menu
+          class="el-card"
+          @select="handleSelect"
+          unique-opened>
           <el-submenu
             v-for="(value, key) in specList"
             :key="key"
@@ -22,13 +25,21 @@
               <el-menu-item
                 v-for="item in value.item"
                 :key="item.spec_id"
-                :index="`${key}-${item.spec_id}`">{{item.name}}</el-menu-item>
+                :index="`${item.spec_id}`">{{item.name}}</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
         </el-menu>
       </el-col>
 
       <el-col :span="16">
+        <el-card
+          class="box-card"
+          shadow="never">
+          <div slot="header" class="clearfix">
+            <span>全选</span>
+            <span class="cs-fr">操作按钮</span>
+          </div>
+        </el-card>
       </el-col>
     </el-row>
 
@@ -67,7 +78,28 @@ export default {
             this.specList = res.data || []
           })
       }
+    },
+    handleSelect(key, keyPath) {
+      console.log(key, keyPath)
     }
   }
 }
 </script>
+
+<style scoped>
+  .clearfix:before,
+  .clearfix:after {
+    display: table;
+    content: "";
+  }
+  .clearfix:after {
+    clear: both
+  }
+  .tac >>> .el-card{
+    border-radius: 0;
+  }
+  .box-card {
+    height: 300px;
+    margin-left: -1px;
+  }
+</style>

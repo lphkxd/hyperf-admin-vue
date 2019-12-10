@@ -398,7 +398,7 @@
                               class="cs-cm item-spec-handle"
                               type="info"
                               size="medium"
-                              effect="plain"
+                              :effect="item.spec_index !== 1 || value.is_contact !== 1 ? 'light' : 'plain'"
                               @dblclick.native="showSpecItemNameDialog(value.item_name, 'set', parent, key)"
                               @close="delSpecItem(parent, key)"
                               closable>
@@ -1164,6 +1164,7 @@ export default {
         this.$set(data, parent, {
           ...data[parent],
           name: value,
+          spec_index: 0,
           spec_id: -util.randomLenNum(6)
         })
       }
@@ -1210,6 +1211,7 @@ export default {
         if (data[key].item_name !== this.specName.value) {
           this.$set(data, key, {
             ...data[key],
+            is_contact: 0,
             item_name: this.specName.value,
             spec_item_id: -util.randomLenNum(6)
           })
