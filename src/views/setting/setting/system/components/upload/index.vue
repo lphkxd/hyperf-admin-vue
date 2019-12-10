@@ -55,6 +55,17 @@
       <div class="help-block" v-html="form.file_size.help_text"></div>
     </el-form-item>
 
+    <el-form-item
+      :label="form.token_expires.description"
+      prop="token_expires">
+      <el-input-number
+        v-model="form.token_expires.value"
+        :placeholder="form.token_expires.description"
+        controls-position="right"
+        :min="0"/>
+      <div class="help-block" v-html="form.token_expires.help_text"></div>
+    </el-form-item>
+
     <el-divider>CareyShop(本地上传)</el-divider>
 
     <el-form-item

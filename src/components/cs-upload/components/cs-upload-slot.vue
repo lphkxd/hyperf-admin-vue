@@ -6,6 +6,7 @@
       :visible.sync="visible"
       :append-to-body="true"
       :close-on-click-modal="false"
+      @open="handleOpen"
       @close="handleClose">
 
       <el-upload
@@ -105,12 +106,6 @@ export default {
       required: false,
       default: true
     },
-    // 指定上传模块
-    moduleName: {
-      type: String,
-      required: false,
-      default: ''
-    },
     // 是否指定资源目录
     storageId: {
       type: Number,
@@ -120,13 +115,21 @@ export default {
   },
   data() {
     return {
-      replaceId: 0,
       visible: false,
       loading: false
     }
   },
   methods: {
+    handleOpen() {
+      this.getToken()
+      this.getDirectory()
+    },
     handleClose() {
+      // 替换资源后需要更换Token
+      if (this.replaceId > 0) {
+        this.updateToken = true
+      }
+
       this.replaceId = 0
       this.visible = false
       this.loading = false

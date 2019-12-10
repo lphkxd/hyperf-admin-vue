@@ -119,6 +119,11 @@ export default {
     },
     setReplaceId(val) {
       this.$refs.upload.replaceId = val
+      this.$refs.upload.updateToken = true
+    },
+    setModuleName(val) {
+      this.$refs.upload.moduleName = val
+      this.$refs.upload.updateToken = true
     }
   }
 }

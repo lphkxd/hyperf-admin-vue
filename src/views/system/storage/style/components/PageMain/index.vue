@@ -523,10 +523,10 @@
 
                 <cs-upload
                   type="slot"
+                  ref="upload"
                   accept="image/*"
                   :limit="1"
                   :multiple="false"
-                  :module-name="uploadModule"
                   @confirm="_getUploadFileList">
                   <el-button type="text" class="button" slot="control">上传原图</el-button>
                 </cs-upload>
@@ -537,6 +537,7 @@
                   <el-select
                     v-model="uploadModule"
                     placeholder="请选择"
+                    @change="setModule"
                     value="">
                     <el-option
                       v-for="(item, index) in uploadTable"
@@ -1202,6 +1203,10 @@ export default {
       this.dialogStatus = 'update'
       this.dialogLoading = false
       this.dialogFormVisible = true
+    },
+    // 更改上传模块
+    setModule(val) {
+      this.$refs.upload.setModuleName(val)
     }
   }
 }

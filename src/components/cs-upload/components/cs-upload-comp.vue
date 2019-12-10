@@ -87,12 +87,6 @@ export default {
       required: false,
       default: true
     },
-    // 指定上传模块
-    moduleName: {
-      type: String,
-      required: false,
-      default: ''
-    },
     // 已上传文件列表
     fileList: {
       type: Array,
@@ -111,6 +105,10 @@ export default {
       required: false,
       default: '30%'
     }
+  },
+  mounted() {
+    this.getToken()
+    this.getDirectory()
   }
 }
 </script>
