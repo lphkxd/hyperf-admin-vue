@@ -321,10 +321,10 @@
                             trigger="hover"
                             :open-delay="400"
                             :close-delay="50">
-                            <el-radio-group v-model="item.spec_type">
-                              <el-radio :label="0">文字</el-radio>
-                              <el-radio :label="1">图片</el-radio>
-                              <el-radio :label="2">颜色</el-radio>
+                            <el-radio-group v-model="item.spec_type" size="small">
+                              <el-radio-button :label="0">文字</el-radio-button>
+                              <el-radio-button :label="1">图片</el-radio-button>
+                              <el-radio-button :label="2">颜色</el-radio-button>
                             </el-radio-group>
                             <span class="spec-action" slot="reference">展现方式</span>
                           </el-popover>
@@ -748,7 +748,7 @@
           </el-input>
 
           <el-input
-            v-else
+            v-if="specName.type === 'add'"
             v-model="specName.value"
             placeholder="请输入规格项名称，一行一个"
             type="textarea"
@@ -767,7 +767,7 @@
             模型中导入
           </el-button>
 
-          <page-spec ref="importSpec"/>
+          <page-spec ref="importSpec" @confirm="importSpecData"/>
         </div>
 
         <el-button
@@ -1095,7 +1095,7 @@ export default {
         const specId = -util.randomLenNum(6)
         this.currentForm.spec_config.push({
           spec_id: specId,
-          goods_type_id: this.currentForm.goods_type_id,
+          goods_type_id: 0,
           name: this.inputSpecValue,
           spec_index: 0,
           spec_type: 0,
@@ -1138,7 +1138,7 @@ export default {
     // 完成规格图片编辑
     confirmSpecImage() {
       const { parent, key } = this.specImageKey
-      const data = this.currentForm.spec_config[parent]['spec_item'][key]
+      let data = this.currentForm.spec_config[parent]['spec_item'][key]
 
       this.$set(data, 'image', this.specImage)
       this.specImageVisible = false
@@ -1158,12 +1158,13 @@ export default {
       }
 
       const { value, parent } = this.specName
-      const data = this.currentForm.spec_config
+      let data = this.currentForm.spec_config
 
       if (data[parent].name !== value) {
         this.$set(data, parent, {
           ...data[parent],
           name: value,
+          goods_type_id: 0,
           spec_index: 0,
           spec_id: -util.randomLenNum(6)
         })
@@ -1171,15 +1172,8 @@ export default {
     },
     // 显示规格项名称编辑对话框
     showSpecItemNameDialog(value, type, parent, key) {
-      this.specName = {
-        value,
-        type,
-        parent,
-        key,
-        visible: true
-      }
-
       this.$nextTick(() => {
+        this.specName = { value, type, parent, key, visible: true }
         this.$refs.specNameInput.select()
       })
     },
@@ -1191,7 +1185,7 @@ export default {
       }
 
       const { parent, key } = this.specName
-      const data = this.currentForm.spec_config[parent]['spec_item']
+      let data = this.currentForm.spec_config[parent]['spec_item']
 
       if (this.specName.type === 'add') {
         const specList = this.specName.value.trim().split('\n')
@@ -1224,6 +1218,22 @@ export default {
     importSpecItem() {
       this.$refs.importSpec.handleVisible()
       this.specName.visible = false
+    },
+    // 确认从模型中导入
+    importSpecData(value) {
+      const { parent } = this.specName
+      let data = this.currentForm.spec_config[parent]
+
+      if (value.spec_item) {
+        value.spec_item.forEach(item => {
+          const isContact = data.spec_id === value.spec_id ? 1 : 0
+          data['spec_item'].push({
+            ...item,
+            is_contact: isContact,
+            spec_item_id: isContact !== 1 ? -util.randomLenNum(6) : item.spec_item_id
+          })
+        })
+      }
     },
     // 设置规格列表
     _handleSpecItemData: debounce(function(value) {
