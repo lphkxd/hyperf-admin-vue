@@ -313,38 +313,19 @@
                       class="action">
                       <template slot="title">
                         <cs-icon class="icon-move cs-pr-10 spec-handle" name="align-justify"/>
-                        <span>{{item.name}}</span>
 
-                        <div class="active cs-pl-10">
-                          <el-popover
-                            placement="top"
-                            trigger="hover"
-                            :open-delay="400"
-                            :close-delay="50">
-                            <el-radio-group v-model="item.spec_type" size="small">
-                              <el-radio-button :label="0">文字</el-radio-button>
-                              <el-radio-button :label="1">图片</el-radio-button>
-                              <el-radio-button :label="2">颜色</el-radio-button>
-                            </el-radio-group>
-                            <span class="spec-action" slot="reference">展现方式</span>
-                          </el-popover>
-
-                          <el-popover
-                            placement="top"
-                            trigger="hover"
-                            :open-delay="400"
-                            :close-delay="50"
-                            @show="showSpecName(item.name, parent)">
-                            <el-input
-                              v-model="specName.value"
-                              size="small"
-                              placeholder="请输入内容"
-                              @keyup.enter.native="confirmSpecName"
-                              @blur="confirmSpecName"/>
-                            <span class="spec-action" slot="reference">重命名</span>
-                          </el-popover>
-
-                          <el-button @click="delSpec(parent)" size="small" type="text">删除</el-button>
+                        <div class="spec-more" @click="(e) => {e.stopPropagation()}">
+                          <el-input
+                            v-model="item.name"
+                            size="mini"
+                            @clear="delSpec(parent)"
+                            clearable>
+                            <el-select v-model="item.spec_type" slot="prepend" class="type-select">
+                              <el-option label="文字" :value="0"/>
+                              <el-option label="图片" :value="1"/>
+                              <el-option label="颜色" :value="2"/>
+                            </el-select>
+                          </el-input>
                         </div>
                       </template>
 
@@ -1172,8 +1153,15 @@ export default {
     },
     // 显示规格项名称编辑对话框
     showSpecItemNameDialog(value, type, parent, key) {
+      this.specName = {
+        value,
+        type,
+        parent,
+        key,
+        visible: true
+      }
+
       this.$nextTick(() => {
-        this.specName = { value, type, parent, key, visible: true }
         this.$refs.specNameInput.select()
       })
     },
@@ -1344,5 +1332,13 @@ export default {
   }
   .spec-position {
     position: absolute;
+  }
+  .spec-more {
+    .type-select {
+      width: 75px;
+    }
+    .el-input-group {
+      vertical-align: unset;
+    }
   }
 </style>
