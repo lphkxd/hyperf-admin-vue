@@ -445,13 +445,6 @@
                       @click="showSpecInput">新增规格</el-button>
                   </div>
                 </el-form-item>
-
-                <el-form-item label="规格列表">
-                  <div v-if="!currentForm.spec_combo.length" style="padding-top: 5px;">
-                    <p class="empty-data">暂无数据</p>
-                    <el-divider/>
-                  </div>
-                </el-form-item>
               </el-col>
 
               <el-col :span="11">
@@ -534,6 +527,13 @@
                 </el-form-item>
               </el-col>
             </el-row>
+
+            <el-form-item label="规格列表">
+              <div v-if="!currentForm.spec_combo.length" style="padding-top: 5px;">
+                <p class="empty-data">暂无数据</p>
+                <el-divider/>
+              </div>
+            </el-form-item>
           </el-tab-pane>
 
           <el-tab-pane label="媒体设置" name="photo">
