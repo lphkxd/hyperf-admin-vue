@@ -313,7 +313,7 @@
                       class="action">
                       <template slot="title">
                         <cs-icon class="icon-move cs-pr-10 spec-handle" name="align-justify"/>
-                        <div class="spec-more" @click="(event) => {event.stopPropagation()}">
+                        <div class="spec-more" @click="$event.stopPropagation()">
                           <template v-if="!item.is_active">
                             <span>{{item.name}}</span>
                             <div class="active" @click="setSpecMoreActive(true, parent)">
@@ -325,6 +325,7 @@
                           <template v-else>
                             <el-input
                               v-model="item.name"
+                              @keyup.enter.space.native="$event.stopPropagation()"
                               @change="confirmSpecName(parent)"
                               size="mini">
                               <el-select v-model="item.spec_type" slot="prepend" class="type-select">
