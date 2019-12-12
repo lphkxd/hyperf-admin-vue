@@ -313,19 +313,41 @@
                       class="action">
                       <template slot="title">
                         <cs-icon class="icon-move cs-pr-10 spec-handle" name="align-justify"/>
+                        <div class="spec-more" @click="(event) => {event.stopPropagation()}">
+                          <template v-if="!item.is_active">
+                            <span>{{item.name}}</span>
+                            <div class="active" @click="setSpecMoreActive(true, parent)">
+                              <i class="el-input__icon el-icon-d-arrow-right"
+                                 style="color: #909399; font-size: 12px;"/>
+                            </div>
+                          </template>
 
-                        <div class="spec-more" @click="(e) => {e.stopPropagation()}">
-                          <el-input
-                            v-model="item.name"
-                            size="mini"
-                            @clear="delSpec(parent)"
-                            clearable>
-                            <el-select v-model="item.spec_type" slot="prepend" class="type-select">
-                              <el-option label="文字" :value="0"/>
-                              <el-option label="图片" :value="1"/>
-                              <el-option label="颜色" :value="2"/>
-                            </el-select>
-                          </el-input>
+                          <template v-else>
+                            <el-input
+                              v-model="item.name"
+                              @change="confirmSpecName(parent)"
+                              size="mini">
+                              <el-select v-model="item.spec_type" slot="prepend" class="type-select">
+                                <el-option label="文字" :value="0"/>
+                                <el-option label="图片" :value="1"/>
+                                <el-option label="颜色" :value="2"/>
+                              </el-select>
+
+                              <el-popconfirm
+                                title="确定要执行删除操作吗?"
+                                @onConfirm="delSpec(parent)"
+                                placement="top"
+                                slot="suffix">
+                                <i slot="reference" class="el-input__icon el-icon-close"/>
+                              </el-popconfirm>
+
+                              <el-button
+                                @click="setSpecMoreActive(false, parent)"
+                                icon="el-icon-d-arrow-left"
+                                slot="append">
+                              </el-button>
+                            </el-input>
+                          </template>
                         </div>
                       </template>
 
@@ -348,6 +370,7 @@
                                 :close-delay="50"
                                 :disabled="!value.image.length">
                                 <cs-photo
+                                  v-if="value.image.length > 0"
                                   v-model="value.image"
                                   :width="80"
                                   :height="80">
@@ -1128,28 +1151,20 @@ export default {
     delSpecItem(parent, key) {
       this.currentForm.spec_config[parent]['spec_item'].splice(key, 1)
     },
-    // 显示规格名称编辑
-    showSpecName(value, parent) {
-      this.specName = { value, parent }
-    },
     // 规格名称编辑确认
-    confirmSpecName() {
-      if (!this.specName.value) {
-        return
-      }
-
-      const { value, parent } = this.specName
+    confirmSpecName(parent) {
       let data = this.currentForm.spec_config
-
-      if (data[parent].name !== value) {
-        this.$set(data, parent, {
-          ...data[parent],
-          name: value,
-          goods_type_id: 0,
-          spec_index: 0,
-          spec_id: -util.randomLenNum(6)
-        })
-      }
+      this.$set(data, parent, {
+        ...data[parent],
+        goods_type_id: 0,
+        spec_index: 0,
+        spec_id: -util.randomLenNum(6)
+      })
+    },
+    // 规格更多操作
+    setSpecMoreActive(is_active, parent) {
+      let data = this.currentForm.spec_config[parent]
+      this.$set(data, 'is_active', is_active)
     },
     // 显示规格项名称编辑对话框
     showSpecItemNameDialog(value, type, parent, key) {
@@ -1305,7 +1320,7 @@ export default {
     display: none;
   }
   .action:hover .active{
-    display: block;
+    display: inline;
   }
   .spec-add-button {
     height: 32px;
@@ -1339,6 +1354,9 @@ export default {
     }
     .el-input-group {
       vertical-align: unset;
+    }
+    /deep/ .el-input-group__prepend {
+      background-color: #FFFFFF;
     }
   }
 </style>
