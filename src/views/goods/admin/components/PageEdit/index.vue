@@ -280,8 +280,8 @@
                 v-model="currentForm.goods_type_id"
                 placeholder="请选择商品模型，试试搜索：手机"
                 style="width: 320px;"
+                ref="typeSelect"
                 @change="selectGoodsType"
-                :popper-append-to-body="false"
                 filterable
                 value="">
                 <el-option
@@ -405,19 +405,24 @@
                               type="info"
                               size="medium"
                               :effect="item.spec_index !== 1 || value.is_contact !== 1 ? 'light' : 'plain'"
-                              @dblclick.native="showSpecItemNameDialog(value.item_name, 'set', parent, key)"
+                              @dblclick.native="dialogSpecItemName(value.item_name, 'set', parent, key)"
                               @close="delSpecItem(parent, key)"
-                              closable>
-                              {{value.item_name}}
-                            </el-tag>
+                              closable>{{value.item_name}}</el-tag>
                           </div>
                         </draggable>
                       </el-checkbox-group>
 
-                      <el-button
-                        @click="showSpecItemNameDialog(null, 'add', parent, null)"
-                        class="active cs-fl cs-ml-10 cs-mb-10"
-                        size="mini">+ 添加</el-button>
+                      <el-button-group class="active cs-fl cs-ml-10 cs-mb-10">
+                        <el-button
+                          @click="dialogSpecItemName(null, 'add', parent, null)"
+                          icon="el-icon-plus"
+                          size="mini"/>
+
+                        <el-button
+                          @click="importSpecItem(parent)"
+                          icon="el-icon-takeaway-box"
+                          size="mini"/>
+                      </el-button-group>
                     </el-collapse-item>
                   </draggable>
 
@@ -435,8 +440,9 @@
                     <el-button
                       v-else
                       class="spec-add-button cs-mt"
+                      icon="el-icon-plus"
                       size="mini"
-                      @click="showSpecInput">+ 新增规格</el-button>
+                      @click="showSpecInput">新增规格</el-button>
                   </div>
                 </el-form-item>
 
@@ -695,6 +701,10 @@
       @confirm="uploadCallback">
     </cs-upload>
 
+    <page-spec
+      ref="importSpec"
+      @confirm="importSpecData"/>
+
     <el-dialog
       title="规格图片"
       width="665px"
@@ -738,7 +748,7 @@
     </el-dialog>
 
     <el-dialog
-      title="规格项"
+      :title="`${specName.type === 'set' ? '编辑' : '添加'}规格项`"
       :visible.sync="specName.visible"
       :append-to-body="true"
       :close-on-click-modal="false"
@@ -765,17 +775,6 @@
       </el-form>
 
       <div slot="footer" class="dialog-footer">
-        <div v-show="specName.type === 'add'" class="cs-fl">
-          <el-button
-            @click="importSpecItem"
-            size="small">
-            <cs-icon name="code-fork"/>
-            模型中导入
-          </el-button>
-
-          <page-spec ref="importSpec" @confirm="importSpecData"/>
-        </div>
-
         <el-button
           @click="specName.visible = false"
           size="small">取消</el-button>
@@ -942,7 +941,10 @@ export default {
     handleStorage(callback, type = [], source = '') {
       this.storageCallback = callback
       this.uploadConfig.limit = source === 'photo' ? 0 : 1
-      this.$refs.storage.handleStorageDlg(type)
+
+      this.$nextTick(() => {
+        this.$refs.storage.handleStorageDlg(type)
+      })
     },
     // 打开上传对话框
     handleUpload(callback, type, source) {
@@ -963,7 +965,9 @@ export default {
       }
 
       this.uploadCallback = callback
-      this.$refs.upload.handleUploadDlg(source)
+      this.$nextTick(() => {
+        this.$refs.upload.handleUploadDlg(source)
+      })
     },
     // 筛选过滤选择的资源
     getFileList(files, source) {
@@ -1004,7 +1008,10 @@ export default {
             cover: value.cover
           }
 
-          this.$refs.goodsVideo.setSources(this.currentForm.video)
+          this.$nextTick(() => {
+            this.$refs.goodsVideo.setSources(this.currentForm.video)
+          })
+
           break
         }
       }
@@ -1012,7 +1019,9 @@ export default {
     // 清除视频资源
     delVideoFile() {
       this.currentForm.video = {}
-      this.$refs.goodsVideo.delSources()
+      this.$nextTick(() => {
+        this.$refs.goodsVideo.delSources()
+      })
     },
     // 获取商品相册资源
     getAttachmentFileList(files, source) {
@@ -1031,13 +1040,12 @@ export default {
     },
     // 切换商品属性
     selectGoodsType(value) {
+      this.$nextTick(() => {
+        this.$refs.typeSelect.blur()
+      })
+
       this.typeLoading = true
-      this.activeAttr = []
-      this.activeSpec = []
       this.activeSpecMore = {}
-      this.currentForm.attr_config = []
-      this.currentForm.spec_config = []
-      this.currentForm.spec_combo = []
 
       let request = []
       let isReadOldData = false
@@ -1170,7 +1178,7 @@ export default {
       this.$set(this.activeSpecMore, parent, is_active)
     },
     // 显示规格项名称编辑对话框
-    showSpecItemNameDialog(value, type, parent, key) {
+    dialogSpecItemName(value, type, parent, key) {
       this.specName = {
         value,
         type,
@@ -1221,16 +1229,18 @@ export default {
       this.specName.visible = false
     },
     // 从商品模型中导入规格
-    importSpecItem() {
-      this.$refs.importSpec.handleVisible()
-      this.specName.visible = false
+    importSpecItem(parent) {
+      this.specName = { parent }
+      this.$nextTick(() => {
+        this.$refs.importSpec.handleVisible()
+      })
     },
     // 确认从模型中导入
     importSpecData(value) {
-      const { parent } = this.specName
-      let data = this.currentForm.spec_config[parent]
-
       if (value.spec_item) {
+        const { parent } = this.specName
+        let data = this.currentForm.spec_config[parent]
+
         value.spec_item.forEach(item => {
           const isContact = data.spec_id === value.spec_id ? 1 : 0
           data['spec_item'].push({
@@ -1244,7 +1254,7 @@ export default {
     // 设置规格列表
     _handleSpecItemData: debounce(function(value) {
       console.log('okokok', value)
-    }, 500)
+    }, 600)
   }
 }
 </script>

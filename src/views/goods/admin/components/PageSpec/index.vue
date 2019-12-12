@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    title="规格项导入"
+    title="导入规格项"
     :visible.sync="dialogVisible"
     :append-to-body="true"
     :close-on-click-modal="false"
