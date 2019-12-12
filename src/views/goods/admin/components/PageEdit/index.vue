@@ -281,6 +281,7 @@
                 placeholder="请选择商品模型，试试搜索：手机"
                 style="width: 320px;"
                 @change="selectGoodsType"
+                :popper-append-to-body="false"
                 filterable
                 value="">
                 <el-option
