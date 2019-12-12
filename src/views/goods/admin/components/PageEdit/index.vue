@@ -314,7 +314,7 @@
                       <template slot="title">
                         <cs-icon class="icon-move cs-pr-10 spec-handle" name="align-justify"/>
                         <div class="spec-more" @click="$event.stopPropagation()">
-                          <template v-if="!item.is_active">
+                          <template v-if="!activeSpecMore[parent]">
                             <span>{{item.name}}</span>
                             <div class="active" @click="setSpecMoreActive(true, parent)">
                               <i class="el-input__icon el-icon-d-arrow-right"
@@ -893,6 +893,7 @@ export default {
       typeLoading: false,
       activeAttr: [],
       activeSpec: [],
+      activeSpecMore: {},
       specImage: [],
       specImageKey: {},
       specImageVisible: false,
@@ -1032,6 +1033,7 @@ export default {
       this.typeLoading = true
       this.activeAttr = []
       this.activeSpec = []
+      this.activeSpecMore = {}
       this.currentForm.attr_config = []
       this.currentForm.spec_config = []
       this.currentForm.spec_combo = []
@@ -1069,8 +1071,8 @@ export default {
           this.activeAttr = res[0].data['attr_key'] || []
           this.activeSpec = res[1].data['spec_key'] || []
           this.currentForm.attr_config = res[0].data['attr_config'] || []
-          this.currentForm.spec_config = res[1].data['spec_config'] || []
           this.currentForm.spec_combo = res[1].data['spec_combo'] || []
+          this.currentForm.spec_config = res[1].data['spec_config'] || []
         })
         .finally(() => {
           this.typeLoading = false
@@ -1164,8 +1166,7 @@ export default {
     },
     // 规格更多操作
     setSpecMoreActive(is_active, parent) {
-      let data = this.currentForm.spec_config[parent]
-      this.$set(data, 'is_active', is_active)
+      this.$set(this.activeSpecMore, parent, is_active)
     },
     // 显示规格项名称编辑对话框
     showSpecItemNameDialog(value, type, parent, key) {
@@ -1241,7 +1242,7 @@ export default {
     },
     // 设置规格列表
     _handleSpecItemData: debounce(function(value) {
-      // console.log('okokok', value)
+      console.log('okokok', value)
     }, 500)
   }
 }
