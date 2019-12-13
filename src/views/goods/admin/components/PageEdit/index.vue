@@ -316,7 +316,13 @@
                         <cs-icon class="icon-move cs-pr-10 spec-handle" name="align-justify"/>
                         <div class="spec-more" @click="$event.stopPropagation()">
                           <template v-if="!activeSpecMore[parent]">
-                            <span>{{item.name}}</span>
+                            <el-checkbox
+                              v-model="item.check_all"
+                              :indeterminate="item.is_indeterminate"
+                              @change="(value) => handleCheckAllChange(value, parent)">
+                              {{item.name}}
+                            </el-checkbox>
+
                             <div class="active" @click="setSpecMoreActive(true, parent)">
                               <i class="el-input__icon el-icon-d-arrow-right"
                                  style="color: #909399; font-size: 12px;"/>
@@ -353,7 +359,9 @@
                         </div>
                       </template>
 
-                      <el-checkbox-group v-model="item.check_list">
+                      <el-checkbox-group
+                        v-model="item.check_list"
+                        @change="(value) => handleCheckedCitiesChange(value, parent)">
                         <draggable
                           :list="item.spec_item"
                           handle=".item-spec-handle">
@@ -412,7 +420,7 @@
                         </draggable>
                       </el-checkbox-group>
 
-                      <el-button-group class="active cs-fl cs-ml-10 cs-mb-10">
+                      <el-button-group class="active spec-item">
                         <el-button
                           @click="dialogSpecItemName(null, 'add', parent, null)"
                           icon="el-icon-plus"
@@ -1251,6 +1259,24 @@ export default {
         })
       }
     },
+    // 规格全部选中或取消
+    handleCheckAllChange(value, parent) {
+      let data = this.currentForm.spec_config[parent]
+      const itemId = data.spec_item.map(item => {
+        return item.spec_item_id
+      })
+
+      this.$set(data, 'check_list', value ? itemId : [])
+      this.$set(data, 'is_indeterminate', false)
+    },
+    // 项发生变化
+    handleCheckedCitiesChange(value, parent) {
+      let checked = value.length
+      let data = this.currentForm.spec_config[parent]
+
+      this.$set(data, 'check_all', checked === data.spec_item.length)
+      this.$set(data, 'is_indeterminate', checked > 0 && checked < data.spec_item.length)
+    },
     // 设置规格列表
     _handleSpecItemData: debounce(function(val) {
       // 索引 头部 组合
@@ -1434,7 +1460,7 @@ export default {
   }
   .spec-item {
     float: left;
-    padding: 0 10px 10px;
+    padding: 0 0 10px 24px;
   }
   .spec-type {
     display: initial;
