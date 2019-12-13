@@ -927,7 +927,7 @@ export default {
   watch: {
     'currentForm.spec_config': {
       handler(val) {
-        this._handleSpecItemData(val)
+        // this._handleSpecItemData(val)
       },
       deep: true
     }
@@ -1252,8 +1252,90 @@ export default {
       }
     },
     // 设置规格列表
-    _handleSpecItemData: debounce(function(value) {
-      console.log('okokok', value)
+    _handleSpecItemData: debounce(function(val) {
+      // 索引 头部 组合
+      let treeTable = { index: {}, header: [], compose: [] }
+
+      val.forEach(value => {
+        let node = { key: [], item: [], name: value.name }
+        value.spec_item.forEach(item => {
+          if (value.check_list.includes(item.spec_item_id)) {
+            node.key.push(item.spec_item_id)
+            node.item.push(item.item_name)
+
+            treeTable.index[item.spec_item_id] = {
+              'specName': value.name,
+              'itemName': item.item_name
+            }
+          }
+        })
+
+        if (node.item.length > 0) {
+          treeTable.compose.push(node.key)
+          treeTable.header.push(value.name)
+        }
+      })
+
+      // 根据键值获取规格值
+      const getKeyValue = function(keyName) {
+        // eslint-disable-next-line no-unused-vars
+        let name = ''
+        keyName.forEach(key => {
+          if (treeTable.index.hasOwnProperty(key)) {
+            let idx = treeTable.index[key]
+            name += ` ${idx.specName}:${idx.itemName}`
+          }
+        })
+
+        return name.trim()
+      }
+
+      // 获取笛卡尔积结果并生成列表数据
+      let newCombo = []
+      let oldCombo = {}
+      let combine = util.descartes(treeTable.compose)
+
+      this.currentForm.spec_combo.forEach(combo => {
+        let key = combo['key_name'].sort().join('_')
+        oldCombo[key] = combo
+      })
+
+      combine.forEach(combo => {
+        let temp
+        let key = [...combo].sort().join('_')
+
+        if (oldCombo.hasOwnProperty(key)) {
+          temp = {
+            price: oldCombo[key].price,
+            store_qty: oldCombo[key].store_qty,
+            bar_code: oldCombo[key].bar_code,
+            goods_sku: oldCombo[key].goods_sku
+          }
+        } else {
+          temp = {
+            price: 0,
+            store_qty: 0,
+            bar_code: '',
+            goods_sku: ''
+          }
+        }
+
+        // 补齐name和value
+        temp.key_name = combo
+        temp.key_value = getKeyValue([...combo])
+
+        newCombo.push(temp)
+      })
+
+      // combine.forEach(combo => {
+      //   if (oldCombo.length > 0) {
+      //     for (let i of oldCombo) {
+      //       console.log(i)
+      //     }
+      //   }
+      // })
+
+      console.log(newCombo)
     }, 600)
   }
 }

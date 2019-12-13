@@ -324,7 +324,7 @@ util.getNumber = (value) => {
  */
 util.descartes = (array) => {
   if (array.length < 2) {
-    return array[0] || []
+    return array[0] ? [array[0]] : []
   }
 
   return [].reduce.call(array, (col, set) => {
