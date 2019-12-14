@@ -412,6 +412,7 @@
                               class="cs-cm item-spec-handle"
                               type="info"
                               size="medium"
+                              title="双击编辑"
                               :effect="item.spec_index !== 1 || value.is_contact !== 1 ? 'light' : 'plain'"
                               @dblclick.native="dialogSpecItemName(value.item_name, 'set', parent, key)"
                               @close="delSpecItem(parent, key)"
@@ -423,11 +424,13 @@
                       <el-button-group class="active spec-item">
                         <el-button
                           @click="dialogSpecItemName(null, 'add', parent, null)"
+                          title="添加规格项"
                           icon="el-icon-plus"
                           size="mini"/>
 
                         <el-button
                           @click="importSpecItem(parent)"
+                          title="导入规格项"
                           icon="el-icon-takeaway-box"
                           size="mini"/>
                       </el-button-group>
@@ -902,6 +905,7 @@ export default {
       activeAttr: [],
       activeSpec: [],
       activeSpecMore: {},
+      specTable: [],
       specImage: [],
       specImageKey: {},
       specImageVisible: false,
@@ -935,7 +939,7 @@ export default {
   watch: {
     'currentForm.spec_config': {
       handler(val) {
-        // this._handleSpecItemData(val)
+        this._handleSpecItemData(val)
       },
       deep: true
     }
@@ -1353,15 +1357,8 @@ export default {
         newCombo.push(temp)
       })
 
-      // combine.forEach(combo => {
-      //   if (oldCombo.length > 0) {
-      //     for (let i of oldCombo) {
-      //       console.log(i)
-      //     }
-      //   }
-      // })
-
-      console.log(newCombo)
+      this.specTable = treeTable
+      this.$set(this.currentForm, 'spec_combo', newCombo)
     }, 600)
   }
 }
