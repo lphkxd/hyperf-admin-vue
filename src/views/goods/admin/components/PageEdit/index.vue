@@ -421,7 +421,7 @@
                         </draggable>
                       </el-checkbox-group>
 
-                      <el-button-group class="active spec-item">
+                      <el-button-group class="spec-item active" style="padding-bottom: 14px;">
                         <el-button
                           @click="dialogSpecItemName(null, 'add', parent, null)"
                           title="添加规格项"
@@ -544,6 +544,18 @@
                 <p class="empty-data">暂无数据</p>
                 <el-divider/>
               </div>
+
+              <el-table
+                v-else
+                :data="currentForm.spec_combo"
+                :highlight-current-row="true"
+                :border="true">
+                <el-table-column
+                  v-for="(value, key) in specTable.header"
+                  :key="key"
+                  :label="value">
+                </el-table-column>
+              </el-table>
             </el-form-item>
           </el-tab-pane>
 
@@ -1359,6 +1371,7 @@ export default {
 
       this.specTable = treeTable
       this.$set(this.currentForm, 'spec_combo', newCombo)
+      console.log(this.specTable, newCombo)
     }, 600)
   }
 }
@@ -1457,10 +1470,10 @@ export default {
   }
   .spec-item {
     float: left;
-    padding: 0 0 10px 24px;
+    padding: 0 0 15px 24px;
   }
   .spec-type {
-    display: initial;
+    display: inline;
     padding-right: 31px;
   }
   .spec-position {
@@ -1471,7 +1484,7 @@ export default {
       width: 75px;
     }
     .el-input-group {
-      vertical-align: unset;
+      vertical-align: middle;
     }
     /deep/ .el-input-group__prepend {
       background-color: #FFFFFF;
