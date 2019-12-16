@@ -123,14 +123,5 @@ module.exports = {
         .plugin('webpack-bundle-analyzer')
         .use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin)
     }
-    // node
-    config.node
-      .set('__dirname', true)
-      .set('__filename', true)
-    // // babel-polyfill 加入 entry
-    // const entry = config.entry('app')
-    // entry
-    //   .add('babel-polyfill')
-    //   .end()
   }
 }
