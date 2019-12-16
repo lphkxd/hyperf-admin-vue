@@ -5,9 +5,9 @@
 <script>
 // https://highlightjs.org/usage/
 // http://highlightjs.readthedocs.io/en/latest/api.html#configure-options
-import './styles/github-gist.css'
 import htmlFormat from './libs/htmlFormat'
 import highlight from 'highlight.js'
+import './libs/style.github.css'
 
 export default {
   name: 'cs-highlight',

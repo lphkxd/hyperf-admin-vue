@@ -6,6 +6,13 @@
     <meta name="renderer" content="webkit">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="favicon.ico">
+    <% for (var i in htmlWebpackPlugin.options.cdn&&htmlWebpackPlugin.options.cdn.css) { %>
+    <link href="<%= htmlWebpackPlugin.options.cdn.css[i] %>" rel="preload" as="style">
+    <link href="<%= htmlWebpackPlugin.options.cdn.css[i] %>" rel="stylesheet">
+    <% } %>
+    <% for (var i in htmlWebpackPlugin.options.cdn&&htmlWebpackPlugin.options.cdn.js) { %>
+    <link href="<%= htmlWebpackPlugin.options.cdn.js[i] %>" rel="preload" as="script">
+    <% } %>
     <title><%= VUE_APP_TITLE %></title>
     <style>
       html, body, #app { width: 100%; height: 100%; margin: 0; padding: 0; }
@@ -52,5 +59,8 @@
       const hmid = "e325e60ca4cd358f2b424f5aecb8021a";
       (function() { let hm = document.createElement("script"); hm.src = "https://hm.baidu.com/hm.js?" + hmid; let s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(hm, s);})();
     </script>
+    <% for (var i in htmlWebpackPlugin.options.cdn&&htmlWebpackPlugin.options.cdn.js) { %>
+    <script src="<%= htmlWebpackPlugin.options.cdn.js[i] %>"></script>
+    <% } %>
   </body>
 </html>
