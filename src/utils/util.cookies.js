@@ -1,4 +1,4 @@
-import Cookies from 'vue-cookies'
+import Cookies from 'js-cookie'
 
 const cookies = {}
 
