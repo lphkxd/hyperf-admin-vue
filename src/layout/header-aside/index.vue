@@ -19,19 +19,19 @@
         </el-alert>
       </div>
       <!-- 顶栏 -->
-      <div
+      <router-link
         class="cs-theme-header"
         :style="{
           opacity: this.searchActive ? 0.5 : 1
         }"
         flex-box="0"
         flex>
-        <div class="logo-group" :style="{width: asideCollapse ? asideWidthCollapse : asideWidth}" flex-box="0">
+        <router-link to="/index" class="logo-group" :style="{width: asideCollapse ? asideWidthCollapse : asideWidth}" flex-box="0">
           <a target="blank" href="//www.careyshop.cn/">
             <img v-if="asideCollapse" :src="`${$publicPath}image/theme/${themeActiveSetting.name}/logo/icon-only.png`" alt="">
             <img v-else :src="`${$publicPath}image/theme/${themeActiveSetting.name}/logo/all.png`" alt="">
           </a>
-        </div>
+        </router-link>
         <div class="toggle-aside-btn" @click="handleToggleAside" flex-box="0">
           <cs-icon name="bars"/>
         </div>

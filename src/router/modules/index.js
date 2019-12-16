@@ -11,7 +11,7 @@ export default {
     {
       path: 'index',
       name: 'index',
-      meta,
+      meta: { title: '首页', auth: true },
       component: () => import('@/views/index/index')
     },
     // 系统 前端日志
