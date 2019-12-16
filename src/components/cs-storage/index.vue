@@ -82,7 +82,7 @@
           <dl>
             <dt>
               <div class="picture cs-m-5">
-                <el-checkbox v-if="item.type !== 2" :label="item.storage_id" class="check">&nbsp;</el-checkbox>
+                <el-checkbox v-if="item.type !== 2" :label="item.storage_id" class="check"/>
                 <el-image fit="fill" :src="item | getImageThumb" @click.native="handleOpen(index)" lazy/>
               </div>
               <el-tooltip placement="top" :enterable="false" :open-delay="300">
@@ -325,10 +325,14 @@ export default {
   }
   .check {
     position: absolute;
-    margin: 0 0 0 2px;
+    margin-top: 2px;
+    margin-left: 2px;
     width: 78px;
     height: 80px;
     z-index: 9;
+    /deep/ .el-checkbox__label{
+      display: none;
+    }
   }
   .el-image /deep/ .el-image__inner {
     width: auto;

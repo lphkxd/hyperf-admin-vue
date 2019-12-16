@@ -105,7 +105,7 @@
           <tr><td>收款人手机：</td><td>{{infoForm.mobile}}</td></tr>
           <tr><td>收款账户：</td><td>{{infoForm.bank_name}}</td></tr>
           <tr><td>收款账号：</td><td>{{infoForm.account}}</td></tr>
-          <tr><td>&nbsp;</td></tr>
+          <tr/>
           <tr><td><b>提现金额：</b></td><td>{{infoForm.money | getNumber}}</td></tr>
           <tr><td>手续费：</td><td>{{infoForm.fee}} %</td></tr>
           <tr><td>合计金额：</td><td>{{infoForm.amount | getNumber}}</td></tr>

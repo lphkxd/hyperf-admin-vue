@@ -369,7 +369,7 @@
                             v-for="(value, key) in item.spec_item"
                             class="spec-item"
                             :key="key">
-                            <el-checkbox :label="value.spec_item_id" style="width: 16px;">&nbsp;</el-checkbox>
+                            <el-checkbox :label="value.spec_item_id" class="spec-check"/>
 
                             <div
                               v-if="item.spec_type === 1"
@@ -1488,6 +1488,12 @@ export default {
     }
     /deep/ .el-input-group__prepend {
       background-color: #FFFFFF;
+    }
+  }
+  .spec-check {
+    width: 16px;
+    /deep/ .el-checkbox__label{
+      display: none;
     }
   }
 </style>

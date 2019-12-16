@@ -108,7 +108,7 @@
           <dl>
             <dt>
               <div class="picture cs-m-10">
-                <el-checkbox :label="item.storage_id" class="storage-check">&nbsp;</el-checkbox>
+                <el-checkbox :label="item.storage_id" class="storage-check"/>
                 <el-image fit="fill" :src="item | getImageThumb" @click.native="openStorage(index)" lazy/>
               </div>
               <span class="storage-name cs-ml-10" :title="item.name">{{item.name}}</span>
@@ -865,9 +865,13 @@ export default {
   }
   .storage-check {
     position: absolute;
-    margin: 3px 0 0 3px;
+    margin-top: 3px;
+    margin-left: 3px;
     width: 30px;
     height: 30px;
+    /deep/ .el-checkbox__label{
+      display: none;
+    }
   }
   .el-image /deep/ .el-image__inner {
     width: auto;
