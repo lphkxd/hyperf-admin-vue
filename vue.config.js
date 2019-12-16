@@ -127,10 +127,10 @@ module.exports = {
     config.node
       .set('__dirname', true)
       .set('__filename', true)
-    // babel-polyfill 加入 entry
-    const entry = config.entry('app')
-    entry
-      .add('babel-polyfill')
-      .end()
+    // // babel-polyfill 加入 entry
+    // const entry = config.entry('app')
+    // entry
+    //   .add('babel-polyfill')
+    //   .end()
   }
 }
