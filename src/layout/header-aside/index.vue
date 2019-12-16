@@ -19,7 +19,7 @@
         </el-alert>
       </div>
       <!-- 顶栏 -->
-      <router-link
+      <div
         class="cs-theme-header"
         :style="{
           opacity: this.searchActive ? 0.5 : 1
