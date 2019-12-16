@@ -10,7 +10,7 @@ CareyShop（简称 CS）是一套基于 ThinkPHP5 框架开发的高性能商城
 ### 本项目说
 CareyShop 整体的架构理念为前后端分离，这样更容易创建出私有云、微服务、分布式等。商城后台管理系统根据框架所提供的 API 接口而配套的后台管理系统，覆盖了所有管理需要用到的功能模块。
 
-在您使用本项目前，请先安装好 [node](https://nodejs.org "node")。项目技术栈基于 [ES2015+](http://es6.ruanyifeng.com/ "ES2015+")、[vue](https://cn.vuejs.org/ "vue")、[vuex](https://vuex.vuejs.org/ "vuex")、[vue-router](https://router.vuejs.org/ "vue-router") 、[vue-cli3](https://cli.vuejs.org/ "vue-cli") 、[axios](https://github.com/axios/axios "axios") 和 [element-ui](https://element.eleme.io/ "element-ui")，所有的请求数据都基于 rest 协议。
+在您使用本项目前，请先安装好 [node](https://nodejs.org "node")。项目技术栈基于 [es2015+](http://es6.ruanyifeng.com/ "es2015+")、[vue](https://cn.vuejs.org/ "vue")、[vuex](https://vuex.vuejs.org/ "vuex")、[vue-router](https://router.vuejs.org/ "vue-router") 、[vue-cli4](https://cli.vuejs.org/ "vue-cli") 、[axios](https://github.com/axios/axios "axios") 和 [element-ui](https://element.eleme.io/ "element-ui")，所有的请求数据都基于 rest 协议。
 
 ### 参与开发
 我们欢迎您在 CareyShop 项目的 GitHub 上报告 issue 或者 pull request。
@@ -54,7 +54,7 @@ npm -v
 **@vue/cli**
 
 此依赖建议全局安装，在适合的命令环境下输入：
-npm install -g @vue/cli@3.12.0
+npm install -g @vue/cli
 
 ### 项目启动
 ```

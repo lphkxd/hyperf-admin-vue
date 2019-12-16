@@ -2,6 +2,10 @@
 node_modules
 /dist
 
+# local env files
+.env.local
+.env.*.local
+
 # Log files
 npm-debug.log*
 yarn-debug.log*
@@ -17,4 +21,4 @@ webpack.conf.js
 *.ntvs*
 *.njsproj
 *.sln
-*.sw*
+*.sw?

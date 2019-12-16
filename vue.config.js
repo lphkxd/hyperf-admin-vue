@@ -1,6 +1,6 @@
 // 插件
-const CompressionPlugin = require('compression-webpack-plugin')
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const CompressionWebpackPlugin = require('compression-webpack-plugin')
+const cdnDependencies = require('./dependencies-cdn')
 
 // 拼接路径
 const resolve = dir => require('path').join(__dirname, dir)
@@ -10,13 +10,22 @@ process.env.VUE_APP_VERSION = require('./package.json').version
 process.env.VUE_APP_BUILD_TIME = require('dayjs')().format('YYYY-M-D HH:mm:ss')
 
 // 基础路径 注意发布之前要先修改这里
-const publicPath = ''
+let publicPath = process.env.VUE_APP_PUBLIC_PATH || '/'
+
+// 设置不参与构建的库
+let externals = {}
+cdnDependencies.forEach(packages => { externals[packages.name] = packages.library })
+
+// 引入文件的 cdn 链接
+const cdn = {
+  css: cdnDependencies.map(e => e.css).filter(e => e),
+  js: cdnDependencies.map(e => e.js).filter(e => e)
+}
 
 module.exports = {
   publicPath, // 根据你的实际情况更改这里
   lintOnSave: process.env.NODE_ENV !== 'production',
   devServer: {
-    // https://webpack.js.org/configuration/dev-server/
     publicPath // 和 publicPath 保持一致
   },
   css: {
@@ -27,30 +36,47 @@ module.exports = {
       }
     }
   },
+  // 不输出 map 文件
   productionSourceMap: false,
   // build时 超过10K的打包成gzip 减小体积
   configureWebpack: config => {
+    const configNew = {}
     if (process.env.NODE_ENV === 'production') {
-      // 生产环境
-      return {
-        plugins: [
-          new CompressionPlugin({
-            test: /\.(js|html|css)(\?.*)?$/,
-            threshold: 10240, // 10K
-            deleteOriginalAssets: false
-          })
-        ],
-        // 屏蔽资源体积过大警告
-        performance: {
-          hints: false
-        }
-      }
-    } else {
-      // 开发环境
+      configNew.externals = externals
+      configNew.plugins = [
+        // gzip
+        new CompressionWebpackPlugin({
+          filename: '[path].gz[query]',
+          test: new RegExp('\\.(' + ['js', 'css'].join('|') + ')$'),
+          threshold: 10240,
+          minRatio: 0.8,
+          deleteOriginalAssets: false
+        })
+      ]
     }
+
+    if (process.env.NODE_ENV === 'development') {
+      // 关闭 host check，方便使用 ngrok 之类的内网转发工具
+      configNew.devServer = {
+        disableHostCheck: true
+      }
+    }
+
+    return configNew
   },
   // 默认设置: https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-service/lib/config/base.js
   chainWebpack: config => {
+    /**
+     * 添加 CDN 参数到 htmlWebpackPlugin 配置中
+     */
+    config.plugin('html').tap(args => {
+      if (process.env.NODE_ENV === 'production') {
+        args[0].cdn = cdn
+      } else {
+        args[0].cdn = []
+      }
+      return args
+    })
     /**
      * 删除懒加载模块的 prefetch preload，降低带宽压力
      * https://cli.vuejs.org/zh/guide/html-and-static-assets.html#prefetch
@@ -61,31 +87,13 @@ module.exports = {
       .delete('prefetch')
       .delete('preload')
     // 解决 cli3 热更新失效
-    config.resolve.symlinks(true)
-    // UglifyJS3 优化
+    config.resolve
+      .symlinks(true)
     config
-    // 开发环境
+      // 开发环境 sourcemap 不包含列信息
       .when(process.env.NODE_ENV === 'development',
-        // sourcemap不包含列信息
         config => config.devtool('cheap-source-map')
       )
-      // 非开发环境
-      .when(process.env.NODE_ENV !== 'development', config => {
-        config.optimization
-          .minimizer([
-            new UglifyJsPlugin({
-              uglifyOptions: {
-                // 移除 console
-                // 其它优化选项 https://segmentfault.com/a/1190000010874406
-                compress: {
-                  drop_console: true,
-                  drop_debugger: true,
-                  pure_funcs: ['console.log']
-                }
-              }
-            })
-          ])
-      })
     // svg
     const svgRule = config.module.rule('svg')
     svgRule.uses.clear()
@@ -109,6 +117,12 @@ module.exports = {
     // 重新设置 alias
     config.resolve.alias
       .set('@static', resolve('public/static'))
+    // 分析工具
+    if (process.env.npm_config_report) {
+      config
+        .plugin('webpack-bundle-analyzer')
+        .use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin)
+    }
     // node
     config.node
       .set('__dirname', true)
