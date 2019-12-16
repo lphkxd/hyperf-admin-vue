@@ -3,13 +3,24 @@ module.exports = {
   env: {
     node: true
   },
-  extends: [
+  'extends': [
     'plugin:vue/essential',
     '@vue/standard'
   ],
   parserOptions: {
     parser: 'babel-eslint'
   },
+  overrides: [
+    {
+      files: [
+        '**/__tests__/*.{j,t}s?(x)',
+        '**/tests/unit/**/*.spec.{j,t}s?(x)'
+      ],
+      env: {
+        jest: true
+      }
+    }
+  ],
   rules: {
     'accessor-pairs': 2,
     'arrow-spacing': [2, {
@@ -58,7 +69,7 @@ module.exports = {
     'new-parens': 2,
     'no-array-constructor': 2,
     'no-caller': 2,
-    'no-console': 'off',
+    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-class-assign': 2,
     'no-cond-assign': 2,
     'no-const-assign': 2,
@@ -175,7 +186,7 @@ module.exports = {
     'yield-star-spacing': [2, 'both'],
     yoda: [2, 'never'],
     'prefer-const': 0,
-    'no-debugger': 0,
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'object-curly-spacing': [2, 'always', {
       objectsInObjects: false
     }],
