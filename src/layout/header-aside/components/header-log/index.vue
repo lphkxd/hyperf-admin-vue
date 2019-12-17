@@ -4,7 +4,7 @@
     :content="tooltipContent"
     placement="bottom">
     <el-button
-      class="cs-ml-0 cs-mr btn-text can-hover"
+      class="btn-text can-hover"
       type="text"
       @click="$router.push({name: 'log'}).catch(() => {})">
       <el-badge
@@ -12,9 +12,9 @@
         :max="99"
         :value="logLengthError"
         :is-dot="logLengthError === 0">
-        <cs-icon :name="logLengthError === 0 ? 'dot-circle-o' : 'bug'" style="font-size: 20px"/>
+        <i :class="logLengthError === 0 ? 'el-icon-aim' : 'el-icon-cpu'"/>
       </el-badge>
-      <cs-icon v-else name="dot-circle-o" style="font-size: 20px"/>
+      <i v-else class="el-icon-aim"/>
     </el-button>
   </el-tooltip>
 </template>

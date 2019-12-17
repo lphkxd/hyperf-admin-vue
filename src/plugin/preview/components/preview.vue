@@ -2,8 +2,10 @@
   <el-dialog
     :visible.sync="dialogVisible"
     :append-to-body="true"
-    @close="close">
-    <div v-if="dialogVisible" class="image">
+    :show-close="false"
+    @close="close"
+    class="image">
+    <div v-if="dialogVisible">
       <el-image :src="dialogImageUrl" fit="fill" @click.native="$open(dialogImageUrl)"/>
     </div>
   </el-dialog>
@@ -63,5 +65,12 @@ export default {
   .image >>> img {
     vertical-align: middle;
     cursor: pointer;
+  }
+  .image >>> .el-dialog__header {
+    display: none;
+  }
+  .image >>> .el-dialog__body {
+    padding: 10px;
+    background-color: #F5F7FA;
   }
 </style>

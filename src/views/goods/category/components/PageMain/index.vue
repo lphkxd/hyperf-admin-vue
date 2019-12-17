@@ -6,11 +6,9 @@
       @submit.native.prevent>
       <el-form-item v-if="auth.add">
         <el-button
+          icon="el-icon-plus"
           :disabled="loading"
-          @click="handleCreate('create')">
-          <cs-icon name="plus"/>
-          新增顶层分类
-        </el-button>
+          @click="handleCreate('create')">新增顶层分类</el-button>
       </el-form-item>
 
       <el-form-item>
@@ -19,14 +17,14 @@
           <el-radio-button
             :disabled="loading"
             :label="true">
-            <cs-icon name="circle"/>
+            <i class="el-icon-chat-line-square"/>
             全名
           </el-radio-button>
 
           <el-radio-button
             :disabled="loading"
             :label="false">
-            <cs-icon name="adjust"/>
+            <i class="el-icon-chat-dot-square"/>
             别名
           </el-radio-button>
         </el-radio-group>
@@ -36,19 +34,15 @@
         <el-button-group>
           <el-button
             v-if="auth.enable"
+            icon="el-icon-check"
             :disabled="loading"
-            @click="setStatusList(1)">
-            <cs-icon name="check"/>
-            启用
-          </el-button>
+            @click="setStatusList(1)">启用</el-button>
 
           <el-button
             v-if="auth.disable"
+            icon="el-icon-close"
             :disabled="loading"
-            @click="setStatusList(0)">
-            <cs-icon name="close"/>
-            禁用
-          </el-button>
+            @click="setStatusList(0)">禁用</el-button>
         </el-button-group>
       </el-form-item>
 
@@ -56,18 +50,14 @@
         <el-button-group>
           <el-button
             v-if="auth.del"
+            icon="el-icon-delete"
             :disabled="loading"
-            @click="removeList">
-            <cs-icon name="trash-o"/>
-            删除
-          </el-button>
+            @click="removeList">删除</el-button>
 
           <el-button
+            icon="el-icon-refresh"
             :disabled="loading"
-            @click="refresh">
-            <cs-icon name="refresh"/>
-            刷新
-          </el-button>
+            @click="refresh">刷新</el-button>
         </el-button-group>
       </el-form-item>
 
@@ -251,7 +241,7 @@
                             @click.native="$preview(form.category_pic)"
                             fit="fill"/>
                         </div>
-                        <cs-icon slot="reference" name="image"/>
+                        <i slot="reference" class="el-icon-picture"/>
                       </el-popover>
                     </template>
 
@@ -259,15 +249,10 @@
                       slot="append"
                       :show-timeout="50"
                       @command="handleCommand">
-                      <el-button><cs-icon name="cloud-upload" style="color: #909399;"/></el-button>
+                      <el-button icon="el-icon-upload"/>
                       <el-dropdown-menu slot="dropdown">
-                        <el-dropdown-item command="storage">
-                          <cs-icon name="inbox" class="cs-mr-5"/>资源选择
-                        </el-dropdown-item>
-
-                        <el-dropdown-item command="upload">
-                          <cs-icon name="upload" class="cs-mr-5"/>上传资源
-                        </el-dropdown-item>
+                        <el-dropdown-item command="storage" icon="el-icon-receiving">资源选择</el-dropdown-item>
+                        <el-dropdown-item command="upload" icon="el-icon-upload">上传资源</el-dropdown-item>
                       </el-dropdown-menu>
                     </el-dropdown>
                   </el-input>

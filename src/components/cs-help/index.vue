@@ -7,11 +7,7 @@
     title="提示"
     @show="getHelp">
     <div class="popover-content" v-html="helpContent"></div>
-    <el-button
-      size="small"
-      slot="reference">
-      <cs-icon name="question"/>
-    </el-button>
+    <el-button size="small" slot="reference" icon="el-icon-help"/>
   </el-popover>
 </template>
 

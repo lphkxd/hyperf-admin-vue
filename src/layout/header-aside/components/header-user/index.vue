@@ -6,26 +6,17 @@
       </el-badge>
     </span>
     <el-dropdown-menu slot="dropdown">
-      <el-dropdown-item @click.native="$open('/')">
-        <cs-icon name="external-link-square" class="cs-mr-10"/>打开前台
-      </el-dropdown-item>
-      <el-dropdown-item v-if="auth.cache" @click.native="clearCache">
-        <cs-icon name="refresh" class="cs-mr-10"/>清空缓存
-      </el-dropdown-item>
-      <el-dropdown-item v-if="auth.optimize" @click.native="systemOptimize">
-        <cs-icon name="magic" class="cs-mr-10"/>优化缓存
-      </el-dropdown-item>
-      <el-dropdown-item divided @click.native="handleCreate">
-        <cs-icon name="keyboard-o" class="cs-mr-10"/>修改密码
-      </el-dropdown-item>
-      <el-dropdown-item v-if="auth.unread" @click.native="handleMessage">
-        <cs-icon name="bell-o" class="cs-mr-10"/>未读消息
+      <el-dropdown-item @click.native="$open('/')" icon="el-icon-link">打开前台</el-dropdown-item>
+      <el-dropdown-item v-if="auth.cache" @click.native="clearCache" icon="el-icon-delete">清空缓存</el-dropdown-item>
+      <el-dropdown-item v-if="auth.optimize" @click.native="systemOptimize" icon="el-icon-finished">优化缓存</el-dropdown-item>
+      <el-dropdown-item divided @click.native="handleCreate" icon="el-icon-key">修改密码</el-dropdown-item>
+      <el-dropdown-item v-if="auth.unread" @click.native="handleMessage" icon="el-icon-bell">
+        <span>未读消息</span>
         <el-badge :hidden="!unreadMessage" :value="unreadMessage" :max="99"/>
       </el-dropdown-item>
-      <el-dropdown-item divided @click.native="logOff">
-        <cs-icon name="sign-out" class="cs-mr-10"/>退出账号
-      </el-dropdown-item>
+      <el-dropdown-item divided @click.native="logOff" icon="el-icon-switch-button">退出账号</el-dropdown-item>
     </el-dropdown-menu>
+
     <el-dialog
       title="修改密码"
       width="600px"

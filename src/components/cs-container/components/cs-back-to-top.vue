@@ -6,7 +6,7 @@
       placement="top"
       :open-delay="1000">
       <div class="cs-floating top" @click="$parent.$refs.component.backToTop()">
-        <cs-icon name="angle-double-up"/>
+        <i class="el-icon-caret-top"/>
       </div>
     </el-tooltip>
 
@@ -16,7 +16,7 @@
       placement="top"
       :open-delay="1000">
       <div class="cs-floating parent" @click="$router.push({name: parentPath})">
-        <cs-icon name="angle-double-left"/>
+        <i class="el-icon-caret-left"/>
       </div>
     </el-tooltip>
   </div>

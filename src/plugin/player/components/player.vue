@@ -2,7 +2,9 @@
   <el-dialog
     :visible.sync="dialogVisible"
     :append-to-body="true"
-    @close="close">
+    :show-close="false"
+    @close="close"
+    class="player-dialog">
     <div v-if="dialogVisible" class="player">
       <cs-video :src="dialogVideoUrl" :mime="dialogVideoMime" :poster="dialogVidePoster"/>
     </div>
@@ -53,3 +55,13 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .player-dialog >>> .el-dialog__header {
+    display: none;
+  }
+  .player-dialog >>> .el-dialog__body {
+    padding: 10px;
+    background-color: #F5F7FA;
+  }
+</style>

@@ -13,35 +13,16 @@
           <el-form-item>
             <el-button-group>
               <el-tooltip content="勾选当前页全部资源" placement="top">
-                <el-button
-                  @click="allCheckBox">
-                  <cs-icon name="check-square-o"/>
-                  全选
-                </el-button>
+                <el-button @click="allCheckBox" icon="el-icon-plus">全选</el-button>
               </el-tooltip>
-
               <el-tooltip content="反向勾选当前页资源" placement="top">
-                <el-button
-                  @click="reverseCheckBox">
-                  <cs-icon name="minus-square-o"/>
-                  反选
-                </el-button>
+                <el-button @click="reverseCheckBox" icon="el-icon-minus">反选</el-button>
               </el-tooltip>
-
               <el-tooltip content="取消当前页勾选" placement="top">
-                <el-button
-                  @click="cancelCheckBox">
-                  <cs-icon name="square-o"/>
-                  取消
-                </el-button>
+                <el-button @click="cancelCheckBox" icon="el-icon-close">取消</el-button>
               </el-tooltip>
-
               <el-tooltip content="清除所有已选中勾选" placement="top">
-                <el-button
-                  @click="checkList = []">
-                  <cs-icon name="remove"/>
-                  清除
-                </el-button>
+                <el-button @click="checkList = []" icon="el-icon-refresh">清除</el-button>
               </el-tooltip>
             </el-button-group>
           </el-form-item>
@@ -90,7 +71,7 @@
                   <span>名称：{{item.name}}</span><br/>
                   <span>日期：{{item.create_time}}</span><br/>
                   <span v-if="item.type === 0">尺寸：{{`${item.pixel['width']},${item.pixel['height']}`}}</span>
-                  <span v-else>类型：<cs-icon :name="item.type | getFileTypeIocn"/></span>
+                  <span v-else>类型：<i :class="item.type | getFileTypeIocn"/></span>
                 </div>
                 <span class="storage-name cs-ml-5">{{item.name}}</span>
               </el-tooltip>

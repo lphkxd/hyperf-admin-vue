@@ -26,14 +26,14 @@
         }"
         flex-box="0"
         flex>
-        <router-link to="/index" class="logo-group" :style="{width: asideCollapse ? asideWidthCollapse : asideWidth}" flex-box="0">
+        <div class="logo-group" :style="{width: asideCollapse ? asideWidthCollapse : asideWidth}" flex-box="0">
           <a target="blank" href="//www.careyshop.cn/">
             <img v-if="asideCollapse" :src="`${$publicPath}image/theme/${themeActiveSetting.name}/logo/icon-only.png`" alt="">
             <img v-else :src="`${$publicPath}image/theme/${themeActiveSetting.name}/logo/all.png`" alt="">
           </a>
-        </router-link>
+        </div>
         <div class="toggle-aside-btn" @click="handleToggleAside" flex-box="0">
-          <cs-icon name="bars"/>
+          <i :class="`el-icon-s-${asideCollapse ? 'unfold' : 'fold'}`"/>
         </div>
         <cs-menu-header flex-box="1"/>
         <!-- 顶栏右侧 -->

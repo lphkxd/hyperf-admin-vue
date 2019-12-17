@@ -39,19 +39,19 @@ export default {
     getFileTypeIocn(val) {
       switch (val) {
         case 0:
-          return 'file-photo-o'
+          return 'el-icon-picture-outline'
 
         case 1:
-          return 'file-o'
+          return 'el-icon-files'
 
         case 2:
-          return 'folder-o'
+          return 'el-icon-folder'
 
         case 3:
-          return 'file-video-o'
+          return 'el-icon-video-camera'
       }
 
-      return 'question'
+      return 'el-icon-warning-outline'
     }
   },
   methods: {

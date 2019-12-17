@@ -5,45 +5,35 @@
       size="small">
       <el-form-item v-if="auth.add">
         <el-button
+          icon="el-icon-plus"
           :disabled="loading"
-          @click="handleCreate(null)">
-          <cs-icon name="plus"/>
-          新增主属性
-        </el-button>
+          @click="handleCreate(null)">新增主属性</el-button>
       </el-form-item>
 
       <el-form-item v-if="auth.search">
         <el-button-group>
           <el-button
+            icon="el-icon-remove-outline"
             :disabled="loading"
-            @click="handleIndex(0)">
-            <cs-icon name="ban"/>
-            不检索
-          </el-button>
+            @click="handleIndex(0)">不检索</el-button>
 
           <el-button
+            icon="el-icon-collection-tag"
             :disabled="loading"
-            @click="handleIndex(1)">
-            <cs-icon name="bookmark-o"/>
-            关键词
-          </el-button>
+            @click="handleIndex(1)">关键词</el-button>
 
           <el-button
+            icon="el-icon-refresh-left"
             :disabled="loading"
-            @click="handleIndex(2)">
-            <cs-icon name="circle-o-notch"/>
-            范围
-          </el-button>
+            @click="handleIndex(2)">范围</el-button>
         </el-button-group>
       </el-form-item>
 
       <el-form-item v-if="auth.del">
         <el-button
+          icon="el-icon-delete"
           :disabled="loading"
-          @click="handleDelete(null)">
-          <cs-icon name="trash-o"/>
-          删除
-        </el-button>
+          @click="handleDelete(null)">删除</el-button>
       </el-form-item>
 
       <cs-help
@@ -71,7 +61,7 @@
       </el-table-column>
 
       <el-table-column
-        width="55">
+        width="60">
         <template slot-scope="scope">
           <el-popover
             v-if="scope.row.icon"
@@ -84,13 +74,10 @@
                 @click.native="$preview(scope.row.icon)"
                 fit="fill"/>
             </div>
-            <cs-icon class="cs-mr-5" slot="reference" name="image"/>
+            <i class="el-icon-picture cs-mr-5" slot="reference"/>
           </el-popover>
 
-          <cs-icon
-            v-if="scope.row.is_important"
-            class="attribute-important"
-            name="star"/>
+          <i v-if="scope.row.is_important" class="attribute-important el-icon-star-on"/>
         </template>
       </el-table-column>
 
@@ -273,7 +260,7 @@
                     @click.native="$preview(form.icon)"
                     fit="fill"/>
                 </div>
-                <cs-icon slot="reference" name="image"/>
+                <i class="el-icon-picture" slot="reference"/>
               </el-popover>
             </template>
 
@@ -281,15 +268,10 @@
               slot="append"
               :show-timeout="50"
               @command="handleCommand">
-              <el-button><cs-icon name="cloud-upload" style="color: #909399;"/></el-button>
+              <el-button icon="el-icon-upload"/>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item command="storage">
-                  <cs-icon name="inbox" class="cs-mr-5"/>资源选择
-                </el-dropdown-item>
-
-                <el-dropdown-item command="upload">
-                  <cs-icon name="upload" class="cs-mr-5"/>上传资源
-                </el-dropdown-item>
+                <el-dropdown-item command="storage" icon="el-icon-receiving">资源选择</el-dropdown-item>
+                <el-dropdown-item command="upload" icon="el-icon-upload">上传资源</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
           </el-input>
@@ -929,5 +911,6 @@ export default {
   }
   .attribute-important {
     color: #E6A23C;
+    font-size: 16px;
   }
 </style>

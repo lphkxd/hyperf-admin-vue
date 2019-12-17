@@ -11,7 +11,7 @@
             @rowClick="contextmenuClick"/>
         </cs-contextmenu>
         <el-tabs
-          class="cs-multiple-page-control cs-multiple-page-sort"
+          class="cs-multiple-page-control"
           :value="current"
           type="card"
           :closable="true"
@@ -33,20 +33,12 @@
         :show-timeout="50"
         @click="closeAll"
         @command="command => handleControlItemClick(command)">
-        <cs-icon name="times-circle"/>
+        <i class="el-icon-circle-close"/>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item command="left">
-            <cs-icon name="arrow-left" class="cs-mr-10"/>关闭左侧
-          </el-dropdown-item>
-          <el-dropdown-item command="right">
-            <cs-icon name="arrow-right" class="cs-mr-10"/>关闭右侧
-          </el-dropdown-item>
-          <el-dropdown-item command="other">
-            <cs-icon name="times" class="cs-mr-10"/>关闭其它
-          </el-dropdown-item>
-          <el-dropdown-item command="all">
-            <cs-icon name="times-circle" class="cs-mr-10"/>全部关闭
-          </el-dropdown-item>
+          <el-dropdown-item command="left" icon="el-icon-d-arrow-left">关闭左侧</el-dropdown-item>
+          <el-dropdown-item command="right" icon="el-icon-d-arrow-right">关闭右侧</el-dropdown-item>
+          <el-dropdown-item command="other" icon="el-icon-close">关闭其它</el-dropdown-item>
+          <el-dropdown-item command="all" icon="el-icon-circle-close">全部关闭</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
@@ -55,7 +47,6 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
-import Sortable from 'sortablejs'
 
 export default {
   components: {
@@ -85,23 +76,13 @@ export default {
       'current'
     ])
   },
-  mounted() {
-    const el = document.querySelectorAll('.cs-multiple-page-sort .el-tabs__nav')[0]
-    Sortable.create(el, {
-      onEnd: (evt) => {
-        const { oldIndex, newIndex } = evt
-        this.openedSort({ oldIndex, newIndex })
-      }
-    })
-  },
   methods: {
     ...mapActions('careyshop/page', [
       'close',
       'closeLeft',
       'closeRight',
       'closeOther',
-      'closeAll',
-      'openedSort'
+      'closeAll'
     ]),
     /**
      * @description 右键菜单功能点击
