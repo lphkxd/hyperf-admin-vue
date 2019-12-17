@@ -88,9 +88,9 @@
           ref="tree">
           <span class="custom-tree-node action" slot-scope="{node, data}">
             <span class="brother-showing" :class="{'status-tree': !data.status}">
-              <i v-if="!data.system && auth.move" class="fa fa-align-justify move-tree cs-mr-10"/>
-              <i v-if="data.children" :class="`fa fa-folder-${node.expanded ? 'open-o' : 'o'}`"/>
-              <i v-else class="fa fa-file-o"/>
+              <i v-if="!data.system && auth.move" class="el-icon-s-grid move-tree cs-mr-5"/>
+              <i v-if="data.children" :class="`el-icon-${node.expanded ? 'folder-opened' : 'folder'}`"/>
+              <i v-else class="el-icon-document-checked"/>
               {{node.label}}
             </span>
 
@@ -239,10 +239,10 @@
                     <span class="custom-tree-node" slot-scope="{node, data}">
                       <span class="brother-showing" :class="{'status-tree': !data.status}">
                         <i v-if="data.icon" :class="`fa fa-${data.icon}`"/>
-                        <i v-else-if="data.children" :class="`fa fa-folder-${node.expanded ? 'open-o' : 'o'}`"/>
-                        <i v-else class="fa fa-file-o"/>
+                        <i v-else-if="data.children" :class="`el-icon-${node.expanded ? 'folder-opened' : 'folder'}`"/>
+                        <i v-else class="el-icon-document-checked"/>
                         {{node.label}}
-                        <i v-if="data.url" class="fa fa-link" style="font-size: 12px;">
+                        <i v-if="data.url" class="el-icon-link">
                           {{data.url}}
                         </i>
                       </span>
@@ -261,10 +261,10 @@
                     <span class="custom-tree-node" slot-scope="{node, data}">
                       <span class="brother-showing" :class="{'status-tree': !data.status}">
                         <i v-if="data.icon" :class="`fa fa-${data.icon}`"/>
-                        <i v-else-if="data.children" :class="`fa fa-folder-${node.expanded ? 'open-o' : 'o'}`"/>
-                        <i v-else class="fa fa-file-o"/>
+                        <i v-else-if="data.children" :class="`el-icon-${node.expanded ? 'folder-opened' : 'folder'}`"/>
+                        <i v-else class="el-icon-document-checked"/>
                         {{node.label}}
-                        <i v-if="data.url" class="fa fa-link" style="font-size: 12px;">
+                        <i v-if="data.url" class="el-icon-link">
                           {{data.url}}
                         </i>
                       </span>

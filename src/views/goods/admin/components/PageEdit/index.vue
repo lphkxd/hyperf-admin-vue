@@ -313,7 +313,7 @@
                       :name="item.spec_id"
                       class="action">
                       <template slot="title">
-                        <i class="el-icon-sort icon-move cs-pr-10 spec-handle"/>
+                        <i class="el-icon-s-grid icon-move cs-pr-10 spec-handle"/>
                         <div class="spec-more" @click="$event.stopPropagation()">
                           <template v-if="!activeSpecMore[parent]">
                             <el-checkbox
@@ -476,7 +476,7 @@
                       :key="item.goods_attribute_id"
                       :name="item.goods_attribute_id">
                       <template slot="title">
-                        <i class="el-icon-sort icon-move cs-pr-10 attr-handle"/>
+                        <i class="el-icon-s-grid icon-move cs-pr-10 attr-handle"/>
                         <span>{{item.attr_name}}</span>
                       </template>
 
@@ -490,7 +490,7 @@
                           :key="value.goods_attribute_id"
                           class="el-form-item attr-form">
                           <label class="el-form-item__label attr-label">
-                            <i class="el-icon-sort icon-move cs-pr-10 item-attr-handle"/>
+                            <i class="el-icon-s-grid icon-move cs-pr-10 item-attr-handle"/>
                             <span :title="value.attr_name">{{value.attr_name}}</span>
                           </label>
                           <div class="el-form-item__content attr-content">

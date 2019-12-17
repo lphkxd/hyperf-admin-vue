@@ -60,9 +60,9 @@
           ref="tree">
           <span class="custom-tree-node action" slot-scope="{node, data}">
             <span class="brother-showing">
-              <i v-if="auth.move" class="fa fa-align-justify move-tree cs-mr-10"/>
-              <i v-if="data.children" :class="`fa fa-folder-${node.expanded ? 'open-o' : 'o'}`"/>
-              <i v-else class="fa fa-file-o"/>
+              <i v-if="auth.move" class="el-icon-s-grid move-tree cs-mr-5"/>
+              <i v-if="data.children" :class="`el-icon-${node.expanded ? 'folder-opened' : 'folder'}`"/>
+              <i v-else class="el-icon-document-checked"/>
               {{node.label}}
             </span>
 

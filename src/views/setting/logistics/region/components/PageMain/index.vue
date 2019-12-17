@@ -65,7 +65,7 @@
           ref="tree">
           <span class="custom-tree-node action" slot-scope="{node, data}">
             <span class="brother-showing">
-              <i v-if="auth.move" class="fa fa-align-justify move-tree" style="width: 16px;"/>
+              <i v-if="auth.move" class="el-icon-s-grid move-tree cs-mr-5"/>
               {{node.label}}
             </span>
 

@@ -253,8 +253,8 @@
         ref="directory">
         <span slot-scope="{node, data}">
           <span class="brother-showing">
-            <i v-if="data.children" :class="`fa fa-folder-${node.expanded ? 'open-o' : 'o'}`"/>
-            <i v-else class="fa fa-folder-o"/>
+            <i v-if="data.children" :class="`el-icon-${node.expanded ? 'folder-opened' : 'folder'}`"/>
+            <i v-else class="el-icon-folder"/>
             {{node.label}}
           </span>
         </span>
