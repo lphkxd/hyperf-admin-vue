@@ -8,19 +8,15 @@
         <el-button-group>
           <el-button
             v-if="auth.add"
+            icon="el-icon-plus"
             :disabled="loading"
-            @click="handleCreate">
-            <cs-icon name="plus"/>
-            新增目录
-          </el-button>
+            @click="handleCreate">新增目录</el-button>
 
           <el-button
             v-if="auth.upload"
+            icon="el-icon-upload2"
             :disabled="loading"
-            @click="handleUpload">
-            <cs-icon name="upload"/>
-            上传资源
-          </el-button>
+            @click="handleUpload">上传资源</el-button>
         </el-button-group>
       </el-form-item>
 
@@ -28,38 +24,30 @@
         <el-button-group>
           <el-tooltip content="勾选当前页全部资源" placement="top">
             <el-button
+              icon="el-icon-plus"
               :disabled="loading"
-              @click="allCheckBox">
-              <cs-icon name="check-square-o"/>
-              全选
-            </el-button>
+              @click="allCheckBox">全选</el-button>
           </el-tooltip>
 
           <el-tooltip content="反向勾选当前页资源" placement="top">
             <el-button
+              icon="el-icon-minus"
               :disabled="loading"
-              @click="reverseCheckBox">
-              <cs-icon name="minus-square-o"/>
-              反选
-            </el-button>
+              @click="reverseCheckBox">反选</el-button>
           </el-tooltip>
 
           <el-tooltip content="取消当前页勾选" placement="top">
             <el-button
+              icon="el-icon-close"
               :disabled="loading"
-              @click="cancelCheckBox">
-              <cs-icon name="square-o"/>
-              取消
-            </el-button>
+              @click="cancelCheckBox">取消</el-button>
           </el-tooltip>
 
           <el-tooltip content="清除所有已选中勾选" placement="top">
             <el-button
+              icon="el-icon-refresh"
               :disabled="loading"
-              @click="checkList = []">
-              <cs-icon name="remove"/>
-              清除
-            </el-button>
+              @click="checkList = []">清除</el-button>
           </el-tooltip>
         </el-button-group>
       </el-form-item>
@@ -68,19 +56,15 @@
         <el-button-group>
           <el-button
             v-if="auth.move"
+            icon="el-icon-rank"
             :disabled="loading"
-            @click="handleMove(null)">
-            <cs-icon name="arrows"/>
-            移动
-          </el-button>
+            @click="handleMove(null)">移动</el-button>
 
           <el-button
             v-if="auth.del"
+            icon="el-icon-delete"
             :disabled="loading"
-            @click="handleDelete(null)">
-            <cs-icon name="trash-o"/>
-            删除
-          </el-button>
+            @click="handleDelete(null)">删除</el-button>
         </el-button-group>
       </el-form-item>
 
@@ -117,71 +101,61 @@
                 :show-timeout="50"
                 size="small"
                 @command="command => handleControlItemClick(command)">
-                <cs-icon class="more" name="angle-double-down"/>
+                <i class="el-icon-more more"/>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item
                     v-if="auth.rename"
-                    :command="{type: 'rename', index}">
-                    <cs-icon name="edit" class="more-icon"/>重命名
-                  </el-dropdown-item>
+                    icon="el-icon-edit"
+                    :command="{type: 'rename', index}">重命名</el-dropdown-item>
 
                   <el-dropdown-item
                     v-if="item.type !== 2 && auth.replace"
+                    icon="el-icon-upload"
                     :command="{type: 'replace', index}"
-                    divided>
-                    <cs-icon name="cloud-upload" class="more-icon"/>替换上传
-                  </el-dropdown-item>
+                    divided>替换上传</el-dropdown-item>
 
                   <el-dropdown-item
                     v-if="item.type === 0 && item.parent_id && auth.cover"
-                    :command="{type: 'cover', index}">
-                    <cs-icon name="image" class="more-icon"/>设为封面
-                  </el-dropdown-item>
+                    icon="el-icon-picture"
+                    :command="{type: 'cover', index}">设为封面</el-dropdown-item>
 
                   <el-dropdown-item
                     v-if="item.type === 3 && !item.cover && auth.cover"
-                    :command="{type: 'video_cover', index}">
-                    <cs-icon name="image" class="more-icon"/>选择海报
-                  </el-dropdown-item>
+                    icon="el-icon-picture"
+                    :command="{type: 'video_cover', index}">选择海报</el-dropdown-item>
 
                   <el-dropdown-item
                     v-if="item.type === 2 && auth.default"
-                    :command="{type: 'default', index}">
-                    <cs-icon name="folder-open-o" class="more-icon"/>{{item.is_default ? '取消默认' : '设为默认'}}
-                  </el-dropdown-item>
+                    icon="el-icon-folder-checked"
+                    :command="{type: 'default', index}">{{item.is_default ? '取消默认' : '设为默认'}}</el-dropdown-item>
 
                   <el-dropdown-item
                     v-if="item.cover && auth.clear_cover"
+                    icon="el-icon-picture"
                     :command="{type: 'clear_cover', index}"
-                    divided>
-                    <cs-icon name="image" class="more-icon"/>{{item.type === 2 ? '取消封面' : '取消海报'}}
-                  </el-dropdown-item>
+                    divided>{{item.type === 2 ? '取消封面' : '取消海报'}}</el-dropdown-item>
 
                   <el-dropdown-item
                     v-if="auth.move"
+                    icon="el-icon-rank"
                     :command="{type: 'move', storage_id: item.storage_id}"
-                    divided>
-                    <cs-icon name="arrows" class="more-icon"/>转移目录
-                  </el-dropdown-item>
+                    divided>转移目录</el-dropdown-item>
 
                   <el-dropdown-item
                     v-if="auth.del"
-                    :command="{type: 'delete', storage_id: item.storage_id}">
-                    <cs-icon name="trash-o" class="more-icon"/>删除资源
-                  </el-dropdown-item>
+                    icon="el-icon-delete"
+                    :command="{type: 'delete', storage_id: item.storage_id}">删除资源</el-dropdown-item>
 
                   <el-dropdown-item
                     v-if="item.type === 0 && auth.refresh"
-                    :command="{type: 'refresh', index}">
-                    <cs-icon name="refresh" class="more-icon"/>清除缓存
-                  </el-dropdown-item>
+                    icon="el-icon-refresh"
+                    :command="{type: 'refresh', index}">清除缓存</el-dropdown-item>
 
                   <el-dropdown-item
                     v-if="item.type !== 2 && auth.link"
+                    icon="el-icon-link"
                     :command="{type: 'link', index}"
-                    divided>
-                    <cs-icon name="external-link" class="more-icon"/>复制外链
-                  </el-dropdown-item>
+                    divided>复制外链</el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
             </dt>
@@ -191,7 +165,7 @@
               </p>
               <p>
                 <span v-if="item.type === 0">尺寸：{{`${item.pixel['width']},${item.pixel['height']}`}}</span>
-                <span v-else>类型：<cs-icon :name="item.type | getFileTypeIocn"/></span>
+                <span v-else>类型：<i :class="item.type | getFileTypeIocn"/></span>
               </p>
             </dd>
           </dl>
@@ -855,13 +829,9 @@ export default {
   .storage-list .more {
     width: 20px;
     height: 15px;
-    color: $color-primary;
+    color: $color-text-sub;
     cursor: pointer;
     display: none;
-  }
-  .more-icon {
-    width: 16px;
-    margin-right: 10px !important;
   }
   .storage-check {
     position: absolute;

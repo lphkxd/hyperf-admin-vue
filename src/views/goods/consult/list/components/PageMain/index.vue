@@ -5,11 +5,9 @@
       size="small">
       <el-form-item v-if="auth.del">
         <el-button
+          icon="el-icon-delete"
           :disabled="loading"
-          @click="handleDelete(null)">
-          <cs-icon name="trash-o"/>
-          批量删除
-        </el-button>
+          @click="handleDelete(null)">批量删除</el-button>
       </el-form-item>
 
       <cs-help

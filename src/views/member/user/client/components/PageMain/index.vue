@@ -5,40 +5,32 @@
       size="small">
       <el-form-item v-if="auth.add">
         <el-button
+          icon="el-icon-plus"
           :disabled="loading"
-          @click="handleCreate">
-          <cs-icon name="plus"/>
-          新增账号
-        </el-button>
+          @click="handleCreate">新增账号</el-button>
       </el-form-item>
 
       <el-form-item>
         <el-button-group>
           <el-button
             v-if="auth.enable"
+            icon="el-icon-check"
             :disabled="loading"
-            @click="handleStatus(null, 1, true)">
-            <cs-icon name="check"/>
-            启用
-          </el-button>
+            @click="handleStatus(null, 1, true)">启用</el-button>
 
           <el-button
             v-if="auth.disable"
+            icon="el-icon-close"
             :disabled="loading"
-            @click="handleStatus(null, 0, true)">
-            <cs-icon name="close"/>
-            禁用
-          </el-button>
+            @click="handleStatus(null, 0, true)">禁用</el-button>
         </el-button-group>
       </el-form-item>
 
       <el-form-item v-if="auth.del">
         <el-button
+          icon="el-icon-delete"
           :disabled="loading"
-          @click="handleDelete(null)">
-          <cs-icon name="trash-o"/>
-          删除
-        </el-button>
+          @click="handleDelete(null)">删除</el-button>
       </el-form-item>
 
       <cs-help
@@ -160,7 +152,7 @@
                 @click.native="$preview(scope.row.head_pic)"
                 fit="fill"/>
             </div>
-            <cs-icon slot="reference" name="user-circle"/>
+            <i slot="reference" class="el-icon-picture-outline-round"/>
           </el-popover>
           {{scope.row.username}}
         </template>
@@ -376,7 +368,7 @@
                     @click.native="$preview(form.head_pic)"
                     fit="fill"/>
                 </div>
-                <cs-icon slot="reference" name="user-circle"/>
+                <i slot="reference" class="el-icon-picture-outline-round"/>
               </el-popover>
             </template>
 
@@ -384,15 +376,10 @@
               slot="append"
               :show-timeout="50"
               @command="handleCommand">
-              <el-button><cs-icon name="cloud-upload" style="color: #909399;"/></el-button>
+              <el-button icon="el-icon-upload"/>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item command="storage">
-                  <cs-icon name="inbox" class="cs-mr-5"/>资源选择
-                </el-dropdown-item>
-
-                <el-dropdown-item command="upload">
-                  <cs-icon name="upload" class="cs-mr-5"/>上传资源
-                </el-dropdown-item>
+                <el-dropdown-item command="storage" icon="el-icon-finished">资源选择</el-dropdown-item>
+                <el-dropdown-item command="upload" icon="el-icon-upload2">上传资源</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
           </el-input>
@@ -536,7 +523,7 @@
                 :precision="2"/>
 
               <el-tooltip content="正数增加，负数减少" placement="top">
-                <cs-icon name="question" class="cs-pl-5"/>
+                <i class="el-icon-warning-outline cs-pl-5"/>
               </el-tooltip>
             </el-form-item>
           </el-col>
@@ -552,7 +539,7 @@
                 style="width: 90%;"/>
 
               <el-tooltip content="正数增加，负数减少" placement="top">
-                <cs-icon name="question" class="cs-ml-5"/>
+                <i class="el-icon-warning-outline cs-pl-5"/>
               </el-tooltip>
             </el-form-item>
           </el-col>

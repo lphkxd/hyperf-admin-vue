@@ -17,6 +17,7 @@
         :default-checked-keys="checkedKeys"
         :close-on-click-modal="false"
         :show-checkbox="true"
+        style="margin-top: -15px;"
         ref="tree"/>
 
       <div slot="footer" class="dialog-footer">

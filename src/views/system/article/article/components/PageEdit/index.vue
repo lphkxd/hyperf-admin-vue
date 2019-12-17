@@ -56,7 +56,7 @@
                     @click.native="$preview(currentForm.image)"
                     fit="fill"/>
                 </div>
-                <cs-icon slot="reference" name="image"/>
+                <i slot="reference" class="el-icon-picture"/>
               </el-popover>
             </template>
 
@@ -64,15 +64,10 @@
               slot="append"
               :show-timeout="50"
               @command="handleCommand">
-              <el-button><cs-icon name="cloud-upload" style="color: #909399;"/></el-button>
+              <el-button icon="el-icon-upload"/>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item command="storage">
-                  <cs-icon name="inbox" class="cs-mr-5"/>资源选择
-                </el-dropdown-item>
-
-                <el-dropdown-item command="upload">
-                  <cs-icon name="upload" class="cs-mr-5"/>上传资源
-                </el-dropdown-item>
+                <el-dropdown-item command="storage" icon="el-icon-finished">资源选择</el-dropdown-item>
+                <el-dropdown-item command="upload" icon="el-icon-upload2">上传资源</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
           </el-input>

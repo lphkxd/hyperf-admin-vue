@@ -5,40 +5,33 @@
       size="small">
       <el-form-item v-if="auth.add">
         <el-button
+          icon="el-icon-plus"
           :disabled="loading"
-          @click="handleCreate">
-          <cs-icon name="plus"/>
-          新增规格
-        </el-button>
+          @click="handleCreate">新增规格</el-button>
       </el-form-item>
 
       <el-form-item>
         <el-button-group>
           <el-button
             v-if="auth.index"
+            icon="el-icon-check"
             :disabled="loading"
-            @click="handleIndex(null, 1, true)">
-            <cs-icon name="check"/>
-            设为检索
-          </el-button>
+            @click="handleIndex(null, 1, true)">设为检索</el-button>
 
           <el-button
             v-if="auth.close"
+            icon="el-icon-close"
             :disabled="loading"
-            @click="handleIndex(null, 0, true)">
-            <cs-icon name="close"/>
-            取消检索
+            @click="handleIndex(null, 0, true)">取消检索
           </el-button>
         </el-button-group>
       </el-form-item>
 
       <el-form-item v-if="auth.del">
         <el-button
+          icon="el-icon-delete"
           :disabled="loading"
-          @click="handleDelete(null)">
-          <cs-icon name="trash-o"/>
-          删除
-        </el-button>
+          @click="handleDelete(null)">删除</el-button>
       </el-form-item>
 
       <cs-help

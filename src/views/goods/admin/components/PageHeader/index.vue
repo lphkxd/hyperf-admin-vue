@@ -146,7 +146,9 @@
 
         <el-button
           slot="reference"
-          type="text">更多筛选<i class="el-icon-arrow-down"/>
+          type="text">
+          <span>更多筛选</span>
+          <i class="el-icon-arrow-down cs-pl-5"/>
         </el-button>
       </el-popover>
     </el-form-item>

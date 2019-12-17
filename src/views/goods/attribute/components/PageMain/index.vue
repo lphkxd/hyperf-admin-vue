@@ -77,7 +77,7 @@
             <i class="el-icon-picture cs-mr-5" slot="reference"/>
           </el-popover>
 
-          <i v-if="scope.row.is_important" class="attribute-important el-icon-star-on"/>
+          <i v-if="scope.row.is_important" class="attribute-important el-icon-s-flag"/>
         </template>
       </el-table-column>
 
@@ -270,8 +270,8 @@
               @command="handleCommand">
               <el-button icon="el-icon-upload"/>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item command="storage" icon="el-icon-receiving">资源选择</el-dropdown-item>
-                <el-dropdown-item command="upload" icon="el-icon-upload">上传资源</el-dropdown-item>
+                <el-dropdown-item command="storage" icon="el-icon-finished">资源选择</el-dropdown-item>
+                <el-dropdown-item command="upload" icon="el-icon-upload2">上传资源</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
           </el-input>
@@ -911,6 +911,5 @@ export default {
   }
   .attribute-important {
     color: #E6A23C;
-    font-size: 16px;
   }
 </style>

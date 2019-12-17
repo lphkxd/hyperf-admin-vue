@@ -43,7 +43,7 @@
             v-if="scope.row.ip"
             :content="scope.row.ip"
             placement="top">
-            <cs-icon name="map-marker"/>
+            <i class="el-icon-location"/>
           </el-tooltip>
           {{scope.row.ip_region}}
         </template>

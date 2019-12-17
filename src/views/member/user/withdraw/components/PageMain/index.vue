@@ -5,11 +5,9 @@
       size="small">
       <el-form-item v-has="'/member/user/withdraw/add'">
         <el-button
+          icon="el-icon-plus"
           :disabled="loading"
-          @click="handleCreate">
-          <cs-icon name="plus"/>
-          新增账户
-        </el-button>
+          @click="handleCreate">新增账户</el-button>
       </el-form-item>
 
       <cs-help

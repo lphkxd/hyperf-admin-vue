@@ -247,8 +247,8 @@
               @command="handleCommand">
               <el-button icon="el-icon-upload"/>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item command="storage" icon="el-icon-receiving">资源选择</el-dropdown-item>
-                <el-dropdown-item command="upload" icon="el-icon-upload">上传资源</el-dropdown-item>
+                <el-dropdown-item command="storage" icon="el-icon-finished">资源选择</el-dropdown-item>
+                <el-dropdown-item command="upload" icon="el-icon-upload2">上传资源</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
           </el-input>

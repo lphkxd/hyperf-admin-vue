@@ -3,38 +3,32 @@
     <el-form :inline="true" size="small">
       <el-form-item v-if="tabPane !== 'delete' && auth.add">
         <el-button
+          icon="el-icon-plus"
           :disabled="loading"
-          @click="handleCreate">
-          <cs-icon name="plus"/>
-          新增商品
-        </el-button>
+          @click="handleCreate">新增商品</el-button>
       </el-form-item>
 
       <el-form-item v-if="tabPane === 'stock' && auth.shelves">
         <el-button
+          icon="el-icon-top"
           :disabled="loading"
-          @click="handleStatus(null, 1)">
-          <cs-icon name="level-up"/>
-          上架
-        </el-button>
+          @click="handleStatus(null, 1)">上架</el-button>
       </el-form-item>
 
       <el-form-item v-if="tabPane === 'sale' && auth.shelves">
         <el-button
+          icon="el-icon-bottom"
           :disabled="loading"
-          @click="handleStatus(null, 0)">
-          <cs-icon name="level-down"/>
-          下架
-        </el-button>
+          @click="handleStatus(null, 0)">下架</el-button>
       </el-form-item>
 
       <el-form-item v-if="tabPane !== 'delete' && auth.recommend">
         <el-dropdown placement="bottom" :show-timeout="50">
           <el-button
             :disabled="loading">
-            <cs-icon name="thumbs-o-up"/>
-            推荐
-            <cs-icon name="angle-down"/>
+            <i class="el-icon-medal"/>
+            <span>推荐</span>
+            <i class="el-icon-arrow-down cs-pl-5"/>
           </el-button>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item @click.native="handleRecommend(null, 1)">设为推荐</el-dropdown-item>
@@ -47,9 +41,9 @@
         <el-dropdown placement="bottom" :show-timeout="50">
           <el-button
             :disabled="loading">
-            <cs-icon name="star-o"/>
-            新品
-            <cs-icon name="angle-down"/>
+            <i class="el-icon-star-off"/>
+            <span>新品</span>
+            <i class="el-icon-arrow-down cs-pl-5"/>
           </el-button>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item @click.native="handleNew(null, 1)">设为新品</el-dropdown-item>
@@ -62,9 +56,9 @@
         <el-dropdown placement="bottom" :show-timeout="50">
           <el-button
             :disabled="loading">
-            <cs-icon name="sun-o"/>
-            热卖
-            <cs-icon name="angle-down"/>
+            <i class="el-icon-sunny"/>
+            <span>热卖</span>
+            <i class="el-icon-arrow-down cs-pl-5"/>
           </el-button>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item @click.native="handleHot(null, 1)">设为热卖</el-dropdown-item>
@@ -77,19 +71,17 @@
         <el-button-group>
           <el-button
             v-if="auth.del"
+            icon="el-icon-delete"
             :disabled="loading"
             @click="handleDelete(null, true)">
-            <cs-icon name="trash-o"/>
-            {{tabPane === 'delete' ? '彻底删除' : '删除'}}
+            <span>{{tabPane === 'delete' ? '彻底删除' : '删除'}}</span>
           </el-button>
 
           <el-button
             v-if="tabPane === 'delete' && auth.restore"
+            icon="el-icon-refresh-left"
             :disabled="loading"
-            @click="handleDelete(null, false)">
-            <cs-icon name="reply"/>
-            恢复
-          </el-button>
+            @click="handleDelete(null, false)">恢复</el-button>
         </el-button-group>
       </el-form-item>
 
@@ -152,11 +144,9 @@
                     :title="scope.row.name"
                     class="link">{{scope.row.name}}</span>
 
-                    <cs-icon
-                      v-if="tabPane !== 'delete' && auth.set"
-                      class="goods-edit active"
-                      @click.native="setGoodsName(scope.$index)"
-                      name="pencil"/>
+                    <i v-if="tabPane !== 'delete' && auth.set"
+                       class="el-icon-edit goods-edit active"
+                       @click="setGoodsName(scope.$index)"/>
                 </p>
 
                 <p class="action">
@@ -164,11 +154,9 @@
                     :title="scope.row.product_name"
                     class="son">{{scope.row.product_name}}</span>
 
-                  <cs-icon
-                    v-if="tabPane !== 'delete' && auth.set"
-                    class="goods-edit active"
-                    @click.native="setGoodsProduct(scope.$index)"
-                    name="pencil"/>
+                  <i v-if="tabPane !== 'delete' && auth.set"
+                     class="el-icon-edit goods-edit active"
+                     @click="setGoodsProduct(scope.$index)"/>
                 </p>
 
                 <p>
@@ -195,11 +183,9 @@
             <template slot-scope="scope">
               <div class="action">
                 <span class="goods-shop-price">{{scope.row.shop_price | getNumber}}</span>
-                <cs-icon
-                  v-if="tabPane !== 'delete' && auth.price"
-                  class="goods-edit active"
-                  @click.native="setGoodsPriceOrStore(scope.$index)"
-                  name="pencil"/>
+                <i v-if="tabPane !== 'delete' && auth.price"
+                   class="el-icon-edit-outline goods-edit active"
+                   @click="setGoodsPriceOrStore(scope.$index)"/>
               </div>
             </template>
           </el-table-column>
@@ -211,11 +197,9 @@
             <template slot-scope="scope">
               <div class="action">
                 <span>{{scope.row.store_qty}}</span>
-                <cs-icon
-                  v-if="tabPane !== 'delete' && auth.store"
-                  class="goods-edit active"
-                  @click.native="setGoodsPriceOrStore(scope.$index)"
-                  name="pencil"/>
+                <i v-if="tabPane !== 'delete' && auth.store"
+                   class="el-icon-edit-outline goods-edit active"
+                   @click="setGoodsPriceOrStore(scope.$index)"/>
               </div>
             </template>
           </el-table-column>

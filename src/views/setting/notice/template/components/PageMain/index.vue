@@ -7,19 +7,15 @@
         <el-button-group>
           <el-button
             v-if="auth.sms_setting"
+            icon="el-icon-postcard"
             :disabled="loading"
-            @click="handleOpenSms">
-            <cs-icon name="commenting-o"/>
-            短信配置
-          </el-button>
+            @click="handleOpenSms">短信配置</el-button>
 
           <el-button
             v-if="auth.email_setting"
+            icon="el-icon-message"
             :disabled="loading"
-            @click="handleOpenEmail">
-            <cs-icon name="envelope-o"/>
-            邮件配置
-          </el-button>
+            @click="handleOpenEmail">邮件配置</el-button>
         </el-button-group>
       </el-form-item>
 
@@ -27,19 +23,15 @@
         <el-button-group>
           <el-button
             v-if="auth.enable"
+            icon="el-icon-check"
             :disabled="loading"
-            @click="handleStatus(null, 1, true)">
-            <cs-icon name="check"/>
-            启用
-          </el-button>
+            @click="handleStatus(null, 1, true)">启用</el-button>
 
           <el-button
             v-if="auth.disable"
+            icon="el-icon-close"
             :disabled="loading"
-            @click="handleStatus(null, 0, true)">
-            <cs-icon name="close"/>
-            禁用
-          </el-button>
+            @click="handleStatus(null, 0, true)">禁用</el-button>
         </el-button-group>
       </el-form-item>
 

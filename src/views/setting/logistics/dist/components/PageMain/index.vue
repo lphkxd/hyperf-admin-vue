@@ -5,13 +5,11 @@
       size="small">
       <el-form-item v-has="'/setting/logistics/dist/trace'">
         <el-button
+          type="primary"
+          icon="el-icon-map-location"
           :disabled="loading"
           @click="handleTrace"
-          type="primary"
-          plain>
-          <cs-icon name="map-marker"/>
-          即时查询
-        </el-button>
+          plain>即时查询</el-button>
       </el-form-item>
 
       <cs-help

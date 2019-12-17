@@ -65,7 +65,7 @@
                 @click.native="$preview(form.logo.value)"
                 fit="fill"/>
             </div>
-            <cs-icon slot="reference" name="image"/>
+            <i slot="reference" class="el-icon-picture"/>
           </el-popover>
         </template>
 
@@ -73,14 +73,13 @@
           slot="append"
           :show-timeout="50"
           @command="handleCommand">
-          <el-button><cs-icon name="cloud-upload" style="color: #909399;"/></el-button>
+          <el-button icon="el-icon-upload"/>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item :command="{command: 'storage', source: 'logo'}">
-              <cs-icon name="inbox" class="cs-mr-5"/>资源选择
+            <el-dropdown-item :command="{command: 'storage', source: 'logo'}" icon="el-icon-finished">
+              <span>资源选择</span>
             </el-dropdown-item>
-
-            <el-dropdown-item :command="{command: 'upload', source: 'logo'}">
-              <cs-icon name="upload" class="cs-mr-5"/>上传资源
+            <el-dropdown-item :command="{command: 'upload', source: 'logo'}" icon="el-icon-upload2">
+              <span>上传资源</span>
             </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -129,7 +128,7 @@
                 @click.native="$preview(form.miitbeian_ico.value)"
                 fit="fill"/>
             </div>
-            <cs-icon slot="reference" name="image"/>
+            <i slot="reference" class="el-icon-picture"/>
           </el-popover>
         </template>
 
@@ -137,14 +136,13 @@
           slot="append"
           :show-timeout="50"
           @command="handleCommand">
-          <el-button><cs-icon name="cloud-upload" style="color: #909399;"/></el-button>
+          <el-button icon="el-icon-upload"/>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item :command="{command: 'storage', source: 'miitbeian_ico'}">
-              <cs-icon name="inbox" class="cs-mr-5"/>资源选择
+            <el-dropdown-item :command="{command: 'storage', source: 'miitbeian_ico'}" icon="el-icon-finished">
+              <span>资源选择</span>
             </el-dropdown-item>
-
-            <el-dropdown-item :command="{command: 'upload', source: 'miitbeian_ico'}">
-              <cs-icon name="upload" class="cs-mr-5"/>上传资源
+            <el-dropdown-item :command="{command: 'upload', source: 'miitbeian_ico'}" icon="el-icon-upload2">
+              <span>上传资源</span>
             </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -191,7 +189,7 @@
                 @click.native="$preview(form.beian_ico.value)"
                 fit="fill"/>
             </div>
-            <cs-icon slot="reference" name="image"/>
+            <i slot="reference" class="el-icon-picture"/>
           </el-popover>
         </template>
 
@@ -199,14 +197,13 @@
           slot="append"
           :show-timeout="50"
           @command="handleCommand">
-          <el-button><cs-icon name="cloud-upload" style="color: #909399;"/></el-button>
+          <el-button icon="el-icon-upload"/>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item :command="{command: 'storage', source: 'beian_ico'}">
-              <cs-icon name="inbox" class="cs-mr-5"/>资源选择
+            <el-dropdown-item :command="{command: 'storage', source: 'beian_ico'}" icon="el-icon-finished">
+              <span>资源选择</span>
             </el-dropdown-item>
-
-            <el-dropdown-item :command="{command: 'upload', source: 'beian_ico'}">
-              <cs-icon name="upload" class="cs-mr-5"/>上传资源
+            <el-dropdown-item :command="{command: 'upload', source: 'beian_ico'}" icon="el-icon-upload2">
+              <span>上传资源</span>
             </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -337,14 +334,13 @@
           slot="append"
           :show-timeout="50"
           @command="handleCommand">
-          <el-button><cs-icon name="cloud-upload" style="color: #909399;"/></el-button>
+          <el-button icon="el-icon-upload"/>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item :command="{command: 'storage', source: 'qrcode_logo'}">
-              <cs-icon name="inbox" class="cs-mr-5"/>资源选择
+            <el-dropdown-item :command="{command: 'storage', source: 'qrcode_logo'}" icon="el-icon-finished">
+              <span>资源选择</span>
             </el-dropdown-item>
-
-            <el-dropdown-item :command="{command: 'upload', source: 'qrcode_logo'}">
-              <cs-icon name="upload" class="cs-mr-5"/>上传资源
+            <el-dropdown-item :command="{command: 'upload', source: 'qrcode_logo'}" icon="el-icon-upload2">
+              <span>上传资源</span>
             </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>

@@ -6,30 +6,24 @@
 
       <el-form-item v-if="auth.add">
         <el-button
+          icon="el-icon-plus"
           :disabled="loading"
-          @click="handleCreate">
-          <cs-icon name="plus"/>
-          新增用户组
-        </el-button>
+          @click="handleCreate">新增用户组</el-button>
       </el-form-item>
 
       <el-form-item>
         <el-button-group>
           <el-button
             v-if="auth.enable"
+            icon="el-icon-check"
             :disabled="loading"
-            @click="handleState(1)">
-            <cs-icon name="check"/>
-            启用
-          </el-button>
+            @click="handleState(1)">启用</el-button>
 
           <el-button
             v-if="auth.disable"
+            icon="el-icon-close"
             :disabled="loading"
-            @click="handleState(0)">
-            <cs-icon name="close"/>
-            禁用
-          </el-button>
+            @click="handleState(0)">禁用</el-button>
         </el-button-group>
       </el-form-item>
 

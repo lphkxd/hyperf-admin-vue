@@ -46,9 +46,9 @@
           <template slot-scope="scope">
             <el-button
               type="primary"
+              icon="el-icon-more"
               size="mini"
               @click="handleShowMore(scope.row)">
-              <cs-icon name="eye"/>
             </el-button>
           </template>
         </el-table-column>
@@ -57,11 +57,9 @@
     <template slot="footer">
       <el-button
         type="primary"
+        icon="el-icon-delete"
         size="mini"
-        @click="handleClean">
-        <cs-icon name="cloud-upload"/>
-        Clean {{log.length}} log data
-      </el-button>
+        @click="handleClean">Clean {{log.length}} log data</el-button>
     </template>
   </cs-container>
 </template>

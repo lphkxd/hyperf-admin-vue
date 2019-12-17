@@ -6,40 +6,32 @@
 
       <el-form-item v-if="auth.add">
         <el-button
+          icon="el-icon-plus"
           :disabled="loading"
-          @click="create">
-          <cs-icon name="plus"/>
-          新增广告
-        </el-button>
+          @click="create">新增广告</el-button>
       </el-form-item>
 
       <el-form-item>
         <el-button-group>
           <el-button
             v-if="auth.enable"
+            icon="el-icon-check"
             :disabled="loading"
-            @click="handleStatus(null, 1, true)">
-            <cs-icon name="check"/>
-            启用
-          </el-button>
+            @click="handleStatus(null, 1, true)">启用</el-button>
 
           <el-button
             v-if="auth.disable"
+            icon="el-icon-close"
             :disabled="loading"
-            @click="handleStatus(null, 0, true)">
-            <cs-icon name="close"/>
-            禁用
-          </el-button>
+            @click="handleStatus(null, 0, true)">禁用</el-button>
         </el-button-group>
       </el-form-item>
 
       <el-form-item v-if="auth.del">
         <el-button
+          icon="el-icon-delete"
           :disabled="loading"
-          @click="handleDelete(null)">
-          <cs-icon name="trash-o"/>
-          删除
-        </el-button>
+          @click="handleDelete(null)">删除</el-button>
       </el-form-item>
 
       <cs-help
@@ -93,7 +85,7 @@
         label="类型"
         align="center">
         <template slot-scope="scope">
-          <cs-icon :name="typeMap[scope.row.type].type"/>
+          <i :class="typeMap[scope.row.type].type"/>
         </template>
       </el-table-column>
 
@@ -177,9 +169,10 @@
                 打开方式：{{targetMap[scope.row.target]}}<br/>
                 链接地址：{{scope.row.url}}
               </div>
-              <cs-icon name="link"/>
+              <i class="el-icon-link"/>
             </el-tooltip>
-            链接</el-button>
+            链接
+          </el-button>
 
           <el-button
             v-if="auth.set"
@@ -263,24 +256,20 @@
                   style="margin-bottom: 8px;"
                   class="el-upload el-upload--picture-card"
                   @click="$refs.upload.handleUploadDlg()">
-                  <cs-icon name="image"/>
+                  <i class="el-icon-picture"/>
                 </div>
               </template>
             </cs-photo>
 
             <el-button
+              icon="el-icon-finished"
               @click="$refs.storage.handleStorageDlg([0, 2])"
-              size="small">
-              <cs-icon name="inbox"/>
-              资源选择
-            </el-button>
+              size="small">资源选择</el-button>
 
             <el-button
+              icon="el-icon-upload2"
               @click="$refs.upload.handleUploadDlg()"
-              size="small">
-              <cs-icon name="upload"/>
-              上传图片
-            </el-button>
+              size="small">上传图片</el-button>
           </div>
 
           <cs-tinymce
@@ -486,11 +475,11 @@ export default {
       typeMap: {
         0: {
           text: '图片',
-          type: 'file-image-o'
+          type: 'el-icon-picture-outline'
         },
         1: {
           text: '代码',
-          type: 'file-code-o'
+          type: 'el-icon-document'
         }
       },
       statusMap: {

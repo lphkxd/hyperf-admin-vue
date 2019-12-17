@@ -19,19 +19,15 @@
     <el-form-item>
       <el-button
         type="primary"
+        icon="el-icon-search"
         :disabled="loading"
-        @click="handleSearch">
-        <cs-icon name="search"/>
-        查询
-      </el-button>
+        @click="handleSearch">查询</el-button>
     </el-form-item>
 
     <el-form-item>
       <el-button
-        @click="handleFormReset">
-        <cs-icon name="refresh"/>
-        重置
-      </el-button>
+        icon="el-icon-refresh"
+        @click="handleFormReset">重置</el-button>
     </el-form-item>
 
     <el-form-item>
@@ -67,8 +63,8 @@
         <el-button
           slot="reference"
           type="text">
-          更多筛选
-          <cs-icon name="angle-down"/>
+          <span>更多筛选</span>
+          <i class="el-icon-arrow-down cs-pl-5"/>
         </el-button>
       </el-popover>
     </el-form-item>

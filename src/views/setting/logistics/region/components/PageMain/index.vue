@@ -7,29 +7,23 @@
       @submit.native.prevent>
       <el-form-item v-if="auth.add">
         <el-button
+          icon="el-icon-plus"
           :disabled="loading"
-          @click="handleCreate('create')">
-          <cs-icon name="plus"/>
-          新增顶层区域
-        </el-button>
+          @click="handleCreate('create')">新增顶层区域</el-button>
       </el-form-item>
 
       <el-form-item>
         <el-button-group>
           <el-button
             v-if="auth.del"
+            icon="el-icon-delete"
             :disabled="loading"
-            @click="removeList">
-            <cs-icon name="trash-o"/>
-            删除
-          </el-button>
+            @click="removeList">删除</el-button>
 
           <el-button
+            icon="el-icon-refresh"
             :disabled="loading"
-            @click="refresh">
-            <cs-icon name="refresh"/>
-            刷新
-          </el-button>
+            @click="refresh">刷新</el-button>
         </el-button-group>
       </el-form-item>
 

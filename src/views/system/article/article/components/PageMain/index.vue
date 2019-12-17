@@ -6,30 +6,24 @@
 
       <el-form-item v-if="auth.add">
         <el-button
+          icon="el-icon-plus"
           :disabled="loading"
-          @click="handleCreate">
-          <cs-icon name="plus"/>
-          新增文章
-        </el-button>
+          @click="handleCreate">新增文章</el-button>
       </el-form-item>
 
       <el-form-item>
         <el-button-group>
           <el-button
             v-if="auth.top"
+            icon="el-icon-sort-up"
             :disabled="loading"
-            @click="handleTop(null, 1, true)">
-            <cs-icon name="level-up"/>
-            置顶
-          </el-button>
+            @click="handleTop(null, 1, true)">置顶</el-button>
 
           <el-button
             v-if="auth.remove_top"
+            icon="el-icon-sort-down"
             :disabled="loading"
-            @click="handleTop(null, 0, true)">
-            <cs-icon name="level-down"/>
-            撤顶
-          </el-button>
+            @click="handleTop(null, 0, true)">撤顶</el-button>
         </el-button-group>
       </el-form-item>
 
@@ -37,29 +31,23 @@
         <el-button-group>
           <el-button
             v-if="auth.enable"
+            icon="el-icon-check"
             :disabled="loading"
-            @click="handleStatus(null, 1, true)">
-            <cs-icon name="check"/>
-            启用
-          </el-button>
+            @click="handleStatus(null, 1, true)">启用</el-button>
 
           <el-button
             v-if="auth.disable"
+            icon="el-icon-close"
             :disabled="loading"
-            @click="handleStatus(null, 0, true)">
-            <cs-icon name="close"/>
-            禁用
-          </el-button>
+            @click="handleStatus(null, 0, true)">禁用</el-button>
         </el-button-group>
       </el-form-item>
 
       <el-form-item v-if="auth.del">
         <el-button
+          icon="el-icon-delete"
           :disabled="loading"
-          @click="handleDelete(null)">
-          <cs-icon name="trash-o"/>
-          删除
-        </el-button>
+          @click="handleDelete(null)">删除</el-button>
       </el-form-item>
 
       <cs-help
@@ -94,7 +82,7 @@
                 @click.native="$preview(scope.row.image)"
                 fit="fill"/>
             </div>
-            <cs-icon slot="reference" name="image"/>
+            <i slot="reference" class="el-icon-picture"/>
           </el-popover>
           {{scope.row.title}}
         </template>
@@ -172,9 +160,10 @@
               v-if="scope.row.url"
               :content="scope.row.url"
               placement="top">
-              <cs-icon name="link"/>
+              <i class="el-icon-link"/>
             </el-tooltip>
-            {{scope.row.url ? '外链' : '预览'}}</el-button>
+            {{scope.row.url ? '外链' : '预览'}}
+          </el-button>
 
           <el-button
             v-if="auth.set"

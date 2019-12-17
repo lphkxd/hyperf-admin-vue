@@ -33,7 +33,7 @@
         :show-timeout="50"
         @click="closeAll"
         @command="command => handleControlItemClick(command)">
-        <i class="el-icon-circle-close"/>
+        <i class="el-icon-circle-close" style="font-size: 13px;"/>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item command="left" icon="el-icon-d-arrow-left">关闭左侧</el-dropdown-item>
           <el-dropdown-item command="right" icon="el-icon-d-arrow-right">关闭右侧</el-dropdown-item>

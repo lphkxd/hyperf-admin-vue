@@ -7,57 +7,45 @@
       @submit.native.prevent>
       <el-form-item v-if="auth.add">
         <el-button
+          icon="el-icon-plus"
           :disabled="loading"
-          @click="handleCreate('create')">
-          <cs-icon name="plus"/>
-          新增顶层权限
-        </el-button>
+          @click="handleCreate('create')">新增顶层权限</el-button>
       </el-form-item>
 
       <el-form-item>
         <el-button-group>
           <el-button
             v-if="auth.enable"
+            icon="el-icon-check"
             :disabled="loading"
-            @click="setStatusList(1)">
-            <cs-icon name="check"/>
-            启用
-          </el-button>
+            @click="setStatusList(1)">启用</el-button>
 
           <el-button
             v-if="auth.disable"
+            icon="el-icon-close"
             :disabled="loading"
-            @click="setStatusList(0)">
-            <cs-icon name="close"/>
-            禁用
-          </el-button>
+            @click="setStatusList(0)">禁用</el-button>
         </el-button-group>
       </el-form-item>
 
       <el-form-item>
         <el-button-group>
           <el-button
+            icon="el-icon-circle-plus-outline"
             :disabled="loading"
-            @click="checkedNodes(true)">
-            <cs-icon name="plus-square-o"/>
-            展开
-          </el-button>
+            @click="checkedNodes(true)">展开</el-button>
           <el-button
+            icon="el-icon-remove-outline"
             :disabled="loading"
-            @click="checkedNodes(false)">
-            <cs-icon name="minus-square-o"/>
-            收起
-          </el-button>
+            @click="checkedNodes(false)">收起</el-button>
         </el-button-group>
       </el-form-item>
 
       <el-form-item v-if="auth.del">
         <el-button
+          icon="el-icon-delete"
           :disabled="loading"
-          @click="removeList">
-          <cs-icon name="trash-o"/>
-          删除
-        </el-button>
+          @click="removeList">删除</el-button>
       </el-form-item>
 
       <el-form-item label="过滤">

@@ -16,6 +16,7 @@
         :load="loadNode"
         :show-checkbox="true"
         :lazy="true"
+        style="margin-top: -15px;"
         ref="tree"/>
 
       <div slot="footer" class="dialog-footer">

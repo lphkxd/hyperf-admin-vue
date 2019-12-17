@@ -42,7 +42,7 @@ export default {
           return 'el-icon-picture-outline'
 
         case 1:
-          return 'el-icon-files'
+          return 'el-icon-document'
 
         case 2:
           return 'el-icon-folder'

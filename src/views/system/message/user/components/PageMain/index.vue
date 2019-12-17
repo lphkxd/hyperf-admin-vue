@@ -89,7 +89,7 @@
             prop="title">
             <template slot-scope="scope">
               <el-tooltip v-if="scope.row.url" placement="top" :content="`外部链接：${scope.row.url}`">
-                <cs-icon name="link"/>
+                <i class="el-icon-link"/>
               </el-tooltip>
               <span
                 @click="openMessage(scope.$index)"

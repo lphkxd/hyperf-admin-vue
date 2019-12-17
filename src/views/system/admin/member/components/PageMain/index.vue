@@ -6,40 +6,32 @@
 
       <el-form-item v-if="auth.add">
         <el-button
+          icon="el-icon-plus"
           :disabled="loading"
-          @click="handleCreate">
-          <cs-icon name="plus"/>
-          新增用户
-        </el-button>
+          @click="handleCreate">新增用户</el-button>
       </el-form-item>
 
       <el-form-item>
         <el-button-group>
           <el-button
             v-if="auth.enable"
+            icon="el-icon-check"
             :disabled="loading"
-            @click="handleState(1)">
-            <cs-icon name="check"/>
-            启用
-          </el-button>
+            @click="handleState(1)">启用</el-button>
 
           <el-button
             v-if="auth.disable"
+            icon="el-icon-close"
             :disabled="loading"
-            @click="handleState(0)">
-            <cs-icon name="close"/>
-            禁用
-          </el-button>
+            @click="handleState(0)">禁用</el-button>
         </el-button-group>
       </el-form-item>
 
       <el-form-item v-if="auth.del">
         <el-button
+          icon="el-icon-delete"
           :disabled="loading"
-          @click="handleDelete(multipleSelection)">
-          <cs-icon name="trash-o"/>
-          删除
-        </el-button>
+          @click="handleDelete(multipleSelection)">删除</el-button>
       </el-form-item>
 
       <cs-help
@@ -88,7 +80,7 @@
             v-if="scope.row.last_ip"
             :content="scope.row.last_ip"
             placement="top">
-            <cs-icon name="map-marker"/>
+            <i class="el-icon-location"/>
           </el-tooltip>
           {{scope.row.last_ip_region}}
         </template>

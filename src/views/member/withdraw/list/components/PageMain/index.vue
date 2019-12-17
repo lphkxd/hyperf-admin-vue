@@ -142,10 +142,9 @@
       <div slot="footer" class="dialog-footer no-print">
         <div style="float: left">
           <el-button
+            icon="el-icon-printer"
             @click="$print($refs.print)"
-            size="small">
-            <cs-icon name="print"/>
-            打印</el-button>
+            size="small">打印</el-button>
         </div>
 
         <el-button

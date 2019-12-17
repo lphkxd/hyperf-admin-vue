@@ -6,27 +6,21 @@
       @submit.native.prevent>
       <el-form-item v-if="auth.add">
         <el-button
+          icon="el-icon-plus"
           :disabled="loading"
-          @click="handleCreate('create')">
-          <cs-icon name="plus"/>
-          新增顶层分类
-        </el-button>
+          @click="handleCreate('create')">新增顶层分类</el-button>
       </el-form-item>
 
       <el-form-item>
         <el-button-group>
           <el-button
+            icon="el-icon-circle-plus-outline"
             :disabled="loading"
-            @click="checkedNodes(true)">
-            <cs-icon name="plus-square-o"/>
-            展开
-          </el-button>
+            @click="checkedNodes(true)">展开</el-button>
           <el-button
+            icon="el-icon-remove-outline"
             :disabled="loading"
-            @click="checkedNodes(false)">
-            <cs-icon name="minus-square-o"/>
-            收起
-          </el-button>
+            @click="checkedNodes(false)">收起</el-button>
         </el-button-group>
       </el-form-item>
 

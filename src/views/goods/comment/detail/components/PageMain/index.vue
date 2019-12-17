@@ -253,17 +253,12 @@
               placement="bottom"
               @command="handleCommand">
               <el-button type="info" size="small" class="cs-mr-10">
-                上传图片
-                <cs-icon name="angle-down"/>
+                <span>上传图片</span>
+                <i class="el-icon-arrow-down cs-pl-5"/>
               </el-button>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item command="storage">
-                  <cs-icon name="inbox" class="cs-mr-5"/>资源选择
-                </el-dropdown-item>
-
-                <el-dropdown-item command="upload">
-                  <cs-icon name="upload" class="cs-mr-5"/>上传资源
-                </el-dropdown-item>
+                <el-dropdown-item command="storage" icon="el-icon-finished">资源选择</el-dropdown-item>
+                <el-dropdown-item command="upload" icon="el-icon-upload2">上传资源</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
 

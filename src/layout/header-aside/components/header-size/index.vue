@@ -2,8 +2,13 @@
   <el-dropdown placement="bottom" @command="handleChange" :show-timeout="50">
     <el-button class="btn-text can-hover" type="text" icon="el-icon-view"/>
     <el-dropdown-menu slot="dropdown">
-      <el-dropdown-item v-for="item in options" :key="item.value" :command="item.value">
-        <i :class="iconName(item.value)" class="cs-mr-10"/>{{item.label}}</el-dropdown-item>
+      <el-dropdown-item
+        v-for="item in options"
+        :key="item.value"
+        :command="item.value"
+        :icon="iconName(item.value)">
+        {{item.label}}
+      </el-dropdown-item>
     </el-dropdown-menu>
   </el-dropdown>
 </template>

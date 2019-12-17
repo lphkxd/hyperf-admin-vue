@@ -313,7 +313,7 @@
                       :name="item.spec_id"
                       class="action">
                       <template slot="title">
-                        <cs-icon class="icon-move cs-pr-10 spec-handle" name="align-justify"/>
+                        <i class="el-icon-sort icon-move cs-pr-10 spec-handle"/>
                         <div class="spec-more" @click="$event.stopPropagation()">
                           <template v-if="!activeSpecMore[parent]">
                             <el-checkbox
@@ -476,7 +476,7 @@
                       :key="item.goods_attribute_id"
                       :name="item.goods_attribute_id">
                       <template slot="title">
-                        <cs-icon class="icon-move cs-pr-10 attr-handle" name="align-justify"/>
+                        <i class="el-icon-sort icon-move cs-pr-10 attr-handle"/>
                         <span>{{item.attr_name}}</span>
                       </template>
 
@@ -490,7 +490,7 @@
                           :key="value.goods_attribute_id"
                           class="el-form-item attr-form">
                           <label class="el-form-item__label attr-label">
-                            <cs-icon class="icon-move cs-pr-10 item-attr-handle" name="align-justify"/>
+                            <i class="el-icon-sort icon-move cs-pr-10 item-attr-handle"/>
                             <span :title="value.attr_name">{{value.attr_name}}</span>
                           </label>
                           <div class="el-form-item__content attr-content">
@@ -523,12 +523,9 @@
                                 autosize>
                               </el-input>
 
-                              <cs-icon
-                                name="clone"
-                                class="attr-default"
-                                title="设为默认值"
-                                @click.native="setAttrDefaultValue(parent, key)">
-                              </cs-icon>
+                              <i @click="setAttrDefaultValue(parent, key)"
+                                 class="el-icon-copy-document attr-default"
+                                 title="设为默认值"/>
                             </div>
                           </div>
                         </div>
@@ -571,24 +568,20 @@
                     style="margin-bottom: 8px;"
                     class="el-upload el-upload--picture-card"
                     @click="handleUpload(getAttachmentFileList, 'photo', 'upload')">
-                    <cs-icon name="image"/>
+                    <i class="el-icon-picture"/>
                   </div>
                 </template>
               </cs-photo>
 
               <el-button
                 @click="handleStorage(getAttachmentFileList, [0, 2], 'photo')"
-                size="small">
-                <cs-icon name="inbox"/>
-                资源选择
-              </el-button>
+                icon="el-icon-finished"
+                size="small">资源选择</el-button>
 
               <el-button
                 @click="handleUpload(getAttachmentFileList, 'photo', 'upload')"
-                size="small">
-                <cs-icon name="upload"/>
-                上传图片
-              </el-button>
+                icon="el-icon-upload2"
+                size="small">上传图片</el-button>
 
               <div class="help-block">
                 <span>第一张图片将作为商品主图，拖动可调整图片位置，建议图片尺寸800x800</span>
@@ -608,25 +601,19 @@
 
               <el-button
                 @click="handleStorage(getVideoFileList, [2, 3], 'video')"
-                size="small">
-                <cs-icon name="inbox"/>
-                资源选择
-              </el-button>
+                icon="el-icon-finished"
+                size="small">资源选择</el-button>
 
               <el-button
                 @click="handleUpload(getVideoFileList, 'video', 'upload')"
-                size="small">
-                <cs-icon name="upload"/>
-                上传视频
-              </el-button>
+                icon="el-icon-upload2"
+                size="small">上传视频</el-button>
 
               <el-button
                 v-if="currentForm.video.url"
+                icon="el-icon-delete"
                 @click="delVideoFile"
-                size="small">
-                <cs-icon name="trash"/>
-                删除
-              </el-button>
+                size="small">删除</el-button>
 
               <div class="help-block">
                 <span>推荐使用mp4格式的视频，同时也支持ogg、webm等格式的视频</span>
@@ -746,17 +733,13 @@
         <div class="cs-fl">
           <el-button
             @click="handleStorage(getSpecImageList, [0, 2], 'photo')"
-            size="small">
-            <cs-icon name="inbox"/>
-            资源选择
-          </el-button>
+            icon="el-icon-finished"
+            size="small">资源选择</el-button>
 
           <el-button
             @click="handleUpload(getSpecImageList, 'photo', 'upload')"
-            size="small">
-            <cs-icon name="upload"/>
-            上传图片
-          </el-button>
+            icon="el-icon-upload2"
+            size="small">上传图片</el-button>
         </div>
 
         <el-button
