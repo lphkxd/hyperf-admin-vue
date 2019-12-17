@@ -1,17 +1,17 @@
 <template>
-  <i class="fa" :class="`fa-${name}`" aria-hidden="true"/>
+  <i class="iconfont" :class="`icon${name}`" aria-hidden="true"/>
 </template>
 
 <script>
-import './font-awesome-4.7.0/css/font-awesome.min.css'
+import './libs/iconfont.css'
 
 export default {
   name: 'cs-icon',
   props: {
     name: {
       type: String,
-      required: false,
-      default: 'font-awesome'
+      required: true,
+      default: ''
     }
   }
 }
