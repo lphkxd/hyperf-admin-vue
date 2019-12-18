@@ -173,7 +173,7 @@ export default {
             color: $color-text-main;
             background-color: $color-bg;
             border-radius: 4px;
-            font-size: 36px;
+            font-size: 34px;
             box-shadow: inset 0 0 0 1px $color-border-1;
           }
         }

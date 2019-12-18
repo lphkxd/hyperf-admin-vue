@@ -17,7 +17,7 @@ export function elMenuItem(createElement, menu) {
       ] : [],
       ...!menu.icon && !menu.iconSvg ? [
         createElement('i', {
-          attrs: { class: 'el-icon-document' }
+          attrs: { class: 'el el-icon-document' }
         })
       ] : [],
       ...menu.iconSvg ? [
@@ -44,7 +44,7 @@ export function elSubmenu(createElement, menu) {
       ] : [],
       ...!menu.icon && !menu.iconSvg ? [
         createElement('i', {
-          slot: 'title', attrs: { class: 'el-icon-folder' }
+          slot: 'title', attrs: { class: 'el el-icon-folder' }
         })
       ] : [],
       ...menu.iconSvg ? [

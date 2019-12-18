@@ -144,13 +144,18 @@
         background-color: transparent;
         %header-menu-item {
           @extend %unable-select;
-          i.fa {
+          i.el {
             font-size: 16px;
             margin-right: 4px;
+          }
+          i.iconfont {
+            font-size: 20px;
+            margin-right: 0;
           }
         }
         .el-menu-item {
           @extend %header-menu-item;
+          padding: 0 15px;
           border-bottom: none;
         }
         .el-submenu {
@@ -200,6 +205,9 @@
             i {
               @extend %cs-theme-container-aside-menu-icon;
             }
+            .iconfont {
+              font-size: 20px;
+            }
           }
         }
         .el-submenu {
@@ -210,6 +218,9 @@
             }
             .el-submenu__icon-arrow {
               margin-top: -10px;
+            }
+            .iconfont {
+              font-size: 20px;
             }
           }
         }

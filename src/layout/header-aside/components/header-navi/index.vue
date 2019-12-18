@@ -6,11 +6,9 @@
         :key="`parent${index}`"
         :name="item.menu_id">
         <template slot="title">
-          <span>
-            <cs-icon v-if="item.icon" class="cs-navi__title" :name="item.icon"/>
-            <i v-else class="cs-navi__title el-icon-folder"/>
-            <span>{{item.title}}</span>
-          </span>
+          <cs-icon v-if="item.icon" class="cs-navi__title iconfont__mini" :name="item.icon"/>
+          <i v-else class="cs-navi__title el-icon-folder"/>
+          <span>{{item.title}}</span>
         </template>
 
         <div class="flex-wrap">
@@ -21,7 +19,7 @@
             @click="handleMenuSelect(sub.path)">
             <div class="cs-navi__content">
               <div class="cs-navi__icon">
-                <cs-icon v-if="sub.icon" :name="sub.icon"/>
+                <cs-icon v-if="sub.icon" class="iconfont__medium" :name="sub.icon"/>
                 <i v-else class="el-icon-document"/>
               </div>
               <div class="cs-navi__info">
@@ -110,6 +108,12 @@ export default {
       width: 22px;
       color: $color-info;
       font-size: 14px;
+    }
+    .iconfont__mini {
+      font-size: 18px;
+    }
+    .iconfont__medium {
+      font-size: 40px;
     }
     .cs-navi__block {
       width: 20%;
