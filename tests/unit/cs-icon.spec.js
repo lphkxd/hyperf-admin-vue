@@ -12,10 +12,14 @@ describe('cs-icon', () => {
 
   // 包含特定类名
   it('contains specific classnames', () => {
-    const wrapper = mount(CsIcon)
+    const wrapper = mount(CsIcon, {
+      propsData: {
+        name: 'font-awesome'
+      }
+    })
 
-    expect(wrapper.is('.fa')).toBeTruthy()
-    expect(wrapper.contains('.fa-font-awesome')).toBeTruthy()
+    expect(wrapper.is('.iconfont')).toBeTruthy()
+    expect(wrapper.contains('.iconfont-awesome')).toBeTruthy()
   })
 
   // props

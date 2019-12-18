@@ -238,7 +238,7 @@
                   ref="menuTree">
                     <span class="custom-tree-node" slot-scope="{node, data}">
                       <span class="brother-showing" :class="{'status-tree': !data.status}">
-                        <i v-if="data.icon" :class="`fa fa-${data.icon}`"/>
+                        <i v-if="data.icon" :class="`iconfont icon${data.icon}`"/>
                         <i v-else-if="data.children" :class="`el-icon-${node.expanded ? 'folder-opened' : 'folder'}`"/>
                         <i v-else class="el-icon-document-checked"/>
                         {{node.label}}
@@ -260,7 +260,7 @@
                   ref="logTree">
                     <span class="custom-tree-node" slot-scope="{node, data}">
                       <span class="brother-showing" :class="{'status-tree': !data.status}">
-                        <i v-if="data.icon" :class="`fa fa-${data.icon}`"/>
+                        <i v-if="data.icon" :class="`iconfont icon${data.icon}`"/>
                         <i v-else-if="data.children" :class="`el-icon-${node.expanded ? 'folder-opened' : 'folder'}`"/>
                         <i v-else class="el-icon-document-checked"/>
                         {{node.label}}

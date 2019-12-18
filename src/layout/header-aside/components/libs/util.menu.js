@@ -11,13 +11,13 @@ export function elMenuItem(createElement, menu) {
       ...menu.icon ? [
         createElement('i', {
           attrs: {
-            class: `fa fa-${menu.icon}`
+            class: `iconfont icon${menu.icon}`
           }
         })
       ] : [],
-      ...menu.icon === undefined && !menu.iconSvg ? [
+      ...!menu.icon && !menu.iconSvg ? [
         createElement('i', {
-          attrs: { class: 'fa fa-file-o' }
+          attrs: { class: 'el-icon-document-checked' }
         })
       ] : [],
       ...menu.iconSvg ? [
@@ -39,12 +39,12 @@ export function elSubmenu(createElement, menu) {
     }, [
       ...menu.icon ? [
         createElement('i', {
-          slot: 'title', attrs: { class: `fa fa-${menu.icon}` }
+          slot: 'title', attrs: { class: `iconfont icon${menu.icon}` }
         })
       ] : [],
-      ...menu.icon === undefined && !menu.iconSvg ? [
+      ...!menu.icon && !menu.iconSvg ? [
         createElement('i', {
-          slot: 'title', attrs: { class: 'fa fa-folder-o' }
+          slot: 'title', attrs: { class: 'el-icon-folder' }
         })
       ] : [],
       ...menu.iconSvg ? [

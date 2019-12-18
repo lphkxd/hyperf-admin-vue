@@ -21,8 +21,8 @@ export default {
         createElement('div', {
           attrs: { class: 'cs-layout-header-aside-menu-empty', flex: 'dir:top main:center cross:center' }
         }, [
-          createElement('cs-icon', {
-            props: { name: 'inbox' }
+          createElement('i', {
+            attrs: { class: 'el-icon-box' }
           }),
           createElement('span', {
           }, '暂无侧栏菜单')

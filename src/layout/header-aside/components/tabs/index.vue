@@ -59,13 +59,13 @@ export default {
       contentmenuX: 0,
       contentmenuY: 0,
       contextmenuListIndex: [
-        { icon: 'times-circle', title: '关闭全部', value: 'all' }
+        { icon: 'el-icon-circle-close', title: '关闭全部', value: 'all' }
       ],
       contextmenuList: [
-        { icon: 'arrow-left', title: '关闭左侧', value: 'left' },
-        { icon: 'arrow-right', title: '关闭右侧', value: 'right' },
-        { icon: 'times', title: '关闭其它', value: 'other' },
-        { icon: 'times-circle', title: '关闭全部', value: 'all' }
+        { icon: 'el-icon-d-arrow-left', title: '关闭左侧', value: 'left' },
+        { icon: 'el-icon-d-arrow-right', title: '关闭右侧', value: 'right' },
+        { icon: 'el-icon-close', title: '关闭其它', value: 'other' },
+        { icon: 'el-icon-circle-close', title: '关闭全部', value: 'all' }
       ],
       tagName: '/index'
     }
