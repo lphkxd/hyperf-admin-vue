@@ -17,7 +17,7 @@ export function elMenuItem(createElement, menu) {
       ] : [],
       ...!menu.icon && !menu.iconSvg ? [
         createElement('i', {
-          attrs: { class: 'el-icon-document-checked' }
+          attrs: { class: 'el-icon-document' }
         })
       ] : [],
       ...menu.iconSvg ? [

@@ -4,7 +4,7 @@
       <div class="cs-panel-search-item__icon-box" flex="main:center cross:center">
         <cs-icon v-if="item.icon" :name="item.icon"/>
         <cs-icon-svg v-else-if="item.iconSvg" :name="item.iconSvg"/>
-        <i v-else class="el-icon-document-checked"/>
+        <i v-else class="el-icon-document"/>
       </div>
     </div>
     <div class="cs-panel-search-item__info" flex-box="1" flex="dir:top">

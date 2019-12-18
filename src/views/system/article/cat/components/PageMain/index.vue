@@ -62,7 +62,7 @@
             <span class="brother-showing">
               <i v-if="auth.move" class="el-icon-s-grid move-tree cs-mr-5"/>
               <i v-if="data.children" :class="`el-icon-${node.expanded ? 'folder-opened' : 'folder'}`"/>
-              <i v-else class="el-icon-document-checked"/>
+              <i v-else class="el-icon-document"/>
               {{node.label}}
             </span>
 

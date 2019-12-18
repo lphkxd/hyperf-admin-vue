@@ -8,8 +8,8 @@
         <template slot="title">
           <span>
             <cs-icon v-if="item.icon" class="cs-navi__title" :name="item.icon"/>
-            <i v-else class="el-icon-folder"/>
-            {{item.title}}
+            <i v-else class="cs-navi__title el-icon-folder"/>
+            <span>{{item.title}}</span>
           </span>
         </template>
 
@@ -22,7 +22,7 @@
             <div class="cs-navi__content">
               <div class="cs-navi__icon">
                 <cs-icon v-if="sub.icon" :name="sub.icon"/>
-                <i v-else class="el-icon-document-checked"/>
+                <i v-else class="el-icon-document"/>
               </div>
               <div class="cs-navi__info">
                 <p class="cs-navi__sub_title">{{sub.title}}</p>

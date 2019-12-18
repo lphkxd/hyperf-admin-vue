@@ -90,7 +90,7 @@
             <span class="brother-showing" :class="{'status-tree': !data.status}">
               <i v-if="!data.system && auth.move" class="el-icon-s-grid move-tree cs-mr-5"/>
               <i v-if="data.children" :class="`el-icon-${node.expanded ? 'folder-opened' : 'folder'}`"/>
-              <i v-else class="el-icon-document-checked"/>
+              <i v-else class="el-icon-document"/>
               {{node.label}}
             </span>
 
@@ -240,7 +240,7 @@
                       <span class="brother-showing" :class="{'status-tree': !data.status}">
                         <i v-if="data.icon" :class="`iconfont icon${data.icon}`"/>
                         <i v-else-if="data.children" :class="`el-icon-${node.expanded ? 'folder-opened' : 'folder'}`"/>
-                        <i v-else class="el-icon-document-checked"/>
+                        <i v-else class="el-icon-document"/>
                         {{node.label}}
                         <i v-if="data.url" class="el-icon-link">
                           {{data.url}}
@@ -262,7 +262,7 @@
                       <span class="brother-showing" :class="{'status-tree': !data.status}">
                         <i v-if="data.icon" :class="`iconfont icon${data.icon}`"/>
                         <i v-else-if="data.children" :class="`el-icon-${node.expanded ? 'folder-opened' : 'folder'}`"/>
-                        <i v-else class="el-icon-document-checked"/>
+                        <i v-else class="el-icon-document"/>
                         {{node.label}}
                         <i v-if="data.url" class="el-icon-link">
                           {{data.url}}
