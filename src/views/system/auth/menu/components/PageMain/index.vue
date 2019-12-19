@@ -640,8 +640,14 @@ export default {
     font-size: 14px;
     padding-right: 8px;
   }
-  .brother-showing i {
-    width: 16px;
+  .brother-showing {
+    i {
+      width: 16px;
+    }
+    .iconfont {
+      font-size: 16px;
+      vertical-align: baseline;
+    }
   }
   .active {
     display: none;

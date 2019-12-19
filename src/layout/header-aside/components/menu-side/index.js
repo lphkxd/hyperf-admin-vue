@@ -22,7 +22,7 @@ export default {
           attrs: { class: 'cs-layout-header-aside-menu-empty', flex: 'dir:top main:center cross:center' }
         }, [
           createElement('i', {
-            attrs: { class: 'el-icon-box' }
+            attrs: { class: 'el-icon-menu' }
           }),
           createElement('span', {
           }, '暂无侧栏菜单')

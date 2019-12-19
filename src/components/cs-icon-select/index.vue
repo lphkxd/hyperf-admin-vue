@@ -169,6 +169,9 @@ export default {
           text-align: center;
           color: $color-text-sub;
           font-size: 20px;
+          .iconfont {
+            vertical-align: baseline;
+          }
           &:hover {
             color: $color-text-main;
             background-color: $color-bg;
