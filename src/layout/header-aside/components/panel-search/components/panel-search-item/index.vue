@@ -49,6 +49,9 @@ export default {
               font-size: 24px;
               color: $color-primary;
             }
+            .iconfont {
+              font-size: 30px;
+            }
           }
         }
         .cs-panel-search-item__info {
@@ -73,6 +76,9 @@ export default {
         i {
           font-size: 20px;
           color: $color-text-sub;
+        }
+        .iconfont {
+          font-size: 26px;
         }
         svg {
           height: 20px;
