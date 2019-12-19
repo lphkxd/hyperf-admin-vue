@@ -8,6 +8,9 @@
     height: 36px;
     line-height: 36px;
   }
+  i.iconfont {
+    font-size: 18px;
+  }
 }
 
 // 整体框架结构
@@ -146,7 +149,7 @@
           @extend %unable-select;
           i.el {
             font-size: 16px;
-            margin-right: 4px;
+            margin-right: 0;
           }
           i.iconfont {
             font-size: 20px;

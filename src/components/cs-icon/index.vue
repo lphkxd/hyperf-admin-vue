@@ -3,8 +3,6 @@
 </template>
 
 <script>
-import './libs/iconfont.css'
-
 export default {
   name: 'cs-icon',
   props: {

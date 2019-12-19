@@ -26,12 +26,9 @@
     background: $theme-menu-item-background-color-hover;
   }
   %el-menu-icon {
-    .iconfont {
-      width: 20px;
-    }
     i {
       display: inline-block;
-      width: 14px;
+      width: 20px;
       text-align: center;
       margin-right: 5px;
       svg {
