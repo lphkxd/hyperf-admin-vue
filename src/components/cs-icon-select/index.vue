@@ -165,12 +165,11 @@ export default {
       }
       .class-row {
         .class-col {
-          line-height: 40px;
           text-align: center;
           color: $color-text-sub;
           .iconfont {
-            font-size: 20px;
-            vertical-align: baseline;
+            line-height: 40px;
+            font-size: 24px;
           }
           &:hover {
             color: $color-text-main;
@@ -178,7 +177,7 @@ export default {
             border-radius: 4px;
             box-shadow: inset 0 0 0 1px $color-border-1;
             .iconfont {
-              font-size: 34px;
+              font-size: 38px;
             }
           }
         }
