@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import csContainer from './cs-container'
-import './cs-icon/libs/iconfont.css'
+// import './cs-icon/libs/iconfont.css'
 
 // 注意 有些组件使用异步加载会有影响
 Vue.component('cs-container', csContainer)

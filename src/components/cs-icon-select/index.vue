@@ -168,16 +168,18 @@ export default {
           line-height: 40px;
           text-align: center;
           color: $color-text-sub;
-          font-size: 20px;
           .iconfont {
+            font-size: 20px;
             vertical-align: baseline;
           }
           &:hover {
             color: $color-text-main;
             background-color: $color-bg;
             border-radius: 4px;
-            font-size: 34px;
             box-shadow: inset 0 0 0 1px $color-border-1;
+            .iconfont {
+              font-size: 34px;
+            }
           }
         }
       }

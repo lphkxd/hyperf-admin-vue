@@ -105,12 +105,15 @@ export default {
     padding: 20px;
     background-color: #FFF;
     .cs-navi__title {
-      width: 22px;
+      width: 20px;
       color: $color-info;
-      font-size: 14px;
+      font-size: 16px;
+      padding-left: 3px;
     }
     .iconfont__mini {
-      font-size: 18px;
+      width: 22px;
+      font-size: 20px;
+      padding-left: 0;
     }
     .iconfont__medium {
       font-size: 40px;
