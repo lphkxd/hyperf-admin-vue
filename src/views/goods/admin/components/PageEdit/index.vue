@@ -1169,7 +1169,12 @@ export default {
     },
     // 删除规格项
     delSpecItem(parent, key) {
-      this.currentForm.spec_config[parent]['spec_item'].splice(key, 1)
+      let data = this.currentForm.spec_config[parent]
+      let pos = data.check_list.indexOf(data.spec_item[key].spec_item_id)
+
+      pos !== -1 && data.check_list.splice(pos, 1)
+      data.spec_item.splice(key, 1)
+      this.handleCheckedCitiesChange(data.check_list, parent)
     },
     // 规格名称编辑确认
     confirmSpecName(parent) {
@@ -1200,12 +1205,12 @@ export default {
       }
 
       const { parent, key } = this.specName
-      let data = this.currentForm.spec_config[parent]['spec_item']
+      let data = this.currentForm.spec_config[parent]
 
       if (this.specName.type === 'add') {
         const specList = this.specName.value.trim().split('\n')
         specList.forEach(value => {
-          data.push({
+          data.spec_item.push({
             spec_item_id: -util.randomLenNum(6),
             item_name: value,
             is_contact: 0,
@@ -1214,12 +1219,14 @@ export default {
             color: ''
           })
         })
+
+        this.handleCheckedCitiesChange(data.check_list, parent)
       }
 
       if (this.specName.type === 'set') {
-        if (data[key].item_name !== this.specName.value) {
-          this.$set(data, key, {
-            ...data[key],
+        if (data.spec_item[key].item_name !== this.specName.value) {
+          this.$set(data.spec_item, key, {
+            ...data.spec_item[key],
             is_contact: 0,
             item_name: this.specName.value,
             spec_item_id: -util.randomLenNum(6)
@@ -1250,6 +1257,8 @@ export default {
             spec_item_id: isContact !== 1 ? -util.randomLenNum(6) : item.spec_item_id
           })
         })
+
+        this.handleCheckedCitiesChange(data.check_list, parent)
       }
     },
     // 规格全部选中或取消
