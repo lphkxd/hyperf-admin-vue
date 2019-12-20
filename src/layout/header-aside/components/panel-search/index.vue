@@ -23,10 +23,7 @@
         关闭
       </div>
     </div>
-    <div
-      v-if="resultsList.length > 0"
-      class="panel-search__results-group"
-      flex-box="1">
+    <div v-if="resultsList.length > 0" class="panel-search__results-group" flex-box="1">
       <el-card style="border-radius: 0;">
         <div class="panel-search__results-group-inner">
           <cs-panel-search-item

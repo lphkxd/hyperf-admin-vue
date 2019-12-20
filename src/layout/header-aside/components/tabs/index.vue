@@ -2,10 +2,7 @@
   <div class="cs-multiple-page-control-group" flex>
     <div class="cs-multiple-page-control-content" flex-box="1">
       <div class="cs-multiple-page-control-content-inner">
-        <cs-contextmenu
-          :visible.sync="contextmenuFlag"
-          :x="contentmenuX"
-          :y="contentmenuY">
+        <cs-contextmenu :visible.sync="contextmenuFlag" :x="contentmenuX" :y="contentmenuY">
           <cs-contextmenu-list
             :menulist="tagName === '/index' ? contextmenuListIndex : contextmenuList"
             @rowClick="contextmenuClick"/>

@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="cs-layout-header-aside-group"
-    :style="styleLayoutMainGroup"
-    :class="{grayMode: grayActive}">
+  <div class="cs-layout-header-aside-group" :style="styleLayoutMainGroup" :class="{grayMode: grayActive}">
     <!-- 半透明遮罩 -->
     <div class="cs-layout-header-aside-mask"></div>
     <!-- 主体内容 -->
@@ -19,13 +16,7 @@
         </el-alert>
       </div>
       <!-- 顶栏 -->
-      <div
-        class="cs-theme-header"
-        :style="{
-          opacity: this.searchActive ? 0.5 : 1
-        }"
-        flex-box="0"
-        flex>
+      <div class="cs-theme-header" :style="{opacity: this.searchActive ? 0.5 : 1}" flex-box="0" flex>
         <div class="logo-group" :style="{width: asideCollapse ? asideWidthCollapse : asideWidth}" flex-box="0">
           <a target="blank" href="//www.careyshop.cn/">
             <img v-if="asideCollapse" :src="`${$publicPath}image/theme/${themeActiveSetting.name}/logo/icon-only.png`" alt="">
@@ -65,9 +56,7 @@
           <!-- 搜索 -->
           <transition name="fade-scale">
             <div v-if="searchActive" class="cs-theme-container-main-layer" flex>
-              <cs-panel-search
-                ref="panelSearch"
-                @close="searchPanelClose"/>
+              <cs-panel-search ref="panelSearch" @close="searchPanelClose"/>
             </div>
           </transition>
           <!-- 内容 -->
@@ -147,11 +136,9 @@ export default {
      * @description 最外层容器的背景图片样式
      */
     styleLayoutMainGroup() {
-      return {
-        ...this.themeActiveSetting.backgroundImage ? {
-          backgroundImage: `url('${this.$publicPath}${this.themeActiveSetting.backgroundImage}')`
-        } : {}
-      }
+      return this.themeActiveSetting.backgroundImage
+        ? { backgroundImage: `url('${this.$baseUrl}${this.themeActiveSetting.backgroundImage}')` }
+        : {}
     }
   },
   created() {
