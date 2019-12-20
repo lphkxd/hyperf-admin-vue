@@ -161,7 +161,7 @@
       </el-form>
 
       <el-divider>效果预览</el-divider>
-      <div v-if="form.text" class="cs-text-center">
+      <div v-if="form.text" class="cs-tc">
         <el-image v-if="qrcodeImage" fit="fill" :src="qrcodeImage"/>
       </div>
 

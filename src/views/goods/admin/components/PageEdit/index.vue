@@ -4,7 +4,7 @@
       class="box-card"
       shadow="never"
       v-loading="loading">
-      <div slot="header" class="cs-text-center clearfix">
+      <div slot="header" class="cs-tc clearfix">
         <span>{{stateMap[state]}}</span>
       </div>
 
@@ -554,15 +554,62 @@
                     v-for="(value, key) in specTable.header"
                     :key="key"
                     :label="value">
+                    <template slot-scope="scope">
+                      {{scope.row.key_value}}
+                    </template>
                   </el-table-column>
                 </el-table-column>
 
                 <el-table-column>
                   <template slot="header">
-                    <div style="text-align: center;">
-                      <span>批量设置：</span>
-                      <el-button type="text" size="small">本店价</el-button>
-                      <el-button type="text" size="small">库存</el-button>
+                    <div class="cs-tc">
+                      <el-popover
+                        v-model="specBatch.visible"
+                        placement="top-start"
+                        trigger="manual">
+                        <el-input-number
+                          v-model="specBatch.value"
+                          controls-position="right"
+                          size="small"
+                          style="width: 150px; margin-bottom: 10px;"
+                          :precision="specBatch.type === 'price' ? 2 : 0"
+                          :min="0">
+                        </el-input-number>
+
+                        <div class="cs-tr">
+                          <el-button
+                            @click="specBatch.visible = false"
+                            size="mini"
+                            type="text">取消</el-button>
+
+                          <el-button
+                            @click="batchTableSpec()"
+                            type="primary"
+                            size="mini">确定</el-button>
+                        </div>
+
+                        <span slot="reference">批量设置：</span>
+                      </el-popover>
+
+                      <el-button
+                        @click="showBatchSpec('price')"
+                        type="text"
+                        size="small">本店价</el-button>
+                      <el-button
+                        @click="showBatchSpec('store_qty')"
+                        type="text"
+                        size="small">库存</el-button>
+
+                      <span class="cs-ml-10">批量加减：</span>
+
+                      <el-button
+                        @click="() => {}"
+                        type="text"
+                        size="small">本店价</el-button>
+                      <el-button
+                        @click="() => {}"
+                        type="text"
+                        size="small">库存</el-button>
                     </div>
                   </template>
 
@@ -983,6 +1030,11 @@ export default {
         visible: false,
         parent: null,
         key: null
+      },
+      specBatch: {
+        type: '',
+        value: 0,
+        visible: false
       }
     }
   },
@@ -1350,6 +1402,23 @@ export default {
 
       this.$set(data, 'check_all', checked === data.spec_item.length)
       this.$set(data, 'is_indeterminate', checked > 0 && checked < data.spec_item.length)
+    },
+    // 显示规格列表批量修改框
+    showBatchSpec(type) {
+      this.specBatch.value = 0
+      this.specBatch.type = type
+      this.specBatch.visible = true
+    },
+    // 规格列表批量修改
+    batchTableSpec() {
+      const data = this.currentForm.spec_combo
+      for (let key in data) {
+        if (data.hasOwnProperty(key)) {
+          data[key][this.specBatch.type] = this.specBatch.value
+        }
+      }
+
+      this.specBatch.visible = false
     },
     // 设置规格列表
     _handleSpecItemData: debounce(function(val) {

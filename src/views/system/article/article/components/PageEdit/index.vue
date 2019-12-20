@@ -4,7 +4,7 @@
       class="box-card"
       shadow="never"
       v-loading="loading">
-      <div slot="header" class="cs-text-center clearfix">
+      <div slot="header" class="cs-tc clearfix">
         <span>{{stateMap[state]}}</span>
       </div>
 
