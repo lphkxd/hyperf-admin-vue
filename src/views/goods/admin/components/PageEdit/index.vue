@@ -549,65 +549,75 @@
                 :highlight-current-row="true"
                 :border="true"
                 size="small">
-                <el-table-column
-                  v-for="(value, key) in specTable.header"
-                  :key="key"
-                  :label="value">
+                <el-table-column label="商品规格" align="center">
+                  <el-table-column
+                    v-for="(value, key) in specTable.header"
+                    :key="key"
+                    :label="value">
+                  </el-table-column>
                 </el-table-column>
 
-                <el-table-column
-                  label="本店价"
-                  prop="price"
-                  width="151">
-                  <template slot-scope="scope">
-                    <el-input-number
-                      v-model="scope.row.price"
-                      controls-position="right"
-                      size="mini"
-                      :precision="2"
-                      :min="0">
-                    </el-input-number>
+                <el-table-column>
+                  <template slot="header">
+                    <span class="cs-pr-10">批量设置：</span>
+                    <el-button type="text">本店价</el-button>
+                    <el-button type="text">库存</el-button>
                   </template>
-                </el-table-column>
 
-                <el-table-column
-                  label="库存"
-                  prop="store_qty"
-                  width="151">
-                  <template slot-scope="scope">
-                    <el-input-number
-                      v-model="scope.row.store_qty"
-                      controls-position="right"
-                      size="mini"
-                      :min="0">
-                    </el-input-number>
-                  </template>
-                </el-table-column>
+                  <el-table-column
+                    label="本店价"
+                    prop="price"
+                    width="151">
+                    <template slot-scope="scope">
+                      <el-input-number
+                        v-model="scope.row.price"
+                        controls-position="right"
+                        size="mini"
+                        :precision="2"
+                        :min="0">
+                      </el-input-number>
+                    </template>
+                  </el-table-column>
 
-                <el-table-column
-                  label="条码"
-                  prop="bar_code"
-                  width="150">
-                  <template slot-scope="scope">
-                    <el-input
-                      v-model="scope.row.bar_code"
-                      size="mini"
-                      clearable>
-                    </el-input>
-                  </template>
-                </el-table-column>
+                  <el-table-column
+                    label="库存"
+                    prop="store_qty"
+                    width="151">
+                    <template slot-scope="scope">
+                      <el-input-number
+                        v-model="scope.row.store_qty"
+                        controls-position="right"
+                        size="mini"
+                        :min="0">
+                      </el-input-number>
+                    </template>
+                  </el-table-column>
 
-                <el-table-column
-                  label="SKU"
-                  prop="goods_sku"
-                  width="150">
-                  <template slot-scope="scope">
-                    <el-input
-                      v-model="scope.row.goods_sku"
-                      size="mini"
-                      clearable>
-                    </el-input>
-                  </template>
+                  <el-table-column
+                    label="条码"
+                    prop="bar_code"
+                    width="150">
+                    <template slot-scope="scope">
+                      <el-input
+                        v-model="scope.row.bar_code"
+                        size="mini"
+                        clearable>
+                      </el-input>
+                    </template>
+                  </el-table-column>
+
+                  <el-table-column
+                    label="SKU"
+                    prop="goods_sku"
+                    width="150">
+                    <template slot-scope="scope">
+                      <el-input
+                        v-model="scope.row.goods_sku"
+                        size="mini"
+                        clearable>
+                      </el-input>
+                    </template>
+                  </el-table-column>
                 </el-table-column>
               </el-table>
             </el-form-item>
@@ -1414,7 +1424,7 @@ export default {
       this.specTable = treeTable
       this.$set(this.currentForm, 'spec_combo', newCombo)
       console.log(this.specTable, newCombo)
-    }, 600)
+    }, 500)
   }
 }
 </script>
