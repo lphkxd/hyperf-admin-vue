@@ -47,6 +47,7 @@ export default {
   }
   .cs-floating {
     position: absolute;
+    z-index: 1;
     right: 58px;
     width: 32px;
     border-radius: 4px;

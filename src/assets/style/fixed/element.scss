@@ -25,6 +25,12 @@
   margin-right: 8px !important;
 }
 
+// Chrome下表格头部错位修复
+.el-table th.gutter,
+.el-table colgroup.gutter {
+  display: table-cell !important;
+}
+
 button, input, select, textarea {
   font-family: inherit;
   font-size: inherit;

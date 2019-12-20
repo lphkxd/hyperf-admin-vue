@@ -296,10 +296,10 @@
             <el-row :gutter="20" v-loading="typeLoading">
               <el-col :span="13">
                 <el-form-item label="商品规格">
-                  <div v-if="!currentForm.spec_config.length" style="padding-top: 5px;">
-                    <p class="empty-data">暂无数据</p>
+                  <template v-if="!currentForm.spec_config.length">
+                    <div class="empty-data">暂无数据</div>
                     <el-divider/>
-                  </div>
+                  </template>
 
                   <draggable
                     v-else
@@ -438,11 +438,11 @@
                     </el-collapse-item>
                   </draggable>
 
-                  <div v-if="currentForm.goods_type_id">
+                  <div v-if="currentForm.goods_type_id" class="cs-mt">
                     <el-input
                       v-if="inputSpecVisible"
                       v-model="inputSpecValue"
-                      class="spec-add-input"
+                      style="width: 97px;"
                       ref="addSpecInput"
                       size="small"
                       @keyup.enter.native="addSpec"
@@ -451,7 +451,7 @@
 
                     <el-button
                       v-else
-                      class="spec-add-button cs-mt"
+                      style="height: 32px;"
                       icon="el-icon-plus"
                       size="mini"
                       @click="showSpecInput">新增规格</el-button>
@@ -461,10 +461,10 @@
 
               <el-col :span="11">
                 <el-form-item label="商品属性">
-                  <div v-if="!currentForm.attr_config.length" style="padding-top: 5px;">
-                    <p class="empty-data">暂无数据</p>
+                  <template v-if="!currentForm.attr_config.length">
+                    <div class="empty-data">暂无数据</div>
                     <el-divider/>
-                  </div>
+                  </template>
 
                   <draggable
                     v-else
@@ -538,16 +538,16 @@
             </el-row>
 
             <el-form-item label="规格列表">
-              <div v-if="!currentForm.goods_type_id" style="padding-top: 5px;">
-                <p class="empty-data">暂无数据</p>
+              <template v-if="!currentForm.spec_combo.length">
+                <div class="empty-data">暂无数据</div>
                 <el-divider/>
-              </div>
+              </template>
 
               <el-table
                 v-else
                 :data="currentForm.spec_combo"
                 :highlight-current-row="true"
-                :border="true"
+                :header-cell-style="{background: '#fff', padding: '0'}"
                 size="small">
                 <el-table-column label="商品规格" align="center">
                   <el-table-column
@@ -559,15 +559,18 @@
 
                 <el-table-column>
                   <template slot="header">
-                    <span class="cs-pr-10">批量设置：</span>
-                    <el-button type="text">本店价</el-button>
-                    <el-button type="text">库存</el-button>
+                    <div style="text-align: center;">
+                      <span>批量设置：</span>
+                      <el-button type="text" size="small">本店价</el-button>
+                      <el-button type="text" size="small">库存</el-button>
+                    </div>
                   </template>
 
                   <el-table-column
                     label="本店价"
                     prop="price"
-                    width="151">
+                    width="152"
+                    align="center">
                     <template slot-scope="scope">
                       <el-input-number
                         v-model="scope.row.price"
@@ -582,7 +585,8 @@
                   <el-table-column
                     label="库存"
                     prop="store_qty"
-                    width="151">
+                    width="152"
+                    align="center">
                     <template slot-scope="scope">
                       <el-input-number
                         v-model="scope.row.store_qty"
@@ -596,7 +600,8 @@
                   <el-table-column
                     label="条码"
                     prop="bar_code"
-                    width="150">
+                    width="150"
+                    align="center">
                     <template slot-scope="scope">
                       <el-input
                         v-model="scope.row.bar_code"
@@ -609,7 +614,8 @@
                   <el-table-column
                     label="SKU"
                     prop="goods_sku"
-                    width="150">
+                    width="150"
+                    align="center">
                     <template slot-scope="scope">
                       <el-input
                         v-model="scope.row.goods_sku"
@@ -1504,16 +1510,6 @@ export default {
   }
   .action:hover .active{
     display: inline;
-  }
-  .spec-add-button {
-    height: 32px;
-    line-height: 32px;
-    padding-top: 0;
-    padding-bottom: 0;
-  }
-  .spec-add-input {
-    margin-top: 16px;
-    width: 90px;
   }
   .spec-action {
     color: $color-primary;
