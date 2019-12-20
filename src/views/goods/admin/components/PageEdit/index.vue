@@ -568,7 +568,7 @@
                     style="margin-bottom: 8px;"
                     class="el-upload el-upload--picture-card"
                     @click="handleUpload(getAttachmentFileList, 'photo', 'upload')">
-                    <i class="el-icon-picture"/>
+                    <i class="el-icon-plus"/>
                   </div>
                 </template>
               </cs-photo>

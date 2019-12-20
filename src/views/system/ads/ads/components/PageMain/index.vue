@@ -256,7 +256,7 @@
                   style="margin-bottom: 8px;"
                   class="el-upload el-upload--picture-card"
                   @click="$refs.upload.handleUploadDlg()">
-                  <i class="el-icon-picture"/>
+                  <i class="el-icon-plus"/>
                 </div>
               </template>
             </cs-photo>

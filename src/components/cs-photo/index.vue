@@ -14,7 +14,7 @@
         class="el-upload-list__item"
         :style="`width:${width}px; height:${height}px;`">
         <div class="thumbnail" :style="`width:${width}px; height:${height}px;`">
-          <el-image :src="item.source | getPreviewUrl(width, height)" fit="contain"/>
+          <el-image :src="item.source | getPreviewUrl(width, height)" fit="fill"/>
         </div>
 
         <span v-show="!drag" :class="{'el-upload-list__item-actions': true, 'cs-cm': isMove}">
