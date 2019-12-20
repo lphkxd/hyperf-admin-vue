@@ -361,7 +361,8 @@
 
                       <el-checkbox-group
                         v-model="item.check_list"
-                        @change="(value) => handleCheckedCitiesChange(value, parent)">
+                        @change="(value) => handleCheckedCitiesChange(value, parent)"
+                        style="position: relative;">
                         <draggable
                           :list="item.spec_item"
                           handle=".item-spec-handle">
@@ -1186,19 +1187,12 @@ export default {
     },
     // 显示规格项名称编辑对话框
     dialogSpecItemName(value, type, parent, key) {
-      this.specName = {
-        value,
-        type,
-        parent,
-        key,
-        visible: true
-      }
-
+      this.specName = { value, type, parent, key, visible: true }
       this.$nextTick(() => {
         this.$refs.specNameInput.select()
       })
     },
-    // 规格项名称编辑确认
+    // 规格项确认添加或编辑
     confirmSpecItemName() {
       if (!this.specName.value) {
         this.specName.visible = false
@@ -1235,14 +1229,14 @@ export default {
 
       this.specName.visible = false
     },
-    // 从商品模型中导入规格
+    // 打开模型导入规格项对话框
     importSpecItem(parent) {
       this.specName = { parent }
       this.$nextTick(() => {
         this.$refs.importSpec.handleVisible()
       })
     },
-    // 确认从模型中导入
+    // 确认从模型中导入规格项
     importSpecData(value) {
       if (value.spec_item) {
         const { parent } = this.specName
@@ -1461,6 +1455,7 @@ export default {
   }
   .spec-position {
     position: absolute;
+    overflow: hidden;
   }
   .spec-more {
     .type-select {
