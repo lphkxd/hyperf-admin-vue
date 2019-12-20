@@ -1,17 +1,7 @@
 <template>
-  <el-tooltip
-    effect="dark"
-    :content="tooltipContent"
-    placement="bottom">
-    <el-button
-      class="btn-text can-hover"
-      type="text"
-      @click="$router.push({name: 'log'}).catch(() => {})">
-      <el-badge
-        v-if="logLength > 0"
-        :max="99"
-        :value="logLengthError"
-        :is-dot="logLengthError === 0">
+  <el-tooltip effect="dark" :content="tooltipContent" placement="bottom">
+    <el-button class="btn-text can-hover" type="text" @click="handleClick">
+      <el-badge v-if="logLength > 0" :max="99" :value="logLengthError" :is-dot="logLengthError === 0">
         <i :class="logLengthError === 0 ? 'el-icon-aim' : 'el-icon-cpu'"/>
       </el-badge>
       <i v-else class="el-icon-aim"/>
@@ -39,7 +29,14 @@ export default {
   methods: {
     ...mapMutations('careyshop/log', [
       'clean'
-    ])
+    ]),
+    handleClick() {
+      this.$router.push({
+        name: 'log'
+      })
+        .catch(() => {
+        })
+    }
   }
 }
 </script>

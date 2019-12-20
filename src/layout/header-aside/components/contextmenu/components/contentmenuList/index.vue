@@ -1,13 +1,6 @@
 <template>
-  <div
-    class="cs-contentmenu-list"
-    @click="rowClick">
-    <div
-      v-for="item in menulist"
-      :key="item.value"
-      :data-value="item.value"
-      class="cs-contentmenu-item"
-      flex="cross:center main:center">
+  <div class="cs-contentmenu-list" @click="rowClick">
+    <div v-for="item in menulist" :key="item.value" :data-value="item.value" class="cs-contentmenu-item" flex="cross:center main:center">
       <i v-if="item.icon" :class="item.icon"/>
       <div class="cs-ml-5" flex-box="1">{{item.title}}</div>
     </div>

@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="cs-contextmenu"
-    v-show="flag"
-    :style="style">
+  <div class="cs-contextmenu" v-show="flag" :style="style">
     <slot/>
   </div>
 </template>
