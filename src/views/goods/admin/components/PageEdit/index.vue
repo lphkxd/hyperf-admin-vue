@@ -313,7 +313,7 @@
                       :name="item.spec_id"
                       class="action">
                       <template slot="title">
-                        <i class="el-icon-s-grid icon-move cs-pr-10 spec-handle"/>
+                        <i class="el-icon-sort icon-move cs-pr-10 spec-handle"/>
                         <div class="spec-more" @click="$event.stopPropagation()">
                           <template v-if="!activeSpecMore[parent]">
                             <el-checkbox
@@ -477,7 +477,7 @@
                       :key="item.goods_attribute_id"
                       :name="item.goods_attribute_id">
                       <template slot="title">
-                        <i class="el-icon-s-grid icon-move cs-pr-10 attr-handle"/>
+                        <i class="el-icon-sort icon-move cs-pr-10 attr-handle"/>
                         <span>{{item.attr_name}}</span>
                       </template>
 
@@ -491,7 +491,7 @@
                           :key="value.goods_attribute_id"
                           class="el-form-item attr-form">
                           <label class="el-form-item__label attr-label">
-                            <i class="el-icon-s-grid icon-move cs-pr-10 item-attr-handle"/>
+                            <i class="el-icon-sort icon-move cs-pr-10 item-attr-handle"/>
                             <span :title="value.attr_name">{{value.attr_name}}</span>
                           </label>
                           <div class="el-form-item__content attr-content">
@@ -538,7 +538,7 @@
             </el-row>
 
             <el-form-item label="规格列表">
-              <div v-if="!currentForm.spec_combo.length" style="padding-top: 5px;">
+              <div v-if="!currentForm.goods_type_id" style="padding-top: 5px;">
                 <p class="empty-data">暂无数据</p>
                 <el-divider/>
               </div>
@@ -547,11 +547,67 @@
                 v-else
                 :data="currentForm.spec_combo"
                 :highlight-current-row="true"
-                :border="true">
+                :border="true"
+                size="small">
                 <el-table-column
                   v-for="(value, key) in specTable.header"
                   :key="key"
                   :label="value">
+                </el-table-column>
+
+                <el-table-column
+                  label="本店价"
+                  prop="price"
+                  width="151">
+                  <template slot-scope="scope">
+                    <el-input-number
+                      v-model="scope.row.price"
+                      controls-position="right"
+                      size="mini"
+                      :precision="2"
+                      :min="0">
+                    </el-input-number>
+                  </template>
+                </el-table-column>
+
+                <el-table-column
+                  label="库存"
+                  prop="store_qty"
+                  width="151">
+                  <template slot-scope="scope">
+                    <el-input-number
+                      v-model="scope.row.store_qty"
+                      controls-position="right"
+                      size="mini"
+                      :min="0">
+                    </el-input-number>
+                  </template>
+                </el-table-column>
+
+                <el-table-column
+                  label="条码"
+                  prop="bar_code"
+                  width="150">
+                  <template slot-scope="scope">
+                    <el-input
+                      v-model="scope.row.bar_code"
+                      size="mini"
+                      clearable>
+                    </el-input>
+                  </template>
+                </el-table-column>
+
+                <el-table-column
+                  label="SKU"
+                  prop="goods_sku"
+                  width="150">
+                  <template slot-scope="scope">
+                    <el-input
+                      v-model="scope.row.goods_sku"
+                      size="mini"
+                      clearable>
+                    </el-input>
+                  </template>
                 </el-table-column>
               </el-table>
             </el-form-item>
