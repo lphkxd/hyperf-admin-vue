@@ -548,14 +548,18 @@
                 :data="currentForm.spec_combo"
                 :highlight-current-row="true"
                 :header-cell-style="{background: '#fff', padding: '0'}"
+                :span-method="specSpanMethod"
                 size="small">
                 <el-table-column label="商品规格" align="center">
                   <el-table-column
                     v-for="(value, key) in specTable.header"
                     :key="key"
+                    :index="key"
                     :label="value">
                     <template slot-scope="scope">
-                      {{scope.row.key_value}}
+                      <span :title="scope.row.key_value">
+                        {{specTable.index[scope.row.key_name[scope.column.index]]['itemName']}}
+                      </span>
                     </template>
                   </el-table-column>
                 </el-table-column>
@@ -1474,11 +1478,13 @@ export default {
 
       this.specCount.visible = false
     },
+    // 设置规格列表列合并
+    specSpanMethod({ row, column, rowIndex, columnIndex }) {
+    },
     // 设置规格列表
     _handleSpecItemData: debounce(function(val) {
       // 索引 头部 组合
       let treeTable = { index: {}, header: [], compose: [] }
-
       val.forEach(value => {
         let node = { key: [], item: [], name: value.name }
         value.spec_item.forEach(item => {
@@ -1518,6 +1524,7 @@ export default {
       let oldCombo = {}
       let combine = util.descartes(treeTable.compose)
 
+      // 数据变动前保留之前的数据
       this.currentForm.spec_combo.forEach(combo => {
         let key = combo['key_name'].sort().join('_')
         oldCombo[key] = combo
@@ -1525,7 +1532,8 @@ export default {
 
       combine.forEach(combo => {
         let temp
-        let key = [...combo].sort().join('_')
+        const isArrayOfCombo = Array.isArray(combo)
+        const key = isArrayOfCombo ? [...combo].sort().join('_') : combo
 
         if (oldCombo.hasOwnProperty(key)) {
           temp = {
@@ -1544,8 +1552,8 @@ export default {
         }
 
         // 补齐name和value
-        temp.key_name = combo
-        temp.key_value = getKeyValue([...combo])
+        temp.key_name = isArrayOfCombo ? combo : [combo]
+        temp.key_value = getKeyValue([...temp.key_name])
 
         newCombo.push(temp)
       })
