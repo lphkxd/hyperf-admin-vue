@@ -583,7 +583,7 @@
                             type="text">取消</el-button>
 
                           <el-button
-                            @click="batchTableSpec()"
+                            @click="batchTableSpec"
                             type="primary"
                             size="mini">确定</el-button>
                         </div>
@@ -600,14 +600,45 @@
                         type="text"
                         size="small">库存</el-button>
 
-                      <span class="cs-ml-10">批量加减：</span>
+                      <el-popover
+                        v-model="specCount.visible"
+                        placement="top-start"
+                        trigger="manual">
+                        <el-input-number
+                          v-model="specCount.value"
+                          controls-position="right"
+                          size="small"
+                          style="width: 150px; margin-bottom: 10px;"
+                          :precision="specCount.type === 'price' ? 2 : 0">
+                        </el-input-number>
+
+                        <div class="cs-tr">
+                          <el-button
+                            @click="specCount.visible = false"
+                            size="mini"
+                            type="text">取消</el-button>
+
+                          <el-button
+                            @click="countTableSpec"
+                            type="primary"
+                            size="mini">确定</el-button>
+                        </div>
+
+                        <span slot="reference">
+                          <el-divider direction="vertical"/>
+                          <el-tooltip placement="top" content="正数增加，负数减少">
+                            <i class="el-icon-warning-outline"/>
+                          </el-tooltip>
+                          批量加减：
+                        </span>
+                      </el-popover>
 
                       <el-button
-                        @click="() => {}"
+                        @click="showCountSpec('price')"
                         type="text"
                         size="small">本店价</el-button>
                       <el-button
-                        @click="() => {}"
+                        @click="showCountSpec('store_qty')"
                         type="text"
                         size="small">库存</el-button>
                     </div>
@@ -1035,6 +1066,11 @@ export default {
         type: '',
         value: 0,
         visible: false
+      },
+      specCount: {
+        type: '',
+        value: 0,
+        visible: false
       }
     }
   },
@@ -1419,6 +1455,24 @@ export default {
       }
 
       this.specBatch.visible = false
+    },
+    // 显示规格列表批量加减框
+    showCountSpec(type) {
+      this.specCount.value = 0
+      this.specCount.type = type
+      this.specCount.visible = true
+    },
+    // 规格列表批量加减
+    countTableSpec() {
+      const data = this.currentForm.spec_combo
+      for (let key in data) {
+        if (data.hasOwnProperty(key)) {
+          let total = data[key][this.specCount.type] + this.specCount.value
+          data[key][this.specCount.type] = total >= 0 ? total : 0
+        }
+      }
+
+      this.specCount.visible = false
     },
     // 设置规格列表
     _handleSpecItemData: debounce(function(val) {
