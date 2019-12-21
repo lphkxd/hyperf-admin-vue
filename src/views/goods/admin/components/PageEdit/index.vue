@@ -1440,7 +1440,7 @@ export default {
       let checked = value.length
       let data = this.currentForm.spec_config[parent]
 
-      this.$set(data, 'check_all', checked === data.spec_item.length && data.spec_item.length > 0)
+      this.$set(data, 'check_all', checked === data.spec_item.length && checked > 0)
       this.$set(data, 'is_indeterminate', checked > 0 && checked < data.spec_item.length)
     },
     // 显示规格列表批量修改框
