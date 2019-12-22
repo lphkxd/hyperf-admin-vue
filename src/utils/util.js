@@ -318,7 +318,7 @@ util.getNumber = (value) => {
 }
 
 /**
- * 笛卡尔积算法 (https://github.com/1260215278/Sku-demo)
+ * 笛卡尔积算法
  * @param array
  * @returns {*|*[]|U}
  */
