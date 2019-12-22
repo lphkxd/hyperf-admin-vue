@@ -543,163 +543,144 @@
                 <el-divider/>
               </template>
 
-              <el-table
-                v-else
-                :data="currentForm.spec_combo"
-                :highlight-current-row="true"
-                :header-cell-style="{background: '#fff', padding: '0'}"
-                :span-method="specSpanMethod"
-                size="small">
-                <el-table-column label="商品规格" align="center">
-                  <el-table-column
-                    v-for="(value, key) in specTable.header"
-                    :key="key"
-                    :index="key"
-                    :label="value">
-                    <template slot-scope="scope">
-                      <span :title="scope.row.key_value">
-                        {{specTable.index[scope.row.key_name[scope.column.index]]['itemName']}}
-                      </span>
-                    </template>
-                  </el-table-column>
-                </el-table-column>
+              <div v-else style="height: 100%; width: 100%;">
+                <div style="height: 500px; width: 100%;">
+                  <pl-table
+                    :datas="currentForm.spec_combo"
+                    :row-height="46"
+                    :use-virtual="true"
+                    :pagination-show="false"
+                    :highlight-current-row="true"
+                    :header-cell-style="{background: '#fff', padding: '0'}"
+                    :span-method="specSpanMethod"
+                    size="small">
+                    <pl-table-column label="商品规格" align="center">
+                      <pl-table-column
+                        v-for="(value, key) in specTable.header"
+                        :key="key"
+                        :index="key"
+                        :label="value">
+                        <template slot-scope="scope">
+                          <span :title="scope.row.key_value">
+                            {{specTable.index[scope.row.key_name[scope.column.index]]['itemName']}}
+                          </span>
+                        </template>
+                      </pl-table-column>
+                    </pl-table-column>
 
-                <el-table-column>
-                  <template slot="header">
-                    <div class="cs-tc">
-                      <el-popover
-                        v-model="specBatch.visible"
-                        placement="top-start"
-                        trigger="manual">
-                        <el-input-number
-                          v-model="specBatch.value"
-                          controls-position="right"
-                          size="small"
-                          style="width: 150px; margin-bottom: 10px;"
-                          :precision="specBatch.type === 'price' ? 2 : 0"
-                          :min="0">
-                        </el-input-number>
+                    <pl-table-column>
+                      <template slot="header">
+                        <div class="cs-tc">
+                          <el-popover
+                            v-model="specBatch.visible"
+                            placement="top-start"
+                            trigger="manual">
+                            <el-input-number
+                              v-model="specBatch.value"
+                              controls-position="right"
+                              size="small"
+                              style="width: 150px; margin-bottom: 10px;"
+                              :precision="specBatch.type === 'price' ? 2 : 0"
+                              :min="0">
+                            </el-input-number>
 
-                        <div class="cs-tr">
-                          <el-button
-                            @click="specBatch.visible = false"
-                            size="mini"
-                            type="text">取消</el-button>
+                            <div class="cs-tr">
+                              <el-button @click="specBatch.visible = false" size="mini" type="text">取消</el-button>
+                              <el-button @click="batchTableSpec" type="primary" size="mini">确定</el-button>
+                            </div>
 
-                          <el-button
-                            @click="batchTableSpec"
-                            type="primary"
-                            size="mini">确定</el-button>
+                            <span slot="reference">批量设置：</span>
+                          </el-popover>
+
+                          <el-button @click="showBatchSpec('price')" type="text" size="small">本店价</el-button>
+                          <el-button @click="showBatchSpec('store_qty')" type="text" size="small">库存</el-button>
+
+                          <el-popover
+                            v-model="specCount.visible"
+                            placement="top-start"
+                            trigger="manual">
+                            <el-input-number
+                              v-model="specCount.value"
+                              controls-position="right"
+                              size="small"
+                              style="width: 150px; margin-bottom: 10px;"
+                              :precision="specCount.type === 'price' ? 2 : 0">
+                            </el-input-number>
+
+                            <div class="cs-tr">
+                              <el-button @click="specCount.visible = false" size="mini" type="text">取消</el-button>
+                              <el-button @click="countTableSpec" type="primary" size="mini">确定</el-button>
+                            </div>
+
+                            <span slot="reference">
+                              <el-divider direction="vertical"/>
+                              <el-tooltip placement="top" content="正数增加，负数减少">
+                                <i class="el-icon-warning-outline"/>
+                              </el-tooltip>
+                              批量加减：
+                            </span>
+                          </el-popover>
+
+                          <el-button @click="showCountSpec('price')" type="text" size="small">本店价</el-button>
+                          <el-button @click="showCountSpec('store_qty')" type="text" size="small">库存</el-button>
                         </div>
+                      </template>
 
-                        <span slot="reference">批量设置：</span>
-                      </el-popover>
-
-                      <el-button
-                        @click="showBatchSpec('price')"
-                        type="text"
-                        size="small">本店价</el-button>
-                      <el-button
-                        @click="showBatchSpec('store_qty')"
-                        type="text"
-                        size="small">库存</el-button>
-
-                      <el-popover
-                        v-model="specCount.visible"
-                        placement="top-start"
-                        trigger="manual">
-                        <el-input-number
-                          v-model="specCount.value"
-                          controls-position="right"
-                          size="small"
-                          style="width: 150px; margin-bottom: 10px;"
-                          :precision="specCount.type === 'price' ? 2 : 0">
-                        </el-input-number>
-
-                        <div class="cs-tr">
-                          <el-button
-                            @click="specCount.visible = false"
+                      <pl-table-column
+                        label="本店价"
+                        prop="price"
+                        width="152"
+                        align="center">
+                        <template slot-scope="scope">
+                          <el-input-number
+                            v-model="scope.row.price"
+                            controls-position="right"
                             size="mini"
-                            type="text">取消</el-button>
+                            :precision="2"
+                            :min="0">
+                          </el-input-number>
+                        </template>
+                      </pl-table-column>
 
-                          <el-button
-                            @click="countTableSpec"
-                            type="primary"
-                            size="mini">确定</el-button>
-                        </div>
+                      <pl-table-column
+                        label="库存"
+                        prop="store_qty"
+                        width="152"
+                        align="center">
+                        <template slot-scope="scope">
+                          <el-input-number
+                            v-model="scope.row.store_qty"
+                            controls-position="right"
+                            size="mini"
+                            :min="0">
+                          </el-input-number>
+                        </template>
+                      </pl-table-column>
 
-                        <span slot="reference">
-                          <el-divider direction="vertical"/>
-                          <el-tooltip placement="top" content="正数增加，负数减少">
-                            <i class="el-icon-warning-outline"/>
-                          </el-tooltip>
-                          批量加减：
-                        </span>
-                      </el-popover>
+                      <pl-table-column
+                        label="条码"
+                        prop="bar_code"
+                        width="150"
+                        align="center">
+                        <template slot-scope="scope">
+                          <el-input v-model="scope.row.bar_code" size="mini"/>
+                        </template>
+                      </pl-table-column>
 
-                      <el-button
-                        @click="showCountSpec('price')"
-                        type="text"
-                        size="small">本店价</el-button>
-                      <el-button
-                        @click="showCountSpec('store_qty')"
-                        type="text"
-                        size="small">库存</el-button>
-                    </div>
-                  </template>
+                      <pl-table-column
+                        label="SKU"
+                        prop="goods_sku"
+                        width="150"
+                        align="center">
+                        <template slot-scope="scope">
+                          <el-input v-model="scope.row.goods_sku" size="mini"/>
+                        </template>
+                      </pl-table-column>
+                    </pl-table-column>
+                  </pl-table>
+                </div>
+              </div>
 
-                  <el-table-column
-                    label="本店价"
-                    prop="price"
-                    width="152"
-                    align="center">
-                    <template slot-scope="scope">
-                      <el-input-number
-                        v-model="scope.row.price"
-                        controls-position="right"
-                        size="mini"
-                        :precision="2"
-                        :min="0">
-                      </el-input-number>
-                    </template>
-                  </el-table-column>
-
-                  <el-table-column
-                    label="库存"
-                    prop="store_qty"
-                    width="152"
-                    align="center">
-                    <template slot-scope="scope">
-                      <el-input-number
-                        v-model="scope.row.store_qty"
-                        controls-position="right"
-                        size="mini"
-                        :min="0">
-                      </el-input-number>
-                    </template>
-                  </el-table-column>
-
-                  <el-table-column
-                    label="条码"
-                    prop="bar_code"
-                    width="150"
-                    align="center">
-                    <template slot-scope="scope">
-                      <el-input v-model="scope.row.bar_code" size="mini"/>
-                    </template>
-                  </el-table-column>
-
-                  <el-table-column
-                    label="SKU"
-                    prop="goods_sku"
-                    width="150"
-                    align="center">
-                    <template slot-scope="scope">
-                      <el-input v-model="scope.row.goods_sku" size="mini"/>
-                    </template>
-                  </el-table-column>
-                </el-table-column>
-              </el-table>
             </el-form-item>
           </el-tab-pane>
 
@@ -947,6 +928,8 @@ import { debounce } from 'lodash'
 import { getGoodsSpecList } from '@/api/goods/spec'
 import { getGoodsAttributeList } from '@/api/goods/attribute'
 import { getGoodsAttrConfig, getGoodsSpecConfig } from '@/api/goods/goods'
+import { PlTable, PlTableColumn } from 'pl-table'
+import 'pl-table/themes/index.css'
 
 export default {
   components: {
@@ -956,7 +939,9 @@ export default {
     'csTinymce': () => import('@/components/cs-tinymce'),
     'csVideo': () => import('@/components/cs-video'),
     'csPhoto': () => import('@/components/cs-photo'),
-    'draggable': () => import('vuedraggable')
+    'draggable': () => import('vuedraggable'),
+    PlTable,
+    PlTableColumn
   },
   props: {
     loading: {
