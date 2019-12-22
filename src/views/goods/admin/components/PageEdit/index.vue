@@ -685,11 +685,7 @@
                     width="150"
                     align="center">
                     <template slot-scope="scope">
-                      <el-input
-                        v-model="scope.row.bar_code"
-                        size="mini"
-                        clearable>
-                      </el-input>
+                      <el-input v-model="scope.row.bar_code" size="mini"/>
                     </template>
                   </el-table-column>
 
@@ -699,11 +695,7 @@
                     width="150"
                     align="center">
                     <template slot-scope="scope">
-                      <el-input
-                        v-model="scope.row.goods_sku"
-                        size="mini"
-                        clearable>
-                      </el-input>
+                      <el-input v-model="scope.row.goods_sku" size="mini"/>
                     </template>
                   </el-table-column>
                 </el-table-column>
@@ -1560,8 +1552,8 @@ export default {
 
       this.specTable = treeTable
       this.$set(this.currentForm, 'spec_combo', newCombo)
-      console.log(this.specTable, newCombo)
-    }, 500)
+      // console.log(this.specTable, newCombo)
+    }, 300)
   }
 }
 </script>
