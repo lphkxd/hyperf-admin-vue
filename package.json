@@ -26,7 +26,6 @@
     "lowdb": "^1.0.0",
     "mockjs": "^1.1.0",
     "nprogress": "^0.2.0",
-    "pl-table": "^2.5.2",
     "screenfull": "^5.0.0",
     "ua-parser-js": "^0.7.21",
     "vue": "^2.6.11",
