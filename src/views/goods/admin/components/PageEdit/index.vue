@@ -549,6 +549,7 @@
                     :datas="currentForm.spec_combo"
                     :row-height="46"
                     :use-virtual="true"
+                    :excess-rows="5"
                     :pagination-show="false"
                     :highlight-current-row="true"
                     :header-cell-style="{background: '#fff', padding: '0'}"
@@ -1457,19 +1458,23 @@ export default {
     },
     // 设置规格列表列合并
     specSpanMethod({ row, column, rowIndex, columnIndex }) {
-      // if (column.index === undefined) {
-      //   return
-      // }
-      //
-      // // return [
-      // //   this.specTable.rowSpan[rowIndex][columnIndex],
-      // //   1
-      // // ]
+      if (column.index === undefined) {
+        return
+      }
+
+      if (!this.specTable.column[rowIndex]) {
+        return
+      }
+
+      return [
+        this.specTable.column[rowIndex][columnIndex],
+        1
+      ]
     },
     // 设置规格列表
     _handleSpecItemData: debounce(function(val) {
       // 索引 列合并 头部 组合
-      let treeTable = { index: {}, rowSpan: {}, header: [], compose: [] }
+      let treeTable = { index: {}, column: [], header: [], compose: [] }
       val.forEach(value => {
         let node = { key: [], item: [], name: value.name }
         value.spec_item.forEach(item => {
@@ -1503,34 +1508,6 @@ export default {
         return name.trim()
       }
 
-      // 计算列合并
-      // let rowSpanLog = {}
-      const setRowSpan = function(index, value) {
-        // if (!treeTable.rowSpan[index]) {
-        //   treeTable.rowSpan[index] = {}
-        // }
-        //
-        // value.forEach((row, key) => {
-        //   if (!treeTable.rowSpan[index][key]) {
-        //     treeTable.rowSpan[index][key] = 1
-        //   }
-        //
-        //   if (rowSpanLog[key] === row) {
-        //     if (rowSpanLog[key + 1] !== value[key + 1]) {
-        //       treeTable.rowSpan[index][key] = 0
-        //
-        //       for (let i = index - 1; i > 0; i--) {
-        //         treeTable.rowSpan[i][key]--
-        //         treeTable.rowSpan[i - 1][key]++
-        //       }
-        //     }
-        //   }
-        //
-        //   // 记录当前的值
-        //   rowSpanLog[key] = row
-        // })
-      }
-
       // 获取笛卡尔积结果并生成列表数据
       let newCombo = []
       let oldCombo = {}
@@ -1542,7 +1519,37 @@ export default {
         oldCombo[key] = combo
       })
 
-      combine.forEach((combo, index) => {
+      // 开始处理列合并数据
+      if (combine.length > 0) {
+        const rowCount = combine.length
+        const columnCount = combine[0].length || 0
+
+        for (let c = 0; c < columnCount; c++) {
+          // 列合并的游标
+          let cursor = 0
+
+          for (let r = 0; r < rowCount; r++) {
+            if (!treeTable.column[r]) {
+              treeTable.column[r] = []
+            }
+
+            // 设置默认的列值
+            treeTable.column[r][c] = treeTable.column[cursor][c] > 1 ? 0 : 1
+
+            // 是否存在下一行,下一列
+            if (combine[r + 1] && combine[r][c + 1]) {
+              if (combine[r + 1][c] === combine[r][c]) {
+                treeTable.column[cursor][c]++
+              } else {
+                cursor = r + 1
+              }
+            }
+          }
+        }
+      }
+
+      // 将规格列表内部属性补齐
+      combine.forEach(combo => {
         let temp
         const isArrayOfCombo = Array.isArray(combo)
         const key = isArrayOfCombo ? [...combo].sort().join('_') : combo
@@ -1567,14 +1574,12 @@ export default {
         temp.key_name = isArrayOfCombo ? combo : [combo]
         temp.key_value = getKeyValue([...temp.key_name])
 
-        setRowSpan(index, [...temp.key_name])
         newCombo.push(temp)
       })
 
       this.specTable = treeTable
       this.$set(this.currentForm, 'spec_combo', newCombo)
-      console.log(this.specTable.rowSpan)
-      // console.log(this.specTable, newCombo)
+      console.log(this.specTable, newCombo)
     }, 300)
   }
 }
