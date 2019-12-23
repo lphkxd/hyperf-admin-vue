@@ -625,7 +625,10 @@
                     prop="price"
                     width="152">
                     <template slot-scope="scope">
-                      <div v-if="!specTable.edit[scope.$index]['price']" class="cs-cp">{{scope.row.price}}</div>
+                      <div v-if="!specTable.edit[scope.$index]['price']" class="cs-cp">
+                        {{scope.row.price | getNumber}}
+                      </div>
+
                       <el-input-number
                         v-else
                         v-model="scope.row.price"
@@ -645,7 +648,10 @@
                     prop="store_qty"
                     width="152">
                     <template slot-scope="scope">
-                      <div v-if="!specTable.edit[scope.$index]['store_qty']" class="cs-cp">{{scope.row.store_qty}}</div>
+                      <div v-if="!specTable.edit[scope.$index]['store_qty']" class="cs-cp">
+                        {{scope.row.store_qty}}
+                      </div>
+
                       <el-input-number
                         v-else
                         v-model="scope.row.store_qty"
@@ -664,7 +670,10 @@
                     prop="bar_code"
                     width="150">
                     <template slot-scope="scope">
-                      <div v-if="!specTable.edit[scope.$index]['bar_code']" class="cs-cp">{{scope.row.bar_code}}</div>
+                      <div v-if="!specTable.edit[scope.$index]['bar_code']" class="cs-cp">
+                        {{scope.row.bar_code}}
+                      </div>
+
                       <el-input
                         v-else
                         v-model="scope.row.bar_code"
@@ -681,7 +690,10 @@
                     prop="goods_sku"
                     width="150">
                     <template slot-scope="scope">
-                      <div v-if="!specTable.edit[scope.$index]['goods_sku']" class="cs-cp">{{scope.row.goods_sku}}</div>
+                      <div v-if="!specTable.edit[scope.$index]['goods_sku']" class="cs-cp">
+                        {{scope.row.goods_sku}}
+                      </div>
+
                       <el-input
                         v-else
                         v-model="scope.row.goods_sku"
@@ -1081,6 +1093,9 @@ export default {
       }
 
       return ''
+    },
+    getNumber(val) {
+      return util.getNumber(val)
     }
   },
   watch: {
