@@ -546,11 +546,12 @@
               <el-table
                 v-else
                 :data="currentForm.spec_combo"
-                :pagination-show="false"
-                :highlight-current-row="true"
                 :header-cell-style="{background: '#fff', padding: '0'}"
+                :row-style="{height: '45px'}"
                 :span-method="specSpanMethod"
-                size="small">
+                max-height="500"
+                size="small"
+                @cell-dblclick="setComboEdit">
                 <el-table-column label="商品规格" align="center">
                   <el-table-column
                     v-for="(value, key) in specTable.header"
@@ -558,83 +559,83 @@
                     :index="key"
                     :label="value">
                     <template slot-scope="scope">
-                          <span :title="scope.row.key_value">
-                            {{specTable.index[scope.row.key_name[scope.column.index]]['itemName']}}
-                          </span>
+                      <span :title="scope.row.key_value">
+                        {{specTable.index[scope.row.key_name[scope.column.index]]['itemName']}}
+                      </span>
                     </template>
                   </el-table-column>
                 </el-table-column>
 
-                <el-table-column>
+                <el-table-column align="center">
                   <template slot="header">
-                    <div class="cs-tc">
-                      <el-popover
-                        v-model="specBatch.visible"
-                        placement="top-start"
-                        trigger="manual">
-                        <el-input-number
-                          v-model="specBatch.value"
-                          controls-position="right"
-                          size="small"
-                          style="width: 150px; margin-bottom: 10px;"
-                          :precision="specBatch.type === 'price' ? 2 : 0"
-                          :min="0">
-                        </el-input-number>
+                    <el-tooltip placement="top" content="正数增加，负数减少，双击单元格编辑">
+                      <i class="el-icon-warning-outline cs-mr-10"/>
+                    </el-tooltip>
 
-                        <div class="cs-tr">
-                          <el-button @click="specBatch.visible = false" size="mini" type="text">取消</el-button>
-                          <el-button @click="batchTableSpec" type="primary" size="mini">确定</el-button>
-                        </div>
+                    <el-popover
+                      v-model="specBatch.visible"
+                      placement="top-start"
+                      trigger="manual">
+                      <el-input-number
+                        v-model="specBatch.value"
+                        controls-position="right"
+                        size="small"
+                        style="width: 150px; margin-bottom: 10px;"
+                        :precision="specBatch.type === 'price' ? 2 : 0"
+                        :min="0">
+                      </el-input-number>
 
-                        <span slot="reference">批量设置：</span>
-                      </el-popover>
+                      <div class="cs-tr">
+                        <el-button @click="specBatch.visible = false" size="mini" type="text">取消</el-button>
+                        <el-button @click="batchTableSpec" type="primary" size="mini">确定</el-button>
+                      </div>
 
-                      <el-button @click="showBatchSpec('price')" type="text" size="small">本店价</el-button>
-                      <el-button @click="showBatchSpec('store_qty')" type="text" size="small">库存</el-button>
+                      <span slot="reference">批量设置：</span>
+                    </el-popover>
 
-                      <el-popover
-                        v-model="specCount.visible"
-                        placement="top-start"
-                        trigger="manual">
-                        <el-input-number
-                          v-model="specCount.value"
-                          controls-position="right"
-                          size="small"
-                          style="width: 150px; margin-bottom: 10px;"
-                          :precision="specCount.type === 'price' ? 2 : 0">
-                        </el-input-number>
+                    <el-button @click="showBatchSpec('price')" type="text" size="small">本店价</el-button>
+                    <el-button @click="showBatchSpec('store_qty')" type="text" size="small">库存</el-button>
 
-                        <div class="cs-tr">
-                          <el-button @click="specCount.visible = false" size="mini" type="text">取消</el-button>
-                          <el-button @click="countTableSpec" type="primary" size="mini">确定</el-button>
-                        </div>
+                    <el-popover
+                      v-model="specCount.visible"
+                      placement="top-start"
+                      trigger="manual">
+                      <el-input-number
+                        v-model="specCount.value"
+                        controls-position="right"
+                        size="small"
+                        style="width: 150px; margin-bottom: 10px;"
+                        :precision="specCount.type === 'price' ? 2 : 0">
+                      </el-input-number>
 
-                        <span slot="reference">
-                              <el-divider direction="vertical"/>
-                              <el-tooltip placement="top" content="正数增加，负数减少">
-                                <i class="el-icon-warning-outline"/>
-                              </el-tooltip>
-                              批量加减：
-                            </span>
-                      </el-popover>
+                      <div class="cs-tr">
+                        <el-button @click="specCount.visible = false" size="mini" type="text">取消</el-button>
+                        <el-button @click="countTableSpec" type="primary" size="mini">确定</el-button>
+                      </div>
 
-                      <el-button @click="showCountSpec('price')" type="text" size="small">本店价</el-button>
-                      <el-button @click="showCountSpec('store_qty')" type="text" size="small">库存</el-button>
-                    </div>
+                      <span slot="reference" class="cs-ml-10">批量加减：</span>
+                    </el-popover>
+
+                    <el-button @click="showCountSpec('price')" type="text" size="small">本店价</el-button>
+                    <el-button @click="showCountSpec('store_qty')" type="text" size="small">库存</el-button>
                   </template>
 
                   <el-table-column
                     label="本店价"
                     prop="price"
-                    width="152"
-                    align="center">
+                    width="152">
                     <template slot-scope="scope">
+                      <div v-if="!specTable.edit[scope.$index]['price']" class="cs-cp">{{scope.row.price}}</div>
                       <el-input-number
+                        v-else
                         v-model="scope.row.price"
-                        controls-position="right"
                         size="mini"
+                        :ref="`span_table_${scope.$index}_price`"
+                        :controls="false"
                         :precision="2"
-                        :min="0">
+                        :min="0"
+                        @keyup.enter.native="specTable.edit[scope.$index]['price'] = false"
+                        @blur="specTable.edit[scope.$index]['price'] = false">
                       </el-input-number>
                     </template>
                   </el-table-column>
@@ -642,14 +643,18 @@
                   <el-table-column
                     label="库存"
                     prop="store_qty"
-                    width="152"
-                    align="center">
+                    width="152">
                     <template slot-scope="scope">
+                      <div v-if="!specTable.edit[scope.$index]['store_qty']" class="cs-cp">{{scope.row.store_qty}}</div>
                       <el-input-number
+                        v-else
                         v-model="scope.row.store_qty"
-                        controls-position="right"
                         size="mini"
-                        :min="0">
+                        :ref="`span_table_${scope.$index}_store_qty`"
+                        :controls="false"
+                        :min="0"
+                        @keyup.enter.native="specTable.edit[scope.$index]['store_qty'] = false"
+                        @blur="specTable.edit[scope.$index]['store_qty'] = false">
                       </el-input-number>
                     </template>
                   </el-table-column>
@@ -657,20 +662,34 @@
                   <el-table-column
                     label="条码"
                     prop="bar_code"
-                    width="150"
-                    align="center">
+                    width="150">
                     <template slot-scope="scope">
-                      <el-input v-model="scope.row.bar_code" size="mini"/>
+                      <div v-if="!specTable.edit[scope.$index]['bar_code']" class="cs-cp">{{scope.row.bar_code}}</div>
+                      <el-input
+                        v-else
+                        v-model="scope.row.bar_code"
+                        size="mini"
+                        :ref="`span_table_${scope.$index}_bar_code`"
+                        @keyup.enter.native="specTable.edit[scope.$index]['bar_code'] = false"
+                        @blur="specTable.edit[scope.$index]['bar_code'] = false"
+                        clearable/>
                     </template>
                   </el-table-column>
 
                   <el-table-column
                     label="SKU"
                     prop="goods_sku"
-                    width="150"
-                    align="center">
+                    width="150">
                     <template slot-scope="scope">
-                      <el-input v-model="scope.row.goods_sku" size="mini"/>
+                      <div v-if="!specTable.edit[scope.$index]['goods_sku']" class="cs-cp">{{scope.row.goods_sku}}</div>
+                      <el-input
+                        v-else
+                        v-model="scope.row.goods_sku"
+                        size="mini"
+                        :ref="`span_table_${scope.$index}_goods_sku`"
+                        @keyup.enter.native="specTable.edit[scope.$index]['goods_sku'] = false"
+                        @blur="specTable.edit[scope.$index]['goods_sku'] = false"
+                        clearable/>
                     </template>
                   </el-table-column>
                 </el-table-column>
@@ -1448,23 +1467,27 @@ export default {
     },
     // 设置规格列表列合并
     specSpanMethod({ column, rowIndex, columnIndex }) {
-      if (column.index === undefined) {
+      if (column.index === undefined || !this.specTable.column[rowIndex]) {
         return
       }
 
-      if (!this.specTable.column[rowIndex]) {
+      return [this.specTable.column[rowIndex][columnIndex], 1]
+    },
+    // 显示某个单元格编辑状态
+    setComboEdit(row, column) {
+      if (column.index >= 0) {
         return
       }
 
-      return [
-        this.specTable.column[rowIndex][columnIndex],
-        1
-      ]
+      this.specTable.edit[row.id][column.property] = true
+      this.$nextTick(() => {
+        this.$refs[`span_table_${row.id}_${column.property}`].focus()
+      })
     },
     // 设置规格列表
-    _handleSpecItemData: debounce(function(val) {
-      // 索引 列合并 头部 组合
-      let treeTable = { index: {}, column: [], header: [], compose: [] }
+    _handleSpecItemData: debounce(async function(val) {
+      // 索引 编辑状态 列合并 头部 组合
+      let treeTable = { index: {}, edit: {}, column: [], header: [], compose: [] }
       val.forEach(value => {
         let node = { key: [], item: [], name: value.name }
         value.spec_item.forEach(item => {
@@ -1539,7 +1562,7 @@ export default {
       }
 
       // 将规格列表内部属性补齐
-      combine.forEach(combo => {
+      combine.forEach((combo, index) => {
         let temp
         const isArrayOfCombo = Array.isArray(combo)
         const key = isArrayOfCombo ? [...combo].sort().join('_') : combo
@@ -1560,9 +1583,17 @@ export default {
           }
         }
 
-        // 补齐name和value
+        // 对结构进行补齐部分数据
+        temp.id = index
         temp.key_name = isArrayOfCombo ? combo : [combo]
         temp.key_value = getKeyValue([...temp.key_name])
+
+        treeTable.edit[index] = {
+          price: false,
+          store_qty: false,
+          bar_code: false,
+          goods_sku: false
+        }
 
         newCombo.push(temp)
       })

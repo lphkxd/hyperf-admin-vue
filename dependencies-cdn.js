@@ -99,18 +99,6 @@ module.exports = [
     css: ''
   },
   {
-    name: 'sortablejs',
-    library: 'Sortable',
-    js: '//cdn.jsdelivr.net/npm/sortablejs@1.10.1/Sortable.min.js',
-    css: ''
-  },
-  {
-    name: 'vuedraggable',
-    library: 'draggable',
-    js: '//cdn.jsdelivr.net/npm/vuedraggable@2.23.2/dist/vuedraggable.umd.min.js',
-    css: ''
-  },
-  {
     name: 'lowdb/adapters/LocalStorage',
     library: 'LocalStorage',
     js: '//cdn.jsdelivr.net/npm/lowdb@1.0.0/dist/LocalStorage.min.js',
