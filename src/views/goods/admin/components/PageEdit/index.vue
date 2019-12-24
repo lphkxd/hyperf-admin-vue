@@ -8,12 +8,13 @@
         <span>{{stateMap[state]}}</span>
       </div>
 
-      <el-form
-        ref="form"
-        :model="currentForm"
-        label-width="80px">
-        <el-tabs v-model="activeName">
-          <el-tab-pane label="基础设置" name="basic">
+      <el-tabs v-model="activeName">
+        <el-tab-pane label="基础设置" :name="tabList[0]">
+          <el-form
+            :model="currentForm"
+            :rules="rules.form_basic"
+            :ref="`form_${tabList[0]}`"
+            label-width="80px">
             <el-form-item
               label="名称"
               prop="name">
@@ -270,9 +271,15 @@
                 <el-radio :label="0">否</el-radio>
               </el-radio-group>
             </el-form-item>
-          </el-tab-pane>
+          </el-form>
+        </el-tab-pane>
 
-          <el-tab-pane label="规格属性" name="type">
+        <el-tab-pane label="规格属性" :name="tabList[1]">
+          <el-form
+            :model="currentForm"
+            :rules="rules.form_type"
+            :ref="`form_${tabList[1]}`"
+            label-width="80px">
             <el-form-item
               label="商品模型"
               prop="goods_type_id">
@@ -324,8 +331,7 @@
                             </el-checkbox>
 
                             <div class="active" @click="setSpecMoreActive(true, parent)">
-                              <i class="el-input__icon el-icon-d-arrow-right"
-                                 style="color: #909399; font-size: 12px;"/>
+                              <i class="el-input__icon el-icon-d-arrow-right" style="color: #909399; font-size: 12px;"/>
                             </div>
                           </template>
 
@@ -706,11 +712,16 @@
                   </el-table-column>
                 </el-table-column>
               </el-table>
-
             </el-form-item>
-          </el-tab-pane>
+          </el-form>
+        </el-tab-pane>
 
-          <el-tab-pane label="媒体设置" name="photo">
+        <el-tab-pane label="媒体设置" :name="tabList[2]">
+          <el-form
+            :model="currentForm"
+            :rules="rules.form_photo"
+            :ref="`form_${tabList[2]}`"
+            label-width="80px">
             <el-form-item
               label="商品相册"
               prop="attachment">
@@ -773,9 +784,15 @@
                 <span>推荐使用mp4格式的视频，同时也支持ogg、webm等格式的视频</span>
               </div>
             </el-form-item>
-          </el-tab-pane>
+          </el-form>
+        </el-tab-pane>
 
-          <el-tab-pane label="商品详情" name="detail">
+        <el-tab-pane label="商品详情" :name="tabList[3]">
+          <el-form
+            :model="currentForm"
+            :rules="rules.form_detail"
+            :ref="`form_${tabList[3]}`"
+            label-width="80px">
             <el-form-item
               label="关键词"
               prop="keywords">
@@ -803,9 +820,15 @@
                 code="inside_content"
                 :height="450"/>
             </el-form-item>
-          </el-tab-pane>
+          </el-form>
+        </el-tab-pane>
 
-          <el-tab-pane label="积分结算" name="integral">
+        <el-tab-pane label="积分结算" :name="tabList[4]">
+          <el-form
+            :model="currentForm"
+            :rules="rules.form_integral"
+            :ref="`form_${tabList[4]}`"
+            label-width="80px">
             <el-form-item
               label="结算方式"
               prop="integral_type">
@@ -843,9 +866,9 @@
                 <span>商品最多允许抵扣多少积分，0为不可使用</span>
               </div>
             </el-form-item>
-          </el-tab-pane>
-        </el-tabs>
-      </el-form>
+          </el-form>
+        </el-tab-pane>
+      </el-tabs>
     </el-card>
 
     <cs-storage
@@ -990,6 +1013,7 @@ export default {
   data() {
     return {
       activeName: 'basic',
+      tabList: ['basic', 'type', 'photo', 'detail', 'integral'],
       stateMap: {
         create: '新增商品',
         update: '编辑商品'
@@ -1047,7 +1071,26 @@ export default {
         measure: 0,
         measure_type: 0
       },
-      rules: {},
+      rules: {
+        form_basic: {
+          name: [
+            {
+              required: true,
+              message: '名称不能为空',
+              trigger: 'blur'
+            },
+            {
+              max: 200,
+              message: '长度不能大于 200 个字符',
+              trigger: 'blur'
+            }
+          ]
+        },
+        form_type: {},
+        form_photo: {},
+        form_detail: {},
+        form_integral: {}
+      },
       inputSpecValue: '',
       inputSpecVisible: false,
       typeLoading: false,
@@ -1109,7 +1152,30 @@ export default {
   methods: {
     // 确认新增或修改
     handleConfirm() {
-      console.log(this.currentForm)
+      for (let val of this.tabList) {
+        let isSuccess = true
+        this.$refs[`form_${val}`].validate(valid => {
+          if (!valid) {
+            isSuccess = false
+            return false
+          }
+        })
+
+        if (!isSuccess) {
+          this.activeName = val
+          this.$parent.scrollTo()
+          return
+        }
+      }
+
+      this.$emit('update:confirmLoading', true)
+      this.state === 'create' ? this.handleCreate() : this.handleUpdate()
+    },
+    // 新增商品
+    handleCreate() {
+    },
+    // 更新商品
+    handleUpdate() {
     },
     // 打开资源选择框
     handleStorage(callback, type = [], source = '') {
