@@ -27,7 +27,7 @@ export function getUserLevelList() {
     url: '/v1/user_level',
     method: 'post',
     params: {
-      method: 'get.user.level.list'
+      method: 'list'
     }
   })
 }
@@ -42,7 +42,7 @@ export function addUserLevelItem(data) {
     url: '/v1/user_level',
     method: 'post',
     params: {
-      method: 'add.user.level.item'
+      method: 'add'
     },
     data
   })
@@ -58,7 +58,7 @@ export function setUserLevelItem(data) {
     url: '/v1/user_level',
     method: 'post',
     params: {
-      method: 'set.user.level.item'
+      method: 'set'
     },
     data
   })
@@ -74,7 +74,7 @@ export function delUserLevelList(user_level_id) {
     url: '/v1/user_level',
     method: 'post',
     params: {
-      method: 'del.user.level.list'
+      method: 'del'
     },
     data: {
       user_level_id

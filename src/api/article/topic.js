@@ -10,7 +10,7 @@ export function addTopicItem(data) {
     url: '/v1/topic',
     method: 'post',
     params: {
-      method: 'add.topic.item'
+      method: 'create'
     },
     data
   })
@@ -26,7 +26,7 @@ export function setTopicItem(data) {
     url: '/v1/topic',
     method: 'post',
     params: {
-      method: 'set.topic.item'
+      method: 'update'
     },
     data
   })
@@ -42,7 +42,7 @@ export function delTopicList(topic_id) {
     url: '/v1/topic',
     method: 'post',
     params: {
-      method: 'del.topic.list'
+      method: 'delete'
     },
     data: {
       topic_id
@@ -60,7 +60,7 @@ export function getTopicItem(topic_id) {
     url: '/v1/topic',
     method: 'post',
     params: {
-      method: 'get.topic.item'
+      method: 'info'
     },
     data: {
       topic_id
@@ -78,7 +78,7 @@ export function getTopicList(data) {
     url: '/v1/topic',
     method: 'post',
     params: {
-      method: 'get.topic.list'
+      method: 'list'
     },
     data
   })
@@ -95,7 +95,7 @@ export function setTopicStatus(topic_id, status) {
     url: '/v1/topic',
     method: 'post',
     params: {
-      method: 'set.topic.status'
+      method: 'update_status'
     },
     data: {
       topic_id,

@@ -41,7 +41,7 @@ const service = axios.create({
   // request timeout
   timeout: 30000,
   // 使用简单请求,复杂请求(多一次OPTIONS请求)可用 application/json
-  headers: { 'Content-Type': 'text/plain; charset=utf-8' }
+  headers: { 'Content-Type': 'application/json; charset=utf-8', 'Accept': 'application/json; charset=utf-8' }
 })
 
 // 请求拦截器
@@ -49,6 +49,8 @@ service.interceptors.request.use(
   config => {
     setDefaultParams(config)
     refreshToken(config)
+    delete config.params['method']
+    delete config.data['method']
     return config
   }, err => {
     errorLog(err)
@@ -91,11 +93,10 @@ function refreshToken(config) {
 
   // 以下接口不需要刷新令牌
   const whiteList = [
-    'refresh.admin.token',
-    'logout.admin.user',
-    'login.admin.user'
+    'refresh_token',
+    'logout',
+    'login'
   ]
-
   if (whiteList.indexOf(config.params['method']) >= 0) {
     return
   }
@@ -106,9 +107,9 @@ function refreshToken(config) {
   if ((nowTime - 3600) > userInfo.token.token_expires && nowTime < userInfo.token.refresh_expires) {
     service({
       method: 'post',
-      url: '/v1/admin/',
+      url: '/v1/admin',
       params: {
-        method: 'refresh.admin.token'
+        method: 'refresh_token'
       },
       data: {
         refresh: userInfo.token.refresh
@@ -116,7 +117,8 @@ function refreshToken(config) {
     })
       .then(res => {
         userInfo.token = res.data.token
-        store.dispatch('careyshop/user/set', userInfo, { root: true }).then(() => {})
+        store.dispatch('careyshop/user/set', userInfo, { root: true }).then(() => {
+        })
         util.cookies.set('token', res.data.token.token)
       })
       .catch(err => {
@@ -143,6 +145,7 @@ function reAuthorize() {
 
 // 添加默认参数及签名
 function setDefaultParams(config) {
+  config.url = config.url + '/' + config.params['method']
   const token = util.cookies.get('token')
   if (!token || token === 'undefined') {
     return
@@ -152,12 +155,8 @@ function setDefaultParams(config) {
   if (!config.data) {
     config.data = {}
   }
-
   config.data['token'] = token
-  config.data['appkey'] = process.env.VUE_APP_KEY
-  config.data['timestamp'] = Math.round(new Date() / 1000) + 100
   config.data['format'] = 'json'
-  config.data['sign'] = util.getSign(Object.assign(config.data, config.params))
 }
 
 export default service

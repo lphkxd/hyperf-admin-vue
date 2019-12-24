@@ -10,7 +10,7 @@ export function addMessageItem(data) {
     url: '/v1/message',
     method: 'post',
     params: {
-      method: 'add.message.item'
+      method: 'create'
     },
     data
   })
@@ -26,7 +26,7 @@ export function setMessageItem(data) {
     url: '/v1/message',
     method: 'post',
     params: {
-      method: 'set.message.item'
+      method: 'update'
     },
     data
   })
@@ -42,7 +42,7 @@ export function delMessageList(message_id) {
     url: '/v1/message',
     method: 'post',
     params: {
-      method: 'del.message.list'
+      method: 'delete'
     },
     data: {
       message_id
@@ -60,7 +60,7 @@ export function setMessageStatus(message_id) {
     url: '/v1/message',
     method: 'post',
     params: {
-      method: 'set.message.status'
+      method: 'update_status'
     },
     data: {
       message_id
@@ -78,7 +78,7 @@ export function getMessageItem(message_id) {
     url: '/v1/message',
     method: 'post',
     params: {
-      method: 'get.message.item'
+      method: 'info'
     },
     data: {
       message_id
@@ -96,7 +96,7 @@ export function getMessageList(data) {
     url: '/v1/message',
     method: 'post',
     params: {
-      method: 'get.message.list'
+      method: 'list'
     },
     data
   })
@@ -112,7 +112,7 @@ export function getMessageUserItem(message_id) {
     url: '/v1/message',
     method: 'post',
     params: {
-      method: 'get.message.user.item'
+      method: 'user_info'
     },
     data: {
       message_id
@@ -130,7 +130,7 @@ export function getMessageUserList(data) {
     url: '/v1/message',
     method: 'post',
     params: {
-      method: 'get.message.user.list'
+      method: 'user_list'
     },
     data
   })
@@ -146,7 +146,7 @@ export function getMessageUserUnread(type) {
     url: '/v1/message',
     method: 'post',
     params: {
-      method: 'get.message.user.unread'
+      method: 'unread'
     },
     data: {
       type
@@ -165,7 +165,7 @@ export function setMessageUserRead(message_id, type = null) {
     url: '/v1/message',
     method: 'post',
     params: {
-      method: 'set.message.user.read'
+      method: 'read'
     },
     data: {
       message_id,
@@ -184,7 +184,7 @@ export function setMessageUserAllread(type = null) {
     url: '/v1/message',
     method: 'post',
     params: {
-      method: 'set.message.user.allread'
+      method: 'allread'
     },
     data: {
       type
@@ -203,7 +203,7 @@ export function delMessageUserList(message_id, type = null) {
     url: '/v1/message',
     method: 'post',
     params: {
-      method: 'del.message.user.list'
+      method: 'delete'
     },
     data: {
       message_id,
@@ -222,7 +222,7 @@ export function delMessageUserAll(type = null) {
     url: '/v1/message',
     method: 'post',
     params: {
-      method: 'del.message.user.all'
+      method: 'delete_all'
     },
     data: {
       type

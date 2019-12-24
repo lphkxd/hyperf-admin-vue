@@ -10,7 +10,7 @@ export function addAuthGroupItem(data) {
     url: '/v1/auth_group',
     method: 'post',
     params: {
-      method: 'add.auth.group.item'
+      method: 'create'
     },
     data
   })
@@ -26,7 +26,7 @@ export function setAuthGroupItem(data) {
     url: '/v1/auth_group',
     method: 'post',
     params: {
-      method: 'set.auth.group.item'
+      method: 'update'
     },
     data
   })
@@ -42,7 +42,7 @@ export function getAuthGroupItem(group_id) {
     url: '/v1/auth_group',
     method: 'post',
     params: {
-      method: 'get.auth.group.item'
+      method: 'info'
     },
     data: {
       group_id
@@ -60,7 +60,7 @@ export function delAuthGroupItem(group_id) {
     url: '/v1/auth_group',
     method: 'post',
     params: {
-      method: 'del.auth.group.item'
+      method: 'delete'
     },
     data: {
       group_id
@@ -78,7 +78,7 @@ export function getAuthGroupList(data) {
     url: '/v1/auth_group',
     method: 'post',
     params: {
-      method: 'get.auth.group.list'
+      method: 'list'
     },
     data
   })
@@ -95,7 +95,7 @@ export function setAuthGroupStatus(group_id, status) {
     url: '/v1/auth_group',
     method: 'post',
     params: {
-      method: 'set.auth.group.status'
+      method: 'update_status'
     },
     data: {
       group_id,
@@ -115,7 +115,7 @@ export function setAuthGroupSort(group_id, sort) {
     url: '/v1/auth_group',
     method: 'post',
     params: {
-      method: 'set.auth.group.sort'
+      method: 'update_sort'
     },
     data: {
       group_id,

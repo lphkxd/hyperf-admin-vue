@@ -10,7 +10,7 @@ export function checkUserUsername(username) {
     url: '/v1/user',
     method: 'post',
     params: {
-      method: 'check.user.username'
+      method: 'check_user_username'
     },
     data: {
       username
@@ -28,7 +28,7 @@ export function checkUserMobile(mobile) {
     url: '/v1/user',
     method: 'post',
     params: {
-      method: 'check.user.mobile'
+      method: 'check_user_mobile'
     },
     data: {
       mobile
@@ -46,7 +46,7 @@ export function checkUserNickname(nickname) {
     url: '/v1/user',
     method: 'post',
     params: {
-      method: 'check.user.nickname'
+      method: 'check_user_nickname'
     },
     data: {
       nickname
@@ -64,7 +64,7 @@ export function addUserItem(data) {
     url: '/v1/user',
     method: 'post',
     params: {
-      method: 'add.user.item'
+      method: 'create'
     },
     data
   })
@@ -80,7 +80,7 @@ export function setUserItem(data) {
     url: '/v1/user',
     method: 'post',
     params: {
-      method: 'set.user.item'
+      method: 'update'
     },
     data
   })
@@ -88,19 +88,19 @@ export function setUserItem(data) {
 
 /**
  * 批量设置账号状态
- * @param {Array} client_id
+ * @param {Array} user_id
  * @param {Number} status
  * @returns
  */
-export function setUserStatus(client_id, status) {
+export function setUserStatus(user_id, status) {
   return request({
     url: '/v1/user',
     method: 'post',
     params: {
-      method: 'set.user.status'
+      method: 'update_status'
     },
     data: {
-      client_id,
+      user_id,
       status
     }
   })
@@ -108,20 +108,20 @@ export function setUserStatus(client_id, status) {
 
 /**
  * 修改一个账号密码
- * @param {Number} client_id
+ * @param {Number} user_id
  * @param {String} password
  * @param {String} password_confirm
  * @returns
  */
-export function setUserPassword(client_id, password, password_confirm) {
+export function setUserPassword(user_id, password, password_confirm) {
   return request({
     url: '/v1/user',
     method: 'post',
     params: {
-      method: 'set.user.password'
+      method: 'update_password'
     },
     data: {
-      client_id,
+      user_id,
       password,
       password_confirm
     }
@@ -130,54 +130,54 @@ export function setUserPassword(client_id, password, password_confirm) {
 
 /**
  * 批量删除账号
- * @param {Array} client_id
+ * @param {Array} user_id
  * @returns
  */
-export function delUserList(client_id) {
+export function delUserList(user_id) {
   return request({
     url: '/v1/user',
     method: 'post',
     params: {
-      method: 'del.user.list'
+      method: 'delete'
     },
     data: {
-      client_id
+      user_id
     }
   })
 }
 
 /**
  * 获取一个账号
- * @param {Number} client_id
+ * @param {Number} user_id
  * @returns
  */
-export function getUserItem(client_id) {
+export function getUserItem(user_id) {
   return request({
     url: '/v1/user',
     method: 'post',
     params: {
-      method: 'get.user.item'
+      method: 'get'
     },
     data: {
-      client_id
+      user_id
     }
   })
 }
 
 /**
  * 获取一个账号的简易信息
- * @param {Number} client_id
+ * @param {Number} user_id
  * @returns
  */
-export function getUserInfo(client_id) {
+export function getUserInfo(user_id) {
   return request({
     url: '/v1/user',
     method: 'post',
     params: {
-      method: 'get.user.info'
+      method: 'info'
     },
     data: {
-      client_id
+      user_id
     }
   })
 }
@@ -192,7 +192,7 @@ export function getUserList(data) {
     url: '/v1/user',
     method: 'post',
     params: {
-      method: 'get.user.list'
+      method: 'list'
     },
     data
   })

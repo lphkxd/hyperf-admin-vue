@@ -10,7 +10,7 @@ export function getActionLogItem(action_log_id) {
     url: '/v1/action_log',
     method: 'post',
     params: {
-      method: 'get.action.log.item'
+      method: 'info'
     },
     data: {
       action_log_id
@@ -28,7 +28,7 @@ export function getActionLogList(data) {
     url: '/v1/action_log',
     method: 'post',
     params: {
-      method: 'get.action.log.list'
+      method: 'list'
     },
     data
   })

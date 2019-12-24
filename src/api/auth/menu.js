@@ -24,7 +24,7 @@ export function getMenuAuthList(data) {
     url: '/v1/menu',
     method: 'post',
     params: {
-      method: 'get.menu.auth.list',
+      method: 'auth',
       module: 'admin'
     },
     data
@@ -41,7 +41,7 @@ export function getMenuItem(menu_id) {
     url: '/v1/menu',
     method: 'post',
     params: {
-      method: 'get.menu.item'
+      method: 'list'
     },
     data: {
       menu_id
@@ -59,7 +59,7 @@ export function addMenuItem(data) {
     url: '/v1/menu',
     method: 'post',
     params: {
-      method: 'add.menu.item'
+      method: 'create'
     },
     data
   })
@@ -75,7 +75,7 @@ export function setMenuItem(data) {
     url: '/v1/menu',
     method: 'post',
     params: {
-      method: 'set.menu.item'
+      method: 'update'
     },
     data
   })
@@ -91,7 +91,7 @@ export function delMenuItem(menu_id) {
     url: '/v1/menu',
     method: 'post',
     params: {
-      method: 'del.menu.item'
+      method: 'delete'
     },
     data: {
       menu_id
@@ -109,7 +109,7 @@ export function getMenuList(data) {
     url: '/v1/menu',
     method: 'post',
     params: {
-      method: 'get.menu.list'
+      method: 'list'
     },
     data
   })
@@ -126,7 +126,7 @@ export function getMenuIdNavi(menu_id, is_layer = 1) {
     url: '/v1/menu',
     method: 'post',
     params: {
-      method: 'get.menu.id.navi'
+      method: 'get_menu_id_navi'
     },
     data: {
       menu_id,
@@ -146,7 +146,7 @@ export function getMenuUrlNavi(url, is_layer = 1) {
     url: '/v1/menu',
     method: 'post',
     params: {
-      method: 'get.menu.url.navi'
+      method: 'get_menu_url_navi'
     },
     data: {
       url,
@@ -166,7 +166,7 @@ export function setMenuNavi(menu_id, is_navi) {
     url: '/v1/menu',
     method: 'post',
     params: {
-      method: 'set.menu.navi'
+      method: 'set_menu_navi'
     },
     data: {
       menu_id,
@@ -186,7 +186,7 @@ export function setMenuSort(menu_id, sort) {
     url: '/v1/menu',
     method: 'post',
     params: {
-      method: 'set.menu.sort'
+      method: 'set_menu_sort'
     },
     data: {
       menu_id,
@@ -205,7 +205,7 @@ export function setMenuIndex(menu_id) {
     url: '/v1/menu',
     method: 'post',
     params: {
-      method: 'set.menu.index'
+      method: 'update_index'
     },
     data: {
       menu_id
@@ -224,7 +224,7 @@ export function setMenuStatus(menu_id, status) {
     url: '/v1/menu',
     method: 'post',
     params: {
-      method: 'set.menu.status'
+      method: 'update_status'
     },
     data: {
       menu_id,

@@ -10,7 +10,7 @@ export function addArticleCatItem(data) {
     url: '/v1/article_cat',
     method: 'post',
     params: {
-      method: 'add.article.cat.item'
+      method: 'create'
     },
     data
   })
@@ -26,7 +26,7 @@ export function setArticleCatItem(data) {
     url: '/v1/article_cat',
     method: 'post',
     params: {
-      method: 'set.article.cat.item'
+      method: 'update'
     },
     data
   })
@@ -43,7 +43,7 @@ export function delArticleCatList(article_cat_id, not_empty = 0) {
     url: '/v1/article_cat',
     method: 'post',
     params: {
-      method: 'del.article.cat.list'
+      method: 'delete'
     },
     data: {
       article_cat_id,
@@ -62,7 +62,7 @@ export function getArticleCatItem(article_cat_id) {
     url: '/v1/article_cat',
     method: 'post',
     params: {
-      method: 'get.article.cat.item'
+      method: 'info'
     },
     data: {
       article_cat_id
@@ -80,7 +80,7 @@ export function getArticleCatList(data) {
     url: '/v1/article_cat',
     method: 'post',
     params: {
-      method: 'get.article.cat.list'
+      method: 'list'
     },
     data
   })
@@ -97,7 +97,7 @@ export function getArticleCatNavi(article_cat_id = 0, is_layer = 1) {
     url: '/v1/article_cat',
     method: 'post',
     params: {
-      method: 'get.article.cat.navi'
+      method: 'navi'
     },
     data: {
       article_cat_id,
@@ -117,7 +117,7 @@ export function setArticleCatSort(article_cat_id, sort) {
     url: '/v1/article_cat',
     method: 'post',
     params: {
-      method: 'set.article.cat.sort'
+      method: 'update_sort'
     },
     data: {
       article_cat_id,
@@ -137,7 +137,7 @@ export function setArticleCatNavi(article_cat_id, is_navi) {
     url: '/v1/article_cat',
     method: 'post',
     params: {
-      method: 'set.article.cat.navi'
+      method: 'update_navi'
     },
     data: {
       article_cat_id,
@@ -156,7 +156,7 @@ export function setArticleCatIndex(article_cat_id) {
     url: '/v1/article_cat',
     method: 'post',
     params: {
-      method: 'set.article.cat.index'
+      method: 'update_index'
     },
     data: {
       article_cat_id

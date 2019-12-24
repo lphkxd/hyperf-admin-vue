@@ -10,7 +10,7 @@ export function addAuthRuleItem(data) {
     url: '/v1/auth_rule',
     method: 'post',
     params: {
-      method: 'add.auth.rule.item'
+      method: 'create'
     },
     data
   })
@@ -26,7 +26,7 @@ export function getAuthRuleItem(rule_id) {
     url: '/v1/auth_rule',
     method: 'post',
     params: {
-      method: 'get.auth.rule.item'
+      method: 'info'
     },
     data: {
       rule_id
@@ -44,7 +44,7 @@ export function setAuthRuleItem(data) {
     url: '/v1/auth_rule',
     method: 'post',
     params: {
-      method: 'set.auth.rule.item'
+      method: 'update'
     },
     data
   })
@@ -60,7 +60,7 @@ export function delAuthRuleList(rule_id) {
     url: '/v1/auth_rule',
     method: 'post',
     params: {
-      method: 'del.auth.rule.list'
+      method: 'delete'
     },
     data: {
       rule_id
@@ -78,7 +78,7 @@ export function getAuthRuleList(data) {
     url: '/v1/auth_rule',
     method: 'post',
     params: {
-      method: 'get.auth.rule.list'
+      method: 'list'
     },
     data
   })
@@ -95,7 +95,7 @@ export function setAuthRuleStatus(rule_id, status) {
     url: '/v1/auth_rule',
     method: 'post',
     params: {
-      method: 'set.auth.rule.status'
+      method: 'update_status'
     },
     data: {
       rule_id,
@@ -115,7 +115,7 @@ export function setAuthRuleSort(rule_id, sort) {
     url: '/v1/auth_rule',
     method: 'post',
     params: {
-      method: 'set.auth.rule.sort'
+      method: 'update_sort'
     },
     data: {
       rule_id,
@@ -134,7 +134,7 @@ export function setAuthRuleIndex(rule_id) {
     url: '/v1/auth_rule',
     method: 'post',
     params: {
-      method: 'set.auth.rule.index'
+      method: 'update_index'
     },
     data: {
       rule_id

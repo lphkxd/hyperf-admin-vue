@@ -10,7 +10,7 @@ export function addArticleItem(data) {
     url: '/v1/article',
     method: 'post',
     params: {
-      method: 'add.article.item'
+      method: 'create'
     },
     data
   })
@@ -26,7 +26,7 @@ export function setArticleItem(data) {
     url: '/v1/article',
     method: 'post',
     params: {
-      method: 'set.article.item'
+      method: 'update'
     },
     data
   })
@@ -42,7 +42,7 @@ export function delArticleList(article_id) {
     url: '/v1/article',
     method: 'post',
     params: {
-      method: 'del.article.list'
+      method: 'delete'
     },
     data: {
       article_id
@@ -60,7 +60,7 @@ export function getArticleItem(article_id) {
     url: '/v1/article',
     method: 'post',
     params: {
-      method: 'get.article.item'
+      method: 'info'
     },
     data: {
       article_id
@@ -78,7 +78,7 @@ export function getArticleList(data) {
     url: '/v1/article',
     method: 'post',
     params: {
-      method: 'get.article.list'
+      method: 'list'
     },
     data
   })
@@ -95,7 +95,7 @@ export function setArticleTop(article_id, is_top) {
     url: '/v1/article',
     method: 'post',
     params: {
-      method: 'set.article.top'
+      method: 'update_top'
     },
     data: {
       article_id,
@@ -115,7 +115,7 @@ export function setArticleStatus(article_id, status) {
     url: '/v1/article',
     method: 'post',
     params: {
-      method: 'set.article.status'
+      method: 'update_status'
     },
     data: {
       article_id,

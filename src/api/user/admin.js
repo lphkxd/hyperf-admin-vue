@@ -11,7 +11,7 @@ export function loginAdminUser(username, password) {
     url: '/v1/admin',
     method: 'post',
     params: {
-      method: 'login.admin.user',
+      method: 'login',
       platform: 'admin'
     },
     data: {
@@ -30,7 +30,7 @@ export function logoutAdminUser() {
     url: '/v1/admin',
     method: 'post',
     params: {
-      method: 'logout.admin.user'
+      method: 'logout'
     }
   })
 }
@@ -45,7 +45,7 @@ export function setAdminPassword(data) {
     url: '/v1/admin',
     method: 'post',
     params: {
-      method: 'set.admin.password'
+      method: 'update_password'
     },
     data
   })
@@ -61,7 +61,7 @@ export function checkAdminUsername(username) {
     url: '/v1/admin',
     method: 'post',
     params: {
-      method: 'check.admin.username'
+      method: 'check_username'
     },
     data: {
       username
@@ -79,7 +79,7 @@ export function checkAdminNickname(nickname) {
     url: '/v1/admin',
     method: 'post',
     params: {
-      method: 'check.admin.nickname'
+      method: 'check_nickname'
     },
     data: {
       nickname
@@ -97,7 +97,7 @@ export function addAdminItem(data) {
     url: '/v1/admin',
     method: 'post',
     params: {
-      method: 'add.admin.item'
+      method: 'create'
     },
     data
   })
@@ -113,7 +113,7 @@ export function setAdminItem(data) {
     url: '/v1/admin',
     method: 'post',
     params: {
-      method: 'set.admin.item'
+      method: 'update'
     },
     data
   })
@@ -121,19 +121,19 @@ export function setAdminItem(data) {
 
 /**
  * 批量设置账号状态
- * @param {Array} client_id
+ * @param {Array} admin_id
  * @param {Number} status
  * @returns
  */
-export function setAdminStatus(client_id, status) {
+export function setAdminStatus(admin_id, status) {
   return request({
     url: '/v1/admin',
     method: 'post',
     params: {
-      method: 'set.admin.status'
+      method: 'update_status'
     },
     data: {
-      client_id,
+      admin_id,
       status
     }
   })
@@ -141,54 +141,54 @@ export function setAdminStatus(client_id, status) {
 
 /**
  * 重置一个账号密码
- * @param {Number} client_id
+ * @param {Number} admin_id
  * @returns
  */
-export function resetAdminItem(client_id) {
+export function resetAdminItem(admin_id) {
   return request({
     url: '/v1/admin',
     method: 'post',
     params: {
-      method: 'reset.admin.item'
+      method: 'reset'
     },
     data: {
-      client_id
+      admin_id
     }
   })
 }
 
 /**
  * 批量删除账号
- * @param {Array} client_id
+ * @param {Array} admin_id
  * @returns
  */
-export function delAdminList(client_id) {
+export function delAdminList(admin_id) {
   return request({
     url: '/v1/admin',
     method: 'post',
     params: {
-      method: 'del.admin.list'
+      method: 'delete'
     },
     data: {
-      client_id
+      admin_id
     }
   })
 }
 
 /**
  * 获取一个账号
- * @param {Number} client_id
+ * @param {Number} admin_id
  * @returns
  */
-export function getAdminItem(client_id) {
+export function getAdminItem(admin_id) {
   return request({
     url: '/v1/admin',
     method: 'post',
     params: {
-      method: 'get.admin.item'
+      method: 'info'
     },
     data: {
-      client_id
+      admin_id
     }
   })
 }
@@ -203,7 +203,7 @@ export function getAdminList(data) {
     url: '/v1/admin',
     method: 'post',
     params: {
-      method: 'get.admin.list'
+      method: 'list'
     },
     data
   })
