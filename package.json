@@ -2,7 +2,7 @@
   "name": "hyperf-admin",
   "version": "0.0.1",
   "description": "hyperf admin",
-  "author": "daodao97@foxmail.com",
+  "author": "4213509@qq.com",
   "license": "MIT",
   "scripts": {
     "choose": "node build/build-dev.js",
