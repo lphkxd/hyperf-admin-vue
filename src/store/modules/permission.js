@@ -73,15 +73,15 @@ function transRoute(item) {
         if (type.indexOf('report_') > -1) {
           type = 'report'
         }
-        return import(`@/components/scaffold/${type}`)
+        return Promise.resolve(require(`@/components/scaffold/${type}`).default)
       }
       // 指定由那个vue组件渲染 需要前端有相应个vue组件
       // url 为正则时使用, 例如 url: /special/goods/:id, view: /special/goods
       if (item.view) {
-        return import(`@/modules/${module}/views${item.view}`)
+        return Promise.resolve(require(`@/modules/${module}/views${item.view}`).default)
       }
       // 指定由那个vue组件渲染
-      return import(`@/modules/${module}/views${item.url}`)
+      return Promise.resolve(require(`@/modules/${module}/views${item.url}`).default)
     },
     hidden: item.hidden !== undefined ? item.hidden : false,
     children: [],
