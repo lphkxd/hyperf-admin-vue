@@ -441,10 +441,10 @@ export default {
         method: 'get',
         params: Object.assign(this.form.formData(), extra, initFilter | {})
       }).then((res) => {
-        if (res.list.length > 20) {
-          this.tableData = res.list.slice(0, 20)
+        if (res.items.length > 20) {
+          this.tableData = res.items.slice(0, 20)
           setTimeout(() => {
-            res.list.slice(20).forEach((item) => {
+            res.items.slice(20).forEach((item) => {
               this.tableData.push(item)
             })
           }, 200)

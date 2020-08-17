@@ -82,7 +82,7 @@ export default {
         url: `/${this.getSubject()}/list`
       }).then(res => {
         console.log(res)
-        this.data = res.list.map(item => {
+        this.data = res.items.map(item => {
           item.leaf = !item.hasChildren
           console.log(item)
           return item
