@@ -136,7 +136,7 @@ export default {
   width: 190px !important;
   margin: 5px 10px 0 10px;
   color: #ffffff;
-  background-color: #304156;
+  background-color: #1E1E23;
   padding: 0 0 0 15px;
   border: 1px dashed gray;
 }
